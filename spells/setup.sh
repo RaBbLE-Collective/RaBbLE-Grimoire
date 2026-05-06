@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# RaBbLE-Collective — setup.sh
+# RaBbLE-Grimoire — setup.sh
 # Bootstrap the Collective: symlinks, project pulls, context wiring
 #
 # Usage:
@@ -16,7 +16,6 @@ set -euo pipefail
 
 SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 GRIMOIRE_ROOT="$(dirname "$SCRIPTS_DIR")"
-COLLECTIVE_ROOT="$GRIMOIRE_ROOT"
 RABBLE_ROOT="$(dirname "$GRIMOIRE_ROOT")"
 SCRIPT_NAME="$(basename "$0")"
 
@@ -37,48 +36,10 @@ success()  { echo -e "${GREEN}  ✓ ${1}${RESET}"; }
 warn()     { echo -e "${VIOLET}  ⚠ ${1}${RESET}"; }
 error()    { echo -e "${RED}  ✗ ${1}${RESET}"; }
 
-# =============================================================================
-# BOOTSTRAP RELOCATION
-# Enables: git clone <url> && ./spells/setup.sh from anywhere.
-# Detects if not running from the canonical home, copies there, and re-execs.
-# The original clone is cleaned up automatically after setup completes.
-# =============================================================================
-
-CANONICAL_ROOT="$HOME/RaBbLE/RaBbLE-Grimoire"
-
-if [[ "$GRIMOIRE_ROOT" != "$CANONICAL_ROOT" ]]; then
-  echo ""
-  pulse "RaBbLE-Grimoire — Bootstrap Relocation"
-  pulse "════════════════════════════════════════"
-  info "Bootstrap clone: $GRIMOIRE_ROOT"
-  info "Canonical home:  $CANONICAL_ROOT"
-  echo ""
-
-  mkdir -p "$(dirname "$CANONICAL_ROOT")"
-
-  if [[ -d "$CANONICAL_ROOT/.git" ]]; then
-    warn "Canonical home already exists — switching to it"
-    echo ""
-    pulse "Re-launching from canonical home..."
-    echo ""
-    exec "$CANONICAL_ROOT/spells/setup.sh" "$@"
-  fi
-
-  if [[ -d "$CANONICAL_ROOT" ]]; then
-    warn "Stale directory at canonical home — removing"
-    rm -rf "$CANONICAL_ROOT"
-  fi
-
-  info "Copying to canonical home..."
-  cp -r "$GRIMOIRE_ROOT" "$CANONICAL_ROOT"
-  success "Grimoire copied"
-  echo ""
-  pulse "Re-launching from canonical home..."
-  echo ""
-
-  export RABBLE_BOOTSTRAP_ORIGIN="$GRIMOIRE_ROOT"
-  exec "$CANONICAL_ROOT/spells/setup.sh" "$@"
-fi
+# Grimoire expands but does not relocate. Run from wherever it lives.
+info "Grimoire root: $GRIMOIRE_ROOT"
+info "Collective root: $RABBLE_ROOT"
+echo ""
 
 # --- Argument parsing --------------------------------------------------------
 MODE="full"
@@ -233,14 +194,16 @@ pull_and_wire_project() {
 # Skips project-owned docs (only syncs Collective-canonical docs)
 # =============================================================================
 
-COLLECTIVE_GRIMOIRE_DOCS=(
-  "RaBbLE.md"
-  "RaBbLE-Collective.md"
+# Docs to propagate to member repos. Source: $GRIMOIRE_ROOT/common/
+# Note: propagation mechanism is still being determined — update this list when decided.
+COMMON_DOCS=(
+  "RaBbLE-Identity.md"
   "RaBbLE-Palette.md"
+  "RaBbLE-CommitStyle.md"
+  "RaBbLE-BranchStrategy.md"
+  "RaBbLE-Overview.md"
   "RaBbLE-Roadmap.md"
-  "CommitStyle.md"
-  "KnownIssues.md"
-  "DistilledNonZense.md"
+  "RaBbLE-Collective.md"
 )
 
 sync_grimoire_to_project() {
@@ -256,8 +219,8 @@ sync_grimoire_to_project() {
   info "Syncing core grimoire to $slug..."
   local synced=0
 
-  for doc in "${COLLECTIVE_GRIMOIRE_DOCS[@]}"; do
-    local src="$COLLECTIVE_ROOT/grimoire/$doc"
+  for doc in "${COMMON_DOCS[@]}"; do
+    local src="$GRIMOIRE_ROOT/common/$doc"
     local dst="$project_grimoire/$doc"
 
     if [[ ! -f "$src" ]]; then
@@ -269,12 +232,12 @@ sync_grimoire_to_project() {
     if [[ ! -f "$dst" ]] || [[ "$src" -nt "$dst" ]]; then
       cp "$src" "$dst"
       muted "  synced: $doc"
-      ((synced++))
+      synced=$((synced + 1))
     fi
   done
 
   # Sync distilled docs
-  local distilled_src="$COLLECTIVE_ROOT/grimoire/distilled"
+  local distilled_src="$GRIMOIRE_ROOT/distilled"
   local distilled_dst="$project_grimoire/distilled"
   if [[ -d "$distilled_src" ]]; then
     mkdir -p "$distilled_dst"
@@ -284,7 +247,7 @@ sync_grimoire_to_project() {
       if [[ ! -f "$distilled_dst/$fname" ]] || [[ "$doc" -nt "$distilled_dst/$fname" ]]; then
         cp "$doc" "$distilled_dst/$fname"
         muted "  synced: distilled/$fname"
-        ((synced++))
+        synced=$((synced + 1))
       fi
     done
   fi
@@ -303,7 +266,7 @@ sync_grimoire_to_project() {
 echo ""
 pulse "RaBbLE-Collective — Setup"
 pulse "════════════════════════════════════════"
-info "Collective root: $COLLECTIVE_ROOT"
+info "Collective root: $GRIMOIRE_ROOT"
 info "RaBbLE root:     $RABBLE_ROOT"
 info "Mode:            $MODE"
 [[ -n "$TARGET_PROJECT" ]] && info "Target project:  $TARGET_PROJECT"
@@ -312,7 +275,7 @@ echo ""
 # Step 1: Collective own symlinks
 if [[ "$MODE" != "pull" ]]; then
   pulse "── RaBbLE-Collective (this repo)"
-  setup_symlinks "$COLLECTIVE_ROOT"
+  setup_symlinks "$GRIMOIRE_ROOT"
 fi
 
 # Step 2: Project pulls and wiring
@@ -320,7 +283,7 @@ if [[ "$MODE" != "links" ]]; then
   pulse ""
   pulse "── Project Modules"
 
-  MANIFESTS_DIR="$COLLECTIVE_ROOT/registry/manifests"
+  MANIFESTS_DIR="$GRIMOIRE_ROOT/registry/manifests"
 
   if [[ ! -d "$MANIFESTS_DIR" ]]; then
     warn "No manifests/ directory found — skipping project setup"
@@ -363,17 +326,4 @@ echo ""
 pulse "harmonize ~ bootstrap >> collective substrate wired // %SETUP_COMPLETE%"
 echo ""
 
-# Bootstrap cleanup — remove the original clone that launched this relocation
-if [[ -n "${RABBLE_BOOTSTRAP_ORIGIN:-}" && "$RABBLE_BOOTSTRAP_ORIGIN" != "$COLLECTIVE_ROOT" ]]; then
-  pulse "── Bootstrap Cleanup"
-  local_changes=$(git -C "$RABBLE_BOOTSTRAP_ORIGIN" status --porcelain 2>/dev/null | wc -l | tr -d ' ')
-  if [[ "$local_changes" -gt 0 ]]; then
-    warn "Bootstrap clone has local changes — skipping auto-cleanup"
-    warn "Review and remove manually: $RABBLE_BOOTSTRAP_ORIGIN"
-  else
-    info "Removing bootstrap clone: $RABBLE_BOOTSTRAP_ORIGIN"
-    rm -rf "$RABBLE_BOOTSTRAP_ORIGIN"
-    success "Bootstrap clone removed — you are home: $COLLECTIVE_ROOT"
-  fi
-  echo ""
-fi
+# Grimoire does not relocate — no bootstrap cleanup needed.

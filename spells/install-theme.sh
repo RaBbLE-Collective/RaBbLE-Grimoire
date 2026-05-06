@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# RaBbLE-Collective — install-theme.sh
+# RaBbLE-Grimoire — install-theme.sh
 # Install and activate the RaBbLE-Theme for Claude Code (~/.claude)
 #
 # Usage:

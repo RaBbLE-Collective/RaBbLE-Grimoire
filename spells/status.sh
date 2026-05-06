@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# RaBbLE-Collective — status.sh
+# RaBbLE-Grimoire — status.sh
 # Collective health dashboard — one view of all project states
 #
 # Usage:
@@ -12,7 +12,6 @@
 set -euo pipefail
 
 GRIMOIRE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-COLLECTIVE_ROOT="$GRIMOIRE_ROOT"
 RABBLE_ROOT="$(dirname "$GRIMOIRE_ROOT")"
 MANIFESTS_DIR="$GRIMOIRE_ROOT/registry/manifests"
 
@@ -41,7 +40,7 @@ EPOCH_NUM=$(grep "^epoch:" "$EPOCH_FILE" 2>/dev/null | awk '{print $2}' || echo 
 EPOCH_NAME=$(grep "^name:" "$EPOCH_FILE" 2>/dev/null | sed 's/^name:[[:space:]]*//' | tr -d '"' || echo "Unknown")
 
 echo ""
-pulse "RaBbLE-Collective — Status"
+pulse "RaBbLE-Grimoire — Status"
 pulse "════════════════════════════════════════════════════════"
 info "  Epoch ${EPOCH_NUM}: ${EPOCH_NAME}"
 echo ""
@@ -52,14 +51,13 @@ printf "${CYAN}  %-22s %-22s %-10s %-8s %-12s${RESET}\n" \
 printf "${MUTED}  %-22s %-22s %-10s %-8s %-12s${RESET}\n" \
   "────────────────────" "────────────────────" "────────" "──────" "──────────"
 
-# RaBbLE-Collective itself first
-PROJECT_DIR="$COLLECTIVE_ROOT"
-branch=$(git -C "$PROJECT_DIR" branch --show-current 2>/dev/null || echo "unknown")
-modified=$(git -C "$PROJECT_DIR" status --porcelain 2>/dev/null | wc -l | tr -d ' ')
+# Grimoire itself
+branch=$(git -C "$GRIMOIRE_ROOT" branch --show-current 2>/dev/null || echo "unknown")
+modified=$(git -C "$GRIMOIRE_ROOT" status --porcelain 2>/dev/null | wc -l | tr -d ' ')
 [[ "$modified" == "0" ]] \
   && state="${GREEN}clean${RESET}" \
   || state="${VIOLET}~${modified}${RESET}"
-printf "  %-22s %-22s " "RaBbLE-Collective" "$branch"
+printf "  %-22s %-22s " "RaBbLE-Grimoire" "$branch"
 echo -e "${state}         ${EPOCH_NUM}       ${CYAN}canonical${RESET}"
 
 # Project modules from manifests
@@ -89,17 +87,11 @@ if [[ -d "$MANIFESTS_DIR" ]]; then
       && state="${GREEN}clean${RESET}" \
       || state="${VIOLET}~${modified}${RESET}"
 
-    # Check grimoire sync state (spot check RaBbLE.md)
-    if [[ -f "$project_dir/grimoire/RaBbLE.md" ]]; then
-      src="$COLLECTIVE_ROOT/grimoire/RaBbLE.md"
-      dst="$project_dir/grimoire/RaBbLE.md"
-      if [[ "$src" -nt "$dst" ]]; then
-        grimoire_state="${YELLOW}stale${RESET}"
-      else
-        grimoire_state="${GREEN}synced${RESET}"
-      fi
+    # Check if project has AGENT.md (proxy for being wired into Collective)
+    if [[ -f "$project_dir/AGENT.md" ]]; then
+      grimoire_state="${GREEN}wired${RESET}"
     else
-      grimoire_state="${RED}missing${RESET}"
+      grimoire_state="${RED}missing AGENT.md${RESET}"
     fi
 
     # Check symlinks
@@ -120,10 +112,9 @@ echo ""
 pulse "────────────────────────────────────────────────────────"
 
 # Open issues count
-if [[ -f "$COLLECTIVE_ROOT/grimoire/KnownIssues.md" ]]; then
-  open_issues=$(grep -c "^\*\*.*\[OPEN\]" "$COLLECTIVE_ROOT/grimoire/KnownIssues.md" 2>/dev/null \
-    || grep -c "\[OPEN\]" "$COLLECTIVE_ROOT/grimoire/KnownIssues.md" 2>/dev/null || echo "?")
-  info "  Open issues:    $open_issues (grimoire/KnownIssues.md)"
+if [[ -f "$GRIMOIRE_ROOT/common/RaBbLE-Collective-KnownIssues.md" ]]; then
+  open_issues=$(grep -c "\[OPEN\]" "$GRIMOIRE_ROOT/common/RaBbLE-Collective-KnownIssues.md" 2>/dev/null || echo "0")
+  info "  Open issues:    $open_issues (common/RaBbLE-Collective-KnownIssues.md)"
 fi
 
 # Palette version
@@ -133,5 +124,5 @@ info "  Palette ver:    ${palette_version}(check RaBbLE-Palette.md for current)"
 
 echo ""
 muted "  Run ./setup.sh to wire any missing symlinks or pull stale projects."
-muted "  Run ./scripts/sync-grimoire.sh to push grimoire updates to all projects."
+muted "  Run ./spells/sync-grimoire.sh to push grimoire updates to all projects."
 echo ""

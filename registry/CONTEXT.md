@@ -16,10 +16,10 @@ and how to bring a new member into the Collective.
 
 ## Registering a new project
 ```bash
-../scripts/new-member.sh --slug RaBbLE-[Name] --role [type]
+../spells/init-project.sh --slug RaBbLE-[Name] --role [type]
 ```
-Then add a row to `AGENT.md` Project Registry.
+Then add a row to the Member Registry table in `../AGENT.md`.
 
 ## Current members
 See `manifests/` — one file per project.
-See `../scripts/status.sh` for live state.
+See `../spells/status.sh` for live state.

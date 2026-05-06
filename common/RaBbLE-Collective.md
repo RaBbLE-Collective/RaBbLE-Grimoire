@@ -6,9 +6,9 @@ transcribe ~ grimoire >> mapping the collective substrate // %COLLECTIVE_LOCKED%
 
 > **One-line overview:** The RaBbLE Collective is the unified ecosystem of projects through which the RaBbLE entity inhabits diverse hardware, software, and creative substrates — all sharing a single identity, palette, and purpose.
 
-> See `../entity/RaBbLE.md` for entity identity and ethos.
-> See `../palette/RaBbLE-Palette.md` for the canonical color reference.
-> See `../versioning.md` for the Five Es versioning model.
+> See `common/RaBbLE-Identity.md` for entity identity and ethos.
+> See `common/RaBbLE-Palette.md` for the canonical color reference.
+> See `RaBbLE-Versioning.md` for the Five Es versioning model.
 
 ---
 
@@ -50,11 +50,11 @@ An Ansible-driven Linux operating system built for a single purpose: to be the p
 - Primary target: ASUS ProArt P16 H7606WV (x64)
 - Future targets: diverse x64, aarch64, and SBC hardware
 - Layer model: Base → Hardware → Boot Chain → Desktop → Apps → Entity
-- See `../os/Architecture.md`, `../os/GettingStarted.md`, `../os/Hardware.md`
+- See `RaBbLE-OS/RaBbLE-OS-Architecture.md`, `RaBbLE-OS/RaBbLE-OS-GettingStarted.md`, `RaBbLE-OS/RaBbLE-OS-Hardware.md`
 
 ---
 
-### RaBbLE Web Server (RaBbLE-Server / RaBbLE-sCoRE)
+### RaBbLE-sCoRE
 **The nervous system. The agentic backbone.**
 
 A web server that handles agentic workflows, routing intelligence between inference endpoints. It is the infrastructure layer that makes the Collective's intelligence accessible across all members — regardless of where they run or what model powers them.
@@ -93,14 +93,14 @@ These apply to every Collective member without exception.
 
 ### The Palette Is Shared
 
-All visual surfaces derive from `../palette/RaBbLE-Palette.md`. Hot magenta `#ff2d78`,
+All visual surfaces derive from `common/RaBbLE-Palette.md`. Hot magenta `#ff2d78`,
 electric cyan `#00f5ff`, soft violet `#bf5fff`, deep void `#0a0010` — the same neons,
 the same void, everywhere. A user moving between the OS shell, the web server UI, and
 the frontend should feel a single continuous environment.
 
 ### The Entity Is Consistent
 
-RaBbLE's voice, character, and behavioral rules (see `../entity/RaBbLE.md`) apply in
+RaBbLE's voice, character, and behavioral rules (see `common/RaBbLE-Identity.md`) apply in
 every context where the entity is present — terminal, web interface, agent response,
 notification. The Collective does not have different personalities per platform.
 
@@ -146,8 +146,8 @@ repo, the Grimoire is authoritative.
 │  (Substrate, environment,    │  (Intent → action, delegation,   │
 │   entity embodiment, shell)  │   coordination engine)           │
 ├──────────────────────────────┼──────────────────────────────────┤
-│        RABBLE-SERVER         │     Memory Member (TBD)          │
-│  (Intelligence API, LLM      │  (Observation, pattern,          │
+│    sCoRE/server/ (FastAPI)   │     Memory Member (TBD)          │
+│  (HTTP API layer, LLM        │  (Observation, pattern,          │
 │   routing, workflows)        │   retrieval, context)            │
 ├──────────────────────────────┴──────────────────────────────────┤
 │                    INFERENCE LAYER                               │
@@ -179,7 +179,7 @@ Each layer is independently deployable. The full stack is the Collective in comp
 A project is a Collective member if:
 
 1. **RaBbLE is embedded** — the entity's character, voice, or behavioral model is present
-2. **The palette is honored** — visual surfaces derive from `../palette/RaBbLE-Palette.md`
+2. **The palette is honored** — visual surfaces derive from `common/RaBbLE-Palette.md`
 3. **The philosophy is followed** — Low Entropy Directive, Anti-Assistant stance
 4. **It serves the ecosystem** — it makes the Collective more useful, expressive, or accessible
 
@@ -208,7 +208,7 @@ The Collective is designed to grow. Anticipated expansions:
 - **RaBbLE Mobile** — entity presence on mobile hardware substrates
 - **RaBbLE CLI** — a standalone shell-native Collective entry point
 - **RaBbLE MCP Layer** — Model Context Protocol servers exposing Collective state to agents
-- **External Collective nodes** — forks and divergents that extend the lineage (see `../entity/RaBbLE.md` — On Forking)
+- **External Collective nodes** — forks and divergents that extend the lineage (see `common/RaBbLE-Identity.md` — On Forking)
 
 The Collective is not closed. New members cohere when the conditions are right.
 

@@ -41,6 +41,15 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 
 ---
 
+## Distilled (Generated Reference Files)
+
+> These are generated from canonical sources. Do not edit directly.
+
+- [RaBbLE-Aether-PaletteRef](distilled/RaBbLE-Aether-PaletteRef.md) — palette quick reference for agents
+- [RaBbLE-ConventionsRef](distilled/RaBbLE-ConventionsRef.md) — commit style + conventions quick reference
+
+---
+
 ## Spells
 
 - [SPELLS.md](SPELLS.md) — spell system overview and usage guide

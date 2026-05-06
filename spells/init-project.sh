@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# RaBbLE-Collective — new-member.sh
+# RaBbLE-Grimoire — init-project.sh
 # Scaffold a new self-contained RaBbLE project module
 #
 # Usage:

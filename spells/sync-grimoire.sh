@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # =============================================================================
-# RaBbLE-Collective — sync-grimoire.sh
+# RaBbLE-Grimoire — sync-grimoire.sh
 # Push core Collective grimoire updates to all registered project modules
 #
 # Usage:
-#   ./scripts/sync-grimoire.sh                  — sync all projects
-#   ./scripts/sync-grimoire.sh --project RaBbLE-OS  — sync one project
-#   ./scripts/sync-grimoire.sh --dry-run        — show what would change
+#   ./spells/sync-grimoire.sh                  — sync all projects
+#   ./spells/sync-grimoire.sh --project RaBbLE-OS  — sync one project
+#   ./spells/sync-grimoire.sh --dry-run        — show what would change
 #
 # transcribe ~ grimoire >> collective knowledge propagated // %GRIMOIRE_SYNCED%
 # =============================================================================
@@ -14,7 +14,6 @@
 set -euo pipefail
 
 GRIMOIRE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-COLLECTIVE_ROOT="$GRIMOIRE_ROOT"
 RABBLE_ROOT="$(dirname "$GRIMOIRE_ROOT")"
 MANIFESTS_DIR="$GRIMOIRE_ROOT/registry/manifests"
 
@@ -45,15 +44,16 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# Collective-canonical docs — these sync to every project
-COLLECTIVE_DOCS=(
-  "RaBbLE.md"
-  "RaBbLE-Collective.md"
+# Grimoire common docs — synced to every project that opts in (grimoire_sync: true)
+# These live in $GRIMOIRE_ROOT/common/ and are pushed to $project/grimoire/
+COMMON_DOCS=(
+  "RaBbLE-Identity.md"
   "RaBbLE-Palette.md"
+  "RaBbLE-CommitStyle.md"
+  "RaBbLE-BranchStrategy.md"
+  "RaBbLE-Overview.md"
   "RaBbLE-Roadmap.md"
-  "CommitStyle.md"
-  "KnownIssues.md"
-  "DistilledNonZense.md"
+  "RaBbLE-Collective.md"
 )
 
 get_manifest_field() {
@@ -79,7 +79,7 @@ sync_to_project() {
 
   pulse "── $slug"
 
-  for doc in "${COLLECTIVE_DOCS[@]}"; do
+  for doc in "${COMMON_DOCS[@]}"; do
     local src="$GRIMOIRE_ROOT/common/$doc"
     local dst="$project_grimoire/$doc"
 
@@ -92,9 +92,9 @@ sync_to_project() {
         cp "$src" "$dst"
         muted "  synced: $doc"
       fi
-      ((synced++))
+      synced=$((synced + 1))
     else
-      ((skipped++))
+      skipped=$((skipped + 1))
     fi
   done
 
@@ -115,22 +115,22 @@ sync_to_project() {
           cp "$doc" "$dst_doc"
           muted "  synced: distilled/$fname"
         fi
-        ((synced++))
+        synced=$((synced + 1))
       else
-        ((skipped++))
+        skipped=$((skipped + 1))
       fi
     done
   fi
 
   if [[ $synced -eq 0 ]]; then
     success "$slug already current ($skipped docs checked)"
-  else
-    [[ "$DRY_RUN" == false ]] && success "$slug: $synced doc(s) updated, $skipped already current"
+  elif [[ "$DRY_RUN" == false ]]; then
+    success "$slug: $synced doc(s) updated, $skipped already current"
   fi
 }
 
 echo ""
-pulse "RaBbLE-Collective — Grimoire Sync"
+pulse "RaBbLE-Grimoire — Sync"
 pulse "════════════════════════════════════════"
 [[ "$DRY_RUN" == true ]] && info "DRY RUN — no files will be changed"
 echo ""
