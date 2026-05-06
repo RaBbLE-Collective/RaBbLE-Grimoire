@@ -5,7 +5,6 @@ role: substrate
 
 repo: https://github.com/markm1206/RaBbLE-OS.git
 branch: main
-epoch_branch: epoch/1-daily-driver
 worktree_root: ~/RaBbLE/RaBbLE-OS
 
 phase: 0

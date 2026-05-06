@@ -158,27 +158,6 @@ pull_and_wire_project() {
     success "$slug cloned"
   fi
 
-  # Set up epoch worktree branch if it doesn't exist
-  local epoch_branch
-  epoch_branch=$(get_manifest_field "$manifest" "epoch_branch" 2>/dev/null || true)
-  if [[ -n "$epoch_branch" ]]; then
-    if ! git -C "$local_path" show-ref --verify --quiet "refs/heads/$epoch_branch"; then
-      info "Creating worktree branch: $epoch_branch"
-      git -C "$local_path" branch "$epoch_branch" 2>/dev/null \
-        || muted "Branch $epoch_branch already exists remotely"
-    fi
-
-    local worktree_path="$local_path/worktrees/$epoch_branch"
-    if [[ ! -d "$worktree_path" ]]; then
-      mkdir -p "$(dirname "$worktree_path")"
-      git -C "$local_path" worktree add "$worktree_path" "$epoch_branch" 2>/dev/null \
-        || muted "Worktree for $epoch_branch already configured"
-      success "Worktree added: $worktree_path"
-    else
-      muted "Worktree already exists: $worktree_path"
-    fi
-  fi
-
   # Set up project symlinks
   setup_symlinks "$local_path"
 
