@@ -75,6 +75,18 @@ Events:
 - [x] `memory/patterns/agent-isolation.md` — isolation lesson documented
 - [x] Episode 2 Echo tagged `echo-2.0`
 
+### Episode 3 — Server Absorbed `[COMPLETE]`
+
+**Goal:** RaBbLE-Server merged into sCoRE as `server/` subcomponent. sCoRE is now runnable as a web API.
+
+Events:
+- [x] `server/` — FastAPI intelligence service moved from RaBbLE-Server
+- [x] `harness/` — Railway deployment tooling moved from RaBbLE-Server
+- [x] `scripts/start-rabble.sh --with-server` — optional server startup flag
+- [x] `scripts/status.sh` — server health check block added
+- [x] `scripts/stop-rabble.sh` — `rabble-server` session added to teardown list
+- [x] `RaBbLE-Server` repo deprecated — points to sCoRE
+
 ---
 
 ## Revision History
@@ -82,6 +94,7 @@ Events:
 | Version | Date | Change |
 |---|---|---|
 | v0.1 | 2026-04-29 | Initial roadmap — Episode 1 scaffold |
+| v0.2 | 2026-05-06 | Episode 3 — server absorbed from RaBbLE-Server |
 
 ---
 

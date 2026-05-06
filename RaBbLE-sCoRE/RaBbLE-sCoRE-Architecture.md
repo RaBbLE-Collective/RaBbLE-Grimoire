@@ -16,20 +16,20 @@ delegated actions. It has no execution surface of its own — delegation is its 
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                     HUMAN INTENT                        │
-│              (natural language, direct session)         │
-└───────────────────────┬─────────────────────────────────┘
-                        │
-                        ▼
-┌─────────────────────────────────────────────────────────┐
-│                   RaBbLE-sCoRE                          │
-│  Claude Code session — agents/score.md identity         │
-│  Reads: memory/, tasks/done/, tasks/active/             │
-│  Writes: tasks/pending/                                 │
-│  Cannot: Bash, WebSearch, WebFetch                      │
-└───────────────────────┬─────────────────────────────────┘
-                        │ writes TASK-{ID}-{agent}.md
-                        ▼
+│            HUMAN INTENT — two entry modes               │
+│  (a) direct session: rabble-shell.sh                   │
+│  (b) HTTP: server/ FastAPI on :8000                    │
+└──────────┬──────────────────────┬───────────────────────┘
+           │                      │
+           ▼ (a)                  ▼ (b)
+┌──────────────────┐   ┌──────────────────────────────────┐
+│  RaBbLE-sCoRE    │   │  server/ (FastAPI)                │
+│  Claude Code     │   │  Groq + OpenRouter direct routing │
+│  score.md id     │   │  Chat · Workflows · Auth          │
+│  No Bash/Web     │   │  Local or Railway-deployed        │
+└────────┬─────────┘   └──────────────────────────────────┘
+         │ writes TASK-{ID}-{agent}.md
+         ▼
 ┌─────────────────────────────────────────────────────────┐
 │                  rabble-dispatch                        │
 │  inotifywait on tasks/pending/                         │
@@ -50,6 +50,9 @@ delegated actions. It has no execution surface of its own — delegation is its 
                           ▼
                     sCoRE reads → reasons → next task or done
 ```
+
+**Note:** server/ routes do not currently pass through the task pipeline.
+Wiring HTTP requests into sCoRE's file-based dispatch is a future episode.
 
 ---
 
@@ -93,6 +96,24 @@ memory of prior tasks — they get exactly what sCoRE provides, nothing more.
 | `rabble-memory` | `agents/memory.md` | Read/write workspace only |
 | `rabble-search` | `agents/search.md` | Web access permitted |
 | `rabble-execution` | `agents/execution.md` | Full Bash access |
+| `rabble-server` | uvicorn (FastAPI) | Optional — `--with-server` flag |
+
+## Server Subcomponent (server/)
+
+The `server/` directory contains the FastAPI intelligence service absorbed from RaBbLE-Server.
+It provides HTTP transport so sCoRE can be consumed by frontends (RaBbLE-World, NeBuLA) or
+called remotely.
+
+| File | Role |
+|---|---|
+| `main.py` | All routes — health, chat, workflows, auth |
+| `llm.py` | Multi-provider routing (Groq → OpenRouter fallback) |
+| `agents.py` | RaBbLE persona definitions + workflow classifier |
+| `workflows.py` | In-memory workflow state (4-hour TTL) |
+| `auth.py` | JWT + API key authentication |
+| `rate_limit.py` | Sliding-window rate limiter |
+
+Deployment: `harness/local.sh` (local) · `harness/deploy.sh` (Railway)
 
 ---
 
