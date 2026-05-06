@@ -20,13 +20,13 @@ The product goal: a system that feels **living and intent-focused** rather than 
 
 | Member | Role | Status |
 |---|---|---|
-| **RaBbLE-grimoire** | Source of truth: identity, ethos, lore, **inter-member protocol contracts**. All other repos consume from here. | To create |
-| **RaBbLE-Collective** | Registry + health hub. Holds members, fetches manifests, reports aliveness. *Not* a coordinator. | Scaffold + POC exists |
-| **RaBbLE-sCoRE** | Coordination server. Intent → action engine. FastAPI, Railway-deployable, also runs locally. Delegates to Claude Code and other agents with context minimization. | To build (web API exists as `RaBbLE_WEB`) |
-| **RaBbLE-OS** | Fedora 43 Sway spin → Hyprland WM, custom theming, daily driver. The substrate everything runs on. | Live, daily-driven |
-| **RaBbLE-NeBuLA** | Frontend renderer / visual entity. Embeddable. Expresses system state. | POCs exist as `RaBbLE-JS` |
-| **RaBbLE-Chat** *(name in flux)* | Minimal chat surface into the Behavioral Learning Engine. Scaffolding, not infrastructure — likely retires later. | To build |
-| **Memory member** *(name TBD — Mnemos / Codex / etc.)* | Observation store, pattern extraction, retrieval. Its own member, not part of sCoRE. | Decision made, not built |
+| **RaBbLE-Grimoire** | Single source of truth: identity, ethos, lore, technical patterns, protocol contracts, versioning. Includes spells that generate LLM context files and manage registry + health hub. All other repos consume from here. | Active |
+| **RaBbLE-Collective** | The organization / governance layer. Social and governance concerns. (Technical registry managed by Grimoire spells.) | Foundation |
+| **RaBbLE-sCoRE** | Unified coordinator. Intent → action engine. FastAPI, Railway-deployable, also runs locally. Wraps different LLMs, delegates to Claude Code with context minimization. | Planning |
+| **RaBbLE-OS** | Fedora 43 Sway/Hyprland daily driver. Custom theming, hardware integration. The substrate where the system observes, learns, expresses itself. | Live |
+| **RaBbLE-NeBuLA** | Rendering system / visual entity. Embeddable. Expresses system state. v0.0.1 (Echo) being rewritten with modern architecture. | Echo v0.0.1 rewrite |
+| **RaBbLE-World** | Chat surface + entity rendering (chat.js + rabble-entity.js merged). User interaction layer. | Active |
+| **RaBbLE-Memory** *(name TBD — Mnemos / Codex / etc.)* | Observation store, pattern extraction, retrieval. Its own member, not part of sCoRE. | Decision made, not built |
 
 GitHub: `markm1206/RaBbLE`, `RaBbLE-OS`, `RaBbLE-JS`, `RaBbLE_WEB` (private). Repos can be renamed/added.
 
