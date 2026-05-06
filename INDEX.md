@@ -27,15 +27,28 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 - [RaBbLE-BranchStrategy](common/RaBbLE-BranchStrategy.md) — branch topology
 - [RaBbLE-Overview](common/RaBbLE-Overview.md) — system overview
 - [RaBbLE-Roadmap](common/RaBbLE-Roadmap.md) — unified ecosystem roadmap
+- [RaBbLE-Collective](common/RaBbLE-Collective.md) — ecosystem map, all members, architecture diagram
+- [RaBbLE-Collective-KnownIssues](common/RaBbLE-Collective-KnownIssues.md)
 - [RaBbLE-DistilledNonZense](common/RaBbLE-DistilledNonZense.md) — full entropy archive from deprecated substrate
 
 ---
 
-## RaBbLE-Collective
+## Registry
 
-- [RaBbLE-Collective](RaBbLE-Collective/RaBbLE-Collective.md) — ecosystem map, all members, architecture diagram
-- [RaBbLE-Collective-Registry](RaBbLE-Collective/RaBbLE-Collective-Registry.md) — member registry
-- [RaBbLE-Collective-KnownIssues](RaBbLE-Collective/RaBbLE-Collective-KnownIssues.md)
+- [RaBbLE-Collective-Registry](registry/RaBbLE-Collective-Registry.md) — registry reference documentation
+- [registry/epochs/current.epoch.yml](registry/epochs/current.epoch.yml) — active epoch definition
+- **manifests/**: RaBbLE-OS · RaBbLE-sCoRE · RaBbLE-Frontend · RaBbLE-WEB
+
+---
+
+## Spells
+
+- [SPELLS.md](SPELLS.md) — spell system overview and usage guide
+- [spells/setup.sh](spells/setup.sh) — bootstrap the Collective locally
+- [spells/status.sh](spells/status.sh) — health dashboard for all members
+- [spells/sync-grimoire.sh](spells/sync-grimoire.sh) — propagate Grimoire updates to members
+- [spells/init-project.sh](spells/init-project.sh) — scaffold a new Collective member
+- [spells/install-theme.sh](spells/install-theme.sh) — install RaBbLE theme across OS
 
 ---
 
@@ -60,8 +73,20 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 
 ## RaBbLE-sCoRE
 
-- [RaBbLE-sCoRE-Architecture](RaBbLE-sCoRE/RaBbLE-sCoRE-Architecture.md)
-- [RaBbLE-sCoRE-Roadmap](RaBbLE-sCoRE/RaBbLE-sCoRE-Roadmap.md)
+- [RaBbLE-sCoRE-Architecture](RaBbLE-sCoRE/RaBbLE-sCoRE-Architecture.md) — component map, task lifecycle, server subcomponent
+- [RaBbLE-sCoRE-Roadmap](RaBbLE-sCoRE/RaBbLE-sCoRE-Roadmap.md) — episode tracker
+
+---
+
+## RaBbLE-NeBuLA
+
+- [RaBbLE-NeBuLA-Identity](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Identity.md) — origin story, entity traits, consciousness model
+- [RaBbLE-NeBuLA-Architecture](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Architecture.md) — Flat-Chaos Runtime, subsystem overview
+- [RaBbLE-NeBuLA-FlatChaos](RaBbLE-NeBuLA/RaBbLE-NeBuLA-FlatChaos.md) — FCR pattern spec
+- [RaBbLE-NeBuLA-RABL](RaBbLE-NeBuLA/RaBbLE-NeBuLA-RABL.md) — rendering language spec
+- [RaBbLE-NeBuLA-RBCNS](RaBbLE-NeBuLA/RaBbLE-NeBuLA-RBCNS.md) — naming conventions
+- [RaBbLE-NeBuLA-Ideas](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Ideas.md) — enhancement proposals
+- [RaBbLE-NeBuLA-Roadmap](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Roadmap.md) — clean rebuild roadmap
 
 ---
 
