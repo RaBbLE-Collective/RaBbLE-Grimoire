@@ -31,14 +31,14 @@ Each member of the Collective is an independent project. Each is also an organ o
 
 | Member | Role | Status |
 |---|---|---|
-| **RaBbLE-Grimoire** | Source of truth: identity, ethos, lore, protocol contracts | Establishing |
-| **RaBbLE-Collective** | Registry + health hub. Fetches manifests, reports aliveness. | Scaffold + POC |
-| **RaBbLE-sCoRE** | Coordination server. Intent → action engine. FastAPI, Railway-deployable. | Epoch 0 active |
+| **RaBbLE-Grimoire** | Source of truth: identity, ethos, lore, conventions, registry, spells | Establishing |
+| **RaBbLE-sCoRE** | Coordination server + web API (FastAPI). Intent → action engine, Railway-deployable. | Epoch 0 active |
 | **RaBbLE-OS** | Fedora 43 → Hyprland WM. The substrate everything runs on. | Live, daily-driven |
-| **RaBbLE-NeBuLA** | Frontend renderer / visual entity. Embeddable. (aka RaBbLE-JS) | POCs exist |
-| **RaBbLE-Chat** | Minimal chat surface. Scaffolding — likely retires. | Scaffold |
-| **RaBbLE-Server** | Intelligence API. FastAPI, Railway. sCoRE predecessor. | Active, deployed |
+| **RaBbLE-NeBuLA** | Frontend renderer / visual entity (3D/Three.js Flat-Chaos Runtime). | Roadmap — rebuild |
+| **RaBbLE-World** | Web presence + chat interface. rabble-entity.js (2D canvas persona renderer). | Active |
+| **RaBbLE-Aether** | Visual assets, design system, palette source. | Stub |
 | **Memory member (TBD)** | Observation store, pattern extraction, retrieval. | Decision made, not built |
+| **RaBbLE-Server** | Intelligence API — deprecated, absorbed into RaBbLE-sCoRE. | Deprecated |
 
 ---
 

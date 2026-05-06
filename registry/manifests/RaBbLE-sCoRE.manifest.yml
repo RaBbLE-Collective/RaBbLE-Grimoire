@@ -1,0 +1,47 @@
+# manifests/RaBbLE-sCoRE.manifest.yml
+# Covers RaBbLE-sCoRE (coordination intelligence + absorbed RaBbLE-Server web API).
+# RaBbLE-Server repo is deprecated — this manifest supersedes it.
+
+# Identity
+name: RaBbLE-sCoRE
+slug: RaBbLE-sCoRE
+description: "Coordination intelligence engine + FastAPI web API. Intent → decompose → delegate → result."
+role: server
+
+# Repository
+repo: https://github.com/markm1206/RaBbLE-sCoRE.git
+branch: main
+epoch_branch: epoch/0-foundation
+worktree_root: ~/RaBbLE/RaBbLE-sCoRE
+
+# Status
+phase: 3
+epoch: 0
+status: active
+
+# Grimoire
+grimoire_sync: true
+grimoire_path: grimoire/
+
+# Collective alignment
+palette_version: "1.0"
+entity_embedded: true
+pulse_protocol: true
+
+# Subcomponents
+subcomponents:
+  - name: server
+    path: server/
+    description: "FastAPI intelligence service (absorbed from RaBbLE-Server)"
+    framework: fastapi
+    deployment: railway
+  - name: harness
+    path: harness/
+    description: "Railway deployment tooling"
+
+# Notes
+notes: >
+  Episode 1-2: tmux coordination shell, file-based task delegation, inotify dispatch.
+  Episode 3 (2026-05-06): RaBbLE-Server absorbed. sCoRE now runs as web API via
+  --with-server flag. Server routes LLM calls directly (not via task pipeline yet).
+  RaBbLE-Server repo deprecated.
