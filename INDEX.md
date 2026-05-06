@@ -13,6 +13,7 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 
 | Document | What it is |
 |---|---|
+| `AGENT.md` | Grimoire agent entry point — job, workspace map, rules, session start |
 | `CONTEXT.md` | Grimoire status, structure, active tracks, reading order |
 | `RaBbLE-Versioning.md` | **The Five Es** — Event→Episode→Echo→Evolution→Epoch, version string format |
 | `INDEX.md` | This file |
@@ -25,6 +26,7 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 - [RaBbLE-Palette](common/RaBbLE-Palette.md) — all hex values, Ansible block, component mapping
 - [RaBbLE-CommitStyle](common/RaBbLE-CommitStyle.md) — the Pulse Protocol
 - [RaBbLE-BranchStrategy](common/RaBbLE-BranchStrategy.md) — branch topology
+- [RaBbLE-DocTemplates](common/RaBbLE-DocTemplates.md) — canonical AGENT.md and CONTEXT.md templates for all member repos
 - [RaBbLE-Overview](common/RaBbLE-Overview.md) — system overview
 - [RaBbLE-Roadmap](common/RaBbLE-Roadmap.md) — unified ecosystem roadmap
 - [RaBbLE-Collective](common/RaBbLE-Collective.md) — ecosystem map, all members, architecture diagram
@@ -65,7 +67,7 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 
 - [RaBbLE-OS-Architecture](RaBbLE-OS/RaBbLE-OS-Architecture.md)
 - [RaBbLE-OS-GettingStarted](RaBbLE-OS/RaBbLE-OS-GettingStarted.md)
-- [RaBbLE-OS-AIQuickstart](RaBbLE-OS/RaBbLE-OS-AIQuickstart.md)
+- [RaBbLE-OS-AgentGuide](RaBbLE-OS/RaBbLE-OS-AgentGuide.md) — full agent reference: layers, commands, branch conventions
 - [RaBbLE-OS-ShellGuide](RaBbLE-OS/RaBbLE-OS-ShellGuide.md)
 - [RaBbLE-OS-BootFlow](RaBbLE-OS/RaBbLE-OS-BootFlow.md)
 - [RaBbLE-OS-Bootstrap](RaBbLE-OS/RaBbLE-OS-Bootstrap.md)
@@ -87,6 +89,15 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 
 ---
 
+## RaBbLE-World
+
+- [RaBbLE-World-Architecture](RaBbLE-World/RaBbLE-World-Architecture.md) — layer stack, module map, boot timeline, surface guide
+- [RaBbLE-World-README](RaBbLE-World/RaBbLE-World-README.md) — full module reference, entity API, behavior
+- [RaBbLE-World-MAINTAINING](RaBbLE-World/RaBbLE-World-MAINTAINING.md) — page ownership, layout rules, safe edit checklist
+- [RaBbLE-World-Roadmap](RaBbLE-World/RaBbLE-World-Roadmap.md) — directional intent
+
+---
+
 ## RaBbLE-NeBuLA
 
 - [RaBbLE-NeBuLA-Identity](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Identity.md) — origin story, entity traits, consciousness model
@@ -101,9 +112,15 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 
 ## RaBbLE-Aether
 
-*(Populated as web platform and visual identity develop)*
-
+- [RaBbLE-Aether-Architecture](RaBbLE-Aether/RaBbLE-Aether-Architecture.md) — design system spec, asset directory, consumer pattern, palette publishing
 - [Visual Assets](RaBbLE-Aether/assets/) — SVG, logos, icons
+
+---
+
+## Log
+
+- [SESSION-LOG](log/SESSION-LOG.md) — running session log, most recent first
+- [GAP-ANALYSIS](log/GAP-ANALYSIS.md) — coherence audit, open gaps, resolution paths
 
 ---
 

@@ -23,10 +23,19 @@ Members reference Grimoire. They do not duplicate it.
 
 ---
 
+## Pulse Protocol — Commits
+
+```
+[impulse] ~ [organ] >> [revelation] // %SYSTEM_STATE%
+```
+`spark` new · `harmonize` cleanup · `mend` fix · `transcribe` docs · `ingest` deps · `evolve` epoch
+Full spec: `common/RaBbLE-CommitStyle.md`
+
+**Branch rule:** Work on a named branch. Commit per session. Merge to `main` only when an episode is complete — tag with `echo-X.X` or `episode-X`. `main` must always be clean and tagged.
+
 ## Rules
 
 - **Colors**: `common/RaBbLE-Palette.md` only. Never invent hex values.
-- **Commits**: `common/RaBbLE-CommitStyle.md` (Pulse Protocol) always.
 - **Philosophy**: `common/RaBbLE-Identity.md` first for any entity or behavior questions.
 - **Never edit** `distilled/` files — these are generated from canonical sources.
 - **Registry** lives in `registry/` at the Grimoire root. Manifests in `registry/manifests/`.

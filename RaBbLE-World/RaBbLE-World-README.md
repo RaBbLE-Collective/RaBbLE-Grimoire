@@ -10,7 +10,15 @@ Animated frontend surfaces for the RaBbLE entity. A small collection of HTML pag
 
 The entity is the product. The pages are surfaces for it.
 
-For low-context maintenance, start with [`MAINTAINING.md`](MAINTAINING.md). It maps page ownership, transition classes, responsive layout rules, and entity host sizing.
+**Doc index for this member:**
+
+| Doc | When to read |
+|---|---|
+| [`RaBbLE-World-Architecture.md`](RaBbLE-World-Architecture.md) | System map — module relationships, boot timeline, transition inventory, how to add a surface |
+| [`RaBbLE-World-MAINTAINING.md`](RaBbLE-World-MAINTAINING.md) | Maintenance map — page ownership, layout rules, safe edit checklist |
+| [`RaBbLE-World-Roadmap.md`](RaBbLE-World-Roadmap.md) | Directional intent — landing page, app launcher, liminal web domain vision |
+
+For low-context maintenance, start with `RaBbLE-World-MAINTAINING.md`. For understanding how the pieces fit, read `RaBbLE-World-Architecture.md` first.
 
 ---
 
