@@ -38,7 +38,7 @@ error()    { echo -e "${RED}  ✗ ${1}${RESET}"; }
 
 # Grimoire expands but does not relocate. Run from wherever it lives.
 info "Grimoire root: $GRIMOIRE_ROOT"
-info "Collective root: $RABBLE_ROOT"
+info "RaBbLE root:     $RABBLE_ROOT"
 echo ""
 
 # --- Argument parsing --------------------------------------------------------
@@ -179,9 +179,6 @@ pull_and_wire_project() {
     fi
   fi
 
-  # Sync core grimoire to project
-  sync_grimoire_to_project "$local_path" "$slug"
-
   # Set up project symlinks
   setup_symlinks "$local_path"
 
@@ -189,84 +186,13 @@ pull_and_wire_project() {
 }
 
 # =============================================================================
-# GRIMOIRE SYNC
-# Copies core Collective grimoire docs to the project's grimoire/ directory
-# Skips project-owned docs (only syncs Collective-canonical docs)
-# =============================================================================
-
-# Docs to propagate to member repos. Source: $GRIMOIRE_ROOT/common/
-# Note: propagation mechanism is still being determined — update this list when decided.
-COMMON_DOCS=(
-  "RaBbLE-Identity.md"
-  "RaBbLE-Palette.md"
-  "RaBbLE-CommitStyle.md"
-  "RaBbLE-BranchStrategy.md"
-  "RaBbLE-Overview.md"
-  "RaBbLE-Roadmap.md"
-  "RaBbLE-Collective.md"
-)
-
-sync_grimoire_to_project() {
-  local project_path="$1"
-  local slug="$2"
-  local project_grimoire="$project_path/grimoire"
-
-  if [[ ! -d "$project_grimoire" ]]; then
-    warn "No grimoire/ directory found in $slug — skipping grimoire sync"
-    return
-  fi
-
-  info "Syncing core grimoire to $slug..."
-  local synced=0
-
-  for doc in "${COMMON_DOCS[@]}"; do
-    local src="$GRIMOIRE_ROOT/common/$doc"
-    local dst="$project_grimoire/$doc"
-
-    if [[ ! -f "$src" ]]; then
-      muted "  Source not found: grimoire/$doc — skipping"
-      continue
-    fi
-
-    # Only copy if source is newer or destination doesn't exist
-    if [[ ! -f "$dst" ]] || [[ "$src" -nt "$dst" ]]; then
-      cp "$src" "$dst"
-      muted "  synced: $doc"
-      synced=$((synced + 1))
-    fi
-  done
-
-  # Sync distilled docs
-  local distilled_src="$GRIMOIRE_ROOT/distilled"
-  local distilled_dst="$project_grimoire/distilled"
-  if [[ -d "$distilled_src" ]]; then
-    mkdir -p "$distilled_dst"
-    for doc in "$distilled_src"/*.md; do
-      local fname
-      fname="$(basename "$doc")"
-      if [[ ! -f "$distilled_dst/$fname" ]] || [[ "$doc" -nt "$distilled_dst/$fname" ]]; then
-        cp "$doc" "$distilled_dst/$fname"
-        muted "  synced: distilled/$fname"
-        synced=$((synced + 1))
-      fi
-    done
-  fi
-
-  if [[ $synced -eq 0 ]]; then
-    muted "  grimoire already current in $slug"
-  else
-    success "Synced $synced grimoire doc(s) to $slug"
-  fi
-}
-
-# =============================================================================
 # MAIN
 # =============================================================================
 
 echo ""
-pulse "RaBbLE-Collective — Setup"
+pulse "RaBbLE-Grimoire — Setup"
 pulse "════════════════════════════════════════"
-info "Collective root: $GRIMOIRE_ROOT"
+info "Grimoire root:   $GRIMOIRE_ROOT"
 info "RaBbLE root:     $RABBLE_ROOT"
 info "Mode:            $MODE"
 [[ -n "$TARGET_PROJECT" ]] && info "Target project:  $TARGET_PROJECT"
@@ -274,7 +200,7 @@ echo ""
 
 # Step 1: Collective own symlinks
 if [[ "$MODE" != "pull" ]]; then
-  pulse "── RaBbLE-Collective (this repo)"
+  pulse "── RaBbLE-Grimoire (this repo)"
   setup_symlinks "$GRIMOIRE_ROOT"
 fi
 
