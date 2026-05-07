@@ -5,6 +5,33 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-05-06 — Collective Repo Live + Modularity Architecture
+
+**Work done:**
+- Established `markm1206/RaBbLE` as the `RaBbLE-Collective` root repo
+- Archived old content: `archive/v0-collective-scaffold`, `archive/reliquary-grimoire-site`
+- Rewrote `main`: `AGENT.md`, `README.md`, `CONTEXT.md`, `bootstrap.sh`, `.gitignore`, `CLAUDE.md`/`CODEX.md` symlinks
+- `.gitignore` explicitly lists all member repos (`RaBbLE-*/`) — fully modular, zero coupling
+- Wired `~/RaBbLE/` as live git clone of `markm1206/RaBbLE` (it IS the Collective root now)
+- Updated `registry/manifests/RaBbLE-Collective.manifest.yml` — repo URL and status corrected
+- Confirmed: `RaBbLE-NeBuLA` renamed locally, on `dev` branch, no remote yet
+- Confirmed: `RaBbLE-Xperimental` live with remote at `markm1206/RaBbLE-NeBuLA-JS` (GitHub repo rename)
+- Answered modularity question: `.gitignore` is the pattern — nested independent git trees
+
+**Left off:**
+- 5 old root files untracked in `~/RaBbLE/`: `GAPS.md`, `RaBbLE-CONTEXT.md`, `RaBbLE-OVERVIEW.md`, `TODO`, `devPlan.md` — legacy, can be deleted or kept
+- `RaBbLE-NeBuLA` has no GitHub remote yet
+- `bootstrap.sh` scaffolded but `joinrabble.world/bootstrap.sh` not wired yet
+- Missing manifests: World, NeBuLA, Aether, Xperimental
+
+**Next:**
+- Create GitHub remote for `RaBbLE-NeBuLA` (scaffold/basis state)
+- Write missing manifests (World, NeBuLA, Aether, Xperimental)
+- Wire `bootstrap.sh` into `RaBbLE-World` for `joinrabble.world/bootstrap.sh`
+- Clean up old root files if desired
+
+---
+
 ## 2026-05-06 — Collective Root Architecture + sCoRE Branch Cleanup
 
 **Work done:**
