@@ -1,0 +1,39 @@
+# manifests/RaBbLE-Xperimental.manifest.yml
+# High-entropy archive and experimental playground for the RaBbLE Collective.
+# Contains extracted originals: RaBbLE.py, RaBbLE-Server, NeBuLA-JS, WebOS.
+# Not active development — mined for patterns and lore as the ecosystem matures.
+
+# Identity
+name: RaBbLE-Xperimental
+slug: RaBbLE-Xperimental
+description: "High-entropy substrate archive — old servers, NeBuLA-JS, WebOS, Python experiments"
+role: experimental
+
+# Repository
+repo: https://github.com/markm1206/RaBbLE-Xperimental.git
+branch: main
+worktree_root: ~/RaBbLE/RaBbLE-Xperimental
+
+# Status
+phase: 0
+epoch: 0
+status: dormant
+
+# Grimoire
+grimoire_sync: false
+grimoire_path: ""
+
+# Collective alignment
+palette_version: "1.0"
+entity_embedded: false
+pulse_protocol: false
+
+# Notes
+notes: >
+  Established as archive during Epoch 0 consolidation sprint (2026-05-06).
+  Branches: archive/rabble-py-main, archive/raBbLE-server, archive/rabble-js,
+  archive/nebula-main, archive/nebula-RaBbLE-dev, archive/nebula-BaBbLE-dev.
+  main branch = scaffold + orientation. dev branch = all archived project code.
+  NeBuLA-JS lore migrated to RaBbLE-Grimoire/RaBbLE-NeBuLA/. This repo keeps the
+  original code history. RaBbLE-Server absorbed into RaBbLE-sCoRE/server/.
+  Not a target for Grimoire doc propagation — archive, not active member.
