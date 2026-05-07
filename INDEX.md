@@ -39,7 +39,7 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 
 - [RaBbLE-Collective-Registry](registry/RaBbLE-Collective-Registry.md) — registry reference documentation
 - [registry/epochs/current.epoch.yml](registry/epochs/current.epoch.yml) — active epoch definition
-- **manifests/**: RaBbLE-OS · RaBbLE-sCoRE · RaBbLE-Frontend · RaBbLE-WEB
+- **manifests/**: RaBbLE-Collective · RaBbLE-OS · RaBbLE-sCoRE · RaBbLE-Frontend · RaBbLE-WEB · RaBbLE-Xperimental
 
 ---
 
@@ -114,6 +114,18 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 
 - [RaBbLE-Aether-Architecture](RaBbLE-Aether/RaBbLE-Aether-Architecture.md) — design system spec, asset directory, consumer pattern, palette publishing
 - [Visual Assets](RaBbLE-Aether/assets/) — SVG, logos, icons
+
+---
+
+## RaBbLE-ScRibLE
+
+- [README](RaBbLE-ScRibLE/README.md) — mobile PWA notes surface, iPhone/iPad + Apple Pencil, Epoch 1 candidate
+
+---
+
+## RaBbLE-Xperimental
+
+- [README](RaBbLE-Xperimental/README.md) — high-entropy archive: NeBuLA-JS, WebOS, RaBbLE.py, RaBbLE-Server
 
 ---
 

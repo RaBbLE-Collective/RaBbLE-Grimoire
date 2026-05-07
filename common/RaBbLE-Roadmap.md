@@ -4,159 +4,260 @@
 transcribe ~ grimoire >> charting the collective metamorphosis // %TRAJECTORY_LOCKED%
 ```
 
-> This is the Collective view — project phases and epoch goals only.
-> Detail lives in each project's own roadmap.
-> → RaBbLE-OS/grimoire/RaBbLE-OS-Roadmap.md
-> → RaBbLE-WEB/grimoire/RaBbLE-WEB-Roadmap.md
-> → RaBbLE-Frontend/grimoire/RaBbLE-Frontend-Roadmap.md
+> Collective-level view only — phases, epoch goals, and open gaps.
+> Member-specific detail lives in the Grimoire member sections:
+> → `RaBbLE-Grimoire/RaBbLE-OS/RaBbLE-OS-Roadmap.md`
+> → `RaBbLE-Grimoire/RaBbLE-NeBuLA/RaBbLE-NeBuLA-Roadmap.md`
+> → `RaBbLE-Grimoire/RaBbLE-sCoRE/RaBbLE-sCoRE-Roadmap.md`
 
 ---
 
-## Collective Epoch Map
+## Epoch Map
 
 ```
-Epoch 0: FOUNDATION        [ACTIVE]      — Structure, grimoire, conventions, scaffold
+Epoch 0: FOUNDATION   [ACTIVE]   — Structure, Grimoire, conventions, scaffold
+Epoch 1: CLOSED LOOP  [FUTURE]   — First round-trip: intent → coordination → output → memory
 ```
 
 ---
 
-## Current Epoch — Epoch 0: Foundation
+## Epoch 0: Foundation `[ACTIVE]`
 
-**Intent:** Establish the Collective coordination layer. Define the structure,
-conventions, and philosophy before building anything. Every project is a
-registered scaffold. Nothing is wired yet.
+**Intent:** Establish the Collective coordination layer. Define structure,
+conventions, and philosophy before building anything. Grimoire is the source of
+truth. All members are registered scaffolds. Nothing is wired for production yet.
 
-**Exit Condition:**
-- RaBbLE-Collective committed and bootstrappable from a fresh clone
-- All project repos initialized and registered with real remote URLs
-- setup.sh verified against live repos
-- Each project has AGENT.md, workspace structure, and grimoire in place
+**Exit Conditions** (from `registry/epochs/current.epoch.yml`):
+- [x] RaBbLE-Collective repo committed and pushed to GitHub
+- [x] All project repos initialized, registered in manifests, and cloneable
+- [x] `setup.sh` clones and wires members from Grimoire
+- [ ] `setup.sh` verified against all live repos (World, NeBuLA, Aether remotes needed)
+- [ ] Each active project has `AGENT.md`, `CONTEXT.md`, `REFERENCES.md`, and workspace structure
+- [ ] Protocol contracts written (`registry/protocol/` dir — manifest schema, health-ping format)
+
+**Epoch 1 blocker:** Memory member — no name, no repo, no architecture doc. Defines first closed loop.
 
 ---
 
-## Project Status
+## Member Registry
 
-| Project | Phase | Epoch | Status | Current Focus |
+| Member | Status | Epoch | Manifest | Notes |
 |---|---|---|---|---|
-| RaBbLE-Collective | 0 | 0 | Active | Registry setup, remote tracking |
-| RaBbLE-OS | 0 | 0 | Active | Bootstrap Fedora 43, Hyprland, Episode 1 baseline |
-| RaBbLE-sCoRE | 0 | 0 | Planning | Unified coordinator, API/server integration |
-| RaBbLE-NeBuLA | 0 | 0 | Analysis | Tech extraction, modern implementation roadmap |
-| RaBbLE-Aether | 0 | 0 | Setup | Asset management, palette consolidation |
-| RaBbLE-Chat | 0 | 0 | Scaffold | Chat surface into Behavioral Learning Engine |
+| RaBbLE-Collective | Active | 0 | ✓ | Bootstrap + identity layer. Door to ecosystem. |
+| RaBbLE-Grimoire | Active | 0 | — | Source of truth. Not a member-clone target. |
+| RaBbLE-sCoRE | Active | 0 | ✓ | Coordination server + web API. sCoRE ep3 complete. |
+| RaBbLE-OS | Active | 0 | ✓ | Fedora 43 + Hyprland daily driver. Episode 1 in progress. |
+| RaBbLE-World | Active | 0 | ✗ missing | Web presence + entity chat surface. `joinrabble.world`. Includes RaBbLE-Chat. |
+| RaBbLE-NeBuLA | Scaffold | 0 | ✗ missing | Visual renderer. Lore migrated. Rebuild not started. |
+| RaBbLE-Aether | Stub | 0 | ✗ missing | Visual assets. Not a git repo yet. |
+| RaBbLE-ScRibLE | Defined | 0 | ✗ missing | Mobile PWA — iPhone/iPad notes + Apple Pencil. Deferred to Epoch 1+. |
+| RaBbLE-Xperimental | Dormant | 0 | ✓ | High-entropy archive. Old server, NeBuLA-JS, WebOS, RaBbLE.py. |
+| Memory (TBD) | Concept | 0→1 | — | Epoch 1 blocker. No name, no repo, no architecture yet. |
+
+> `RaBbLE-Chat` was a working title. It is now part of `RaBbLE-World`.
 
 ---
 
-## Epoch 0 Workstreams
+## Completed Work — Epoch 0
 
-### Workstream 1: Grimoire as Single Source of Truth
+### ✓ Phase 1: sCoRE + Server Merge `[COMPLETE — 2026-05-06]`
 
-**Goal:** Grimoire generates all LLM helper files (CONTEXT.md, OVERVIEW.md, etc.) via spells
+`RaBbLE-Server` absorbed into `RaBbLE-sCoRE`. sCoRE runs as both a local
+coordination shell and a web API endpoint (FastAPI on `:8000`).
 
-**Tasks:**
-- [ ] Create `spells/generate-llm-context.py` — generates CONTEXT.md from Grimoire sections
-- [ ] Create `spells/generate-overview.py` — generates OVERVIEW.md from roadmap + status
-- [ ] Document spell system in `SPELLS.md`
-- [ ] Integrate spell generation into CI/CD
-- [ ] Mark CONTEXT.md and OVERVIEW.md in each repo as "generated from Grimoire — do not edit"
+- [x] Server files present in `RaBbLE-sCoRE/server/`
+- [x] Harness files present in `RaBbLE-sCoRE/harness/`
+- [x] `start-rabble.sh` has `--with-server` flag
+- [x] `stop-rabble.sh` includes `rabble-server`
+- [x] `status.sh` has server health block
+- [x] Grimoire sCoRE docs updated with Episode 3 server architecture
+- [x] `RaBbLE-Server` deprecated
 
-**Why:** LLM agents need fresh context without duplicating Grimoire content. Spells keep them synchronized.
-
-**Status:** `[PLANNING]`
-
----
-
-### Workstream 2: Collective Registry & Setup
-
-**Goal:** Grimoire becomes the orchestration center; spells initialize member repos locally
-
-**Tasks:**
-- [ ] Merge old RaBbLE-Collective registry into Grimoire (`RaBbLE-Collective/` section)
-- [ ] Create `spells/setup-collective.sh` — clones all registered member repos, configures remotes
-- [ ] Create `spells/register-project.sh` — bootstraps new projects into Collective
-- [ ] Version compatibility map system per project
-- [ ] Document remote fetch/pull patterns
-
-**Status:** `[ACTIVE]`
+> ⚑ Roadmap previously showed sCoRE status as "Planning". Corrected to Active/complete.
 
 ---
 
-### Workstream 3: Core Projects Alignment
+### ✓ Phase 2: Collective → Grimoire Integration `[COMPLETE — 2026-05-06]`
 
-**Goal:** Each member project aligned to Grimoire conventions and bootstrap-ready
+Registry and coordination scripts moved from `RaBbLE-Collective-PORT-To-Grimoire`
+into Grimoire as canonical spells. Grimoire is now the orchestration center.
 
-**Tasks:**
+- [x] `spells/setup.sh` — clone, pull, wire all members
+- [x] `spells/status.sh` — ecosystem health dashboard
+- [x] `spells/init-project.sh` — scaffold new member repos
+- [x] `spells/sync-grimoire.sh` — propagate common/ docs
+- [x] `spells/install-theme.sh` — Claude Code theme
+- [x] `registry/manifests/` — Collective, OS, sCoRE, Frontend, WEB manifests present
+- [x] `registry/epochs/current.epoch.yml` — Epoch 0 defined
+- [x] Grimoire `INDEX.md` has Spells and Registry sections
+- [x] `RaBbLE-Collective-PORT-To-Grimoire` deprecated
+- [x] `SPELLS.md` documents all spells
 
-**RaBbLE-OS:**
-- [x] Existing active codebase
-- [x] Theming, palette system
-- [ ] Complete Episode 1 baseline (Fedora 43, Hyprland, fresh bootstrap on hardware)
-- [ ] Integrate AIQuickstart docs
+> ⚑ Roadmap Workstream 2 tasks ("Merge old registry", "Create setup-collective.sh")
+> are fully complete. Workstream status has been updated accordingly.
 
-**RaBbLE-sCoRE:**
-- [ ] Merge RaBbLE-Server + RaBbLE-sCoRE into unified coordinator
-- [ ] API/server component (FastAPI)
-- [ ] Wraps different LLMs, delegates custom agents
-- [ ] See `RaBbLE-sCoRE/RaBbLE-sCoRE-Roadmap.md` for detail
-
-**RaBbLE-NeBuLA:**
-- [ ] Tech analysis complete (see NeBuLA-JS EXTRACTION_ANALYSIS.md)
-- [ ] Extract valuable lore into Grimoire (Flat-Chaos pattern, entropy-driven design)
-- [ ] Create modern implementation roadmap (see MODERN_IMPLEMENTATION_ROADMAP.md)
-- [ ] Archive NeBuLA-JS as reference; build clean RaBbLE-Render
-
-**RaBbLE-Aether:**
-- [ ] Move assets from Grimoire → Aether
-- [ ] Move RaBbLE-OS bg generation scripts → Aether
-- [ ] Consolidate ASCII art and visual assets
-
-**Status:** `[ACTIVE]` for OS, `[PLANNING]` for others
+Remaining deferred items:
+- [ ] Test `setup.sh` against all live repos (World, NeBuLA, Aether repos needed first)
+- [ ] Test `sync-grimoire.sh` (needs member `grimoire/` directories in place)
+- [ ] `RaBbLE-WEB` and `RaBbLE-Frontend` repos created with real remotes (currently TBD in manifests)
 
 ---
 
-## RaBbLE-OS
+### ✓ Phase 3: NeBuLA Lore → Grimoire `[COMPLETE — 2026-05-06]`
 
-**Phase 0 — Foundation** `[ACTIVE]`
+NeBuLA-JS lore migrated into Grimoire. `RaBbLE-NeBuLA-JS` archived.
+Clean rebuild roadmap written in `RaBbLE-Grimoire/RaBbLE-NeBuLA/`.
 
-**Current Focus:**
-- Bootstrap fresh Fedora 43 with Sway/Hyprland
-- Complete Episode 1 baseline (Desktop Baseline, rough draft)
-- Document hardware, boot flow, packages
-- Integration with Grimoire versioning
+- [x] `RaBbLE-NeBuLA-Identity.md` — lore, Quantum Emergence
+- [x] `RaBbLE-NeBuLA-Architecture.md` — two-layer model
+- [x] `RaBbLE-NeBuLA-FlatChaos.md` — Flat-Chaos pattern
+- [x] `RaBbLE-NeBuLA-RABL.md` — RABL language spec
+- [x] `RaBbLE-NeBuLA-RBCNS.md` — archived spec (lore only)
+- [x] `RaBbLE-NeBuLA-Ideas.md`
+- [x] `RaBbLE-NeBuLA-Roadmap.md` — rebuild roadmap (Layer 1 + Layer 2 + episode tracker)
+- [x] `RaBbLE-NeBuLA-JS` deprecated
 
-See `RaBbLE-OS/RaBbLE-OS-Roadmap.md` for full detail.
-
----
-
-## RaBbLE-sCoRE
-
-**Phase 0 — Foundation** `[PLANNING]`
-
-**Current Focus:**
-- Merge RaBbLE-Server functionality into sCoRE
-- Define unified API shape
-- Integration with Claude Code delegation pattern
-
-See `RaBbLE-sCoRE/RaBbLE-sCoRE-Roadmap.md` for full detail.
+> ⚑ Roadmap previously showed NeBuLA status as "Analysis". Corrected to Scaffold/lore-complete.
+> References to `NeBuLA-JS/GRIMOIRE_CONTENT.md` and `MODERN_IMPLEMENTATION_ROADMAP.md` as
+> action items are complete and removed.
 
 ---
 
-## RaBbLE-NeBuLA (Rendering System)
+### ✓ Phase 5a: Bootstrap Wired `[COMPLETE — 2026-05-07]`
 
-**Phase 0 — Echo v0.0.1 Rewrite** `[PLANNING]`
+`bootstrap.sh` corrected and Grimoire-aware. Grimoire remote verified on every run.
 
-**Current Status:**
-- v0.0.1 (Echo level) analysis complete: tech extraction, philosophy distillation
-- RBCNS specification archived as lore (philosophically sound, implementation outdated)
-- Modern implementation roadmap created (4-week plan)
-- Grimoire entries prepared from v0.0.1 analysis
+- [x] `COLLECTIVE_REPO` URL fixed (`RaBbLE.git` → `RaBbLE-Collective.git`)
+- [x] `RaBbLE-Collective.manifest.yml` URL fixed to match
+- [x] Grimoire staleness check: fetch + ahead/behind + local-change detection
+- [x] Wizard Entry printed at bootstrap end: key reads + available spells
 
-**Next Steps:**
-1. Integrate lore/philosophy from v0.0.1 into Grimoire
-2. Rewrite NeBuLA v0.0.2+ with clean, modern architecture per roadmap
-3. Archive RaBbLE-NeBuLA-JS v0.0.1 as reference
+---
 
-See `/RaBbLE/RaBbLE-NeBuLA-JS/GRIMOIRE_CONTENT.md` and `MODERN_IMPLEMENTATION_ROADMAP.md` for detail.
+## Open Work — Epoch 0
+
+### Phase 4: NeBuLA v2 Rebuild `[NOT STARTED]`
+
+Build the clean NeBuLA engine. TypeScript + Three.js r160+. No RBCNS naming.
+**Prerequisites:** Phase 3 complete ✓
+
+**Decisions needed before starting:**
+- [ ] Repo home: new `RaBbLE-NeBuLA/` repo, or integrate into `RaBbLE-World/`?
+- [ ] Language: TypeScript + Vite/Rollup, or vanilla ES modules?
+- [ ] Three.js version: r160+ (WebGPU path) or latest stable?
+- [ ] Entity state bridge: how does `entity.js` state flow into NeBuLA entropy?
+
+**Episode 1 exit conditions** (once decisions above are made):
+- [ ] `Entity` type: id, geometry, Float32Array matrix, entropy
+- [ ] `Stream` class: add, remove, transform, filter
+- [ ] `Runtime` class: stream registry, rAF loop
+- [ ] `ThreeJsBackend`: InstancedMesh, one draw call per geometry type
+- [ ] 1000 entities @ 60 FPS verified
+- [ ] Entropy shader working
+- [ ] ES module export
+- [ ] No RBCNS naming in codebase
+
+---
+
+### Phase 5b: Spell Verification + Registry Completion `[NOT STARTED]`
+
+Verify all coordination spells against live GitHub repos. Close out Epoch 0 exit checklist.
+**Prerequisites:** World, NeBuLA, Aether remotes created.
+
+- [ ] Create GitHub repos for `RaBbLE-WEB` and `RaBbLE-Frontend` — update manifests
+- [ ] Create GitHub repo for `RaBbLE-World` — add manifest
+- [ ] Create GitHub repo for `RaBbLE-NeBuLA` — add manifest
+- [ ] `RaBbLE-Aether`: `git init` + create remote + add manifest
+- [ ] Add manifests for: World, NeBuLA, Aether, ScRibLE (or decide ScRibLE's fate)
+- [ ] `spells/setup.sh` verified against all registered live repos
+- [ ] `spells/sync-grimoire.sh` tested (members need `grimoire/` dirs)
+- [ ] Protocol contracts written — `registry/protocol/` dir: manifest schema, health-ping format
+- [ ] All Epoch 0 exit conditions in `registry/epochs/current.epoch.yml` met
+
+---
+
+### Phase 6: Server → Task Pipeline `[FUTURE — Epoch 1 candidate]`
+
+Wire `server/` HTTP routes through sCoRE's file-based task delegation pipeline.
+Currently server routes call LLM providers directly. This phase makes HTTP
+requests first-class inputs to the sCoRE coordination loop.
+
+**Intended design:**
+```
+POST /api/v1/chat
+  → server writes TASK-{ID} to sCoRE/tasks/pending/
+  → dispatch routes to rabble-execution or rabble-search
+  → agent writes result to tasks/done/
+  → server SSE-streams result back to client
+```
+
+**Challenge:** SSE streaming requires async polling on `tasks/done/` — significant
+architecture change from current stateless server. Defer until Epoch 1 is scoped.
+
+---
+
+## Open Gaps
+
+### Priority 1 — Blocking Epoch 0 Exit
+
+| Gap | Status | Notes |
+|---|---|---|
+| Missing manifests: World, NeBuLA, Aether, ScRibLE | Open | Blocks full `setup.sh` verification. Xperimental manifest added ✓ |
+| Protocol contracts (`registry/protocol/`) | Open | Epoch 0 exit criterion — manifest schema + health-ping format |
+| `RaBbLE-Aether` is not a git repo | Open | Needs `git init` + remote before trackable |
+| Memory member: no name, no repo, no architecture | Open | Blocks Epoch 1 scoping |
+
+### Priority 2 — Coherence
+
+| Gap | Status | Notes |
+|---|---|---|
+| NeBuLA naming: `RaBbLE-NeBuLA-JS` vs `RaBbLE-NeBuLA` | Open | JS repo is archived; new repo not yet created |
+| ScRibLE defined but unbuilt | Open | Mobile PWA defined in Grimoire — repo and manifest still needed |
+| `RaBbLE-World` has no CONTEXT.md | Open | Active project with no session entry point |
+| Context/Overview generation spells | Open | `spells/generate-llm-context.py` etc. — planned in SPELLS.md, not yet implemented |
+
+### Priority 3 — Quality of Life
+
+| Gap | Status | Notes |
+|---|---|---|
+| Link validation spell (`spells/validate-links.sh`) | Open | Catch broken paths before they accumulate |
+| Session log ceremony | Open | Currently relies on discipline; should be prompted or automated |
+| Aether assets: not moved from Grimoire | Open | SVG, ascii, bg gen scripts still scattered |
+
+---
+
+## Deprecated / Archived
+
+| Repo | Reason | Notes |
+|---|---|---|
+| `RaBbLE-Server` | Absorbed into `RaBbLE-sCoRE/server/` — Phase 1 | Keep as archived reference or delete |
+| `RaBbLE-Collective-PORT-To-Grimoire` | Migrated to Grimoire — Phase 2 | Keep as archived reference or delete |
+| `RaBbLE-NeBuLA-JS` | Lore migrated to Grimoire — Phase 3 | Keep as archived reference |
+| `devPlan.md` (Collective root) | Integrated here | Safe to remove from root |
+| `GAPS.md` (Collective root) | Integrated here | Safe to remove from root |
+| `TODO` (Collective root) | Integrated here | Safe to remove from root |
+| `RaBbLE-CONTEXT.md` (Collective root) | Predates AGENT.md/CONTEXT.md standard | Evaluate: migrate unique content → Grimoire, then archive |
+| `RaBbLE-OVERVIEW.md` (Collective root) | Predates AGENT.md/CONTEXT.md standard | Evaluate: migrate unique content → Grimoire, then archive |
+
+---
+
+## Open Questions
+
+1. **NeBuLA repo home:** New `RaBbLE-NeBuLA/` repo or integrate into `RaBbLE-World/`?
+2. **Memory member:** Name (candidates: Mnemos, Codex), scope, and architecture — when does this become Episode 1?
+3. **`RaBbLE-Server` + `RaBbLE-Collective-PORT-To-Grimoire`:** Delete or keep as archived reference?
+4. **Grimoire → member propagation:** How does the Grimoire push updates to members? Current options:
+   - `sync-grimoire.sh` copies `common/` docs to member `grimoire/` directories (implemented, untested)
+   - Members reference Grimoire directly (no copy — requires shared filesystem or submodule)
+   - Generated context files composed by spell at setup time (context spells not yet implemented)
+   - TBD — mechanism needs to be decided before `sync-grimoire.sh` is finalized
+5. **AIQuickstart docs:** What format and scope? All members should have these per the original TODO.
+6. **Manifest format:** Pydantic-published JSON schema is the leaning answer — confirm and write the `registry/protocol/` spec.
+7. **Inter-member transport:** HTTP/REST locally fine for v0. Event bus is tempting but premature — confirm v0 boundary.
+8. **Observation channels:** Which OS signals are ethical to self-observe? Privacy-of-self matters even with one user. Decide deliberately before building the Memory member.
+9. **Ambient suggestion vs. surveillance:** Where is the UX line between helpful intent surfacing and creepy self-monitoring? Feel out by living with it — but decide before Epoch 2.
+10. **Behavioral Learning Engine — one or several members:** Pattern extraction, intent inference, and action delegation may want separate members eventually. Decide before Epoch 2 scope.
+11. **Cloud vs. local model split:** Heavy reasoning → Claude Code (cloud). Ambient always-on observation/inference → local model. Confirm this boundary and pick the local model story before Memory member is built.
 
 ---
 
@@ -164,11 +265,14 @@ See `/RaBbLE/RaBbLE-NeBuLA-JS/GRIMOIRE_CONTENT.md` and `MODERN_IMPLEMENTATION_RO
 
 | Version | Date | Change |
 |---|---|---|
-| v0.1 | 2026-04-28 | Initial Collective roadmap — Collective-level scope only |
+| v0.1 | 2026-04-28 | Initial Collective roadmap |
 | v0.2 | 2026-04-28 | Reset to Epoch 0 — honest initial scaffold state |
+| v0.3 | 2026-05-07 | Full audit — integrated devPlan.md, GAPS.md, TODO. Marked Phases 1–3 complete. Added Phase 5a (bootstrap). Flagged superseded items. Coherency pass. |
+| v0.4 | 2026-05-07 | Added RaBbLE-Xperimental (manifest + Grimoire doc). Defined ScRibLE (mobile PWA). Clarified RaBbLE-Chat → RaBbLE-World. Added propagation open question. |
+| v0.5 | 2026-05-07 | Added six recovered open questions (manifest format, transport, observation channels, surveillance UX, BLE architecture, cloud/local split). |
 
 ---
 
 ```
-transcribe ~ grimoire >> collective trajectory crystallized // %TRAJECTORY_LOCKED%
+transcribe ~ grimoire >> collective trajectory audited, gaps surfaced // %ROADMAP_AUDITED%
 ```
