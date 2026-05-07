@@ -390,6 +390,99 @@ Half-epochs **do not gate** Epoch II — Awakening can begin in parallel.
 
 ---
 
+#### mend-I/ux-polish `%PLANNED%`
+
+**Goal:** Elevate RaBbLE-OS from a functional substrate to a polished, cohesive desktop
+experience. Theming, window behaviour, tiling ergonomics, and UX consistency.
+Does not gate Epoch II.
+
+**Brightness keybind fix** `[BUG]`
+- [ ] `swayosd-client --brightness` picks the keyboard backlight as the default brightness device
+  on ProArt P16 — display brightness keys stop working. Fix: use `brightnessctl --class backlight`
+  in the bind to target only display-class devices, not `leds`-class (kbd backlight).
+  File: `config/hypr/conf.d/functionkeys.conf`
+
+**Hyprland layout — master layout (i3-style)** `[UX]`
+- [ ] Switch default layout from `dwindle` to `master` in `look.conf`.
+  Master layout: one primary window left, stack right — closer to i3 ergonomics.
+- [ ] Tune `mfact = 0.55` (master pane takes 55% width), `new_status = slave`
+- [ ] Add directional preselect binds so new windows open in chosen direction:
+  `Super+Ctrl+H/J/K/L` → `layoutmsg preselect left/down/up/right`
+- [ ] Add master count binds: `Super+Comma` → `layoutmsg removemaster`, `Super+Period` → `layoutmsg addmaster`
+- [ ] Add master swap: `Super+Shift+Return` → `layoutmsg swapwithmaster`
+- [ ] Optional toggle bind `Super+M` → `exec hyprctl keyword general:layout dwindle` (and back)
+
+**Drag-native window management** `[UX]`
+- [ ] Add `movewindow` directional binds for keyboard-driven drag: `Super+Shift+HJKL` (currently swaps, review)
+- [ ] Add `moveintogroup` / `moveoutofgroup` binds for window grouping
+- [ ] Enable `general:hover_icon_on_border = true` for visual resize feedback on borders
+- [ ] Verify `extend_border_grab_area = 10` is sufficient on 4K (increase to 15 if needed)
+- [ ] Add `Super+G` to toggle grouping, `Super+Tab` to cycle within group (review current binds)
+
+**hyprbar plugin — window title bars** `[UX]`
+- [ ] Install `hyprland-plugins` (COPR or build from source against installed Hyprland version)
+- [ ] Enable `hyprbar` plugin in Hyprland config via `plugin { hyprbar { ... } }`
+- [ ] Style with RaBbLE palette:
+  - background: `#120025` (surface)
+  - title color: `#e8d5ff` (text)
+  - border/accent: `#ff2d78` (primary magenta)
+  - button hover: `#00f5ff` (accent cyan)
+  - height: 24px
+- [ ] Wire plugin binary path into Ansible `desktop/hyprland` role (deploy alongside config)
+- [ ] Add to `autostart.conf` if hyprbar requires pre-load
+
+**Kvantum theming — Qt apps** `[THEME]`
+- [ ] Add packages to Ansible `desktop/wayland` or new `desktop/theming` role:
+  `kvantum`, `qt5ct`, `qt6ct`
+- [ ] Create `config/kvantum/RaBbLE/RaBbLE.kvconfig` with RaBbLE palette colors
+- [ ] Create `config/kvantum/RaBbLE/RaBbLE.svg` base theme SVG
+- [ ] Set `QT_STYLE_OVERRIDE=kvantum` and `QT_QPA_PLATFORMTHEME=qt6ct` in `env.conf`
+- [ ] Add kvantum config to dotctl `theming` bundle
+- [ ] Dolphin inherits Kvantum theme — verify visual coherence (borders, sidebar, file icons)
+
+**GTK theming** `[THEME]`
+- [ ] Write `config/gtk-3.0/settings.ini`:
+  - `gtk-theme-name = Adwaita-dark` (base — or custom if Kvantum GTK bridge available)
+  - `gtk-icon-theme-name = Papirus-Dark`
+  - `gtk-font-name = Noto Sans 11`
+  - `gtk-application-prefer-dark-theme = 1`
+- [ ] Write `config/gtk-4.0/settings.ini` (mirrors gtk-3.0)
+- [ ] Add GTK configs to dotctl bundle
+- [ ] Set `GTK_THEME=Adwaita:dark` in `env.conf` as fallback
+
+**Dolphin file manager — install and configure** `[APP]`
+- [ ] Add `dolphin` and `kio` to Ansible packages (apps role or desktop/launcher role).
+  Note: Dolphin runs without KDE Plasma — only needs kio + Qt Wayland backend.
+  Thunar ships with the Fedora 43 Sway spin but is not configured in RaBbLE-OS.
+- [ ] Dolphin already wired to `Super+E` in `keybinds.conf` — keybind is live once pkg installed
+- [ ] Add `xdg-desktop-portal-kde` for KDE-native file picker dialogs (optional, test first)
+- [ ] Confirm Dolphin uses Kvantum theme once Qt theming is in place
+
+**Mature window rules** `[UX]`
+- [ ] Float file pickers and save dialogs (class `org.freedesktop.portal.filechooser` etc.)
+- [ ] Float system dialogs and confirmation popups (title-based: "Open File", "Save As", etc.)
+- [ ] Workspace assignment rules:
+  - ws 1 — terminals (kitty)
+  - ws 2 — browser (firefox, zen)
+  - ws 3 — files (dolphin)
+  - ws 4 — comms (signal, discord)
+- [ ] Center-on-screen rule for all floating windows
+- [ ] Size constraints for common float windows (800×600 min for dialogs)
+- [ ] Suppress decorations for specific apps (waybar, fuzzel, mako) — `noblur`, `noshadow`
+- [ ] Fix `no_initial_focus` for more IDEs beyond JetBrains (VSCodium, Zed)
+- [ ] Add `opacity` overrides: kitty 0.95, dolphin 0.97, firefox 1.0
+
+**General UX polish** `[UX]`
+- [ ] Hyprlock: refine clock font size and position; add user avatar if present
+- [ ] Hypridle: verify suspend chain on ProArt lid close (logind → hyprlock → dpms)
+- [ ] Waybar: add hover highlight styles, fix module spacing on 4K
+- [ ] Mako: configure `group-by = app-name` to stack notifications per app
+- [ ] Animation tuning: reduce `bezier` curve sharpness for window close/open (currently default)
+- [ ] `swayosd` CSS: override GTK theme colors with explicit RaBbLE palette values
+  so OSD appearance doesn't depend on GTK theme being set
+
+---
+
 ### Epoch II — Awakening `[PENDING]`
 
 **Goal:** AI tooling layer integrated. RaBbLE entity begins to take form.
