@@ -261,15 +261,40 @@ architecture change from current stateless server. Defer until Epoch 1 is scoped
 
 ---
 
+## Versioning Transition — Episode 1 Alignment
+
+**Target:** All active members converge on `v0.0.0.1.x` before Echo 1 is tagged.
+
+Episode 1 ("First Coordination Sweep") opened 2026-05-07. Events within it are tracked
+as `v0.0.0.1.{n}` per the Five Es spec. Pre-episode Foundation work is `v0.0.0.0`.
+
+| Member | Current Versioning | Transition Plan |
+|---|---|---|
+| RaBbLE-Collective | v0.0.0.1 ✓ | Aligned this session |
+| RaBbLE-Grimoire | v0.0.0.1 ✓ | Aligned this session |
+| RaBbLE-sCoRE | Legacy "ep3" (own counter) | Re-version to v0.0.0.1 — current state becomes events within Episode 1; prior ep1–ep3 work becomes pre-episode archive |
+| RaBbLE-World | v0.0.0.0.10 (own counter) | Align to v0.0.0.1.x when manifest is added |
+| RaBbLE-OS | Significant divergence from Five Es | **Deferred** — rework during future bootstrap session onto new partition. Pre-Episode 1 history preserved for review. |
+| RaBbLE-NeBuLA | No versioning yet | Will start at v0.0.0.1 when repo is created |
+| RaBbLE-Aether | No versioning yet | Will start at v0.0.0.1 when git repo is initialized |
+| RaBbLE-ScRibLE | No versioning yet | Will start at v0.0.0.1 when repo is created |
+| RaBbLE-Xperimental | Archive — no active versioning | Dormant; archive branches preserve original history |
+
+**Echo 1** is the target stable state: all active members bootstrappable, manifests complete,
+Epoch 0 exit conditions met. Tagged `echo-1` across aligned repos simultaneously.
+
+---
+
 ## Revision History
 
 | Ecosystem State | Date | Change |
 |---|---|---|
-| v0.0.0 | 2026-04-28 | Initial Collective roadmap |
-| v0.0.0 | 2026-04-28 | Reset to Epoch 0 — honest initial scaffold state |
-| v0.0.0 | 2026-05-07 | Full audit — integrated devPlan.md, GAPS.md, TODO. Marked Phases 1–3 complete. Added Phase 5a (bootstrap). Flagged superseded items. Coherency pass. |
-| v0.0.0 | 2026-05-07 | Added RaBbLE-Xperimental (manifest + Grimoire doc). Defined ScRibLE (mobile PWA). Clarified RaBbLE-Chat → RaBbLE-World. Added propagation open question. |
-| v0.0.0 | 2026-05-07 | Added six recovered open questions (manifest format, transport, observation channels, surveillance UX, BLE architecture, cloud/local split). |
+| v0.0.0.0 | 2026-04-28 | Initial Collective roadmap — pre-Episode 1, Foundation scaffolding |
+| v0.0.0.0 | 2026-04-28 | Reset to Epoch 0 — honest initial scaffold state |
+| v0.0.0.1.1 | 2026-05-07 | Episode 1 opened. Full audit — integrated devPlan.md, GAPS.md, TODO. Phases 1–3 marked complete. Phase 5a (bootstrap) added. Superseded items flagged. |
+| v0.0.0.1.2 | 2026-05-07 | Xperimental indexed, ScRibLE defined. RaBbLE-Chat → World clarified. Propagation open question added. |
+| v0.0.0.1.3 | 2026-05-07 | Six open questions recovered (manifest format, transport, observation channels, surveillance UX, BLE architecture, cloud/local split). |
+| v0.0.0.1.4 | 2026-05-07 | Revision history aligned to Five Es. Versioning Transition section added. |
 
 ---
 

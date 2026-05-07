@@ -5,8 +5,8 @@ transcribe ~ grimoire >> context established // %CONTEXT_LOCKED%
 ```
 
 ```
-epoch: 0 | evolution: 0 | echo: 0 | status: establishing
-version: v0.0.0 — Epoch 0, Foundation
+epoch: 0 | evolution: 0 | echo: 0 | episode: 1 | status: active
+version: v0.0.0.1 — Epoch 0, Episode 1: First Coordination Sweep
 ```
 
 ---
@@ -61,17 +61,20 @@ Every design decision, character trait, protocol schema, and technical pattern l
 
 | Track | Status |
 |---|---|
-| Entity identity (`common/RaBbLE-Identity.md`) | Seeded from RaBbLE-OS grimoire |
-| Palette (`common/RaBbLE-Palette.md`) | Seeded from RaBbLE-OS grimoire |
-| Collective org docs (`common/RaBbLE-Collective.md`) | Updated — current member list |
-| Registry (`registry/`) | Manifests moved from PORT-To-Grimoire; RaBbLE-sCoRE manifest created |
-| Spells (`spells/`) | Scripts moved from PORT-To-Grimoire and renamed; paths updated |
-| Versioning spec (`RaBbLE-Versioning.md`) | Complete — Five Es (Event → Episode → Echo → Evolution → Epoch) |
-| Protocol contracts (`protocol/`) | Stub — Epoch 0 goal |
-| RaBbLE-sCoRE docs | Architecture + Roadmap updated — server absorbed Episode 3 |
-| RaBbLE-World | Active — chat.js merged in (RaBbLE-Chat deprecated) |
-| RaBbLE-NeBuLA | Lore migrated from NeBuLA-JS; clean rebuild roadmap in progress |
-| RaBbLE-ScRibLE | Stub — content incoming |
+| Entity identity (`common/RaBbLE-Identity.md`) | Seeded — stable |
+| Palette (`common/RaBbLE-Palette.md`) | Stable |
+| Roadmap (`common/RaBbLE-Roadmap.md`) | Audited v0.0.0.1 — gaps surfaced, open questions recovered |
+| Registry (`registry/`) | 6 manifests live; missing World, NeBuLA, Aether, ScRibLE |
+| Spells (`spells/`) | 5 spells live; generate-llm-context and validate-links planned |
+| Versioning spec (`RaBbLE-Versioning.md`) | Stable — Five Es locked |
+| Episode tracking (`registry/epochs/current.epoch.yml`) | Episode 1 opened 2026-05-07 |
+| Protocol contracts (`registry/protocol/`) | Not started — Epoch 0 exit criterion |
+| RaBbLE-sCoRE docs | Architecture + Roadmap present. Legacy "ep3" versioning pre-dates Episode 1 alignment — re-versioning to v0.0.0.1 pending |
+| RaBbLE-World | Active — includes chat surface (RaBbLE-Chat absorbed). No manifest yet. |
+| RaBbLE-NeBuLA | Lore migrated from NeBuLA-JS. Rebuild roadmap written. No remote yet. |
+| RaBbLE-ScRibLE | Defined — mobile PWA. Repo not yet created. |
+| RaBbLE-Xperimental | Indexed — manifest + Grimoire entry added v0.0.0.1.2 |
+| RaBbLE-OS versioning | Diverged from Five Es — deferred to future bootstrap session on new partition |
 
 ## Reading Order for a New Session
 

@@ -3,6 +3,16 @@ name: "Foundation"
 status: active
 started: 2026-04-28
 
+episode: 1
+episode_name: "First Coordination Sweep"
+episode_started: 2026-05-07
+episode_intent: >
+  All active members tracked, versioned to v0.0.0.1, and coherent with the
+  Grimoire as established source of truth. Collective bootstrappable. Session
+  entry points lean. Pre-Episode 1 archive work preserved for future review.
+  Episode closes when members can be cloned, verified, and worked on from a
+  fresh bootstrap — i.e., the Epoch 0 exit conditions are met.
+
 intent: >
   Establish the Collective coordination layer. Define the structure,
   conventions, and philosophy before building anything.
