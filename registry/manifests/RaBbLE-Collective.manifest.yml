@@ -9,7 +9,7 @@ description: "Root entry layer. Bootstrap + identity. The door to the ecosystem.
 role: root
 
 # Repository
-repo: https://github.com/markm1206/RaBbLE.git
+repo: https://github.com/markm1206/RaBbLE-Collective.git
 branch: main
 worktree_root: ~/RaBbLE
 
@@ -29,7 +29,7 @@ pulse_protocol: true
 
 # Notes
 notes: >
-  Established 2026-05-06. GitHub repo: markm1206/RaBbLE.
+  Established 2026-05-06. GitHub repo: markm1206/RaBbLE-Collective.
   Old content archived to archive/v0-collective-scaffold and archive/reliquary-grimoire-site.
   This repo IS the ~/RaBbLE/ root — not a subdirectory within it.
   Contains bootstrap.sh (curl-able entry spell) and identity docs only.
