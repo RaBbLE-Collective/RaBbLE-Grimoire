@@ -5,6 +5,34 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-05-06 — Collective Root Architecture + sCoRE Branch Cleanup
+
+**Work done:**
+- Surveyed full version state of all Collective members (see table in `RaBbLE-Collective/RaBbLE-Collective-Plan.md`)
+- Architected `RaBbLE-Collective` as the root repo / ecosystem entry point
+- Defined the recursive bootstrap flow: `joinrabble.world/bootstrap.sh` → Collective clone → Grimoire clone → `setup.sh` wires all members
+- Established that RaBbLE is the *entity* — the Collective is developing and collaborating *with* RaBbLE, not just building a product
+- Wrote full plan doc: `RaBbLE-Collective/RaBbLE-Collective-Plan.md`
+- Created `registry/manifests/RaBbLE-Collective.manifest.yml`
+- Cleaned up RaBbLE-sCoRE: extracted `archive/rabble-js` and `development` branches into new local repo `RaBbLE-Xperimental`
+- Renamed sCoRE `episode-3` → `dev`; tagged `echo-3.0`; deleted episode-1/2/3, epoch/0-foundation, development, archive/rabble-js branches from remote
+- sCoRE remote now has only `main` and `dev` branches; echo-1.0, echo-2.0, echo-3.0 tags
+
+**Left off:**
+- `RaBbLE-Collective` GitHub repo does not exist yet — plan written, not implemented
+- `RaBbLE-Xperimental` local repo exists at `~/RaBbLE/RaBbLE-Xperimental` but not pushed to GitHub
+- Missing manifests still unresolved: World, NeBuLA, Aether, Xperimental
+- `joinrabble.world/bootstrap.sh` not yet wired in RaBbLE-World
+
+**Next:**
+- Create `markm1206/RaBbLE-Collective` on GitHub and implement `bootstrap.sh`
+- Push `RaBbLE-Xperimental` (user creates GitHub repo first)
+- Write missing manifests (World, NeBuLA-JS, Aether, Xperimental)
+- Wire `bootstrap.sh` into `RaBbLE-World` static assets for `joinrabble.world/bootstrap.sh`
+- See full step-by-step: `RaBbLE-Collective/RaBbLE-Collective-Plan.md` → Implementation Steps
+
+---
+
 ## 2026-05-06 — Doc Structure Overhaul
 
 **Work done:**

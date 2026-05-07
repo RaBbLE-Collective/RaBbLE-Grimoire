@@ -1,0 +1,36 @@
+# manifests/RaBbLE-Collective.manifest.yml
+# The root repo. Entry point into the entire RaBbLE ecosystem.
+# Maps to ~/RaBbLE/ — the working directory root on any machine.
+
+# Identity
+name: RaBbLE-Collective
+slug: RaBbLE-Collective
+description: "Root entry layer. Bootstrap + identity. The door to the ecosystem."
+role: root
+
+# Repository
+repo: https://github.com/markm1206/RaBbLE-Collective.git
+branch: main
+worktree_root: ~/RaBbLE
+
+# Status
+phase: 0
+epoch: 0
+status: planned
+
+# Grimoire
+grimoire_sync: true
+grimoire_path: RaBbLE-Grimoire/
+
+# Collective alignment
+palette_version: "1.0"
+entity_embedded: true
+pulse_protocol: true
+
+# Notes
+notes: >
+  Planned 2026-05-06. Does not yet exist on GitHub.
+  This repo IS the ~/RaBbLE/ root — not a subdirectory within it.
+  Contains bootstrap.sh (curl-able entry spell) and identity docs only.
+  All member repos live as nested independent git trees, .gitignored by Collective.
+  See RaBbLE-Collective/RaBbLE-Collective-Plan.md for full architecture.
