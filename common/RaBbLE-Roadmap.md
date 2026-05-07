@@ -263,13 +263,13 @@ architecture change from current stateless server. Defer until Epoch 1 is scoped
 
 ## Revision History
 
-| Version | Date | Change |
+| Ecosystem State | Date | Change |
 |---|---|---|
-| v0.1 | 2026-04-28 | Initial Collective roadmap |
-| v0.2 | 2026-04-28 | Reset to Epoch 0 — honest initial scaffold state |
-| v0.3 | 2026-05-07 | Full audit — integrated devPlan.md, GAPS.md, TODO. Marked Phases 1–3 complete. Added Phase 5a (bootstrap). Flagged superseded items. Coherency pass. |
-| v0.4 | 2026-05-07 | Added RaBbLE-Xperimental (manifest + Grimoire doc). Defined ScRibLE (mobile PWA). Clarified RaBbLE-Chat → RaBbLE-World. Added propagation open question. |
-| v0.5 | 2026-05-07 | Added six recovered open questions (manifest format, transport, observation channels, surveillance UX, BLE architecture, cloud/local split). |
+| v0.0.0 | 2026-04-28 | Initial Collective roadmap |
+| v0.0.0 | 2026-04-28 | Reset to Epoch 0 — honest initial scaffold state |
+| v0.0.0 | 2026-05-07 | Full audit — integrated devPlan.md, GAPS.md, TODO. Marked Phases 1–3 complete. Added Phase 5a (bootstrap). Flagged superseded items. Coherency pass. |
+| v0.0.0 | 2026-05-07 | Added RaBbLE-Xperimental (manifest + Grimoire doc). Defined ScRibLE (mobile PWA). Clarified RaBbLE-Chat → RaBbLE-World. Added propagation open question. |
+| v0.0.0 | 2026-05-07 | Added six recovered open questions (manifest format, transport, observation channels, surveillance UX, BLE architecture, cloud/local split). |
 
 ---
 
