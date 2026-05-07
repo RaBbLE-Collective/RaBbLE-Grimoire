@@ -5,8 +5,8 @@ transcribe ~ grimoire >> context established // %CONTEXT_LOCKED%
 ```
 
 ```
-epoch: 0 | evolution: 0 | echo: 0 | episode: 1 | status: active
-version: v0.0.0.1 — Epoch 0, Episode 1: First Coordination Sweep
+epoch: 0 | evolution: 0 | echo: 0 | episode: pending (ep1) | status: active
+version: v0.0.0 — Epoch 0, accumulating events toward Episode 1
 ```
 
 ---
@@ -73,7 +73,7 @@ Every design decision, character trait, protocol schema, and technical pattern l
 | RaBbLE-World | Active — includes chat surface (RaBbLE-Chat absorbed). No manifest yet. |
 | RaBbLE-NeBuLA | Lore migrated from NeBuLA-JS. Rebuild roadmap written. No remote yet. |
 | RaBbLE-ScRibLE | Defined — mobile PWA. Repo not yet created. |
-| RaBbLE-Xperimental | Indexed — manifest + Grimoire entry added v0.0.0.1.2 |
+| RaBbLE-Xperimental | Indexed — manifest + Grimoire entry added 2026-05-07 |
 | RaBbLE-OS versioning | Diverged from Five Es — deferred to future bootstrap session on new partition |
 
 ## Reading Order for a New Session

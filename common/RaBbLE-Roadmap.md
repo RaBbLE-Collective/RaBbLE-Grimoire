@@ -263,10 +263,12 @@ architecture change from current stateless server. Defer until Epoch 1 is scoped
 
 ## Versioning Transition — Episode 1 Alignment
 
-**Target:** All active members converge on `v0.0.0.1.x` before Echo 1 is tagged.
+**How episodes work:** Events accumulate continuously. An episode is not declared open —
+it airs retroactively when a stable-ish coherent point is felt across the ecosystem.
+Current work creates events that will become Episode 1 when it airs. Until then, all
+version strings stay at `v0.0.0`.
 
-Episode 1 ("First Coordination Sweep") opened 2026-05-07. Events within it are tracked
-as `v0.0.0.1.{n}` per the Five Es spec. Pre-episode Foundation work is `v0.0.0.0`.
+**Target:** All active members tag `v0.0.0.1` simultaneously when Episode 1 airs.
 
 | Member | Current Versioning | Transition Plan |
 |---|---|---|
@@ -289,12 +291,12 @@ Epoch 0 exit conditions met. Tagged `echo-1` across aligned repos simultaneously
 
 | Ecosystem State | Date | Change |
 |---|---|---|
-| v0.0.0.0 | 2026-04-28 | Initial Collective roadmap — pre-Episode 1, Foundation scaffolding |
-| v0.0.0.0 | 2026-04-28 | Reset to Epoch 0 — honest initial scaffold state |
-| v0.0.0.1.1 | 2026-05-07 | Episode 1 opened. Full audit — integrated devPlan.md, GAPS.md, TODO. Phases 1–3 marked complete. Phase 5a (bootstrap) added. Superseded items flagged. |
-| v0.0.0.1.2 | 2026-05-07 | Xperimental indexed, ScRibLE defined. RaBbLE-Chat → World clarified. Propagation open question added. |
-| v0.0.0.1.3 | 2026-05-07 | Six open questions recovered (manifest format, transport, observation channels, surveillance UX, BLE architecture, cloud/local split). |
-| v0.0.0.1.4 | 2026-05-07 | Revision history aligned to Five Es. Versioning Transition section added. |
+| v0.0.0 | 2026-04-28 | Initial Collective roadmap — Foundation scaffolding events |
+| v0.0.0 | 2026-04-28 | Reset to Epoch 0 — honest initial scaffold state |
+| v0.0.0 | 2026-05-07 | Full audit — integrated devPlan.md, GAPS.md, TODO. Phases 1–3 marked complete. Phase 5a (bootstrap) added. Superseded items flagged. |
+| v0.0.0 | 2026-05-07 | Xperimental indexed, ScRibLE defined. RaBbLE-Chat → World clarified. Propagation open question added. |
+| v0.0.0 | 2026-05-07 | Six open questions recovered (manifest format, transport, observation channels, surveillance UX, BLE architecture, cloud/local split). |
+| v0.0.0 | 2026-05-07 | Versioning model clarified — episodes air retroactively. Version stays v0.0.0 until Episode 1 tagged. |
 
 ---
 
