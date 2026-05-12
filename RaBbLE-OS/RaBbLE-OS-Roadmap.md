@@ -465,13 +465,14 @@ Does not gate Episode 3.
 - [ ] Add GTK configs to dotctl bundle
 - [ ] Set `GTK_THEME=Adwaita:dark` in `env.conf` as fallback
 
-**Dolphin file manager — install and configure** `[APP]`
-- [ ] Add `dolphin` and `kio` to Ansible packages (apps role or desktop/launcher role).
-  Note: Dolphin runs without KDE Plasma — only needs kio + Qt Wayland backend.
-  Thunar ships with the Fedora 43 Sway spin but is not configured in RaBbLE-OS.
-- [ ] Dolphin already wired to `Super+E` in `keybinds.conf` — keybind is live once pkg installed
-- [ ] Add `xdg-desktop-portal-kde` for KDE-native file picker dialogs (optional, test first)
-- [ ] Confirm Dolphin uses Kvantum theme once Qt theming is in place
+**File manager — evaluate and configure** `[APP]`
+- [ ] Evaluate Dolphin as primary file manager — needs kio + Qt Wayland backend (no full Plasma required).
+  Moving away from Thunar; Dolphin is the active candidate but choice is not final.
+  Window rules are file-manager-agnostic in the meantime.
+- [ ] Add chosen file manager package + deps to Ansible (apps role or desktop/launcher role)
+- [ ] `Super+E` keybind already wired to `$files` variable in `keybinds.conf`
+- [ ] Add `xdg-desktop-portal-kde` for KDE-native file picker dialogs if Dolphin is chosen (optional, test first)
+- [ ] Confirm file manager uses Kvantum theme once Qt theming is in place
 
 **Mature window rules** `[UX]`
 - [ ] Float file pickers and save dialogs (class `org.freedesktop.portal.filechooser` etc.)
