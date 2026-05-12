@@ -1,11 +1,11 @@
-# RaBbLE-Roadmap.md — Entropy Map
+# RaBbLE-Roadmap.md — Episode Map
 
 ```
-transcribe ~ grimoire >> substrate/mend/awakening axis locked // %ROADMAP_V3%
+transcribe ~ grimoire >> episode/plot conventions aligned; epoch naming retired // %ROADMAP_V4%
 ```
 
-> Epochs are resonance thresholds. Between them, half-epochs (`mend-I/*`) absorb
-> hardware and stability patches without gating the next epoch. Features flow
+> Episodes are resonance thresholds. Between them, fix/* branches absorb
+> hardware and stability patches without gating the next episode. Features flow
 > through New Horizons, crystallize into the substrate, and archive as they cool.
 
 ---
@@ -18,57 +18,72 @@ transcribe ~ grimoire >> substrate/mend/awakening axis locked // %ROADMAP_V3%
 | %TESTING_IN_PROCESS% | Testing | Working but unverified on hardware |
 | %DEPLOYABLE% | Deployable | Works on target, needs live verification |
 | %STABLE% | Stable | Verified on target hardware |
-| %LOCKED% | Locked | Frozen until next epoch |
+| %LOCKED% | Locked | Frozen until next episode |
 | %DORMANT% | Dormant | Scaffold only — no functional tasks |
 
 ---
 
-## Epoch Map
+## Episode Map
 
 ```
 reliquary/*              High-entropy archives — knowledge reservoirs, inert
      │
 RaBbLE-OS-New-Horizons   The living wave — active daily-driver work
      │
-     ├── RaBbLE/epoch-I  ─── Substrate     [IN PROGRESS]
+     ├── RaBbLE/episode-I  ── Episode 1: Foundation      [IN PROGRESS]
+     │       │                   Plot A — Substrate
+     │       │                   Plot B — Theme
      │       │
-     │       ├── mend-I/proart-nvidia      [HIGH_ENTROPY]
-     │       ├── mend-I/suspend-resume     [COOKING]
-     │       ├── mend-I/boot-chain         [COOKING]
-     │       └── mend-I/xdna2-npu          [DORMANT]
+     │       ├── fix/proart-nvidia      [HIGH_ENTROPY]
+     │       ├── fix/suspend-resume     [COOKING]
+     │       ├── fix/boot-chain         [COOKING]
+     │       └── fix/xdna2-npu          [DORMANT]
      │
-     ├── RaBbLE/epoch-II  ── Awakening      [PENDING]
-     ├── RaBbLE/epoch-III ── (reserved)     [UNWRITTEN]
-     └── Epoch ∞          ── Continuous Drift [PERPETUAL]
+     ├── RaBbLE/episode-II  ─ Episode 2: Crystallizing    [PENDING]
+     ├── RaBbLE/episode-III ─ Episode 3: The Entity Wakes [FUTURE]
+     └── Epoch ∞          Continuous Drift            [PERPETUAL]
 ```
 
 ---
 
-### Epoch I — Substrate `[IN PROGRESS]`
+### Episode 1 — Foundation `[IN PROGRESS]`
 
-**Goal:** Hardware-agnostic base. A fully deployable Wayland/Hyprland desktop
+**Goal:** Hardware-agnostic base and themed desktop experience. A fully deployable Wayland/Hyprland desktop
 that runs on any Fedora 43 host without proprietary GPU driver activation.
 Unique hardware targets (ProArt P16, generic_x64) are **scaffolded** —
-proprietary driver work is deferred to `mend-I/*` half-epochs.
+proprietary driver work is deferred to `fix/*` branches.
+
+#### Plot A — Substrate
 
 **In scope:**
 - Layer 0–4 Ansible deployment functional on a clean Fedora 43 install
 - Hyprland + waybar + mako + fuzzel default desktop
 - Hypridle + hyprlock (screen-sign-out-during-video fix)
 - HDMI hotplug, `monitors.conf`, workspace 11 pinning
-- Boot chain (GRUB → Plymouth → SDDM) themed and color-continuous
+- Boot chain (GRUB → Plymouth → SDDM) operational
 - Monitoring cross-cutting (btop, sensors, powertop)
 - Install / Bootstrap / layerctl / dotctl operational
 - Hardware roles present as stubs (no proprietary driver install)
 - Snapper (Btrfs snapshots) deployable
 
-**Explicitly out of scope (deferred to `mend-I/*`):**
+#### Plot B — Theme
+
+**In scope:**
+- Shell stack (ZSH + Bash + p10k) deployed
+- Terminal: Kitty config (RaBbLE palette)
+- Launcher: Fuzzel config (RaBbLE palette)
+- Notifications: Mako config (urgency-tiered neon borders)
+- Idle/lock: canonical hypridle.conf + hyprlock.conf with clock overlay
+- Boot chain (GRUB → Plymouth → SDDM) themed and color-continuous
+- Waybar with network menu overlay, RaBbLE palette
+
+**Explicitly out of scope (deferred to `fix/*` branches):**
 - NVIDIA / AMD proprietary driver activation
 - supergfxctl / asusctl runtime activation
 - XDNA2 NPU runtime (XRT, FastFlowLM)
 - Suspend/resume hooks for proprietary drivers
 
-**Landed on New Horizons (flowing toward epoch-I):**
+**Landed on New Horizons (flowing toward ep1):**
 - Substrate, entrypoints, control-plane (install/bootstrap/layerctl/dotctl)
 - All Ansible roles scaffolded
 - Hyprland config with functionkeys (mic-mute PipeWire fix)
@@ -79,7 +94,7 @@ proprietary driver work is deferred to `mend-I/*` half-epochs.
 - SwayOSD service scope fix (user → system)
 - powertop auto-tune safe for live playbook runs
 
-**Landed on New Horizons since last Epoch I sync (needs porting):**
+**Landed on New Horizons since last Episode 1 sync (needs porting):**
 - Shell stack: ZSH + Bash configs, p10k, colors, aliases, functions
 - Terminal: Kitty config (RaBbLE palette)
 - Launcher: Fuzzel config (RaBbLE palette)
@@ -89,31 +104,31 @@ proprietary driver work is deferred to `mend-I/*` half-epochs.
 - dotctl: kitty/fuzzel/mako bundles added; missing-bundle skip fix
 - Grimoire: all docs renamed RaBbLE-OS-*, Architecture rewritten, RaBbLE.md distilled
 
-**Remaining for Epoch I landing:**
-- [ ] Port 4 packages from New Horizons → Epoch I (see Assembly Plan below)
+**Remaining for Episode 1 landing:**
+- [ ] Port 4 packages from New Horizons → Episode 1 (see Assembly Plan below)
 - [ ] Portability smoke-test: fresh Fedora 43 bootstrap end-to-end
 - [ ] Verify all checklist items in Bootstrap Checklist below
 - [ ] Mark all passing layers `%STABLE%` in Layer State Map
 
 ---
 
-### Epoch I — Assembly Plan
+### Episode 1 — Assembly Plan
 
 **Strategy:** Use `git checkout RaBbLE-OS-New-Horizons -- <paths>` to bring files
-into Epoch I without importing dev history. Commit in dependency order.
+into Episode 1 without importing dev history. Commit in dependency order.
 Do NOT cherry-pick — the branches have divergent history.
 
-After Epoch I lands on main: `git rebase main` on New Horizons to restore shared history.
+After Episode 1 lands on main: `git rebase main` on New Horizons to restore shared history.
 
-#### What stays in New Horizons / mend-I (NOT for Epoch I)
+#### What stays in New Horizons / fix/* (NOT for Episode 1)
 
 | Files | Reason |
 |-------|--------|
-| `ansible/roles/hardware/x64/asus_proart_p16/tasks/nvidia.yml` | mend-I/proart-nvidia |
-| `ansible/roles/hardware/x64/asus_proart_p16/handlers/main.yml` | mend-I/proart-nvidia |
-| `ansible/roles/hardware/x64/asus_proart_p16/tasks/supergfx.yml` | mend-I/proart-nvidia |
+| `ansible/roles/hardware/x64/asus_proart_p16/tasks/nvidia.yml` | fix/proart-nvidia |
+| `ansible/roles/hardware/x64/asus_proart_p16/handlers/main.yml` | fix/proart-nvidia |
+| `ansible/roles/hardware/x64/asus_proart_p16/tasks/supergfx.yml` | fix/proart-nvidia |
 
-#### Package 1 — control-plane
+#### Package 1 — control-plane (Plot A)
 
 ```bash
 git checkout RaBbLE-OS-New-Horizons -- RaBbLE-OS-dotctl.sh .gitignore README.md
@@ -124,7 +139,7 @@ missing-bundle skip (walk_bundle warns instead of exit 1).
 
 Commit: `harmonize ~ control-plane >> dotctl bundles: kitty, fuzzel, mako; skip missing // %CONTROL_PLANE_LIVE%`
 
-#### Package 2 — ansible-roles
+#### Package 2 — ansible-roles (Plot A)
 
 ```bash
 git checkout RaBbLE-OS-New-Horizons -- \
@@ -148,7 +163,7 @@ shell/zsh); swayosd service scope; waybar/hyprland vars updated for new config p
 
 Commit: `ingest ~ ansible-roles >> logind lid, kitty+zsh packages, waybar/hyprland vars // %ROLES_UPDATED%`
 
-#### Package 3 — config
+#### Package 3 — config (Plot B)
 
 ```bash
 git checkout RaBbLE-OS-New-Horizons -- \
@@ -167,7 +182,7 @@ Fuzzel RaBbLE theme; Mako urgency-tiered neon; full ZSH + Bash shell stack; logi
 
 Commit: `ingest ~ config >> shell stack, kitty, fuzzel, mako, hypridle/lock, lid suspend // %CONFIG_COMPLETE%`
 
-#### Package 4 — grimoire
+#### Package 4 — grimoire (Plot A)
 
 ```bash
 git checkout RaBbLE-OS-New-Horizons -- grimoire/
@@ -183,15 +198,15 @@ Commit: `harmonize ~ grimoire >> rename docs RaBbLE-OS-prefix; current-state onl
 
 ---
 
-### Bootstrap Checklist — Epoch I (Fedora 43)
+### Bootstrap Checklist — Episode 1 (Fedora 43)
 
 Run this after assembling the packages above. Record pass/fail against each item.
-Any failure becomes a `mend-I/*` issue or a blocker that holds epoch landing.
+Any failure becomes a `fix/*` issue or a blocker that holds episode landing.
 
 #### Pre-Bootstrap
 
-- [ ] All 4 packages ported to `RaBbLE/epoch-I` and committed
-- [ ] `git log --oneline RaBbLE/epoch-I` — verify clean package history
+- [ ] All 4 packages ported to `RaBbLE/episode-I` and committed
+- [ ] `git log --oneline RaBbLE/episode-I` — verify clean package history
 - [ ] Dry run on current machine: `layerctl apply all --check`
 
 #### Install Sequence
@@ -228,11 +243,11 @@ Any failure becomes a `mend-I/*` issue or a blocker that holds epoch landing.
 
 - [ ] `layerctl verify all` — all layers report `%STABLE%` or documented exception
 - [ ] Any new failures logged to `RaBbLE-OS-KnownIssues.md`
-- [ ] If all gates pass: land epoch to main
+- [ ] If all gates pass: land episode to main
   ```
   git checkout main
-  git merge --squash RaBbLE/epoch-I
-  git commit -m "evolve ~ substrate >> epoch-I crystallized // %EPOCH_I_LANDED%"
+  git merge --squash RaBbLE/episode-I
+  git commit -m "evolve ~ substrate >> episode-I crystallized // %EP1_LANDED%"
   git checkout RaBbLE-OS-New-Horizons
   git rebase main
   ```
@@ -282,14 +297,14 @@ sudo powerstat -d 0 -c 5 12   # 12 readings × 5s = 60s window
 |-------|------|---------------|
 | **S0: TTY** | Fresh boot, no GUI, no Ansible | ~8–12 W |
 | **S1: SDDM** | After bootstrap, SDDM greeter only | ~10–14 W |
-| **S2: Hyprland idle** | Epoch I session, AMD only, nothing open | ~10–15 W |
+| **S2: Hyprland idle** | Episode 1 session, AMD only, nothing open | ~10–15 W |
 | **S3: Light workload** | Firefox open, one terminal, idle | ~12–18 W |
-| **S4: NVIDIA loaded** | After mend-I/proart-nvidia; `nvidia-smi` working | measure |
+| **S4: NVIDIA loaded** | After fix/proart-nvidia; `nvidia-smi` working | measure |
 | **S5: NVIDIA RTD3** | After D3cold fix applied | should be ≈ S2 |
 
-Record actual readings in `Issues.txt` or `RaBbLE-OS-KnownIssues.md`.
+Record actual readings in `ISSUES.md` or `RaBbLE-OS-KnownIssues.md`.
 
-#### NVIDIA power management fix (mend-I/proart-nvidia)
+#### NVIDIA power management fix (fix/proart-nvidia)
 
 The primary cause of NVIDIA idle draw is the GPU staying in D0 (active) when
 it should be in D3cold (fully powered off). Fix requires two things:
@@ -320,24 +335,24 @@ cat /sys/bus/pci/devices/0000:01:00.0/power_state
 
 ### Fedora 44 Migration Plan
 
-Do NOT attempt on the same day as the Epoch I bootstrap. Validate F43 first.
+Do NOT attempt on the same day as the Episode 1 bootstrap. Validate F43 first.
 
-- [ ] Open `mend-I/fedora44` branch from New Horizons
+- [ ] Open `fix/fedora44` branch from New Horizons
 - [ ] Check COPR availability: `dnf copr enable lionheartp/Hyprland` on F44 — verify packages exist
 - [ ] Check SDDM Qt6 version bump on F44 (may affect greeter)
 - [ ] Run full `layerctl apply all` on F44, diff against F43 output
-- [ ] If clean: add F44 note to `AiQuickstart.md`, merge `mend-I/fedora44` → New Horizons
-- [ ] If breakage: file issues, fix in mend branch before promoting
+- [ ] If clean: add F44 note to `AiQuickstart.md`, merge `fix/fedora44` → New Horizons
+- [ ] If breakage: file issues, fix in fix branch before promoting
 
 ---
 
-### mend-I/* — Substrate Half-Epochs
+### fix/* — Hardware & Stability Fix Branches
 
-Hardware and stability patches that sit under Epoch I. Branch from New Horizons,
-target one system, land into `epoch-I` via the `mend` impulse (not `evolve`).
-Half-epochs **do not gate** Epoch II — Awakening can begin in parallel.
+Hardware and stability patches that sit under Episode 1. Branch from New Horizons,
+target one system, land into `ep1` via the `mend` impulse (not `evolve`).
+Fix branches **do not gate** Episode 2 — crystallizing work can begin in parallel.
 
-#### mend-I/proart-nvidia `%HIGH_ENTROPY%`
+#### fix/proart-nvidia `%HIGH_ENTROPY%`
 
 **Goal:** NVIDIA RTX 4060 Optimus stable on Hyprland + Wayland.
 
@@ -357,16 +372,16 @@ Half-epochs **do not gate** Epoch II — Awakening can begin in parallel.
 - [ ] `glxinfo -B | grep "OpenGL renderer"` → AMD by default, NVIDIA via `DRI_PRIME=1`
 - [ ] HDMI hotplug continues to work with NVIDIA on card0
 
-#### mend-I/suspend-resume `%COOKING%`
+#### fix/suspend-resume `%COOKING%`
 
 **Goal:** s2idle reliable; no wake freezes.
 
 **Blockers:**
 - [ ] `mem_sleep_default=s2idle` verified in GRUB cmdline
-- [ ] NVIDIA suspend hooks (absorbed by mend-I/proart-nvidia if driver is active)
+- [ ] NVIDIA suspend hooks (absorbed by fix/proart-nvidia if driver is active)
 - [ ] `journalctl -b -u systemd-suspend` clean after 3× cycle
 
-#### mend-I/boot-chain `%COOKING%`
+#### fix/boot-chain `%COOKING%`
 
 **Goal:** GRUB / Plymouth / SDDM unified void-background continuity at 4K.
 
@@ -375,10 +390,10 @@ Half-epochs **do not gate** Epoch II — Awakening can begin in parallel.
 - [ ] GRUB2: 4K font (Terminus 32pt via `grub2-mkfont`)
 - [ ] GRUB2: `fbcon=font:TER16x32` in cmdline for early TTY
 - [ ] Plymouth: fix DejaVu font reference, align to RaBbLE palette
-- [ ] Plymouth: NVIDIA defer (depends on mend-I/proart-nvidia)
+- [ ] Plymouth: NVIDIA defer (depends on fix/proart-nvidia)
 - [ ] SDDM: Qt6 `Main.qml` validated
 
-#### mend-I/xdna2-npu `%DORMANT%`
+#### fix/xdna2-npu `%DORMANT%`
 
 **Goal:** AMD XDNA2 NPU operational via XRT.
 
@@ -390,11 +405,11 @@ Half-epochs **do not gate** Epoch II — Awakening can begin in parallel.
 
 ---
 
-#### mend-I/ux-polish `%PLANNED%`
+### Episode 2 — Crystallizing `[PENDING]`
 
 **Goal:** Elevate RaBbLE-OS from a functional substrate to a polished, cohesive desktop
 experience. Theming, window behaviour, tiling ergonomics, and UX consistency.
-Does not gate Epoch II.
+Does not gate Episode 3.
 
 **Brightness keybind fix** `[BUG]`
 - [ ] `swayosd-client --brightness` picks the keyboard backlight as the default brightness device
@@ -483,12 +498,12 @@ Does not gate Epoch II.
 
 ---
 
-### Epoch II — Awakening `[PENDING]`
+### Episode 3 — The Entity Wakes `[FUTURE]`
 
 **Goal:** AI tooling layer integrated. RaBbLE entity begins to take form.
 
 **Scope:**
-- Ollama local inference (GPU-accelerated once `mend-I/proart-nvidia` lands,
+- Ollama local inference (GPU-accelerated once `fix/proart-nvidia` lands,
   CPU fallback otherwise)
 - MCP servers wired (filesystem, git, rabble-state)
 - RaBbLE shell integration (`aichat` or equivalent)
@@ -497,7 +512,7 @@ Does not gate Epoch II.
 - RaBbLE-lang surfaces in AI interfaces
 - Quickshell bar replaces Waybar
 
-**Note:** Epoch II does **not** block on `mend-I/proart-nvidia`. AI stack runs
+**Note:** Episode 3 does **not** block on `fix/proart-nvidia`. AI stack runs
 on CPU inference until the driver is stable; GPU acceleration is a bonus, not
 a prerequisite.
 
@@ -507,14 +522,14 @@ The entity memory tier model (short/medium/long-term) is in `RaBbLE.md` — Memo
 
 ---
 
-### Epoch III — `[UNWRITTEN]`
+### Episode 4+ — `[UNWRITTEN]`
 
 Likely candidates: entity memory/continuity, distributed-collective
 concerns, persistent agent presence, and advanced workspace design.
 
 **WM usage vision** (workspaces as task-spaces, tiling/floating hybrid,
 draggable windows with intelligent snapping, per-workspace defaults) is
-preserved in `DistilledNonZense.md` § IX for when this epoch is scoped.
+preserved in `DistilledNonZense.md` § IX for when this episode is scoped.
 
 **Long-term architecture** (multi-repo layer model, Yocto-style manifest)
 is preserved in `DistilledNonZense.md` § XI.
@@ -533,8 +548,8 @@ RaBbLE-OS absorbs new tools, new models, new patterns. Never complete.
 
 ### Layer 0 — Base
 
-| Role | Pkgs (epoch-I now) | Pkgs (after assembly) | Config | State |
-|------|-------------------|----------------------|--------|-------|
+| Role | Pkgs (ep1 now) | Pkgs (after assembly) | Config | State |
+|------|----------------|----------------------|--------|-------|
 | core | ✗ stub | ✗ stub | ✗ stub | %DORMANT% — relies on Fedora Sway spin defaults |
 
 ---
@@ -543,11 +558,11 @@ RaBbLE-OS absorbs new tools, new models, new patterns. Never complete.
 
 | Role | Pkgs | Config | State | Target |
 |------|------|--------|-------|--------|
-| hardware/x64/generic | ✓ | ✗ stub | %DORMANT% | Epoch I scaffold |
-| hardware/x64/asus_proart_p16 | ✗ stub | ✗ stub | %DORMANT% | Epoch I scaffold only |
-| asus_proart_p16/nvidia | ✗ stub | ✗ stub | %DORMANT% | mend-I/proart-nvidia |
-| asus_proart_p16/supergfx | ✗ stub | ✗ stub | %DORMANT% | mend-I/proart-nvidia |
-| asus_proart_p16/npu | ✗ stub | ✗ stub | %DORMANT% | mend-I/xdna2-npu |
+| hardware/x64/generic | ✓ | ✗ stub | %DORMANT% | Episode 1 scaffold |
+| hardware/x64/asus_proart_p16 | ✗ stub | ✗ stub | %DORMANT% | Episode 1 scaffold only |
+| asus_proart_p16/nvidia | ✗ stub | ✗ stub | %DORMANT% | fix/proart-nvidia |
+| asus_proart_p16/supergfx | ✗ stub | ✗ stub | %DORMANT% | fix/proart-nvidia |
+| asus_proart_p16/npu | ✗ stub | ✗ stub | %DORMANT% | fix/xdna2-npu |
 
 ---
 
@@ -555,9 +570,9 @@ RaBbLE-OS absorbs new tools, new models, new patterns. Never complete.
 
 | Role | Pkgs | Config | State | Target |
 |------|------|--------|-------|--------|
-| boot/grub2 | ✓ | ~ partial | %TESTING_IN_PROCESS% | mend-I/boot-chain |
-| boot/plymouth | ✓ | ~ partial | %TESTING_IN_PROCESS% | mend-I/boot-chain |
-| boot/session_manager | ✗ stub | ✗ stub → ✓ | %DORMANT% → %DEPLOYABLE% | Epoch I (logind lid config via assembly) |
+| boot/grub2 | ✓ | ~ partial | %TESTING_IN_PROCESS% | fix/boot-chain |
+| boot/plymouth | ✓ | ~ partial | %TESTING_IN_PROCESS% | fix/boot-chain |
+| boot/session_manager | ✗ stub | ✗ stub → ✓ | %DORMANT% → %DEPLOYABLE% | Episode 1 (logind lid config via assembly) |
 
 ---
 
@@ -577,7 +592,7 @@ RaBbLE-OS absorbs new tools, new models, new patterns. Never complete.
 | desktop/swayosd | ✓ | ✓ | ✓ | ✓ updated | %DEPLOYABLE% |
 | desktop/network-applet | ✓ | ✓ | ✓ | ✓ | %DEPLOYABLE% |
 | desktop/v4l2 | ✓ | ✓ | ✓ | ✓ | %DEPLOYABLE% |
-| desktop/quickshell | ✓ pkgs | ✓ pkgs | ✗ build | ✗ build | %HIGH_ENTROPY% — Epoch II |
+| desktop/quickshell | ✓ pkgs | ✓ pkgs | ✗ build | ✗ build | %HIGH_ENTROPY% — Episode 3 |
 
 ---
 
@@ -595,7 +610,7 @@ RaBbLE-OS absorbs new tools, new models, new patterns. Never complete.
 |------|-------|-------|
 | monitoring | %DEPLOYABLE% | btop, htop, powertop, lm_sensors live |
 | snapper | %DEPLOYABLE% | Btrfs snapshots wired |
-| runtime | %DORMANT% | XRT/CUDA/ROCm — mend-I/proart-nvidia + mend-I/xdna2-npu |
+| runtime | %DORMANT% | XRT/CUDA/ROCm — fix/proart-nvidia + fix/xdna2-npu |
 
 ---
 
@@ -603,9 +618,9 @@ RaBbLE-OS absorbs new tools, new models, new patterns. Never complete.
 
 | Role | State | Target | Notes |
 |------|-------|--------|-------|
-| monitoring | %DEPLOYABLE% | Epoch I | btop, htop, powertop, sensors |
-| snapper | %DEPLOYABLE% | Epoch I | Btrfs snapshots |
-| runtime | %DORMANT% | mend-I/proart-nvidia + mend-I/xdna2-npu | XRT, CUDA, ROCm — conditional |
+| monitoring | %DEPLOYABLE% | Episode 1 | btop, htop, powertop, sensors |
+| snapper | %DEPLOYABLE% | Episode 1 | Btrfs snapshots |
+| runtime | %DORMANT% | fix/proart-nvidia + fix/xdna2-npu | XRT, CUDA, ROCm — conditional |
 
 ---
 
@@ -615,12 +630,12 @@ Roles that exist but perform no actions — scaffolding for future implementatio
 
 | Role | Type | Status | Target |
 |------|------|--------|--------|
-| core | packages | %DORMANT% | Epoch I |
-| core | config | %DORMANT% | Epoch I |
-| hardware/x64/generic | packages | %DORMANT% | Epoch I |
-| hardware/x64/generic | config | %DORMANT% | Epoch I |
-| hardware/x64/asus_proart_p16 (most subtasks) | packages/config | %DORMANT% | mend-I/proart-nvidia |
-| desktop/terminal | packages | %DORMANT% | Epoch I (deferred) |
+| core | packages | %DORMANT% | Episode 1 |
+| core | config | %DORMANT% | Episode 1 |
+| hardware/x64/generic | packages | %DORMANT% | Episode 1 |
+| hardware/x64/generic | config | %DORMANT% | Episode 1 |
+| hardware/x64/asus_proart_p16 (most subtasks) | packages/config | %DORMANT% | fix/proart-nvidia |
+| desktop/terminal | packages | %DORMANT% | Episode 1 (deferred) |
 
 ---
 
@@ -630,12 +645,12 @@ Manual or scripted config that Ansible doesn't handle:
 
 | Task | State | Target |
 |------|-------|--------|
-| Hypridle (idle timeout) | %HIGH_ENTROPY% | Epoch I |
-| Hyprlock (screen lock) | %HIGH_ENTROPY% | Epoch I |
-| Quickshell bar | %HIGH_ENTROPY% | Epoch II |
-| HDMI hotplug script | %DEPLOYABLE% | Epoch I |
-| wallpaper deploy (via dotctl) | %STABLE% | Epoch I |
-| shell prompt (p10k vs starship) | %TESTING_IN_PROCESS% | Epoch I |
+| Hypridle (idle timeout) | %HIGH_ENTROPY% | Episode 1 |
+| Hyprlock (screen lock) | %HIGH_ENTROPY% | Episode 1 |
+| Quickshell bar | %HIGH_ENTROPY% | Episode 3 |
+| HDMI hotplug script | %DEPLOYABLE% | Episode 1 |
+| wallpaper deploy (via dotctl) | %STABLE% | Episode 1 |
+| shell prompt (p10k vs starship) | %TESTING_IN_PROCESS% | Episode 1 |
 
 ---
 
@@ -644,10 +659,11 @@ Manual or scripted config that Ansible doesn't handle:
 | Branch pattern | Purpose | Landing impulse |
 |---|---|---|
 | `RaBbLE-OS-New-Horizons` | The living wave — active daily-driver work | (flows rightward) |
-| `RaBbLE/epoch-I` | Substrate staging — PR target from New Horizons | `evolve` |
-| `RaBbLE/mend-I/<target>` | Half-epoch — one hardware/stability target | `mend` |
-| `RaBbLE/epoch-II` | Awakening staging | `evolve` |
-| `main` | Solidified epochs only | merges from `epoch-*` only |
+| `RaBbLE/episode-I` | Episode 1 staging — PR target from New Horizons | `evolve` |
+| `fix/<target>` | Hardware/stability fix — one target, one system | `mend` |
+| `RaBbLE/episode-II` | Episode 2 staging | `evolve` |
+| `RaBbLE/episode-III` | Episode 3 staging | `evolve` |
+| `main` | Solidified episodes only | merges from `episode-*` only |
 | `reliquary/<name>` | Archived high-entropy iterations — inert | (none) |
 
 ---
@@ -656,20 +672,20 @@ Manual or scripted config that Ansible doesn't handle:
 
 Features that have cooled to stable status:
 
-| Feature | Epoch | Archived |
-|---------|-------|----------|
-| Wallpaper generation + hyprpaper | I | ✓ |
-| Waybar with network menu | I | ✓ |
-| functionkeys mic mute fix | I | ✓ |
-| hyprpaper multi-monitor | I | ✓ |
-| layerctl operational | I | ✓ |
-| dotctl wallpapers bundle | I | ✓ |
-| HDMI hotplug script | I | ✓ |
-| powertop auto-tune | I | ✓ |
+| Feature | Episode | Archived |
+|---------|---------|----------|
+| Wallpaper generation + hyprpaper | 1 | ✓ |
+| Waybar with network menu | 1 | ✓ |
+| functionkeys mic mute fix | 1 | ✓ |
+| hyprpaper multi-monitor | 1 | ✓ |
+| layerctl operational | 1 | ✓ |
+| dotctl wallpapers bundle | 1 | ✓ |
+| HDMI hotplug script | 1 | ✓ |
+| powertop auto-tune | 1 | ✓ |
 
 ---
 
-## Surface Area — Epoch I Scope
+## Surface Area — Episode 1 Scope
 
 ```
 CLI Tools
@@ -687,9 +703,9 @@ Desktop
 ├── Screenshots (grim + slurp) ────────── %STABLE%
 ├── Hypridle + Hyprlock ───────────────── %HIGH_ENTROPY%
 ├── HDMI hotplug ──────────────────────── %DEPLOYABLE%
-└── Quickshell ────────────────────────── %HIGH_ENTROPY% (Epoch II)
+└── Quickshell ────────────────────────── %HIGH_ENTROPY% (Episode 3)
 
-Hardware (scaffold only — activation in mend-I/*)
+Hardware (scaffold only — activation in fix/*)
 ├── ProArt P16 stub tree ──────────────── %DORMANT%
 └── Generic x64 ───────────────────────── %DEPLOYABLE%
 
@@ -701,7 +717,7 @@ Monitoring
 
 ---
 
-## Epoch I Verification Checklist
+## Episode 1 Verification Checklist
 
 Before landing to `main`:
 
@@ -714,7 +730,7 @@ Before landing to `main`:
 - [ ] Hypridle + Hyprlock trigger on idle and lock correctly
 - [ ] Monitoring tools functional (btop, powertop, sensors)
 - [ ] Generic x64 target smoke-tested on a second machine or VM
-- [ ] Layer states documented as %STABLE% or explicitly deferred to `mend-I/*`
+- [ ] Layer states documented as %STABLE% or explicitly deferred to `fix/*`
 
 ---
 
@@ -725,3 +741,10 @@ Before landing to `main`:
 | v0.1 | 2026-04-13 | Initial phase model (Phases 0–∞) |
 | v0.5 | 2026-04-21 | Restructured with entropy states, layer map, epoch framing |
 | v0.6 | 2026-04-22 | Split Epoch I (Substrate) / mend-I/* half-epochs / Epoch II (Awakening). ProArt NVIDIA work moved to mend-I/proart-nvidia. Added Branch & Impulse Map. Added Target Epoch column to layer tables. |
+| v0.7 | 2026-05-12 | Episode/plot conventions aligned to Collective. Epoch I/II/III → Episode 1/2/3. mend-I/* → fix/*. ux-polish moved to Episode 2 (Crystallizing). Awakening → Episode 3 (The Entity Wakes). Episode 1 gains Plot A (Substrate) and Plot B (Theme). |
+
+---
+
+```
+transcribe ~ grimoire >> substrate/mend/awakening axis locked // %ROADMAP_V4%
+```

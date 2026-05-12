@@ -276,7 +276,7 @@ version strings stay at `v0.0.0`.
 | RaBbLE-Grimoire | v0.0.0.1 ✓ | Aligned this session |
 | RaBbLE-sCoRE | Legacy "ep3" (own counter) | Re-version to v0.0.0.1 — current state becomes events within Episode 1; prior ep1–ep3 work becomes pre-episode archive |
 | RaBbLE-World | v0.0.0.0.10 (own counter) | Align to v0.0.0.1.x when manifest is added |
-| RaBbLE-OS | Significant divergence from Five Es | **Deferred** — rework during future bootstrap session onto new partition. Pre-Episode 1 history preserved for review. |
+| RaBbLE-OS | v0.0.0.0 ✓ | Aligned this session — episode/plot conventions adopted. Ep1 Plot A (Substrate) + Plot B (Theme) in progress. |
 | RaBbLE-NeBuLA | No versioning yet | Will start at v0.0.0.1 when repo is created |
 | RaBbLE-Aether | No versioning yet | Will start at v0.0.0.1 when git repo is initialized |
 | RaBbLE-ScRibLE | No versioning yet | Will start at v0.0.0.1 when repo is created |
