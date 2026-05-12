@@ -11,11 +11,15 @@ role: server
 # Repository
 repo: https://github.com/markm1206/RaBbLE-sCoRE.git
 branch: main
-worktree_root: ~/RaBbLE/RaBbLE-sCoRE
+worktree_root: RaBbLE-sCoRE
 
 # Status
-phase: 3
+version: "v0.0.0.0"
 epoch: 0
+evolution: 0
+echo: 0
+episode: 0
+episode_name: "First Air (pending)"
 status: active
 
 # Grimoire
@@ -40,7 +44,7 @@ subcomponents:
 
 # Notes
 notes: >
-  Episode 1-2: tmux coordination shell, file-based task delegation, inotify dispatch.
-  Episode 3 (2026-05-06): RaBbLE-Server absorbed. sCoRE now runs as web API via
-  --with-server flag. Server routes LLM calls directly (not via task pipeline yet).
-  RaBbLE-Server repo deprecated.
+  Pre-Episode-1 work (Plots A–C): coordination shell, dispatch, identity, server absorbed.
+  Episode 1 (pending): harness verified, Railway deploy, API tests passing, version aligned.
+  Episode 1 airs with the Collective at v0.0.0.1.
+  Server/coordinator split deferred — same repo, two surfaces. See Architecture doc.

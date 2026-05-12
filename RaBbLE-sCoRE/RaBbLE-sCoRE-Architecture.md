@@ -117,11 +117,30 @@ Deployment: `harness/local.sh` (local) · `harness/deploy.sh` (Railway)
 
 ---
 
+## Server / Coordinator Split Decision
+
+**Decision: keep coupled in the same repo.**
+
+The server (`server/`) is sCoRE's HTTP transport face. The long-term goal is for
+`/api/v1/chat` to route through sCoRE's task pipeline (Episode 2+). Splitting into
+a separate repo before that wiring exists adds cross-repo coordination overhead
+with no benefit.
+
+The sCoRE-as-daemon concept — running the coordinator as a standalone process
+independent of Claude Code CLI — is Evolution 1 territory. When that happens, the
+coordinator and server may naturally separate. Not now.
+
+Railway deploys from `server/` as Root Directory. The harness controls that path.
+The coordinator runs locally via tmux. They share one repo, two modes.
+
+---
+
 ## Revision History
 
 | Version | Date | Change |
 |---|---|---|
-| v0.1 | 2026-04-29 | Initial architecture document — Episode 1 scaffold |
+| v0.1 | 2026-04-29 | Initial architecture document — Phase A scaffold |
+| v0.2 | 2026-05-07 | Server/coordinator split decision documented; versioning aligned to v0.0.0.0 |
 
 ---
 

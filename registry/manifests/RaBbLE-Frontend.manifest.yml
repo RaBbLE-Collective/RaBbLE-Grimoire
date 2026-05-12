@@ -5,7 +5,7 @@ role: frontend
 
 repo: TBD
 branch: main
-worktree_root: ~/RaBbLE/RaBbLE-Frontend
+worktree_root: RaBbLE-Frontend
 
 phase: 0
 epoch: 0

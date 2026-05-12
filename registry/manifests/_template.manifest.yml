@@ -11,7 +11,7 @@ role: substrate                    # substrate | server | frontend | tooling | e
 # Repository
 repo: https://github.com/markm1206/RaBbLE-[Name].git
 branch: main
-worktree_root: ~/RaBbLE/RaBbLE-[Name]
+worktree_root: RaBbLE-[Name]
 
 # Status
 phase: 0                           # current active phase

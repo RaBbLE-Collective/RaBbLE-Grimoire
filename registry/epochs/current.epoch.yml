@@ -11,6 +11,24 @@ episode_note: >
   bootstrappable, session entry points lean, Grimoire as established source of
   truth. Will be tagged v0.0.0.1 across aligned repos simultaneously.
 
+version_current: "v0.0.0.0"
+version_next: "v0.0.0.1"
+
+# ── Episode/Plot structure ────────────────────────────────────────────────────
+# During Episode 1: all active projects accumulate events in Plots (A, B, C...).
+# Plots reference the episode they belong to: "Episode 1, Plot A".
+# Episode 1 airs simultaneously across the Collective.
+#
+# ── Echo coherence policy ─────────────────────────────────────────────────────
+# After Episode 1 airs, per-project episode tracks may diverge.
+# Echo-level versioning is maintained in lockstep: no project should be more
+# than ~1-2 episodes ahead of others toward the Echo milestone (~12 episodes).
+# The Grimoire tracks Collective episode position and flags divergence.
+episode_coherence_policy: >
+  During Episode 1: Collective-wide lockstep. All projects air Episode 1 together.
+  Episodes 2+: per-project pacing allowed but Grimoire maintains coherence.
+  Max divergence: ~1-2 episodes. Echo (~12 episodes) targeted collectively.
+
 intent: >
   Establish the Collective coordination layer. Define the structure,
   conventions, and philosophy before building anything.

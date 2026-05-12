@@ -99,10 +99,18 @@ An Epoch is:
 Epoch 0 — Foundation
   Evolution 0 — Scaffold
     Echo 0 — Establishing  (in progress)
-      Episode 1 — sCoRE First Breath (complete in sCoRE)
-      Episode 2 — sCoRE Live Session (complete in sCoRE)
-      Episode 3 — ... (active)
+      Episode 1 — First Coordination Sweep (pending — not yet aired)
+
+Version string: v0.0.0.0
 ```
+
+Episode 1 has not yet aired. All projects are accumulating events toward
+the first Collective-wide Episode 1. Once Episode 1 airs, per-project
+episode tracks may diverge — but Echo-level versioning is maintained in
+lockstep across the Collective (within ~1–2 episodes of each other).
+
+See `registry/epochs/current.epoch.yml` for the authoritative Collective
+position and Episode 1 exit conditions.
 
 ---
 

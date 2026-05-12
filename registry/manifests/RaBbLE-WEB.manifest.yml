@@ -5,7 +5,7 @@ role: server
 
 repo: TBD
 branch: main
-worktree_root: ~/RaBbLE/RaBbLE-WEB
+worktree_root: RaBbLE-World
 
 phase: 0
 epoch: 0

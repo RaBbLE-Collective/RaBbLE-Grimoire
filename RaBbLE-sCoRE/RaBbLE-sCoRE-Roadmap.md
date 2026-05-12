@@ -42,10 +42,14 @@ a task and return a result. The loop is manually verified.
 
 ## Episode Tracker
 
-### Episode 1 — First Breath `[COMPLETE]`
+**Collective position:** `v0.0.0.0` — Episode 1 not yet aired.
+Events below are pre-Episode-1 work accumulating toward first air.
 
-**Branch:** `episode-1` | **Tag:** `echo-1.0`
-**Goal:** Scaffold committed. Dispatch script wired. sCoRE session launchable.
+---
+
+### Pre-Episode-1 Events
+
+#### Episode 1, Plot A — First Breath `[events complete]`
 
 Events:
 - [x] Repo initialized with scaffold
@@ -54,12 +58,8 @@ Events:
 - [x] Learned: dispatch must use `claude -p < prompt_file`, not interactive + send-keys
 - [x] `start-rabble.sh` verified — dispatch + sCoRE session both launch correctly
 - [x] CONTEXT.md handoff layer added to all work areas
-- [x] Episode 1 Echo tagged `echo-1.0`
 
-### Episode 2 — sCoRE Live Session `[COMPLETE]`
-
-**Branch:** `episode-2` | **Tag:** `echo-2.0`
-**Goal:** sCoRE has identity. RaBbLE shell is the user-facing interface. Dispatch isolation fixed.
+#### Episode 1, Plot B — sCoRE Live Session `[events complete]`
 
 Events:
 - [x] `CLAUDE.md` — sCoRE identity injected via `@agents/score.md`
@@ -73,11 +73,8 @@ Events:
 - [x] Learned: shell entity is RaBbLE (not sCoRE); sCoRE is the internal engine
 - [x] Learned: pre-warming during load phase absorbs cold start, first user turn is fast
 - [x] `memory/patterns/agent-isolation.md` — isolation lesson documented
-- [x] Episode 2 Echo tagged `echo-2.0`
 
-### Episode 3 — Server Absorbed `[COMPLETE]`
-
-**Goal:** RaBbLE-Server merged into sCoRE as `server/` subcomponent. sCoRE is now runnable as a web API.
+#### Episode 1, Plot C — Server Absorbed `[events complete]`
 
 Events:
 - [x] `server/` — FastAPI intelligence service moved from RaBbLE-Server
@@ -89,12 +86,41 @@ Events:
 
 ---
 
+### Episode 1 — First Air `[pending]`
+
+**Version at air:** `v0.0.0.1`
+**Goal:** sCoRE is runnable end-to-end. Server deploys to Railway. Harness verified. Tests pass. Versioning aligned to Collective.
+
+Exit conditions:
+- [ ] `harness/` path bug fixed — all scripts reference `server/` not `services/intelligence/`
+- [ ] `server/main.py` version string aligned to Five Es scheme
+- [ ] `server/api_test.py` (or `test_api.sh`) runs clean against local server
+- [ ] `harness/local.sh` starts server successfully
+- [ ] Railway deploy attempted — `harness/deploy.sh` or `harness/railway_ctl.sh` verified
+- [ ] `RaBbLE-Grimoire/spells/deploy-score.sh` spell in place
+- [ ] CONTEXT.md versioning header updated to `v0.0.0.1` on air
+- [ ] Tagged `episode-1` on `main`
+
+---
+
+### Episode 2 and beyond `[future — after Collective Episode 1 airs]`
+
+After Episode 1 airs across the Collective, sCoRE episodes may diverge
+but should stay within ~1–2 episodes of the Collective Echo milestone.
+Echo 0 requires ~12 episodes.
+
+Candidate Episode 2 focus: wire `/api/v1/chat` through sCoRE task pipeline.
+Candidate Episode 3 focus: memory agent reads patterns before sCoRE delegates.
+
+---
+
 ## Revision History
 
 | Version | Date | Change |
 |---|---|---|
-| v0.1 | 2026-04-29 | Initial roadmap — Episode 1 scaffold |
-| v0.2 | 2026-05-06 | Episode 3 — server absorbed from RaBbLE-Server |
+| v0.1 | 2026-04-29 | Initial roadmap — Plot A scaffold |
+| v0.2 | 2026-05-06 | Plot C — server absorbed from RaBbLE-Server |
+| v0.3 | 2026-05-07 | Versioning realigned to Collective v0.0.0.0; Episode 1 defined |
 
 ---
 

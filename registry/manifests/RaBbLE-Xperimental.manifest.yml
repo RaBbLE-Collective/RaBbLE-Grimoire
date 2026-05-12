@@ -12,7 +12,7 @@ role: experimental
 # Repository
 repo: https://github.com/markm1206/RaBbLE-Xperimental.git
 branch: main
-worktree_root: ~/RaBbLE/RaBbLE-Xperimental
+worktree_root: RaBbLE-Xperimental
 
 # Status
 phase: 0

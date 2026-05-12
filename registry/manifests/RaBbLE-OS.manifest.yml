@@ -5,7 +5,7 @@ role: substrate
 
 repo: https://github.com/markm1206/RaBbLE-OS.git
 branch: main
-worktree_root: ~/RaBbLE/RaBbLE-OS
+worktree_root: RaBbLE-OS
 
 phase: 0
 epoch: 0
