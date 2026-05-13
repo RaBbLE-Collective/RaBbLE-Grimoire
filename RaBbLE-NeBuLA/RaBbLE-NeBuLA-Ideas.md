@@ -1,12 +1,22 @@
-# RaBbLE Creative Enhancement Proposals
+# RaBbLE-NeBuLA-Ideas.md
 
-## Overview
+```
+transcribe ~ grimoire >> NeBuLA enhancement proposals distilled // %NEBULA_IDEAS%
+```
 
-This document captures creative solutions to enhance RaBbLE as a more **engaging, chaotic, and exploratory** visual platform. Each proposal builds on the existing chaos/entropy foundation while introducing new dimensions of interactivity, surprise, and creative expression.
+> Enhancement proposals for NeBuLA Episodes 3+. These are not scheduled — they are a
+> reference pool for when the core engine (Episode 1) is stable. Source: NeBuLA-JS creative
+> proposals. Aligned to Grimoire 2026-05-13.
 
 ---
 
-## 🌀 **1. Interactive Entropy Canvas**
+## Enhancement Proposals — Episodes 3+
+
+Each proposal extends the entropy-driven foundation. None are scheduled until Episode 1 ships.
+
+---
+
+## 1. Interactive Entropy Canvas
 
 ### Concept
 Let users directly manipulate chaos with mouse/touch gestures—transforming passive viewing into active creation.
@@ -28,7 +38,7 @@ Users *feel* the chaos. The nebula becomes an extension of their creative intent
 
 ---
 
-## 🧬 **2. Reaction-Diffusion Stream Patterns**
+## 2. Reaction-Diffusion Stream Patterns
 
 ### Concept
 Add Turing patterns (like leopard spots or coral growth) as new generation presets—organic, living complexity that evolves over time.
@@ -50,7 +60,7 @@ Adds organic, living complexity. Patterns feel alive and unpredictable, emerging
 
 ---
 
-## 🎵 **3. Audio-Reactive Entropy System**
+## 3. Audio-Reactive Entropy System
 
 ### Concept
 Sound input (microphone or audio files) drives visual chaos in real-time—music becomes visible.
@@ -72,7 +82,7 @@ Multi-sensory experience. Dancers, musicians, and listeners can *see* their soun
 
 ---
 
-## 🔮 **4. Fractal Stream Generators**
+## 4. Fractal Stream Generators
 
 ### Concept
 Self-similar patterns at multiple zoom levels—infinite exploration potential.
@@ -94,7 +104,7 @@ Zoom in forever and discover new patterns. The nebula becomes an infinite playgr
 
 ---
 
-## 💫 **5. Visual Command Feedback**
+## 5. Visual Command Feedback
 
 ### Concept
 Every command produces particle effects showing what it's doing—commands feel tangible.
@@ -119,7 +129,7 @@ Actions have visual weight. Users see immediate, satisfying feedback for every i
 
 ---
 
-## 🎲 **6. Chaos Games & Challenges**
+## 6. Chaos Games & Challenges
 
 ### Concept
 Interactive mini-games within the nebula—gamification drives engagement.
@@ -142,7 +152,7 @@ Play with chaos. Games provide goals, challenges, and dopamine rewards that keep
 
 ---
 
-## 💾 **7. Dream Journal (State Saving)**
+## 7. Dream Journal (State Saving)
 
 ### Concept
 Save and replay chaotic states like a time machine—preserve beautiful moments.
@@ -165,7 +175,7 @@ Preserve beautiful moments. Learn from chaos evolution. Share creations with oth
 
 ---
 
-## 🎭 **8. Emotional Entropy Mapping**
+## 8. Emotional Entropy Mapping
 
 ### Concept
 User behavior (typing speed, mouse movement) influences chaos—the system mirrors your state.
@@ -187,7 +197,7 @@ Emotional feedback loop. The system grows with you, responding to your energy an
 
 ---
 
-## 👥 **9. Collaborative Chaos Canvas**
+## 9. Collaborative Chaos Canvas
 
 ### Concept
 Multiple users influence the same nebula simultaneously—social creativity.
@@ -209,7 +219,7 @@ Watch chaos emerge from collaboration. Multiple creative minds shaping the same 
 
 ---
 
-## 🌌 **10. Quantum Tunneling Events**
+## 10. Quantum Tunneling Events
 
 ### Concept
 Rare, dramatic visual events that reshape the entire nebula—surprise and delight.
@@ -232,7 +242,7 @@ The system feels alive and unpredictable. Users stay engaged waiting for the nex
 
 ---
 
-## 🎨 **11. Entropy Art Generator**
+## 11. Entropy Art Generator
 
 ### Concept
 Export beautiful moments as images/GIFs/videos—capture and share creativity.
@@ -260,7 +270,7 @@ Capture and share creativity. Build community around beautiful chaos. Portfolio 
 
 ---
 
-## 🧠 **12. Pattern Memory & Learning**
+## 12. Pattern Memory & Learning
 
 ### Concept
 The system remembers what patterns you like and evolves toward them—personalized chaos.

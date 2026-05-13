@@ -1,7 +1,19 @@
-# Flat-Chaos Pattern Documentation
+# RaBbLE-NeBuLA-FlatChaos.md
+
+```
+transcribe ~ grimoire >> Flat-Chaos pattern distilled from NeBuLA-JS // %FLAT_CHAOS_LOCKED%
+```
+
+> This pattern is the core architectural insight of NeBuLA. Carry it forward into the v2 rebuild.
+> Source: NeBuLA-JS (`RaBbLE-Xperimental/`). Aligned to Grimoire 2026-05-13.
+
+---
 
 ## Overview
-The Flat-Chaos pattern is a revolutionary approach to software architecture that replaces traditional hierarchical scene graphs with linear data streams. This pattern embodies the RaBbLE philosophy of entropy-driven development and enables truly emergent, adaptable systems.
+
+Flat-Chaos replaces hierarchical scene graphs with a flat stream of self-contained entities.
+Each entity carries its own geometry (DNA), transform (Flux), and entropy — no parent-child
+relationships, no scene tree. Complexity emerges from composition, not nesting.
 
 ## Core Principles
 

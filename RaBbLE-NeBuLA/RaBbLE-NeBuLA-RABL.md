@@ -1,7 +1,24 @@
-# RABL (RaBbLE's JSON Notation) Specification
+# RaBbLE-NeBuLA-RABL.md
 
-## Overview
-RABL (RaBbLE's JSON Notation) is a simple extension of JSON designed specifically for RaBbLE projects. It uses the `.rabl` file extension instead of `.json` and includes metadata headers for RaBbLE-specific information.
+```
+transcribe ~ grimoire >> RABL scene serialisation format documented // %RABL_SPEC%
+```
+
+> **Status: Legacy reference.** RABL was specified for NeBuLA-JS (Epoch 0). The format concept —
+> JSON with a `rabble_metadata` envelope and entity arrays — is sound and can be adopted for
+> NeBuLA v2 scene export. Field names using RBCNS prefixes (`flux_matrix`, `e_color`, `rabble_id`)
+> should be replaced with clean TypeScript property names in the v2 implementation.
+> Use this as a reference for the serialisation contract, not a verbatim spec.
+
+---
+
+## RABL — RaBbLE Scene Notation
+
+A `.rabl` file is a JSON document with a `rabble_metadata` header and a structured entity array.
+It is the portable representation of a NeBuLA scene state — used for saving, loading, and
+sharing entity stream configurations.
+
+### Overview
 
 ## File Format
 RABL files are identical to JSON files in structure and syntax, with the following differences:
