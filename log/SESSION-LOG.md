@@ -5,6 +5,95 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-05-13 — RaBbLE-Aether: Visual Design System + NeBuLA Collective Alignment
+
+**Repos touched:** RaBbLE-Aether (created), RaBbLE-Grimoire, RaBbLE-NeBuLA, RaBbLE-World
+
+---
+
+### RaBbLE-Aether — design system built from scratch
+
+**Structure established (`assets/`):**
+- `palette/` — `rabble-palette.css` (CSS custom properties), `rabble-palette.json` (DTCG design tokens), `rabble-palette.scss` (SCSS vars + mixins)
+- `motion/` — `rabble-motion.css`: 20+ canonical `@keyframes`, all `rabble-`prefixed, utility classes
+- `components/` — `rabble-components.css`: unified component library (resets, overlays, brand text, buttons, cards, status pills, forms, glass surfaces, nav, terminal/log, scrollbars)
+- `logos/` — `rabble-portal-glyphs.svg` (neon synthwave treatment), `rabble-portal-glyphs-spec.md` (full eye anatomy — orb geometry, portal rings, portal opposition mechanic, Claude Design prompts)
+- `reference/` — `xperimental-distillation.md`: NeBuLA-JS FlatChaos + WebOS entity mechanics extracted and indexed
+
+**Entry point + Claude Design integration:**
+- `rabble.css` — single import: Google Fonts + palette + motion + components in correct order
+- `CLAUDE-DESIGN-GUIDE.md` — component prompts, animation vocabulary, discard list
+- `SYSTEM-PROMPT.md` — three tiers (quick card, short, full) for pasting into Claude Design sessions
+
+**Audit pass — fixed before shipping:**
+- 17 unprefixed `@keyframes` renamed to `rabble-*` (namespace collision prevention)
+- 5 broken animation references in components.css updated
+- `--rabble-alpha-*` tokens replaced with pre-computed `rgba()` variants (`--rabble-magenta-10` etc.)
+- Pre-computed glow tokens added (`--rabble-glow-magenta-md` etc.)
+- No font loading → added Google Fonts import to `rabble.css`
+- No entry point → `rabble.css` created
+
+**Xperimental distillation — key patterns extracted:**
+- WebOS: entity state machine (idle/speaking/listening/reacting), portal opposition mechanic (RIGHT up = LEFT down — expression system), waveform mouth formula (3 overlapping sine ripples), body particle color distribution (15% green / 25% dark gray / 60% purple→blue)
+- NeBuLA-JS: FlatChaos pipeline (Source → Filter → Transmute → Sink), entropy attractor algorithm, q_flux_weave vocabulary, BaBbLE command set
+
+**Eye anatomy spec — portal opposition mechanic documented:**
+The portal rings can be above or below their orb, and they always move in opposition. This creates expression without changing orb shapes. States: idle (default asymmetry), speaking (portals move further out), listening (positions flip). Added to `rabble-portal-glyphs-spec.md` with Claude Design prompts.
+
+**Git:** Initialized as private GitHub repo `markm1206/RaBbLE-Aether`. `main` = Epoch 0 scaffold. `dev` = 12 Pulse Protocol commits for all session work.
+
+---
+
+### Grimoire — cast-aether spell
+
+- `spells/cast-aether.sh` — copies Aether's deployable surface (CSS, SVG, JSON — not docs) to `RaBbLE-World/aether/` on demand
+- `--dry-run` flag shows what would change without writing
+- Prints next-step commands (git add, commit, wrangler deploy) after casting
+- Dry-run verified: correctly detects current vs. changed files
+
+---
+
+### RaBbLE-World — aether cast and committed
+
+- `aether/` directory populated by `cast-aether.sh`
+- Committed: design tokens, motion library, components, portal glyph SVG, entry point
+- Live at `joinrabble.world/aether/rabble.css` after next `wrangler deploy`
+- Claude Design artifacts can now reference: `<link href="https://joinrabble.world/aether/rabble.css">`
+
+---
+
+### RaBbLE-NeBuLA — Collective alignment
+
+**Repo scaffold (was missing, now matches all other Collective members):**
+- `AGENT.md` — job definition, workspace map pointing to Grimoire, session start, rules (no RBCNS prefixes, no Layer 1 re-implementation, 1000 entities @ 60 FPS contract)
+- `CONTEXT.md` — episode tracker, current state (Ep1 not started), entry conditions
+- `CLAUDE.md` / `CODEX.md` — symlinks to AGENT.md
+
+**Grimoire NeBuLA section — all 7 docs aligned:**
+- `FlatChaos` — Pulse Protocol header added, "revolutionary" language replaced, provenance noted
+- `RABL` — Pulse Protocol header + legacy note (field names need cleaning for v2)
+- `Ideas` — Pulse Protocol header, episode gate added, emoji stripped from 12 section headers
+- `RBCNS` — **ARCHIVED** banner added; RBCNS naming (`q_`, `e_`, `f_`) not carried into v2; preserved for reading Xperimental code
+- `README.md` stub — deleted (no other Grimoire member dir has one)
+- `Architecture`, `Roadmap`, `Identity` — were already Grimoire-aligned ✓
+
+---
+
+### Left off
+
+- `joinrabble.world/aether/` not yet live — needs `wrangler deploy` from RaBbLE-World
+- Grimoire and RaBbLE-NeBuLA on `dev` / `main` — no merges to main this session (no episode complete)
+- NeBuLA Episode 1 not started — entry conditions not yet confirmed (Three.js version, TypeScript build tooling, package format)
+
+### Next
+
+- `wrangler deploy` in RaBbLE-World to put Aether CSS live at joinrabble.world
+- Confirm NeBuLA Episode 1 entry conditions and start the build
+- Start merging NeBuLA-JS visual patterns into RaBbLE-World (grid background, waveform mouth)
+- Consider adding Aether to `sync-grimoire.sh` scope (if palette/token propagation to member grimoire dirs is wanted)
+
+---
+
 ## 2026-05-12 — Versioning Alignment + i3-Style Window Management
 
 **Work done — Collective / Grimoire / sCoRE (versioning pass):**
