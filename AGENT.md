@@ -82,9 +82,8 @@ See `registry/manifests/` for the authoritative list. Current members:
 | Member | Status |
 |---|---|
 | RaBbLE-sCoRE | Active — Epoch 0, coordination engine + web API |
-| RaBbLE-OS | Active — Fedora 43/Hyprland daily driver |
-| RaBbLE-World | Active — entity.js + chat surface |
-| RaBbLE-NeBuLA | Roadmap — rebuild from Flat-Chaos pattern |
-| RaBbLE-Aether | Stub — visual assets |
-| RaBbLE-Frontend | Pending — manifest exists, repo TBD |
-| RaBbLE-WEB | Pending — manifest exists, repo TBD |
+| RaBbLE-OS | Active — Fedora 43/Hyprland live daily driver |
+| RaBbLE-World | Active — entity.js + chat surface. joinrabble.world |
+| RaBbLE-NeBuLA | Scaffold — v2 rebuild from Flat-Chaos pattern |
+| RaBbLE-Aether | Active — design system + CSS bundle |
+| RaBbLE-Xperimental | Dormant — archive: NeBuLA-JS, WebOS, RaBbLE.py, old server |

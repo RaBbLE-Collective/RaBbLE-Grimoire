@@ -1,0 +1,36 @@
+# manifests/RaBbLE-NeBuLA.manifest.yml
+# Visual entity renderer — the Flat-Chaos quantum visualization engine.
+# NeBuLA-JS (original) is archived in RaBbLE-Xperimental. This is the v2 rebuild.
+
+# Identity
+name: RaBbLE-NeBuLA
+slug: RaBbLE-NeBuLA
+description: "Flat-Chaos quantum visual renderer — the entity's ambient visual expression environment."
+role: frontend
+
+# Repository
+repo: https://github.com/markm1206/RaBbLE-NeBuLA.git
+branch: main
+worktree_root: RaBbLE-NeBuLA
+
+# Status
+epoch: 0
+status: scaffold
+
+# Grimoire
+grimoire_sync: true
+grimoire_path: grimoire/
+
+# Collective alignment
+palette_version: "1.0"
+entity_embedded: true
+pulse_protocol: true
+
+# Notes
+notes: >
+  Active branch: dev. NeBuLA v2 clean rebuild — no RBCNS naming constraints.
+  Architecture: two-layer (Layer 1: rabble-entity.js in RaBbLE-World; Layer 2: this repo).
+  Episode 1 target: Three.js InstancedMesh + Flat-Chaos Runtime, 1000+ entities @ 60 FPS.
+  Original NeBuLA-JS code archived in RaBbLE-Xperimental.
+  Lore + architecture specs live in RaBbLE-Grimoire/RaBbLE-NeBuLA/.
+  HTTPS remote (not SSH) — note for setup.sh clone logic.

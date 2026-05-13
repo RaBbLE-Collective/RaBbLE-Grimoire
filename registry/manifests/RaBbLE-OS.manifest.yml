@@ -9,7 +9,7 @@ worktree_root: RaBbLE-OS
 
 phase: 0
 epoch: 0
-status: scaffold
+status: active
 
 grimoire_sync: false
 grimoire_path: grimoire/
@@ -19,7 +19,7 @@ entity_embedded: true
 pulse_protocol: true
 
 notes: >
-  Primary Collective substrate. Fedora 43 base, Ansible-driven.
+  Live daily driver. Fedora 43 base, Ansible-driven. Hyprland compositor.
   Hardware target: ASUS ProArt P16 H7606WV (x64).
-  Phase 1 Daily Driver in progress.
+  Active branch: RaBbLE-OS-New-Horizons. Episode 1 in progress (Plot A: Substrate, Plot B: Theme).
   Detail: RaBbLE-OS/grimoire/RaBbLE-OS-Roadmap.md

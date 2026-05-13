@@ -152,8 +152,7 @@ Ideas from `RaBbLE-NeBuLA-Ideas.md`:
 | `RaBbLE-NeBuLA-Ideas.md` | Enhancement proposals for Episodes 3+ |
 | `RaBbLE-NeBuLA-Identity.md` | Entity lore, origin, philosophy |
 | `RaBbLE-World/rabble-entity.js` | Layer 1 reference implementation (do not duplicate) |
-| `RaBbLE-NeBuLA-JS/` | Archived original — architectural reference only |
-| `RaBbLE-NeBuLA-JS/MODERN_IMPLEMENTATION_ROADMAP.md` | Clean API design reference |
+| `RaBbLE-Xperimental/` | Archived original NeBuLA-JS code — architectural reference only |
 
 ---
 
