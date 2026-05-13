@@ -5,6 +5,42 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-05-12 — Versioning Alignment + i3-Style Window Management
+
+**Work done — Collective / Grimoire / sCoRE (versioning pass):**
+- Aligned all members to `v0.0.0.0` — Episode 1 not yet aired; pre-episode work renamed to Plots A/B/C
+- Grimoire: sCoRE roadmap/architecture updated (Plots, Episode 1 exit conditions, server/coordinator split decision)
+- Grimoire: registry manifests corrected (`worktree_root` paths, sCoRE version fields), `deploy-score.sh` spell added
+- sCoRE: harness paths fixed (`services/intelligence/` → `server/`), `api_test.py` committed, original generation archived
+- Collective `CONTEXT.md`: version header aligned to `v0.0.0.0`
+- Grimoire `current.epoch.yml`: version fields and episode coherence policy added
+
+**Work done — RaBbLE-OS (i3-style window management, entropy-level test):**
+- `smart-focus.sh` — `movefocus` with `cyclenext` fallback so up/down always does something
+- `toggle-split.sh` — `Super+T` toggles spawn direction (→ right ↔ ↓ below) without rearranging existing windows
+- `split-dir-daemon.sh` — socket watcher that re-applies `preselect` after every new window, making toggle persistent
+- `smart-movewindow.sh` — `Super+Shift+↑↓` creates vertical splits inline when no vertical neighbor exists
+- `look.conf`: `smart_split = false`, `force_split = 2` — consistent right-default, no golden ratio
+- `autostart.conf`: daemon added to `exec-once`
+- Grimoire: `RaBbLE-OS-HyprlandGuide.md` written — full keybind, layout, window rules, scripts, and config reference
+- All changes on branch `RaBbLE-OS-New-Horizons`
+
+**Left off:**
+- Daemon needs manual start this session: `~/.config/hypr/scripts/split-dir-daemon.sh &`
+  (will auto-start on next Hyprland login via `exec-once`)
+- `Super+T` toggle is preselect-based (one-shot per window), daemon provides persistence
+- `Super+Shift+↑↓` smart-movewindow behavior needs real-world testing with multi-window layouts
+- `socat` must be installed: `sudo dnf install socat` if not present
+- All RaBbLE-OS changes are on `RaBbLE-OS-New-Horizons` branch, not yet merged to `main`
+
+**Next:**
+- Test i3-style nav in daily use — report friction back
+- Verify daemon starts cleanly on fresh session
+- If split direction still feels off, consider `force_split = 1` variant
+- RaBbLE-OS Episode 1: harness verification, Railway deploy, API test pass
+
+---
+
 ## 2026-05-06 — Collective Repo Live + Modularity Architecture
 
 **Work done:**
