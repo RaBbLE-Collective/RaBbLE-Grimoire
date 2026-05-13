@@ -1,7 +1,26 @@
-# RaBbLE Behavioral Coding & Naming Specification (RBCNS)
+# RaBbLE-NeBuLA-RBCNS.md
 
-## Overview
-The RaBbLE Behavioral Coding & Naming Specification (RBCNS) defines the coding standards and naming conventions for all RaBbLE projects. This specification ensures consistency, readability, and adherence to the RaBbLE philosophy of entropy-driven development.
+```
+transcribe ~ grimoire >> RBCNS archived — historical reference only // %RBCNS_ARCHIVED%
+```
+
+> **ARCHIVED — do not follow for new code.**
+>
+> RBCNS (`q_`, `e_`, `f_` naming prefixes) was the naming convention for NeBuLA-JS (Epoch 0,
+> now in `RaBbLE-Xperimental/`). The NeBuLA v2 rebuild uses clean TypeScript — no prefixes.
+> This document is preserved as a historical record of how the original system named things,
+> which is useful when reading Xperimental code. It is not a standard to follow.
+>
+> Current naming convention: standard TypeScript. See `RaBbLE-NeBuLA-Roadmap.md`.
+
+---
+
+## RaBbLE Behavioral Coding & Naming Specification (RBCNS) — Historical
+
+*Original specification for NeBuLA-JS. Archived 2026-05-13.*
+
+### Overview
+RBCNS defined the coding standards and naming conventions for NeBuLA-JS. It introduced a prefix scheme ("The Swirl") based on variable volatility and role.
 
 ## Naming Scheme: "The Swirl"
 
