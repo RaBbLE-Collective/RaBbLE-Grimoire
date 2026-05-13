@@ -79,10 +79,21 @@ The portal rings can be above or below their orb, and they always move in opposi
 
 ---
 
+### Branch structure — all repos clean
+
+All four repos have `main` + `dev` on remote, fully synced, zero dirty:
+
+| Repo | `main` | `dev` | Notes |
+|---|---|---|---|
+| RaBbLE-Grimoire | initial scaffold | session work (28 commits) | |
+| RaBbLE-Aether | initial scaffold (1 commit) | session work (13 commits) | |
+| RaBbLE-NeBuLA | initial commit only | JS scaffold + alignment (4 commits) | main reset after scaffold landed on wrong branch |
+| RaBbLE-World | deployed state (10 commits) | same as main (just created) | World model: dev = work, main = deploy |
+
 ### Left off
 
 - `joinrabble.world/aether/` not yet live — needs `wrangler deploy` from RaBbLE-World
-- Grimoire and RaBbLE-NeBuLA on `dev` / `main` — no merges to main this session (no episode complete)
+- No merges to main this session — no episode complete across any repo
 - NeBuLA Episode 1 not started — entry conditions not yet confirmed (Three.js version, TypeScript build tooling, package format)
 
 ### Next
