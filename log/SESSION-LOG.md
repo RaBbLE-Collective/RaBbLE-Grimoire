@@ -5,6 +5,37 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-05-13 — Registry Complete + RaBbLE-World Landing Integrated
+
+**Repos touched:** RaBbLE-Collective, RaBbLE-Grimoire, RaBbLE-World, RaBbLE-NeBuLA, RaBbLE-OS
+
+**Work done:**
+
+- **RaBbLE-OS:** Removed `Issues.txt` (untracked loose file) — content already captured in `ISSUES.md`
+- **Grimoire registry:** Added manifests for RaBbLE-World, RaBbLE-NeBuLA, RaBbLE-Aether; removed stale `RaBbLE-WEB` and `RaBbLE-Frontend` placeholders; corrected RaBbLE-OS status (`scaffold` → `active`); AGENT.md member table brought current
+- **Collective CONTEXT.md:** Member statuses updated — NeBuLA has a remote, Aether is an active git repo, registry track marked complete
+- **RaBbLE-NeBuLA:** `docs/` folder removed — all lore was already migrated to Grimoire in a prior session; Grimoire roadmap stale reference cleaned up
+- **RaBbLE-World — major restructure:**
+  - New `world/` directory — all site source (HTML, CSS, JS) moved inside; `index.html` is the only file at root
+  - All files renamed with `RaBbLE-` prefix; `RaBbLE.html` → `RaBbLE-Chat.html`; `rabble-os.html` → `RaBbLE-OS.html`
+  - New landing page (`index.html`) replaces the old redirect — three-panel console UI, Alpine.js, shared `<rabble-entity>` web component
+  - Entity and "RaBbLE" wordmark no longer overlap — wordmark moved out of entity-wrap as a sibling flex item; stage uses `gap` not individual margins
+  - OS wakeup sequence (condensed from `RaBbLE-boot.js` LINES array) plays in the entity log on page load, with entity state transitions
+  - "Boot RaBbLE" → quick boot animation → page fades → navigates to `world/RaBbLE-Boot.html`
+  - "Get RaBbLE-OS" → navigates to `world/RaBbLE-OS.html`
+  - New `world/RaBbLE-OS.html` — OS intro, bootstrap curl command, expansion cards (Core Substrate, Aether Theme, Developer Layer, sCoRE Bridge, Mobile Companion, NeBuLA Renderer)
+  - AGENT.md updated with full new file map
+
+**Left off:** All changes committed. No in-progress work. All repos on their active dev branches.
+
+**Next:**
+- Deploy RaBbLE-World to Cloudflare Workers and verify landing renders correctly
+- Test the "Boot RaBbLE" → `RaBbLE-Boot.html` transition end-to-end
+- Consider adding the bootstrap.sh to `world/` so `joinrabble.world/bootstrap.sh` resolves
+- Grimoire: add RaBbLE-Grimoire self-manifest if needed (currently handled by Collective bootstrap, not registry)
+
+---
+
 ## 2026-05-13 — RaBbLE-Aether: Visual Design System + NeBuLA Collective Alignment
 
 **Repos touched:** RaBbLE-Aether (created), RaBbLE-Grimoire, RaBbLE-NeBuLA, RaBbLE-World
