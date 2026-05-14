@@ -184,7 +184,7 @@ if [[ "$BUNDLE_SRC_HASH" != "$BUNDLE_OLD_HASH" ]]; then
       echo " */"
       echo ""
       echo "/* ── Fonts ───────────────────────────────────────────────────────── */"
-      echo "@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=Share+Tech+Mono&display=swap');"
+      echo "@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Exo+2:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=Share+Tech+Mono&display=swap');"
       echo ""
       for css_path in "${BUNDLE_CSS[@]}"; do
         src_file="$AETHER_ROOT/$css_path"
