@@ -1,31 +1,45 @@
 # RaBbLE-NeBuLA-Roadmap.md
 
 ```
-transcribe ~ grimoire >> NeBuLA rebuild trajectory mapped // %NEBULA_ROADMAP_LOCKED%
+transcribe ~ grimoire >> NeBuLA backend model expanded, Layer 1 absorption planned // %NEBULA_EXPANDED%
 ```
 
-> **Status:** Lore migrated from NeBuLA-JS. Clean rebuild not yet started.
-> **NeBuLA-JS:** Archived — lore is now here. Code patterns are reference only.
+> **Status:** Scaffold exists. Episode 1 not started. Backend model expanded beyond original two-layer spec.
+> **NeBuLA-JS:** Archived in `RaBbLE-Xperimental/JS-Xperiments/NeBuLA-JS/` — original NeBuLA and RaBbLE WebOS concepts live there. Patterns are reference only; do not build on that codebase.
 
 ---
 
-## Two-Layer Architecture (Locked Decision)
+## Rendering Architecture — Backend Progression
 
-NeBuLA v2 is built as two complementary, independent systems:
+NeBuLA is the Collective's unified rendering engine. It does not target a single backend — it provides a backend-agnostic entity rendering surface that advances through generations:
 
-**Layer 1 — Entity Persona (2D Canvas)**
-- Lives in RaBbLE-World as `rabble-entity.js`
-- Stable interface. Do not re-implement in NeBuLA.
-- Draws: eyes, portal, particle nebula, animation states
-- See `RaBbLE-NeBuLA-Architecture.md` for API reference
+| Backend | Target | Status | Notes |
+|---|---|---|---|
+| **Canvas2D** | Web (2D entity persona) | Ep1 target | Replaces `rabble-entity.js` in World |
+| **Three.js / WebGL** | Web (3D Flat-Chaos env) | Ep1 target | Quantum visualization layer |
+| **WebGPU** | Web (advanced shading) | Ep5+ | When browser support stabilises |
+| **C++ / OpenGL** | Native desktop | Future | Enables Qt/QML portability |
+| **Qt / QML** | Desktop app surface | Long-term | RaBbLE-OS native entity renderer |
 
-**Layer 2 — Quantum Visualization (3D / Three.js)**
-- This is what NeBuLA v2 builds
+The Canvas2D and Three.js backends run together: Canvas2D draws the entity persona (eyes, portal, nebula) while Three.js renders the surrounding environment. Together they form the complete entity surface.
+
+---
+
+## Layer Model (Updated)
+
+**Layer 1 — Entity Persona (Canvas2D)**
+- **Current:** `rabble-entity.js` in RaBbLE-World — transitional reference implementation
+- **Future:** NeBuLA Canvas2D backend absorbs Layer 1 when ready
+- The `<rabble-entity>` custom element API (`setEntityState`, `injectEyeJolt`) is the stable interface contract NeBuLA must match
+- Draws: eyes, portal rings, particle nebula, blink/saccade, state animations
+
+**Layer 2 — Quantum Visualization (Three.js / WebGL)**
+- NeBuLA's primary build target — this repo
 - Flat-Chaos Runtime: Stream → Entity → Flux → Render
 - Core primitives: `Entity` (DNA + flux_matrix + entropy), `Stream`, `Runtime`
 - Performance target: 1000+ entities @ 60 FPS
 
-**Integration contract:** Layer 1's entity state (`idle/thinking/speaking`) maps to entropy level in Layer 2. High-activity states → higher entropy in the environment. The two layers communicate via a thin bridge, not shared state.
+**Integration contract:** Layer 1 entity state (`idle/thinking/speaking`) maps to entropy level in Layer 2. The two layers communicate via a thin bridge, not shared state. This contract survives the transition from `rabble-entity.js` to the NeBuLA Canvas2D backend.
 
 ---
 
@@ -129,15 +143,42 @@ runtime.start();
 
 ---
 
-### Episode 5+ — Advanced Features `[FUTURE]`
+### Episode 5 — WebGPU Backend `[FUTURE]`
+
+**Goal:** High-throughput web rendering. Replaces Three.js for the quantum visualization layer when WebGPU is stable across Safari/Chrome/Firefox.
+
+#### Episode 5 Exit Conditions
+
+- [ ] WebGPU backend renders identical scene output to Three.js backend
+- [ ] Compute shaders handle Flat-Chaos entropy field calculation
+- [ ] Performance target: 10,000+ entities @ 60 FPS (10× Ep1 baseline)
+- [ ] Three.js backend retained as fallback for non-WebGPU environments
+
+---
+
+### Episode 6 — C++ / OpenGL Backend `[FUTURE]`
+
+**Goal:** Native portable rendering. Enable the entity on desktop surfaces without a browser.
+
+#### Episode 6 Exit Conditions
+
+- [ ] C++ rendering core that can run the entity persona (Canvas2D equiv.) natively
+- [ ] OpenGL ES compatibility (matches WebGL surface parity)
+- [ ] CMake build target, no Node/npm dependency
+- [ ] Plymouth integration: entity boots on RaBbLE-OS startup screen (replaces static Plymouth theme)
+- [ ] Qt/QML wrapper: `<RaBbLEEntity />` QML component using OpenGL surface
+
+**Note:** The boot sequence animation in `RaBbLE-World/world/RaBbLE-Boot.html` is the reference design for the Plymouth boot screen. It demonstrates the particle convergence → portal arcs → eye emergence timeline that should be reproduced natively for RaBbLE-OS startup.
+
+---
+
+### Episode 7+ — Advanced Features `[FUTURE]`
 
 Ideas from `RaBbLE-NeBuLA-Ideas.md`:
 
 - Interactive Entropy Canvas (entropy wells, quantum trails, stream splitting)
 - Reaction-Diffusion stream patterns (Turing patterns)
 - Audio reactivity (entropy driven by audio spectrum)
-- C++ portability exporter (for RaBbLE-OS native rendering)
-- WebGPU backend (when browser support stabilizes)
 
 ---
 

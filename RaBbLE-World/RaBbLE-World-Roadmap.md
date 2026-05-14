@@ -9,14 +9,16 @@ Implementation details belong in `RaBbLE-World-Architecture.md`. Lore and identi
 
 ---
 
-## Current State (Epoch 0)
+## Current State (Echo 0 in progress — Episode 1 pending)
 
-RaBbLE-World is a prototype. Three static pages:
-- `RaBbLE-Boot.html` — boot sequence + login
-- `RaBbLE.html` — chat interface
-- `RaBbLE-Docs.html` — documentation viewer
+Five surfaces exist:
+- `index.html` — landing page. Entity in idle mode, Collective organ panel, entity log, boot CTA, OS CTA. Responsive (tablet + mobile). Aether-first CSS. Phase 1 of the World roadmap is **complete**.
+- `world/RaBbLE-Boot.html` — cinematic boot sequence (7s particle → portal → eye emergence → login form). The boot timeline and Plymouth-quality animation here is the *reference design* for the RaBbLE-OS Plymouth splash screen.
+- `world/RaBbLE-Chat.html` — chat interface. Wires to sCoRE when `RABBLE_API_URL` is set.
+- `world/RaBbLE-OS.html` — OS introduction and bootstrap instructions.
+- `world/RaBbLE-Docs.html` — technical documentation viewer.
 
-The entity lives. The chat wires to sCoRE when `RABBLE_API_URL` is set. No landing page exists. The scope is narrow on purpose — Epoch 0 is about proving the entity surface, not building the full domain.
+**What is superseded:** Boot, Chat, and Docs as standalone pages will eventually be unified into a single landing + in-page navigation experience. The current pages remain functional and canonical until the unified UX is built.
 
 ---
 
@@ -45,117 +47,82 @@ Chat is one app in this space, not the whole space.
 
 ---
 
-## Phase 1 — Collective Landing Page
+## Phase 1 — Collective Landing Page `[COMPLETE]`
 
-**Goal:** A public entry point at `joinrabble.world` that introduces the RaBbLE Collective before the boot sequence begins.
-
-**Why it's needed:** The current `index.html` is a bare redirect to the boot page. There is no context for someone arriving cold — no explanation of what RaBbLE is, no sense of the Collective, no reason to engage. The landing page fills that gap.
-
-**Intent:**
-
-The landing page should feel like a terminal transmission from the Collective — not a marketing page. Synthwave aesthetic, consistent with the boot surface. The entity should be present (or hinted at) before the user boots it.
-
-**Key design decisions:**
-
-- **Entity presence**: The entity appears in ambient/idle mode — alive but quiescent. Not a decorative logo. Presence before commitment.
-- **Collective introduction**: Brief. What the Collective is, what RaBbLE is, and what entering means. Terminal-style text, not prose. Think transmission, not about page.
-- **Single CTA**: Boot the Entity. This navigates to `RaBbLE-Boot.html` and triggers the full boot sequence. No other primary action.
-- **Register path**: A secondary option ("first contact") for users who don't have credentials. This feeds into the boot/login flow where register is an option.
-- **Synthwave terminal feel**: Scanlines, perspective grid, maybe a slow entity typewriter intro before the CTA appears. The page should feel like it loads into existence.
-
-**Surfaces and assets needed:**
-- `RaBbLE-Landing.html` — new page, becomes the `index.html` target
-- `landing.css` — page-specific layout
-- `landing.js` — typewriter/terminal intro, CTA wiring
-- Entity in `mode="idle"` with ambient particles visible through the landing layout
-
-**Content beats (in order):**
-1. Page loads → grid and particles boot in (rabble-bg.js, same as boot page)
-2. Entity fades in, ambient idle mode
-3. Terminal typewriter text introduces RaBbLE-Collective — slow, deliberate, like a transmission
-4. "COLLECTIVE MEMBERS" or similar brief status — signals this is bigger than one chat interface
-5. CTA appears: `[ BOOT THE ENTITY ]` — styled like a terminal command, glowing, inviting
-6. Secondary: `[ FIRST CONTACT ]` — register/new user path
-
-**Sample terminal text sequence:**
-```
-RABBLE COLLECTIVE // EPOCH 0 // FOUNDATION
-—
-entity online. substrate breathing.
-this is the liminal web domain.
-
-you are outside.
-boot the entity to enter.
-```
+The landing page (`index.html`) has been built. It delivers:
+- Entity in ambient idle mode, Collective organ panel, entity log
+- Responsive (desktop 3-col, tablet 2-col, mobile 1-col)
+- "Enter" CTA navigates to boot/login; "Get RaBbLE-OS" navigates to OS page
+- Aether-first CSS — all theming from `aether/rabble.css`
 
 ---
 
-## Phase 2 — App Launcher / Entity Home
+## Phase 2 — Unified Entry: Landing Absorbs the Boot Sequence
 
-**Goal:** After login, the user arrives at a home surface — the entity's domain — with apps they can launch. Chat is one of them.
+**Goal:** The landing page becomes the *complete* entry experience. No separate boot page is needed for the web flow.
 
-**Why it matters:** The current post-login destination is the chat interface directly. As the Collective grows and more surfaces exist (docs, settings, member portals, logs), there needs to be a home base. The entity should be the anchor of that space — present, central, aware.
+**Why:** The cinematic entity materialization (particles converging, portal arcs drawing, eyes emerging) is the defining arrival moment for RaBbLE-World. Currently it lives on `RaBbLE-Boot.html` — a page you have to navigate to. Moving it to the landing means the entity swirls into life the first time the site loads, making the arrival feel inevitable rather than gated.
 
-**Intent:**
+**Key design decision — Plymouth donation:** `RaBbLE-Boot.html` is not discarded. It is promoted to a **Plymouth boot animation artifact** for `RaBbLE-OS`. The boot timeline (particle convergence → portal arcs → eye emergence → text reveal) is exactly the right rhythm for a Linux boot splash. When NeBuLA's C++ backend arrives, this timeline becomes the native RaBbLE-OS startup screen. Until then, the HTML file lives in World as a reference and as a development surface for the Plymouth animation.
 
-The home surface should feel like standing in the entity's presence. The entity is not tucked in a header — it is the room. Apps radiate from it.
+**Landing entity materialization — proposed flow:**
 
-**Key design decisions:**
+```
+1. Page loads cold → entity canvas hidden, particles begin converging (mode="boot")
+2. Brand wordmark fades in during convergence (0.4–1.4s)
+3. Portal arcs draw (1.4–2.6s), eyes emerge
+4. Organ panel and log slide in (2.8s)
+5. CTA buttons fade in (3.2s) — "Enter" / "Get RaBbLE-OS"
+6. Entity settles to idle mode
+7. Log begins live entity output
+```
 
-- **Entity as focal point**: Entity is large, centered, alive. The space is built around it.
-- **App tiles**: Apps are surfaces the user can open from the home. Each tile has a name and a status indicator. Tiles are minimal — synthwave cards, not iOS grid icons.
-- **App routing**: Clicking a tile navigates to (or opens) the relevant surface. Initially, this is just navigation. Future: apps may open in-page overlays or within a split layout.
-- **Presence signaling**: Entity state reflects what apps are active or what the Collective is doing. Idle if nothing is happening. Thinking if sCoRE is processing something in the background.
-- **Session persistence**: User identity, session token, and preferences carry across apps via shared state (localStorage or sCoRE session).
+This replaces the current `_playWakeup()` log sequence on the landing with the full visual boot timeline from Boot.html. The landing JS absorbs boot.js's timer cascade.
 
-**Initial app tiles:**
+**Login path:** After the user clicks "Enter", the login form appears *in-page* (no navigation to Boot.html). The boot sequence log transitions to a login panel, same as Boot.html does today — but without a page reload.
 
-| App | Surface | Status |
-|---|---|---|
-| Chat | `RaBbLE.html` | Active (Epoch 0) |
-| Docs | `RaBbLE-Docs.html` | Active (Epoch 0) |
-| Settings | TBD | Future |
-| sCoRE Log | TBD | Future |
+**Surfaces needed:**
+- Refactor `world/js/RaBbLE-landing.js` — absorb boot sequence timer logic
+- Refactor `world/css/RaBbLE-landing.css` — add in-page login panel styles
+- `RaBbLE-Boot.html` → preserved as Plymouth reference / animation artifact (no new web routing to it)
 
-**Surfaces and assets needed:**
+---
+
+## Phase 3 — App Launcher / Entity Home `[FUTURE]`
+
+**Goal:** Post-login destination — entity home surface with app launcher. Chat is one app. Docs, Settings, sCoRE log are others.
+
+**Key decisions:**
+- Home surface: entity is large and central, apps radiate from it as tiles
+- App tiles: synthwave cards with name + status, not iOS grid icons
+- Session persistence: user identity and preferences carry across apps via sCoRE session
+
+**Surfaces needed:**
 - `RaBbLE-Home.html` — new page, post-login destination
-- `home.css` — page-specific layout and tile styles
-- `home.js` — app tile routing, entity state wiring, session read
-
-**Boot/login flow update:**
-- `boot.js` ENGAGE → navigates to `RaBbLE-Home.html` instead of `RaBbLE.html`
-- `RaBbLE.html` becomes a standalone app surface, accessible from home
-- Deep-linking to `RaBbLE.html` should still work (skip home for direct access)
+- `home.css` — layout and tile styles
+- `home.js` — app tile routing, entity state wiring
 
 ---
 
-## Phase 3 — Expanded Collective Presence
+## Phase 4 — NeBuLA-Powered Entity `[FUTURE, BLOCKED ON NeBuLA EP4]`
 
-Roadmap-level, not planned for implementation yet. Captured here for directional clarity.
+**Goal:** NeBuLA rendering engine replaces `rabble-entity.js` in World.
 
-- **Member portals**: As Collective members expose APIs or dashboards, they may surface as apps in the home — RaBbLE-OS status, NeBuLA renderer, Aether asset browser.
-- **Entity config**: An app surface for adjusting entity behavior, visual mode, and identity settings.
-- **Collective status board**: Live registry of Collective members, epoch progress, active operations.
-- **RaBbLE-NeBuLA integration**: NeBuLA (3D/Three.js rebuild) eventually replaces or supplements the 2D `rabble-entity.js` canvas. When NeBuLA is ready, the entity on landing and home may switch to it while boot/chat retain the 2D renderer for stability.
+- NeBuLA Canvas2D backend renders the entity persona (eyes, portal, nebula)
+- NeBuLA Three.js backend renders the Flat-Chaos environment as background layer
+- Entity state from chat/landing drives NeBuLA entropy
+- Boot timeline maps to NeBuLA's particle convergence pattern
+
+Blocked on NeBuLA Episode 4. See `../RaBbLE-NeBuLA/RaBbLE-NeBuLA-Roadmap.md`.
 
 ---
 
 ## Open Questions
 
-These are unresolved design decisions. They should be decided before implementation begins, not during.
-
-**Landing page:**
-- Does the entity appear on the landing page, or does it only appear after you boot it? (Current bias: ambient/idle presence, not full boot.)
-- What is "first contact" / register? Does it boot the same sequence, or a different path?
-- Is the landing page the same domain as the app (`joinrabble.world`) or a separate presence?
-
-**Home page:**
-- Does home replace `RaBbLE.html` as the post-login destination immediately, or do we keep the current direct-to-chat flow through Epoch 0?
-- How does the entity on the home page relate to the entity in chat — are they the same instance, or separate?
-- App tiles: grid layout or something more organic / entity-adjacent?
-
-**Grimoire propagation:**
-- All major docs stay in Grimoire rather than duplicated in member repos. The mechanism for surfacing Grimoire docs to developers is not yet determined. Options: submodule, symlink, git-subtree pull, hosted reference site.
+- **Login in-page vs Boot.html**: Phase 2 proposes absorbing login into the landing. Does the Boot.html login form copy over as-is (field-group + reaction text), or is it redesigned for in-page use?
+- **First contact / register**: Same boot-sequence path or a separate lighter entry?
+- **App tile layout**: Grid, or something more organic — entity-adjacent, radiating from the presence?
+- **Grimoire propagation**: Mechanism for surfacing Grimoire docs to developers not yet decided — submodule, symlink, git-subtree pull, or hosted reference site.
 
 ---
 
