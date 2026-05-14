@@ -35,6 +35,13 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 
 ---
 
+## RaBbLE-Collective
+
+- [RaBbLE-Collective-Plan](RaBbLE-Collective/RaBbLE-Collective-Plan.md) — Collective architecture and coordination plan
+- [RaBbLE-Episode-I-Release](RaBbLE-Collective/RaBbLE-Episode-I-Release.md) — Episode 1 release plan: member deliverables, VM infrastructure, demo target
+
+---
+
 ## Registry
 
 - [RaBbLE-Collective-Registry](registry/RaBbLE-Collective-Registry.md) — registry reference documentation
