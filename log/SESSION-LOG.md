@@ -5,6 +5,38 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-05-14 — RaBbLE-World Responsive Polish: Height Breakpoints + Landscape Collective
+
+**Repos touched:** RaBbLE-World
+
+**Work done:**
+
+Continuation of the WM/NeBuLA/PWA session (previous context ran out). All changes on `dev` branch.
+
+- **Sub-500px entity rendering (from previous session, confirmed this session):** Entity canvas box eliminated at landscape phone sizes. `entity-wrap` becomes `position: absolute` ambient background filling the stage; overscan capped to 1.2 at `innerHeight < 500` so canvas stays within stage bounds. `mix-blend-mode: screen` on canvas makes cleared (black) pixels invisible. Commit `e7b0634`.
+
+- **Portrait height breakpoints added** (commit `4c0d001`):
+  - `max-height: 720px` (all orientations): hides hint-strip, collapses its grid row — frees 28px for main content
+  - `max-height: 720px + portrait + min-width: 601px`: compact stage padding/gap, entity-wrap capped at 280px, wordmark scaled down, void-chat max 80px
+  - `max-height: 620px + portrait + min-width: 601px`: mission text hidden, ask-label hidden, entity-wrap to 240px — ensures ask-box never clips at short but non-landscape viewports
+  - `min-width: 601px` guard keeps height rules from conflicting with the already-compact mobile portrait styles
+
+- **Landscape log-toggle moved to top-right** (commit `4c0d001`): was bottom-right, overlapping ask-box. Now `top: calc(var(--sb-height) + 8px)` — sits below Waybar, never touches content.
+
+- **Collective organ detail panel in landscape** (commit `d4b5b7c`): at iPhone 15 landscape (852×390), the organ detail panel was 180px wide with 28px-each-side padding — 124px text width, unreadable. Fixed: `position: fixed; width: min(300px, 75vw)` breaks out of the column and renders as a glass drawer over the stage (z-index 20, right-edge violet border + depth shadow). Op-head/body/footer resized for this width.
+
+- **Ask-box cleared above toggle buttons** (commit `d4b5b7c`): in portrait ≤600px, stage gets `padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px))` so ask-box never slides behind the fixed nav-toggle and log-toggle buttons on either side.
+
+**Left off:** All committed on `dev`. Not yet deployed to Cloudflare. Responsive behavior significantly improved across 500–850px range. No in-progress work.
+
+**Next:**
+- Test on actual iPhone 15 — verify organ panel glass drawer, ask-box clearance, entity ambient rendering
+- `wrangler deploy` to push changes live to `joinrabble.world`
+- Consider adding a `backdrop` click-to-close for the landscape organ panel (currently only close button dismisses)
+- WM keyboard shortcuts (`Ctrl+1–4` layout presets) may want Waybar UI indicators
+
+---
+
 ## 2026-05-13 — Registry Complete + RaBbLE-World Landing Integrated
 
 **Repos touched:** RaBbLE-Collective, RaBbLE-Grimoire, RaBbLE-World, RaBbLE-NeBuLA, RaBbLE-OS
