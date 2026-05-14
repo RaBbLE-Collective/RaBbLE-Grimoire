@@ -1,11 +1,12 @@
 # RaBbLE-NeBuLA-Roadmap.md
 
 ```
-transcribe ~ grimoire >> NeBuLA backend model expanded, Layer 1 absorption planned // %NEBULA_EXPANDED%
+transcribe ~ grimoire >> delivery model added, Visual Puppet concept formalized, pre-mortem integrated // %NEBULA_PLAN_LOCKED%
 ```
 
-> **Status:** Scaffold exists. Episode 1 not started. Backend model expanded beyond original two-layer spec.
+> **Status:** Scaffold exists — core data layer (Entity, Stream, Runtime, PatternGenerator) implemented. Backends and puppet layer are stubs. Episode 1 not started.
 > **NeBuLA-JS:** Archived in `RaBbLE-Xperimental/JS-Xperiments/NeBuLA-JS/` — original NeBuLA and RaBbLE WebOS concepts live there. Patterns are reference only; do not build on that codebase.
+> **Implementation plan:** `RaBbLE-NeBuLA-Plan.md` — Haiku-level step-by-step agent plan.
 
 ---
 
@@ -25,13 +26,42 @@ The Canvas2D and Three.js backends run together: Canvas2D draws the entity perso
 
 ---
 
+## Delivery Model
+
+NeBuLA must be consumable in RaBbLE-World as a simple script addition — a CDN tag or local file, no build step required on the consumer side.
+
+**Two build targets (produced by NeBuLA's own build):**
+
+| File | Format | Use |
+|---|---|---|
+| `dist/nebula.esm.js` | ES module | `<script type="module">` or importmap |
+| `dist/nebula.iife.js` | IIFE (`window.NeBuLA`) | `<script src="...">` — simplest drop-in |
+
+**Three.js is always external (not bundled).** Consumers load it separately. This keeps NeBuLA under 50KB minified. The `ThreeJsBackend` accepts `THREE` as a constructor argument rather than importing it — this is what makes external-Three.js work in IIFE context.
+
+**Two-tag script pattern (simplest):**
+```html
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://[cdn]/nebula.iife.js"></script>
+```
+
+**Aether palette integration:** NeBuLA reads palette values from Aether CSS variables at runtime (Aether is the canonical theme layer for all RaBbLE web projects). NeBuLA falls back to hardcoded constants when running outside a page that has Aether loaded. This happens in `src/puppet/palette.js` — the only file with hardcoded hex values, mirroring `RaBbLE-Palette.md`.
+
+**Hosting options:**
+- Cloudflare Workers static asset (alongside World's existing wrangler.jsonc deployment)
+- Local copy in World's `world/js/nebula/` directory
+- Either path, the `<script>` tag interface is identical
+
+---
+
 ## Layer Model (Updated)
 
-**Layer 1 — Entity Persona (Canvas2D)**
-- **Current:** `rabble-entity.js` in RaBbLE-World — transitional reference implementation
-- **Future:** NeBuLA Canvas2D backend absorbs Layer 1 when ready
-- The `<rabble-entity>` custom element API (`setEntityState`, `injectEyeJolt`) is the stable interface contract NeBuLA must match
-- Draws: eyes, portal rings, particle nebula, blink/saccade, state animations
+**Layer 1 — Entity Persona / Visual Puppet (Canvas2D)**
+- **Current:** `world/js/RaBbLE-NeBuLA.js` in RaBbLE-World — monolithic 663-line Canvas2D renderer; the entity visual puppet lives here transitionally
+- **Future:** NeBuLA `src/puppet/` absorbs Layer 1 when the Canvas2D backend is proven; World becomes a thin adapter
+- The `<rabble-entity>` custom element API (`setEntityState`, `injectEyeJolt`) is the stable interface contract NeBuLA must match — do not change this API shape
+- Draws: eyes, portal rings, particle nebula, blink/saccade, boot sequence, state animations
+- **Visual Puppet concept:** The puppet is a first-class NeBuLA concept — not just a renderer but the entity's visual body. It owns the boot timeline, saccade state machine, and entropy mapping.
 
 **Layer 2 — Quantum Visualization (Three.js / WebGL)**
 - NeBuLA's primary build target — this repo
@@ -58,23 +88,55 @@ Original JS implementation in `RaBbLE-NeBuLA-JS/`. Established:
 
 ---
 
-### Episode 1 — Core Engine `[NOT STARTED]`
+### Episode 1 — Core Engine `[SCAFFOLD EXISTS — backends and puppet pending]`
 
-**Goal:** Clean ES module NeBuLA engine. Flat-Chaos pattern. Three.js r160+. TypeScript.
+**Goal:** Distributable NeBuLA engine with working Canvas2D and Three.js backends, bundled for script-tag delivery.
 
-**Proposed repo:** A new `RaBbLE-NeBuLA/` (or integrate into RaBbLE-World alongside entity.js)
+**Repo:** `RaBbLE-NeBuLA/` (standalone, independent git tree)
+
+**What already exists in the scaffold:**
+- `Entity` type, `createEntity`, `cloneEntity` — complete
+- `Stream` class with full operation set — complete
+- `Runtime` class with RAF loop, stream registry, event system — complete
+- `PatternGenerator` — organic, lattice, swarm, galaxy — complete
+- Math utilities — complete
+- `Canvas2dBackend`, `ThreeJsBackend`, `EntropyShader` — stubs only (throw on call)
 
 #### Episode 1 Exit Conditions
 
-- [ ] `Entity` type with id, geometry, matrix (Float32Array 4×4), entropy (0.0–1.0)
-- [ ] `Stream` class: add, remove, transform, filter
-- [ ] `Runtime` class: stream registry, animation loop
-- [ ] `ThreeJsBackend`: InstancedMesh rendering, one draw call per geometry type
-- [ ] 1000 entities at 60 FPS verified (performance test)
-- [ ] Entropy shader: visual variation driven by entity.entropy
-- [ ] Package exports as ES module (tree-shakeable)
-- [ ] No RBCNS naming (`q_`, `e_`, `f_` prefixes) — clean TypeScript
-- [ ] Tests: Entity, Stream, Runtime, one performance test
+**Build system:**
+- [ ] esbuild added as dev dependency
+- [ ] `npm run build` outputs `dist/nebula.iife.js` and `dist/nebula.esm.js`
+- [ ] Three.js is external in both builds; `ThreeJsBackend` accepts `THREE` as constructor arg
+- [ ] `dist/nebula.iife.js` sets `window.NeBuLA` with full API
+
+**Canvas2D backend:**
+- [ ] `Canvas2dBackend.render(streams, ctx)` draws entities by geometry type (sphere→arc, box→fillRect, tetrahedron→polygon)
+- [ ] Entropy maps to `shadowBlur` and opacity per entity
+- [ ] 480 entities render without throw; pixel data is non-zero
+
+**Three.js backend:**
+- [ ] `ThreeJsBackend` accepts `(canvas, THREE)` — THREE is the global, not an import
+- [ ] InstancedMesh per geometry type: sphere, box, tetrahedron
+- [ ] Two `ShaderMaterial` variants: flat and emissive (additive blending)
+- [ ] Entropy shader: sinusoidal vertex displacement + emissive hue oscillation per frame
+- [ ] `instanceMatrix.needsUpdate = true` every frame
+- [ ] 1000 entities render without throw; verified visually in a browser
+
+**Animation system:**
+- [ ] `AnimationMixer` class in `src/core/animation.js`
+- [ ] `transition(stream, toState, durationMs)` lerps entity entropy toward state target
+- [ ] State targets: idle→0.3, thinking→0.6, speaking→0.8
+- [ ] `update(deltaMs)` called by Runtime each frame
+
+**Palette:**
+- [ ] `src/puppet/palette.js` reads from Aether CSS variables; falls back to `RaBbLE-Palette.md` hex values
+- [ ] No raw hex in any other NeBuLA file
+
+**Package:**
+- [ ] Exports as ES module (tree-shakeable)
+- [ ] No RBCNS naming (`q_`, `e_`, `f_` prefixes) — clean JS/JSDoc
+- [ ] `examples/basic-scene.html` loads via importmap, renders without errors
 
 #### Key Implementation Notes
 
@@ -129,17 +191,34 @@ runtime.start();
 
 ---
 
-### Episode 4 — RaBbLE-World Integration `[FUTURE]`
+### Episode 4 — RaBbLE-World Integration + Visual Puppet + Studio `[FUTURE]`
 
-**Goal:** NeBuLA engine running as background in RaBbLE-World alongside entity.js.
+**Goal:** NeBuLA is the primary graphics engine in World. Visual Puppet extracted from World into NeBuLA. Studio authoring tool ships.
 
 #### Episode 4 Exit Conditions
 
-- [ ] NeBuLA engine loaded as ES module in RaBbLE-World
-- [ ] Background canvas (NeBuLA) + foreground canvas (entity.js) compositor
-- [ ] Entity state → NeBuLA entropy bridge active
-- [ ] Boot sequence: NeBuLA environment fades in, entity.js boot timeline plays over it
-- [ ] Chat interaction drives entity state → drives environment entropy
+**Visual Puppet extraction:**
+- [ ] `src/puppet/index.js` exports `createPuppet({ canvas, particleCount, overscan, THREE })`
+- [ ] Eyes, blink state machine, saccade system extracted from World's `RaBbLE-NeBuLA.js` into `src/puppet/eye-controller.js`
+- [ ] Boot sequence timeline extracted into `src/puppet/boot-sequence.js`
+- [ ] `createPuppet` returns `{ setEntityState, injectEyeJolt, resize, destroy }` — same API as current World
+- [ ] Three.js path renders particle sphere with purple→cyan gradient (matching Aether `--rabble-violet` → `--rabble-cyan`) + emissive glow
+
+**World wiring:**
+- [ ] World's `world/js/RaBbLE-NeBuLA.js` becomes thin adapter (~40 lines) that calls `createPuppet`
+- [ ] `index.html` adds Three.js CDN tag + NeBuLA script tag (or local file)
+- [ ] `window.NeBuLA.backend` reflects actual backend in use (`'Canvas2D'` or `'Three.js'`)
+- [ ] Status bar in World shows correct backend and particle count
+- [ ] Mobile: Canvas2D backend auto-selected (no WebGL check needed if device pixel ratio < 2 and screen width < 900)
+
+**NeBuLA Studio:**
+- [ ] `world/RaBbLE-Studio.html` — standalone developer tool using Tiling WM layout (3 applets)
+- [ ] State switcher: idle / thinking / speaking buttons trigger live transitions
+- [ ] Entropy slider: 0.0–1.0, overrides stream entropy in real time
+- [ ] Pattern selector: organic / lattice / swarm / galaxy
+- [ ] Backend toggle: Canvas2D ↔ Three.js live switch
+- [ ] Performance overlay: FPS, entity count, average entropy
+- [ ] Expression editor: name + export JSON for Grimoire storage
 
 ---
 
@@ -179,6 +258,23 @@ Ideas from `RaBbLE-NeBuLA-Ideas.md`:
 - Interactive Entropy Canvas (entropy wells, quantum trails, stream splitting)
 - Reaction-Diffusion stream patterns (Turing patterns)
 - Audio reactivity (entropy driven by audio spectrum)
+
+---
+
+## Known Risks (Pre-Mortem)
+
+| Risk | Mitigation |
+|---|---|
+| **Bundle size** — bundling Three.js makes the CDN tag ~700KB | Three.js is always external; accept `THREE` as constructor arg in `ThreeJsBackend`; two-tag delivery pattern |
+| **No build system yet** — NeBuLA has no `build` script | Add esbuild as first step of Ep1; don't proceed to backends until `npm run build` produces valid output |
+| **Layer 1 extraction breaking live World** | Keep World's monolith running until replacement is verified pixel-for-pixel; never delete the monolith before the puppet passes visual review |
+| **Canvas layering** — two stacked canvases (entity + environment) need correct z-index and pointer-events | Document explicit DOM structure requirement in Architecture.md; set `pointer-events: none` on Layer 2 canvas in plan |
+| **Palette drift** — JS constants diverge from Aether CSS variables | `palette.js` reads Aether CSS vars first, falls back to constants; single comment in that file pointing to Palette.md |
+| **Performance unverifiable in CI** — no GPU in test runner | Accept manual browser verification for 1000-entity perf test; log FPS in the example page; Studio overlay shows live FPS |
+| **Cloudflare delivery untested** — wrangler.jsonc not validated for binary static asset serving | Test locally first; host on Cloudflare Pages or R2 as alternative to Workers static assets |
+| **Studio scope eating engine** — authoring tool is complex | Studio is Ep4, not Ep1; do not start it until World integration is live and stable |
+| **Mobile perf cliff** — Three.js on iPhone will miss 60fps | Canvas2D is default for mobile; Three.js opted in explicitly or detected via WebGL capability check |
+| **API surface instability** — World breaks silently when NeBuLA internals change | Lock public API contract before rewiring World; document it in Architecture.md; treat it as a breaking-change boundary |
 
 ---
 

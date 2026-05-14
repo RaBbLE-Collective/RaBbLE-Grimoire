@@ -113,7 +113,8 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 - [RaBbLE-NeBuLA-RABL](RaBbLE-NeBuLA/RaBbLE-NeBuLA-RABL.md) — rendering language spec
 - [RaBbLE-NeBuLA-RBCNS](RaBbLE-NeBuLA/RaBbLE-NeBuLA-RBCNS.md) — naming conventions
 - [RaBbLE-NeBuLA-Ideas](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Ideas.md) — enhancement proposals
-- [RaBbLE-NeBuLA-Roadmap](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Roadmap.md) — clean rebuild roadmap
+- [RaBbLE-NeBuLA-Roadmap](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Roadmap.md) — episode tracker, delivery model, known risks
+- [RaBbLE-NeBuLA-Plan](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Plan.md) — **agent implementation plan** (Haiku-level, step-by-step, Ep1+Ep4)
 
 ---
 
