@@ -80,6 +80,7 @@ Full assembly plan with exact file lists: `RaBbLE-Grimoire/RaBbLE-OS/RaBbLE-OS-R
 - [ ] VM provisioned (see § VM Infrastructure below) — fresh Fedora 43 image ready
 - [ ] Full bootstrap run inside VM — no fatal errors
 - [ ] Bootstrap Checklist items verified in VM (see Roadmap § Bootstrap Checklist)
+- [ ] Boot chain themed end-to-end: GRUB → Plymouth → SDDM (see Boot Chain below)
 - [ ] `layerctl verify all` reports `%STABLE%` or documented exception per layer
 - [ ] Layer State Map updated with verified states
 - [ ] Known failures logged to `RaBbLE-OS-KnownIssues.md`
@@ -87,6 +88,24 @@ Full assembly plan with exact file lists: `RaBbLE-Grimoire/RaBbLE-OS/RaBbLE-OS-R
 - [ ] Tagged `episode-1` on `main`
 
 **Generic x64 target** is the smoke-test vehicle. ProArt P16-specific work stays in `fix/*` branches and does not gate episode landing.
+
+#### Boot Chain — Episode 1 Scope
+
+The boot chain (GRUB → Plymouth → SDDM) is part of Plot A. Visual continuity from power-on to
+desktop is a first-impression requirement for a demoable release. The `fix/boot-chain` branch
+carries this work; it lands into Episode 1 alongside the assembly packages.
+
+**In scope for Episode 1** (hardware-agnostic, no NVIDIA dependency):
+- [ ] GRUB2: remove background image, color-only RaBbLE palette theme; fix 32bpp/24bpp mismatch
+- [ ] GRUB2: 4K font via Terminus 32pt (`grub2-mkfont`); `fbcon=font:TER16x32` in cmdline
+- [ ] Plymouth: fix DejaVu font reference; align colors to RaBbLE palette
+- [ ] SDDM: Qt6 `Main.qml` validated; themed greeter
+
+**Deferred to `fix/proart-nvidia`** (NVIDIA driver dependency — does not gate Ep1):
+- [ ] Plymouth NVIDIA suspend/resume hooks (requires working NVIDIA driver in initramfs)
+
+Boot chain theming is verified in VM with generic x64 target. SDDM visual continuity is
+part of the Session Verification checklist already in the OS Roadmap.
 
 ---
 
@@ -263,7 +282,7 @@ Phase 3 — Public
 | Memory member (name, repo, architecture) | Epoch 1 scoping |
 | RaBbLE-ScRibLE (mobile PWA) | Epoch 1 |
 | RaBbLE-OS `fix/proart-nvidia` (NVIDIA driver) | fix/* branches |
-| RaBbLE-OS `fix/boot-chain` (GRUB/Plymouth theming) | fix/* branches |
+| RaBbLE-OS Plymouth NVIDIA hooks | fix/proart-nvidia (driver dependency) |
 | RaBbLE-World Phase 2 (landing absorbs boot sequence) | Episode 2 |
 | Protocol contracts (`registry/protocol/`) | Phase 5b or post-Ep1 |
 | Server → Task Pipeline (sCoRE HTTP through dispatch) | Epoch 1 candidate |
