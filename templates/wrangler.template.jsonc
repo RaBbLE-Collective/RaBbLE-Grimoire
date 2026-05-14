@@ -1,0 +1,63 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "rabble-collective",
+  "compatibility_date": "2026-05-06",
+  "compatibility_flags": ["nodejs_compat"],
+
+  "observability": {
+    "enabled": true
+  },
+
+  "// ── ENVIRONMENTS ────────────────────────────────────────────────────────────",
+  "// Set environment via: wrangler deploy --env production",
+  "// Local dev uses file:// directly, production uses Cloudflare Workers",
+
+  "env": {
+    "production": {
+      "name": "rabble-collective-prod",
+      "routes": [
+        { "pattern": "joinrabble.world", "zone_name": "joinrabble.world" },
+        { "pattern": "cdn.joinrabble.world", "zone_name": "joinrabble.world" }
+      ],
+      "vars": {
+        "ENVIRONMENT": "production",
+        "CDN_BUCKET": "cdn-rabble-prod",
+        "CACHE_TTL": "31536000"
+      }
+    },
+
+    "staging": {
+      "name": "rabble-collective-staging",
+      "routes": [
+        { "pattern": "staging.joinrabble.world", "zone_name": "joinrabble.world" }
+      ],
+      "vars": {
+        "ENVIRONMENT": "staging",
+        "CDN_BUCKET": "cdn-rabble-staging",
+        "CACHE_TTL": "3600"
+      }
+    }
+  },
+
+  "// ── R2 STORAGE (CDN BACKEND) ────────────────────────────────────────────────",
+  "// Configure R2 buckets in Cloudflare dashboard, then reference here",
+  "// Bucket: cdn-rabble-prod (production CDN storage)",
+  "// Bucket: cdn-rabble-staging (staging CDN storage)",
+
+  "r2": {
+    "buckets": [
+      { "binding": "CDN", "bucket_name": "cdn-rabble-prod", "preview_bucket_name": "cdn-rabble-dev" }
+    ]
+  },
+
+  "// ── ROUTES ──────────────────────────────────────────────────────────────────",
+  "// /aether/*      → serve from R2 (Aether CSS bundles)",
+  "// /nebula/*      → serve from R2 (NeBuLA JS bundles)",
+  "// / and /world/* → serve from R2 (World HTML pages)",
+  "// Everything else → 404",
+
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS"
+  }
+}
