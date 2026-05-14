@@ -38,7 +38,10 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 ## RaBbLE-Collective
 
 - [RaBbLE-Collective-Plan](RaBbLE-Collective/RaBbLE-Collective-Plan.md) — Collective architecture and coordination plan
+- [RaBbLE-Collective-Episode-1-Overview](RaBbLE-Collective/RaBbLE-Collective-Episode-1-Overview.md) — Episode 1 delivery: three-layer architecture (Aether + NeBuLA + World), CDN strategy, easy page creation
 - [RaBbLE-Episode-I-Release](RaBbLE-Collective/RaBbLE-Episode-I-Release.md) — Episode 1 release plan: member deliverables, VM infrastructure, demo target
+- [RaBbLE-Deployment-Architecture](RaBbLE-Deployment-Architecture.md) — environments (local/staging/prod), CDN distribution strategy, versioning, build pipeline
+- [RaBbLE-Cloudflare-Integration](RaBbLE-Cloudflare-Integration.md) — Cloudflare setup, R2 buckets, Wrangler configuration, deployment workflow
 
 ---
 
@@ -67,6 +70,8 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 - [spells/sync-grimoire.sh](spells/sync-grimoire.sh) — propagate Grimoire updates to members
 - [spells/init-project.sh](spells/init-project.sh) — scaffold a new Collective member
 - [spells/install-theme.sh](spells/install-theme.sh) — install RaBbLE theme across OS
+- [spells/dev-serve.sh](spells/dev-serve.sh) — launch local dev environment (Aether + NeBuLA + World watchers, CDN mock server)
+- [spells/cast-aether.sh](spells/cast-aether.sh) — publish Aether CSS bundles to CDN (R2 or staging)
 
 ---
 
@@ -99,6 +104,7 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 ## RaBbLE-World
 
 - [RaBbLE-World-Architecture](RaBbLE-World/RaBbLE-World-Architecture.md) — layer stack, module map, boot timeline, surface guide
+- [RaBbLE-World-Page-Template](RaBbLE-World/RaBbLE-World-Page-Template.md) — minimal page template, CDN integration pattern, reuse vs. duplication rules
 - [RaBbLE-World-README](RaBbLE-World/RaBbLE-World-README.md) — full module reference, entity API, behavior
 - [RaBbLE-World-MAINTAINING](RaBbLE-World/RaBbLE-World-MAINTAINING.md) — page ownership, layout rules, safe edit checklist
 - [RaBbLE-World-Roadmap](RaBbLE-World/RaBbLE-World-Roadmap.md) — directional intent
@@ -109,6 +115,7 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 
 - [RaBbLE-NeBuLA-Identity](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Identity.md) — origin story, entity traits, consciousness model
 - [RaBbLE-NeBuLA-Architecture](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Architecture.md) — Flat-Chaos Runtime, subsystem overview
+- [RaBbLE-NeBuLA-API](RaBbLE-NeBuLA/RaBbLE-NeBuLA-API.md) — public API reference (createPuppet, setEntityState, injectEyeJolt, CDN usage patterns)
 - [RaBbLE-NeBuLA-FlatChaos](RaBbLE-NeBuLA/RaBbLE-NeBuLA-FlatChaos.md) — FCR pattern spec
 - [RaBbLE-NeBuLA-RABL](RaBbLE-NeBuLA/RaBbLE-NeBuLA-RABL.md) — rendering language spec
 - [RaBbLE-NeBuLA-RBCNS](RaBbLE-NeBuLA/RaBbLE-NeBuLA-RBCNS.md) — naming conventions
@@ -121,6 +128,7 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 ## RaBbLE-Aether
 
 - [RaBbLE-Aether-Architecture](RaBbLE-Aether/RaBbLE-Aether-Architecture.md) — design system spec, asset directory, consumer pattern, palette publishing
+- [RaBbLE-Aether-Build-CDN](RaBbLE-Aether/RaBbLE-Aether-Build-CDN.md) — esbuild setup, CSS bundling, npm scripts, versioning, CDN deployment
 - [Visual Assets](RaBbLE-Aether/assets/) — SVG, logos, icons
 
 ---

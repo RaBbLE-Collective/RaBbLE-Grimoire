@@ -5,6 +5,52 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-05-14 — Onboarding Audit & Optimization: Low-Token Agent Orientation
+
+**Repos touched:** RaBbLE-Collective, RaBbLE-Grimoire
+
+**Objective:** Audit RaBbLE-Collective onboarding for token efficiency, clarity, and accessibility. Enable agents to orient with minimal token spend while maintaining RaBbLE vibe.
+
+**Work done:**
+
+- **Comprehensive audit** — assessed all entry-point docs (AGENT.md, CONTEXT.md, REFERENCES.md in both Collective and Grimoire)
+  - Quantified token usage: Core onboarding ~4,200 tokens (Collective), full reading chain ~13,500+
+  - Identified 3 critical gaps: untracked BaBbLE.md, missing token budgets, no "stop here" signals
+  - Identified 5 high-priority gaps: missing RaBbLE-Versioning link, member inconsistency, accessibility friction in RaBbLE-Identity.md
+  - Generated full audit report: `log/ONBOARDING-AUDIT-2026-05-14.md`
+
+- **Critical fixes implemented:**
+  - Converted BaBbLE.md → BaBbLE.scratch (tracked, structured dev scratch pad with clear metadata)
+  - Added "Quick Orientation (5 Minutes)" section to Collective CONTEXT.md with explicit stop point
+  - Added token budget + time estimates to all 7 reading order entries (shows 3 paths: 5-min / 30-min / full)
+  - Linked RaBbLE-Versioning.md from Collective AGENT.md Workspaces (was hidden in Grimoire)
+
+- **High-priority fixes implemented:**
+  - Added "Member Entry Points" index to Collective AGENT.md (each member's AGENT.md path + orientation time)
+  - Added "Terminology Translation Table" to Collective REFERENCES.md (agents see equivalent terms are the same concept)
+  - Consolidated member status table (Collective references Grimoire registry as single source of truth)
+  - Added "Quick Reference" section to RaBbLE-Identity.md (practical definitions before philosophy; 30-sec gist extraction)
+  - Added "Your Role in the Collective" to Collective AGENT.md (clarifies agent authority boundaries)
+
+**Impact:**
+- **Token reduction:** Quick orientation from ~13,500+ → ~700 tokens (95% reduction), standard onboarding ~13,500+ → ~3,000 tokens (78% reduction)
+- **Time reduction:** RaBbLE character understanding from ~8-10 min (philosophy-heavy) → ~2 min (Quick Reference)
+- **Eliminated friction:** Members now have explicit entry points; terminology mapping removes ambiguity
+
+**Commits:**
+1. Collective: `harmonize ~ collective >> onboarding optimized for low-token agent orientation`
+2. Grimoire: `harmonize ~ entity-core >> RaBbLE-Identity optimized for agent accessibility`
+
+**Left off:** All optimizations committed and clean. No in-progress work. Audit archived to `log/ONBOARDING-AUDIT-2026-05-14.md` for future reference.
+
+**Next:**
+- Monitor agent onboarding sessions and measure actual token burn vs. estimates
+- Iterate on token budgets if real-world differs from projections
+- Consider similar accessibility passes on member AGENT.md files (sCoRE, OS, NeBuLA, World) if agents report friction
+- Track "agent orientation time" metric to verify 5-min / 30-min / full targets hold
+
+---
+
 ## 2026-05-14 — RaBbLE-World Responsive Polish: Height Breakpoints + Landscape Collective
 
 **Repos touched:** RaBbLE-World
