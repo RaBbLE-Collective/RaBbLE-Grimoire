@@ -23,13 +23,11 @@ Members reference Grimoire. They do not duplicate it.
 
 ---
 
-## Pulse Protocol — Commits
+## Commits & Branches
 
-```
-[impulse] ~ [organ] >> [revelation] // %SYSTEM_STATE%
-```
-`spark` new · `harmonize` cleanup · `mend` fix · `transcribe` docs · `ingest` deps · `evolve` epoch
-Full spec: `common/RaBbLE-CommitStyle.md`
+See `common/RaBbLE-CommitStyle.md` (Pulse Protocol) for full spec.
+
+**TL;DR:** `[impulse] ~ [organ] >> [revelation] // %STATE%` — `spark` new · `harmonize` cleanup · `mend` fix · `transcribe` docs · `ingest` deps · `evolve` epoch
 
 **Branch rule:** Work on a named branch. Commit per session. Merge to `main` only when an episode is complete — tag with `echo-X.X` or `episode-X`. `main` must always be clean and tagged.
 

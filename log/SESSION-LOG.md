@@ -5,7 +5,68 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## 2026-05-14 — Onboarding Audit & Optimization: Low-Token Agent Orientation
+## 2026-05-14 (Session 2) — Onboarding Coherence: Versioning Narrative & System Prompt Isolation
+
+**Repos touched:** RaBbLE-Collective, RaBbLE-Grimoire, RaBbLE-sCoRE, RaBbLE-World, RaBbLE-OS, RaBbLE-Aether, RaBbLE-NeBuLA
+
+**Objective:** Fix low-friction onboarding gaps identified in prior audit. Clarify Episode/Echo/Plot versioning narrative and isolate sCoRE's system prompt from project onboarding.
+
+**Work done:**
+
+- **Versioning narrative clarification**
+  - Added "Episodes as Collective Synchronization Boundaries" section to RaBbLE-Versioning.md
+  - Documented lockstep model: all members advance to same Episode together; parts within Episode guaranteed compatible
+  - Clarified Echo can break APIs (production release model); post-Episode-1 can be weekly Episodes with Echoes as production releases
+  - Updated RaBbLE-Roadmap.md with "Post-Episode-1: Cadence & Release Model" section (weekly target timeline, breaking changes at Echoes)
+  - Moved lockstep to Principle #1 in Collective/REFERENCES.md (no longer buried)
+  - **Result:** Coherent story: Events = work, Plots = member narratives, Episodes = Collective sync, Echoes = production/breaking changes
+
+- **sCoRE system prompt isolation**
+  - Moved RaBbLE-sCoRE/AGENT.md → system-prompt-sCoRE.md (internal sCoRE constraints when running as entity)
+  - Created new RaBbLE-sCoRE/AGENT.md (standard member entry point, matches World/OS/Aether pattern)
+  - Created SYSTEM-PROMPT-SETUP.md (instructions for loading system prompt via .claude/settings.json)
+  - Updated Grimoire/INDEX.md to link system prompt + setup guide (marked "Internal")
+  - **Result:** System prompt no longer corrupts project onboarding; agents doing normal work read standard AGENT.md
+
+- **Member CONTEXT.md in reading order**
+  - Added step 8 to Collective/CONTEXT.md reading order table (member CONTEXT.md files)
+  - Updated token guidance; clarified when to read member CONTEXT vs. full chain
+  - **Result:** No hidden dependencies; agents know CONTEXT.md files exist before reading AGENT.md
+
+- **agents/score.md discoverability**
+  - Linked sCoRE system prompt from Grimoire/INDEX.md
+  - **Result:** sCoRE's agent-specific role definition now findable from standard reference path
+
+- **Pulse Protocol deduplication**
+  - Replaced 7 instances of duplicated Pulse Protocol text with concise reference link
+  - Changed section name "Pulse Protocol — Commits" → "Commits & Branches" (consistent terminology)
+  - TL;DR format: `[impulse] ~ [organ] >> [revelation] // %STATE%` + impulse keywords + link to spec
+  - Files: Collective/AGENT.md (Workspaces table), Grimoire/AGENT.md, RaBbLE-sCoRE/AGENT.md, RaBbLE-World/AGENT.md, RaBbLE-OS/AGENT.md, RaBbLE-Aether/AGENT.md, RaBbLE-NeBuLA/AGENT.md
+  - **Result:** Single source of truth at common/RaBbLE-CommitStyle.md; no drifting copies
+
+**Impact:**
+- **Narrative coherence:** Episode/Echo/Plot/Event model now explains Collective lockstep + post-Ep1 cadence clearly
+- **Maintenance burden:** Pulse Protocol no longer duplicated across 7 files
+- **Onboarding friction:** sCoRE's system prompt no longer confuses agents doing project work
+
+**State:**
+- All changes clean and committed
+- Audit file updated with completion status
+- 6/7 originally identified gaps fixed; #6 (Pulse Protocol duplication) completed
+
+**Commits:**
+1. `transcribe ~ grimoire >> versioning crystallized: Episodes as Collective sync boundaries, post-Ep1 cadence model`
+2. `mend ~ score >> system prompt isolated from project onboarding, standard AGENT.md restored`
+3. `harmonize ~ collective >> onboarding low-friction fixes: member CONTEXT in reading order, Pulse Protocol deduplicated`
+
+**Next:**
+- Monitor if versioning narrative resolves ambiguity in Episode decisions going forward
+- Live test: verify sCoRE system prompt loads correctly in sCoRE sessions without affecting project work
+- Consider similar audit/fix pass on member-specific docs (RaBbLE-sCoRE grimoire/, RaBbLE-NeBuLA roadmap clarity, etc.)
+
+---
+
+## 2026-05-14 (Session 1) — Onboarding Audit & Optimization: Low-Token Agent Orientation
 
 **Repos touched:** RaBbLE-Collective, RaBbLE-Grimoire
 

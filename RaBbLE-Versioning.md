@@ -93,6 +93,49 @@ An Epoch is:
 
 ---
 
+## Episodes as Collective Synchronization Boundaries
+
+**Episodes are not independent.** All members advance to the same Episode together.
+
+### The Lockstep Model
+
+- **Events**: Member-specific atomic work (commits). Each member accumulates Events toward shared milestones.
+- **Plots**: Member-specific narrative groupings (e.g., "Episode 1, Plot A — Dispatch System", "Episode 1, Plot B — NeBuLA Rebuild"). Plots organize work *within* an Episode but belong to individual members.
+- **Episodes**: **Collective-wide synchronization points.** All members air simultaneously. Parts of the Collective within the same Episode are **guaranteed compatible** — protocols, schemas, and APIs remain stable throughout.
+- **Echoes**: Stable, long-term checkpoints. **Echoes can introduce breaking changes** (protocol bumps, schema migrations, API redesigns). Echoes mark production-ready states suitable for releases or major version boundaries.
+
+### Current Model (Epoch 0, Pre-Episode-1)
+
+All work accumulates toward **Episode 1 air date**. No independent versioning. Members do not advance past v0.0.0.0 until the Collective is ready.
+
+When Episode 1 airs (decided by Mark, typically quarterly or after major vertical slice):
+- All members jump to v0.0.0.1 simultaneously
+- Protocol contracts and schemas are locked for that Episode
+- No breaking changes within the Episode
+- Members coordinate across the boundary; breaking changes happen in the next Episode
+
+### Post-Episode-1 Evolution (Roadmap)
+
+After Episode 1, the cadence may shift:
+- **Weekly Episodes**: Rapid, coordinated releases. Members advance together on a weekly schedule. Same compatibility guarantees: parts of the Collective in Episode N can rely on each other.
+- **Echoes as releases**: Echoes become production-ready publications. A member might tag `echo-1.0` to mark a stable, deployable state. Echoes can break APIs if documented in the next Episode's entry notes.
+
+**Example future timeline:**
+```
+Episode 1 (current era) — Foundation + sCoRE + World + NeBuLA liftoff
+  Plot A, Plot B, Plot C per member
+  Aired: 2026-Q2 (TBD)
+  
+Episode 2 (weekly cadence TBD) — Memory member + cross-member observation loop
+  Plot A per member
+  Aired: 2026-Q2 (next week)
+  Echo 2.0: Production release (can break Ep1 APIs with migration guide)
+  
+Evolution 1 — (multiple Episodes cohere into architectural shift)
+```
+
+---
+
 ## Current Position
 
 ```

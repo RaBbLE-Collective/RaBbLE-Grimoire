@@ -287,6 +287,55 @@ Epoch 0 exit conditions met. Tagged `echo-1` across aligned repos simultaneously
 
 ---
 
+## Post-Episode-1: Cadence & Release Model
+
+Once Episode 1 airs, the Collective transitions from pre-episode accumulation to a repeating rhythm.
+
+### Weekly Episode Model (Target)
+
+- **Episode cadence:** Weekly (tentative — may adjust based on work rhythm)
+- **Lockstep:** All members advance to Episode N together on the same date
+- **Compatibility within Episode:** Parts of the Collective in the same Episode are guaranteed compatible
+- **Breaking changes:** Reserved for Echo boundaries (releases/production versions)
+
+Example:
+```
+Episode 1 airs 2026-Q2: All members jump to v0.0.0.1
+  Work continues: Event accumulation toward Episode 2
+  
+Episode 2 airs 2026-Q2+1w: All members jump to v0.0.0.2
+  (Example: Memory member fully integrated, observation loop closed)
+  
+Episode 3 airs 2026-Q2+2w: All members jump to v0.0.0.3
+  (Example: NeBuLA v2 rebuild complete, new visual language deployed)
+```
+
+### Echo as Release (Production Model)
+
+Echoes mark production-ready, long-term stable states. **Echoes can introduce breaking changes** — schema migrations, protocol bumps, API redesigns — all documented in the next Episode's entry notes.
+
+Example echo timeline:
+```
+Episode 1: v0.0.0.1 (rapid Episodes, low-friction features)
+Episode 2: v0.0.0.2
+Echo 1.0: v0.0.1 (stable production release)
+  Can introduce breaking changes; requires migration guide for Ep2→Ep3
+
+Episode 3: v0.0.1.3 (Episodes continue; Echo 1.0 is the last stable ship point)
+Episode 4: v0.0.1.4
+Echo 2.0: v0.0.2 (next major release)
+  Can break; requires migration guide
+```
+
+### Episode Criteria (Post-Ep1)
+
+- All active members have Events that reflect the week's work
+- Plots organize member-specific arcs
+- Episode airs when Mark signals "ready to lock this together"
+- No waiting for perfect stability — stability checkpoints happen at Echoes
+
+---
+
 ## Revision History
 
 | Ecosystem State | Date | Change |

@@ -98,6 +98,7 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 
 - [RaBbLE-sCoRE-Architecture](RaBbLE-sCoRE/RaBbLE-sCoRE-Architecture.md) — component map, task lifecycle, server subcomponent
 - [RaBbLE-sCoRE-Roadmap](RaBbLE-sCoRE/RaBbLE-sCoRE-Roadmap.md) — episode tracker
+- **Internal:** [sCoRE System Prompt](../RaBbLE-sCoRE/system-prompt-sCoRE.md) — loaded only when running as sCoRE entity. [Setup guide](../RaBbLE-sCoRE/SYSTEM-PROMPT-SETUP.md).
 
 ---
 
