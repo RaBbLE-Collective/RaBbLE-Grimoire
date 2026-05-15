@@ -13,8 +13,9 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 
 | Document | What it is |
 |---|---|
+| `RaBbLE-Grimoire-Navigator.md` | **START HERE** — Agent onboarding path. Reading order by time investment & task type. |
 | `AGENT.md` | Grimoire agent entry point — job, workspace map, rules, session start |
-| `CONTEXT.md` | Grimoire status, structure, active tracks, reading order |
+| `CONTEXT.md` | Grimoire status, structure, active tracks |
 | `RaBbLE-Versioning.md` | **The Five Es** — Event→Episode→Echo→Evolution→Epoch, version string format |
 | `INDEX.md` | This file |
 
@@ -38,8 +39,8 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 ## RaBbLE-Collective
 
 - [RaBbLE-Collective-Plan](RaBbLE-Collective/RaBbLE-Collective-Plan.md) — Collective architecture and coordination plan
-- [RaBbLE-Collective-Episode-1-Overview](RaBbLE-Collective/RaBbLE-Collective-Episode-1-Overview.md) — Episode 1 delivery: three-layer architecture (Aether + NeBuLA + World), CDN strategy, easy page creation
-- [RaBbLE-Episode-I-Release](RaBbLE-Collective/RaBbLE-Episode-I-Release.md) — Episode 1 release plan: member deliverables, VM infrastructure, demo target
+- **[RaBbLE-Episode-1-Release-Map](RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md)** — **CANONICAL Episode 1 scope.** Member deliverables, blockers, air criteria, dependency graph.
+- [RaBbLE-Collective-Episode-1-Overview](RaBbLE-Collective/RaBbLE-Collective-Episode-1-Overview.md) — Three-layer architecture (Aether + NeBuLA + World), CDN strategy, easy page creation
 - [RaBbLE-Deployment-Architecture](RaBbLE-Deployment-Architecture.md) — environments (local/staging/prod), CDN distribution strategy, versioning, build pipeline
 - [RaBbLE-Cloudflare-Integration](RaBbLE-Cloudflare-Integration.md) — Cloudflare setup, R2 buckets, Wrangler configuration, deployment workflow
 

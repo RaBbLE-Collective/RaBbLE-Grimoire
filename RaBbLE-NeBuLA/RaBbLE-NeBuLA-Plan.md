@@ -1204,6 +1204,676 @@ spark ~ world >> nebula studio, expression authoring // %STUDIO_LIVE%
 
 ---
 
+## Phase 9 — Aether CSS Integration and Theme Bridge
+
+**Goal:** NeBuLA reads all visual properties from Aether CSS variables. Aether provides the canonical theme layer; NeBuLA and World both consume it. No hardcoded colors anywhere.
+
+### Step 9.1 — Create theme bridge stylesheet
+
+Create `RaBbLE-NeBuLA/src/styles/aether-bridge.css`. This file is **not included in the bundle** — it's injected by pages that load both Aether and NeBuLA:
+
+```css
+/* Aether → NeBuLA Theme Bridge
+ * These custom properties map Aether's design system to NeBuLA shader variables
+ * Pages load this stylesheet BEFORE NeBuLA to establish CSS variables
+ * Fallbacks only apply if Aether is not available
+ */
+
+:root {
+  /* Palette — primary spectrum (from RaBbLE-Palette.md) */
+  --rabble-magenta: #ff2d78;
+  --rabble-cyan:    #00f5ff;
+  --rabble-violet:  #bf5fff;
+  --rabble-pink:    #ff79c6;
+  
+  /* Surfaces — UI background, layers */
+  --rabble-bg:      #0a0010;
+  --rabble-surface: #12132a;
+  --rabble-text:    #e8e6f0;
+  
+  /* Opacity — entropy mapping (Canvas2D fallback) */
+  --rabble-entropy-idle:     0.3;
+  --rabble-entropy-thinking: 0.6;
+  --rabble-entropy-speaking: 0.8;
+  
+  /* Animation — timings used by AnimationMixer and boot sequence */
+  --rabble-transition-fast:  200ms;
+  --rabble-transition-normal: 800ms;
+  --rabble-transition-slow:  3200ms;
+  
+  /* NeBuLA-specific: glow intensity and blur curves */
+  --rabble-glow-intensity: 1.0;
+  --rabble-blur-entropy-scale: 18;
+}
 ```
-transcribe ~ grimoire >> NeBuLA implementation plan complete, agent-ready // %NEBULA_PLAN_LOCKED%
+
+Save this as a reference. Pages will load Aether's equivalent, which Aether owns. NeBuLA's fallback hex values in `src/puppet/palette.js` match these.
+
+### Step 9.2 — Update palette.js to support responsive scaling
+
+Edit `RaBbLE-NeBuLA/src/puppet/palette.js` to add a responsive function:
+
+```js
+// ... existing palette code ...
+
+/** Get a color multiplied by responsive scale factor (for glows on mobile) */
+export function getScaledColor(name, scale = 1.0) {
+  const color = PALETTE[name]();
+  // Aether can set --rabble-glow-scale as a multiplier
+  const glowScale = parseFloat(
+    getComputedStyle(document.documentElement).getPropertyValue('--rabble-glow-scale') || '1.0'
+  );
+  // Return the color as-is; caller applies scale via opacity or filter
+  return { hex: color, glowScale: glowScale * scale };
+}
+
+/** Responsive size curve: small screens get smaller particles */
+export function getResponsiveSize(baseSize = 1.0) {
+  const vmin = Math.min(window.innerWidth, window.innerHeight);
+  // Scale particle size from 0.6x (mobile) to 1.0x (desktop)
+  const factor = Math.max(0.6, Math.min(1.0, vmin / 500));
+  return baseSize * factor;
+}
+```
+
+### Step 9.3 — Aether provides component class names
+
+Aether (in RaBbLE-Aether/) exports a CSS bundle with utility classes for sizing and spacing. NeBuLA-hosting pages use these classes:
+
+```html
+<!-- In RaBbLE-World/index.html or RaBbLE-Boot.html -->
+<link rel="stylesheet" href="/aether/rabble.css">
+<link rel="stylesheet" href="/world/css/theme-bridge.css">
+
+<!-- rabble-entity uses the 'entity-viewport' utility for responsive sizing -->
+<rabble-entity class="entity-viewport entity-hd" particle-count="480"></rabble-entity>
+```
+
+Aether provides classes:
+- `.entity-viewport` — constrains canvas to responsive box
+- `.entity-hd` / `.entity-sd` — high-def (threejs) vs standard-def (canvas2d)
+- `.entity-portrait` / `.entity-landscape` — responsive orientation
+
+### Step 9.4 — Create responsive canvas sizing
+
+Update `RaBbLE-NeBuLA/src/puppet/index.js` `createPuppet` function to handle responsive sizing:
+
+Replace the canvas sizing logic with:
+
+```js
+export function createPuppet(options = {}) {
+  const {
+    canvas,
+    particleCount = 480,
+    overscan      = 2.55,
+    THREE         = null,
+    backend       = 'auto',
+    onReady       = () => {},
+  } = options;
+
+  // Detect if canvas is in a responsive container (check parent's data attribute or class)
+  const isResponsive = canvas.parentElement?.classList.contains('entity-viewport') ?? false;
+  
+  // Handle responsive sizing
+  if (isResponsive) {
+    const updateCanvasSize = () => {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      const w = rect.width || 300;
+      const h = rect.height || 300;
+      canvas.width  = Math.round(w * overscan);
+      canvas.height = Math.round(h * overscan);
+      runtime.backend?.resize?.();
+    };
+    
+    updateCanvasSize();
+    window.addEventListener('resize', updateCanvasSize);
+    
+    // cleanup in destroy
+    const originalDestroy = destroyFn;
+    destroyFn = () => {
+      window.removeEventListener('resize', updateCanvasSize);
+      originalDestroy();
+    };
+  } else {
+    // Static sizing for fixed-size containers
+    const w = canvas.width  || 300;
+    const h = canvas.height || 300;
+    canvas.width  = Math.round(w * overscan);
+    canvas.height = Math.round(h * overscan);
+  }
+  
+  // ... rest of createPuppet ...
+}
+```
+
+**Done when:** Canvas resizes on window resize. No flickering. Particle count adjusts particle density (fewer particles on small screens if desired via particleCount prop).
+
+---
+
+## Phase 10 — Responsive Rendering & Mobile Optimization
+
+**Goal:** NeBuLA renders efficiently on all screen sizes. Canvas2D on mobile. Three.js on desktop. Particle count adapts intelligently.
+
+### Step 10.1 — Smart backend selection based on device
+
+Update backend auto-selection in `createPuppet`:
+
+```js
+function selectBackend(options) {
+  const { THREE, backend, canvas } = options;
+  
+  if (backend !== 'auto') return backend; // explicit choice
+  
+  // Device capability detection
+  const isMobile = /android|iphone|ipad|mobile/i.test(navigator.userAgent);
+  const isLowPower = navigator.deviceMemory ? navigator.deviceMemory <= 4 : false;
+  const canWebGL = !!canvas.getContext('webgl2');
+  
+  // Mobile or low-power → Canvas2D
+  if (isMobile || isLowPower || !canWebGL) return 'canvas2d';
+  
+  // Desktop with Three.js available → Three.js
+  if (THREE && window.devicePixelRatio >= 1.5) return 'threejs';
+  
+  // Default fallback
+  return 'canvas2d';
+}
+```
+
+### Step 10.2 — Adaptive particle count
+
+In `createPuppet`, detect screen size and adjust particle density:
+
+```js
+function getAdaptiveParticleCount(baseCount, canvas) {
+  const pixelRatio = window.devicePixelRatio || 1;
+  const screenArea = window.innerWidth * window.innerHeight;
+  
+  // Mobile (< 1M pixels) → 30% of particles
+  if (screenArea < 1_000_000) return Math.floor(baseCount * 0.3);
+  
+  // Tablet (< 3M pixels) → 60% of particles
+  if (screenArea < 3_000_000) return Math.floor(baseCount * 0.6);
+  
+  // Desktop → 100% of particles
+  return baseCount;
+}
+```
+
+### Step 10.3 — Test on mobile breakpoints
+
+Create `RaBbLE-World/world/RaBbLE-Boot.html` test page with viewport meta and responsive checks:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>RaBbLE Boot — Responsive Test</title>
+  <link rel="stylesheet" href="/aether/rabble.css">
+  <style>
+    body { margin: 0; background: var(--rabble-bg); display: flex; align-items: center; justify-content: center; height: 100vh; }
+    .entity-viewport { width: 80vw; max-width: 600px; aspect-ratio: 1; position: relative; }
+  </style>
+</head>
+<body>
+  <rabble-entity class="entity-viewport entity-hd"></rabble-entity>
+  
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="/world/js/nebula.iife.js"></script>
+  <script src="/world/js/RaBbLE-NeBuLA.js"></script>
+</body>
+</html>
+```
+
+Test on:
+- [ ] iPhone SE (375px) — Canvas2D, 100 particles
+- [ ] iPad (768px) — Canvas2D or Three.js, 200 particles
+- [ ] Desktop 1920px — Three.js, 480 particles
+
+**Done when:** No errors on any device. Consistent visual appearance. Particle count/quality scales smoothly.
+
+---
+
+## Phase 11 — Aether CDN Distribution and Asset Versioning
+
+**Goal:** Aether CSS is versioned and served from CDN. NeBuLA includes versioned asset references. Members import with version pinning.
+
+### Step 11.1 — Aether build output structure
+
+In `RaBbLE-Aether/`, the build produces:
+
+```
+dist/
+  v0.0.0/
+    rabble.css              ← main design system (components + utilities)
+    theme-bridge.css        ← CSS variable overrides for specific contexts
+    fonts/
+      rabble-*.woff2        ← all web fonts
+  latest/                   ← symlink to v0.0.0 during dev
+  versions.json             ← metadata: { "latest": "v0.0.0", "stable": "v0.0.0" }
+```
+
+### Step 11.2 — Create asset registry in NeBuLA
+
+Add `RaBbLE-NeBuLA/src/config/asset-registry.js`:
+
+```js
+/**
+ * Asset registry — versioned references to CDN assets
+ * Updated by CI/CD when Aether publishes a new version
+ */
+
+export const ASSETS = {
+  // Aether CSS — theme layer
+  aether: {
+    version: '0.0.0',
+    cdn: 'https://cdn.joinrabble.world/aether',
+    css: '/rabble.css',
+    themeBridge: '/theme-bridge.css',
+  },
+  
+  // NeBuLA distribution
+  nebula: {
+    version: '0.0.0',
+    cdn: 'https://cdn.joinrabble.world/nebula',
+    iife: '/nebula.iife.js',
+    esm: '/nebula.esm.js',
+  },
+  
+  // Three.js peer dependency
+  threejs: {
+    version: '0.160.0',
+    cdn: 'https://cdn.jsdelivr.net/npm/three@0.160.0',
+    build: '/build/three.min.js',
+  },
+};
+
+export function getCdnUrl(asset, file) {
+  const entry = ASSETS[asset];
+  return `${entry.cdn}/${entry.version}${entry[file]}`;
+}
+```
+
+### Step 11.3 — HTML generation helper
+
+Pages import Aether + NeBuLA like this:
+
+```html
+<link rel="stylesheet" href="https://cdn.joinrabble.world/aether/v0.0.0/rabble.css">
+<link rel="stylesheet" href="https://cdn.joinrabble.world/aether/v0.0.0/theme-bridge.css">
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdn.joinrabble.world/nebula/v0.0.0/nebula.iife.js"></script>
+```
+
+Create a template helper in `RaBbLE-World/spells/generate-html-head.sh`:
+
+```bash
+#!/bin/bash
+# Generate <head> snippet with versioned asset links
+# Usage: bash generate-html-head.sh > _head-snippet.html
+
+AETHER_VERSION="0.0.0"
+NEBULA_VERSION="0.0.0"
+THREEJS_VERSION="0.160.0"
+
+CDN_HOST="https://cdn.joinrabble.world"
+
+cat <<EOF
+<!-- Theme system (Aether CSS) -->
+<link rel="stylesheet" href="$CDN_HOST/aether/v$AETHER_VERSION/rabble.css">
+<link rel="stylesheet" href="$CDN_HOST/aether/v$AETHER_VERSION/theme-bridge.css">
+
+<!-- 3D rendering engine dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/three@$THREEJS_VERSION/build/three.min.js"></script>
+
+<!-- NeBuLA visual entity engine -->
+<script src="$CDN_HOST/nebula/v$NEBULA_VERSION/nebula.iife.js"></script>
+EOF
+```
+
+**Done when:** Versions are locked in both `rabble.css` and `nebula.iife.js`. CDN URLs don't have version in path (version is in CI/CD layer). Zero drift between local dev and CDN.
+
+---
+
+## Phase 12 — World Page Composition Using Aether + NeBuLA
+
+**Goal:** World pages are composed from Aether components (form) + World CSS (function) + NeBuLA (animation). Pages are easy to create and maintain.
+
+### Step 12.1 — Page layout patterns
+
+All World pages follow this structure:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Title</title>
+  
+  <!-- Aether CSS: design system + theme variables -->
+  <link rel="stylesheet" href="https://cdn.joinrabble.world/aether/v0.0.0/rabble.css">
+  
+  <!-- World CSS: functional overrides for this page -->
+  <link rel="stylesheet" href="/world/css/page-name.css">
+</head>
+<body>
+  <!-- Aether component classes + responsive utility classes -->
+  <div class="page">
+    <header class="navbar navbar-dark">
+      <h1 class="title title-lg">RaBbLE</h1>
+    </header>
+    
+    <main class="content">
+      <!-- NeBuLA entity: renders using Canvas2D or Three.js -->
+      <rabble-entity class="entity-viewport entity-hd" particle-count="480"></rabble-entity>
+      
+      <!-- Aether buttons, inputs, etc. for control -->
+      <div class="button-group">
+        <button class="btn btn-primary">Primary</button>
+        <button class="btn btn-secondary">Secondary</button>
+      </div>
+    </main>
+  </div>
+  
+  <!-- NeBuLA rendering engine -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="https://cdn.joinrabble.world/nebula/v0.0.0/nebula.iife.js"></script>
+  
+  <!-- World-specific script (functional) -->
+  <script src="/world/js/page-name.js" type="module"></script>
+</body>
+</html>
+```
+
+### Step 12.2 — Aether component library mapping
+
+Aether exports utility classes. World pages use them directly:
+
+| Component | Aether Class | Form (Aether) | Function (World CSS) |
+|---|---|---|---|
+| Button | `.btn .btn-primary` | Color, padding, rounded corners | Hover state, click animation |
+| Input | `.input .input-text` | Border, font size, padding | Focus state, validation styles |
+| Card | `.card .card-flat` | Background, shadow, spacing | Grid layout, overflow behavior |
+| Navbar | `.navbar .navbar-dark` | Colors, height, flex layout | Sticky behavior, z-index stacking |
+| Entity Viewport | `.entity-viewport .entity-hd` | Aspect ratio, responsive sizing | Canvas width/height, overlay positioning |
+
+### Step 12.3 — World CSS layer structure
+
+Create `RaBbLE-World/world/css/` with:
+
+```
+css/
+  _reset.css           ← normalize + baseline (Aether provides, World may override)
+  _utilities.css       ← Aether utilities: spacing, sizing, alignment
+  theme-bridge.css     ← CSS variables (injected by Aether, customized per page)
+  
+  page-index.css       ← functional overrides for / (landing)
+  page-boot.css        ← functional overrides for /boot
+  page-chat.css        ← functional overrides for /chat
+  
+  components.css       ← World-specific components (status bar, timeline, etc.)
+  responsive.css       ← media queries (mobile-first, then tablet, desktop)
+```
+
+In each page CSS, import and override:
+
+```css
+/* page-index.css */
+@import url('/aether/v0.0.0/rabble.css');
+@import url('/world/css/_utilities.css');
+
+/* World-specific functional styles */
+.entity-viewport {
+  /* Aether set: aspect-ratio, responsive sizing, border */
+  /* World adds: grid positioning, animation timing, event handlers */
+  position: relative;
+  grid-column: 1 / 3;
+}
+
+.navbar {
+  /* Aether: colors, flex layout, height */
+  /* World: position: sticky, z-index, shadow transitions */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: box-shadow 300ms ease;
+}
+```
+
+### Step 12.4 — Responsive breakpoints (mobile-first)
+
+Add to `RaBbLE-World/world/css/responsive.css`:
+
+```css
+/* Mobile baseline: 320px–767px */
+.page { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+.entity-viewport { width: 100%; max-width: 90vw; }
+.navbar { position: sticky; }
+
+/* Tablet: 768px–1023px */
+@media (min-width: 768px) {
+  .page { grid-template-columns: 1fr 1fr; }
+  .entity-viewport { grid-column: 1; }
+}
+
+/* Desktop: 1024px+ */
+@media (min-width: 1024px) {
+  .page { grid-template-columns: 1fr 2fr; }
+  .entity-viewport { grid-column: 1 / 2; grid-row: 1 / 3; }
+}
+```
+
+### Step 12.5 — Verify full stack integration
+
+Create `RaBbLE-World/world/RaBbLE-Integrated.html` test page:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RaBbLE — Full Stack Test</title>
+  <link rel="stylesheet" href="/aether/rabble.css">
+  <style>
+    body { margin: 0; background: var(--rabble-bg); color: var(--rabble-text); font-family: system-ui; }
+    .container { display: grid; grid-template-columns: 1fr; gap: 2rem; padding: 2rem; }
+    @media (min-width: 768px) { .container { grid-template-columns: 1fr 1fr; } }
+    .entity-box { aspect-ratio: 1; position: relative; background: var(--rabble-surface); border-radius: 8px; }
+    .button-group { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; }
+    .btn { padding: 0.75rem 1.5rem; border: 1px solid var(--rabble-cyan); background: transparent; color: var(--rabble-cyan); border-radius: 4px; cursor: pointer; transition: all 200ms; }
+    .btn:hover { background: var(--rabble-cyan); color: var(--rabble-bg); }
+    h1 { text-align: center; color: var(--rabble-magenta); }
+  </style>
+</head>
+<body>
+  <h1>RaBbLE — Aether + NeBuLA + World</h1>
+  
+  <div class="container">
+    <div class="entity-box">
+      <rabble-entity particle-count="480"></rabble-entity>
+    </div>
+    
+    <div class="controls">
+      <p>Entity State:</p>
+      <div class="button-group">
+        <button class="btn" onclick="entity.setEntityState('idle')">Idle</button>
+        <button class="btn" onclick="entity.setEntityState('thinking')">Thinking</button>
+        <button class="btn" onclick="entity.setEntityState('speaking')">Speaking</button>
+      </div>
+      
+      <p style="margin-top: 2rem;">Canvas Stats:</p>
+      <pre id="stats" style="color: var(--rabble-cyan); font-size: 12px;"></pre>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="/world/js/nebula.iife.js"></script>
+  <script src="/world/js/RaBbLE-NeBuLA.js"></script>
+  
+  <script>
+    const entity = document.querySelector('rabble-entity');
+    const statsElem = document.getElementById('stats');
+    
+    setInterval(() => {
+      const stats = window.NeBuLA?._instance?.getStats?.();
+      if (stats) {
+        statsElem.textContent = JSON.stringify(stats, null, 2);
+      }
+    }, 500);
+  </script>
+</body>
+</html>
+```
+
+**Done when:**
+- [ ] Page loads without console errors
+- [ ] Entity renders and responds to state changes
+- [ ] Buttons use Aether colors (no hardcoded hex)
+- [ ] Responsive on mobile (320px) and desktop (1920px)
+- [ ] Stats display updates every 500ms
+
+---
+
+## Phase 13 — Documentation: Aether + World Composition Guide
+
+**Goal:** Future members understand how to create new World pages using Aether + NeBuLA without duplicating components or styles.
+
+### Step 13.1 — Create composition guide
+
+Write `RaBbLE-World/COMPOSITION.md`:
+
+```markdown
+# RaBbLE-World Page Composition Guide
+
+## Three-Layer Stack
+
+| Layer | Owner | Responsibility | Example |
+|---|---|---|---|
+| **Form** | Aether | Visual appearance, colors, typography, spacing | `.btn` button styles, colors from CSS variables |
+| **Function** | World CSS | Interaction states, layout behaviors, animations | Button hover, navbar sticky positioning |
+| **Animation** | NeBuLA | Entity rendering, particle dynamics, entropy states | `<rabble-entity>`, saccade, boot sequence |
+
+## Creating a New Page
+
+1. **Create HTML** in `/world/page-*.html` with semantic structure
+2. **Import Aether CSS** in `<head>` with version pin
+3. **Create World CSS** in `/world/css/page-*.css` for functional overrides
+4. **Add `<rabble-entity>`** where animation is needed
+5. **Test on mobile** (320px), tablet (768px), desktop (1920px)
+
+## No Duplication Rule
+
+- **Never copy Aether classes into World CSS** — import Aether's bundle
+- **Never hardcode colors** — use Aether CSS variables (--rabble-magenta, etc.)
+- **Never redefine components** — if Aether provides it, extend it, don't recreate
+- **Never add animations to Aether** — Aether is form; NeBuLA is animation
+```
+
+### Step 13.2 — Update RaBbLE-World AGENT.md
+
+Ensure `RaBbLE-World/AGENT.md` references the composition guide and Aether conventions.
+
+**Done when:** A new contributor can read the guide and build a functioning page without asking questions.
+
+---
+
+## Phase 14 — Performance & Metrics Baseline
+
+**Goal:** Establish performance metrics for NeBuLA across backends and devices. Establish targets for Episode 1.
+
+### Step 14.1 — Create metrics collection script
+
+In `RaBbLE-NeBuLA/spells/measure-perf.sh`:
+
+```bash
+#!/bin/bash
+# Measure NeBuLA performance across backends and devices
+
+echo "NeBuLA Performance Baseline — $(date)"
+echo "Device: $(uname -m) | OS: $(uname -s) | Browser: $BROWSER_ENV"
+echo ""
+
+# Open examples in browser, measure FPS over 30 seconds
+echo "Canvas2D (mobile baseline):"
+# Point to examples/basic-scene.html
+echo "- Load basic-scene.html"
+echo "- Record average FPS over 30s"
+echo "- Note: Should be 50+ FPS on mobile"
+echo ""
+
+echo "Three.js (desktop target):"
+echo "- Load threejs-scene.html"
+echo "- Record average FPS over 30s (1000 entities)"
+echo "- Note: Should be 55+ FPS on desktop"
+echo ""
+
+echo "World landing page (production):"
+echo "- Open https://joinrabble.world/"
+echo "- Run: window.NeBuLA._instance?.getStats?.()"
+echo "- Record backend, FPS, entity count"
+```
+
+### Step 14.2 — Establish targets
+
+Document in `RaBbLE-NeBuLA/TARGETS.md`:
+
+```markdown
+# NeBuLA Performance Targets (Episode 1)
+
+| Metric | Target | Platform | Notes |
+|---|---|---|---|
+| Canvas2D FPS | ≥50 | iOS/Android | 100 entities, 60Hz refresh |
+| Three.js FPS | ≥55 | Desktop | 1000 entities, 60Hz refresh |
+| Particle count | 480 | Desktop | Adjusts down on mobile |
+| Shader entropy jitter | Visible | All | Particles shimmer smoothly |
+| Boot sequence time | 3.2s | All | T_EYES_FULL = 3200ms |
+| Entity state transition | 800ms | All | Smooth entropy easing |
+| Bundle size | <100KB | All | minified, without Three.js |
+| Time to interactive | <500ms | All | From page load to first render |
+```
+
+**Done when:** Baseline metrics are recorded. Targets are locked. Performance optimizations (if needed) are tracked as follow-up tasks.
+
+---
+
+## Build and Release Checklist — Updated
+
+Before tagging Episode 1 on `RaBbLE-NeBuLA/main`:
+
+- [ ] All phases 1–14 complete
+- [ ] `npm run build` produces `dist/nebula.iife.js` (<100KB)
+- [ ] `examples/basic-scene.html` works (Canvas2D, 50+ FPS)
+- [ ] `examples/threejs-scene.html` works (Three.js, 1000 entities, 55+ FPS)
+- [ ] Aether CSS variables are read dynamically (no hardcoded hex in NeBuLA code)
+- [ ] World pages load Aether from CDN with version pins
+- [ ] Responsive canvas sizing works on mobile (320px) and desktop (1920px)
+- [ ] `RaBbLE-World/COMPOSITION.md` is written and verified
+- [ ] Performance baselines recorded in `TARGETS.md`
+- [ ] NeBuLA adapter (`world/js/RaBbLE-NeBuLA.js`) is <50 lines
+- [ ] No raw hex strings outside `src/puppet/palette.js`
+- [ ] No duplicate Aether classes in World CSS
+- [ ] Commit Grimoire updates: member manifests, registry entries
+
+---
+
+## Commit Style Reference — Updated
+
+Example commits for continued phases:
+
+```
+spark ~ aether >> css variables, theme bridge established // %THEME_WIRED%
+spark ~ nebula >> responsive canvas sizing, mobile-first // %RESPONSIVE_LIVE%
+spark ~ aether >> cdn distribution, asset registry // %CDN_VERSIONED%
+harmonize ~ world >> page composition guide, three-layer stack // %COMPOSITION_LOCKED%
+transcribe ~ nebula >> performance targets baseline // %TARGETS_LOCKED%
+```
+
+---
+
+```
+transcribe ~ grimoire >> NeBuLA plan expanded: Aether CDN + responsive + World composition (phases 9–14) // %NEBULA_PLAN_EXPANDED%
 ```
