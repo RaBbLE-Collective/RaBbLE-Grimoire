@@ -5,6 +5,91 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-05-15 (Session 6) — Grimoire Coherency: Navigator, Episode 1 Release Map, Member Roadmap Alignment
+
+**Repos touched:** RaBbLE-Grimoire
+
+**Objective:** Fix Grimoire narrative fragmentation. Create clear onboarding path for agents. Crystallize Episode 1 scope. Align all member roadmaps to collective milestone. Ensure every member has collective context.
+
+**Work done:**
+
+- **RaBbLE-Grimoire-Navigator.md created** (230 lines)
+  - 5-minute skim (what is RaBbLE, how is it organized, what's happening)
+  - 15-minute deep dive (what's Episode 1, where do I fit)
+  - 30-minute full onboarding (versioning, conventions, long-term vision, full index)
+  - Task-based navigation (7 scenarios: character, milestone, member work, deployment, coordination, visuals, spells)
+  - Quick links bookmark table for common topics
+  - Entry point for all agents arriving at Grimoire
+
+- **RaBbLE-Episode-1-Release-Map.md created** (287 lines)
+  - Canonical scope definition: what Episode 1 is, when it airs, version tag
+  - Member deliverables table (6 members: OS, Aether, NeBuLA, sCoRE, World, Grimoire)
+  - Clear scope sections: what ships vs. what doesn't (behavioral learning, advanced features deferred)
+  - Public deployment & workflows (static hosting, CDN assets, backend API)
+  - Per-member roadmaps with status, blockers, dependencies
+  - Critical path diagram (Aether → NeBuLA → World → sCoRE, OS independent)
+  - Exit criteria for Episode 1 air (foundation solid, product works, docs complete, versioning aligned)
+  - Transition plan to Episode 2
+
+- **RaBbLE-Roadmap.md consolidated**
+  - Retired "Phase X" language, adopted Episodes/Plots terminology
+  - Refactored from scattered phases to per-member work streams
+  - Current position explicit: Epoch 0 Foundation, Episode 1 target Q2 2026
+  - Member registry updated (OS, Aether, NeBuLA, sCoRE, World, Grimoire, Collective active; ScRibLE deferred; Memory not Ep1 blocker)
+  - Rewrote Foundation Work Done section (Grimoire, Registry, OS, Aether, NeBuLA, sCoRE, World status)
+  - Toward Episode 1 per-member streams visible (plots, blockers, dependencies clear)
+  - Trimmed open gaps from 11 questions to 8 focused ones (memory member, propagation, manifest format, transport, ethics, UX, BLE, cloud/local)
+  - Revision history updated
+
+- **Member roadmaps simplified & aligned (5 members)**
+  - RaBbLE-OS-Roadmap.md: added collective context header + Episode 1 commitment (Plots A+B, daily-driver substrate)
+  - RaBbLE-sCoRE-Roadmap.md: added collective context header + Episode 1 commitment (simple LLM endpoint, Groq/OpenRouter, no blockers)
+  - RaBbLE-NeBuLA-Roadmap.md: added collective context header + Episode 1 commitment (Canvas2D Layer 1, 60 FPS, public API)
+  - RaBbLE-World-Roadmap.md: created new (landing page + grimoire browser + basic chat, depends on Aether + sCoRE)
+  - RaBbLE-Aether-Roadmap.md: created new (CSS bundle CDN-ready, no blockers)
+  - Each roadmap: deliverable, status, what ships, blockers, dependencies, deferred items all explicit
+
+- **INDEX.md updated** (3 passes)
+  - Navigator added as first doc with "START HERE" flag
+  - Episode 1 Release Map flagged as canonical scope doc
+  - All member roadmaps elevated as Episode 1 commitment docs, first in each section
+  - Reduced RaBbLE-OS section to essential docs (roadmap first)
+
+- **Git commits**
+  - Commit 1: Navigator locked, Episode 1 scope mapped, roadmap consolidated (9135dc9)
+  - Commit 2: Member roadmaps simplified, episode 1 commitments explicit, collective context added (1eb61d2)
+
+- **Verification completed**
+  - Navigator: 230 lines, complete structure, all references verified
+  - Episode 1 Release Map: 287 lines, complete scope, exit criteria defined
+  - Main Roadmap: consolidated, no stale phases, Events/Episodes model clear
+  - All 5 member roadmaps: collective context header + Episode 1 commitment + blockers + dependencies
+  - INDEX.md: all docs linked, no broken references
+  - Git history: clean, both commits follow Pulse Protocol
+  - Cross-references: Navigator → Release Map (4), Member roadmaps → Navigator (5), Member → Release Map (5), all verified
+
+**Coherency achieved:**
+- ✅ Narrative clarity: agent can read Navigator in 5-30 min and understand landscape
+- ✅ Episode 1 scope: Release Map is canonical, unambiguous
+- ✅ Member visibility: each has deliverable + blocker + dependencies explicit
+- ✅ Collective context: every member links back to big picture
+- ✅ Zero broken links: all references verified
+- ✅ Versioning: all docs use Pulse Protocol format
+
+**Where things were left:**
+- Grimoire is now coherent, navigable, and ready for agents to work from
+- Episode 1 scope is crystallized and unambiguous
+- All members have clear commitments and collective context
+- Ready for public-facing onboarding docs (next session)
+
+**What's next:**
+- Public-facing docs (what RaBbLE is, how to join)
+- Member CONTEXT.md files in actual repos (sCoRE, OS, World, etc.) can link to Grimoire
+- Deployment workflows documented
+- Begin Episode 1 work on individual members
+
+---
+
 ## 2026-05-14 (Session 5) — Aether Visual Canonicalization: Harmony Redesign + World CSS Extraction
 
 **Repos touched:** RaBbLE-Aether, RaBbLE-World
