@@ -78,59 +78,47 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 
 ## RaBbLE-OS
 
+- **[RaBbLE-OS-Roadmap](RaBbLE-OS/RaBbLE-OS-Roadmap.md)** — **Episode 1 commitment:** daily-driver substrate (Fedora 43 + Hyprland, fully themed)
 - [RaBbLE-OS-Architecture](RaBbLE-OS/RaBbLE-OS-Architecture.md)
 - [RaBbLE-OS-GettingStarted](RaBbLE-OS/RaBbLE-OS-GettingStarted.md)
 - [RaBbLE-OS-AgentGuide](RaBbLE-OS/RaBbLE-OS-AgentGuide.md) — full agent reference: layers, commands, branch conventions
 - [RaBbLE-OS-ShellGuide](RaBbLE-OS/RaBbLE-OS-ShellGuide.md)
 - [RaBbLE-OS-BootFlow](RaBbLE-OS/RaBbLE-OS-BootFlow.md)
-- [RaBbLE-OS-Bootstrap](RaBbLE-OS/RaBbLE-OS-Bootstrap.md)
-- [RaBbLE-OS-Theming](RaBbLE-OS/RaBbLE-OS-Theming.md)
-- [RaBbLE-OS-Hardware](RaBbLE-OS/RaBbLE-OS-Hardware.md)
-- [RaBbLE-OS-Packages](RaBbLE-OS/RaBbLE-OS-Packages.md)
-- [RaBbLE-OS-AddingTargets](RaBbLE-OS/RaBbLE-OS-AddingTargets.md)
-- [RaBbLE-OS-ManualInstall](RaBbLE-OS/RaBbLE-OS-ManualInstall.md)
-- [RaBbLE-OS-KnownIssues](RaBbLE-OS/RaBbLE-OS-KnownIssues.md)
-- [RaBbLE-OS-Epoch-I-Diff](RaBbLE-OS/RaBbLE-OS-Epoch-I-Diff.md)
-- [RaBbLE-OS-Roadmap](RaBbLE-OS/RaBbLE-OS-Roadmap.md)
 
 ---
 
 ## RaBbLE-sCoRE
 
+- **[RaBbLE-sCoRE-Roadmap](RaBbLE-sCoRE/RaBbLE-sCoRE-Roadmap.md)** — **Episode 1 commitment:** simple LLM endpoint (Groq/OpenRouter)
 - [RaBbLE-sCoRE-Architecture](RaBbLE-sCoRE/RaBbLE-sCoRE-Architecture.md) — component map, task lifecycle, server subcomponent
-- [RaBbLE-sCoRE-Roadmap](RaBbLE-sCoRE/RaBbLE-sCoRE-Roadmap.md) — episode tracker
-- **Internal:** [sCoRE System Prompt](../RaBbLE-sCoRE/system-prompt-sCoRE.md) — loaded only when running as sCoRE entity. [Setup guide](../RaBbLE-sCoRE/SYSTEM-PROMPT-SETUP.md).
+- **Internal:** [sCoRE System Prompt](../RaBbLE-sCoRE/system-prompt-sCoRE.md) — loaded only when running as sCoRE entity
 
 ---
 
 ## RaBbLE-World
 
-- [RaBbLE-World-Architecture](RaBbLE-World/RaBbLE-World-Architecture.md) — layer stack, module map, boot timeline, surface guide
-- [RaBbLE-World-Page-Template](RaBbLE-World/RaBbLE-World-Page-Template.md) — minimal page template, CDN integration pattern, reuse vs. duplication rules
-- [RaBbLE-World-README](RaBbLE-World/RaBbLE-World-README.md) — full module reference, entity API, behavior
-- [RaBbLE-World-MAINTAINING](RaBbLE-World/RaBbLE-World-MAINTAINING.md) — page ownership, layout rules, safe edit checklist
-- [RaBbLE-World-Roadmap](RaBbLE-World/RaBbLE-World-Roadmap.md) — directional intent
+- **[RaBbLE-World-Roadmap](RaBbLE-World/RaBbLE-World-Roadmap.md)** — **Episode 1 commitment:** landing page + grimoire browser + basic chat
+- [RaBbLE-World-Architecture](RaBbLE-World/RaBbLE-World-Architecture.md) — layer stack, module map, boot timeline
+- [RaBbLE-World-Page-Template](RaBbLE-World/RaBbLE-World-Page-Template.md) — minimal page template, CDN integration pattern
+- [Visual Assets](RaBbLE-World/assets/) — images, icons
 
 ---
 
 ## RaBbLE-NeBuLA
 
-- [RaBbLE-NeBuLA-Identity](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Identity.md) — origin story, entity traits, consciousness model
+- **[RaBbLE-NeBuLA-Roadmap](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Roadmap.md)** — **Episode 1 commitment:** Canvas2D Layer 1 rendering (60 FPS)
+- [RaBbLE-NeBuLA-Identity](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Identity.md) — origin story, consciousness model
 - [RaBbLE-NeBuLA-Architecture](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Architecture.md) — Flat-Chaos Runtime, subsystem overview
-- [RaBbLE-NeBuLA-API](RaBbLE-NeBuLA/RaBbLE-NeBuLA-API.md) — public API reference (createPuppet, setEntityState, injectEyeJolt, CDN usage patterns)
-- [RaBbLE-NeBuLA-FlatChaos](RaBbLE-NeBuLA/RaBbLE-NeBuLA-FlatChaos.md) — FCR pattern spec
-- [RaBbLE-NeBuLA-RABL](RaBbLE-NeBuLA/RaBbLE-NeBuLA-RABL.md) — rendering language spec
-- [RaBbLE-NeBuLA-RBCNS](RaBbLE-NeBuLA/RaBbLE-NeBuLA-RBCNS.md) — naming conventions
-- [RaBbLE-NeBuLA-Ideas](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Ideas.md) — enhancement proposals
-- [RaBbLE-NeBuLA-Roadmap](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Roadmap.md) — episode tracker, delivery model, known risks
-- [RaBbLE-NeBuLA-Plan](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Plan.md) — **agent implementation plan** (Haiku-level, step-by-step, Ep1+Ep4)
+- [RaBbLE-NeBuLA-API](RaBbLE-NeBuLA/RaBbLE-NeBuLA-API.md) — public API reference
+- [RaBbLE-NeBuLA-Plan](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Plan.md) — **agent implementation plan** (step-by-step)
 
 ---
 
 ## RaBbLE-Aether
 
-- [RaBbLE-Aether-Architecture](RaBbLE-Aether/RaBbLE-Aether-Architecture.md) — design system spec, asset directory, consumer pattern, palette publishing
-- [RaBbLE-Aether-Build-CDN](RaBbLE-Aether/RaBbLE-Aether-Build-CDN.md) — esbuild setup, CSS bundling, npm scripts, versioning, CDN deployment
+- **[RaBbLE-Aether-Roadmap](RaBbLE-Aether/RaBbLE-Aether-Roadmap.md)** — **Episode 1 commitment:** CSS design system bundle (CDN-ready)
+- [RaBbLE-Aether-Architecture](RaBbLE-Aether/RaBbLE-Aether-Architecture.md) — design system spec, palette publishing
+- [RaBbLE-Aether-Build-CDN](RaBbLE-Aether/RaBbLE-Aether-Build-CDN.md) — esbuild setup, CSS bundling, versioning
 - [Visual Assets](RaBbLE-Aether/assets/) — SVG, logos, icons
 
 ---

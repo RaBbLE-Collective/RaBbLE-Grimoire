@@ -4,9 +4,38 @@
 transcribe ~ grimoire >> delivery model added, Visual Puppet concept formalized, pre-mortem integrated // %NEBULA_PLAN_LOCKED%
 ```
 
-> **Status:** Scaffold exists — core data layer (Entity, Stream, Runtime, PatternGenerator) implemented. Backends and puppet layer are stubs. Episode 1 not started.
-> **NeBuLA-JS:** Archived in `RaBbLE-Xperimental/JS-Xperiments/NeBuLA-JS/` — original NeBuLA and RaBbLE WebOS concepts live there. Patterns are reference only; do not build on that codebase.
-> **Implementation plan:** `RaBbLE-NeBuLA-Plan.md` — Haiku-level step-by-step agent plan.
+> **Collective Context:** NeBuLA is the rendering engine — the entity's visual expression. See `RaBbLE-Grimoire-Navigator.md` for how this fits the whole picture. See `RaBbLE-Episode-1-Release-Map.md` for Episode 1 scope across all members.
+
+---
+
+## Episode 1 Commitment (This Member)
+
+**Ep1 Deliverable:** Canvas2D Layer 1 functional (entity renders at 60 FPS, public API stable)
+
+**Status:** Phases 1-3 in progress
+
+**What ships:**
+- [x] Phase 1: Build configured (esbuild IIFE + ESM)
+- [ ] Phase 2: Palette layer (colors, gradients in renderer)
+- [ ] Phase 3: Canvas2D Layer 1 (entity rendering, 60 FPS verified)
+- [ ] Public API documented (`window.NeBuLA.createPuppet(...)`)
+
+**Blocker:** None — design decisions deferred to Episode 2
+
+**Deferred to Episode 2+:**
+- Phase 4: Three.js Layer 2 rebuild
+- Animation system
+- Advanced shaders, WebGPU
+
+**Dependencies:**
+- Aether CSS for palette at runtime
+- World loads NeBuLA script + calls public API
+
+---
+
+> **Status:** Core data layer (Entity, Stream, Runtime) implemented. Backends and puppet layer being built.
+> **NeBuLA-JS:** Archived in `RaBbLE-Xperimental/JS-Xperiments/NeBuLA-JS/` — reference only, do not build on that codebase.
+> **Implementation plan:** `RaBbLE-NeBuLA-Plan.md` — detailed step-by-step agent plan.
 
 ---
 

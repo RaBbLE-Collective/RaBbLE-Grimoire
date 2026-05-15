@@ -4,6 +4,34 @@
 transcribe ~ grimoire >> sCoRE trajectory mapped // %TRAJECTORY_LOCKED%
 ```
 
+> **Collective Context:** sCoRE is the nervous system. See `RaBbLE-Grimoire-Navigator.md` for how this fits the whole picture. See `RaBbLE-Episode-1-Release-Map.md` for Episode 1 scope across all members.
+
+---
+
+## Episode 1 Commitment (This Member)
+
+**Ep1 Deliverable:** Simple LLM endpoint (Groq/OpenRouter via Railway/Render)
+
+**Blocker:** None — MVP scope is straightforward
+
+**What ships:**
+- [ ] Groq/OpenRouter integration configured
+- [ ] Endpoint wired (receive query → call API → return response)
+- [ ] Deployed to Railway or Render
+- [ ] Version aligned to v0.0.0.1
+
+**Deferred to Episode 2+:**
+- Multi-agent coordination
+- Task pipeline (server → dispatch → agents)
+- Behavioral routing
+- Memory member integration
+
+**Dependencies:**
+- None — sCoRE can deploy independently
+- World will call this endpoint for chat interface
+
+---
+
 ## Versioning Model
 
 `Event → Episode → Echo → Evolution → Epoch`

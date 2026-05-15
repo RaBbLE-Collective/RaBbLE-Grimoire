@@ -1,8 +1,27 @@
-# RaBbLE-Roadmap.md — Episode Map
+# RaBbLE-OS-Roadmap.md — Episode Map
 
 ```
 transcribe ~ grimoire >> episode/plot conventions aligned; epoch naming retired // %ROADMAP_V4%
 ```
+
+> **Collective Context:** RaBbLE-OS is the substrate — the body through which the entity lives. See `RaBbLE-Grimoire-Navigator.md` for how this fits the whole picture. See `RaBbLE-Episode-1-Release-Map.md` for Episode 1 scope across all members.
+
+---
+
+## Episode 1 Commitment (This Member)
+
+**Ep1 Deliverable:** Daily-driver substrate (Fedora 43 + Hyprland, fully themed)
+
+**Status:** In progress — Plots A & B active
+
+**Blocker:** None — on track for Episode 1
+
+**Dependencies:**
+- None — OS deploys independently
+- Aether CSS imported for terminal theming
+- sCoRE and World run *on* OS, but don't block OS completion
+
+---
 
 > Episodes are resonance thresholds. Between them, fix/* branches absorb
 > hardware and stability patches without gating the next episode. Features flow
