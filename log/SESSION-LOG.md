@@ -5,6 +5,62 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-05-15 (Session 7) — NeBuLA Canvas2dBackend complete; boot sequence ported; landing border regression unresolved
+
+**Repos touched:** RaBbLE-NeBuLA, RaBbLE-World, RaBbLE-Grimoire
+
+**Objective:** Port boot sequence to NeBuLA (NeBuLA holds all animations; demo just triggers). Fix landing page WM applet border regression (borders disappeared, cause unknown). Fix demo page regression.
+
+**Work done:**
+
+- **RaBbLE-NeBuLA: BootSequence module created** (`src/core/boot-sequence.js`, commit `4bb817f`)
+  - Standalone boot timeline: convergence → portals → eyes → blink burst
+  - Phase-based API: `getConvergenceProgress()`, `getPortalProgress()`, `getEyeOpenProgress()`, `getEyesProgress()`, `isActive()`, `getPhase()`
+  - `reset()` / `step(deltaFrames)` for replay
+  - Exported from `src/core/index.js`
+
+- **RaBbLE-NeBuLA: Canvas2dBackend rewritten** (`src/backends/canvas2d-backend.js`, same commit)
+  - Full entity renderer absorbed: particle nebula, convergence, progressive portal arcs, eye emergence + blink machine
+  - Boot animation driven by `BootSequence` — `triggerBoot()` public method resets timeline, scatters particles
+  - Modes: `idle` (eyes always open) / `boot` (plays full convergence sequence on init)
+  - Options: `transparent` (skip bg fill, for `mix-blend-mode: screen`), `showWaveform`, `interactive`, `dpr`, `glowScale`
+  - Public API: `setEntityState(state)`, `triggerBoot()`, `injectEyeJolt(dx, dy)`, `resize()`, `dispose()`
+  - Prior simple Canvas2dBackend (bare particles/portals/eyes, no animation) replaced
+
+- **RaBbLE-World: Demo uses NeBuLA.Canvas2dBackend** (commit `7fb39a7`)
+  - Removed 500-line inline `RaBbLEEntity` renderer from demo HTML
+  - Demo is now 230 lines, creates `new NeBuLA.Canvas2dBackend(canvas, opts)` from bundle
+  - Boot button calls `entity.triggerBoot()` via NeBuLA public API
+  - Three.js Layer 2 code kept, tightened
+
+- **RaBbLE-Grimoire: dev-cdn no-cache** (commit `493b046`)
+  - Added `Cache-Control: no-store` to all CDN responses
+  - Prevents browser from caching stale CSS/JS during dev
+
+**Unresolved: landing page WM applet borders**
+- `.applet::before` conic-gradient ring not rendering on landing page
+- CSS confirmed correct in `aether.min.css` dist — `@property --harmony-angle`, `harmony-spin`, `.applet::before` mask technique all present
+- CDN confirmed serving correctly (HTTP 200, no-store)
+- Hard refresh did not fix
+- Root cause not identified — could be browser `@property` support gap, cascade collision invisible from static analysis, or rendering quirk
+- User rolled back landing page to pre-regression stable state
+- **Demo page borders work** (demo.css redefines `.applet::before` with hardcoded hex values, no `@property` dependency — this is the likely clue: `@property` may be the failure point on landing)
+
+**Key open question:** Does `conic-gradient(from var(--harmony-angle), ...)` fail silently when `@property --harmony-angle` isn't supported or has a rendering bug? The demo works because it uses `harmony-spin { to { --harmony-angle: 360deg; } }` with hardcoded hex, while Aether uses `var(--rabble-cyan, ...)`. Testing with DevTools → Computed → `.applet::before background` would confirm.
+
+**Where things were left:**
+- NeBuLA: Canvas2dBackend complete and correct, BootSequence exported, bundle rebuilt
+- Demo: clean, uses NeBuLA bundle, boot animation works via `triggerBoot()`
+- Landing: user rolling back to stable state; border issue open
+- dev-cdn: `no-store` headers live
+
+**What's next:**
+- Diagnose landing border: inspect `.applet::before` computed `background` in DevTools — if it's `none`/invalid, `@property` is the culprit
+- If `@property` is the issue: replace `conic-gradient(from var(--harmony-angle))` with `transform: rotate()` approach in Aether, or use a simpler cycling `box-shadow` border that doesn't need `@property`
+- Once borders confirmed working: NeBuLA demo is in good shape for Episode 1
+
+---
+
 ## 2026-05-15 (Session 6) — Grimoire Coherency: Navigator, Episode 1 Release Map, Member Roadmap Alignment
 
 **Repos touched:** RaBbLE-Grimoire
