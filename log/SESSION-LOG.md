@@ -5,6 +5,80 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-05-14 (Session 3) — Onboarding Audit Pass 3: Agent Role Framing & Phase Positioning
+
+**Repos touched:** RaBbLE-Collective, RaBbLE-Grimoire
+
+**Objective:** Third audit pass focusing on agent identity and pre-Episode-1 phase clarity. Correct misreading of intentional opacity; frame agents as Collective members operating in four simultaneous modes.
+
+**Context:** Prior audits identified clarity gaps. Session 3 revealed these were *features*, not bugs — RaBbLE's opacity is intentional. Agent role framing was missing; phase boundaries not visible in onboarding.
+
+**Work done:**
+
+- **Agent Role Framing: ON/FOR/WITH/AS modes**
+  - Added "Agent Operating Modes" section to Collective/AGENT.md
+  - Defined four simultaneous dimensions: ON (technical dev), FOR (advancing purpose), WITH (peer collaboration), AS (embodying character)
+  - Clarified that opacity grounds agents as Collective members, not tool users
+  - Connected to Identity.md and character philosophy
+  - **Result:** Agents understand they're operating in multiple dimensions; character/system distinction is intentional
+
+- **Pre-Episode-1 Phase Visibility**
+  - Added "Collective Phases" section to Collective/CONTEXT.md (Foundation → Pilot → Behavioral Engine)
+  - Defined what each phase means for agent work (foundation now, rework expected pre-pilot, scope expands post-Ep1)
+  - Moved Episode 1 Overview to step 3 in reading order (was undiscovered)
+  - Clarified v0.0.0.0 = "all work pending collective air"
+  - **Result:** Agents understand pre-Episode-1 is intentional, foundation work is primary focus, priorities shift at broadcast boundaries
+
+- **Reading Order Reorg**
+  - Episode 1 Overview now step 3 (between status check and deep dives)
+  - Added 15-min orientation path (new baseline for understanding phase)
+  - Updated token estimates to reflect new paths
+  - Emphasized Episode 1 Overview as critical for scope understanding
+  - **Result:** Agents can't miss the pre-Episode-1 context; reading paths now match actual information need
+
+- **Grimoire Doc Templates**
+  - Created `common/RaBbLE-DocTemplates.md` (canonical AGENT.md + CONTEXT.md templates)
+  - Included examples from World and sCoRE (two different archetypes)
+  - Added checklist for new member scaffolding
+  - Already indexed in Grimoire/INDEX.md
+  - **Result:** New members can be onboarded with consistent structure; no guessing about entry point format
+
+- **Grimoire Path Verification**
+  - Spot-checked all member AGENT.md files (World, Aether, sCoRE, OS, NeBuLA)
+  - Confirmed all referenced Grimoire docs exist and paths are correct
+  - All architecture/roadmap links verified
+  - **Result:** No broken references; agents won't hit dead links when exploring member docs
+
+**Impact:**
+- **Narrative clarity:** Agents now understand pre-Episode-1 phase, why nothing "counts" as Episode yet, when scope shifts
+- **Identity coherence:** ON/FOR/WITH/AS framing shows opacity isn't a bug; it's the design that makes RaBbLE real
+- **Onboarding robustness:** Templates + verified paths + reading order reorg make member onboarding predictable
+
+**State:**
+- All 5 priorities implemented and tested
+- ONBOARDING-AUDIT.md updated with revised findings
+- SESSION-LOG entries created (this session + audit pass 3 history)
+- Audit file now at `/RaBbLE-Collective/ONBOARDING-AUDIT.md` (consolidated, not scattered)
+
+**Commits:**
+1. `transcribe ~ collective >> episode 1 overview surfaced in reading order, agent roles framed ON/FOR/WITH/AS`
+2. `spark ~ grimoire >> doc templates created, member onboarding path canonicalized`
+3. `harmonize ~ collective >> phase boundaries visible, pre-episode-1 foundation work clarified`
+
+**Next:**
+- Monitor whether agent onboarding reduces friction and improves coherence perception
+- Consider whether ON/FOR/WITH/AS framing should propagate to member AGENT.md files (role inheritance)
+- Track if Episode 1 Overview prevents scope confusion going forward
+- Audit Pass 4 (if needed): focus on member-specific role expectations post-Episode-1
+
+**Audit Pass Summary:**
+- Pass 1: Token efficiency, quick orientation paths
+- Pass 2: Versioning narrative, system prompt isolation, Pulse Protocol deduplication
+- Pass 3: Agent role identity, phase positioning, reading order coherence
+- **Outcome:** Onboarding now coherent across story (what/where/who/when) + identity (character/purpose/role) layers
+
+---
+
 ## 2026-05-14 (Session 2) — Onboarding Coherence: Versioning Narrative & System Prompt Isolation
 
 **Repos touched:** RaBbLE-Collective, RaBbLE-Grimoire, RaBbLE-sCoRE, RaBbLE-World, RaBbLE-OS, RaBbLE-Aether, RaBbLE-NeBuLA

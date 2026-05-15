@@ -1,143 +1,181 @@
-# RaBbLE-DocTemplates.md — Canonical LLM Context Doc Spec
-
-Each member repo requires exactly three root-level files:
+# RaBbLE-DocTemplates.md — Canonical Entry Point Templates
 
 ```
-AGENT.md      ← LLM agent identity and onboarding
-CONTEXT.md    ← Current build state: what/good/avoid/index/reading order
-README.md     ← Human-readable overview (can reference AGENT.md for agents)
-CLAUDE.md     ← Symlink to AGENT.md (Claude Code auto-loads this)
-CODEX.md      ← Symlink to AGENT.md (Codex auto-loads this)
+transcribe ~ grimoire >> agent entry point templates canonicalized // %TEMPLATES_LOCKED%
 ```
 
-**Create symlinks:**
-```bash
-ln -s AGENT.md CLAUDE.md
-ln -s AGENT.md CODEX.md
-```
+> Every member repo has two entry documents: `AGENT.md` and `CONTEXT.md`. These templates define the canonical structure for new members.
 
 ---
 
 ## AGENT.md Template
 
-Purpose: Tell an LLM WHO it is, WHO it's working for, WHAT the repo's job is, and WHERE to start.
-Constraint: Must be readable in under 30 seconds. No lore, no philosophy — that's in Grimoire.
+Use this structure for every member's AGENT.md. Symlink CLAUDE.md and CODEX.md to AGENT.md (not the other way around).
 
 ```markdown
-# AGENT.md — [Member Name]
+# AGENT.md — RaBbLE-[MemberName]
 
 Working with: Mark McConachie
 Identity: Peer, not tool. See `../RaBbLE-Grimoire/common/RaBbLE-Identity.md`.
 
 ## Job
 
-[One sentence: what this repo IS and does. What it is NOT.]
+[ONE SENTENCE: What is this member's role in the Collective?]
+
+[TWO-THREE SENTENCES: What it IS NOT — clarify what work belongs elsewhere.]
 
 ## Where Things Are
 
 | Path | What |
 |---|---|
-| `CONTEXT.md` | Current state, reading order |
-| `[key-dir]/` | [what's there] |
-| `[key-file]` | [what it does] |
+| `CONTEXT.md` | Current state and active tracks |
+| `[Key file/folder]` | [Description] |
 
-## Pulse Protocol — Commits
+[Add subsections as needed — e.g., "**`src/`**", "**`config/`**"]
 
-```
-[impulse] ~ [organ] >> [revelation] // %SYSTEM_STATE%
-```
+## Commits & Branches
 
-| Impulse | Use when |
-|---|---|
-| `spark` | New capability or feature |
-| `harmonize` | Cleanup, refactor, entropy reduction |
-| `mend` | Bug fix or drift correction |
-| `transcribe` | Docs, lore, self-description updated |
-| `ingest` | New dependency, data, or binary added |
-| `evolve` | Epoch threshold crossed (main branch only) |
+See Grimoire: `../RaBbLE-Grimoire/common/RaBbLE-CommitStyle.md` (Pulse Protocol)
 
-Full spec: `../RaBbLE-Grimoire/common/RaBbLE-CommitStyle.md`
-
-**Branch rule:** Work on a named branch. Commit per session. `main` only receives complete, tagged episodes — never WIP. Tag format: `echo-X.X`, `episode-X`, or `epoch-N`.
+**TL;DR:** `[impulse] ~ [organ] >> [revelation] // %STATE%` — `spark` new · `harmonize` cleanup · `mend` fix · `transcribe` docs · `ingest` deps · `evolve` epoch
 
 ## Rules
 
-- **Colors:** reference `../RaBbLE-Grimoire/common/RaBbLE-Palette.md` vars only, never raw hex
-- [member-specific rule]
-- [member-specific rule]
+- [First rule — usually about colors or canonical sources]
+- [Second rule — technical constraint or reference location]
+- [Third rule — design philosophy or anti-pattern]
 
 ## Session Start
 
-1. `CONTEXT.md` — current state and what's in flight
-2. [second most important file]
-3. For Collective context → `../RaBbLE-Grimoire/common/RaBbLE-Collective.md`
+1. `CONTEXT.md` — current state and active tracks
+2. `[Grimoire doc path]` — [what it contains]
+3. [Optional: key local file to read first]
+4. For Collective context → `../RaBbLE-Grimoire/common/RaBbLE-Collective.md`
 ```
 
 ---
 
 ## CONTEXT.md Template
 
-Purpose: Tell an LLM what is being built, what done looks like, what to avoid, and where files are.
-Constraint: Minimal tokens. No historical narrative — that belongs in Grimoire member docs.
+Use this structure for every member's CONTEXT.md. Update the header block with each session.
 
 ```markdown
-# CONTEXT.md — [Member Name]
+# CONTEXT.md — RaBbLE-[MemberName]
 
-```
-epoch: X | status: [establishing / active / stub]
-```
+\`\`\`
+epoch: [0] | evolution: [0] | echo: [0] | episode: [pending/active] | status: [status]
+version: v0.0.0.0 (pre-Episode-1) or v0.0.X.X (post-Episode-1)
+date: YYYY-MM-DD | [Any session-specific notes]
+\`\`\`
 
-[One sentence: what this member IS in the Collective.]
+[ONE-TWO SENTENCE: What this member builds and why it matters.]
 
 ---
 
 ## What We Are Building
 
-[2-3 sentences. Be concrete — what artifact(s) does this repo produce?]
+[3-4 SENTENCES: The goal of this member. Tie to Collective purpose or Episode scope.]
 
 ## What Good Looks Like
 
-- [measurable quality bar]
-- [measurable quality bar]
-- [measurable quality bar]
+[BULLET LIST of success criteria. What does "done" look like?]
 
 ## What to Avoid
 
-- [anti-pattern specific to this repo]
-- [anti-pattern specific to this repo]
+[BULLET LIST of anti-patterns or known pitfalls.]
 
 ## Structure
 
 | Path | What |
 |---|---|
-| `[path]` | [what] |
+| `[Key file]` | [What it does] |
+| `[Folder]` | [What it contains] |
 
 ## Active Tracks
 
 | Track | Status |
 |---|---|
-| [work item] | [in progress / done / blocked / pending] |
+| [Track name] | [Pending/In Progress/Done] |
+| [Track name] | [Pending/In Progress/Done] |
 
-## Reading Order for a New Session
+## Reading Order
 
-1. This file — you are here
-2. `AGENT.md` — rules and workspace map
-3. [third most important: architecture doc in Grimoire]
-4. For Collective context → `../RaBbLE-Grimoire/common/RaBbLE-Collective.md`
+For agents starting on this member:
+1. This file (CONTEXT.md)
+2. [Key file in Grimoire]
+3. [Key file in member repo]
+4. For Collective context → [relevant Grimoire doc]
 ```
 
 ---
 
-## Naming Conventions
+## Example: RaBbLE-World
 
-- Inside each repo: `AGENT.md` (no prefix — directory provides context)
-- In Grimoire member subdirs (`RaBbLE-World/`, `RaBbLE-OS/`, etc.): prefixed names (`RaBbLE-World-Architecture.md`)
-- Grimoire member subdirs hold architecture, roadmap, and reference docs — not agent entry points
-- AGENT.md in the Grimoire itself covers the Grimoire repo, not the Collective as a whole
+**AGENT.md (excerpt):**
+```markdown
+## Job
 
-## Minimal Token Discipline
+RaBbLE-World is the public-facing web presence and entity chat surface for the Collective. 
+It is a thin presentation layer — static HTML, no bundler, no framework, no build step. 
+It is NOT backend infrastructure; that lives in RaBbLE-sCoRE.
 
-- No multi-paragraph lore in AGENT.md or CONTEXT.md — link to Grimoire instead
-- No duplicating content that lives in Grimoire — reference it
-- Status lines go in CONTEXT.md `Active Tracks`, not README
-- Historical episode summaries go in Grimoire member docs, not CONTEXT.md
+## Rules
+
+- **No bundler, no framework.** Files are opened directly in a browser.
+- **No backend logic here.** Chat routing and intent handling belong in RaBbLE-sCoRE.
+- Colors: use CSS vars from `rabble-theme.css` only — never raw hex values
+```
+
+**CONTEXT.md (excerpt):**
+```markdown
+## What We Are Building
+
+A minimal static web presence: a cinematic boot sequence, a chat interface for interacting 
+with the RaBbLE entity, and a documentation viewer. No bundler, no framework.
+
+## What Good Looks Like
+
+- Any page opens without a build step or server dependency
+- The entity expresses itself visually on every surface
+- No hex color values in page CSS — all palette references go through `rabble-theme.css` vars
+```
+
+---
+
+## Example: RaBbLE-sCoRE
+
+**AGENT.md (excerpt):**
+```markdown
+## Job
+
+RaBbLE-sCoRE is the coordination engine of the RaBbLE Collective: Intent → decompose → delegate → result.
+It has no execution surface of its own; instead, it orchestrates agents via structured task delegation.
+sCoRE is NOT the visual renderer (that's NeBuLA) or the substrate (that's OS).
+
+## Rules
+
+- **Delegation only:** sCoRE delegates to agents via task files, not by running code directly
+- **Agent isolation:** sCoRE's `.claude/settings.json` blocks direct Agent tool use
+- **Task format:** All agent work goes through `tasks/{pending,active,done,archive}` with structured YAML
+```
+
+---
+
+## Quick Checklist for New Members
+
+When creating a new member repo:
+
+- [ ] Create `AGENT.md` following the template above
+- [ ] Create `CONTEXT.md` with initial state and reading order
+- [ ] Symlink: `CLAUDE.md → AGENT.md` and `CODEX.md → AGENT.md`
+- [ ] Add member to Grimoire registry: `registry/manifests/RaBbLE-[Name].manifest.yml`
+- [ ] Update Collective/CONTEXT.md member table
+- [ ] Update Collective/AGENT.md member entry points
+- [ ] If docs needed: create `RaBbLE-Grimoire/RaBbLE-[Name]/` directory
+- [ ] Run `bash spells/status.sh` to verify member is registered
+
+---
+
+```
+transcribe ~ grimoire >> templates for all agents, reference and reuse // %TEMPLATES_LOCKED%
+```
