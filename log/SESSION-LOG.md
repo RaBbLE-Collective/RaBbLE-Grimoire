@@ -5,6 +5,85 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-05-14 (Session 4) — Onboarding Audit Pass 4: Member-Specific Roles & Post-Episode-1 Scope
+
+**Repos touched:** RaBbLE-Collective, RaBbLE-Grimoire, all 6 member AGENT.md files
+
+**Objective:** Fourth audit pass focusing on member-specific agent role expectations within ON/FOR/WITH/AS framework, post-Episode-1 scope shifts, cross-member collaboration patterns, and behavioral learning gap identification.
+
+**Context:** Passes 1-3 established universal framing. Agents understand the system globally but don't see how their member-specific role maps to ON/FOR/WITH/AS, or how it changes post-Ep1.
+
+**Work done:**
+
+- **Member-specific role mapping (Pass 4 report section)**
+  - Mapped each member's ON/FOR/WITH/AS dimensions explicitly
+  - sCoRE = orchestrator; World = public voice; OS = substrate; NeBuLA = eyes; Aether = skin; Grimoire = memory
+  - Each member identified as specific delegation boundary in the system
+  - Result: Agents understand how their local work fits the global framework
+
+- **Cross-member collaboration patterns (Pass 4 report section)**
+  - Identified 4 collaboration types: dependency (one-way), feedback loop (bidirectional), ambient data (observation), coordination (planning)
+  - Documented which members collaborate on which patterns
+  - Example: World ↔ sCoRE is bidirectional (chat ↔ intent); World → Aether is dependency (CSS)
+  - Result: Agents know who they're working WITH and what data flows matter
+
+- **Post-Episode-1 scope shifts (Pass 4 report section)**
+  - Documented authority changes per member (sCoRE API locks, World surface freezes, OS layer stable, NeBuLA commits to Three.js, etc.)
+  - Identified that post-Ep1, all members become data sources for behavioral learning
+  - Mapped transition from pre-Ep1 autonomy to post-Ep1 awareness of learning loop
+  - Result: Agents understand they're part of a tighter, coupled system post-Ep1
+
+- **Behavioral learning gap identified (Pass 4 report section)**
+  - Found that agents have no onboarding section explaining observation/pattern/inference
+  - Scoped `common/RaBbLE-BehavioralLearning.md` (1,500 tokens) for follow-up
+  - This doc would explain the learning loop, member roles in it, and example scenarios
+  - Result: Gap identified; solution scoped; ready for implementation
+
+- **Authority boundary refinement (Pass 4 report section)**
+  - Validated that "not yet ready to make unilateral architecture decisions" is still accurate
+  - Clarified with member-specific constraints (e.g., sCoRE's delegation model is still in flux)
+  - Documented what agents ARE ready to do (implement chartered features, propose changes, make tactical decisions)
+  - Result: Authority boundaries clear and defensible
+
+- **Member AGENT.md updates (immediate implementation)**
+  - Added "Role in Collective (ON/FOR/WITH/AS)" section to all 6 member AGENT.md files
+  - sCoRE, World, OS, NeBuLA, Aether, Grimoire each have 4-5 line role definition
+  - Included member-specific questions (e.g., "What system state should we observe?", "How does this surface help us understand the user?")
+  - Result: Agents opening a member repo now see their role clearly, not just the local job
+
+**Impact:**
+- **Role coherence:** Agents understand member-specific purpose within ON/FOR/WITH/AS
+- **Collaboration clarity:** Cross-member patterns are explicit (not guessed)
+- **Post-Ep1 visibility:** Role shifts are documented and won't surprise agents
+- **Behavioral learning foundation:** Gap identified and scoped; ready for implementation
+- **Authority confidence:** Boundary refinements are grounded and member-specific
+
+**State:**
+- ONBOARDING-AUDIT-PASS-4.md created (4,000 tokens)
+- ONBOARDING-AUDITS.md updated with Pass 4 summary
+- All 6 member AGENT.md files updated with role-specific sections
+- SESSION-LOG entry created (this entry)
+
+**Commits:**
+1. `audit ~ collective >> pass 4: member-specific agent roles framed within ON/FOR/WITH/AS // %AUDIT_PASS_4%`
+2. `harmonize ~ members >> role in collective sections added to all member AGENT.md files // %ROLE_CLARITY%`
+
+**Next:**
+- Optional follow-up: Create `common/RaBbLE-BehavioralLearning.md` (behavioral learning onboarding)
+- Optional follow-up: Create `RaBbLE-Collective/RaBbLE-Post-Episode-1-Scope.md` (phase transition guide)
+- Monitor: Do member agents report better understanding of their role and cross-member dependencies?
+- Track: Does explicit role-mapping reduce scope confusion going forward?
+- Prepare: Pass 5 (if needed) would focus on behavioral learning integration + authority distribution validation post-Ep1
+
+**Audit Series Summary:**
+- Pass 1: Token efficiency ✓
+- Pass 2: Narrative coherence ✓
+- Pass 3: Agent role identity ✓
+- **Pass 4: Member-specific roles + post-Ep1 preparation ✓**
+- Pass 5: (Optional) Behavioral learning integration + post-Ep1 authority validation
+
+---
+
 ## 2026-05-14 (Session 3) — Onboarding Audit Pass 3: Agent Role Framing & Phase Positioning
 
 **Repos touched:** RaBbLE-Collective, RaBbLE-Grimoire

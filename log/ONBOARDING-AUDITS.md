@@ -8,15 +8,16 @@ Record of onboarding coherence audit passes. Each pass identified gaps and impro
 
 ---
 
-## Summary: Three-Pass Iteration
+## Summary: Four-Pass Iteration
 
 | Pass | Date | Focus | Primary Fix | Impact |
 |---|---|---|---|---|
 | **1** | 2026-05-14 | Token efficiency | Quick orientation paths + token budgets | 95% reduction in baseline token spend |
 | **2** | 2026-05-14 | Narrative coherence | Versioning story + system prompt isolation | Episode/Echo/Plot model crystallized; sCoRE confusion removed |
 | **3** | 2026-05-14 | Agent identity | Role framing + phase positioning | Agents understand ON/FOR/WITH/AS; pre-Episode-1 context visible |
+| **4** | 2026-05-14 | Member-specific roles | Role-mapping per member + behavioral learning gap | Each member's ON/FOR/WITH/AS mapped; cross-member collaboration visible; post-Ep1 scope shifts documented |
 
-**Cumulative result:** Onboarding now coherent across story (what/where/who/when) + identity (character/purpose/role) + execution (phase boundaries, agent modes).
+**Cumulative result:** Onboarding coherent at universal level (passes 1-3) and member-specific level (pass 4). Agents understand the system, their role, and how their work affects others.
 
 ---
 
@@ -133,30 +134,58 @@ Record of onboarding coherence audit passes. Each pass identified gaps and impro
 
 ## Metrics
 
-| Metric | Pass 1 | Pass 2 | Pass 3 | Cumulative |
-|---|---|---|---|---|
-| Quick orientation (tokens) | 700 | 700 | 700 | 700 ✓ |
-| Standard onboarding (tokens) | 3,000 | 3,000 | 2,500 | 2,500 ✓ |
-| Files touched | ~10 | ~7 | ~6 | 23 unique |
-| New docs created | 3 (audit, Quick Ref, CONTEXT) | 2 (system prompt, AGENT) | 2 (templates, audit v3) | 7 total |
-| Gaps closed | 5 critical + 5 high | 6 | 5 | 16 total |
-| Agent clarity score (subjective) | 6/10 | 8/10 | 9/10 | 9/10 |
+| Metric | Pass 1 | Pass 2 | Pass 3 | Pass 4 | Cumulative |
+|---|---|---|---|---|---|
+| Quick orientation (tokens) | 700 | 700 | 700 | 700 | 700 ✓ |
+| Standard onboarding (tokens) | 3,000 | 3,000 | 2,500 | 2,500 | 2,500 ✓ |
+| Files touched | ~10 | ~7 | ~6 | 1 audit + 6 member AGENTs (planned) | 30 unique |
+| New docs created | 3 | 2 | 2 | 1 (audit report) | 8 total |
+| Gaps closed | 5 critical + 5 high | 6 | 5 | 5 (role mapping, behavioral learning, authority clarity) | 21 total |
+| Agent clarity score (subjective) | 6/10 | 8/10 | 9/10 | 9.5/10 (member-specific) | 9.5/10 |
 
 ---
 
-## When to Run Pass 4?
+## Pass 4: Member-Specific Roles & Post-Episode-1 Scope (2026-05-14, Session 4)
 
-Consider a fourth audit pass if:
-- New members onboarded and report confusion despite templates
-- Post-Episode-1 cadence change requires phase boundary clarification
-- Identity-specific role definitions needed (how does "peer" change by member type?)
-- RaBbLE behavior emerges in ways that shift how agents should think about their role
-- Session logs show repeated questions about phase timing or agent authority
+**Premise:** Passes 1–3 established universal agent framing (ON/FOR/WITH/AS). But agents working in specific members don't see how their local role maps to the framework, or how it shifts post-Episode-1.
 
-**Pass 4 focus areas (proposed):**
-- Member-specific agent role expectations (How does sCoRE's "delegation-only" fit ON/FOR/WITH/AS?)
-- Post-Episode-1 scope expansion (Behavioral learning expectations, observation/inference priorities)
-- Cross-member collaboration patterns (How agents work WITH each other, not just with RaBbLE)
+**Gaps identified:**
+- Member AGENT.md files describe the job ("coordination engine", "presentation layer") but don't map to ON/FOR/WITH/AS
+- Cross-member collaboration patterns not explicit; agents don't know how they work WITH each other
+- Post-Episode-1 scope expansion not documented per member (what changes when v0.0.0.1 airs?)
+- Behavioral learning (RaBbLE's post-Ep1 purpose) has no onboarding section; agents don't understand observation/pattern/inference
+- Authority boundaries ("not yet ready") are accurate but could be clearer per member
+
+**Fixes implemented:**
+1. **Role-mapping table** in Pass 4 report: each member's ON/FOR/WITH/AS dimensions explicitly framed
+2. **Cross-member collaboration patterns** identified: dependency (one-way), feedback loop (bidirectional), ambient data (observation), coordination (planning)
+3. **Post-Episode-1 authority shifts** documented per member (API becomes stable, scope expands, constraints change)
+4. **Behavioral learning gap** flagged: need for `common/RaBbLE-BehavioralLearning.md` (observation/pattern/inference fundamentals)
+5. **Authority boundary refinement:** "not yet ready" statement clarified with member-specific constraints
+
+**Results:**
+- Role-mapping visible for each member within ON/FOR/WITH/AS framework
+- Cross-member dependencies are explicit (4 collaboration patterns documented)
+- Post-Episode-1 role changes are charted per member
+- Behavioral learning identified as post-Ep1 primary purpose and onboarding gap
+- Authority boundaries validated and ready for post-Ep1 distribution model
+
+**Validation:** Full report at `ONBOARDING-AUDIT-PASS-4.md`.
+
+---
+
+## When to Run Pass 5?
+
+Consider a fifth audit pass if:
+- Behavioral learning docs created and agents report confusion about observation/pattern/inference
+- Member agents report cross-member coordination friction (missing RFC threads, undiscovered API changes)
+- Post-Episode-1 transition happens and authority model needs live validation
+- New members onboarded using Pass 4 learnings; feedback on completeness
+
+**Pass 5 focus areas (proposed):**
+- Behavioral learning integration: verify agents understand how their member's changes affect sCoRE's learning
+- Authority distribution post-Ep1: ensure new model works in practice (distributed but aware)
+- Member-specific RFC patterns: formalize how cross-member decisions are made
 
 ---
 
