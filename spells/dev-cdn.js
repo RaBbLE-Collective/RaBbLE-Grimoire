@@ -50,7 +50,7 @@ const server = http.createServer((req, res) => {
             res.end(`404 Not Found: ${parsedUrl.pathname}`);
             return;
           }
-          res.writeHead(200, { 'Content-Type': 'text/html' });
+          res.writeHead(200, { 'Content-Type': 'text/html', 'Cache-Control': 'no-store' });
           res.end(content);
         });
       } else {
@@ -72,7 +72,7 @@ const server = http.createServer((req, res) => {
     };
     const contentType = contentTypes[ext] || 'application/octet-stream';
 
-    res.writeHead(200, { 'Content-Type': contentType });
+    res.writeHead(200, { 'Content-Type': contentType, 'Cache-Control': 'no-store' });
     res.end(content);
   });
 });
