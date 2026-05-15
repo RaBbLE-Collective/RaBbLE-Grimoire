@@ -5,6 +5,73 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-05-14 (Session 5) — Aether Visual Canonicalization: Harmony Redesign + World CSS Extraction
+
+**Repos touched:** RaBbLE-Aether, RaBbLE-World
+
+**Objective:** Make Aether the single source of all visual CSS. Identify and fix harmony animation divergence between landing page and demo page. Port all visual effects out of World CSS files into Aether.
+
+**Work done:**
+
+- **Harmony animation root cause diagnosed**
+  - Landing page was loading a stale local `aether/rabble.css` copy missing `harmony-flow` keyframe
+  - Demo page loaded CDN-served `aether.min.css` which had harmony
+  - Fix: landing page switched to same CDN URL as demo (`localhost:8000/aether/v0.0.0.0/aether.min.css`)
+
+- **Harmony redesigned: spiral/conic-gradient pattern**
+  - Old: `linear-gradient` sliding back-and-forth with `ease-in-out` and transparent stops (a bar that fades to void at edges)
+  - New `rabble-harmony-line::after`: `linear-gradient` with no transparent stops, continuous unidirectional scroll (`harmony-scroll`, `linear`)
+  - New `rabble-border-harmony::before`: `conic-gradient(from var(--harmony-angle), ...)` spinning via `@property --harmony-angle` — gradient angle animates directly, mask ring stays rectangular. No element rotation, no background bleed.
+  - New `harmony-glow`: box-shadow that cycles cyan→violet→magenta in sync with the spin
+  - `harmony-glow` added to `rabble-border-harmony` by default, locked to same duration as border spin
+
+- **`rabble-border-harmony` mask technique fixed**
+  - Old technique: `z-index: -1` on `::before` caused gradient to bleed through semi-transparent backgrounds
+  - New technique: CSS mask `exclude` composite — gradient visible only in the 1px border ring, element background unaffected regardless of transparency
+
+- **WM visual effects ported from World → Aether**
+  - `@property --applet-angle` → replaced by `--harmony-angle` already in Aether
+  - `@keyframes applet-border-chase` → replaced by `harmony-spin`
+  - All `--wm-*` design tokens moved to Aether `:root`
+  - `.applet`, `.applet::before`, `.applet.wm-active` visual rules moved to Aether section 13
+  - `RaBbLE-wm.css` stripped to layout-only: grid structure, presets, responsive breakpoints
+
+- **Statusbar, shell, overlays ported from World → Aether**
+  - `.scanlines`, `.vignette`, `.chromatic` (unprefixed aliases) added to Aether section 2
+  - `.shell` base layout (flex column, full-viewport) added to Aether section 9
+  - `.statusbar`, `.sb-left/right/center`, `.sb-glyph`, `.sb-entity-state`, `.brandmark`, `.sb-sep`, `.sb-workspace`, `.sb-val`, `.sb-pulse`, `.sb-uptime` added to Aether section 9
+  - `.pill`, `.pill .dot`, `@keyframes pulse-dot` added to Aether section 9
+  - Uses `--rabble-*` palette vars throughout; aliases in theme.css ensure backward compatibility
+
+- **Demo page fully rewritten as WM-style page**
+  - Removed entire inline `<style>` block (344 lines eliminated)
+  - Now loads: Aether CDN → theme.css → wm.css → demo.css
+  - Statusbar HTML identical to landing page structure
+  - Panels converted from scrolling `.panel` divs to `.applet` WM tiles
+  - `RaBbLE-demo.css` created: layout-only (2-column applet grid, inner content structure)
+  - Buttons use `.rabble-btn .rabble-btn-ghost` Aether classes
+
+- **Boot page updated**
+  - `rabble-brand-text` → `rabble-brand-flow` for wordmarks (Aether canonical class)
+  - Local `@keyframes brand-flow` removed from boot.css; `animation-duration: 6s` override retained
+
+**State:**
+- Aether is now the single source for: palette, motion/keyframes, harmony effects, WM applet visual effects, statusbar component, screen overlays
+- World CSS files are structure/layout-only; all visual rules reference Aether
+- Landing page and demo page load identical Aether CDN source; harmony animations are canonically identical
+- Landing page statusbar CSS still duplicated in `RaBbLE-landing.css` — deduplication deferred (harmless cascade, same values)
+
+**Commits:**
+1. `harmonize ~ aether >> harmony redesign: spiral conic-gradient, WM + statusbar components ported // %AETHER_VISUAL_CANONICAL%`
+2. `harmonize ~ world >> Aether-first refactor: visual CSS extracted, demo rewritten as WM page // %AETHER_FIRST%`
+
+**Next:**
+- Strip duplicated statusbar CSS from `RaBbLE-landing.css` (now that it lives in Aether)
+- Investigate landing page harmony line "feels faster" — confirmed same 9s timing but perceptual difference due to surrounding animation density; consider aligning to 6s
+- Consider `.rabble-applet` rename for Aether's `.applet` class to follow Aether naming convention
+
+---
+
 ## 2026-05-14 (Session 4) — Onboarding Audit Pass 4: Member-Specific Roles & Post-Episode-1 Scope
 
 **Repos touched:** RaBbLE-Collective, RaBbLE-Grimoire, all 6 member AGENT.md files
