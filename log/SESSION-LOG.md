@@ -5,14 +5,56 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-16 · Session 12
+## LATEST — 2026-05-16 · Session 13
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session:** Grimoire onboarding overhauled — gist/ system online, log/ consolidated to 3 files, token overhead slashed.
-**Active blockers:** sCoRE Railway deploy unverified · OS VM bootstrap unverified.
-**Next:** sCoRE Railway verification · OS VM bootstrap test · World Ep1 orchestration.
+**Last session (S13):** Aether owns all fonts + Orbitron brand. cast-cdn.sh written + tested. CF Git integration disconnected. World deploy via wrangler only.
+**Active blockers:** sCoRE Railway deploy unverified · OS VM bootstrap unverified · World not yet deployed to prod.
+**Next:** First prod deploy via cast-cdn.sh · sCoRE Railway verify · OS VM bootstrap test.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-16 (Session 13) — Aether font ownership, Orbitron brand fix, cast-cdn.sh, deploy decoupled from git
+
+**Repos touched:** RaBbLE-Aether, RaBbLE-World, RaBbLE-Grimoire
+
+**Objective:** Fix Orbitron caps on mobile pre-enter screen, consolidate all font loading into Aether, write the CDN deploy spell, decouple Cloudflare deployment from git.
+
+**Work done:**
+
+**Orbitron brand fix:**
+- `.ios-entry-title` had `text-transform: uppercase` forcing "RaBbLE" → "RABBLE" on mobile
+- `.rabble-brand-flow` (Aether) now declares `text-transform: none`, `font-weight: 900`, `letter-spacing: 0` — canonical brand constants for all uses
+- `ios-entry-title` updated to use `.rabble-brand-flow` class; local overrides removed
+- Both `entity-wordmark` (h1 landing) and `ios-entry-title` (mobile entry) now visually identical except size
+
+**Aether font ownership:**
+- Orbitron, Exo 2, Share Tech Mono Google Fonts import moved into `src/assets/palette.entry.css`
+- Removed redundant Google Fonts `<link>` from all World HTML pages (index.html + 4 sub-pages)
+- Aether bundle (`dist/aether.css`) now owns all RaBbLE typefaces — no member should load fonts independently
+- `rabble.css` source entry updated to match
+
+**CDN + deploy architecture:**
+- Phase 1 CDN model documented: World worker serves `/aether/v0.0.0.0/` and `/nebula/v0.0.0.0/` as root-relative paths
+- Phase 2 (post-Ep2): dedicated `cdn.joinrabble.world` worker — documented in `RaBbLE-Aether-Build-CDN.md`
+- `aether/` and `nebula/` staging dirs added to World `.gitignore`
+- Cloudflare Git integration disconnected — wrangler is now the only deploy path
+
+**cast-cdn.sh written:**
+- `RaBbLE-Grimoire/spells/cast-cdn.sh` — builds Aether (`npm run build:min`) + NeBuLA (`npm run build`), stages into World, deploys via wrangler
+- Flags: `--dry-run`, `--skip-build`, `--stage-only`
+- Wrangler found via local, global, or npx fallback
+- Dry-run verified working
+
+**Grimoire docs updated:**
+- `RaBbLE-Aether-Build-CDN.md` — full rewrite: current state, dist files, font ownership, Phase 1/2 CDN, cast-cdn.sh usage
+- `RaBbLE-World-Architecture.md` — CDN serving section added
+- `INDEX.md` — cast-cdn.sh added to spells list
+- `World/CONTEXT.md` — active tracks updated
+
+**What's next:** First prod deploy via `cast-cdn.sh` · sCoRE Railway verify · OS VM bootstrap test
 
 ---
 

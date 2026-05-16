@@ -1,209 +1,235 @@
 # RaBbLE-Aether Build & CDN Distribution
 
 ```
-spark ~ aether >> build system and cdn delivery layer // %AETHER_BUILD_SPEC%
+harmonize ~ grimoire >> build and cdn delivery updated to reflect current state // %AETHER_BUILD_CURRENT%
 ```
 
-> **Part of Episode 1:** Aether ships as a distributable CSS bundle via CDN, alongside NeBuLA. Members consume it without local copies.
+> **Status:** Build system live. CDN served via World worker (Phase 1). Dedicated `cdn.joinrabble.world` is the roadmap target (Phase 2, post-Ep2 or when friction demands it).
 
 ---
 
 ## Overview
 
-Aether (the design system) is built and distributed separately from member repos. It is the single source of visual identity for the entire Collective.
+Aether is built from source CSS files using esbuild and distributed as a versioned bundle. It is the single source of visual identity for the Collective — fonts, tokens, animations, components.
 
-**Delivery model:**
-- Members load Aether CSS from CDN
-- No local copies in member repos
-- Versioned per Five-Es: `v0.0.0.0` (pre-Episode-1), `v0.0.0.1` (after Episode 1 airs)
-- Sourcemaps included for debugging
+**All pages in all member repos load Aether.** No member carries its own copy.
 
 ---
 
 ## Build System
 
-### Process
+### Entry point
 
+`src/assets/palette.entry.css` is what esbuild processes. It declares the load order:
+
+```css
+/* Fonts — Aether owns all RaBbLE typefaces */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900
+  &family=Exo+2:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400
+  &family=Share+Tech+Mono&display=swap');
+
+@import '../../assets/palette/rabble-palette.css';   /* color tokens, type vars */
+@import '../../assets/motion/rabble-motion.css';     /* keyframes, transitions */
+@import '../../assets/components/rabble-components.css'; /* all UI components */
 ```
-src/assets/*.css  →  esbuild/concat  →  dist/aether.min.css  →  CDN versioning
-```
 
-**Build steps:**
+**Fonts belong to Aether.** Member HTML pages must not load Google Fonts independently — the bundle handles it. If a page loads Orbitron/Exo 2/Share Tech Mono separately, that is a duplicate load and should be removed.
 
-1. Concatenate CSS files in order:
-   - `assets/palette/rabble-palette.css` (tokens, color vars)
-   - `assets/motion/rabble-motion.css` (keyframes, transitions)
-   - `assets/components/rabble-components.css` (all UI components)
-
-2. Minify and sourcemap with esbuild
-
-3. Output to `dist/`:
-   - `aether.min.css` (minified, production)
-   - `aether.min.css.map` (sourcemap for debugging)
-
-### NPM Scripts
+### NPM scripts
 
 ```json
-{
-  "scripts": {
-    "build":       "npm run build:min",
-    "build:min":   "npx esbuild src/assets/palette.entry.css --bundle --minify --outfile=dist/aether.min.css --sourcemap=linked",
-    "build:dev":   "npx esbuild src/assets/palette.entry.css --bundle --outfile=dist/aether.css --sourcemap",
-    "build:watch": "npx esbuild src/assets/palette.entry.css --bundle --outfile=dist/aether.css --sourcemap --watch"
-  }
-}
+"build:watch": "esbuild ... --outfile=dist/aether.css --watch"
+"build:dev":   "esbuild ... --outfile=dist/aether.css --sourcemap"
+"build:min":   "esbuild ... --minify --outfile=dist/aether.min.css --sourcemap=linked"
+"build":       "npm run build:min"
 ```
 
-### Output files — dev vs production
+### Output files
 
-| File | Built by | Used by |
+| File | How built | Used when |
 |---|---|---|
-| `dist/aether.css` | `build:dev`, `build:watch` | **All World HTML pages in dev** |
-| `dist/aether.min.css` | `build`, `build:min` | Production CDN deploy only |
+| `dist/aether.css` | `build:dev` or `build:watch` | **Dev environment** — loaded by `dev-serve.sh` via the local CDN mock |
+| `dist/aether.css.map` | same — inline sourcemap | Browser devtools in dev |
+| `dist/aether.min.css` | `build:min` / `build` | **Production CDN deploy** — served to `joinrabble.world` visitors |
+| `dist/aether.min.css.map` | same — linked sourcemap | Separate file; browser loads it on demand when devtools open |
 
-**Critical:** `build:watch` (used by `dev-serve.sh`) outputs `aether.css`, not `aether.min.css`. World HTML pages must link to `aether.css` in development. Linking to `aether.min.css` in dev means the watch process never updates what the page loads — a silent failure that makes Aether appear broken.
+**`aether.min.css` explained:** esbuild strips all whitespace, comments, and redundant syntax, then outputs a single compressed line. The `--sourcemap=linked` flag writes the sourcemap to a separate `.map` file and adds a `/*# sourceMappingURL=...*/` comment at the end of the CSS so devtools can find it without loading it on every request. Result: ~29kb vs ~37kb for the dev version.
+
+**Critical:** `build:watch` always writes to `aether.css`, never `aether.min.css`. World HTML pages must link to `aether.css` in dev. Linking to `aether.min.css` means the watcher never updates what the browser loads — a silent failure where source changes appear to have no effect.
 
 ```html
-<!-- ✓ Correct — matches build:watch output -->
-<link rel="stylesheet" href="/aether/v0.0.0.0/aether.css">
+<!-- ✓ Dev — matches build:watch output -->
+<link href="/aether/v0.0.0.0/aether.css">
 
-<!-- ✗ Wrong in dev — only updated by npm run build, not the watcher -->
-<link rel="stylesheet" href="/aether/v0.0.0.0/aether.min.css">
+<!-- ✗ Dev — watcher never updates this file -->
+<link href="/aether/v0.0.0.0/aether.min.css">
 ```
 
 ### Dev environment
 
-**Always use `dev-serve.sh` to start the dev environment.** Never run `dev-cdn.js` or individual esbuild watch commands directly — doing so orphans a process on port 8000, which causes `dev-serve.sh` to fail with `EADDRINUSE` on the next run. Because the orphaned server still returns 200 OK for CSS requests, the failure is invisible until you notice that source changes aren't being picked up.
+Always start with `dev-serve.sh`. Never run `dev-cdn.js` directly.
 
 ```bash
-# ✓ Correct — starts Aether watcher + NeBuLA watcher + CDN server together
 bash RaBbLE-Grimoire/spells/dev-serve.sh
-
-# ✗ Wrong — orphans a process on :8000
-node RaBbLE-Grimoire/spells/dev-cdn.js
 ```
 
-### Entry Point
+The script runs three parallel processes: Aether watcher (`build:watch`), NeBuLA watcher, and a local CDN mock (`dev-cdn.js`) that serves `localhost:8000`. The mock maps:
 
-Create `src/assets/palette.entry.css` as the bundle entry:
-
-```css
-@import './palette/rabble-palette.css';
-@import './motion/rabble-motion.css';
-@import './components/rabble-components.css';
+```
+/aether/v0.0.0.0/  →  RaBbLE-Aether/dist/
+/nebula/v0.0.0.0/  →  RaBbLE-NeBuLA/dist/
+/                  →  RaBbLE-World/
 ```
 
-This single file is what esbuild bundles.
+Running `dev-cdn.js` directly orphans a process on port 8000, causing `dev-serve.sh` to fail with `EADDRINUSE` on the next run. The orphaned server returns 200 OK so the failure is invisible — you just never see source changes reflected.
+
+---
+
+## Dist Files and Git
+
+| Member | `dist/` tracked in git | Reason |
+|---|---|---|
+| **Aether** | **Yes** | CSS is small (~37kb), human-readable, reviewable in PRs. The dist is the deploy artifact — no build step at deploy time for Aether. |
+| **NeBuLA** | **No** (gitignored) | JS bundles are binary-ish, large, and always rebuilt at deploy time. |
+
+Aether's dist being in git means: `wrangler deploy` from World uses whatever is in `RaBbLE-Aether/dist/` at that moment. Run `npm run build:min` in Aether before deploying if source changed.
 
 ---
 
 ## Versioning
 
-Follow Five-Es: `v{Epoch}.{Evolution}.{Echo}` for CDN paths (Episode/Event omitted).
+CDN paths follow the Five-Es scheme: `v{Epoch}.{Evolution}.{Echo}.{Episode}`.
 
-**Current:** `v0.0.0`  
-**Next:** `v0.0.0.1` (when Episode 1 airs)
+**Current:** `v0.0.0.0` — Epoch 0, pre-Episode-1 across all members.
 
-### CDN Paths
+Paths only advance when the corresponding Five-Es milestone is met. Do not increment the version independently per member — all members share the same version clock until Echo 1 ships.
 
-```html
-<!-- Pre-Episode-1 -->
-<link rel="stylesheet" href="https://cdn.joinrabble.world/aether/v0.0.0/aether.min.css">
-
-<!-- Post-Episode-1 -->
-<link rel="stylesheet" href="https://cdn.joinrabble.world/aether/v0.0.0.1/aether.min.css">
+```
+v0.0.0.0   →  pre-Episode-1 (now)
+v0.0.0.1   →  Episode 1 complete
+v0.0.1.0   →  Echo 1 (first big stable release, post several episodes)
 ```
 
-### Deployment
+---
 
-After `npm run build`:
+## CDN Delivery — Phase 1 (current)
+
+World's Cloudflare Worker serves Aether and NeBuLA bundles as root-relative paths from within the same deployment. The bundle loaders in World HTML use:
+
+```js
+var AETHER_URL = '/aether/v0.0.0.0/aether.css';
+var NEBULA_URL = '/nebula/v0.0.0.0/nebula.iife.js';
+```
+
+Root-relative means these resolve against `joinrabble.world` — no CORS setup needed, no separate worker, no DNS entry. The CDN content is just files sitting inside the World deploy.
+
+### Preparing a deploy — `cast-cdn.sh`
+
+Before running `wrangler deploy` from World, `cast-cdn.sh` builds both bundles and stages them into World's directory. Git integration in Cloudflare must be disconnected (dashboard only) — wrangler deploys the working directory, not the repo state.
 
 ```bash
-# Copy to CDN host (Cloudflare Workers, S3, etc.)
-cp dist/aether.min.css* https://cdn.joinrabble.world/aether/{VERSION}/
-
-# Tag in git
-git tag -a "aether-v0.0.0" -m "Aether v0.0.0 — pre-Episode-1 design system"
-git push --tags
+bash RaBbLE-Grimoire/spells/cast-cdn.sh              # build + stage + deploy
+bash RaBbLE-Grimoire/spells/cast-cdn.sh --dry-run    # show what would happen
+bash RaBbLE-Grimoire/spells/cast-cdn.sh --skip-build # stage + deploy (dist already built)
+bash RaBbLE-Grimoire/spells/cast-cdn.sh --stage-only # build + stage, skip deploy
 ```
+
+What the spell does:
+
+1. **Build Aether (if changed):** `cd RaBbLE-Aether && npm run build:min`
+   - Output: `dist/aether.css`, `dist/aether.min.css`
+
+2. **Build NeBuLA:** `cd RaBbLE-NeBuLA && npm run build`
+   - Output: `dist/nebula.iife.js`, `dist/nebula.esm.js`
+
+3. **Stage into World:**
+   ```
+   RaBbLE-World/
+     aether/
+       v0.0.0.0/
+         aether.css        ← from RaBbLE-Aether/dist/
+         aether.min.css    ← from RaBbLE-Aether/dist/
+     nebula/
+       v0.0.0.0/
+         nebula.iife.js    ← from RaBbLE-NeBuLA/dist/
+   ```
+
+4. **Deploy:** `cd RaBbLE-World && wrangler deploy`
+
+The `aether/` and `nebula/` directories inside World are **gitignored** — they are staging areas, not part of World's source. Each deploy regenerates them fresh.
+
+Spell lives at `RaBbLE-Grimoire/spells/cast-cdn.sh`.
+
+### World branch strategy
+
+World currently has one branch (`world`) set as the production branch in Cloudflare. For now this is sufficient.
+
+When staging is needed (pre-pilot or before a major release):
+
+| Branch | Cloudflare deployment | Purpose |
+|---|---|---|
+| `world` | `joinrabble.world` (production) | Live, publicly visible |
+| `world-dev` | `dev.joinrabble.world` or workers.dev URL | Staging — test changes before promoting |
+
+Create `world-dev` when friction from deploying directly to production becomes real. Not before.
 
 ---
 
-## Usage in Members
+## CDN Delivery — Phase 2 (roadmap, post-Ep2)
 
-### From World
+A dedicated `cdn.joinrabble.world` Cloudflare Worker serves Aether and NeBuLA independently of World. Each member controls its own CDN deploy.
+
+**What changes:**
+
+1. Loader URLs become absolute:
+   ```js
+   var AETHER_URL = 'https://cdn.joinrabble.world/aether/v0.0.0.0/aether.css';
+   var NEBULA_URL = 'https://cdn.joinrabble.world/nebula/v0.0.0.0/nebula.iife.js';
+   ```
+
+2. CDN workers add CORS headers:
+   ```
+   Access-Control-Allow-Origin: https://joinrabble.world
+   ```
+
+3. Cloudflare DNS:
+   ```
+   Type: CNAME
+   Name: cdn
+   Target: rabble-cdn.workers.dev
+   Proxy: ON
+   ```
+
+4. Two workers behind `cdn.joinrabble.world`, routed by path prefix:
+   - `/aether/*` → `rabble-cdn-aether` worker (static assets from `RaBbLE-Aether/dist/`)
+   - `/nebula/*` → `rabble-cdn-nebula` worker (static assets from `RaBbLE-NeBuLA/dist/`)
+   - Path-based routing to multiple workers on one subdomain requires **Workers Paid** (Cloudflare Routes). Alternative: use `aether.cdn.joinrabble.world` and `nebula.cdn.joinrabble.world` on the free tier.
+
+**Trigger for Phase 2:** When NeBuLA and Aether have meaningfully different release cadences, or when deploying World and deploying the CDN become a source of friction. Until then, Phase 1 is correct.
+
+---
+
+## Consumer Pattern
+
+Any member HTML page that loads Aether:
 
 ```html
-<!DOCTYPE html>
-<html>
-<head>
-  <!-- Load Aether design system — all theme tokens, components, motion -->
-  <link rel="stylesheet" href="https://cdn.joinrabble.world/aether/v0.0.0/aether.min.css">
-  
-  <!-- World's structural CSS (layout, page-specific) -->
-  <link rel="stylesheet" href="world/css/RaBbLE-landing.css">
-</head>
-<body>
-  <!-- Use Aether classes — never duplicate component styles -->
-  <button class="rabble-btn rabble-btn-primary">Click me</button>
-  <div class="rabble-card">Content</div>
-</body>
-</html>
+<!-- 1. Aether loader — synchronous, no defer -->
+<script src="[path/]js/RaBbLE-aether.js"></script>
+
+<!-- 2. Theme alias bridge (World only) -->
+<link rel="stylesheet" href="[path/]css/RaBbLE-theme.css">
+
+<!-- 3. Page layout CSS — no visual rules, no hex values -->
+<link rel="stylesheet" href="[path/]css/RaBbLE-[page].css">
 ```
 
-### From New Pages
+**Do not add a Google Fonts `<link>` in member HTML** — the Aether bundle includes the font import. Adding one creates a duplicate request.
 
-No CSS duplication needed — Aether classes cover all UI:
-
-```html
-<!-- Copy this template for new pages -->
-<link rel="stylesheet" href="https://cdn.joinrabble.world/aether/v0.0.0/aether.min.css">
-
-<h1 class="rabble-brand-flow">New Feature</h1>
-<p class="rabble-eyebrow">Subtitle here</p>
-<button class="rabble-btn rabble-btn-cyan">Action</button>
-```
-
-### CSS Variable Overrides
-
-If a page needs theme tweaks (rare), override CSS variables:
-
-```css
-:root {
-  --rabble-magenta: #ff0080;  /* override palette */
-}
-```
-
-Do NOT modify component styles. If a component doesn't exist in Aether, propose it to the Grimoire.
-
----
-
-## API Reference
-
-All Aether classes and their usage are documented in `rabble-components.css`. Key classes:
-
-| Class | Purpose |
-|---|---|
-| `.rabble-btn`, `.rabble-btn-primary`, `.rabble-btn-cyan` | Buttons |
-| `.rabble-card` | Card container |
-| `.rabble-brand-flow` | Orbitron mixed-case animated branding |
-| `.rabble-grid-2`, `.rabble-grid-3`, `.rabble-grid-auto` | Responsive grids |
-| `.rabble-glass`, `.rabble-glass-heavy` | Frosted glass surfaces |
-| `.rabble-status-pill`, `.rabble-status-dot` | Status indicators |
-| `.rabble-eyebrow`, `.rabble-display`, `.rabble-mono-label` | Typography utilities |
-
-See `src/assets/components/rabble-components.css` for full component library.
-
----
-
-## Epoch 0 → 1 Transition
-
-**Before Episode 1:** Members use local Aether copies (development)  
-**After Episode 1 airs:** Members use CDN-delivered v0.0.0.1  
-**No breaking changes:** CSS API stays stable across Episodes 1–3 (within same Echo)
+**Do not add Aether classes in page CSS** — if a visual style is missing, add it to `rabble-components.css` in Aether, rebuild, and re-deploy.
 
 ---
 
 ```
-spark ~ aether >> build and cdn layer spec complete, implementation ready // %AETHER_BUILD_SPEC%
+harmonize ~ aether >> build and cdn architecture current as of S12 // %AETHER_BUILD_CURRENT%
 ```

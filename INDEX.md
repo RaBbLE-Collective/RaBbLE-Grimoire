@@ -90,6 +90,7 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 - [spells/install-theme.sh](spells/install-theme.sh) — install RaBbLE theme across OS
 - [spells/dev-serve.sh](spells/dev-serve.sh) — launch local dev environment (Aether + NeBuLA + World watchers, CDN mock server)
 - [spells/cast-aether.sh](spells/cast-aether.sh) — publish Aether CSS bundles to CDN (R2 or staging)
+- [spells/cast-cdn.sh](spells/cast-cdn.sh) — build Aether + NeBuLA, stage into World, deploy to joinrabble.world via wrangler
 
 ---
 
