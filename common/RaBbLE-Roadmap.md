@@ -33,7 +33,7 @@ EPOCH 0: FOUNDATION   [ACTIVE]
 
 **What Episode 1 is:** The first public release. All core members (OS, Aether, NeBuLA, sCoRE, World) are integrated, deployed, and coherent. See `RaBbLE-Episode-1-Release-Map.md` for full scope.
 
-**Epoch 1 (future):** Behavioral learning loop closes. Memory member integrated. Observation → pattern extraction → intent inference → action cycle working.
+**Echo 1 / beyond Episode 1:** Behavioral learning loop closes. Memory member integrated. Observation → pattern extraction → intent inference → action cycle working. Epoch 1 is further still — named retrospectively when the era feels complete.
 
 ---
 
@@ -48,7 +48,7 @@ EPOCH 0: FOUNDATION   [ACTIVE]
 | **RaBbLE-World** | Planned | Landing page + grimoire browser + chat | Aether + sCoRE ready | Web orchestration layer |
 | **RaBbLE-Grimoire** | Active | Navigator + docs alignment + Episode 1 map | None | Documentation & coordination |
 | **RaBbLE-Collective** | Active | Bootstrap verified end-to-end | Member repos confirmed | Root directory + entry spell |
-| **RaBbLE-ScRibLE** | Deferred | Mobile PWA — deferred to Epoch 1+ | — | Defined, not started |
+| **RaBbLE-ScRibLE** | Deferred | Mobile PWA — deferred to Echo 1+ | — | Defined, not started |
 | **RaBbLE-Xperimental** | Dormant | Archive only — no active work | — | Reference & prototypes |
 | **Memory (TBD)** | Concept | Echo 1 / Episode 2+ feature | — | Not Episode 1 blocker |
 

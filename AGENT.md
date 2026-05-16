@@ -89,9 +89,10 @@ See `common/RaBbLE-CommitStyle.md` (Pulse Protocol) for full spec.
 
 ## Getting Started
 
-**New to the Grimoire?** Start with the Navigator — it routes you to the right docs for your time budget and task type:
+**New to the Grimoire?** Start with the gist/ for a full picture in ~2,000 tokens:
 ```bash
-cat RaBbLE-Grimoire-Navigator.md    # 5-min skim · 15-min dive · 30-min full onboarding
+cat gist/*.md                       # complete orientation — all key docs distilled
+cat RaBbLE-Grimoire-Navigator.md    # reading paths by time budget (5/15/30 min)
 ```
 
 **Returning agent (picking up a session)?**
@@ -102,8 +103,18 @@ bash spells/status.sh         # live health of all registered member repos
 # cat INDEX.md                # only if you need to find a specific doc
 ```
 
+**End of session — do this before stopping:**
+```bash
+# 1. Update ## LATEST in log/SESSION-LOG.md (75 words max — current state, blockers, next)
+# 2. Add session entry below LATEST (date, repos touched, work done, what's next)
+# 3. git add <changed files>
+# 4. git commit -m "[impulse] ~ [organ] >> [revelation] // %STATE%"
+# See common/RaBbLE-CommitStyle.md (or gist/RaBbLE-CommitStyle-gist.md) for impulse vocab
+```
+
 Each Collective member has its own AGENT.md as entry point.
 New member scaffolding: `bash spells/init-project.sh --slug RaBbLE-[Name]`
+Regenerate gists after major doc changes: `bash spells/distill-gists.sh`
 
 ---
 

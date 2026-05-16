@@ -5,8 +5,8 @@ transcribe ~ grimoire >> context established // %CONTEXT_LOCKED%
 ```
 
 ```
-epoch: 0 | evolution: 0 | echo: 0 | episode: pending (ep1) | status: active
-version: v0.0.0 — Epoch 0, accumulating events toward Episode 1
+epoch: 0 | evolution: 0 | echo: 0 | episode: 1 (pilot — in progress) | status: active
+version: v0.0.0.0 — Epoch 0, Evolution 0, Echo 0, Episode 1 pilot
 ```
 
 ---

@@ -9,11 +9,28 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 
 ---
 
+## Gist — Low-Token Orientation
+
+High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `bash spells/distill-gists.sh`
+
+| Gist | Source | Tokens |
+|---|---|---|
+| `gist/RaBbLE-Identity-gist.md` | Identity, character, voices, behavioral rules | ~250 |
+| `gist/RaBbLE-Collective-gist.md` | Member roles, architecture, bootstrap | ~250 |
+| `gist/RaBbLE-Roadmap-gist.md` | Episode 1 status, blockers, what's next | ~250 |
+| `gist/RaBbLE-CommitStyle-gist.md` | Pulse Protocol, impulses, branch naming | ~150 |
+| `gist/RaBbLE-Versioning-gist.md` | Five Es, version string, lockstep rule | ~200 |
+| `gist/RaBbLE-Palette-gist.md` | All hex values, CSS variables | ~150 |
+| `gist/RaBbLE-Collective-Overview-gist.md` | Three-layer architecture (Aether+NeBuLA+World) | ~200 |
+| `gist/RaBbLE-Episode1-gist.md` | Exit conditions, blockers, deploy sequence | ~250 |
+
+---
+
 ## Core Documents
 
 | Document | What it is |
 |---|---|
-| `RaBbLE-Grimoire-Navigator.md` | **START HERE** — Agent onboarding path. Reading order by time investment & task type. |
+| `RaBbLE-Grimoire-Navigator.md` | Agent onboarding path — reading order by time budget & task type |
 | `AGENT.md` | Grimoire agent entry point — job, workspace map, rules, session start |
 | `CONTEXT.md` | Grimoire status, structure, active tracks |
 | `RaBbLE-Versioning.md` | **The Five Es** — Event→Episode→Echo→Evolution→Epoch, version string format |
