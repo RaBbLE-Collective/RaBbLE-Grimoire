@@ -5,6 +5,20 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-05-16 (Session 11) — Hyprland 0.55 compat fix: dwindle:pseudotile removed
+
+**Repos touched:** RaBbLE-OS
+
+**Objective:** Fix broken Hyprland config after system update to 0.55.
+
+**Work done:**
+- `config/hypr/conf.d/look.conf` — removed `dwindle:pseudotile = false` (option dropped in Hyprland 0.55; pseudotiling is now per-window via `togglepseudo` dispatcher or `pseudo` window rule)
+- Live config and repo dotfile both updated; `hyprctl reload` confirmed clean
+
+**What's next:** No follow-up needed. If pseudotiling is ever wanted for a specific app, use a window rule: `windowrulev2 = pseudo, class:^(yourapp)$`
+
+---
+
 ## 2026-05-15 (Session 10) — Grimoire Audit & Cleanup: Registry, Logs, Release Plan
 
 **Repos touched:** RaBbLE-Grimoire
