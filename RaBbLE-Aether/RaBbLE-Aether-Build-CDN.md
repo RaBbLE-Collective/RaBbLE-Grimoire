@@ -46,11 +46,41 @@ src/assets/*.css  →  esbuild/concat  →  dist/aether.min.css  →  CDN versio
 ```json
 {
   "scripts": {
-    "build": "npx esbuild src/assets/palette.entry.css --bundle --minify --outfile=dist/aether.min.css --sourcemap=linked",
-    "build:dev": "npx esbuild src/assets/palette.entry.css --bundle --outfile=dist/aether.css --sourcemap",
-    "build:watch": "npx esbuild src/assets/palette.entry.css --bundle --outfile=dist/aether.css --watch"
+    "build":       "npm run build:min",
+    "build:min":   "npx esbuild src/assets/palette.entry.css --bundle --minify --outfile=dist/aether.min.css --sourcemap=linked",
+    "build:dev":   "npx esbuild src/assets/palette.entry.css --bundle --outfile=dist/aether.css --sourcemap",
+    "build:watch": "npx esbuild src/assets/palette.entry.css --bundle --outfile=dist/aether.css --sourcemap --watch"
   }
 }
+```
+
+### Output files — dev vs production
+
+| File | Built by | Used by |
+|---|---|---|
+| `dist/aether.css` | `build:dev`, `build:watch` | **All World HTML pages in dev** |
+| `dist/aether.min.css` | `build`, `build:min` | Production CDN deploy only |
+
+**Critical:** `build:watch` (used by `dev-serve.sh`) outputs `aether.css`, not `aether.min.css`. World HTML pages must link to `aether.css` in development. Linking to `aether.min.css` in dev means the watch process never updates what the page loads — a silent failure that makes Aether appear broken.
+
+```html
+<!-- ✓ Correct — matches build:watch output -->
+<link rel="stylesheet" href="/aether/v0.0.0.0/aether.css">
+
+<!-- ✗ Wrong in dev — only updated by npm run build, not the watcher -->
+<link rel="stylesheet" href="/aether/v0.0.0.0/aether.min.css">
+```
+
+### Dev environment
+
+**Always use `dev-serve.sh` to start the dev environment.** Never run `dev-cdn.js` or individual esbuild watch commands directly — doing so orphans a process on port 8000, which causes `dev-serve.sh` to fail with `EADDRINUSE` on the next run. Because the orphaned server still returns 200 OK for CSS requests, the failure is invisible until you notice that source changes aren't being picked up.
+
+```bash
+# ✓ Correct — starts Aether watcher + NeBuLA watcher + CDN server together
+bash RaBbLE-Grimoire/spells/dev-serve.sh
+
+# ✗ Wrong — orphans a process on :8000
+node RaBbLE-Grimoire/spells/dev-cdn.js
 ```
 
 ### Entry Point

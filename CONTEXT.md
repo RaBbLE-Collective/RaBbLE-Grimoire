@@ -70,8 +70,9 @@ Every design decision, character trait, protocol schema, and technical pattern l
 | Episode tracking (`registry/epochs/current.epoch.yml`) | Episode 1 opened 2026-05-07 |
 | Protocol contracts (`registry/protocol/`) | Not started — Epoch 0 exit criterion |
 | RaBbLE-sCoRE docs | Architecture + Roadmap present. Legacy "ep3" versioning pre-dates Episode 1 alignment — re-versioning to v0.0.0.1 pending |
-| RaBbLE-World | Active — includes chat surface (RaBbLE-Chat absorbed). No manifest yet. |
-| RaBbLE-NeBuLA | Lore migrated from NeBuLA-JS. Rebuild roadmap written. No remote yet. |
+| RaBbLE-World | Active — Aether CDN fully integrated (Session 8). All 5 pages on `/aether/v0.0.0.0/aether.css`. |
+| RaBbLE-Aether | Active — build system live, component library complete, CDN delivery working via dev-serve.sh. |
+| RaBbLE-NeBuLA | Active — Canvas2dBackend + BootSequence complete. Bundle live on dev CDN. |
 | RaBbLE-ScRibLE | Defined — mobile PWA. Repo not yet created. |
 | RaBbLE-Xperimental | Indexed — manifest + Grimoire entry added 2026-05-07 |
 | RaBbLE-OS versioning | Diverged from Five Es — deferred to future bootstrap session on new partition |
