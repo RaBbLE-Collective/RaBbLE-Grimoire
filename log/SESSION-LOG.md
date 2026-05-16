@@ -7,12 +7,56 @@ Format: date, what was done, where things were left, what's next.
 
 ## LATEST — 2026-05-16 · Session 12
 
-**Phase:** Epoch 0 · pre-Episode-1. Foundation active.
-**Last session (S11):** Hyprland 0.55 compat fix on RaBbLE-OS. Grimoire audited + coherent (S10).
+**Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
+**Last session:** Grimoire onboarding overhauled — gist/ system online, log/ consolidated to 3 files, token overhead slashed.
 **Active blockers:** sCoRE Railway deploy unverified · OS VM bootstrap unverified.
-**Now:** Onboarding token reduction — SESSION-LOG, Navigator, doc placement guidance.
+**Next:** sCoRE Railway verification · OS VM bootstrap test · World Ep1 orchestration.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-16 (Session 12) — Grimoire onboarding overhaul: gist/ system, log/ consolidation, token reduction
+
+**Repos touched:** RaBbLE-Grimoire, RaBbLE-Collective
+
+**Objective:** Make onboarding low-token, commit/log flow obvious, doc placement clear. Create gist system for high-density orientation.
+
+**Work done:**
+
+**Token overhead slashed:**
+- SESSION-LOG: `## LATEST` pinned box at top (~137 tokens) — session-start now uses `head -20`, not `cat`
+- Navigator: 231 lines (~1,510 tokens) → 99 lines (~565 tokens)
+- INDEX.md removed from returning-agent loop (on-demand only, saves ~1,045 tokens per session)
+- Token estimates in Collective CONTEXT.md corrected
+
+**gist/ system created:**
+- 8 distilled docs in `gist/`: Identity, Collective, Roadmap, CommitStyle, Versioning, Palette, CollectiveOverview, Episode1
+- ~150-250 words each, ~2,000 tokens total for full picture
+- `spells/distill-gists.sh` — Claude CLI spell to regenerate all gists from canonical sources
+- New agent path: `cat gist/*.md` → complete orientation
+
+**Commit and log flow made explicit:**
+- End-of-session checklist added to both AGENT.md entry points (LATEST → session entry → git add → Pulse commit)
+- "Adding New Docs" table added to Grimoire AGENT.md (6 placement rules)
+- `## Current State` block added to Collective AGENT.md — auto-injected free context every session
+
+**log/ consolidated to 3 files:**
+- `SESSION-LOG.md` — session history
+- `DECISIONS.md` — architectural decisions (from ONBOARDING-DECISIONS.md, expanded)
+- `AUDITS.md` — completed audit record + open gaps (absorbed GAP-ANALYSIS.md)
+- Removed: `.audit-grimoire-2026-05-14.md`, `ONBOARDING-AUDIT.md`, `ONBOARDING-DECISIONS.md`, `GAP-ANALYSIS.md`
+
+**Versioning corrections:**
+- "Epoch 1 (future)" → "Echo 1 / beyond Episode 1" in Roadmap source and all gists
+- CONTEXT.md headers updated: `episode: 1 (pilot — in progress)`
+- Memory: feedback saved for future sessions
+
+**What's next:**
+- sCoRE Railway deploy verification (Episode 1 blocker)
+- OS VM bootstrap test on clean machine (Episode 1 blocker)
+- World orchestration for Ep1
+- Run `bash spells/distill-gists.sh` after major doc changes
 
 ---
 
