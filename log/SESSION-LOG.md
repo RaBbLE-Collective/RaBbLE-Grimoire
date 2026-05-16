@@ -5,6 +5,117 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-05-15 (Session 9) — World becomes a scaffold; entity ownership moves to NeBuLA
+
+**Repos touched:** RaBbLE-World, RaBbLE-Aether, RaBbLE-NeBuLA, RaBbLE-Grimoire
+
+**Objective:** Make World a thinner scaffold — push visual effects and entity ownership into Aether and NeBuLA respectively. Make dependency failures visible.
+
+**Work done:**
+
+**Aether load failure detection:**
+- Added `world/js/RaBbLE-aether.js` — synchronous loader that injects `/aether/v0.0.0.0/aether.css` into `<head>` and monitors via `onerror` + a post-load CSS var sentinel check
+- Failure shows a red amber banner: `⚠ aether failed — degraded visual mode`
+- `index.html` went from a 20-line inline detection script to a single `<script src>` tag
+- Aether CSS `<link>` removed from HTML — the loader owns injection
+
+**Aether effects moved out of World:**
+- Removed `.scanlines`, `.vignette`, `.chromatic` from `RaBbLE-landing.css` — Aether components already had canonical versions with unprefixed aliases
+- Removed `.floor`, `.horizon`, `@keyframes floor-drift` from `RaBbLE-landing.css` — moved to Aether `rabble-components.css` and `rabble-motion.css`
+- Removed duplicate `@keyframes pulse-dot` and `@keyframes page-fade-out` from `RaBbLE-landing.css` — already in Aether motion/components
+- Aether rebuilt: `dist/aether.css` updated
+
+**NeBuLA follows loader pattern:**
+- `world/js/RaBbLE-NeBuLA.js` rewritten as a loader — injects `/nebula/v0.0.0.0/nebula.iife.js`, monitors for failure, shows violet banner
+- Loader is synchronous (no `defer`) and grouped with Aether loader in `<head>`
+- `NEBULA_URL` constant at top of file is the single version bump point
+
+**`<rabble-entity>` moved to NeBuLA:**
+- New `src/element.js` in NeBuLA defines `RaBbLEEntityElement` backed by `Canvas2dBackend`
+- Handles overscan sizing, DPR capping, ResizeObserver, mobile perf profile, `window.NeBuLA._instance` registration
+- `Canvas2dBackend` gained `onReady` callback (fires when `eyeAlpha > 0.95`)
+- `src/index.js` imports `element.js` as side effect — IIFE bundle registers `<rabble-entity>` on load
+- `world/js/RaBbLE-entity.js` deleted (~700 lines removed from World)
+- NeBuLA bundle grew from ~5kb to ~55kb (expected — entity renderer absorbed)
+
+**Architecture state:**
+- World has no embedded renderers or visual effects. HTML uses `<rabble-entity>` (from NeBuLA) and Aether classes.
+- Two loaders (`RaBbLE-aether.js`, `RaBbLE-NeBuLA.js`) are the only external dependencies World manages.
+- Both show failure banners — degraded mode is always visible, never silent.
+
+**Where things were left:**
+- Dev server (`dev-serve.sh`) serves both bundles correctly — `/aether/v0.0.0.0/aether.css` and `/nebula/v0.0.0.0/nebula.iife.js`
+- All committed. NeBuLA dist is gitignored (rebuilt locally from src)
+
+**What's next:**
+- Audit `RaBbLE-chat.css` and `RaBbLE-OS.css` for visual rules to move to Aether
+- Wire NeBuLA failure state into landing.js entity metrics panel
+- Plan production deploy of the full refactor
+
+---
+
+## 2026-05-15 (Session 8) — Aether CDN regression fully resolved; all World pages now on Aether
+
+**Repos touched:** RaBbLE-World, RaBbLE-Aether, RaBbLE-Grimoire
+
+**Objective:** Resolve all visual regressions introduced by the Aether CDN refactor (`722cefa`). Aether effects (animated ring borders, brand-flow wordmark, font theming) were not rendering on any page.
+
+**Root cause (the actual problem):**
+
+The `dev-serve.sh` watch build (`npm run build:watch`) outputs `dist/aether.css` (unminified). Every HTML page was linking to `dist/aether.min.css` (minified, built by `npm run build`). These are two different files. The watch process never touches `aether.min.css`, so the file on disk was stale or the page got a 404. Nothing in the dev workflow ever produced what the pages requested.
+
+Secondary causes compounding the problem:
+- Port 8000 was already in use during the session (orphaned process), causing `dev-serve.sh` to fail with `EADDRINUSE` — no server was running, all requests 404'd
+- 4 of 5 World pages still referenced the deleted local `../aether/rabble.css` path from before the refactor (only `index.html` had been updated)
+- `index.html` used an absolute URL `http://localhost:8000/...` — Firefox may apply same-origin stylesheets differently when the href is absolute vs root-relative
+
+**Work done:**
+
+- **All 5 World pages**: changed Aether link from `aether.min.css` → `aether.css` (matches `build:watch` output)
+  - `index.html`, `RaBbLE-Boot.html`, `RaBbLE-Chat.html`, `RaBbLE-OS.html`, `RaBbLE-NeBuLA-Demo.html`
+  - Absolute URL (`http://localhost:8000/...`) → root-relative (`/aether/v0.0.0.0/aether.css`)
+  - Boot/Chat/OS pages: deleted `../aether/rabble.css` ref (file was deleted in `722cefa`)
+
+- **RaBbLE-Aether: `build:dev` run** — produced clean `dist/aether.css` for immediate use
+
+- **RaBbLE-World `demo.css` cleaned** — removed ~65 lines of duplicated Aether visual rules
+  (`.applet`, `.applet::before`, `:root { --wm-* }`, `@keyframes harmony-spin`) that were
+  overriding Aether with hardcoded hex values. These existed as a workaround while Aether wasn't loading. Kept: layout, demo-specific `.applet { cursor: pointer }`, hover ring boost.
+
+- **Landing CSS: tagline font fixed** — `var(--font-mono)` → `var(--font-hero)` (Orbitron, not Share Tech Mono)
+
+- **Aether `.rabble-tagline` class fixed** — was using `var(--rabble-font-mono)`, updated to `var(--rabble-font-hero)` + weight 500 + tracking display var
+
+- **Aether WM tokens: `--harmony-angle: 0deg` fallback added** to `:root` block — defensive init so `conic-gradient(from var(--harmony-angle), ...)` never sees an unset value if `@property` registration fails in any browser
+
+- **Deleted** `RaBbLE-World/applet-diagnostic.html` (debug artifact from Session 7)
+
+- **Wrote** `RaBbLE-World/REGRESSION-AUDIT-2026-05-15.md` — full audit log with root cause analysis, all findings, and remaining concerns
+
+**Verified working:**
+- Animated conic-gradient ring borders on WM applet tiles ✓
+- `.rabble-brand-flow` animated gradient wordmark in Orbitron ✓
+- All Aether CSS vars resolving (tokens, spacing, typography, shadows) ✓
+- `dev-serve.sh` starts cleanly; watch build keeps `aether.css` in sync ✓
+
+**Remaining concerns (logged in audit doc):**
+- OS/Chat page CSS (`RaBbLE-OS.css`, `RaBbLE-chat.css`) not yet audited for visual rules that should move to Aether
+- Production (`joinrabble.world`) still runs pre-refactor code — deploy needed after local validation
+- No cache-busting strategy yet for Aether version bumps
+- No `prefers-reduced-motion` fallback on harmony animations
+
+**Where things were left:**
+- All dev effects confirmed working in browser
+- `dev-serve.sh` is the correct dev entry point — do NOT run `dev-cdn.js` or individual node commands directly (causes port conflicts)
+- Aether source is the watch-built `aether.css`; `aether.min.css` is production-only (built via `npm run build`)
+
+**What's next:**
+- Audit `RaBbLE-chat.css` and `RaBbLE-OS.css` for visual rules that belong in Aether
+- Plan production deploy of Aether CDN refactor to Cloudflare R2
+- Consider adding version bump step to deploy workflow for cache busting
+
+---
+
 ## 2026-05-15 (Session 7) — NeBuLA Canvas2dBackend complete; boot sequence ported; landing border regression unresolved
 
 **Repos touched:** RaBbLE-NeBuLA, RaBbLE-World, RaBbLE-Grimoire

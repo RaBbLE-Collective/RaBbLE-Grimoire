@@ -11,19 +11,46 @@ System map for the RaBbLE-World frontend. Read this before modifying any shared 
 ## Layer Stack
 
 ```
-rabble-theme.css          ← shared palette, typography, overlays, keyframes
+/aether/v0.0.0.0/aether.css   ← ALL visual identity: tokens, fonts, animations, components
+  ↓ (injected by RaBbLE-aether.js loader)
+RaBbLE-theme.css               ← alias bridge: --rabble-* → short names (--cyan, --font-hero…)
   ↓
-rabble-bg.js              ← ambient canvas layer (particles, grid, cursor effects)
-rabble-entity.js          ← entity canvas layer (<rabble-entity> custom element)
+/nebula/v0.0.0.0/nebula.iife.js ← entity renderer + <rabble-entity> custom element
+  ↓ (injected by RaBbLE-NeBuLA.js loader)
+RaBbLE-bg.js                   ← ambient canvas layer (particles, grid, cursor effects)
   ↓
-boot.css / chat.css       ← page-specific layout and transitions
+[page].css                     ← layout and structure only — no visual rules, no hex values
   ↓
-RaBbLE-Boot.html          ← boot + login surface
-RaBbLE.html               ← chat surface
-RaBbLE-Docs.html          ← documentation viewer
+[Page].html                    ← markup uses Aether classes + <rabble-entity> element
 ```
 
-Each layer depends only on what is below it. Theme has no dependencies. Pages are the top of the stack.
+Each layer depends only on what is below it. Aether has no World dependencies. Pages are the top of the stack.
+
+### Script + CSS loading order (all pages)
+
+```html
+<!-- Synchronous loaders — no defer; run during parse; inject bundles into <head> -->
+<script src="world/js/RaBbLE-aether.js"></script>   <!-- injects /aether/v0.0.0.0/aether.css -->
+<script src="world/js/RaBbLE-NeBuLA.js"></script>   <!-- injects /nebula/v0.0.0.0/nebula.iife.js -->
+
+<!-- CSS (Aether injected above; theme + page CSS follow) -->
+<link rel="stylesheet" href="[path/]css/RaBbLE-theme.css">      <!-- alias bridge -->
+<link rel="stylesheet" href="[path/]css/RaBbLE-[page].css">     <!-- layout only -->
+```
+
+**Rules:**
+- Page CSS owns layout and responsive structure only. No colors, no hex values, no animation definitions.
+- All visual rules (colors, borders, glows, animations, component styles) live in Aether.
+- `RaBbLE-theme.css` is the bridge — short aliases with fallbacks. Do not add visual rules here.
+- Never duplicate Aether classes in page CSS. If a visual style is missing, add it to Aether.
+- `<rabble-entity>` is defined by the NeBuLA bundle. Do not redefine it in World.
+- Both loaders detect failure (onerror + CSS/JS sentinel check) and show a visible banner.
+
+### `@property --harmony-angle` and the ring borders
+
+The WM applet tile spinning ring uses `@property --harmony-angle` to animate the conic-gradient. Firefox DevTools shows a cosmetic warning ("Selector expected. Ruleset ignored due to bad selector.") for this at-rule — this is a DevTools UI quirk, not an actual parse failure. The animation works.
+
+As a defensive fallback, `--harmony-angle: 0deg` is also declared in the WM `:root` token block. This ensures the ring renders even if `@property` fails (static, no spin).
 
 ---
 
@@ -35,9 +62,9 @@ Shared identity layer. Always loaded first, before any page CSS.
 
 - **Palette**: CSS custom properties (`--magenta`, `--cyan`, `--violet`, `--pink`, `--green`, `--bg`, `--bg-surface`, `--bg-deep`). No hex values should appear in page CSS — reference vars only.
 - **Typography**: `Share Tech Mono` / `Space Mono` for terminals; `Exo 2` / `Rajdhani` for UI labels.
-- **Overlays**: `.rabble-scanlines`, `.rabble-vignette`, `.rabble-chromatic` — fixed-position decorative layers.
+- **Overlays**: `.scanlines`, `.vignette`, `.chromatic`, `.floor`, `.horizon` — all provided by Aether; do not redefine in page CSS.
 - **Components**: `.rabble-brand-text`, `.rabble-status-pill`, `.rabble-glass`, `.rabble-cursor`.
-- **Keyframes**: `holo`, `rabble-fade-in`, `rabble-blink`, `status-pulse`, `neon-flicker`.
+- **Keyframes**: `holo`, `rabble-fade-in`, `rabble-blink`, `status-pulse`, `neon-flicker`, `floor-drift`.
 - **iOS hardening**: `overscroll-behavior`, `touch-action`, `-webkit-overflow-scrolling` applied globally.
 
 ---
@@ -65,12 +92,26 @@ The particle field uses Lissajous drift and color-cycles through the palette. Al
 
 ---
 
-### `rabble-entity.js`
+### `RaBbLE-aether.js` and `RaBbLE-NeBuLA.js` — bundle loaders
 
-The entity renderer. Exposes a `<rabble-entity>` custom element.
+These are World's single points of import for Aether CSS and NeBuLA JS. Both follow the same pattern:
+
+1. Create the bundle element (`<link>` or `<script>`) pointing to the CDN URL
+2. Append it to `<head>` synchronously during HTML parsing (no `defer`)
+3. Attach an `onerror` listener — fires on 404 or network failure
+4. On `window.load`, check a sentinel (Aether: CSS var `--rabble-magenta`; NeBuLA: `window.NeBuLA`) — catches silent failures
+5. On failure: mark `<html data-aether="failed">` or `data-nebula="failed"` and insert a visible banner
+
+To change the CDN version, edit the `AETHER_URL` / `NEBULA_URL` constant at the top of each file.
+
+---
+
+### `<rabble-entity>` custom element
+
+Defined in the NeBuLA bundle (`/nebula/v0.0.0.0/nebula.iife.js`). **Do not define it in World.**
 
 ```html
-<rabble-entity id="entityHost" mode="idle" particle-count="480" overscan="2.55"></rabble-entity>
+<rabble-entity mode="boot" particle-count="480" overscan="2.55"></rabble-entity>
 ```
 
 **Why overscan exists**: The entity canvas is intentionally sized larger than its visible layout box so that particles drifting near the edges do not clip hard. The internal canvas extends beyond the host div. Host sizing is the page CSS's responsibility — the element reads its layout size and multiplies by `overscan`.
@@ -81,48 +122,32 @@ The entity renderer. Exposes a `<rabble-entity>` custom element.
 | `mode` | `boot`, `idle` | Boot runs the convergence → portal → eye-emerge timeline; idle starts fully alive |
 | `particle-count` | integer | Number of nebula particles |
 | `overscan` | float | Multiplier for internal canvas size vs visible host |
+| `interactive` | bool | Mouse tracking + click jolt (default: true) |
+| `show-waveform` | bool | Waveform below eyes (default: false) |
 
-**Entity state API:**
+**Entity state API (called on the element directly):**
 ```js
 entity.setEntityState('thinking');   // 'idle' | 'thinking' | 'speaking'
 entity.injectEyeJolt(dx, dy);        // startle impulse, values –1..1
-entity.destroy();                    // cancel animation loop, remove listeners
 ```
 
-**Internal subsystems:**
-
-*Particles* — 480 gaussian-distributed nebula particles around the eye centre. Each has drift, glow radius, and color sampled from the palette. They form connection lines when within proximity.
-
-*Eyes* — Two oval orbs (magenta left, cyan right) with a shared spring-physics position. Driven by:
-1. Autonomous saccade table (16 targets: hard/med/soft transitions, randomised hold + gap)
-2. Living drift — two-frequency sinusoidal superposition per axis
-3. Mouse tracking override — activates within 600px of eye centre
-4. Jolt injection — impulse decays ×0.88 per frame
-
-*Portals* — Dark elliptical discs behind each eye. In boot mode, animated arcs draw clockwise during 0.4–2.6s of the boot timeline.
-
-*Waveform* — Optional dual braided waves (phase-offset by π). Driven by `setEntityState()`:
-
-| State | Amplitude | Frequency | Speed |
-|---|---|---|---|
-| `idle` | 2.0 + breathe | 0.09 | 0.005 |
-| `thinking` | 4.5 + breathe | 0.13 | 0.007 |
-| `speaking` | 7.5 + breathe | 0.20 | 0.011 |
+**NeBuLA namespace (set at connect time):**
+```js
+window.NeBuLA._instance     // the active Canvas2dBackend
+window.NeBuLA.particleCount // actual count (may be capped on mobile)
+window.NeBuLA.backend       // 'Canvas2D'
+```
 
 **Boot timeline** (mode="boot"):
 ```
-0ms      Particles begin converging from screen edges
+0ms      Particles converge from screen edges
 400ms    Portals begin drawing as animated arcs
-1400ms   Eyes begin emerging from portal slits (phase 0)
-2600ms   Eyes reach full open (phase 1) → blink burst starts
-3200ms   5-blink burst completes → settled random blink rhythm
+1400ms   Eyes emerge from portal slits
+2600ms   Eyes fully open → 5-blink burst starts
+3200ms   Burst complete → settled random blink rhythm
 ```
 
-After 3200ms the entity behaves identically to `mode="idle"`.
-
-**Pixel constants are frozen.** The canvas is fixed at 460px × 320px internal coordinates. Do not change `EYE_R`, `EYE_SEPARATION`, `NEBULA_RADIUS`, or `FALLOFF_RADIUS` without auditing visual regression across both boot and idle modes.
-
-Legacy direct-canvas usage (`new RaBbLEEntity(canvas, options)`) still works but is deprecated. New surfaces should use the custom element.
+Full renderer documentation lives in `RaBbLE-NeBuLA/` in the Grimoire.
 
 ---
 
