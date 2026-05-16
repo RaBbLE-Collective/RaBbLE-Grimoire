@@ -96,10 +96,10 @@ cat RaBbLE-Grimoire-Navigator.md    # 5-min skim · 15-min dive · 30-min full o
 
 **Returning agent (picking up a session)?**
 ```bash
-cat CONTEXT.md          # current status and active tracks
-cat INDEX.md            # full document map
-bash spells/status.sh   # live health of all registered member repos
 head -20 log/SESSION-LOG.md   # ## LATEST box — current state, last session, next steps
+cat CONTEXT.md                # active tracks and structure
+bash spells/status.sh         # live health of all registered member repos
+# cat INDEX.md                # only if you need to find a specific doc
 ```
 
 Each Collective member has its own AGENT.md as entry point.
