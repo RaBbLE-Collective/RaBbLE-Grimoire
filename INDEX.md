@@ -144,7 +144,7 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 
 ## RaBbLE-ScRibLE
 
-- [README](RaBbLE-ScRibLE/README.md) — mobile PWA notes surface, iPhone/iPad + Apple Pencil, Epoch 1 candidate
+- [README](RaBbLE-ScRibLE/README.md) — mobile PWA notes surface, iPhone/iPad + Apple Pencil, Echo 1+ candidate
 
 ---
 
@@ -156,9 +156,9 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 
 ## Log
 
-- [SESSION-LOG](log/SESSION-LOG.md) — running session log, most recent first
-- [GAP-ANALYSIS](log/GAP-ANALYSIS.md) — open gaps, blockers, and resolution paths
-- [ONBOARDING-DECISIONS](log/ONBOARDING-DECISIONS.md) — architectural decisions from the four-pass onboarding audit (2026-05-14)
+- [SESSION-LOG](log/SESSION-LOG.md) — running session log, most recent first (`head -20` for ## LATEST box)
+- [DECISIONS](log/DECISIONS.md) — architectural decisions: member roles, versioning, onboarding, gist system
+- [AUDITS](log/AUDITS.md) — completed audits + open gaps: registry, onboarding, token reduction, Episode 1 blockers
 
 ---
 
