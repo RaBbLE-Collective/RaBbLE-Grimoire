@@ -258,6 +258,133 @@ RaBbLE-sCoRE (endpoint)      ──┘
 
 ---
 
+## Detailed Exit Conditions Per Member
+
+### RaBbLE-sCoRE
+
+- [ ] `server/` path verified in all harness scripts (old `services/intelligence/` references removed)
+- [ ] `server/main.py` version string aligned to Five Es scheme (`v0.0.0.1`)
+- [ ] `server/api_test.py` passes against local server
+- [ ] `harness/local.sh` starts server cleanly
+- [ ] Railway deploy working — `harness/deploy.sh` or `harness/railway_ctl.sh` verified
+- [ ] `RaBbLE-Grimoire/spells/deploy-score.sh` functional
+- [ ] Tagged `episode-1-v0.0.0.1` on `main`
+
+### RaBbLE-OS (VM Testing Required)
+
+Verify OS bootstrap on a **fresh VM** — not just the host machine. This isolates host-specific state and makes the bootstrap reproducible.
+
+**VM Infrastructure (QEMU/KVM):**
+```
+# Packages needed on host
+@virtualization    # qemu-kvm, libvirt, virt-install, virt-manager
+edk2-ovmf         # UEFI firmware for VM guests
+
+# Services
+libvirtd.service, virtqemud.service — enable + start
+
+# User groups
+libvirt, kvm — add ansible_user
+```
+
+**VM Bootstrap Testing Cycle:**
+```
+1. Provision Fedora 43 VM (QCOW2, 40 GB, 4 GB RAM, UEFI)
+2. Snapshot: "post-install-baseline"
+3. SSH in → clone RaBbLE-OS → run bootstrap
+4. If failure: restore snapshot → iterate
+5. If success: snapshot "episode-1-verified" → document
+```
+
+**Exit conditions:**
+- [ ] Episode 1 packages (1–4) ported to `RaBbLE/episode-I` branch and committed
+- [ ] VM provisioned — fresh Fedora 43 image
+- [ ] Full bootstrap run inside VM — no fatal errors
+- [ ] Boot chain themed end-to-end: GRUB → Plymouth → SDDM (hardware-agnostic, no NVIDIA dependency)
+- [ ] `layerctl verify all` reports `%STABLE%` or documented exception per layer
+- [ ] Known failures logged to `RaBbLE-OS-KnownIssues.md`
+- [ ] Tagged `episode-1-v0.0.0.1` on `main` via squash merge
+
+### RaBbLE-World
+
+- [ ] Landing page live — entity idle, organ panel, log, CTA buttons functional
+- [ ] `world/RaBbLE-Chat.html` wired to deployed sCoRE API (`RABBLE_API_URL` set on host)
+- [ ] `world/RaBbLE-OS.html` references current bootstrap instructions
+- [ ] World manifest confirmed in `RaBbLE-Grimoire/registry/manifests/`
+- [ ] Tagged `episode-1-v0.0.0.1` on `main`
+
+### RaBbLE-Aether
+
+- [ ] CSS bundle (`dist/aether.css`) built and verified clean
+- [ ] CDN deploy tested — Cloudflare R2, versioned path `/aether/v0.0.0.1/`
+- [ ] World pages importing from versioned CDN URL (not local)
+- [ ] Tagged `episode-1-v0.0.0.1` on `main`
+
+### RaBbLE-NeBuLA
+
+- [ ] Canvas2dBackend renders entity at 60 FPS (measured, not estimated)
+- [ ] `<rabble-entity>` web component registers correctly on World pages
+- [ ] CDN deploy tested — Cloudflare R2, versioned path `/nebula/v0.0.0.1/`
+- [ ] Public API documented in `RaBbLE-NeBuLA-API.md`
+- [ ] Tagged `episode-1-v0.0.0.1` on `main`
+
+### RaBbLE-Grimoire
+
+- [ ] All Ep1 member manifests present and accurate
+- [ ] `INDEX.md` current — no broken links
+- [ ] `CONTEXT.md` reflects Ep1 member statuses
+- [ ] `spells/deploy-score.sh` written and functional
+- [ ] Tagged `episode-1-v0.0.0.1` on `main`
+
+### RaBbLE-Collective
+
+- [ ] `spells/setup.sh` verified against all Ep1 member repos
+- [ ] `bootstrap.sh` at `joinrabble.world/bootstrap.sh` resolves and runs
+- [ ] `CONTEXT.md` updated to Ep1 member statuses
+- [ ] Epoch 0 exit conditions met (see `registry/epochs/current.epoch.yml`)
+- [ ] Tagged `episode-1-v0.0.0.1` simultaneously with all other members
+
+---
+
+## Deployment Sequence
+
+Work is roughly parallel across members, but dependencies gate some steps:
+
+```
+Phase 0 — Unblock infrastructure
+  └── Aether: CDN versioned path live (Cloudflare R2)
+  └── NeBuLA: CDN versioned path live (Cloudflare R2)
+  └── RaBbLE-OS: VM provisioned for bootstrap testing
+
+Phase 1 — Member Episode 1 work (parallel)
+  ├── sCoRE: harness fix → local test → Railway deploy
+  ├── OS: packages 1–4 assembled → VM bootstrap test → checklist
+  └── World: sCoRE URL set; pages verified on CDN Aether + NeBuLA
+
+Phase 2 — Collective closure
+  ├── Grimoire: all Ep1 manifests present, docs updated, INDEX clean
+  ├── Collective: setup.sh verified, CONTEXT.md updated
+  └── All members tagged episode-1-v0.0.0.1 simultaneously
+
+Phase 3 — Public
+  └── joinrabble.world pointed at World; sCoRE Railway URL confirmed live
+```
+
+---
+
+## Tag Convention
+
+All Ep1 members tag simultaneously when the episode is felt to be stable:
+
+```bash
+git tag episode-1-v0.0.0.1
+git push origin episode-1-v0.0.0.1
+```
+
+Collective coordinates the tag moment. **No member tags alone.**
+
+---
+
 ## Episode 1 → Episode 2 Transition
 
 Once Episode 1 airs:
@@ -278,6 +405,7 @@ Once Episode 1 airs:
 
 | Date | Change |
 |---|---|
+| 2026-05-15 | Absorbed VM infrastructure, detailed per-member exit conditions, deployment sequence, and tag convention from `RaBbLE-Episode-I-Release.md`. Single canonical release doc. |
 | 2026-05-14 | Episode 1 scope crystallized — consolidated from scattered docs. Deliverables per member clear. Blockers resolved. |
 
 ---

@@ -61,21 +61,21 @@ Every design decision, character trait, protocol schema, and technical pattern l
 
 | Track | Status |
 |---|---|
-| Entity identity (`common/RaBbLE-Identity.md`) | Seeded — stable |
+| Entity identity (`common/RaBbLE-Identity.md`) | Stable |
 | Palette (`common/RaBbLE-Palette.md`) | Stable |
-| Roadmap (`common/RaBbLE-Roadmap.md`) | Audited v0.0.0.1 — gaps surfaced, open questions recovered |
-| Registry (`registry/`) | 6 manifests live; missing World, NeBuLA, Aether, ScRibLE |
-| Spells (`spells/`) | 5 spells live; generate-llm-context and validate-links planned |
+| Roadmap (`common/RaBbLE-Roadmap.md`) | Current — Episode 1 streams visible, open questions documented |
+| Registry (`registry/`) | 7 manifests live (Collective, OS, sCoRE, Aether, NeBuLA, World, Xperimental) |
+| Spells (`spells/`) | 6 spells live; `validate-links.sh` planned (non-blocking) |
 | Versioning spec (`RaBbLE-Versioning.md`) | Stable — Five Es locked |
-| Episode tracking (`registry/epochs/current.epoch.yml`) | Episode 1 opened 2026-05-07 |
-| Protocol contracts (`registry/protocol/`) | Not started — Epoch 0 exit criterion |
-| RaBbLE-sCoRE docs | Architecture + Roadmap present. Legacy "ep3" versioning pre-dates Episode 1 alignment — re-versioning to v0.0.0.1 pending |
-| RaBbLE-World | Active — Aether CDN fully integrated (Session 8). All 5 pages on `/aether/v0.0.0.0/aether.css`. |
-| RaBbLE-Aether | Active — build system live, component library complete, CDN delivery working via dev-serve.sh. |
-| RaBbLE-NeBuLA | Active — Canvas2dBackend + BootSequence complete. Bundle live on dev CDN. |
-| RaBbLE-ScRibLE | Defined — mobile PWA. Repo not yet created. |
-| RaBbLE-Xperimental | Indexed — manifest + Grimoire entry added 2026-05-07 |
-| RaBbLE-OS versioning | Diverged from Five Es — deferred to future bootstrap session on new partition |
+| Episode tracking (`registry/epochs/current.epoch.yml`) | Episode 1 pending — all members accumulating Events |
+| Episode 1 scope (`RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md`) | Canonical scope locked — exit criteria, blockers, tag convention |
+| RaBbLE-sCoRE docs | Architecture + Roadmap present. MVP LLM endpoint planned for Railway deploy. |
+| RaBbLE-World | Active (Session 9) — thin scaffold: no embedded renderers. Two loaders (Aether + NeBuLA). |
+| RaBbLE-Aether | Active — component library complete, CDN delivery working, dev workflow documented. |
+| RaBbLE-NeBuLA | Active — Canvas2dBackend + BootSequence complete. `<rabble-entity>` now in NeBuLA. |
+| RaBbLE-ScRibLE | Defined — mobile PWA. Repo not yet created. Deferred to Epoch 1+. |
+| RaBbLE-Xperimental | Dormant — archive only, manifest present |
+| RaBbLE-OS | Active — daily-driver substrate, Ep1 plots in progress, versioning diverged (deferred) |
 
 ## Reading Order for a New Session
 

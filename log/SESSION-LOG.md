@@ -5,6 +5,56 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-05-15 (Session 10) — Grimoire Audit & Cleanup: Registry, Logs, Release Plan
+
+**Repos touched:** RaBbLE-Grimoire
+
+**Objective:** Comprehensive Grimoire cleanup — coherent onboarding, consolidated episode release plan, updated registry, condensed log directory, corrected stale manifests.
+
+**Work done:**
+
+**Registry brought into episode model:**
+- `registry/epochs/current.epoch.yml` — removed stale `RaBbLE-WEB` and `RaBbLE-Frontend` entries; all 7 current members listed with episode status, blocker flags, and milestone notes
+- `registry/manifests/RaBbLE-NeBuLA.manifest.yml` — updated to reflect Session 9 architecture: entity renderer is NOW in NeBuLA (`Canvas2dBackend`, `<rabble-entity>` web component), not World; Three.js deferred to Ep2; status `scaffold` → `active`
+- `registry/manifests/RaBbLE-World.manifest.yml` — updated to reflect World as thin scaffold; two loaders (Aether + NeBuLA); no embedded renderers; corrected branch notes
+
+**Episode 1 release plan consolidated:**
+- `RaBbLE-Episode-I-Release.md` merged into `RaBbLE-Episode-1-Release-Map.md` — absorbed VM infrastructure (QEMU/KVM setup, bootstrap testing cycle), detailed per-member exit conditions, deployment sequence (Phase 0–3), tag convention
+- `RaBbLE-Episode-I-Release.md` removed (content preserved in Release Map, now single canonical doc)
+
+**Log directory condensed:**
+- 6 stale onboarding audit files removed (`ONBOARDING-AUDIT-*.md`, `ONBOARDING-AUDITS.md`, `SESSION-2026-05-14-HARMONY-EFFECT.md`)
+- `log/ONBOARDING-DECISIONS.md` created — distilled architectural decisions from the four-pass audit series: token targets, ON/FOR/WITH/AS rationale, member role mappings, cross-member collaboration patterns, behavioral learning gap. Full process detail remains in SESSION-LOG Sessions 1–4.
+- `log/GAP-ANALYSIS.md` rewritten — all resolved gaps archived with dates, 4 open gaps clearly stated with blockers vs. non-blocking status
+
+**Entry point sharpened:**
+- `AGENT.md` "Getting Started" section split into two paths: new agent (→ Navigator) vs. returning agent (→ CONTEXT.md + SESSION-LOG)
+- Member registry table in AGENT.md updated (NeBuLA was still listed as "Scaffold", World still mentioned entity.js)
+- `CONTEXT.md` active tracks updated — manifests no longer listed as missing; NeBuLA and World tracks reflect Session 9 architecture
+- `INDEX.md` — registry manifest list corrected; Aether design docs (CLAUDE-DESIGN-GUIDE, SYSTEM-PROMPT) indexed; Release Map elevated to top of Collective section
+- Aether CLAUDE-DESIGN-GUIDE.md and SYSTEM-PROMPT.md added to git tracking (they're proper Grimoire docs, were untracked)
+
+**What's left untracked (session artifacts, content preserved elsewhere):**
+- `log/.audit-grimoire-2026-05-14.md` — content captured in ONBOARDING-DECISIONS.md
+- `log/ONBOARDING-AUDIT.md` — content captured in ONBOARDING-DECISIONS.md
+- `RaBbLE-Aether/DEBUG-SESSION-2026-05-15.md` — key finding captured in Aether Build CDN doc
+- `RaBbLE-World/REGRESSION-AUDIT-2026-05-15.md` — findings captured in SESSION-LOG Session 8
+
+**Where things were left:**
+- Grimoire is coherent, current, and navigable
+- Registry reflects actual architecture as of Session 9
+- Episode 1 scope is one canonical document
+- Log is clean: SESSION-LOG + GAP-ANALYSIS + ONBOARDING-DECISIONS
+- All commits on `dev` branch
+
+**What's next:**
+- sCoRE: Railway deploy verification (Episode 1 blocker)
+- OS: VM provisioning for bootstrap testing (Episode 1 blocker)
+- World: Audit `RaBbLE-chat.css` and `RaBbLE-OS.css` for visual rules to move to Aether
+- Collective: Verify `setup.sh` against all Ep1 member repos end-to-end
+
+---
+
 ## 2026-05-15 (Session 9) — World becomes a scaffold; entity ownership moves to NeBuLA
 
 **Repos touched:** RaBbLE-World, RaBbLE-Aether, RaBbLE-NeBuLA, RaBbLE-Grimoire

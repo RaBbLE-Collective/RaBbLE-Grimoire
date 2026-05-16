@@ -1,99 +1,99 @@
-# GAP-ANALYSIS.md — RaBbLE Collective Coherence Audit
+# GAP-ANALYSIS.md — RaBbLE Collective Coherence
 
 ```
-analyzed: 2026-05-06 | status: open
+analyzed: 2026-05-06 | revised: 2026-05-15 | status: living document
 ```
 
-Gaps and coherence issues found during the 2026-05-06 doc structure overhaul.
-Each item has a priority and a resolution path. Address in priority order.
+Running coherence gaps and open items. Address in priority order. Mark resolved items with date.
 
 ---
 
-## Priority 1 — Blocking Correctness
+## Open — Blocking or High Priority
 
-### 1.1 Registry manifests incomplete
+### 1.1 Protocol contracts undefined
 
-**Gap:** Manifests exist only for OS, sCoRE, Frontend, WEB. Missing: World, NeBuLA, Aether, ScRibLE.
-**Impact:** `spells/status.sh` can't track these members. Health checks blind.
-**Fix:** Create manifests in `registry/manifests/` using `_template.manifest.yml` for each missing member.
+**Gap:** `protocol/` directory referenced in Grimoire CONTEXT.md doesn't exist. Manifest schema and health-ping format are described in prose but not as actual schema files.
+**Impact:** Members can't validate against a contract. Epoch 0 exit criterion technically unmet.
+**Status:** Deferred — non-blocking for Episode 1 air. Address in Epoch 1.
+**Fix:** Create `protocol/manifest.schema.json` (Pydantic → JSON schema export). Health-ping format second.
 
-### 1.2 Protocol contracts don't exist
+### 1.2 Memory member has no architecture
 
-**Gap:** `protocol/` directory referenced in Grimoire CONTEXT.md doesn't exist. Manifest schema, health-ping format, and intent message shape are all described in prose but not as actual schema files.
-**Impact:** Members can't validate against a contract. Epoch 0 exit criterion is blocked.
-**Fix:** Create `protocol/` dir. Start with `protocol/manifest.schema.json` (Pydantic → JSON schema export). Health-ping format second.
+**Gap:** The memory member (observation store, pattern extraction, retrieval) has no name, no repo, no manifest, and no architecture doc.
+**Impact:** sCoRE behavioral learning (post-Ep1) is blocked. Epoch 1 scope depends on this.
+**Status:** Open — intentionally deferred to post-Episode-1.
+**Fix:** After Episode 1 airs: decide name, write Grimoire section, scaffold repo.
 
-### 1.3 Memory member is undefined
+### 1.3 sCoRE Railway deploy unverified
 
-**Gap:** The memory member (observation store, pattern extraction, retrieval) has no name, no repo, no manifest, and no architecture doc in the Grimoire.
-**Impact:** sCoRE Episode 4+ can't proceed. Epoch 1 (first closed loop) is blocked.
-**Fix:** Decide the name (Mnemos, Codex, or other). Create Grimoire section. Scaffold the repo.
+**Gap:** sCoRE has server code and harness scripts but Railway deploy has not been verified in recent sessions.
+**Impact:** Episode 1 exit criterion — World chat depends on a live sCoRE endpoint.
+**Status:** Open — Episode 1 blocker.
+**Fix:** Run `harness/deploy.sh` or `harness/railway_ctl.sh`; verify API responds; write `spells/deploy-score.sh`.
 
----
+### 1.4 bootstrap.sh not verified end-to-end
 
-## Priority 2 — Coherence Issues
-
-### 2.1 RaBbLE-NeBuLA-JS vs RaBbLE-NeBuLA naming split
-
-**Gap:** The actual repo is `RaBbLE-NeBuLA-JS` (POC sandbox). The Grimoire has extensive docs under `RaBbLE-NeBuLA/`. There is no `RaBbLE-NeBuLA` member repo. The Grimoire docs describe a clean rebuild, but the transition plan (how JS becomes NeBuLA or when NeBuLA gets its own repo) is not documented.
-**Impact:** Any work on NeBuLA is ambiguous about which "repo" it targets.
-**Fix:** Either rename `RaBbLE-NeBuLA-JS` to `RaBbLE-NeBuLA` or add a note in Grimoire `RaBbLE-NeBuLA/` docs clarifying that `RaBbLE-NeBuLA-JS` is the current working repo. Add AGENT.md and CONTEXT.md to `RaBbLE-NeBuLA-JS`.
-
-### 2.2 RaBbLE-ScRibLE has no defined purpose
-
-**Gap:** Exists as a stub (Grimoire README + member registry placeholder). No architecture doc, no defined purpose.
-**Impact:** Any agent working on the Collective gets a dangling member with no meaning.
-**Fix:** Either define ScRibLE's purpose in a Grimoire architecture doc, or explicitly mark it as "reserved — purpose TBD" in the registry manifest so agents don't wonder.
-
-### 2.3 Root-level `devPlan.md` and `TODO` are outside the doc system
-
-**Gap:** `/home/rabble/RaBbLE/devPlan.md` and `/home/rabble/RaBbLE/TODO` exist at root and are not referenced from any AGENT.md or CONTEXT.md. Their content may duplicate or conflict with Grimoire roadmap docs.
-**Impact:** Agents starting from root AGENT.md will miss these.
-**Fix:** Review contents; migrate actionable items to `Grimoire/log/GAP-ANALYSIS.md` or member CONTEXT.md `Active Tracks`. Delete or archive the original files.
-
-### 2.4 `RaBbLE-CONTEXT.md` and `RaBbLE-OVERVIEW.md` at root are orphaned from the template system
-
-**Gap:** These two deep docs predate the AGENT.md/CONTEXT.md standard. They are ecosystem-level context but don't fit the template (they're more like Grimoire docs living at root). They're not referenced from the new root `AGENT.md`.
-**Impact:** Valuable context is stranded. Token waste if an agent loads both the root AGENT.md and these files.
-**Fix:** Evaluate whether their content is covered by Grimoire docs. If so, archive them. If not, migrate the unique content to Grimoire. Reference from root `AGENT.md` only if genuinely needed.
-
-### 2.5 RaBbLE-NeBuLA-JS has no AGENT.md or CONTEXT.md
-
-**Gap:** Active POC repo with no agent entry point.
-**Fix:** Create `RaBbLE-NeBuLA-JS/AGENT.md` and `RaBbLE-NeBuLA-JS/CONTEXT.md`.
-
-### 2.6 Grimoire INDEX.md has no ScRibLE section
-
-**Gap:** ScRibLE exists in the Grimoire dir but its README is not indexed.
-**Fix:** Add ScRibLE section to INDEX.md once purpose is defined (see 2.2).
+**Gap:** `bootstrap.sh` at root of Collective clones Grimoire, but `spells/setup.sh` hasn't been verified against all Ep1 member repos.
+**Impact:** Collective's core promise ("fresh machine → working ecosystem") unverified.
+**Status:** Open — Episode 1 blocker.
+**Fix:** Run `bash bootstrap.sh` on a clean machine or VM; verify all members clone and configure correctly.
 
 ---
 
-## Priority 3 — Quality of Life
+## Open — Low Priority / QoL
 
-### 3.1 No validation spell for doc links
+### 2.1 validate-links spell not created
 
-**Gap:** Link integrity depends on manual checking. Broken refs accumulated before this audit.
-**Fix:** Add `spells/validate-links.sh` — walks all AGENT.md and CONTEXT.md files, extracts relative paths, checks existence.
+**Gap:** Link integrity depends on manual checking. Broken refs have accumulated before prior audits.
+**Status:** Open — non-blocking.
+**Fix:** `spells/validate-links.sh` — walks all AGENT.md and CONTEXT.md files, extracts relative paths, checks existence.
 
-### 3.2 Session continuity is ceremony-dependent
+### 2.2 RaBbLE-OS versioning diverged
 
-**Gap:** Session log exists but requires manual upkeep. If an agent doesn't write a log entry, the next session has no context about where things were left.
-**Fix:** Standardize session close ritual. Add to Grimoire AGENT.md: "Before ending session, append to `log/SESSION-LOG.md`."
+**Gap:** RaBbLE-OS uses its own branch/episode model that doesn't cleanly map to the Five Es scheme. Deferred from prior sessions.
+**Status:** Open — deferred to post-Ep1 or next OS bootstrap session.
 
-### 3.3 OS CONTEXT.md branch status is stale risk
+### 2.3 Grimoire browser not built
 
-**Gap:** `RaBbLE-OS/CONTEXT.md` lists branch names and statuses (`mend-I/proart-nvidia: High entropy`). These go stale rapidly.
-**Fix:** Move branch status to a separate `RaBbLE-Grimoire/RaBbLE-OS/RaBbLE-OS-Roadmap.md` entry (it's already there). Keep CONTEXT.md branch references minimal — just the current primary track.
+**Gap:** Episode 1 includes a public Grimoire browser (World renders Grimoire docs). No implementation exists.
+**Status:** Open — Episode 1 deliverable, World-side work.
+**Fix:** World page that renders Grimoire markdown (static snapshot or dynamic fetch).
+
+### 2.4 Behavioral learning onboarding missing
+
+**Gap:** No doc explains RaBbLE's post-Episode-1 primary purpose (observation → pattern → inference → delegation).
+**Status:** Open — intentionally deferred until Memory member is introduced.
+**Fix:** `common/RaBbLE-BehavioralLearning.md` (~1,500 tokens). Write when Memory member scope is decided.
 
 ---
 
 ## Resolved
 
-- [x] Missing AGENT.md and CONTEXT.md for World, OS, Aether — **fixed 2026-05-06**
-- [x] Broken CLAUDE.md symlink in OS — **fixed 2026-05-06**
-- [x] Broken reading order paths in OS/CONTEXT.md and sCoRE/CONTEXT.md — **fixed 2026-05-06**
-- [x] No Grimoire architecture doc for Aether — **fixed 2026-05-06**
-- [x] No root ecosystem AGENT.md — **fixed 2026-05-06**
-- [x] No session log — **fixed 2026-05-06**
-- [x] `RaBbLE-OS-AIQuickstart.md` naming inconsistency — renamed to `RaBbLE-OS-AgentGuide.md`
+| Date | Gap | Resolution |
+|---|---|---|
+| 2026-05-15 | Registry listed stale members (RaBbLE-WEB, RaBbLE-Frontend) | Updated `current.epoch.yml` with current member set |
+| 2026-05-15 | NeBuLA manifest described old two-layer architecture (entity in World) | Updated — entity is now in NeBuLA (`<rabble-entity>`, `Canvas2dBackend`) |
+| 2026-05-15 | World manifest had stale notes about `rabble-entity.js` | Updated — World is now a thin scaffold with two loaders |
+| 2026-05-15 | Two Episode 1 planning docs with overlapping scope | Merged `RaBbLE-Episode-I-Release.md` into `RaBbLE-Episode-1-Release-Map.md` |
+| 2026-05-15 | Grimoire CONTEXT.md listed missing World/NeBuLA/Aether manifests | Updated — all 7 manifests now present |
+| 2026-05-14 | Onboarding audit scattered across 6 files | Condensed to `log/ONBOARDING-DECISIONS.md`; process detail in SESSION-LOG |
+| 2026-05-14 | Agent role framing missing | ON/FOR/WITH/AS added to Collective AGENT.md and all member AGENT.md files |
+| 2026-05-14 | Pre-Episode-1 phase invisible in onboarding | Collective Phases section added to CONTEXT.md (Foundation → Pilot → Behavioral Engine) |
+| 2026-05-14 | Episode/Echo/Plot versioning narrative unclear | "Episodes as Collective Sync Boundaries" added to RaBbLE-Versioning.md |
+| 2026-05-14 | sCoRE system prompt contaminated project onboarding | Moved to `system-prompt-sCoRE.md`; standard AGENT.md restored |
+| 2026-05-14 | Pulse Protocol duplicated across 7 files | Centralized to `common/RaBbLE-CommitStyle.md`; TL;DR in member files |
+| 2026-05-14 | Episode 1 scope scattered across multiple docs | `RaBbLE-Episode-1-Release-Map.md` created as canonical scope |
+| 2026-05-14 | No agent reading path into Grimoire | `RaBbLE-Grimoire-Navigator.md` created |
+| 2026-05-13 | Registry had stale RaBbLE-WEB and RaBbLE-Frontend manifests | Removed stale manifests; World, NeBuLA, Aether manifests added |
+| 2026-05-13 | RaBbLE-NeBuLA naming confusion (JS vs rebuild) | NeBuLA-JS archived to Xperimental; RaBbLE-NeBuLA is the v2 repo |
+| 2026-05-06 | Missing AGENT.md and CONTEXT.md for World, OS, Aether | Created for all three |
+| 2026-05-06 | Broken CLAUDE.md symlink in OS | Fixed |
+| 2026-05-06 | No Grimoire architecture doc for Aether | Created |
+| 2026-05-06 | No root ecosystem AGENT.md | Created (Collective AGENT.md) |
+| 2026-05-06 | No session log | Created `log/SESSION-LOG.md` |
+
+---
+
+```
+mend ~ grimoire >> gap analysis refreshed, resolved items archived, new gaps surfaced // %GAP_ANALYSIS_CURRENT%
+```

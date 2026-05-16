@@ -72,12 +72,19 @@ See `common/RaBbLE-CommitStyle.md` (Pulse Protocol) for full spec.
 
 ---
 
-## Getting Started on a Session
+## Getting Started
 
+**New to the Grimoire?** Start with the Navigator — it routes you to the right docs for your time budget and task type:
 ```bash
-cat CONTEXT.md       # current status of the Grimoire
-cat INDEX.md         # what's in here
-bash spells/status.sh  # health of all registered member repos
+cat RaBbLE-Grimoire-Navigator.md    # 5-min skim · 15-min dive · 30-min full onboarding
+```
+
+**Returning agent (picking up a session)?**
+```bash
+cat CONTEXT.md          # current status and active tracks
+cat INDEX.md            # full document map
+bash spells/status.sh   # live health of all registered member repos
+cat log/SESSION-LOG.md  # what happened last session (top entry)
 ```
 
 Each Collective member has its own AGENT.md as entry point.
@@ -93,7 +100,7 @@ See `registry/manifests/` for the authoritative list. Current members:
 |---|---|
 | RaBbLE-sCoRE | Active — Epoch 0, coordination engine + web API |
 | RaBbLE-OS | Active — Fedora 43/Hyprland live daily driver |
-| RaBbLE-World | Active — entity.js + chat surface. joinrabble.world |
-| RaBbLE-NeBuLA | Scaffold — v2 rebuild from Flat-Chaos pattern |
-| RaBbLE-Aether | Active — design system + CSS bundle |
+| RaBbLE-World | Active — thin scaffold: Aether + NeBuLA loaders, joinrabble.world |
+| RaBbLE-NeBuLA | Active — Canvas2D renderer, `<rabble-entity>` web component |
+| RaBbLE-Aether | Active — design system CSS bundle, CDN delivery |
 | RaBbLE-Xperimental | Dormant — archive: NeBuLA-JS, WebOS, RaBbLE.py, old server |

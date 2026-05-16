@@ -38,10 +38,10 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 
 ## RaBbLE-Collective
 
-- [RaBbLE-Collective-Plan](RaBbLE-Collective/RaBbLE-Collective-Plan.md) — Collective architecture and coordination plan
-- **[RaBbLE-Episode-1-Release-Map](RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md)** — **CANONICAL Episode 1 scope.** Member deliverables, blockers, air criteria, dependency graph.
-- [RaBbLE-Collective-Episode-1-Overview](RaBbLE-Collective/RaBbLE-Collective-Episode-1-Overview.md) — Three-layer architecture (Aether + NeBuLA + World), CDN strategy, easy page creation
-- [RaBbLE-Deployment-Architecture](RaBbLE-Deployment-Architecture.md) — environments (local/staging/prod), CDN distribution strategy, versioning, build pipeline
+- **[RaBbLE-Episode-1-Release-Map](RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md)** — **CANONICAL Episode 1 scope.** Member deliverables, blockers, exit criteria, VM testing, deployment sequence, tag convention.
+- [RaBbLE-Collective-Plan](RaBbLE-Collective/RaBbLE-Collective-Plan.md) — Collective bootstrap architecture and coordination plan
+- [RaBbLE-Collective-Episode-1-Overview](RaBbLE-Collective/RaBbLE-Collective-Episode-1-Overview.md) — Three-layer architecture (Aether + NeBuLA + World), CDN strategy
+- [RaBbLE-Deployment-Architecture](RaBbLE-Deployment-Architecture.md) — environments (local/staging/prod), CDN distribution, versioning, build pipeline
 - [RaBbLE-Cloudflare-Integration](RaBbLE-Cloudflare-Integration.md) — Cloudflare setup, R2 buckets, Wrangler configuration, deployment workflow
 
 ---
@@ -49,8 +49,8 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 ## Registry
 
 - [RaBbLE-Collective-Registry](registry/RaBbLE-Collective-Registry.md) — registry reference documentation
-- [registry/epochs/current.epoch.yml](registry/epochs/current.epoch.yml) — active epoch definition
-- **manifests/**: RaBbLE-Collective · RaBbLE-OS · RaBbLE-sCoRE · RaBbLE-Frontend · RaBbLE-WEB · RaBbLE-Xperimental
+- [registry/epochs/current.epoch.yml](registry/epochs/current.epoch.yml) — active epoch definition, per-member Episode 1 status
+- **manifests/**: RaBbLE-Collective · RaBbLE-OS · RaBbLE-sCoRE · RaBbLE-Aether · RaBbLE-NeBuLA · RaBbLE-World · RaBbLE-Xperimental
 
 ---
 
@@ -118,7 +118,9 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 
 - **[RaBbLE-Aether-Roadmap](RaBbLE-Aether/RaBbLE-Aether-Roadmap.md)** — **Episode 1 commitment:** CSS design system bundle (CDN-ready)
 - [RaBbLE-Aether-Architecture](RaBbLE-Aether/RaBbLE-Aether-Architecture.md) — design system spec, palette publishing
-- [RaBbLE-Aether-Build-CDN](RaBbLE-Aether/RaBbLE-Aether-Build-CDN.md) — esbuild setup, CSS bundling, versioning
+- [RaBbLE-Aether-Build-CDN](RaBbLE-Aether/RaBbLE-Aether-Build-CDN.md) — esbuild setup, dev workflow, CDN versioning, common pitfalls
+- [CLAUDE-DESIGN-GUIDE](RaBbLE-Aether/CLAUDE-DESIGN-GUIDE.md) — component prompts and animation vocabulary for Claude Design sessions
+- [SYSTEM-PROMPT](RaBbLE-Aether/SYSTEM-PROMPT.md) — three-tier system prompt for pasting into Claude Design (quick card / short / full)
 - [Visual Assets](RaBbLE-Aether/assets/) — SVG, logos, icons
 
 ---
@@ -138,7 +140,8 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 ## Log
 
 - [SESSION-LOG](log/SESSION-LOG.md) — running session log, most recent first
-- [GAP-ANALYSIS](log/GAP-ANALYSIS.md) — coherence audit, open gaps, resolution paths
+- [GAP-ANALYSIS](log/GAP-ANALYSIS.md) — open gaps, blockers, and resolution paths
+- [ONBOARDING-DECISIONS](log/ONBOARDING-DECISIONS.md) — architectural decisions from the four-pass onboarding audit (2026-05-14)
 
 ---
 
