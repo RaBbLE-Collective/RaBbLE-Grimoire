@@ -5,6 +5,17 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## LATEST — 2026-05-16 · Session 12
+
+**Phase:** Epoch 0 · pre-Episode-1. Foundation active.
+**Last session (S11):** Hyprland 0.55 compat fix on RaBbLE-OS. Grimoire audited + coherent (S10).
+**Active blockers:** sCoRE Railway deploy unverified · OS VM bootstrap unverified.
+**Now:** Onboarding token reduction — SESSION-LOG, Navigator, doc placement guidance.
+
+> This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
 ## 2026-05-16 (Session 11) — Hyprland 0.55 compat fix: dwindle:pseudotile removed
 
 **Repos touched:** RaBbLE-OS

@@ -79,10 +79,11 @@ Every design decision, character trait, protocol schema, and technical pattern l
 
 ## Reading Order for a New Session
 
-1. This file — you are here
-2. `INDEX.md` — what's in the Grimoire
-3. `RaBbLE-Versioning.md` — the versioning model before writing anything
-4. `common/RaBbLE-Identity.md` — who RaBbLE is
-5. `common/RaBbLE-Palette.md` — what RaBbLE looks like
-6. `SPELLS.md` — how Grimoire distributes its authority to member repos
-7. `common/RaBbLE-Roadmap.md` — what's being built (Collective-level scope)
+1. `head -20 log/SESSION-LOG.md` — ## LATEST box only (current state + blockers, ~75 words)
+2. This file — active tracks and structure
+3. `INDEX.md` — what's in the Grimoire
+4. `RaBbLE-Versioning.md` — the versioning model before writing anything
+5. `common/RaBbLE-Identity.md` — who RaBbLE is
+6. `common/RaBbLE-Palette.md` — what RaBbLE looks like
+7. `SPELLS.md` — how Grimoire distributes its authority to member repos
+8. `common/RaBbLE-Roadmap.md` — what's being built (Collective-level scope)

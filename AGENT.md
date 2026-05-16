@@ -53,6 +53,21 @@ See `common/RaBbLE-CommitStyle.md` (Pulse Protocol) for full spec.
 
 ---
 
+## Adding New Docs
+
+| Type | Where | Convention |
+|---|---|---|
+| Shared cross-member content | `common/RaBbLE-*.md` | Prefix `RaBbLE-`, flat (no subdirs) |
+| Member-specific docs | `RaBbLE-[Member]/RaBbLE-[Member]-*.md` | Self-locating filename |
+| Session records + decisions | `log/` | Ongoing → SESSION-LOG.md; major events → new file |
+| Creative/narrative content | `lore/` | Any format |
+| Coordination scripts | `spells/` | bash, header comment with purpose |
+| Member registration | `registry/manifests/` | YAML, use `_template.manifest.yml` |
+
+**Always:** Add new docs to `INDEX.md`. Update `CONTEXT.md` if active tracks change.
+
+---
+
 ## Workspaces
 
 | Task | Go to | Read first |
@@ -84,7 +99,7 @@ cat RaBbLE-Grimoire-Navigator.md    # 5-min skim · 15-min dive · 30-min full o
 cat CONTEXT.md          # current status and active tracks
 cat INDEX.md            # full document map
 bash spells/status.sh   # live health of all registered member repos
-cat log/SESSION-LOG.md  # what happened last session (top entry)
+head -20 log/SESSION-LOG.md   # ## LATEST box — current state, last session, next steps
 ```
 
 Each Collective member has its own AGENT.md as entry point.
