@@ -5,14 +5,46 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-16 · Session 13
+## LATEST — 2026-05-17 · Session 14
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S13):** Aether owns all fonts + Orbitron brand. cast-cdn.sh written + tested. CF Git integration disconnected. World deploy via wrangler only.
-**Active blockers:** sCoRE Railway deploy unverified · OS VM bootstrap unverified · World not yet deployed to prod.
-**Next:** First prod deploy via cast-cdn.sh · sCoRE Railway verify · OS VM bootstrap test.
+**Last session (S14):** Three.js entity fully ported from Xperimental — eyes, connections, portals, orbit controls, boot animation. Both Canvas2D and Three.js now show matching entity with Summon animation.
+**Active blockers:** sCoRE Railway deploy unverified · OS VM bootstrap unverified.
+**Next:** Visual QA on both backends · prod deploy · sCoRE verify.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-17 (Session 14) — Three.js entity: eyes, connections, portals, orbit, boot animation
+
+**Repos touched:** RaBbLE-NeBuLA, RaBbLE-World, RaBbLE-Grimoire
+
+**Objective:** Port the full CosmicVessel from Xperimental into NeBuLA's Three.js backend so the 3D entity matches the Canvas2D version with orbit capability.
+
+**Work done:**
+
+**Three.js backend rewrite (NeBuLA):**
+- Eyes ported from Xperimental: white ellipses with colored ring borders (magenta/cyan), billboard to camera
+- Mouse tracking + synchronized blinking (3-5s interval, 0.25s blink duration)
+- Eye open/close progress tied to BootSequence timeline
+- Portal arcs (swirling magenta/cyan ellipses) drawn progressively during boot
+- Connection lines between nearby body particles (sampled subset for perf)
+- Manual orbit controls: drag to rotate, scroll to zoom, gentle auto-rotation
+- 2000 body particles + 600 aura particles (instanced MeshBasicMaterial)
+- Boot/Summon animation: particles scatter → converge, portals draw, eyes emerge
+- Particles drift organically driven by entropy
+
+**Demo page (World):**
+- Separate Summon buttons for Canvas2D and Three.js panels
+- Three.js panel description updated: mentions orbit controls
+- Simplified Alpine data (removed unused stream/entity arrays)
+
+**Captures cleanup (World):**
+- Removed 6 tracked screenshot PNGs (~14MB)
+- Added `captures/` to .gitignore
+
+**Next:** Visual QA on entity (may want higher particle count, mouth waveform). Prod deploy.
 
 ---
 
