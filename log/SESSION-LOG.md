@@ -5,14 +5,41 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-17 · Session 17
+## LATEST — 2026-05-18 · Session 18
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S17):** NeBuLA Canvas2D connection + perf debugging. Tried three approaches on dev branch (reduced connDist, batched stroke, MAX_DRAWN cap) — connections disappeared. Root cause unclear (drift accumulation vs connDist mismatch). Rolled back to clean known-good: NeBuLA `dev` @ `34dee62`, World `world` @ `aa66550` (42,676-byte bundle). Perf work on `feat/nebula-perf` still there. Handed off to Opus 4.6 for architecture refactor.
-**Active blockers:** NeBuLA Canvas2D post-boot connections too dense + no connDist fix worked · sCoRE Railway unverified · OS VM unverified.
-**Architectural goal for next agent:** Composite entity in layers — particles+connections on bottom canvas, eyes on separate top canvas at always-60fps. Eyes must never drop below 60fps regardless of particle load.
+**Last session (S18):** NeBuLA rearchitecture plan written to Grimoire (`RaBbLE-NeBuLA-Rearchitecture.md`). 7-phase modular decomposition: systems + frame budget + spatial hash + glow compositing + effects (absorb bg.js) + World applet consolidation + Three.js decomposition. Integrated into Roadmap, Architecture, World Architecture, INDEX. NeBuLA is now the Collective's visual effects engine, not just entity renderer.
+**Active blockers:** sCoRE Railway unverified · OS VM unverified.
+**Next:** Implement Phase 1 — decompose `canvas2d-backend.js` into modular systems on `dev` branch (reset `feat/nebula-perf` first). Known-good baseline: NeBuLA `34dee62`, World `aa66550`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-18 (Session 18) — NeBuLA rearchitecture plan + Grimoire integration
+
+**Repos touched:** RaBbLE-Grimoire (`dev`), RaBbLE-NeBuLA (read-only — plan only)
+
+**Objective:** Design full architectural solution for Canvas2D performance failures (sessions 14-17 parameter tuning all failed). Write plan to Grimoire and integrate across docs.
+
+**Work done:**
+
+- Diagnosed structural causes: monolithic 674-line draw loop, two competing RAF loops (bg.js + entity), O(n²) connection checks, no frame budget
+- Designed 7-phase rearchitecture: modular systems, frame budgeting (14ms target), spatial hash O(n×k), glow compositing (offscreen canvas), effects systems (absorb bg.js), World applet consolidation, Three.js decomposition
+- Formalized NeBuLA as the Collective's visual effects engine (not just entity renderer)
+- Defined responsibility split: NeBuLA = effects, Aether = design tokens, World = thin consumer
+- Created `RaBbLE-NeBuLA-Rearchitecture.md` — canonical 7-phase plan
+- Updated `RaBbLE-NeBuLA-Roadmap.md` — Phase 3 → modular systems architecture, effects scope, updated Ep1 exit conditions
+- Updated `RaBbLE-NeBuLA-Architecture.md` — RenderSystem interface, frame budget, effects layer, module map
+- Updated `RaBbLE-World-Architecture.md` — bg.js absorption note, applet consolidation plan
+- Updated `INDEX.md` — rearchitecture doc added, perf-fix-plan marked superseded
+
+**Known-good baseline for implementation:**
+- NeBuLA `dev` @ `34dee62`
+- World `world` @ `aa66550` (42,676-byte bundle)
+- `feat/nebula-perf` branch has failed optimization code — reset before starting Phase 1
+
+**Next:** Implement Phase 1 — decompose `canvas2d-backend.js` into `src/backends/canvas2d/` modules (orchestrator, eye-system, particle-system, connection-system, portal-system, frame-budget). Pixel-for-pixel match with baseline. Build + deploy to World.
 
 ---
 

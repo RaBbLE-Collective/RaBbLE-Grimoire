@@ -1,7 +1,7 @@
 # RaBbLE-NeBuLA-Roadmap.md
 
 ```
-transcribe ~ grimoire >> delivery model added, Visual Puppet concept formalized, pre-mortem integrated // %NEBULA_PLAN_LOCKED%
+transcribe ~ grimoire >> rearchitecture integrated, effects scope added, responsibility split formalized // %NEBULA_ROADMAP_UPDATED%
 ```
 
 > **Collective Context:** NeBuLA is the rendering engine — the entity's visual expression. See `RaBbLE-Grimoire-Navigator.md` for how this fits the whole picture. See `RaBbLE-Episode-1-Release-Map.md` for Episode 1 scope across all members.
@@ -10,26 +10,38 @@ transcribe ~ grimoire >> delivery model added, Visual Puppet concept formalized,
 
 ## Episode 1 Commitment (This Member)
 
-**Ep1 Deliverable:** Canvas2D Layer 1 functional (entity renders at 60 FPS, public API stable)
+**Ep1 Deliverable:** Canvas2D Layer 1 functional (modular systems, 60 FPS, public API stable) + effects engine role established
 
-**Status:** Phases 1-3 in progress
+**Status:** Phases 1-2 complete. Phase 3 (rearchitecture) in progress.
 
 **What ships:**
 - [x] Phase 1: Build configured (esbuild IIFE + ESM)
-- [ ] Phase 2: Palette layer (colors, gradients in renderer)
-- [ ] Phase 3: Canvas2D Layer 1 (entity rendering, 60 FPS verified)
-- [ ] Public API documented (`window.NeBuLA.createPuppet(...)`)
+- [x] Phase 2: Palette layer (colors, gradients in renderer)
+- [ ] Phase 3: Canvas2D Layer 1 — modular systems architecture (rearchitecture)
+- [ ] Phase 3a: Effects systems — absorb bg.js into NeBuLA (ambient particles, grid, cursor trail, ripples)
+- [ ] Public API documented (`<rabble-entity>`, `<rabble-ambient>`, `window.NeBuLA`)
 
-**Blocker:** None — design decisions deferred to Episode 2
+**Blocker:** Canvas2D rearchitecture must land before effects systems or Three.js work.
+
+**Prerequisite:** `RaBbLE-NeBuLA-Rearchitecture.md` — 7-phase plan for modular decomposition, frame budgeting, spatial hash, glow compositing, effects absorption, World template, Three.js decomposition.
 
 **Deferred to Episode 2+:**
-- Phase 4: Three.js Layer 2 rebuild
+- Three.js Layer 2 rebuild (rearchitecture Phase 7 lays groundwork)
 - Animation system
 - Advanced shaders, WebGPU
 
 **Dependencies:**
 - Aether CSS for palette at runtime
 - World loads NeBuLA script + calls public API
+- World removes bg.js after NeBuLA effects systems ship
+
+**Responsibility split (Episode 1):**
+
+| Layer | Owns | Examples |
+|---|---|---|
+| **NeBuLA** | Particle systems, canvas animations, visual effects, entity rendering | Entity nebula, ambient particles, grid floor, cursor trail, click ripples |
+| **Aether** | Design tokens, CSS, typography, palette, component styles | Colors, fonts, layout classes, responsive breakpoints |
+| **World** | Page composition, content, user interaction, orchestration | HTML structure, Alpine.js logic, chat, boot flow, WM layout |
 
 ---
 
@@ -134,15 +146,28 @@ Original JS implementation in `RaBbLE-NeBuLA-JS/`. Established:
 #### Episode 1 Exit Conditions
 
 **Build system:**
-- [ ] esbuild added as dev dependency
-- [ ] `npm run build` outputs `dist/nebula.iife.js` and `dist/nebula.esm.js`
+- [x] esbuild added as dev dependency
+- [x] `npm run build` outputs `dist/nebula.iife.js` and `dist/nebula.esm.js`
 - [ ] Three.js is external in both builds; `ThreeJsBackend` accepts `THREE` as constructor arg
-- [ ] `dist/nebula.iife.js` sets `window.NeBuLA` with full API
+- [x] `dist/nebula.iife.js` sets `window.NeBuLA` with full API
 
-**Canvas2D backend:**
-- [ ] `Canvas2dBackend.render(streams, ctx)` draws entities by geometry type (sphere→arc, box→fillRect, tetrahedron→polygon)
-- [ ] Entropy maps to `shadowBlur` and opacity per entity
-- [ ] 480 entities render without throw; pixel data is non-zero
+**Canvas2D backend (rearchitecture — see `RaBbLE-NeBuLA-Rearchitecture.md`):**
+- [ ] Modular systems: orchestrator + eye-system + particle-system + connection-system + portal-system + frame-budget
+- [ ] Eyes render at 60fps regardless of particle load (eye draw < 1ms)
+- [ ] Boot animation with connections at 50+ fps on desktop
+- [ ] Post-boot idle at 58+ fps on desktop
+- [ ] Frame budget: 14ms target, EMA-smoothed cost tracking, priority-ordered draw
+- [ ] Spatial hash for connections: O(n×k) replaces O(n²)
+- [ ] Glow layer compositing: offscreen canvas, shadowBlur every 2 frames
+- [ ] Orchestrator under 150 lines, each system independently modifiable
+- [ ] No visual regression vs known-good baseline (NeBuLA `34dee62`, World `aa66550`)
+
+**Effects systems (absorb bg.js):**
+- [ ] `<rabble-ambient>` custom element or `NeBuLA.createAmbient()` API
+- [ ] Ambient particles, perspective grid, cursor trail, click ripples as composable systems
+- [ ] Shared frame budget with entity renderer (one RAF loop, one GPU pipeline)
+- [ ] bg.js eliminated from World
+- [ ] Bundle stays under 50KB minified
 
 **Three.js backend:**
 - [ ] `ThreeJsBackend` accepts `(canvas, THREE)` — THREE is the global, not an import
@@ -311,10 +336,12 @@ Ideas from `RaBbLE-NeBuLA-Ideas.md`:
 
 | File | Purpose |
 |---|---|
-| `RaBbLE-NeBuLA-Architecture.md` | Two-layer model, Layer 1 API, Layer 2 primitives |
+| `RaBbLE-NeBuLA-Rearchitecture.md` | **Active** — 7-phase modular decomposition + effects systems plan |
+| `RaBbLE-NeBuLA-Architecture.md` | Layer model, system interface, frame budget, effects layer |
 | `RaBbLE-NeBuLA-FlatChaos.md` | Flat-Chaos pattern spec — carry this forward |
 | `RaBbLE-NeBuLA-RABL.md` | RABL serialization format for scene export |
 | `RaBbLE-NeBuLA-RBCNS.md` | Historical naming conventions (do not follow — reference only) |
+| `RaBbLE-NeBuLA-Perf-Fix-Plan.md` | **Superseded** by Rearchitecture.md — parameter tuning (historical) |
 | `RaBbLE-NeBuLA-Ideas.md` | Enhancement proposals for Episodes 3+ |
 | `RaBbLE-NeBuLA-Identity.md` | Entity lore, origin, philosophy |
 | `RaBbLE-World/rabble-entity.js` | Layer 1 reference implementation (do not duplicate) |
@@ -323,5 +350,5 @@ Ideas from `RaBbLE-NeBuLA-Ideas.md`:
 ---
 
 ```
-transcribe ~ grimoire >> trajectory crystallized // %NEBULA_ROADMAP_LOCKED%
+transcribe ~ grimoire >> trajectory updated, rearchitecture integrated // %NEBULA_ROADMAP_UPDATED%
 ```

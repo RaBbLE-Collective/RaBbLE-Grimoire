@@ -1,7 +1,7 @@
 # RaBbLE-World-Architecture.md
 
 ```
-transcribe ~ grimoire >> system map crystallized // %ARCHITECTURE_LOCKED%
+transcribe ~ grimoire >> system map updated: bg.js absorption, applet consolidation planned // %ARCHITECTURE_UPDATED%
 ```
 
 System map for the RaBbLE-World frontend. Read this before modifying any shared module or adding a new surface.
@@ -69,7 +69,9 @@ Shared identity layer. Always loaded first, before any page CSS.
 
 ---
 
-### `rabble-bg.js`
+### `rabble-bg.js` — **being absorbed by NeBuLA**
+
+> **Migration in progress:** bg.js is being absorbed into NeBuLA as composable effect systems (Phase 5 of `RaBbLE-NeBuLA-Rearchitecture.md`). After migration, World will use `<rabble-ambient particles grid>` or `NeBuLA.createAmbient()` instead. bg.js will be archived.
 
 Ambient background system. Creates fixed-position canvases inserted *before all other content* in the DOM — this is intentional so they sit behind everything without affecting layout.
 
@@ -89,6 +91,12 @@ bg.destroy(); // cancel loop, remove canvases
 - Chat: `{ particles: true, grid: true }`
 
 The particle field uses Lissajous drift and color-cycles through the palette. All pixel constants in this file are tagged `STABLE` — do not change them without testing boot regression (they must match the entity renderer's visual weight).
+
+**Post-migration replacement:**
+```html
+<rabble-ambient particles grid></rabble-ambient>
+```
+Both `<rabble-entity>` and `<rabble-ambient>` share a NeBuLA frame budget coordinator — one RAF loop, one GPU pipeline. This eliminates the dual-renderer GPU contention that made bg.js + entity run poorly together.
 
 ---
 
@@ -305,6 +313,37 @@ Skeleton: see `RaBbLE-World-README.md → Adding a New Page`.
 
 ---
 
+## Planned: Applet Consolidation (Phase 6 of NeBuLA Rearchitecture)
+
+> See `RaBbLE-NeBuLA-Rearchitecture.md` Phase 6 for full spec.
+
+The separate pages (RaBbLE-Chat.html, RaBbLE-Docs.html, RaBbLE-OS.html) will be consolidated into WM applets within the landing page. The landing page becomes the single entry point.
+
+**Target architecture:**
+- `index.html` is the shell: Aether CSS + NeBuLA effects + WM layout + applet slots
+- Each "page" becomes a WM applet (tiled by RaBbLE-wm.js)
+- Entity lives in its own applet slot, always visible
+- Chat, Docs, OS info are applets that can be focused/tiled/minimized
+
+**Landing page template (canonical for new RaBbLE/NeBuLA pages):**
+```html
+<head>
+  <link rel="stylesheet" href="/css/RaBbLE-theme.css">
+  <script src="/js/RaBbLE-NeBuLA.js"></script>
+</head>
+<body>
+  <rabble-ambient particles grid></rabble-ambient>
+  <rabble-entity mode="boot" particle-count="480" overscan="2.35"></rabble-entity>
+  <!-- Applets load into WM slots -->
+</body>
 ```
-transcribe ~ grimoire >> architecture mapped, surfaces documented // %MAP_CRYSTALLIZED%
+
+No bg.js. No separate pages. One shell, NeBuLA for all visual effects, Aether for all styling. Boot.html stays as a Plymouth boot screen reference artifact for RaBbLE-OS.
+
+This can proceed in parallel with NeBuLA decomposition (phases 1-5).
+
+---
+
+```
+transcribe ~ grimoire >> architecture updated, applet consolidation planned // %ARCHITECTURE_UPDATED%
 ```

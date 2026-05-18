@@ -1,14 +1,28 @@
 # RaBbLE-NeBuLA-Architecture.md
 
 ```
-transcribe ~ grimoire >> NeBuLA rendering architecture documented // %NEBULA_ARCH_LOCKED%
+transcribe ~ grimoire >> architecture updated: system interface, frame budget, effects layer, responsibility split // %NEBULA_ARCH_UPDATED%
 ```
 
 ---
 
 ## What NeBuLA Is
 
-NeBuLA is the rendering and expression layer of the RaBbLE Collective — not a chat interface, not a dashboard. It is a theatrical, animated environment through which the RaBbLE entity expresses itself in rendered space.
+NeBuLA is the **visual effects engine** of the RaBbLE Collective — not just the entity renderer. Any particle system, ambient effect, or canvas animation in the Collective belongs in NeBuLA. It is a theatrical, animated environment through which the RaBbLE entity expresses itself in rendered space.
+
+NeBuLA owns:
+- Entity rendering (eyes, portal, particle nebula, boot sequence)
+- Ambient visual effects (particle fields, perspective grids, cursor trails, click ripples)
+- Frame budget coordination across all visual systems
+- Canvas2D and Three.js rendering backends
+
+Aether owns look-and-feel (design tokens, CSS, typography, palette). World is a thin consumer that composes NeBuLA effects + Aether design tokens.
+
+| Layer | Owns | Examples |
+|---|---|---|
+| **NeBuLA** | Particle systems, canvas animations, visual effects, entity rendering | Entity nebula, ambient particles, grid floor, cursor trail, click ripples |
+| **Aether** | Design tokens, CSS, typography, palette, component styles | Colors, fonts, layout classes, responsive breakpoints |
+| **World** | Page composition, content, user interaction, orchestration | HTML structure, Alpine.js logic, chat, boot flow, WM layout |
 
 NeBuLA-JS (the original implementation) established the core patterns. The clean rebuild targets modern ES modules + Three.js r160+.
 
@@ -146,6 +160,79 @@ Commands:
 
 ---
 
+## RenderSystem Interface (Canvas2D Rearchitecture)
+
+> Full plan: `RaBbLE-NeBuLA-Rearchitecture.md`
+
+Every visual subsystem implements a common interface:
+
+```js
+class RenderSystem {
+  update(t, bootState, entropy) {}  // physics/state — always runs, every frame (cheap)
+  draw(ctx, t, bootState)       {}  // canvas drawing — can be skipped by frame budget
+  resize(cx, cy)                {}  // reposition on viewport change
+  dispose()                     {}  // cleanup
+}
+```
+
+**Key contract:** `update()` always runs (spring integration, blink FSM, phase accumulation). `draw()` can be deferred by the frame budget. This separation is what makes eyes always responsive even when particles are heavy.
+
+**Priority order:** eyes > portals > connections > particles > ambient effects.
+
+### Module Map (Canvas2D)
+
+```
+src/backends/canvas2d/
+  index.js              — Orchestrator: boot state, RAF, frame budget (~120 lines)
+  eye-system.js         — Saccade, blink FSM, spring physics, orb+halo drawing
+  particle-system.js    — Particle init, position update, draw with glow compositing
+  connection-system.js  — Spatial hash topology, batched stroke
+  portal-system.js      — Portal arc drawing
+  frame-budget.js       — Time-slice allocator with priority ordering
+
+src/effects/
+  ambient-particles.js  — Full-screen ambient particle field (absorbs bg.js particles)
+  perspective-grid.js   — Outrun perspective grid (absorbs bg.js grid)
+  cursor-trail.js       — Neon cursor trail (absorbs bg.js cursor trail)
+  click-ripples.js      — Click ripple effect (absorbs bg.js ripples)
+```
+
+---
+
+## Frame Budget
+
+- **Target:** 14ms per frame (leaves 2ms for browser overhead at 60fps)
+- **EMA-smoothed cost tracking** per system — predicts next frame's cost from history
+- Eyes and portals always draw (<1.5ms combined). Connections and particles are budgeted.
+- **Minimum particle draw:** every 3 frames (20fps particle layer floor, 60fps eyes)
+- Under heavy load, glow interval auto-increases to 3–4 frames
+- Both `<rabble-entity>` and `<rabble-ambient>` share a frame budget coordinator (`window.NeBuLA._budget`). One RAF loop, one GPU pipeline.
+
+---
+
+## Effects Layer (Ambient Systems)
+
+NeBuLA provides ambient visual effects alongside the entity renderer. These absorb World's `RaBbLE-bg.js` functionality:
+
+| Effect | Source | What it does |
+|---|---|---|
+| Ambient particles | bg.js particle field | Full-screen particle drift with proximity connections |
+| Perspective grid | bg.js grid | Outrun vanishing-point grid |
+| Cursor trail | bg.js cursor trail | Neon tail following mouse |
+| Click ripples | bg.js click ripples | Expanding rings on click |
+
+Each effect implements the RenderSystem interface and plugs into the shared frame budget.
+
+**Consumer API:**
+```js
+const bg = NeBuLA.createAmbient(document.body, {
+  particles: true, grid: true, cursorTrail: false, clickRipples: false,
+});
+// Or: <rabble-ambient particles grid></rabble-ambient>
+```
+
+---
+
 ## Subsystem Files (Original NeBuLA-JS)
 
 | File | Role |
@@ -171,5 +258,5 @@ Commands:
 ---
 
 ```
-transcribe ~ grimoire >> NeBuLA substrate mapped // %NEBULA_ARCH_LOCKED%
+transcribe ~ grimoire >> NeBuLA substrate mapped, rearchitecture integrated // %NEBULA_ARCH_UPDATED%
 ```
