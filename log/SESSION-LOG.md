@@ -5,18 +5,53 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-17 · Session 14
+## LATEST — 2026-05-17 · Session 15
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S14):** Three.js entity fully ported from Xperimental — eyes, connections, portals, orbit controls, boot animation. Both Canvas2D and Three.js now show matching entity with Summon animation.
-**Active blockers:** sCoRE Railway deploy unverified · OS VM bootstrap unverified.
-**Next:** Visual QA on both backends · prod deploy · sCoRE verify.
+**Last session (S15):** NeBuLA Canvas2D performance triage + Grimoire browser feature branches. Connections fixed (batched 1 stroke(), boot reveal from frame 1). Codex branch cleaned up. Two plan docs written for handoff. Entity spec landed in Aether + NeBuLA. Performance partially improved — connections still too dense. Plans ready for Sonnet pickup.
+**Active blockers:** NeBuLA Canvas2D fps (connections too numerous — see RaBbLE-NeBuLA-Perf-Fix-Plan.md) · sCoRE Railway unverified · OS VM unverified.
+**Next:** Follow RaBbLE-NeBuLA-Perf-Fix-Plan.md (step=4, connDist=55px, MAX_DRAWN=200) then RaBbLE-Grimoire-Browser-Plan.md.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
 ---
 
 ## 2026-05-17 (Session 14) — Three.js entity: eyes, connections, portals, orbit, boot animation
+
+## 2026-05-17 (Session 15) — NeBuLA perf triage; Grimoire browser feature branches; entity spec
+
+**Repos touched:** RaBbLE-NeBuLA (`dev`), RaBbLE-World (`world`), RaBbLE-Aether (`feat/grimoire-entity-spec`), RaBbLE-NeBuLA (`feat/grimoire-entity-spec`), RaBbLE-Grimoire
+
+**Objective:** Fix Canvas2D entity performance after Codex left it broken; begin Grimoire browser integration; get the whole ecosystem oriented for handoff.
+
+**Work done:**
+
+**NeBuLA — Canvas2D performance triage:**
+- Identified Codex's `feature-nebula-animation-optimization` branch as cause of regressions; cleaned it up
+- Root cause 1: bundle in `world/js/RaBbLE-NeBuLA.js` was Codex's old code — World never loads from `dist/`. Fixed: build:iife + cp workflow documented.
+- Root cause 2: 280 individual `stroke()` calls per frame (Codex's precomputed links with bezier). Fixed: batched dynamic connection rendering — 1 `stroke()` for all connections.
+- Root cause 3: `_rebuildLinks()` O(n²) called on every slider input. Fixed: `_scheduleRebuild()` flag, runs once per frame.
+- Root cause 4: shadowBlur on all particles. Fixed: glow-only particles (~45%) get blur; others skip state change.
+- Boot reveal fixed: connections visible from boot frame 1 (was invisible until post-convergence).
+- Adaptive quality: dims `_adaptiveGlow` first (reduces shadowBlur), particles only as last resort.
+- Remaining issue: connections still too numerous (step=2, connDist=82px → ~8k segments/frame). Plan doc written.
+
+**Grimoire browser integration (feature branches):**
+- Branches created: `feat/grimoire-entity-spec` in Aether + NeBuLA, `feat/grimoire-summoning-circle` in World (actually in NeBuLA repo — needs to be recreated in World)
+- Entity spec + reference images copied to Aether and NeBuLA
+- CONTEXT.md files updated in Aether and NeBuLA to reference entity spec
+- Plan doc written: `RaBbLE-World/RaBbLE-Grimoire-Browser-Plan.md`
+
+**Grimoire:**
+- `RaBbLE-NeBuLA/RaBbLE-NeBuLA-Perf-Fix-Plan.md` — actionable perf fix plan for Sonnet handoff
+- `RaBbLE-World/RaBbLE-Grimoire-Browser-Plan.md` — Grimoire browser integration plan for Sonnet
+- SESSION-LOG updated
+
+**Key discovery:** `world/js/RaBbLE-NeBuLA.js` is the full inlined bundle, not a CDN loader. Any src change requires `npm run build:iife && cp dist/nebula.iife.js ../RaBbLE-World/world/js/RaBbLE-NeBuLA.js`.
+
+**Next (for handoff agent):** Follow `RaBbLE-NeBuLA-Perf-Fix-Plan.md` first (step=4, connDist=55px, MAX_DRAWN=200, glow ratio 0.28). Then `RaBbLE-Grimoire-Browser-Plan.md`.
+
+---
 
 **Repos touched:** RaBbLE-NeBuLA, RaBbLE-World, RaBbLE-Grimoire
 
