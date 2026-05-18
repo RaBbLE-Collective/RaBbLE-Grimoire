@@ -84,6 +84,38 @@ bash spells/install-theme.sh
 
 ---
 
+### `spells/visual-screenshot.sh` — Agent Visual Capture
+
+Lets an agent **see** rendered output. Opens a URL in Firefox, uses `hyprctl` to focus the window, captures the focused monitor with `grim`, and prints a machine-readable `SCREENSHOT: /path` line. The agent reads the captured image back to verify visual changes — CSS, canvas animations, layout, entity rendering, anything on-screen.
+
+Originally built for NeBuLA/World Canvas2D testing, but general-purpose: point it at any dev server or local HTML file. Modify `--delay` for pages that need more load time.
+
+```bash
+# Capture default dev server (localhost:8000)
+bash spells/visual-screenshot.sh
+
+# Specific page or file
+bash spells/visual-screenshot.sh --url http://localhost:8000/world/Boot.html
+bash spells/visual-screenshot.sh --url file:///path/to/index.html --out ./shot.png
+
+# Capture then close Firefox (clean agent loop)
+bash spells/visual-screenshot.sh --url http://localhost:8000 --close
+
+# More render time for heavy pages
+bash spells/visual-screenshot.sh --url http://localhost:8000 --delay 3
+```
+
+**Agent usage pattern:**
+1. Make code change
+2. `npm run build && bash spells/visual-screenshot.sh --url http://localhost:8000 --close`
+3. Read the path from `SCREENSHOT: /path` line — Claude Code can read PNG files directly
+4. Verify the change visually, iterate
+
+**Output:** `~/RaBbLE-screenshots/visual-TIMESTAMP.png` by default.  
+**Requires:** `hyprctl`, `firefox`, `grim`, active Hyprland session (RaBbLE-OS). `jq` optional (improves monitor targeting).
+
+---
+
 ## Planned (Not Yet Implemented)
 
 These were in the original SPELLS.md framework spec. Deferred until the propagation mechanism is decided:
