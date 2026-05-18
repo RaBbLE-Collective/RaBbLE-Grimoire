@@ -5,14 +5,46 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-17 · Session 16
+## LATEST — 2026-05-17 · Session 17
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S16):** NeBuLA perf attempt. Rolled back both repos to known-good baseline. World `world` → `aa66550`, NeBuLA `dev` → `34dee62`. Perf work preserved on `feat/nebula-perf` branch in both repos. Key discovery: pre-computed links are wrong during boot scatter (long path segments expensive even at low alpha). Plan: use dynamic step=4 during boot only.
-**Active blockers:** NeBuLA Canvas2D fps still unresolved · sCoRE Railway unverified · OS VM unverified.
-**Next:** Follow `RaBbLE-NeBuLA-Perf-Fix-Plan.md` on `feat/nebula-perf` branch — test visually with dev-serve.sh before committing. `a6f5271 codex changes (laggy)` commit in World history still needs cleanup (rename to Pulse Protocol).
+**Last session (S17):** NeBuLA Canvas2D connection + perf debugging. Tried three approaches on dev branch (reduced connDist, batched stroke, MAX_DRAWN cap) — connections disappeared. Root cause unclear (drift accumulation vs connDist mismatch). Rolled back to clean known-good: NeBuLA `dev` @ `34dee62`, World `world` @ `aa66550` (42,676-byte bundle). Perf work on `feat/nebula-perf` still there. Handed off to Opus 4.6 for architecture refactor.
+**Active blockers:** NeBuLA Canvas2D post-boot connections too dense + no connDist fix worked · sCoRE Railway unverified · OS VM unverified.
+**Architectural goal for next agent:** Composite entity in layers — particles+connections on bottom canvas, eyes on separate top canvas at always-60fps. Eyes must never drop below 60fps regardless of particle load.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-17 (Session 17) — NeBuLA connection debugging + handoff to Opus 4.6
+
+**Repos touched:** RaBbLE-NeBuLA (`dev`), RaBbLE-World (`world`), RaBbLE-Grimoire
+
+**Objective:** Fix post-boot connection density (too dense, pop-in effect) without breaking performance.
+
+**Known-good baseline (both repos clean here):**
+- NeBuLA `dev` branch @ `34dee62` — pre-S15 canvas2d-backend.js
+- World `world` branch @ `aa66550` — 42,676-byte bundle (`var W=...` start)
+
+**What was tried on dev branch (all reverted):**
+1. Reduced `connDist` from 106px → 53px + batched single stroke + step=4 + MAX_DRAWN=150 → zero connections visible
+2. Increased `connDist` to 85px — still zero connections
+3. Root cause hypothesis: particles accumulate ~30px idle drift from the sinusoidal velocity update (no spring force post-boot), so a 85px connDist should work but doesn't
+
+**What we know about the rendering architecture:**
+- All entity elements (particles, connections, portals, eyes) draw to ONE canvas in one loop
+- `shadowBlur` on ~45% of particles (glow=true) is the #1 GPU cost
+- Individual `ctx.stroke()` per connection (original code) = ~300 GPU flushes/frame at post-boot density — must be batched
+- `feat/nebula-perf` branch has: `_hasBooted` gate, entropy gate, hybrid dynamic/precomputed connections, adaptive glow, wall-clock FPS tracking — but hits 1fps on post-boot glow cliff
+
+**Architectural direction handed to Opus 4.6:**
+- Split into TWO canvases: particle/connection layer (bottom) + eye layer (top)
+- Eye canvas runs its own RAF at 60fps, never blocked by particle load
+- Particle canvas can drop frames gracefully when under load
+- Connection batching (one `beginPath`+`stroke` per frame) is non-negotiable
+- `connDist` needs to account for idle drift (~30px oscillation amplitude) — try 85-100px
+
+**Next:** Opus 4.6 to refactor `canvas2d-backend.js` with layered architecture. Work on `feat/nebula-perf` branch, test visually with dev-serve.sh, then merge to dev when stable.
 
 ---
 
