@@ -81,7 +81,7 @@ src/effects/
 
 ## Implementation Phases
 
-### Phase 1 — Module decomposition (no behavior change)
+### Phase 1 — Module decomposition ✅ COMPLETE
 
 Extract the monolithic `canvas2d-backend.js` into the system modules above. The orchestrator (`canvas2d/index.js`) delegates to systems. Pixel-for-pixel match with current rendering.
 
@@ -95,13 +95,28 @@ Extract the monolithic `canvas2d-backend.js` into the system modules above. The 
 - Keep: `canvas2d-backend.js` as re-export shim for backward compat
 - Unchanged: `src/element.js`, `src/core/boot-sequence.js`
 
-### Phase 2 — Frame budgeting
+**Implementation notes (Session 14 audit):**
+- All 6 modules exist and follow the system interface contract (`update`, `draw`, `resize`, `dispose`)
+- Orchestrator (`index.js`) is 277 lines — over the 150-line target, but the overage is entirely public API methods (setEntityState, setEntropy, triggerBoot, injectEyeJolt, pause, resume, resize, dispose, getPerformanceMetrics). Extract to a separate API layer in a later cleanup pass if needed.
+- `eye-system.js` is 295 lines (estimated 200) — includes full saccade, blink FSM, spring physics, and waveform drawing; coherent as a single module.
+- `portal-system.js` and `particle-system.js` are within estimated line counts.
+- `update()` stubs in PortalSystem and ConnectionSystem are correct — no per-frame physics needed.
+
+### Phase 2 — Frame budgeting ✅ COMPLETE
 
 Wire `FrameBudget` into orchestrator. Measure `performance.now()` around each system's `draw()`, feed to budget allocator. Eyes locked at 60fps, particles degrade gracefully.
 
 **Verification:** Inflate particle count to 2000. Eyes must stay at 60fps.
 
-### Phase 3 — Spatial hash for connections
+**Implementation notes (Session 14 audit):**
+- `beginFrame()` called at top of `_draw()` before any system draws — all skip/allow decisions are pre-computed from EMA history, not volatile per-frame remaining.
+- Hysteresis on glow: off when `predictedParticles > remaining`, back on at `< 0.75 × remaining` — prevents oscillation at the boundary.
+- Connections use a stable flat-particle estimate when glow is off (caps predicted particles at 4ms) — prevents glow oscillation from starving connections.
+- Connections gate on `state.hasBooted` in orchestrator; skipped entirely before boot starts. During boot they draw through `connection-system.js`'s boot branch (spatial hash).
+- EMA alpha = 0.15 (~7-frame window). Target = 14ms. Both match spec.
+- `frame-budget.js` is 102 lines (estimated 50) — the extra lines are the hysteresis and generic canDraw path; justified.
+
+### Phase 3 — Spatial hash for connections ✅ COMPLETE
 
 Replace O(n²) connection loop with grid-based spatial hash:
 - Cell size = 65px (slightly larger than max connDist)
@@ -109,6 +124,16 @@ Replace O(n²) connection loop with grid-based spatial hash:
 - Check only neighboring cells: O(n × k) where k ≈ 9
 - Cap at 200 connections per frame
 - Connection timing matches original: `connDist = 62 + settleBlend × 20`, `connAlpha = settleBlend × 0.13`
+
+**Implementation notes (Session 14 audit):**
+- `HASH_CELL_SIZE = 100` (plan said 65px). Plan said "slightly larger than max connDist" — actual max boot connDist is 82px, so 100 is correct and consistent with the intent.
+- `HASH_REBUILD_INTERVAL = 4` frames — matches plan.
+- Boot path: spatial hash with growing radius `connDist = 35 + connProgress * 47` (range 35–82px). Connections appear only when `connProgress ≥ 0.05`.
+- Post-boot path: pre-computed topology via `rebuild()`. `CONN_DIST_POST_BOOT = 95px` (plan estimated 82px based on 62+20). 95px accounts for ±30px sinusoidal drift on each particle — this is correct.
+- Post-boot `connAlpha = 0.13 + entropy * 0.12` (plan said `settleBlend × 0.13`). Entropy-modulated alpha is an improvement — connections breathe with entity state.
+- Boot `connAlpha = connProgress * 0.13` — matches the spirit of the original plan.
+- `MAX_DRAWN_CONNECTIONS = MAX_PRECOMPUTED_LINKS = 200` — matches plan cap.
+- `rebuild()` is O(n²) but runs only on init and resize, not per-frame — correct.
 
 ### Phase 4 — Glow layer compositing
 

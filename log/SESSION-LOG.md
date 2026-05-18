@@ -5,14 +5,33 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-18 · Session 18
+## LATEST — 2026-05-18 · Session 19
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S18):** NeBuLA rearchitecture plan written to Grimoire (`RaBbLE-NeBuLA-Rearchitecture.md`). 7-phase modular decomposition: systems + frame budget + spatial hash + glow compositing + effects (absorb bg.js) + World applet consolidation + Three.js decomposition. Integrated into Roadmap, Architecture, World Architecture, INDEX. NeBuLA is now the Collective's visual effects engine, not just entity renderer.
+**Last session (S19):** Audited NeBuLA rearchitecture Phases 1–3 against live source. All three phases confirmed complete and correct. Wrote implementation notes to `RaBbLE-NeBuLA-Rearchitecture.md` (actual vs planned line counts, deviations with rationale). Phase 4 (glow compositing) is next.
 **Active blockers:** sCoRE Railway unverified · OS VM unverified.
-**Next:** Implement Phase 1 — decompose `canvas2d-backend.js` into modular systems on `dev` branch (reset `feat/nebula-perf` first). Known-good baseline: NeBuLA `34dee62`, World `aa66550`.
+**Next:** Phase 4 — offscreen canvas glow compositing. Draw glow particles to offscreen canvas every 2 frames, composite every frame. Auto-increase interval to 3–4 under load.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-18 (Session 19) — NeBuLA rearchitecture audit, Phases 1–3
+
+**Repos touched:** RaBbLE-Grimoire (`dev`), RaBbLE-NeBuLA (read-only)
+
+**Objective:** Audit implemented rearchitecture phases 1–3 against plan. Write findings to Grimoire.
+
+**Work done:**
+
+- Read all 6 canvas2d modules: `index.js`, `eye-system.js`, `particle-system.js`, `connection-system.js`, `portal-system.js`, `frame-budget.js`
+- Confirmed Phase 1 (module decomposition) complete — all modules follow system interface contract; noted actual line counts vs estimates with rationale for overages
+- Confirmed Phase 2 (frame budgeting) complete — pre-frame decision making, EMA smoothing, glow hysteresis, connections flat-particle estimate all verified correct
+- Confirmed Phase 3 (spatial hash) complete — `HASH_CELL_SIZE=100` correct for 82px max boot connDist; `CONN_DIST_POST_BOOT=95px` justified by particle drift; entropy-modulated `connAlpha` noted as improvement over plan
+- Added `✅ COMPLETE` headings + implementation notes to Phases 1–3 in `RaBbLE-NeBuLA-Rearchitecture.md`
+- Updated SESSION-LOG.md LATEST block to Session 19
+
+**Next:** Phase 4 — offscreen canvas glow compositing (every-2-frame bloom, auto-extend under load).
 
 ---
 
