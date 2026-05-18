@@ -8,7 +8,7 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-05-18 · Session 19
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S19):** Audited NeBuLA rearchitecture Phases 1–3 against live source. All three phases confirmed complete and correct. Wrote implementation notes to `RaBbLE-NeBuLA-Rearchitecture.md` (actual vs planned line counts, deviations with rationale). Phase 4 (glow compositing) is next.
+**Last session (S19):** NeBuLA rearchitecture Phases 1–3 audited and documented. `visual-screenshot.sh` spell wired — agents can now capture rendered output and read PNGs to verify visual changes. Grimoire `dev` rebased onto main's initial commit (disconnected orphan root fixed), force-pushed.
 **Active blockers:** sCoRE Railway unverified · OS VM unverified.
 **Next:** Phase 4 — offscreen canvas glow compositing. Draw glow particles to offscreen canvas every 2 frames, composite every frame. Auto-increase interval to 3–4 under load.
 
@@ -30,6 +30,11 @@ Format: date, what was done, where things were left, what's next.
 - Confirmed Phase 3 (spatial hash) complete — `HASH_CELL_SIZE=100` correct for 82px max boot connDist; `CONN_DIST_POST_BOOT=95px` justified by particle drift; entropy-modulated `connAlpha` noted as improvement over plan
 - Added `✅ COMPLETE` headings + implementation notes to Phases 1–3 in `RaBbLE-NeBuLA-Rearchitecture.md`
 - Updated SESSION-LOG.md LATEST block to Session 19
+
+**Additional work (same session):**
+
+- **Grimoire `dev` rebase** — `dev` had an orphan root (`77714c8`) disconnected from `main`'s initial commit (`39bc9c7`); only difference was a missing LICENSE. Rebased all 67 dev commits onto `39bc9c7` via `git rebase --onto 39bc9c7 77714c8 dev`. Force-pushed — GitHub "1 commit behind main" warning resolved.
+- **`spells/visual-screenshot.sh` wired** — Improved defaults (URL: `localhost:8000`, OUT: `~/RaBbLE-screenshots/`), added `--close` flag, added `--delay` flag, added machine-readable `SCREENSHOT: /path` output line. Updated SPELLS.md entry with full agent usage pattern (build → capture → Read PNG). Added "Visual Verification" sections to NeBuLA and World `AGENT.md` so agents know to use it.
 
 **Next:** Phase 4 — offscreen canvas glow compositing (every-2-frame bloom, auto-extend under load).
 
