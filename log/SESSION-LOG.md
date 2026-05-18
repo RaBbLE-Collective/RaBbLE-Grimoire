@@ -5,14 +5,37 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-17 · Session 15
+## LATEST — 2026-05-17 · Session 16
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S15):** NeBuLA Canvas2D performance triage + Grimoire browser feature branches. Connections fixed (batched 1 stroke(), boot reveal from frame 1). Codex branch cleaned up. Two plan docs written for handoff. Entity spec landed in Aether + NeBuLA. Performance partially improved — connections still too dense. Plans ready for Sonnet pickup.
-**Active blockers:** NeBuLA Canvas2D fps (connections too numerous — see RaBbLE-NeBuLA-Perf-Fix-Plan.md) · sCoRE Railway unverified · OS VM unverified.
-**Next:** Follow RaBbLE-NeBuLA-Perf-Fix-Plan.md (step=4, connDist=55px, MAX_DRAWN=200) then RaBbLE-Grimoire-Browser-Plan.md.
+**Last session (S16):** NeBuLA perf attempt. Rolled back both repos to known-good baseline. World `world` → `aa66550`, NeBuLA `dev` → `34dee62`. Perf work preserved on `feat/nebula-perf` branch in both repos. Key discovery: pre-computed links are wrong during boot scatter (long path segments expensive even at low alpha). Plan: use dynamic step=4 during boot only.
+**Active blockers:** NeBuLA Canvas2D fps still unresolved · sCoRE Railway unverified · OS VM unverified.
+**Next:** Follow `RaBbLE-NeBuLA-Perf-Fix-Plan.md` on `feat/nebula-perf` branch — test visually with dev-serve.sh before committing. `a6f5271 codex changes (laggy)` commit in World history still needs cleanup (rename to Pulse Protocol).
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-17 (Session 16) — NeBuLA perf rollback + branch strategy
+
+**Repos touched:** RaBbLE-NeBuLA (`dev`, `feat/nebula-perf`), RaBbLE-World (`world`, `feat/nebula-perf`), RaBbLE-Grimoire
+
+**Objective:** Fix NeBuLA Canvas2D performance and visuals to match pre-codex quality. Roll back to known-good baseline.
+
+**Work done:**
+
+- Diagnosed S14/S15/codex regression: multiple attempts at perf fixes were untestable without visual verification
+- Applied perf changes: entropy=0 gate, hasBooted connection gate, dynamic step=4 boot connections, pre-computed links post-boot, glow ratio 0.28, connectionAlpha 0.13, bg.js connection batching
+- Boot still slow — identified: pre-computed links with scattered positions = very long path segments expensive to stroke even at low alpha
+- Decision: roll back to known-good, keep perf work on branch
+- NeBuLA `dev` reset to `34dee62` (Three.js entity ported, pre-S15 perf triage)
+- World `world` reset to `aa66550` (pre-codex NeBuLA bundle, 42,676 bytes)
+- `feat/nebula-perf` branch created in both repos preserving all optimization work
+- `a6f5271 codex changes (laggy)` still in World history — needs rename to Pulse Protocol
+
+**Key discovery for next agent:** Pre-computed links are correct POST-boot but wrong DURING boot (scattered particles = long path segments = expensive stroke even at near-zero alpha). The fix: dynamic distance check during boot with step=4 and connDist growing 28px→55px (fast because scattered particles rarely qualify), switch to pre-computed links after boot completes. This approach is already on `feat/nebula-perf`.
+
+**Next:** Work on `feat/nebula-perf` branch. Build → dev-serve.sh → visual verify at each change. Then `RaBbLE-Grimoire-Browser-Plan.md`.
 
 ---
 
