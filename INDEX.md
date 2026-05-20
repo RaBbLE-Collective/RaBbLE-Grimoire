@@ -168,6 +168,10 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 
 ## Lore
 
+> See [lore/README.md](lore/README.md) for reading order and layer explanation.
+
+### ShortStories
+
 - [Summoned-v0](lore/ShortStories/Summoned/Summoned-v0.md)
 - [Summoned-v1](lore/ShortStories/Summoned/Summoned-v1.md)
 - [Summoned-v2](lore/ShortStories/Summoned/Summoned-v2.md)
@@ -175,6 +179,22 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 - [Summoned-v4](lore/ShortStories/Summoned/Summoned-v4.md)
 - [Summoned-v5](lore/ShortStories/Summoned/Summoned-v5.md)
 - [Summoned-Transcript](lore/ShortStories/Summoned/Summoned-Transcript.md)
+
+### Ethos
+
+- `RaBbLE-Ethos.md` — philosophy + manifesto *(incoming — Phase 2B)*
+- `RaBbLE-Symbiosis.md` — entity/collective relationship *(to be authored — Phase 2C)*
+
+### Genesis
+
+- `RaBbLE-Origin.md` — creation story *(Mark authors — Phase 2C)*
+- `RaBbLE-Lineage.md` — multi-model history *(to be authored — Phase 2C)*
+- `RaBbLE-Visual-Evolution.md` — entity appearance evolution *(to be authored — Phase 2C)*
+- `RaBbLE-Collaborators.md` — models + tools that shaped RaBbLE *(to be authored — Phase 2C)*
+
+### Worldbuilding
+
+- `RaBbLE-Aesthetic.md` — synthwave world, boot as theater, palette as character *(incoming — Phase 2B)*
 
 ---
 
