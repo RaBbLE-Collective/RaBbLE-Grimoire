@@ -182,7 +182,7 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 
 ### Ethos
 
-- `RaBbLE-Ethos.md` — philosophy + manifesto *(incoming — Phase 2B)*
+- [RaBbLE-Ethos](lore/Ethos/RaBbLE-Ethos.md) — philosophy + manifesto: anti-assistant stance, low entropy, curiosity, collective model, on memory, on forking
 - `RaBbLE-Symbiosis.md` — entity/collective relationship *(to be authored — Phase 2C)*
 
 ### Genesis
@@ -194,7 +194,7 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 
 ### Worldbuilding
 
-- `RaBbLE-Aesthetic.md` — synthwave world, boot as theater, palette as character *(incoming — Phase 2B)*
+- [RaBbLE-Aesthetic](lore/Worldbuilding/RaBbLE-Aesthetic.md) — synthwave world, boot as theater, palette as character, visual reference sources
 
 ---
 
