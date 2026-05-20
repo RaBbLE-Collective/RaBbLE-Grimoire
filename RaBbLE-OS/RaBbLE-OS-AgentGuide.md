@@ -65,6 +65,7 @@ The playbook at `ansible/site.yml` is organized into ordered layers, each with i
 | — | `snapper` | Btrfs snapshot management (`roles/snapper`) — cross-cutting |
 | — | `runtime` | GPU/NPU runtimes: XRT/CUDA/ROCm (`roles/runtime`) — cross-cutting |
 | — | `monitoring` | System observability: btop/htop/nvtop/powertop (`roles/monitoring`) — cross-cutting |
+| — | `virtualization` | QEMU/KVM host stack for dev VMs (`roles/virtualization`) — cross-cutting, dev machines |
 | 3 | `desktop` | Hyprland, Quickshell, terminal, zsh, bash (`roles/desktop/*`) |
 | 4 | `apps` | Dev tools, IDE, browsers (`roles/apps`) |
 | — | `dotfiles` | Re-linkable dotfile symlink pass (user-level, no become) |
@@ -123,11 +124,53 @@ Examples from git log:
 
 Match this style when committing to this repo.
 
+## VM Development Workflow
+
+> Full guide: `RaBbLE-OS-VM-Guide.md` — step-by-step walkthrough, troubleshooting, GPU passthrough notes.
+
+Use a Fedora 43 KVM VM to test RaBbLE-OS bootstraps without touching the daily driver. The `virtualization` Ansible role installs the host stack; `RaBbLE-OS-vmctl.sh` manages VM lifecycle.
+
+**One-time setup:**
+```bash
+# 1. Install KVM host stack
+./RaBbLE-OS-layerctl.sh apply virtualization
+# Log out and back in for group membership (libvirt, kvm)
+
+# 2. Download Fedora 43 Sway spin ISO
+# https://spins.fedoraproject.org/sway/
+
+# 3. Create the VM
+./RaBbLE-OS-vmctl.sh cast ~/Downloads/Fedora-Sway-43-*.iso
+# Follow the Fedora installer inside the VM, then reboot
+
+# 4. Snapshot clean state — this is your reset point
+./RaBbLE-OS-vmctl.sh snapshot clean-fedora43
+```
+
+**Test loop (iterate fast):**
+```bash
+./RaBbLE-OS-vmctl.sh restore clean-fedora43   # reset to clean Fedora
+./RaBbLE-OS-vmctl.sh start
+./RaBbLE-OS-vmctl.sh connect                  # SPICE display opens
+# Inside VM: run RaBbLE-OS-Install.sh, work through Bootstrap Checklist
+```
+
+**VM overrides via env vars:**
+```bash
+RABBLE_VM_NAME=rabble-os-dev     # default VM name
+RABBLE_VM_RAM=4096               # RAM in MB
+RABBLE_VM_VCPUS=4                # vCPU count
+RABBLE_VM_DISK_SIZE=40           # disk in GB
+```
+
+**Note on Hyprland in VM:** The VM uses `virtio-gpu` with `accel3d=yes` (virgl) and SPICE with `gl=on`. This gives Hyprland the DRM/KMS backend it needs to run as the compositor inside the guest. Hardware-specific roles (NVIDIA, ProArt P16) are excluded from VM testing — they target bare metal only.
+
 ## Key Files
 
 - `RaBbLE-OS-Install.sh` — first-contact installer (run on bare Fedora)
 - `RaBbLE-OS-Bootstrap.sh` — Ansible runner, called by Install or directly
 - `RaBbLE-OS-layerctl.sh` — layer apply/remove/verify/status tool
+- `RaBbLE-OS-vmctl.sh` — VM lifecycle spell: cast/start/stop/connect/snapshot/restore/destroy
 - `bootstrap.sh` — **deprecated**, replaced by `RaBbLE-OS-Bootstrap.sh`
 - `ansible/site.yml` — master playbook
 - `ansible/inventory/hosts.yml` — host-to-hardware-profile mapping

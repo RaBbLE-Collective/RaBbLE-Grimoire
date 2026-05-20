@@ -547,6 +547,14 @@ The entity memory tier model (short/medium/long-term) is in `RaBbLE.md` — Memo
 Likely candidates: entity memory/continuity, distributed-collective
 concerns, persistent agent presence, and advanced workspace design.
 
+**GPU passthrough to dev VM** `[WISHLIST]`
+- Full VFIO/IOMMU passthrough of NVIDIA RTX 4060 to the RaBbLE-OS dev VM
+- Enables testing `fix/proart-nvidia` playbooks inside the VM without bare metal risk
+- Also enables GPU-accelerated Ollama inference (Episode 3) inside the VM
+- Requires: `fix/proart-nvidia` stable on host first; two GPUs (AMD iGPU stays with host, NVIDIA passes through)
+- Detailed setup notes: `RaBbLE-OS-VM-Guide.md` → "Future — GPU Passthrough" section
+- Roadmap placement: `fix/proart-nvidia` follow-on, likely Episode 3 prep
+
 **WM usage vision** (workspaces as task-spaces, tiling/floating hybrid,
 draggable windows with intelligent snapping, per-workspace defaults) is
 preserved in `DistilledNonZense.md` § IX for when this episode is scoped.

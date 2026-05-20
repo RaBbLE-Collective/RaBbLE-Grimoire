@@ -5,14 +5,46 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-20 · Session 22
+## LATEST — 2026-05-20 · Session 23
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S22):** Integration & Ethos Plan execution began. Phase 1A (entity spec → Aether), 1B (spec + render gap analysis → NeBuLA/specs/), 0A (Identity.md audit), 2A (lore/ scaffolded), 2B (Identity.md split — ethos to lore/Ethos + lore/Worldbuilding), 2D (CONTEXT + INDEX updated) all complete. Identity.md is now operational-only. RaBbLE-Ethos.md and RaBbLE-Aesthetic.md live in lore/.
-**Active blockers:** sCoRE Railway unverified · OS VM cast pending · distill-gists.sh broken (set -e + read -d '' exit bug) · Phase 1C (World grimoire circle) not started.
-**Next:** Phase 1C (grimoire summoning circle in World left rail) · Phase 2C (author Genesis + Ethos docs) · Phase 3 (BaBbLE formalization).
+**Last session (S23):** VM dev workflow fully operational. KVM stack installed, vmctl.sh hardened (setup subcommand, virgl auto-detect, ISO ACL handling, qemu:///system URI, auto-cleanup on recast). Fedora 44 Sway spin VM cast + verified. VM-Guide.md in Grimoire updated with full storage/friction/partition notes. Direction shift: moving from Sway spin base to Kickstart (KS) for a cleaner custom RaBbLE-OS build.
+**Active blockers:** distill-gists.sh broken (set -e + read -d '' exit bug) · Phase 1C (World grimoire circle) · Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified.
+**Next:** KS file for RaBbLE-OS base install · Phase 1C · Phase 2C authoring.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-20 (Session 23) — RaBbLE-OS VM Workflow: KVM Stack + vmctl Hardening
+
+**Repos touched:** RaBbLE-OS (`RaBbLE-OS-New-Horizons`), RaBbLE-Grimoire (`dev`)
+
+**Objective:** Get the RaBbLE-OS KVM VM workflow operational end-to-end. Fedora 44 Sway spin as the test base.
+
+**Work done:**
+
+- Installed KVM host stack via Ansible virtualization role. Resolved group membership friction (yescrypt `newgrp` bug on Fedora 43 — documented; fix is new terminal, not `newgrp`).
+- Hardened `RaBbLE-OS-vmctl.sh` significantly:
+  - Added `setup` subcommand — checks group membership, starts libvirtd, brings up default NAT network
+  - `detect_graphics` / `detect_video` — auto-detects virgl 3D capability at cast time (root check, display session, DRI render node); falls back to software rendering with warning
+  - `ensure_iso_accessible` — walks path and sets `setfacl` ACLs so qemu can reach ISOs in `ISO/` without moving them
+  - `os_variant` auto-selected from highest available in osinfo-db at runtime (handles db lag behind Fedora releases)
+  - `warn()` redirected to stderr (was stdout, poisoning `graphics="$(detect_graphics)"` variable capture)
+  - `LIBVIRT_DEFAULT_URI=qemu:///system` exported — all virsh commands now target system daemon consistently with or without sudo
+  - Auto-cleanup of failed/stale VM at start of cast (idempotent)
+  - Auto-connect SPICE display after cast (launches as real user via `sudo -u $SUDO_USER` with Wayland env forwarded)
+  - `VM_DISK_DIR` default changed from `~/.local/share/rabble/vms` to `/var/lib/libvirt/images`
+- Cast Fedora 44 Sway spin VM successfully, drove Anaconda installer via SPICE, verified workflow end-to-end.
+- Updated `RaBbLE-Grimoire/RaBbLE-OS/RaBbLE-OS-VM-Guide.md`: where VM lives (libvirt paths, not repo), ISO convention, alternate disk dir via old partition, all friction points documented (newgrp bug, qemu:///system, virgl auto-detect, sudo + Wayland).
+
+**Direction shift noted:** Moving from Sway spin base to Kickstart (KS) for a cleaner, more custom RaBbLE-OS build. Sway spin was a good bootstrap proof-of-concept; KS gives full control over package selection and partitioning from the start.
+
+**Next priorities:**
+1. Author KS file for RaBbLE-OS base install
+2. Phase 1C — World grimoire summoning circle
+3. Phase 2C — Genesis/Ethos authoring
+4. Fix distill-gists.sh
 
 ---
 
