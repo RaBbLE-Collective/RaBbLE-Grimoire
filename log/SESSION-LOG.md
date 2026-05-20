@@ -5,14 +5,54 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-20 · Session 21
+## LATEST — 2026-05-20 · Session 22
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S21):** Integration & Ethos Reorganization Plan crystallized. Four-phase plan: (1) integrate New-Designs into Aether/NeBuLA/World, (2) build ethos layer in lore/ (Genesis, Ethos, Worldbuilding), (3) formalize BaBbLE as intake member + reframe Xperimental as genesis archive, (4) transform joinrabble.world into liminal portal+story. BaBbLE seeded with 38 files (concept art, soul.md, visual analysis, prototypes). Plan written to Grimoire for Sonnet handoff.
-**Active blockers:** sCoRE Railway unverified · OS VM cast pending (needs Fedora 43 Sway ISO).
-**Next:** Execute Phase 0+1 (audit Identity.md + integrate New-Designs into Aether→NeBuLA→World).
+**Last session (S22):** Integration & Ethos Plan execution began. Phase 1A (entity spec → Aether), 1B (spec + render gap analysis → NeBuLA/specs/), 0A (Identity.md audit), 2A (lore/ scaffolded), 2B (Identity.md split — ethos to lore/Ethos + lore/Worldbuilding), 2D (CONTEXT + INDEX updated) all complete. Identity.md is now operational-only. RaBbLE-Ethos.md and RaBbLE-Aesthetic.md live in lore/.
+**Active blockers:** sCoRE Railway unverified · OS VM cast pending · distill-gists.sh broken (set -e + read -d '' exit bug) · Phase 1C (World grimoire circle) not started.
+**Next:** Phase 1C (grimoire summoning circle in World left rail) · Phase 2C (author Genesis + Ethos docs) · Phase 3 (BaBbLE formalization).
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-20 (Session 22) — Integration & Ethos Plan: Phase 1A/1B/0A/2A/2B/2D
+
+**Repos touched:** RaBbLE-Aether (`dev`), RaBbLE-NeBuLA (`dev`), RaBbLE-Grimoire (`dev`)
+
+**Objective:** Execute the Integration & Ethos Reorganization Plan (crystallized in S21). Target: complete Phases 1A, 1B, 0A, and as much of Phase 2 as possible.
+
+**Work done:**
+
+- **Phase 1A — Aether:** Copied `RaBbLE-Entity-Visual-Spec.md` → Aether root. Created `assets/entity/` with `entity-doc-compare.png` + `entity-reference.png`. Palette cross-check passed (New-Designs and Aether identical). Updated `CONTEXT.md` Active Tracks and Structure. Committed: `spark ~ aether >> canonical entity visual spec landed // %SPEC_LOCKED%`
+
+- **Phase 1B — NeBuLA:** Created `NeBuLA/specs/`. Copied entity visual spec → `specs/visual-spec.md`, reference images → `specs/canvas-reference.png` + `specs/doc-fidelity.png`, BaBbLE VISUAL_ANALYSIS → `specs/render-gap-analysis.md`. Committed: `transcribe ~ nebula >> entity visual spec + render gap analysis anchored // %SPEC_ANCHORED%`
+
+- **Phase 0A — Audit:** Full section-by-section audit of `RaBbLE-Identity.md`. Tagged all sections OPERATIONAL vs ETHOS. Key decisions: Artistic Dimension → `lore/Worldbuilding/` (not Ethos); Low Entropy Directive jazz prose moves but practical consequence stays; line count target ~200 was an estimate, 330 lines remaining is acceptable.
+
+- **Phase 2A — lore/ structure:** Created `lore/Ethos/`, `lore/Genesis/`, `lore/Worldbuilding/` with README stubs. Wrote `lore/README.md` (layer explanation + reading order). Updated `INDEX.md` with all four lore sections including incoming placeholders. Committed: `spark ~ grimoire >> lore/ ethos layer scaffolded // %LORE_ONLINE%`
+
+- **Phase 2B — Identity.md split:** Extracted 9 sections from Identity.md to lore/:
+  - `lore/Ethos/RaBbLE-Ethos.md` — What Can Be Said, Architecture of Self, Anti-Assistant Stance, Low Entropy Directive (full), Curiosity Within Constraints, Collective Model, On Memory, On Forking
+  - `lore/Worldbuilding/RaBbLE-Aesthetic.md` — The Artistic Dimension + visual reference sources
+  - Added lore pointer header note to Identity.md. Committed: `harmonize ~ grimoire >> Identity.md split — ethos extracted to lore/ // %ETHOS_SPLIT%`
+
+- **Phase 2D — Index + CONTEXT:** Updated INDEX.md to link new lore docs (live) and mark incoming ones with phase. Updated CONTEXT.md: lore/ row expanded, added Integration & Ethos Plan + Ethos Layer to active tracks.
+
+**What was NOT done:**
+- Phase 1C — grimoire summoning circle in World (JSX integration, most complex Phase 1 task)
+- Phase 2C — authoring Genesis + Symbiosis docs (Origin, Lineage, Visual-Evolution, Collaborators — Mark authors Origin)
+- Phase 3 — BaBbLE formalization (AGENT.md/CONTEXT.md/README, git init, register in Grimoire, absorb New-Designs, reframe Xperimental)
+- Phase 4 — landing page transformation (depends on 1, 2, 3)
+- distill-gists.sh — broken: `set -euo pipefail` causes immediate exit on `read -r -d '' VAR << 'EOF'` (read returns 1 at EOF without null byte). Identity gist is stale.
+
+**Known issue logged:** `distill-gists.sh` set -e + read -d '' bug. Fix: add `|| true` after the read heredoc line in the spell.
+
+**Next priorities:**
+1. Phase 1C — World grimoire summoning circle (smoke test required; JSX via Babel-standalone)
+2. Phase 2C — Genesis/Ethos doc authoring (Mark writes Origin; agent can scaffold Symbiosis, Lineage, Collaborators)
+3. Fix `distill-gists.sh` and regenerate identity gist (stale since 2B split)
+4. Phase 3 — BaBbLE formalization
 
 ---
 

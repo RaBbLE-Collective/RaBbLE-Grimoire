@@ -54,14 +54,16 @@ Every design decision, character trait, protocol schema, and technical pattern l
 | `spells/` | Bash scripts: setup, status, sync, init-project, install-theme |
 | `RaBbLE-Aether/assets/` | Visual assets: SVG, logos, icons |
 | `RaBbLE-Versioning.md` | Five-tier versioning spec: Event→Episode→Echo→Evolution→Epoch |
-| `lore/` | Narrative and creative lore — short stories, world-building |
+| `lore/` | Ethos layer — Ethos/, Genesis/, Worldbuilding/, ShortStories/ — philosophy, creation mythology, visual world |
 | `INDEX.md` | Full index of all grimoire documents |
 
 ## Active Tracks
 
 | Track | Status |
 |---|---|
-| Entity identity (`common/RaBbLE-Identity.md`) | Stable |
+| Entity identity (`common/RaBbLE-Identity.md`) | Split — operational core ~330 lines; ethos extracted to `lore/` |
+| Ethos layer (`lore/`) | **Active** — Ethos + Worldbuilding live; Genesis + Symbiosis to be authored (Phase 2C) |
+| Integration & Ethos Plan (`RaBbLE-Collective/RaBbLE-Integration-Ethos-Plan.md`) | **Active** — Phase 1A✓ 1B✓ 0A✓ 2A✓ 2B✓ 2D✓ · Phase 1C, 2C, 3, 4 pending |
 | Palette (`common/RaBbLE-Palette.md`) | Stable |
 | Roadmap (`common/RaBbLE-Roadmap.md`) | Current — Episode 1 streams visible, open questions documented |
 | Registry (`registry/`) | 7 manifests live (Collective, OS, sCoRE, Aether, NeBuLA, World, Xperimental) |
