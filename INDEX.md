@@ -56,6 +56,7 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 ## RaBbLE-Collective
 
 - **[RaBbLE-Episode-1-Release-Map](RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md)** — **CANONICAL Episode 1 scope.** Member deliverables, blockers, exit criteria, VM testing, deployment sequence, tag convention.
+- **[RaBbLE-Integration-Ethos-Plan](RaBbLE-Collective/RaBbLE-Integration-Ethos-Plan.md)** — **ACTIVE PLAN.** Four-phase integration: New-Designs → Ethos layer → BaBbLE member → Landing transformation. Agent handoff doc.
 - [RaBbLE-Collective-Plan](RaBbLE-Collective/RaBbLE-Collective-Plan.md) — Collective bootstrap architecture and coordination plan
 - [RaBbLE-Collective-Episode-1-Overview](RaBbLE-Collective/RaBbLE-Collective-Episode-1-Overview.md) — Three-layer architecture (Aether + NeBuLA + World), CDN strategy
 - [RaBbLE-Deployment-Architecture](RaBbLE-Deployment-Architecture.md) — environments (local/staging/prod), CDN distribution, versioning, build pipeline
@@ -102,6 +103,7 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 - [RaBbLE-OS-AgentGuide](RaBbLE-OS/RaBbLE-OS-AgentGuide.md) — full agent reference: layers, commands, branch conventions
 - [RaBbLE-OS-ShellGuide](RaBbLE-OS/RaBbLE-OS-ShellGuide.md)
 - [RaBbLE-OS-BootFlow](RaBbLE-OS/RaBbLE-OS-BootFlow.md)
+- [RaBbLE-OS-VM-Guide](RaBbLE-OS/RaBbLE-OS-VM-Guide.md) — KVM dev VM setup, bootstrap test loop, vmctl reference, GPU passthrough wishlist
 
 ---
 

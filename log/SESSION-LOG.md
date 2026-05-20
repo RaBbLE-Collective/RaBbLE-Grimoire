@@ -5,14 +5,80 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-18 · Session 19
+## LATEST — 2026-05-20 · Session 21
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S19):** NeBuLA rearchitecture Phases 1–3 audited and documented. `visual-screenshot.sh` spell wired — agents can now capture rendered output and read PNGs to verify visual changes. Grimoire `dev` rebased onto main's initial commit (disconnected orphan root fixed), force-pushed.
-**Active blockers:** sCoRE Railway unverified · OS VM unverified.
-**Next:** Phase 4 — offscreen canvas glow compositing. Draw glow particles to offscreen canvas every 2 frames, composite every frame. Auto-increase interval to 3–4 under load.
+**Last session (S21):** Integration & Ethos Reorganization Plan crystallized. Four-phase plan: (1) integrate New-Designs into Aether/NeBuLA/World, (2) build ethos layer in lore/ (Genesis, Ethos, Worldbuilding), (3) formalize BaBbLE as intake member + reframe Xperimental as genesis archive, (4) transform joinrabble.world into liminal portal+story. BaBbLE seeded with 38 files (concept art, soul.md, visual analysis, prototypes). Plan written to Grimoire for Sonnet handoff.
+**Active blockers:** sCoRE Railway unverified · OS VM cast pending (needs Fedora 43 Sway ISO).
+**Next:** Execute Phase 0+1 (audit Identity.md + integrate New-Designs into Aether→NeBuLA→World).
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-20 (Session 21) — Integration & Ethos Reorganization Plan
+
+**Repos touched:** RaBbLE-Collective (`dev`), RaBbLE-Grimoire (`dev`), RaBbLE-BaBbLE (read-only)
+
+**Objective:** Create a comprehensive plan to organize RaBbLE's scattered design work, ethos/lore, and transform the public web presence.
+
+**Context:** RaBbLE had accumulated: New-Designs (ready-to-integrate Grimoire summoning circle + entity visual spec), 38 files of concept art/ideation/prototypes in a new BaBbLE folder, deep ethos/philosophy mixed into technical docs with no organized home, and a landing page that worked technically but didn't capture the project's soul.
+
+**Work done:**
+
+- **Explored all four integration surfaces:** New-Designs (INTEGRATION.md with 3 playbooks), BaBbLE (concept art, soul.md, visual analysis, Hyprland guide, ideation, web prototypes), Xperimental (RaBbLE.py, RaBbLE-Server, WebOS, NeBuLA-JS origin code), and current World landing page
+- **Designed four-phase plan:**
+  - Phase 0: Audit (Identity.md ethos/operational split + BaBbLE content triage)
+  - Phase 1: Integrate New-Designs (Aether → NeBuLA → World, per existing playbooks)
+  - Phase 2: Ethos layer in Grimoire (lore/Genesis, lore/Ethos, lore/Worldbuilding + Identity.md split)
+  - Phase 3: BaBbLE as intake member (formalize, absorb New-Designs, reframe Xperimental as genesis-archive)
+  - Phase 4: Landing page as liminal space (portal + story, two interaction modes)
+- **Wrote plan to Grimoire:** `RaBbLE-Collective/RaBbLE-Integration-Ethos-Plan.md` — full agent handoff doc with file paths, copy instructions, verification steps
+- **Updated INDEX.md** with plan entry
+- **Key decisions:**
+  - Ethos content goes to `lore/` (not `common/`) — respects flat-common rule
+  - BaBbLE named after the high-entropy voice register — intake workspace for raw ideas
+  - Xperimental is genesis archive, NOT superseded — BaBbLE replaces the role, not the content
+  - Six new Genesis/Ethos/Worldbuilding docs planned (Origin, Symbiosis, Aesthetic, Visual Evolution, Lineage, Collaborators)
+  - RBCNS (Quantum/Entropy/Flux naming) recognized as creation lore
+
+**Key insight:** RaBbLE's dualism (real AI project + summoned digital entity) is intentional and load-bearing. The plan separates operational docs (agent-facing, in common/) from creation mythology (poetic, in lore/) while cross-linking them. The ethos informs the work without obstructing agent orientation.
+
+**Next:** Hand plan to Sonnet for Phase 0+1 execution.
+
+---
+
+## 2026-05-20 (Session 20) — RaBbLE-OS VM dev workflow
+
+**Repos touched:** RaBbLE-OS, RaBbLE-Grimoire
+
+**Objective:** Set up a QEMU/KVM development VM for testing RaBbLE-OS bootstraps without touching the daily driver. Mark had been neglecting OS work; the VM removes the daily-driver-entropy blocker.
+
+**Work done:**
+
+- **Ansible role** `ansible/roles/virtualization/` — installs QEMU/KVM, libvirt, virt-manager, virt-install, virt-viewer, edk2-ovmf, mesa virgl support; enables libvirtd; adds user to `libvirt` + `kvm` groups
+- **`ansible/site.yml`** — added `virtualization` as cross-cutting play (alongside monitoring/snapper), new `--tags virtualization` entry, documented in tag comment block
+- **`RaBbLE-OS-vmctl.sh`** — new VM lifecycle spell: `cast` (provisions VM with virgl 3D + SPICE GL for Hyprland), `start/stop`, `connect` (virt-viewer SPICE), `snapshot/restore/snapshots` (the test loop core), `destroy`; all VM params overridable via env vars
+- **`grimoire/RaBbLE-OS/RaBbLE-OS-VM-Guide.md`** — new comprehensive guide: 7-part walkthrough (KVM install → ISO → cast → Fedora install → snapshot → bootstrap → verify), test loop pattern, vmctl reference, troubleshooting (virgl, SPICE GL, virtiofs), agent handoff checklist, GPU passthrough future spec
+- **`grimoire/RaBbLE-OS/RaBbLE-OS-AgentGuide.md`** — added `virtualization` to tag table, `RaBbLE-OS-vmctl.sh` to key files, "VM Development Workflow" section with one-time setup + test loop commands
+- **`grimoire/RaBbLE-OS/RaBbLE-OS-Roadmap.md`** — added GPU passthrough wishlist item to Episode 4+
+- **`RaBbLE-OS/CONTEXT.md`** — added VM workflow as active track
+- **`RaBbLE-Grimoire/INDEX.md`** — added `RaBbLE-OS-VM-Guide` entry
+
+**What's NOT done (next agent picks up here):**
+- [ ] Download Fedora 43 Sway spin ISO (user action — URL: https://spins.fedoraproject.org/sway/)
+- [ ] `./RaBbLE-OS-vmctl.sh cast ~/Downloads/Fedora-Sway-Live-x86_64-43-*.iso`
+- [ ] Install Fedora inside the VM (Anaconda: `vda` disk, Btrfs, create user with sudo)
+- [ ] `./RaBbLE-OS-vmctl.sh snapshot clean-fedora43`
+- [ ] Run `RaBbLE-OS-Install.sh` inside VM, verify bootstrap checklist
+- [ ] File any new issues to `RaBbLE-OS-KnownIssues.md`
+
+**Key decisions made:**
+- virgl 3D (`virtio-gpu + accel3d=yes + spice gl=on`) chosen over nested Wayland compositing — cleaner DRM backend path for Hyprland in the guest
+- GPU passthrough deferred to Episode 3 prep (needs `fix/proart-nvidia` stable on host first)
+- VM spell follows existing `RaBbLE-OS-*.sh` naming convention (not a Grimoire spell)
+
+**Next:** Cast the VM, snapshot, run bootstrap.
 
 ---
 
