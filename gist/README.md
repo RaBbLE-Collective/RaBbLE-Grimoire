@@ -4,7 +4,7 @@ High-density, low-token summaries of canonical Grimoire docs. Each gist is ~150-
 
 **To get the full picture in minimal tokens:**
 ```bash
-cat gist/*.md        # ~2,000 tokens total — complete orientation
+cat gist/*.md        # ~1,700 tokens total — complete orientation
 ```
 
 **To regenerate after docs change:**

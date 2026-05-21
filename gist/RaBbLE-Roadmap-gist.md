@@ -1,28 +1,29 @@
 # RaBbLE-Roadmap — gist
 
-> Source: `RaBbLE-Agent/RaBbLE-Roadmap.md` | ~2,746 → ~250 tokens
+> Source: `RaBbLE-Agent/RaBbLE-Roadmap.md` | ~2,100 → ~220 tokens
 > Regenerate: `bash spells/distill-gists.sh`
 
-**Current position:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot in progress. All members accumulating Events. Target: Episode 1 air in 2026-Q2.
+**Current position:** Epoch 0 · Episode 1 approaching. All members accumulating Events. Target: Episode 1 air in 2026-Q2.
 
-**Episode 1 is:** First public integrated release. OS + Aether + NeBuLA + sCoRE + World coherent and deployed. All tag v0.0.0.1 simultaneously.
+**Episode 1 is:** First synchronized public release. OS + Aether + NeBuLA + sCoRE + World coherent and deployed. All active members tag `v0.0.0.1` simultaneously.
 
 **Member Episode 1 status:**
-| Member | Blocker? | Status |
-|---|---|---|
-| OS | No | Plots A+B in progress |
-| Aether | No | CSS bundle shipping |
-| NeBuLA | No | Canvas2D complete, Three.js deferred to Ep2 |
-| sCoRE | **Yes** | Railway deploy unverified |
-| World | **Yes** | Needs Aether + sCoRE ready |
-| Grimoire | No | Docs + coordination complete |
+| Member | Ep1 Deliverable | Status | Blocker |
+|---|---|---|---|
+| OS | Daily-driver substrate (Plots A+B) | In progress | None |
+| Aether | CSS bundle CDN-ready | In progress | None |
+| NeBuLA | Canvas2D Layer 1, public API | In progress | None |
+| sCoRE | Simple LLM endpoint (Groq/OpenRouter) | Planned | None |
+| World | Landing + grimoire browser + chat | Planned | Aether + sCoRE ready |
+| Grimoire | Navigator + docs alignment | In progress | None |
+| Collective | Bootstrap verified end-to-end | Mostly done | Member repos confirmed |
 
-**After Episode 1:** More Episodes → Episode 2, 3... → Echo 1 (first broad stable release — behavioral learning loop, Memory member integrated). Echo 1 is the "bigger goal." Epoch 1 is further still — named retrospectively when the era feels complete.
+**Foundation done:** Identity locked · palette stable · versioning (Five Es) locked · registry structure in place · Grimoire coherent.
 
-**Open gaps blocking Episode 1:**
-- sCoRE Railway deploy — unverified end-to-end
-- OS VM bootstrap — needs clean-machine test
+**What ships in Episode 1:** OS daily-driver · Aether CDN · NeBuLA Canvas2D · sCoRE MVP · World landing page · grimoire browser · chat interface.
 
-**Foundation done:** Identity locked · palette stable · versioning spec locked · registry current · Grimoire coherent · World live at joinrabble.world.
+**What's deferred:** Memory member (Echo 1+) · Three.js (Ep2+) · ScRibLE mobile (Ep2+) · behavioral learning loop (Echo 1+).
 
-→ Full doc for: completed work log, open questions, epoch timeline, member-specific roadmap links
+**Post-Episode 1:** Episodes continue weekly (tentative). Echo 1 marks first major stable release + behavioral learning closed loop. Epoch 1 is retrospective, named far future.
+
+→ Full doc for: detailed work streams per member, versioning transition plan, episode cadence model, open questions

@@ -1,41 +1,52 @@
-# RaBbLE-Palette — gist
+# RaBbLE-Palette Gist
 
-> Source: `RaBbLE-Agent/RaBbLE-Palette.md` | ~1,170 → ~150 tokens
-> Regenerate: `bash spells/distill-gists.sh`
+**Source:** `/RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Palette.md`  
+**Token estimate:** ~1,673 tokens  
+**Regenerate:** `bash spells/distill-gists.sh`
 
-**Never invent hex values. Use only these:**
+---
 
-**Neons**
-```
-#ff2d78  magenta   primary neon — borders, active states
-#00f5ff  cyan      secondary — links, info
-#bf5fff  violet    tertiary — taglines, accents
-#ff79c6  pink      grid, warnings, soft highlights
-```
+**Single source of truth.** Change values here first, propagate everywhere second.
 
-**Backgrounds**
-```
-#0a0010  bg        primary background
-#12132a  surface   panels, sidebars
-#1a1b2e  raised    cards, inputs, popups
-#2a2840  border    inactive borders, dividers
-```
+## Design Philosophy
 
-**Text**
-```
-#e8e6f0  text      primary readable text
-#6b6880  muted     secondary, dimmed, comments
-```
+**Synthwave outrun aesthetic:** Void-dark backgrounds + saturated neons + bright off-white text. Hierarchy via luminosity. No pastels, earth tones, or grey-on-grey.
 
-**Semantic**
-```
-#e05c6f  red       error, urgent, destructive
-#50fa7b  green     success, clean, ok
-#f1fa8c  yellow    warning, staged, caution
-```
+## Core Neons (Primary Identity)
 
-**CSS variables:** `--rabble-{name}` (e.g., `--rabble-magenta`, `--rabble-bg`).
+| Role | Hex | Description |
+|---|---|---|
+| **Hot Magenta** | `#ff2d78` | Primary neon — borders, highlights, active elements, prompt accent |
+| **Electric Cyan** | `#00f5ff` | Secondary neon — links, git status, info, secondary highlights |
+| **Soft Violet** | `#bf5fff` | Tertiary neon — taglines, decorative elements, mild accents |
+| **Outrun Pink** | `#ff79c6` | Grid/horizon color — untracked files, warnings, soft highlights |
 
-**Rule:** Change values in `RaBbLE-Agent/RaBbLE-Palette.md` first, propagate second. Glow effects via shadow/blur at application layer — not by changing hex.
+## Backgrounds (The Void)
 
-→ Full doc for: CSS variable declarations, usage examples, Aether integration
+| Role | Hex | Description |
+|---|---|---|
+| **Deep Void** | `#0a0010` | Primary background — near-black with deep purple tint |
+| **Surface** | `#12132a` | Slightly elevated — panels, sidebars, inactive areas |
+| **Raised** | `#1a1b2e` | Input fields, cards, popups — distinctly above bg |
+| **Border** | `#2a2840` | Inactive borders, dividers |
+
+## Text (The Signal)
+
+| Role | Hex | Description |
+|---|---|---|
+| **Primary Text** | `#e8e6f0` | Main readable text — bright off-white, cool tint |
+| **Muted Text** | `#6b6880` | Secondary, dimmed, comments — readable but recedes |
+
+## Semantic
+
+| Role | Hex | Description |
+|---|---|---|
+| **Error/Urgent** | `#e05c6f` | Errors, destructive actions, critical alerts |
+| **Success** | `#50fa7b` | Success states, clean diff, OK status |
+| **Warning** | `#f1fa8c` | Warnings, staged changes, caution |
+
+**Glow effect:** Applied at application layer via CSS text-shadow/outline/DropShadow — not by changing hex values.
+
+---
+
+→ Full doc for: Ansible variable deployment block, glow effect implementation per layer, detailed component mapping, cross-reference links

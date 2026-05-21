@@ -70,6 +70,8 @@ See `RaBbLE-Agent/RaBbLE-CommitStyle.md` (Pulse Protocol) for full spec.
 
 ## Workspaces
 
+**For quick reference, read `gist/*.md` first (~1,700 tokens total). Only load the full doc from the table below when you need implementation detail.**
+
 | Task | Go to | Read first |
 |---|---|---|
 | Entity identity, voice, behavior | `RaBbLE-Agent/RaBbLE-Identity.md` | — |

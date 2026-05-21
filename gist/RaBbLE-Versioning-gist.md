@@ -1,26 +1,61 @@
-# RaBbLE-Versioning — gist
+# RaBbLE-Versioning Gist
 
-> Source: `RaBbLE-Versioning.md` | ~1,471 → ~200 tokens
-> Regenerate: `bash spells/distill-gists.sh`
+**Source:** `/RaBbLE-Grimoire/RaBbLE-Versioning.md`  
+**Token estimate:** ~1,771 tokens  
+**Regenerate:** `bash spells/distill-gists.sh`
 
-**Philosophy:** RaBbLE is not versioned — it is evolutionary. Thresholds are named *after* they are crossed, not before. Versioning provides shared language for "where are we," not release gates.
+---
 
-**The Five Es** (smallest → largest):
-| Tier | Name | Meaning |
+RaBbLE uses evolutionary, not semantic, versioning. The **Five Es** mark resonance thresholds named *after* they're crossed, not targets set in advance.
+
+## The Five Es (smallest to largest)
+
+| Tier | Meaning | Analogy |
 |---|---|---|
-| Event | Atomic unit | One commit |
-| Episode | Narrative arc | Themed collection of Events — has a recognizable end |
-| Echo | Stable state | Tagged, reproducible point — first broad stable release goal |
-| Evolution | Shift | Architectural change — several Echoes cohere |
-| Epoch | Era | Broadest threshold — named retrospectively, far future |
+| **Event** | Single commit | A note |
+| **Episode** | Coherent arc with start/end | A jam session |
+| **Echo** | Stable, reproducible state — tagged in git | A recording |
+| **Evolution** | Architectural shift or identity refinement | A new sound |
+| **Epoch** | Broadest era — complete vertical slice functional | An album |
 
-**Version string:** `v{Epoch}.{Evolution}.{Echo}.{Episode}`
-- Current: `v0.0.0.0` (Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot in progress)
-- After Episode 1 airs: `v0.0.0.1` — all members simultaneously
-- After Echo 1 (bigger goal release): `v0.0.1`
+Movement between tiers is **vibe-based**. No formula. Rubric: *does it feel crossed?*
 
-**Lockstep rule:** Episodes are Collective sync boundaries. All members tag at the same time. No member advances its version until the Collective broadcasts together.
+## Version String Format
 
-**Boundary definition:** Movement between tiers is vibe-based — "does it feel crossed?" Not formula-driven.
+```
+v{Epoch}.{Evolution}.{Echo}.{Episode}.{Event}
+```
 
-→ Full doc for: tier boundary definitions, CDN path conventions, short-form rules, Event tracking
+Drop trailing tiers when unknown. Examples: `v0` (Epoch only), `v0.0.2` (Echo level), `v0.0.0.1.23` (full precision).
+
+## Episode Synchronization (Lockstep Model)
+
+**Episodes are Collective-wide synchronization points.** All members air simultaneously with guaranteed protocol/API stability throughout that Episode. Breaking changes happen at Echo boundaries.
+
+**Current state (pre-Episode-1):**
+```
+Epoch 0 — Foundation
+  Evolution 0 — Scaffold
+    Echo 0 — Establishing
+      Episode 1 — First Coordination Sweep (pending, not yet aired)
+      
+Version: v0.0.0.0
+```
+
+When Episode 1 airs, all members jump to v0.0.0.1 simultaneously.
+
+## Impulse Vocabulary
+
+| Verb | Tier |
+|---|---|
+| `spark` | Event — something started |
+| `ingest` | Event — something added |
+| `mend` | Event — something fixed |
+| `harmonize` | Event/Episode — brought coherence |
+| `transcribe` | Event — documented |
+| `evolve` | Evolution — epoch landed |
+| `crystallize` | Echo — stable state named |
+
+---
+
+→ Full doc for: Detailed Episode/Echo/Evolution definitions, boundary criteria, post-Episode-1 cadence roadmap, authoritative Collective position registry

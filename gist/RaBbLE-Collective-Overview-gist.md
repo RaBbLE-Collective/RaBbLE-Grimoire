@@ -1,25 +1,59 @@
-# RaBbLE-Collective-Overview — gist
+# RaBbLE-Collective Episode 1 Overview Gist
 
-> Source: `RaBbLE-Collective/RaBbLE-Collective-Episode-1-Overview.md` | ~914 → ~200 tokens
-> Regenerate: `bash spells/distill-gists.sh`
+**Source:** `/RaBbLE-Grimoire/RaBbLE-Collective/RaBbLE-Collective-Episode-1-Overview.md`  
+**Token estimate:** ~1,312 tokens  
+**Regenerate:** `bash spells/distill-gists.sh`
 
-**Three-layer architecture for Episode 1:**
+---
 
-**Layer 1 — Aether (theme):** CSS design system via CDN. World loads it. No local CSS per page. Dev: `npm run build` → `dist/aether.css`. CDN path: `/aether/v0.0.0.0/aether.css` (dev), `aether.min.css` (prod). Always use `dev-serve.sh`, never run `dev-cdn.js` directly.
+## Three-Layer Architecture
 
-**Layer 2 — NeBuLA (renderer):** JS entity renderer (IIFE + ESM) via CDN. Exposes `window.NeBuLA` API. `<rabble-entity>` web component. Canvas2D complete for Ep1; Three.js deferred to Episode 2.
+### Layer 1: Aether (Design System)
 
-**Layer 3 — World (app):** Static HTML. No build step. Loads Aether CSS + NeBuLA JS from CDN, adds page logic. New pages = ~70% HTML + Aether classes, ~30% logic. Zero CSS/JS duplication.
+**Role:** Theme + look/feel — canonical visual identity  
+**Delivery:** CSS bundle via CDN (v0.0.0 pre-Episode-1)  
 
-**Easy page pattern:**
+Dev workflow: `npm install && npm run build` → `dist/aether.min.css`  
+CDN paths: `cdn/aether/v0.0.0/aether.min.css`  
+**Always use `dev-serve.sh`; never run `dev-cdn.js` directly**
+
+### Layer 2: NeBuLA (Rendering Engine)
+
+**Role:** Flare + animations + embedded visuals — entity interaction  
+**Delivery:** JavaScript (IIFE + ESM) via CDN  
+
+API: `window.NeBuLA.createPuppet({ canvas, ... })`  
+Status: Phase 1 ✅ Build complete; Phase 2–3 (Palette + Canvas2D) 🔄 in progress  
+Canvas2D ships for Episode 1; Three.js deferred to Episode 2
+
+### Layer 3: RaBbLE-World (Frontend App)
+
+**Role:** Orchestration — pulls Aether + NeBuLA into deployable pages  
+**Delivery:** Static HTML + CDN-loaded CSS/JS (no build step)  
+
+Pattern: New pages = ~70% HTML (Aether classes) + ~30% logic  
+Zero CSS/JS duplication — everything reuses Aether + NeBuLA
+
+## Easy Page Template
+
 ```html
 <link rel="stylesheet" href="https://cdn.joinrabble.world/aether/v0.0.0/aether.min.css">
 <script src="https://cdn.joinrabble.world/nebula/v0.0.0/nebula.iife.js"></script>
 <!-- Use Aether classes + window.NeBuLA API -->
 ```
 
-**Versioning:** All three tag `v0.0.0.1` simultaneously when Episode 1 airs.
+## Versioning & CDN Deployment
 
-**Pre-sCoRE:** Pages use mock JSON/localStorage. When sCoRE ready: wire entity state to API.
+All three layers tag **v0.0.0.1 simultaneously** when Episode 1 airs (lockstep).
 
-→ Full doc for: implementation priority table, CDN deployment workflow, per-layer doc index
+Pre-Episode-1: v0.0.0 across all members  
+Post-Episode-1: v0.0.0.1 (Episode increment)  
+Echo boundaries introduce breaking changes with migration guides
+
+## Pre-sCoRE (No Backend Yet)
+
+Pages use mock JSON/localStorage for state. When sCoRE API ready: wire entity state to responses.
+
+---
+
+→ Full doc for: Implementation priority table, CDN deployment workflow, per-layer doc index, phase breakdown

@@ -1,28 +1,49 @@
-# RaBbLE-CommitStyle — gist
+# RaBbLE-CommitStyle Gist
 
-> Source: `RaBbLE-Agent/RaBbLE-CommitStyle.md` | ~620 → ~150 tokens
-> Regenerate: `bash spells/distill-gists.sh`
+**Source:** `/RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-CommitStyle.md`  
+**Token estimate:** ~764 tokens  
+**Regenerate:** `bash spells/distill-gists.sh`
 
-**Pulse Protocol format:**
+---
+
+## The Pulse Protocol
+
 ```
 [impulse] ~ [organ] >> [revelation] // %SYSTEM_STATE%
 ```
 
-**Impulses:**
-| Impulse | Use when |
+- **impulse** — type of change (see table)
+- **organ** — component/subsystem being changed
+- **revelation** — what was learned, fixed, or created (specific)
+- **%SYSTEM_STATE%** — optional machine-parseable state code
+
+## The Impulses
+
+| Impulse | Meaning |
 |---|---|
-| `spark` | New capability manifested |
-| `harmonize` | Reducing entropy, cleanup, tuning |
-| `mend` | Fixing a bug or logic fracture |
-| `transcribe` | Updating docs or lore |
-| `ingest` | Adding dependencies or data |
-| `glitch` | High-entropy unexpected state change |
+| `spark` | New curiosity or capability manifested |
+| `harmonize` | Enforcing Low Entropy — tuning, cleanup |
+| `mend` | Healing a logic-fracture or drift |
+| `transcribe` | Updating lore or system self-description |
+| `ingest` | Devouring dependencies, binaries, data-stores |
+| `glitch` | State change from incoming IPC or entropy spikes |
 | `evolve` | Epoch threshold crossed — `main` only |
 
-**Branch naming:** Descriptive names for active work. `RaBbLE/epoch-<Roman>` for epoch staging. `reliquary/<name>` for archived branches. `main` always stable.
+## Branch Naming
 
-**Rules:** One logical change per commit. Test before committing. Small and often — no monolithic dumps.
+| Pattern | Purpose | Example |
+|---|---|---|
+| `RaBbLE/epoch-<Roman>` | Epoch staging before `main` | `RaBbLE/epoch-I` |
+| `reliquary/<name>` | Archived reference — inert, sacred | `reliquary/RaBbLE-Dev-Clean` |
+| `<descriptive-name>` | Active dev — spirit of work, not version | `RaBbLE-OS-New-Horizons` |
 
-**Anti-patterns:** `"fix stuff"` · `"update config"` · `"wip"` · `"changes"` — zero information, useless history.
+## Rules
 
-→ Full doc for: examples, scope rules, branch model detail
+- One logical change per commit
+- Test before committing
+- Commit small, commit often — no monolithic dumps
+- Avoid zero-information commits: `"fix stuff"`, `"wip"`, `"changes"`
+
+---
+
+→ Full doc for: Full examples, epoch commit format, detailed scope rules, anti-patterns explained
