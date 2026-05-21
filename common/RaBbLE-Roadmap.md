@@ -49,7 +49,8 @@ EPOCH 0: FOUNDATION   [ACTIVE]
 | **RaBbLE-Grimoire** | Active | Navigator + docs alignment + Episode 1 map | None | Documentation & coordination |
 | **RaBbLE-Collective** | Active | Bootstrap verified end-to-end | Member repos confirmed | Root directory + entry spell |
 | **RaBbLE-ScRibLE** | Deferred | Mobile PWA — deferred to Echo 1+ | — | Defined, not started |
-| **RaBbLE-Xperimental** | Dormant | Archive only — no active work | — | Reference & prototypes |
+| **RaBbLE-BaBbLE** | Defined | High-entropy intake — deferred to Ep2+ | — | Replaces New-Designs role; repo pending |
+| **RaBbLE-Xperimental** | Dormant | Archive only — no active work | — | Genesis archive; not superseded by BaBbLE |
 | **Memory (TBD)** | Concept | Echo 1 / Episode 2+ feature | — | Not Episode 1 blocker |
 
 ---

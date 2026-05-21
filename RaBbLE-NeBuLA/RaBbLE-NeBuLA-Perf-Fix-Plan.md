@@ -162,3 +162,46 @@ The NeBuLA Studio page (`world/RaBbLE-NeBuLA.html`) already has sliders wired to
 - Three.js backend is also slow but not part of this plan
 - The NeBuLA Studio `Conn Alpha` slider uses `connectionAlpha` which defaults to 0.18 — change to 0.13 in both backend and Studio Alpine data after Step 3
 - `_links` / `_rebuildLinks` / `_scheduleRebuild` infrastructure exists but is unused by the main render path (the dynamic approach doesn't use it). It can be removed for cleanup, or left for future use.
+
+---
+
+## S17 Root Cause Findings (Session 17 Debugging)
+
+> Additional root causes surfaced during S17 triage. Not fully resolved. Record these before attempting further perf work.
+
+### Post-boot particle drift breaks connDist assumptions
+
+After boot, `settleBlend = 1` → spring force term = 0. Particles accumulate sinusoidal velocity (~30px oscillation amplitude). Their **effective spread** is `targetX ± 30px`, not just `NEBULA_RADIUS = 130px`. This means:
+
+- Reducing `connDist` from 106px → 53px caused **zero** visible connections
+- Even 85px showed zero connections
+- Correct range to tune: **85–100px** to account for this idle drift
+
+**Fix approach:** `connDist` for connection eligibility should be calibrated to the effective particle spread post-boot, not to the visual radius.
+
+### shadowBlur GPU cliff at boot-end
+
+Enabling `ctx.shadowBlur` on all 45% glow particles simultaneously at boot completion causes an instant fps cliff (can drop to ~1fps). The adaptive glow system recovers, but slowly.
+
+**Fix approach:** Stagger glow enable — gradually increase the glow probability over the first N frames post-boot rather than switching all at once.
+
+### Individual `ctx.stroke()` per connection is catastrophically expensive
+
+Original code (before S15 fix) called `stroke()` per connection. Even the pre-codex production build had this — it only worked because connection count was very low at small `connDist`. Any increase in particle density or `connDist` restores the catastrophic cost.
+
+**Status:** Fixed in S15 (batched into one `stroke()` per frame). Do not revert.
+
+### Architectural direction for next perf pass
+
+Split into **two canvases**:
+- **Bottom canvas:** particles + connections (can render at reduced frame rate under load)
+- **Top canvas:** eye layer only (separate RAF — always runs at 60fps)
+
+This isolates the eye's interactive responsiveness from particle/connection rendering load. The eye canvas is lightweight and should never drop below 60fps.
+
+### Known-good baseline commits
+
+If you need to roll back to a state that was visually correct before triage:
+- **World `world` branch:** commit `aa66550` (NeBuLA bundle = 42,676 bytes, starts with `var W=...`)
+- **NeBuLA `dev` branch:** commit `34dee62` (pre-S15 perf triage)
+- **Optimization branch:** `feat/nebula-perf` in both repos (World `d3e246a`, NeBuLA `56908e1`)

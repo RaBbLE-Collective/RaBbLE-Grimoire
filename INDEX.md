@@ -48,6 +48,7 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 - [RaBbLE-Overview](common/RaBbLE-Overview.md) — system overview
 - [RaBbLE-Roadmap](common/RaBbLE-Roadmap.md) — unified ecosystem roadmap
 - [RaBbLE-Collective](common/RaBbLE-Collective.md) — ecosystem map, all members, architecture diagram
+- [RaBbLE-Agent-Protocols](common/RaBbLE-Agent-Protocols.md) — **agent behavioral rules** (doc management, repo conventions, member responsibilities, dev workflow, naming)
 - [RaBbLE-Collective-KnownIssues](common/RaBbLE-Collective-KnownIssues.md)
 - [RaBbLE-DistilledNonZense](common/RaBbLE-DistilledNonZense.md) — full entropy archive from deprecated substrate
 
@@ -142,6 +143,7 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 - [RaBbLE-Aether-Build-CDN](RaBbLE-Aether/RaBbLE-Aether-Build-CDN.md) — esbuild setup, dev workflow, CDN versioning, common pitfalls
 - [CLAUDE-DESIGN-GUIDE](RaBbLE-Aether/CLAUDE-DESIGN-GUIDE.md) — component prompts and animation vocabulary for Claude Design sessions
 - [SYSTEM-PROMPT](RaBbLE-Aether/SYSTEM-PROMPT.md) — three-tier system prompt for pasting into Claude Design (quick card / short / full)
+- [RaBbLE-Aether-Effects-Bank](RaBbLE-Aether/RaBbLE-Aether-Effects-Bank.md) — saved CSS effects discovered accidentally, pending integration (cotton candy swirl, etc.)
 - [Visual Assets](RaBbLE-Aether/assets/) — SVG, logos, icons
 
 ---
