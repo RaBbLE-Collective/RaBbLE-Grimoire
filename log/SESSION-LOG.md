@@ -5,14 +5,42 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-20 · Session 26
+## LATEST — 2026-05-21 · Session 27
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S26):** Session memory KB integration complete. `.claude` memories distilled into Grimoire as durable docs: `common/RaBbLE-Agent-Protocols.md` (new), `RaBbLE-Aether/RaBbLE-Aether-Effects-Bank.md` (new), NeBuLA perf doc + roadmap updated. Navigator + AGENT.md wired to surface protocols. Hook added to project settings so memory writes prompt Grimoire mirror assessment.
-**Active blockers:** distill-gists.sh broken · Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified.
-**Next:** Cast Fedora Everything VM · Phase 2C authoring (Mark writes Origin) · Phase 3 BaBbLE formalization.
+**Last session (S27):** Phase 3✓ — BaBbLE formalized as official Collective member. AGENT.md/CONTEXT.md/README.md authored, content reorganized (text/, prototypes/, archive/), git repo initialized. Grimoire: BaBbLE manifest + section registered, Xperimental status → genesis-archive, sCoRE DataCrawler RFC added, INDEX/CONTEXT/Collective.md updated. Collective AGENT.md member map updated.
+**Active blockers:** Phase 2C (Genesis/Ethos authoring, Mark writes Origin) · distill-gists.sh broken · sCoRE Railway unverified · BaBbLE needs GitHub remote.
+**Next:** Phase 2C authoring (Mark authors Origin + Symbiosis) · Phase 4 (landing transformation) · create RaBbLE-BaBbLE GitHub remote.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-21 (Session 27) — Phase 3: BaBbLE Member Formalization
+
+**Repos touched:** RaBbLE-Grimoire (`dev`), RaBbLE-BaBbLE (new), RaBbLE-Collective (`dev`)
+
+**Objective:** Execute Phase 3 of the Integration & Ethos Plan — formalize RaBbLE-BaBbLE as an official Collective member, reframe Xperimental as genesis-archive.
+
+**Work done:**
+
+- **`RaBbLE-BaBbLE/AGENT.md`** (NEW) — entry point for agents working in the intake workspace
+- **`RaBbLE-BaBbLE/CONTEXT.md`** (NEW) — current state, content inventory, routing decisions
+- **`RaBbLE-BaBbLE/README.md`** (NEW) — one-paragraph orientation
+- **BaBbLE content reorganized**: `_organized/text/` → `text/`, `_organized/web/` → `prototypes/`, `_organized/archives/` → `archive/`
+- **`git init` in BaBbLE** — first commit on `dev` branch. Needs GitHub remote (pending).
+- **`RaBbLE-Grimoire/RaBbLE-BaBbLE/README.md`** (NEW) — Grimoire-side doc: integration pattern, relationship to Xperimental
+- **`registry/manifests/RaBbLE-BaBbLE.manifest.yml`** (NEW) — official manifest, status `active`
+- **`registry/manifests/RaBbLE-Xperimental.manifest.yml`** (UPDATED) — status `dormant` → `genesis-archive`, description and notes reframed
+- **`RaBbLE-sCoRE/RaBbLE-sCoRE-DataCrawler-RFC.md`** (NEW) — crawler bot architecture (Scavenger/Organizer/Librarian) preserved from BaBbLE ideation corpus as future sCoRE RFC
+- **`common/RaBbLE-Collective.md`** (UPDATED) — member table refreshed: BaBbLE added, Xperimental reframed, all status strings current
+- **`INDEX.md`** (UPDATED) — BaBbLE section + README, DataCrawler RFC, Xperimental description updated, manifest list updated
+- **`CONTEXT.md`** (UPDATED) — Phase 3 marked complete, Ethos Plan status updated, BaBbLE + Xperimental tracks added, registry count updated
+- **Collective `AGENT.md`** (UPDATED) — member map and member entry points updated
+
+**Phase 3 verification:** `bash spells/status.sh` will show BaBbLE registered. Xperimental is genesis-archive. New-Designs was already gone.
+
+**What's next:** Phase 2C authoring (Mark writes Origin + Symbiosis) · Phase 4 (landing transformation) · create RaBbLE-BaBbLE GitHub remote.
 
 ---
 
