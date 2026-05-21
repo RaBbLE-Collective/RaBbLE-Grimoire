@@ -37,7 +37,7 @@ Drop trailing tiers when unknown. Examples: `v0` (Epoch only), `v0.0.2` (Echo le
 Epoch 0 — Foundation
   Evolution 0 — Scaffold
     Echo 0 — Establishing
-      Episode 1 — First Coordination Sweep (pending, not yet aired)
+      Episode 1 — Genesis (pending, not yet aired)
       
 Version: v0.0.0.0
 ```

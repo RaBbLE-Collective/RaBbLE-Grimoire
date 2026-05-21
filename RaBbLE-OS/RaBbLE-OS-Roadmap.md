@@ -49,7 +49,7 @@ reliquary/*              High-entropy archives — knowledge reservoirs, inert
      │
 RaBbLE-OS-New-Horizons   The living wave — active daily-driver work
      │
-     ├── RaBbLE/episode-I  ── Episode 1: Foundation      [IN PROGRESS]
+     ├── RaBbLE/episode-I  ── Episode 1: Genesis          [IN PROGRESS]
      │       │                   Plot A — Substrate
      │       │                   Plot B — Theme
      │       │
@@ -58,14 +58,14 @@ RaBbLE-OS-New-Horizons   The living wave — active daily-driver work
      │       ├── fix/boot-chain         [COOKING]
      │       └── fix/xdna2-npu          [DORMANT]
      │
-     ├── RaBbLE/episode-II  ─ Episode 2: Crystallizing    [PENDING]
+     ├── RaBbLE/episode-II  ─ Episode 2: Exodus            [PENDING]
      ├── RaBbLE/episode-III ─ Episode 3: The Entity Wakes [FUTURE]
      └── Epoch ∞          Continuous Drift            [PERPETUAL]
 ```
 
 ---
 
-### Episode 1 — Foundation `[IN PROGRESS]`
+### Episode 1 — Genesis `[IN PROGRESS]`
 
 **Goal:** Hardware-agnostic base and themed desktop experience. A fully deployable Wayland/Hyprland desktop
 that runs on any Fedora 43 host without proprietary GPU driver activation.
@@ -369,7 +369,7 @@ Do NOT attempt on the same day as the Episode 1 bootstrap. Validate F43 first.
 
 Hardware and stability patches that sit under Episode 1. Branch from New Horizons,
 target one system, land into `ep1` via the `mend` impulse (not `evolve`).
-Fix branches **do not gate** Episode 2 — crystallizing work can begin in parallel.
+Fix branches **do not gate** Episode 2 — Exodus work can begin in parallel.
 
 #### fix/proart-nvidia `%HIGH_ENTROPY%`
 
@@ -402,7 +402,7 @@ Fix branches **do not gate** Episode 2 — crystallizing work can begin in paral
 
 #### fix/boot-chain `%COOKING%`
 
-**Goal:** GRUB / Plymouth / SDDM unified void-background continuity at 4K.
+**Goal:** GRUB / Plymouth / SDDM minimal RaBbLE-themed boot — palette-consistent, void background, no visual breaks at 4K. This is functional theming, not the cinematic entity experience (that's Episode 2).
 
 **Blockers:**
 - [ ] GRUB2: remove bg image, color-only theme (32bpp vs 24bpp mismatch)
@@ -424,11 +424,21 @@ Fix branches **do not gate** Episode 2 — crystallizing work can begin in paral
 
 ---
 
-### Episode 2 — Crystallizing `[PENDING]`
+### Episode 2 — Exodus `[PENDING]`
 
 **Goal:** Elevate RaBbLE-OS from a functional substrate to a polished, cohesive desktop
 experience. Theming, window behaviour, tiling ergonomics, and UX consistency.
 Does not gate Episode 3.
+
+**Cinematic entity boot** `[THEME]`
+
+Port the theatrical boot experience into the real boot chain. The canonical design: particles converge from edges, portals draw as animated arcs, eyes emerge from portal slits with a 3-phase blink sequence, then crossfade to the login surface.
+
+- [ ] Plymouth: implement particle convergence + portal draw animation using NeBuLA + Aether as the visual reference (Canvas → Plymouth script or video splash)
+- [ ] Plymouth → SDDM: crossfade preserves visual continuity (entity eyes carry across the transition)
+- [ ] SDDM: RaBbLE-branded `Main.qml` with entity presence (idle mode, not full boot animation)
+- [ ] Reference: `RaBbLE-World @ 36d4547:world/RaBbLE-Boot.html` — full cinematic sequence preserved in git
+- [ ] Depends on: fix/boot-chain (Ep1 palette base must land first)
 
 **Brightness keybind fix** `[BUG]`
 - [ ] `swayosd-client --brightness` picks the keyboard backlight as the default brightness device

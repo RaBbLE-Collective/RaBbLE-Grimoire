@@ -5,14 +5,31 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-21 · Session 29
+## LATEST — 2026-05-21 · Session 30
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S29):** Full coherency & token audit + context optimization. 40+ stale paths fixed. 9 gists (8 regenerated + new Integration Map). Canonical `RaBbLE-Integration-Map.md` created. Context optimization roadmap added. All 10 open gaps verified current. `gist/README.md` → `RaBbLE-Gist-Overview.md`.
+**Last session (S30):** ChRySaLiS audit — all content verified migrated. Episode names locked: Ep1=Genesis, Ep2=Exodus (Biblical arc, intentional lore). Cinematic boot item added to Episode 2 — Exodus in OS Roadmap; fix/boot-chain clarified as minimal Ep1 theming. All ChRySaLiS path refs removed; git ref `RaBbLE-World@36d4547` is canonical boot sequence anchor.
 **Active blockers:** Phase 2C (Genesis/Ethos authoring, Mark writes Origin) · sCoRE Railway unverified · BaBbLE needs GitHub remote.
-**Next:** Phase 2C authoring · Phase 4 (landing transformation) · BaBbLE GitHub remote · Reliquary rename · sCoRE/World architecture gists.
+**Next:** Phase 2C authoring · Phase 4 (landing transformation) · BaBbLE GitHub remote · ChRySaLiS archive.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-21 (Session 30) — ChRySaLiS Audit + Episode Naming
+
+**Repos touched:** RaBbLE-Grimoire (`dev`)
+
+**Objective:** Verify ChRySaLiS archive is fully migrated; capture any open items; lock episode names.
+
+**Work done:**
+
+- **ChRySaLiS audit:** Full inventory of `~/RaBbLE_ChRySaLiS/`. All substantive content verified migrated — RaBbLE-Server → sCoRE/server/, RaBbLE-Chat → World + NeBuLA. Two open items from Ideas.txt captured: Plymouth boot and SDDM theme were in OS Roadmap only as functional fixes, not as the cinematic vision.
+- **Episode naming locked:** Ep1 = Genesis (the beginning), Ep2 = Exodus (entity's emergence from concept to reality). Biblical arc is intentional lore. Updated: OS Roadmap branch tree + section headers, Versioning.md timeline + current position, Versioning gist, Agent Protocols (rule added). DECISIONS.md "Foundation" phase name left untouched — it's a project lifecycle phase, not an episode label.
+- **Cinematic boot item added:** Episode 2 — Exodus in OS Roadmap now has a `Cinematic entity boot [THEME]` item. fix/boot-chain goal clarified as minimal Ep1 theming only.
+- **ChRySaLiS refs removed:** Roadmap item previously pointed to `~/RaBbLE_ChRySaLiS/RaBbLE-Chat/` paths. Replaced with `RaBbLE-World @ 36d4547:world/RaBbLE-Boot.html` — the file already exists in World's git tree as a reference artifact. Zero ChRySaLiS paths remain in any Collective doc.
+
+**What's next:** ChRySaLiS ready to archive. Phase 2C authoring (Mark writes Origin/Ethos). Phase 4 landing transformation. BaBbLE GitHub remote.
 
 ---
 

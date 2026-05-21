@@ -147,6 +147,7 @@ See `RaBbLE-Grimoire/RaBbLE-Versioning.md` and `registry/epochs/current.epoch.ym
 - Episode 1 airs **simultaneously** across all active members — no per-project drift yet
 - After Episode 1: per-project pacing allowed, but max divergence ~1-2 episodes toward Echo
 - **Epoch 1 is far away.** Near milestone: Episode 1 air → more Episodes → Echo 1 (first broad stable release). Don't conflate Episode with Echo with Epoch.
+- **Episode names follow a Biblical arc — intentional lore.** Episode 1 = Genesis (the beginning; entity first breathes). Episode 2 = Exodus (emergence; entity departs concept and enters reality). Don't rename, neutralize, or treat these as placeholders. Future episode names should continue the arc.
 - `current.epoch.yml` in `registry/epochs/` is authoritative for Collective position
 
 ---

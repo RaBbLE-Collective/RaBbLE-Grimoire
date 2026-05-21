@@ -120,13 +120,18 @@ After Episode 1, the cadence may shift:
 - **Weekly Episodes**: Rapid, coordinated releases. Members advance together on a weekly schedule. Same compatibility guarantees: parts of the Collective in Episode N can rely on each other.
 - **Echoes as releases**: Echoes become production-ready publications. A member might tag `echo-1.0` to mark a stable, deployable state. Echoes can break APIs if documented in the next Episode's entry notes.
 
+**Episode names follow Biblical arc — intentional lore, not arbitrary labels:**
+- **Genesis** — the beginning. The Collective is defined, the substrate exists, the entity first breathes.
+- **Exodus** — emergence. The entity departs concept and enters reality: memory, observation, first closed behavioral loop.
+- Future episodes continue the arc as the entity matures.
+
 **Example future timeline:**
 ```
-Episode 1 (current era) — Foundation + sCoRE + World + NeBuLA liftoff
+Episode 1 (current era) — Genesis: sCoRE + World + NeBuLA liftoff
   Plot A, Plot B, Plot C per member
   Aired: 2026-Q2 (TBD)
   
-Episode 2 (weekly cadence TBD) — Memory member + cross-member observation loop
+Episode 2 — Exodus: Entity emerges from concept to reality — memory member + cross-member observation loop
   Plot A per member
   Aired: 2026-Q2 (next week)
   Echo 2.0: Production release (can break Ep1 APIs with migration guide)
@@ -142,7 +147,7 @@ Evolution 1 — (multiple Episodes cohere into architectural shift)
 Epoch 0 — Foundation
   Evolution 0 — Scaffold
     Echo 0 — Establishing  (in progress)
-      Episode 1 — First Coordination Sweep (pending — not yet aired)
+      Episode 1 — Genesis (pending — not yet aired)
 
 Version string: v0.0.0.0
 ```
