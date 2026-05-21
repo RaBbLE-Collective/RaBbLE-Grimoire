@@ -8,9 +8,9 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-05-21 · Session 29
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S29):** Full coherency & token audit. Fixed 40+ stale `common/`→`RaBbLE-Agent/` paths across all repos. All 8 gists regenerated from current sources (~3,660 tokens total). CLAUDE.md/CODEX.md symlinks fixed across all 8 repos. 15 unindexed docs added to INDEX.md. REFERENCES.md trimmed ~800 tokens. 5 missing architectural decisions captured. distill-gists.sh paths fixed. setup.sh now wires Collective root.
+**Last session (S29):** Full coherency & token audit + context optimization. 40+ stale paths fixed. 9 gists (8 regenerated + new Integration Map). Canonical `RaBbLE-Integration-Map.md` created. Context optimization roadmap added. All 10 open gaps verified current. `gist/README.md` → `RaBbLE-Gist-Overview.md`.
 **Active blockers:** Phase 2C (Genesis/Ethos authoring, Mark writes Origin) · sCoRE Railway unverified · BaBbLE needs GitHub remote.
-**Next:** Phase 2C authoring · Phase 4 (landing transformation) · BaBbLE GitHub remote · Reliquary rename (when ready).
+**Next:** Phase 2C authoring · Phase 4 (landing transformation) · BaBbLE GitHub remote · Reliquary rename · sCoRE/World architecture gists.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
@@ -34,8 +34,12 @@ Format: date, what was done, where things were left, what's next.
 - **CONTEXT.md:** Reading order token estimates corrected, gist row added, member status updated
 - **setup.sh:** Now wires Collective root symlinks before Grimoire step
 - **Token audit:** Full ecosystem is ~1.56M tokens (docs ~1M, code ~525K). Typical sessions use 1-9% of 200K context.
+- **Integration Map:** Canonical `RaBbLE-Agent/RaBbLE-Integration-Map.md` (~1,200 tokens) created — cross-member data flow, CDN chain, key boundaries, post-Ep1 integration points. Gist added (~300 tokens). Added to distill-gists.sh pipeline.
+- **Context optimization:** "Agent Context Optimization" section added to Roadmap — architecture gists for sCoRE/World, INDEX.md demotion. Gaps #9 and #10 added to AUDITS.md.
+- **Naming:** `gist/README.md` → `gist/RaBbLE-Gist-Overview.md` (convention from S28 applies to gist/ too).
+- **Gap review:** All 10 open gaps verified current. 2 Ep1 blockers need manual verification. 4 intentionally deferred. 4 actionable non-blockers.
 
-**What's next:** Phase 2C authoring · Phase 4 (landing transformation) · BaBbLE GitHub remote · Reliquary rename
+**What's next:** Phase 2C authoring · Phase 4 (landing transformation) · BaBbLE GitHub remote · Reliquary rename · sCoRE/World architecture gists
 
 ---
 
