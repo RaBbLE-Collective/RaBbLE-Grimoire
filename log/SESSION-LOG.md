@@ -5,14 +5,28 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-20 · Session 23
+## LATEST — 2026-05-20 · Session 24
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S23):** VM dev workflow fully operational. KVM stack installed, vmctl.sh hardened (setup subcommand, virgl auto-detect, ISO ACL handling, qemu:///system URI, auto-cleanup on recast). Fedora 44 Sway spin VM cast + verified. VM-Guide.md in Grimoire updated with full storage/friction/partition notes. Direction shift: moving from Sway spin base to Kickstart (KS) for a cleaner custom RaBbLE-OS build.
-**Active blockers:** distill-gists.sh broken (set -e + read -d '' exit bug) · Phase 1C (World grimoire circle) · Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified.
-**Next:** KS file for RaBbLE-OS base install · Phase 1C · Phase 2C authoring.
+**Last session (S24):** Phase 1C complete. Grimoire summoning circle live in World left rail — vanilla JS (no React). NeBuLA gains `ui/` SVG factories (GrimoireRing, GrimoireEye, EntityMini). visual-screenshot.sh hardened: RaBbLE-Captures dir, scratch workspace 9, auto-close, workspace restore.
+**Active blockers:** distill-gists.sh broken · Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified.
+**Next:** Phase 2C authoring (Mark writes Origin) · Phase 3 BaBbLE formalization · Phase 4 landing transformation.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-20 (Session 24) — Phase 1C: Grimoire Summoning Circle + NeBuLA ui/ + Screenshot Spell
+
+**Repos touched:** RaBbLE-NeBuLA (`dev`), RaBbLE-World (`world`), RaBbLE-Grimoire (`dev`), RaBbLE-Collective (`dev`)
+
+**Work done:**
+- NeBuLA `src/ui/`: three SVG effect factories — `createGrimoireRing`, `createGrimoireEye`/`createAmbientEye`, `createEntityMini`. Exported under `window.NeBuLA.ui.*` in IIFE. Bundle rebuilt + copied to World.
+- World: `RaBbLE-Grimoire.js` (vanilla JS, no React/Babel) mounts via `rabble:wm-ready`. `RaBbLE-Grimoire-Data.js` holds corpus. `RaBbLE-Grimoire.css` stripped to sc-*/ec-* (Aether border passthrough fix: `[data-applet="grimoire"]::before { z-index: 1 }` + `border: none` on `.gv-panel`). WM slot renamed `collective` → `grimoire`.
+- Grimoire `visual-screenshot.sh`: default output → `RaBbLE-Captures/`, scratch workspace 9 default, auto-close Firefox, workspace restore. `--close` flag removed (always closes). SPELLS.md updated.
+- Collective: `RaBbLE-Captures/` gitignored.
+
+**What's next:** Phase 2C (Mark authors Origin, Symbiosis, Visual-Evolution, Lineage, Collaborators) · Phase 3 BaBbLE formalization.
 
 ---
 
