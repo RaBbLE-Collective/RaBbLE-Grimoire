@@ -153,3 +153,27 @@ The BaBbLE triage doc (`text/NeBuLA-Xperimental-Triage.md`) captures what Xperim
 ### Pending: Reliquary rename
 
 Mark intends to rename `RaBbLE-Xperimental` → `RaBbLE-Reliquary`. The name better reflects the "sacred origin artifacts" character of the repo. Not yet actioned — captured in memory and here for continuity. When renamed: update manifest, INDEX.md, Collective.md, CONTEXT.md, Grimoire AGENT.md, and Collective AGENT.md.
+
+---
+
+## Technical Decisions (captured from session history)
+
+### sCoRE delegation: subprocess-first (Session 2)
+
+sCoRE delegates to Claude Code via subprocess, not MCP server. MCP is a later option if subprocess friction warrants it. Tokens-per-task are measured from day one. Rationale: subprocess is simpler, faster to ship, and directly observable.
+
+### NeBuLA rendering: Canvas2D-first, Three.js deferred (Sessions 9–17)
+
+Canvas2D backend absorbs Layer 1 (entity persona rendering). Three.js (Layer 2 — Flat-Chaos quantum visualization) is deferred to Episode 2. Rationale: Canvas2D is already proven in `rabble-entity.js`; shipping one working backend beats two incomplete ones.
+
+### No React in World (Session 14)
+
+World is vanilla JS only. Convert JSX prototypes to plain JS. NeBuLA.ui factory pattern for components. Rationale: World is a thin scaffold — no bundler, no framework, no build step. Adding React would violate the "surfaces don't own complexity" principle.
+
+### Aether CDN-first distribution (Sessions 9–12)
+
+Aether ships as a CDN-distributed CSS bundle. All members load one file and get the full visual system. `dev-serve.sh` mocks the CDN locally. Production goes through Cloudflare R2. Rationale: single-source delivery eliminates version drift across members.
+
+### CLAUDE.md/CODEX.md symlink convention (Session 29)
+
+All member repos must have CLAUDE.md and CODEX.md as symlinks to AGENT.md. AGENT.md is the owner file. `setup.sh` enforces this across the Collective. sCoRE's entity system prompt lives in `system-prompt-sCoRE.md`, not in a diverged CLAUDE.md.

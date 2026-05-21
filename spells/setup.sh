@@ -177,8 +177,11 @@ info "Mode:            $MODE"
 [[ -n "$TARGET_PROJECT" ]] && info "Target project:  $TARGET_PROJECT"
 echo ""
 
-# Step 1: Collective own symlinks
+# Step 1: Collective root + Grimoire symlinks
 if [[ "$MODE" != "pull" ]]; then
+  pulse "── RaBbLE-Collective (root)"
+  setup_symlinks "$RABBLE_ROOT"
+
   pulse "── RaBbLE-Grimoire (this repo)"
   setup_symlinks "$GRIMOIRE_ROOT"
 fi

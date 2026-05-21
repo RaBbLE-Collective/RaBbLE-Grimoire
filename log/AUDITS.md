@@ -1,6 +1,6 @@
 # AUDITS.md — RaBbLE Grimoire Audit Record
 
-Completed audits of the Grimoire and Collective. Each entry captures scope, key findings, and resolutions. For open gaps, see `GAP-ANALYSIS.md`.
+Completed audits of the Grimoire and Collective. Each entry captures scope, key findings, and resolutions. Open gaps are tracked in the "Open Gaps" section below.
 
 ---
 
@@ -17,7 +17,7 @@ Completed audits of the Grimoire and Collective. Each entry captures scope, key 
 - `GAP-ANALYSIS.md`: rewritten — 4 open gaps clearly stated, 19 resolved items archived with dates
 - Entry points: Grimoire AGENT.md split into new-agent vs returning-agent paths; Navigator updated; CONTEXT.md active tracks corrected
 
-**Key decisions captured in:** `log/ONBOARDING-DECISIONS.md`
+**Key decisions captured in:** `log/DECISIONS.md`
 **Full process detail in:** `log/SESSION-LOG.md` Session 10
 
 ---
@@ -41,7 +41,7 @@ Completed audits of the Grimoire and Collective. Each entry captures scope, key 
 - Pulse Protocol: centralized, de-duplicated
 - Episode 1 scope: `RaBbLE-Episode-1-Release-Map.md` created
 
-**Key decisions captured in:** `log/ONBOARDING-DECISIONS.md`
+**Key decisions captured in:** `log/DECISIONS.md`
 **Full process detail in:** `log/SESSION-LOG.md` Sessions 1–4
 
 ---

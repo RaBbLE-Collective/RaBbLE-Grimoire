@@ -47,7 +47,6 @@ See `RaBbLE-Agent/RaBbLE-CommitStyle.md` (Pulse Protocol) for full spec.
 
 - **Colors**: `RaBbLE-Agent/RaBbLE-Palette.md` only. Never invent hex values.
 - **Philosophy**: `RaBbLE-Agent/RaBbLE-Identity.md` first for any entity or behavior questions.
-- **Never edit** `distilled/` files — these are generated from canonical sources.
 - **Registry** lives in `registry/` at the Grimoire root. Manifests in `registry/manifests/`.
 - **Spells** live in `spells/` — bash scripts that manage the Collective.
 

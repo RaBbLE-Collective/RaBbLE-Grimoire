@@ -50,6 +50,8 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 - [RaBbLE-Grimoire-Navigator](RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md) — reading order by time budget and task type
 - [RaBbLE-Collective-KnownIssues](RaBbLE-Agent/RaBbLE-Collective-KnownIssues.md)
 - [RaBbLE-DistilledNonZense](RaBbLE-Agent/RaBbLE-DistilledNonZense.md) — full entropy archive from deprecated substrate
+- [RaBbLE-Overview](RaBbLE-Agent/RaBbLE-Overview.md) — orientation map: ecosystem summary and quick-start pointers
+- [RaBbLE-References](RaBbLE-Agent/RaBbLE-References.md) — external influences and reference repositories
 
 ---
 
@@ -112,6 +114,16 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 - [RaBbLE-OS-ShellGuide](RaBbLE-OS/RaBbLE-OS-ShellGuide.md)
 - [RaBbLE-OS-BootFlow](RaBbLE-OS/RaBbLE-OS-BootFlow.md)
 - [RaBbLE-OS-VM-Guide](RaBbLE-OS/RaBbLE-OS-VM-Guide.md) — KVM dev VM setup, bootstrap test loop, vmctl reference, GPU passthrough wishlist
+- [RaBbLE-OS-AddingTargets](RaBbLE-OS/RaBbLE-OS-AddingTargets.md) — how to add new Ansible targets
+- [RaBbLE-OS-Bootstrap](RaBbLE-OS/RaBbLE-OS-Bootstrap.md) — bootstrap process documentation
+- [RaBbLE-OS-Epoch-I-Diff](RaBbLE-OS/RaBbLE-OS-Epoch-I-Diff.md) — delta from stock Fedora to RaBbLE-OS
+- [RaBbLE-OS-Hardware](RaBbLE-OS/RaBbLE-OS-Hardware.md) — hardware profile and specs
+- [RaBbLE-OS-HyprlandGuide](RaBbLE-OS/RaBbLE-OS-HyprlandGuide.md) — Hyprland window manager configuration
+- [RaBbLE-OS-KnownIssues](RaBbLE-OS/RaBbLE-OS-KnownIssues.md) — current blockers and workarounds
+- [RaBbLE-OS-ManualInstall](RaBbLE-OS/RaBbLE-OS-ManualInstall.md) — manual installation steps
+- [RaBbLE-OS-Packages](RaBbLE-OS/RaBbLE-OS-Packages.md) — package list and dependencies
+- [RaBbLE-OS-PartitionLayout](RaBbLE-OS/RaBbLE-OS-PartitionLayout.md) — disk partition scheme (nvme layout, VM storage)
+- [RaBbLE-OS-Theming](RaBbLE-OS/RaBbLE-OS-Theming.md) — GTK/Qt/terminal theme configuration
 
 ---
 
@@ -141,6 +153,11 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 - [RaBbLE-NeBuLA-Architecture](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Architecture.md) — Layer model, system interface, frame budget, effects layer
 - [RaBbLE-NeBuLA-API](RaBbLE-NeBuLA/RaBbLE-NeBuLA-API.md) — public API reference
 - [RaBbLE-NeBuLA-Plan](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Plan.md) — agent implementation plan (step-by-step)
+- [RaBbLE-NeBuLA-FlatChaos](RaBbLE-NeBuLA/RaBbLE-NeBuLA-FlatChaos.md) — Flat-Chaos pattern spec
+- [RaBbLE-NeBuLA-Ideas](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Ideas.md) — enhancement proposals (Episodes 3+)
+- [RaBbLE-NeBuLA-Perf-Fix-Plan](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Perf-Fix-Plan.md) — performance root-cause analysis (superseded by Rearchitecture)
+- [RaBbLE-NeBuLA-RABL](RaBbLE-NeBuLA/RaBbLE-NeBuLA-RABL.md) — scene serialization format (legacy reference)
+- [RaBbLE-NeBuLA-RBCNS](RaBbLE-NeBuLA/RaBbLE-NeBuLA-RBCNS.md) — historical naming spec (**archived, do not follow**)
 
 ---
 
@@ -152,6 +169,7 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 - [CLAUDE-DESIGN-GUIDE](RaBbLE-Aether/CLAUDE-DESIGN-GUIDE.md) — component prompts and animation vocabulary for Claude Design sessions
 - [SYSTEM-PROMPT](RaBbLE-Aether/SYSTEM-PROMPT.md) — three-tier system prompt for pasting into Claude Design (quick card / short / full)
 - [RaBbLE-Aether-Effects-Bank](RaBbLE-Aether/RaBbLE-Aether-Effects-Bank.md) — saved CSS effects discovered accidentally, pending integration (cotton candy swirl, etc.)
+- [DEBUG-SESSION-2026-05-15](RaBbLE-Aether/DEBUG-SESSION-2026-05-15.md) — session debug log (ephemeral reference)
 - [Visual Assets](RaBbLE-Aether/assets/) — SVG, logos, icons
 
 ---
