@@ -75,6 +75,7 @@ See `common/RaBbLE-CommitStyle.md` (Pulse Protocol) for full spec.
 | Entity identity, voice, behavior | `common/RaBbLE-Identity.md` | — |
 | Palette / colors | `common/RaBbLE-Palette.md` | — |
 | Commit format | `common/RaBbLE-CommitStyle.md` | — |
+| Agent behavioral rules | `common/RaBbLE-Agent-Protocols.md` | — |
 | Member registry / epoch status | `registry/` | `registry/epochs/current.epoch.yml` |
 | Member manifests | `registry/manifests/` | `registry/manifests/_template.manifest.yml` |
 | Coordination scripts | `spells/` | each script's header |

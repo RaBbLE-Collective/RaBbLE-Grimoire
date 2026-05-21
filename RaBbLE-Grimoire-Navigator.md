@@ -23,8 +23,9 @@ You'll know: Episode 1 scope and your member's exit conditions.
 Above, then:
 5. `RaBbLE-Versioning.md` — Five Es (Event→Episode→Echo→Evolution→Epoch), lockstep model
 6. `common/RaBbLE-CommitStyle.md` — Pulse Protocol commit format
-7. `common/RaBbLE-Roadmap.md` — long-term vision, open gaps
-8. `INDEX.md` — everything that exists in the Grimoire
+7. `common/RaBbLE-Agent-Protocols.md` — hard-won behavioral rules (doc management, dev workflow, member responsibilities, naming)
+8. `common/RaBbLE-Roadmap.md` — long-term vision, open gaps
+9. `INDEX.md` — everything that exists in the Grimoire
 
 ---
 
@@ -39,6 +40,7 @@ Above, then:
 | Visual language and colors | `common/RaBbLE-Palette.md` + `RaBbLE-Aether/RaBbLE-Aether-Architecture.md` |
 | Setup and coordination scripts | `SPELLS.md` → `spells/` |
 | Member coordination model | `common/RaBbLE-Collective.md` + `registry/RaBbLE-Collective-Registry.md` |
+| Agent behavioral rules, do's/don'ts | `common/RaBbLE-Agent-Protocols.md` |
 | Versioning in depth | `RaBbLE-Versioning.md` |
 | Find any document | `INDEX.md` |
 
