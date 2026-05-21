@@ -5,14 +5,37 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-21 · Session 28
+## LATEST — 2026-05-21 · Session 29
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S28):** Grimoire restructure complete. `lore/`→`RaBbLE/`, `common/`→`RaBbLE-Agent/`, `ShortStories/`→`RaBbLE-Mythos/`. Root RaBbLE-prefixed files sorted into member dirs. All `README.md` in member sections renamed `RaBbLE-*-Overview.md`. `distilled/` removed (superseded by gist). 62 files renamed, all references updated.
-**Active blockers:** Phase 2C (Genesis/Ethos authoring, Mark writes Origin) · distill-gists.sh broken · sCoRE Railway unverified · BaBbLE needs GitHub remote.
+**Last session (S29):** Full coherency & token audit. Fixed 40+ stale `common/`→`RaBbLE-Agent/` paths across all repos. All 8 gists regenerated from current sources (~3,660 tokens total). CLAUDE.md/CODEX.md symlinks fixed across all 8 repos. 15 unindexed docs added to INDEX.md. REFERENCES.md trimmed ~800 tokens. 5 missing architectural decisions captured. distill-gists.sh paths fixed. setup.sh now wires Collective root.
+**Active blockers:** Phase 2C (Genesis/Ethos authoring, Mark writes Origin) · sCoRE Railway unverified · BaBbLE needs GitHub remote.
 **Next:** Phase 2C authoring · Phase 4 (landing transformation) · BaBbLE GitHub remote · Reliquary rename (when ready).
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-21 (Session 29) — Coherency & Token Audit
+
+**Repos touched:** RaBbLE-Grimoire (`dev`), RaBbLE-Collective (`dev`), RaBbLE-sCoRE, RaBbLE-World, RaBbLE-NeBuLA, RaBbLE-Aether, RaBbLE-OS, RaBbLE-BaBbLE
+
+**Objective:** Post-restructure coherency audit — fix broken paths, regenerate gists, normalize symlinks, capture missing decisions, and establish token budget.
+
+**Work done:**
+
+- **Stale path refs:** Fixed 40+ `common/` → `RaBbLE-Agent/` references across all member AGENT.md and CONTEXT.md files
+- **Gist system:** All 8 gists regenerated from current sources; total ~3,660 tokens (was estimated ~2,000). distill-gists.sh paths fixed.
+- **Symlinks:** CLAUDE.md/CODEX.md now symlink to AGENT.md across all 8 repos (Grimoire, sCoRE, OS, World, NeBuLA, Aether, BaBbLE, Xperimental)
+- **INDEX.md:** 15 previously unindexed docs added (OS docs, NeBuLA specs, Aether debug session)
+- **REFERENCES.md:** Trimmed ~800 tokens by removing content duplicated from AGENT.md
+- **DECISIONS.md:** 5 missing decisions captured (sCoRE subprocess-first, NeBuLA Canvas2D-first, No React in World, Aether CDN-first, symlink convention)
+- **AUDITS.md:** Session 29 entry added, open gaps updated
+- **CONTEXT.md:** Reading order token estimates corrected, gist row added, member status updated
+- **setup.sh:** Now wires Collective root symlinks before Grimoire step
+- **Token audit:** Full ecosystem is ~1.56M tokens (docs ~1M, code ~525K). Typical sessions use 1-9% of 200K context.
+
+**What's next:** Phase 2C authoring · Phase 4 (landing transformation) · BaBbLE GitHub remote · Reliquary rename
 
 ---
 
