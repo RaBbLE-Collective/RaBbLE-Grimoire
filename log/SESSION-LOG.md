@@ -5,14 +5,34 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-21 · Session 32
+## LATEST — 2026-05-21 · Session 33
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S32):** RaBbLE-OS gap analysis + post-mortem. Package manifest created (`ansible/packages/manifest.yml` — 59 packages, 9 layers, every decision recorded). Polkit autostart bug fixed (hyprpolkitagent). Power button shutdown-on-wake bug fixed (logind HandlePowerKey). GTK/Qt unified Aether theming plan documented. Grimoire Packages + Theming docs updated.
+**Last session (S33):** Full implementation plan written — 3-tier installer architecture (KS interactive → custom live ISO → Calamares). Stub debt prioritized (13 items, 5 phases). 3 quick-win Ansible bugs identified. Grimoire doc restructure designed (17→12 files, Tier 1 < 3,000 tokens). Acceptance criteria defined for "Full DE state".
 **Active blockers:** Phase 2C (Genesis/Ethos authoring, Mark writes Origin) · sCoRE Railway unverified · BaBbLE needs GitHub remote.
-**Next:** Opus plan session — KS setup + Full DE coverage + Grimoire OS doc restructure.
+**Next:** Quick wins (supergfxd fix, nvidia idempotency, gparted→gnome-disk-utility) → doc restructure → stub implementations.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-21 (Session 33) — KS + Full DE Coverage Implementation Plan
+
+**Repos touched:** RaBbLE-Grimoire (`dev`)
+
+**Objective:** Produce actionable build plan for taking RaBbLE-OS from current stub state to fully reproducible system. Design installer architecture. Plan Grimoire doc restructure.
+
+**Work done:**
+
+- **Implementation plan:** Created `RaBbLE-OS/RaBbLE-OS-Implementation-Plan.md` — full structured plan covering installer architecture, stub debt, bug fixes, acceptance criteria, doc restructure.
+- **Installer architecture — 3 tiers:** Tier 1: KS on Fedora Everything netinstall with interactive partitioning (Anaconda handles disks, KS automates rest). Tier 2: Custom live ISO / RaBbLE Fedora spin (themed Hyprland session + Anaconda backend). Tier 3: Calamares (aspirational).
+- **Stub debt prioritized:** 13 items across 5 phases, boot-critical-first ordering. Phase 1 (core/packages, sddm, plymouth, fonts role) → Phase 2 (browser, boot config) → Phase 3 (hardware, theme, bluetooth, flatpak).
+- **Quick wins identified:** 3 Ansible bugs: supergfxd stub include (main.yml calls stub, working file ignored), nvidia idempotency (nouveau gate skips reinstall), gparted still in apps role (should be gnome-disk-utility).
+- **Acceptance criteria:** "Full DE state" checklist — system foundation, boot chain, desktop, shell, apps, audio, hardware, theme, reproducibility gate.
+- **Doc restructure designed:** 17→12 active files. Tier 1 (agent reads first) < 3,000 tokens. New Reference.md and Checklists.md absorb content from bloated Architecture and Roadmap.
+- **Install path confirmed:** KS first → VM testing → custom live ISO. Anaconda as backend installer for all tiers.
+
+**What's next:** Quick wins (3 bug fixes) → Grimoire doc restructure → Phase 1 stubs → Phase 2 stubs → KS infrastructure.
 
 ---
 
