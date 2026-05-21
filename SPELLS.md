@@ -113,7 +113,7 @@ bash spells/visual-screenshot.sh --url http://localhost:8000 --workspace 8
 3. Read the path from the `SCREENSHOT: /path` line — Claude Code reads PNG files directly
 4. Verify the change visually, iterate
 
-**Output:** `~/RaBbLE-Collective/screenshots/visual-TIMESTAMP.png` (gitignored).  
+**Output:** `~/RaBbLE-Collective/RaBbLE-Captures/visual-TIMESTAMP.png` (gitignored).  
 **Requires:** `hyprctl`, `firefox`, `grim`, active Hyprland session (RaBbLE-OS). `jq` optional (improves monitor and workspace targeting).
 
 ---

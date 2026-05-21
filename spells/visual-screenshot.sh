@@ -22,7 +22,7 @@
 #
 # Flags:
 #   --url URL         Page to open (default: http://localhost:8000)
-#   --out PATH        Output path (default: ~/RaBbLE-Collective/screenshots/visual-TIMESTAMP.png)
+#   --out PATH        Output path (default: ~/RaBbLE-Collective/RaBbLE-Captures/visual-TIMESTAMP.png)
 #   --delay SECS      Seconds to wait for page render before capture (default: 2)
 #   (Firefox is always closed after capture and workspace always restored)
 #   --workspace NUM   Switch to this Hyprland workspace before opening Firefox so
@@ -41,7 +41,7 @@ RABBLE_ROOT="$(dirname "$GRIMOIRE_ROOT")"
 STAMP="$(date +%Y%m%d-%H%M%S)"
 
 URL="http://localhost:8000"
-OUT="$RABBLE_ROOT/screenshots/visual-$STAMP.png"
+OUT="$RABBLE_ROOT/RaBbLE-Captures/visual-$STAMP.png"
 DELAY="2"
 WORKSPACE="9"   # scratch workspace — isolates capture from IDE; always return after
 
