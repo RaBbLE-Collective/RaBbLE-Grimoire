@@ -63,20 +63,21 @@ Every design decision, character trait, protocol schema, and technical pattern l
 |---|---|
 | Entity identity (`common/RaBbLE-Identity.md`) | Split — operational core ~330 lines; ethos extracted to `lore/` |
 | Ethos layer (`lore/`) | **Active** — Ethos + Worldbuilding live; Genesis + Symbiosis to be authored (Phase 2C) |
-| Integration & Ethos Plan (`RaBbLE-Collective/RaBbLE-Integration-Ethos-Plan.md`) | **Active** — Phase 1A✓ 1B✓ 0A✓ 2A✓ 2B✓ 2D✓ · Phase 1C, 2C, 3, 4 pending |
+| Integration & Ethos Plan (`RaBbLE-Collective/RaBbLE-Integration-Ethos-Plan.md`) | **Active** — Phase 1A✓ 1B✓ 1C✓ 0A✓ 2A✓ 2B✓ 2D✓ 3✓ · Phase 2C (Mark authors), 4 pending |
 | Palette (`common/RaBbLE-Palette.md`) | Stable |
 | Roadmap (`common/RaBbLE-Roadmap.md`) | Current — Episode 1 streams visible, open questions documented |
-| Registry (`registry/`) | 7 manifests live (Collective, OS, sCoRE, Aether, NeBuLA, World, Xperimental) |
+| Registry (`registry/`) | 8 manifests live (Collective, OS, sCoRE, Aether, NeBuLA, World, BaBbLE, Xperimental) |
 | Spells (`spells/`) | 6 spells live; `validate-links.sh` planned (non-blocking) |
 | Versioning spec (`RaBbLE-Versioning.md`) | Stable — Five Es locked |
 | Episode tracking (`registry/epochs/current.epoch.yml`) | Episode 1 pending — all members accumulating Events |
 | Episode 1 scope (`RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md`) | Canonical scope locked — exit criteria, blockers, tag convention |
-| RaBbLE-sCoRE docs | Architecture + Roadmap present. MVP LLM endpoint planned for Railway deploy. |
+| RaBbLE-sCoRE docs | Architecture + Roadmap present. DataCrawler RFC added. MVP LLM endpoint planned for Railway deploy. |
 | RaBbLE-World | Active (Session 9) — thin scaffold: no embedded renderers. Two loaders (Aether + NeBuLA). |
 | RaBbLE-Aether | Active — component library complete, CDN delivery working, dev workflow documented. |
 | RaBbLE-NeBuLA | Active — Canvas2dBackend + BootSequence complete. `<rabble-entity>` now in NeBuLA. |
+| RaBbLE-BaBbLE | **Active** — formalized as Collective member (Phase 3). AGENT.md/CONTEXT.md/README.md live. Manifest registered. |
 | RaBbLE-ScRibLE | Defined — mobile PWA. Repo not yet created. Deferred to Epoch 1+. |
-| RaBbLE-Xperimental | Dormant — archive only, manifest present |
+| RaBbLE-Xperimental | Genesis-archive — origin code from October 2025. Manifest updated. BaBbLE handles new intake. |
 | RaBbLE-OS | Active — daily-driver substrate, Ep1 plots in progress, versioning diverged (deferred) |
 
 ## Reading Order for a New Session

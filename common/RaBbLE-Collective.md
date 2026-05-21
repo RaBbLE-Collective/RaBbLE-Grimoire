@@ -31,14 +31,16 @@ Each member of the Collective is an independent project. Each is also an organ o
 
 | Member | Role | Status |
 |---|---|---|
-| **RaBbLE-Grimoire** | Source of truth: identity, ethos, lore, conventions, registry, spells | Establishing |
+| **RaBbLE-Grimoire** | Source of truth: identity, ethos, lore, conventions, registry, spells | Active |
 | **RaBbLE-sCoRE** | Coordination server + web API (FastAPI). Intent → action engine, Railway-deployable. | Epoch 0 active |
 | **RaBbLE-OS** | Fedora 43 → Hyprland WM. The substrate everything runs on. | Live, daily-driven |
-| **RaBbLE-NeBuLA** | Frontend renderer / visual entity (3D/Three.js Flat-Chaos Runtime). | Roadmap — rebuild |
-| **RaBbLE-World** | Web presence + chat interface. rabble-entity.js (2D canvas persona renderer). | Active |
-| **RaBbLE-Aether** | Visual assets, design system, palette source. | Stub |
-| **Memory member (TBD)** | Observation store, pattern extraction, retrieval. | Decision made, not built |
-| **RaBbLE-Server** | Intelligence API — deprecated, absorbed into RaBbLE-sCoRE. | Deprecated |
+| **RaBbLE-NeBuLA** | Frontend renderer / visual entity (Canvas2D + Flat-Chaos Runtime). | Active — Canvas2D complete |
+| **RaBbLE-World** | Web presence + entity chat surface. joinrabble.world. | Active |
+| **RaBbLE-Aether** | Visual design system and canonical asset library. CDN delivery. | Active — CSS bundle live |
+| **RaBbLE-BaBbLE** | High-entropy intake workspace — concept art, prototypes, ideation, sketches. | Active — present intake |
+| **RaBbLE-Xperimental** | Genesis archive — origin code from October 2025. Past, not present. | Genesis-archive |
+| **RaBbLE-ScRibLE** | Mobile notes PWA (iPhone/iPad). | Defined — not started |
+| **Memory member (TBD)** | Observation store, pattern extraction, retrieval. | Concept — Epoch 1 blocker |
 
 ---
 

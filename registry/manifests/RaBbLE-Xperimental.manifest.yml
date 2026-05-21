@@ -1,12 +1,12 @@
 # manifests/RaBbLE-Xperimental.manifest.yml
-# High-entropy archive and experimental playground for the RaBbLE Collective.
+# Genesis archive for the RaBbLE Collective — the origin code, not a playground.
 # Contains extracted originals: RaBbLE.py, RaBbLE-Server, NeBuLA-JS, WebOS.
-# Not active development — mined for patterns and lore as the ecosystem matures.
+# Frozen history — mined for lore and lineage. RaBbLE-BaBbLE handles new intake.
 
 # Identity
 name: RaBbLE-Xperimental
 slug: RaBbLE-Xperimental
-description: "High-entropy substrate archive — old servers, NeBuLA-JS, WebOS, Python experiments"
+description: "Genesis archive — origin code from October 2025: RaBbLE.py, NeBuLA-JS, WebOS, first server"
 role: experimental
 
 # Repository
@@ -17,7 +17,7 @@ worktree_root: RaBbLE-Xperimental
 # Status
 phase: 0
 epoch: 0
-status: dormant
+status: genesis-archive
 
 # Grimoire
 grimoire_sync: false
@@ -30,10 +30,12 @@ pulse_protocol: false
 
 # Notes
 notes: >
-  Established as archive during Epoch 0 consolidation sprint (2026-05-06).
+  Genesis archive — origin code from October 2025, built across Qwen3.5, Gemini,
+  GPT, and Claude. Established as archive during Epoch 0 consolidation (2026-05-06).
   Branches: archive/rabble-py-main, archive/raBbLE-server, archive/rabble-js,
   archive/nebula-main, archive/nebula-RaBbLE-dev, archive/nebula-BaBbLE-dev.
   main branch = scaffold + orientation. dev branch = all archived project code.
-  NeBuLA-JS lore migrated to RaBbLE-Grimoire/RaBbLE-NeBuLA/. This repo keeps the
-  original code history. RaBbLE-Server absorbed into RaBbLE-sCoRE/server/.
-  Not a target for Grimoire doc propagation — archive, not active member.
+  NeBuLA-JS lore migrated to RaBbLE-Grimoire/RaBbLE-NeBuLA/. RaBbLE-Server absorbed
+  into RaBbLE-sCoRE/server/. Xperimental is the PAST genesis. RaBbLE-BaBbLE handles
+  new intake. Do not merge or move Xperimental content into BaBbLE.
+  Cross-referenced from lore/Genesis/RaBbLE-Lineage.md (to be authored in Phase 2C).

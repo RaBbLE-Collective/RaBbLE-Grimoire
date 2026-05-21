@@ -69,7 +69,7 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 
 - [RaBbLE-Collective-Registry](registry/RaBbLE-Collective-Registry.md) — registry reference documentation
 - [registry/epochs/current.epoch.yml](registry/epochs/current.epoch.yml) — active epoch definition, per-member Episode 1 status
-- **manifests/**: RaBbLE-Collective · RaBbLE-OS · RaBbLE-sCoRE · RaBbLE-Aether · RaBbLE-NeBuLA · RaBbLE-World · RaBbLE-Xperimental
+- **manifests/**: RaBbLE-Collective · RaBbLE-OS · RaBbLE-sCoRE · RaBbLE-Aether · RaBbLE-NeBuLA · RaBbLE-World · RaBbLE-BaBbLE · RaBbLE-Xperimental
 
 ---
 
@@ -112,6 +112,7 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 
 - **[RaBbLE-sCoRE-Roadmap](RaBbLE-sCoRE/RaBbLE-sCoRE-Roadmap.md)** — **Episode 1 commitment:** simple LLM endpoint (Groq/OpenRouter)
 - [RaBbLE-sCoRE-Architecture](RaBbLE-sCoRE/RaBbLE-sCoRE-Architecture.md) — component map, task lifecycle, server subcomponent
+- [RaBbLE-sCoRE-DataCrawler-RFC](RaBbLE-sCoRE/RaBbLE-sCoRE-DataCrawler-RFC.md) — future RFC: Scavenger/Organizer/Librarian crawler bot architecture (post-Episode-1)
 - **Internal:** [sCoRE System Prompt](../RaBbLE-sCoRE/system-prompt-sCoRE.md) — loaded only when running as sCoRE entity
 
 ---
@@ -154,9 +155,15 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 
 ---
 
+## RaBbLE-BaBbLE
+
+- [README](RaBbLE-BaBbLE/README.md) — intake workspace overview, integration pattern, relationship to Xperimental
+
+---
+
 ## RaBbLE-Xperimental
 
-- [README](RaBbLE-Xperimental/README.md) — high-entropy archive: NeBuLA-JS, WebOS, RaBbLE.py, RaBbLE-Server
+- [README](RaBbLE-Xperimental/README.md) — genesis archive: NeBuLA-JS, WebOS, RaBbLE.py, RaBbLE-Server (October 2025 origin code)
 
 ---
 

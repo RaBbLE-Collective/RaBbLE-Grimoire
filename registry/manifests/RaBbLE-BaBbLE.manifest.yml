@@ -1,0 +1,39 @@
+# manifests/RaBbLE-BaBbLE.manifest.yml
+# High-entropy intake workspace for the RaBbLE Collective.
+# Receives raw ideas, visual explorations, prototypes, sketches before they mature.
+# BaBbLE is not Xperimental — Xperimental is past genesis, BaBbLE is present intake.
+
+# Identity
+name: RaBbLE-BaBbLE
+slug: RaBbLE-BaBbLE
+description: "High-entropy intake workspace — concept art, prototypes, ideation, sketches before they land"
+role: experimental
+
+# Repository
+repo: https://github.com/markm1206/RaBbLE-BaBbLE.git
+branch: main
+worktree_root: RaBbLE-BaBbLE
+
+# Status
+phase: 0
+epoch: 0
+status: active
+
+# Grimoire
+grimoire_sync: false
+grimoire_path: ""
+
+# Collective alignment
+palette_version: "1.0"
+entity_embedded: false
+pulse_protocol: true
+
+# Notes
+notes: >
+  Formalized as official Collective member in Phase 3, Session 27 (2026-05-21).
+  Corpus seeded from RaBbLE-New-Designs + Haiku organization sprint (Session 7).
+  Primary content: 23+ concept art files, VISUAL_ANALYSIS.md, Hyprland style guide,
+  crawler bot ideation, web prototypes, Persona/soul.md (genesis artifact),
+  ASCII art. Content migrates to target members; BaBbLE keeps originals as reference.
+  sketches/ is always open for Mark's ongoing intake.
+  See RaBbLE-Grimoire/RaBbLE-BaBbLE/ for Grimoire-side docs.
