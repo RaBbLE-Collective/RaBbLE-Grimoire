@@ -48,12 +48,12 @@ EOF
 # Map: "gist-slug" => "source_file | gist_output | source_token_estimate"
 declare -A GIST_MAP
 GIST_MAP=(
-  ["identity"]="common/RaBbLE-Identity.md|gist/RaBbLE-Identity-gist.md|~3870"
-  ["collective"]="common/RaBbLE-Collective.md|gist/RaBbLE-Collective-gist.md|~1930"
-  ["roadmap"]="common/RaBbLE-Roadmap.md|gist/RaBbLE-Roadmap-gist.md|~2746"
-  ["commitstyle"]="common/RaBbLE-CommitStyle.md|gist/RaBbLE-CommitStyle-gist.md|~620"
+  ["identity"]="RaBbLE-Agent/RaBbLE-Identity.md|gist/RaBbLE-Identity-gist.md|~3870"
+  ["collective"]="RaBbLE-Agent/RaBbLE-Collective.md|gist/RaBbLE-Collective-gist.md|~1930"
+  ["roadmap"]="RaBbLE-Agent/RaBbLE-Roadmap.md|gist/RaBbLE-Roadmap-gist.md|~2746"
+  ["commitstyle"]="RaBbLE-Agent/RaBbLE-CommitStyle.md|gist/RaBbLE-CommitStyle-gist.md|~620"
   ["versioning"]="RaBbLE-Versioning.md|gist/RaBbLE-Versioning-gist.md|~1471"
-  ["palette"]="common/RaBbLE-Palette.md|gist/RaBbLE-Palette-gist.md|~1170"
+  ["palette"]="RaBbLE-Agent/RaBbLE-Palette.md|gist/RaBbLE-Palette-gist.md|~1170"
   ["overview"]="RaBbLE-Collective/RaBbLE-Collective-Episode-1-Overview.md|gist/RaBbLE-Collective-Overview-gist.md|~914"
   ["episode1"]="RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md|gist/RaBbLE-Episode1-gist.md|~3143"
 )

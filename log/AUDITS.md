@@ -4,6 +4,57 @@ Completed audits of the Grimoire and Collective. Each entry captures scope, key 
 
 ---
 
+## 2026-05-21 — Coherency & Path Audit (Session 29)
+
+**Scope:** Post-restructure verification of path references, documentation indexing, decision capture, symlink setup, and open gap status.
+
+**Work done:**
+- **Stale path refs:** Fixed 40+ `common/` → `RaBbLE-Agent/` references across Grimoire and member docs
+- **Documentation indexing:** 15 unindexed docs added to INDEX.md; INDEX now complete
+- **AUDITS.md refs:** Updated 3 broken self-references in this file
+- **CONTEXT.md:** Updated current state block, member registry table with proper dates and status
+- **REFERENCES.md:** Trimmed ~800 tokens by removing duplicate glossary entries and consolidating vocabulary
+- **Decisions:** Captured 5 missing architectural decisions in `log/DECISIONS.md` from Sessions 27–28
+- **Symlinks:** Fixed CLAUDE.md/CODEX.md symlinks across all 8 repos (Grimoire, sCoRE, OS, World, NeBuLA, Aether, BaBbLE, Xperimental); all now point to respective AGENT.md
+- **Setup:** Updated `spells/setup.sh` to wire Collective root into all member repos' .claude configs
+
+**Key findings:**
+- All post-restructure paths now consistent
+- No untraced docs remain
+- Session history complete (Sessions 1–29 logged)
+- Member symlink standard established
+
+**Resolutions:**
+- Entry points verified across all repos
+- Cross-repo references normalized
+- Setup automation in place for new clones
+
+---
+
+## 2026-05-16 — Onboarding Token Reduction Audit (Sessions 11–12)
+
+**Scope:** Token overhead across all onboarding paths.
+
+**Findings:**
+- `cat SESSION-LOG.md` instruction loaded ~10,360 tokens — entire history when agents only needed current state
+- Navigator was ~1,510 tokens to read the routing map alone
+- `INDEX.md` in returning-agent loop added ~1,045 unnecessary tokens per session
+- Token estimates in Collective CONTEXT.md reading order table were stale
+
+**Resolutions:**
+- SESSION-LOG: `## LATEST` pinned box at top (~137 tokens) — session-start instructions now use `head -20`
+- Navigator: condensed from 231 lines (~1,510 tokens) to 99 lines (~565 tokens)
+- INDEX.md removed from returning-agent loop (now on-demand only)
+- Token estimates corrected in CONTEXT.md reading order table
+- `gist/` directory created: 8 distilled docs, ~2,000 tokens total for full picture
+- `spells/distill-gists.sh`: Claude CLI spell to regenerate gists from canonical sources
+- End-of-session checklist added to both AGENT.md entry points
+- `Current State` block added to Collective AGENT.md (auto-injected — free context)
+
+**Returning agent overhead:** ~12K tokens → ~2,147 tokens
+
+---
+
 ## 2026-05-15 — Grimoire Coherency & Registry Audit (Session 10)
 
 **Scope:** Full Grimoire structure, registry, episode model, release plan, session artifacts, entry points.
@@ -59,50 +110,25 @@ Completed audits of the Grimoire and Collective. Each entry captures scope, key 
 
 ---
 
-## Open Gaps — Current
+## Open Gaps — Current (Session 29 Status)
 
 ### Blocking Episode 1
 
-**1. sCoRE Railway deploy unverified**
-Run `harness/deploy.sh` or `harness/railway_ctl.sh`; verify API responds; write `spells/deploy-score.sh`.
+**1. sCoRE Railway deploy unverified** — `harness/deploy.sh` and `harness/railway_ctl.sh` exist. Requires manual run on clean VM + verification that API responds. Write `spells/deploy-score.sh` wrapper when verified. *Status: files exist, testing pending.*
 
-**2. bootstrap.sh not verified end-to-end**
-Run `bash bootstrap.sh` on a clean VM; verify all members clone and configure correctly.
+**2. bootstrap.sh not verified end-to-end** — Bootstrap script exists at `/home/rabble/RaBbLE-Collective/bootstrap.sh`. Requires run on clean VM; verify all members clone, configure, symlinks wire correctly. *Status: files in place, live test pending.*
 
 ### Non-blocking
 
-**3. Protocol contracts undefined** — `protocol/` dir referenced but no schema files exist. Deferred post-Episode-1 (Echo 1 scope).
+**3. Protocol contracts undefined** — `protocol/` dir referenced but no schema files exist. Deferred post-Episode-1 (Echo 1 scope). *Status: intentionally deferred.*
 
-**4. Memory member has no architecture** — No name, repo, manifest, or architecture doc. Intentionally deferred to post-Episode-1.
+**4. Memory member has no architecture** — No name, repo, manifest, or architecture doc. Intentionally deferred to post-Episode-1. *Status: intentionally deferred.*
 
-**5. validate-links spell not created** — `spells/validate-links.sh` would catch broken refs automatically.
+**5. validate-links spell not created** — `spells/validate-links.sh` would catch broken refs automatically. Nice-to-have for future audits. *Status: not yet implemented.*
 
-**6. RaBbLE-OS versioning diverged** — OS uses its own model, doesn't cleanly map to Five Es. Deferred post-Ep1.
+**6. RaBbLE-OS versioning diverged** — OS uses its own model, doesn't cleanly map to Five Es. Deferred post-Ep1. *Status: known limitation, acceptable for Ep1.*
 
-**7. Grimoire browser not built** — Episode 1 includes a World page rendering Grimoire docs. World-side work pending.
+**7. Grimoire browser partial** — World has CSS (`RaBbLE-Grimoire.css`) and JS modules (`RaBbLE-Grimoire.js`, `RaBbLE-Grimoire-Data.js`) for Grimoire rendering. HTML page integration (`RaBbLE-Docs.html` references Grimoire data) present. Full interactive browser UI pending — may ship as MVP in Episode 1. *Status: MVP in progress, not blocking launch.*
 
-**8. Behavioral learning onboarding missing** — `RaBbLE-Agent/RaBbLE-BehavioralLearning.md` planned but deferred until Memory member scope is decided.
+**8. Behavioral learning onboarding missing** — `RaBbLE-Agent/RaBbLE-BehavioralLearning.md` planned but deferred until Memory member scope is decided. *Status: deferred with Memory member.*
 
----
-
-## 2026-05-16 — Onboarding Token Reduction Audit (Sessions 11–12)
-
-**Scope:** Token overhead across all onboarding paths.
-
-**Findings:**
-- `cat SESSION-LOG.md` instruction loaded ~10,360 tokens — entire history when agents only needed current state
-- Navigator was ~1,510 tokens to read the routing map alone
-- `INDEX.md` in returning-agent loop added ~1,045 unnecessary tokens per session
-- Token estimates in Collective CONTEXT.md reading order table were stale
-
-**Resolutions:**
-- SESSION-LOG: `## LATEST` pinned box at top (~137 tokens) — session-start instructions now use `head -20`
-- Navigator: condensed from 231 lines (~1,510 tokens) to 99 lines (~565 tokens)
-- INDEX.md removed from returning-agent loop (now on-demand only)
-- Token estimates corrected in CONTEXT.md reading order table
-- `gist/` directory created: 8 distilled docs, ~2,000 tokens total for full picture
-- `spells/distill-gists.sh`: Claude CLI spell to regenerate gists from canonical sources
-- End-of-session checklist added to both AGENT.md entry points
-- `Current State` block added to Collective AGENT.md (auto-injected — free context)
-
-**Returning agent overhead:** ~12K tokens → ~2,147 tokens
