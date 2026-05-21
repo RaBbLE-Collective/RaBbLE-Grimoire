@@ -6,7 +6,10 @@ spark ~ grimoire >> installer architecture and DE coverage plan // %PLAN_ACTIVE%
 
 > **Session:** S33 · **Author:** Mark + Opus  
 > **Goal:** Bare metal → fully reproducible RaBbLE-OS desktop via one boot.  
-> **Status:** Plan approved. Work ordered for delegation.
+> **Status:** Plan approved. Work ordered for delegation.  
+> **Canonical roadmap:** `RaBbLE-OS-Roadmap.md` — Episode 1, Plots A/B/C + phased stub debt.  
+> This file is the **detail supplement** — KS templates, live ISO specs, acceptance criteria.
+> The Roadmap owns the phase order and done-when criteria.
 
 ---
 
@@ -280,9 +283,9 @@ Run: `python3 spells/generate-kickstart.py > /tmp/packages.inc`
 
 ---
 
-## Quick Wins — Ansible Bug Fixes
+## Quick Wins — Ansible Bug Fixes ✓ DONE (S33)
 
-These are small, high-value fixes. Independent of each other. Delegate to Haiku.
+All three landed in commit `4830953` on `RaBbLE-OS-New-Horizons`.
 
 ### QW-1: supergfxd.yml → supergfx.yml include fix
 
@@ -337,69 +340,10 @@ on Fedora 43 + Hyprland. Manifest and KnownIssues already decided on `gnome-disk
 
 ---
 
-## Stub Debt — Prioritized Implementation Order
+## Stub Debt & Phases — see Roadmap
 
-Build order follows boot dependency: what must exist to get from bare Fedora to desktop?
-
-### Phase 1 — Boot into a DE (blocks everything else)
-
-| ID | Role | Current | Implement | Done when |
-|---|---|---|---|---|
-| S1 | `core/packages` | Stub (debug msg) | DNF install all `layer: core` packages from manifest (~20 packages) | `layerctl apply base` installs packages |
-| S2 | `boot/session_manager/packages` | Stub | DNF install `sddm` | `rpm -q sddm` succeeds |
-| S3 | `boot/plymouth/packages` | Stub | DNF install `plymouth`, `plymouth-plugin-script` | `plymouth-set-default-theme --list` works |
-| S4 | `desktop/fonts` role | **Missing** | New role. DNF install `jetbrains-mono-fonts-all`, `fontawesome-6-*-fonts`, `google-noto-*-fonts`. Add to site.yml between wayland and compositor plays. | Waybar glyphs + kitty font render correctly |
-
-**Phase 1 acceptance:** `layerctl apply all` on Fedora Everything results in
-SDDM greeter appearing after reboot.
-
-### Phase 2 — Working desktop shell + browser
-
-| ID | Role | Current | Implement | Done when |
-|---|---|---|---|---|
-| S5 | `apps/browsers` | Stub | DNF install `firefox` | `firefox` launches |
-| S6 | `boot/session_manager/config` | Exists, partial | Deploy SDDM conf for Wayland + Hyprland session. Deploy RaBbLE QML theme. | SDDM launches Hyprland on login |
-| S7 | `boot/plymouth/config` | Partial | Deploy RaBbLE Plymouth theme, `plymouth-set-default-theme rabble`, trigger dracut | RaBbLE theme visible during boot |
-| S8 | `boot/grub2` fixes | Partial | 4K font task (`grub2-mkfont`), remove bg image, `fbcon=font:TER16x32` cmdline | GRUB readable at 4K, no bg |
-
-**Phase 2 acceptance:** Full boot chain themed and working. Firefox available.
-
-### Phase 3 — Hardware + theming + optional layers
-
-| ID | Role | Current | Implement | Done when |
-|---|---|---|---|---|
-| S9 | `hardware/.../asusctl+asusd` | Stub-ish | COPR enable + DNF install `asusctl`, `asusd`. Enable services. | `asusctl profile -l` works |
-| S10 | `hardware/.../tuned` | Exists, verify | DNF install `tuned`, `tuned-gtk`. Enable service. Set profile. | `tuned-adm active` shows `balanced` |
-| S11 | `desktop/theme` | **Does not exist** | New role. Kvantum + qt5ct/qt6ct, GTK3/4 CSS, papirus icons, nwg-look. Template-driven from palette vars. See Theming.md for full spec. | Qt and GTK apps use RaBbLE palette |
-| S12 | `layer/bluetooth` | No role | New role/tag. DNF install `bluez`, `bluez-tools`, `blueman`. | `bluetoothctl` works |
-| S13 | `layer/flatpak` | No role | Install flatpak, add Flathub remote. | `flatpak list` works |
-
-**Phase 3 acceptance:** Hardware roles functional for ProArt P16. Unified theme.
-
-### Phase 4 — Installer infrastructure
-
-| ID | Item | Implement | Done when |
-|---|---|---|---|
-| S14 | `RaBbLE-OS.ks` | Tier 1 KS file (interactive partitioning) | KS boot → Anaconda partition screen → reboot → RaBbLE-OS |
-| S15 | `spells/generate-kickstart.py` | Script reads manifest, emits %packages | Script output matches KS %packages block |
-| S16 | `--unattended` Bootstrap flag | Skip menus, run full Ansible non-interactively | `bash RaBbLE-OS-Bootstrap.sh --unattended` completes without prompts |
-
-### Phase 5 — Reproducibility testing
-
-| ID | Item | Done when |
-|---|---|---|
-| S17 | Fresh Fedora Everything → KS boot → reboot test | All acceptance criteria pass (see below) |
-| S18 | VM smoke test (generic_x64 profile) | Same test passes without hardware roles |
-| S19 | Idempotency sweep | Second `layerctl apply all` changes nothing |
-
-### Phase 6 — Custom Live ISO (Tier 2, when ready)
-
-| ID | Item | Done when |
-|---|---|---|
-| S20 | `RaBbLE-OS-LiveISO.ks` — live environment definition | KS builds successfully with livemedia-creator |
-| S21 | `installer/live-config/` — minimal themed Hyprland for live session | Live ISO boots into themed Hyprland |
-| S22 | `spells/build-iso.sh` — wraps livemedia-creator | `bash spells/build-iso.sh` produces bootable ISO |
-| S23 | End-to-end: boot ISO → partition → install → reboot → full DE | Complete user journey works |
+Canonical location: `RaBbLE-OS-Roadmap.md` → Episode 1 → "Remaining for Episode 1 — Stub Debt".
+Six phases from boot-critical stubs through custom live ISO. All detail there.
 
 ---
 
@@ -548,21 +492,6 @@ A successful RaBbLE-OS install means: **bare Fedora → one install path → reb
 | 7 | Checklists.md | 600 | When testing or landing an episode |
 
 Tier 1 total: ~2,800 tokens (down from ~5,000+).
-
----
-
-## Work Delegation Order
-
-```
-1. Quick wins (QW-1, QW-2, QW-3)           ← Haiku, independent, parallel
-2. Doc restructure (Task 2)                 ← Haiku, after quick wins
-3. Phase 1 stubs (S1–S4)                    ← Haiku, sequential
-4. Phase 2 stubs (S5–S8)                    ← Haiku, sequential
-5. Phase 3 stubs (S9–S13)                   ← Haiku, sequential
-6. KS infrastructure (S14–S16)             ← after Phase 2 at earliest
-7. Reproducibility testing (S17–S19)        ← after Phase 4
-8. Custom Live ISO (S20–S23)                ← after Episode 1 stable
-```
 
 ---
 

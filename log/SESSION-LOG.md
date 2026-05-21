@@ -8,9 +8,9 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-05-21 · Session 33
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S33):** Full implementation plan written — 3-tier installer architecture (KS interactive → custom live ISO → Calamares). Stub debt prioritized (13 items, 5 phases). 3 quick-win Ansible bugs identified. Grimoire doc restructure designed (17→12 files, Tier 1 < 3,000 tokens). Acceptance criteria defined for "Full DE state".
-**Active blockers:** Phase 2C (Genesis/Ethos authoring, Mark writes Origin) · sCoRE Railway unverified · BaBbLE needs GitHub remote.
-**Next:** Quick wins (supergfxd fix, nvidia idempotency, gparted→gnome-disk-utility) → doc restructure → stub implementations.
+**Last session (S33):** Implementation plan written + integrated into Roadmap as Episode 1 Plot C (Installer & Packaging). 3-tier installer: KS→custom live ISO→Calamares. 3 quick-win Ansible bugs fixed (supergfxd include, nvidia idempotency, gparted→gnome-disk-utility). Stub debt phased into Roadmap (6 phases, boot-critical first). Doc restructure designed but not yet executed.
+**Active blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified · BaBbLE needs GitHub remote · Hyprland crash during S33 (investigate).
+**Next:** Grimoire doc restructure (Task 2) → Phase 1 stubs (core/packages, sddm, plymouth, fonts) → Phase 2 stubs.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 

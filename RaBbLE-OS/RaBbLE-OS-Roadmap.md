@@ -67,10 +67,11 @@ RaBbLE-OS-New-Horizons   The living wave — active daily-driver work
 
 ### Episode 1 — Genesis `[IN PROGRESS]`
 
-**Goal:** Hardware-agnostic base and themed desktop experience. A fully deployable Wayland/Hyprland desktop
-that runs on any Fedora 43 host without proprietary GPU driver activation.
-Unique hardware targets (ProArt P16, generic_x64) are **scaffolded** —
-proprietary driver work is deferred to `fix/*` branches.
+**Goal:** Hardware-agnostic base, themed desktop, and reproducible installer.
+Three work surfaces: **Plot A** (live DE — substrate, Ansible, roles),
+**Plot B** (theme — palette coherence across boot chain and desktop),
+**Plot C** (installer & packaging — KS, VM testing, custom live ISO).
+Proprietary driver work deferred to `fix/*` branches.
 
 #### Plot A — Substrate
 
@@ -96,6 +97,31 @@ proprietary driver work is deferred to `fix/*` branches.
 - Boot chain (GRUB → Plymouth → SDDM) themed and color-continuous
 - Waybar with network menu overlay, RaBbLE palette
 
+#### Plot C — Installer & Packaging
+
+The install path for RaBbLE-OS. Two work surfaces: KS-based install
+(pragmatic, build first) and custom live ISO (the north star).
+
+**In scope:**
+- `RaBbLE-OS.ks` — Kickstart file with interactive partitioning (Anaconda handles disks)
+- `spells/generate-kickstart.py` — reads manifest.yml, emits `%packages` block
+- `--unattended` flag on Bootstrap (non-interactive Ansible run from KS %post)
+- VM testing workflow: validate KS end-to-end in QEMU/KVM before bare metal
+- Custom live ISO / RaBbLE-OS Fedora spin (Tier 2 — Anaconda backend, themed Hyprland live session)
+
+**Installer tiers (build in order):**
+
+| Tier | What | Installer Backend | Status |
+|---|---|---|---|
+| 1 | KS on Fedora Everything netinstall | Anaconda (interactive partitioning) | Build first |
+| 2 | Custom live ISO — RaBbLE Fedora spin | Anaconda + themed Hyprland live session | North star |
+| 3 | Calamares branded installer | Calamares (fully custom, aspirational) | Future |
+
+**Tier 2 live ISO includes:** Hyprland (themed, void bg, magenta borders),
+Kitty (themed), gnome-disk-utility (for manual partitioning), Firefox,
+Waybar (minimal), auto-login to Hyprland on TTY1, desktop launcher for
+`rabble-install`. Built via `lorax` / `livemedia-creator`.
+
 **Explicitly out of scope (deferred to `fix/*` branches):**
 - NVIDIA / AMD proprietary driver activation
 - supergfxctl / asusctl runtime activation
@@ -112,6 +138,8 @@ proprietary driver work is deferred to `fix/*` branches.
 - `socat` added to wayland packages for hotplug IPC
 - SwayOSD service scope fix (user → system)
 - powertop auto-tune safe for live playbook runs
+- S33: supergfxd stub include fixed, nvidia idempotency fixed, gparted→gnome-disk-utility
+- S33: Package manifest (59 packages, 9 layers, `reason:` per entry)
 
 **Landed on New Horizons since last Episode 1 sync (needs porting):**
 - Shell stack: ZSH + Bash configs, p10k, colors, aliases, functions
@@ -123,11 +151,48 @@ proprietary driver work is deferred to `fix/*` branches.
 - dotctl: kitty/fuzzel/mako bundles added; missing-bundle skip fix
 - Grimoire: all docs renamed RaBbLE-OS-*, Architecture rewritten, RaBbLE.md distilled
 
-**Remaining for Episode 1 landing:**
-- [ ] Port 4 packages from New Horizons → Episode 1 (see Assembly Plan below)
-- [ ] Portability smoke-test: fresh Fedora 43 bootstrap end-to-end
-- [ ] Verify all checklist items in Bootstrap Checklist below
-- [ ] Mark all passing layers `%STABLE%` in Layer State Map
+**Remaining for Episode 1 — Stub Debt (phased, boot-critical first):**
+
+*Phase 1 — Boot into a DE:*
+- [ ] `core/packages` stub → DNF install all `layer: core` from manifest (~20 pkgs)
+- [ ] `boot/session_manager/packages` stub → DNF install `sddm`
+- [ ] `boot/plymouth/packages` stub → DNF install `plymouth`, `plymouth-plugin-script`
+- [ ] New `desktop/fonts` role → JetBrains Mono, Font Awesome, Noto (must precede compositor)
+- Done when: SDDM greeter appears on fresh Fedora Everything install after `layerctl apply all`
+
+*Phase 2 — Working desktop + browser:*
+- [ ] `apps/browsers` stub → DNF install `firefox`
+- [ ] `boot/session_manager/config` → SDDM Wayland conf + RaBbLE QML theme + Hyprland session
+- [ ] `boot/plymouth/config` → RaBbLE Plymouth theme + `plymouth-set-default-theme` + dracut
+- [ ] `boot/grub2` fixes → 4K font (`grub2-mkfont`), remove bg image, `fbcon=font:TER16x32`
+- Done when: full boot chain themed and working, Firefox available
+
+*Phase 3 — Hardware + theming + optional layers:*
+- [ ] `hardware/.../asusctl+asusd` → COPR + DNF + service enable
+- [ ] `hardware/.../tuned` → DNF install + enable + set profile
+- [ ] New `desktop/theme` role → Kvantum, qt5ct/qt6ct, GTK CSS, papirus, nwg-look (see Theming.md)
+- [ ] New `layer/bluetooth` → bluez, bluez-tools, blueman
+- [ ] New `layer/flatpak` → flatpak + Flathub remote
+- Done when: hardware roles functional, unified theme across toolkits
+
+*Phase 4 — Installer infrastructure (Plot C):*
+- [ ] `RaBbLE-OS.ks` — Tier 1 KS file (interactive partitioning, Anaconda)
+- [ ] `spells/generate-kickstart.py` — manifest → %packages
+- [ ] `--unattended` Bootstrap flag
+- Done when: KS boot → Anaconda partition screen → reboot → RaBbLE-OS
+
+*Phase 5 — Reproducibility gate:*
+- [ ] Fresh Fedora Everything → KS boot → reboot → all acceptance criteria pass
+- [ ] VM smoke test (generic_x64 profile, no hardware roles)
+- [ ] Idempotency: second `layerctl apply all` changes nothing
+- Done when: "Full DE State" checklist passes (see `RaBbLE-OS-Implementation-Plan.md`)
+
+*Phase 6 — Custom live ISO (Tier 2):*
+- [ ] `RaBbLE-OS-LiveISO.ks` — live environment definition
+- [ ] `installer/live-config/` — minimal themed Hyprland for live session
+- [ ] `spells/build-iso.sh` — wraps `livemedia-creator`
+- [ ] End-to-end: boot ISO → themed DE → partition → install → reboot → full DE
+- Done when: bootable RaBbLE-OS ISO produces complete system
 
 ---
 
