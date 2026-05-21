@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-21 · Session 27
+## LATEST — 2026-05-21 · Session 28
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S27):** Phase 3✓ — BaBbLE formalized as official Collective member. AGENT.md/CONTEXT.md/README.md authored, content reorganized (text/, prototypes/, archive/), git repo initialized. Grimoire: BaBbLE manifest + section registered, Xperimental status → genesis-archive, sCoRE DataCrawler RFC added, INDEX/CONTEXT/Collective.md updated. Collective AGENT.md member map updated.
+**Last session (S28):** Grimoire restructure complete. `lore/`→`RaBbLE/`, `common/`→`RaBbLE-Agent/`, `ShortStories/`→`RaBbLE-Mythos/`. Root RaBbLE-prefixed files sorted into member dirs. All `README.md` in member sections renamed `RaBbLE-*-Overview.md`. `distilled/` removed (superseded by gist). 62 files renamed, all references updated.
 **Active blockers:** Phase 2C (Genesis/Ethos authoring, Mark writes Origin) · distill-gists.sh broken · sCoRE Railway unverified · BaBbLE needs GitHub remote.
-**Next:** Phase 2C authoring (Mark authors Origin + Symbiosis) · Phase 4 (landing transformation) · create RaBbLE-BaBbLE GitHub remote.
+**Next:** Phase 2C authoring · Phase 4 (landing transformation) · BaBbLE GitHub remote · Reliquary rename (when ready).
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
