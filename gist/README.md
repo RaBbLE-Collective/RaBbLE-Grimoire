@@ -12,8 +12,8 @@ cat gist/*.md        # ~1,700 tokens total — complete orientation
 bash spells/distill-gists.sh
 ```
 
-Most gists are generated via `distill-gists.sh` — the source doc is always authoritative.
-`RaBbLE-Integration-Map-gist.md` is hand-maintained (no single source doc) — edit it directly.
+Gists are generated, not canonical. The source doc is always authoritative.
+Do not edit gist files directly — your changes will be overwritten on next regeneration.
 
 ---
 
@@ -29,4 +29,4 @@ Most gists are generated via `distill-gists.sh` — the source doc is always aut
 | `RaBbLE-Palette-gist.md` | `RaBbLE-Agent/RaBbLE-Palette.md` | ~150 | ~1,170 |
 | `RaBbLE-Collective-Overview-gist.md` | `RaBbLE-Collective/RaBbLE-Collective-Episode-1-Overview.md` | ~200 | ~914 |
 | `RaBbLE-Episode1-gist.md` | `RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md` | ~250 | ~3,143 |
-| `RaBbLE-Integration-Map-gist.md` | *(hand-maintained — cross-member data flow)* | ~300 | — |
+| `RaBbLE-Integration-Map-gist.md` | `RaBbLE-Agent/RaBbLE-Integration-Map.md` | ~300 | ~1,200 |

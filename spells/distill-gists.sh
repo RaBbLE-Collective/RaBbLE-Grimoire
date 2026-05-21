@@ -56,6 +56,7 @@ GIST_MAP=(
   ["palette"]="RaBbLE-Agent/RaBbLE-Palette.md|gist/RaBbLE-Palette-gist.md|~1170"
   ["overview"]="RaBbLE-Collective/RaBbLE-Collective-Episode-1-Overview.md|gist/RaBbLE-Collective-Overview-gist.md|~914"
   ["episode1"]="RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md|gist/RaBbLE-Episode1-gist.md|~3143"
+  ["integration"]="RaBbLE-Agent/RaBbLE-Integration-Map.md|gist/RaBbLE-Integration-Map-gist.md|~1200"
 )
 
 distill_one() {
