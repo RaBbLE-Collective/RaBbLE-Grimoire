@@ -21,7 +21,7 @@ transcribe ~ grimoire >> agent-ready implementation plan, Haiku-level specificit
 6. `RaBbLE-Xperimental/JS-Xperiments/NeBuLA-JS/NeBuLA/shaders/vertex/q_instanced_vertex.glsl` — vertex shader reference
 7. `RaBbLE-Xperimental/JS-Xperiments/NeBuLA-JS/NeBuLA/shaders/fragment/q_emissive_fragment.glsl` — fragment shader reference
 8. `RaBbLE-World/world/js/RaBbLE-NeBuLA.js` — the monolith being replaced (Layer 1 reference)
-9. `RaBbLE-Grimoire/common/RaBbLE-Palette.md` — canonical color values
+9. `RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Palette.md` — canonical color values
 
 **Working directory:** `RaBbLE-NeBuLA/` for all NeBuLA work. `RaBbLE-World/` for World integration.
 
@@ -95,7 +95,7 @@ mkdir -p RaBbLE-NeBuLA/src/puppet
 Create `RaBbLE-NeBuLA/src/puppet/palette.js` with this exact content:
 
 ```js
-// Palette constants — mirrors RaBbLE-Grimoire/common/RaBbLE-Palette.md
+// Palette constants — mirrors RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Palette.md
 // Reads from Aether CSS variables when available (Aether is the canonical theme layer).
 // Falls back to hardcoded hex when running outside a page with Aether loaded.
 // IMPORTANT: if RaBbLE-Palette.md changes, update the fallback hex values here to match.

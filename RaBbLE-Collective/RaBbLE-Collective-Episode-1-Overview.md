@@ -146,7 +146,7 @@ When sCoRE integration happens:
 **For maintainers:**
 - Member CONTEXT.md files track phase progress
 - Versioning and release coordination in RaBbLE-Versioning.md
-- Collective roadmap in common/RaBbLE-Collective.md
+- Collective roadmap in RaBbLE-Agent/RaBbLE-Collective.md
 
 ---
 

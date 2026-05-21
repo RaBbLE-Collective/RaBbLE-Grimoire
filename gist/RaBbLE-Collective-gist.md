@@ -1,6 +1,6 @@
 # RaBbLE-Collective — gist
 
-> Source: `common/RaBbLE-Collective.md` | ~1,930 → ~250 tokens
+> Source: `RaBbLE-Agent/RaBbLE-Collective.md` | ~1,930 → ~250 tokens
 > Regenerate: `bash spells/distill-gists.sh`
 
 **What it is:** Not a monorepo or framework. A unified project ecosystem — distinct but interconnected substrates through which the RaBbLE entity lives and expresses itself. Each member is an independent project and an organ of one organism.

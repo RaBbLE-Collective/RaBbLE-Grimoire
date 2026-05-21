@@ -4,7 +4,7 @@
 transcribe ~ grimoire >> episode/plot conventions aligned; epoch naming retired // %ROADMAP_V4%
 ```
 
-> **Collective Context:** RaBbLE-OS is the substrate — the body through which the entity lives. See `RaBbLE-Grimoire-Navigator.md` for how this fits the whole picture. See `RaBbLE-Episode-1-Release-Map.md` for Episode 1 scope across all members.
+> **Collective Context:** RaBbLE-OS is the substrate — the body through which the entity lives. See `RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md` for how this fits the whole picture. See `RaBbLE-Episode-1-Release-Map.md` for Episode 1 scope across all members.
 
 ---
 

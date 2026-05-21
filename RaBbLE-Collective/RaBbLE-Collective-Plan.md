@@ -174,7 +174,7 @@ RaBbLE-World serves `bootstrap.sh` from its static asset layer. The file lives i
 ### Phase 2 — Grimoire Alignment
 - [ ] Update `spells/setup.sh` to support being called from Collective bootstrap
 - [ ] Add `RaBbLE-Collective.manifest.yml` to `registry/manifests/`
-- [ ] Update `common/RaBbLE-Collective.md` to reflect new root-layer architecture
+- [ ] Update `RaBbLE-Agent/RaBbLE-Collective.md` to reflect new root-layer architecture
 - [ ] Update `INDEX.md` to include this plan doc and the Collective section
 
 ### Phase 3 — Missing Manifests

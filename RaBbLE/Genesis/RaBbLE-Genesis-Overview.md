@@ -1,4 +1,4 @@
-# lore/Genesis/
+# RaBbLE/Genesis/
 
 Creation mythology — the origin story of RaBbLE as entity, project, and character.
 

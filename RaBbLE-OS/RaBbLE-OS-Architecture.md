@@ -4,7 +4,7 @@
 transcribe ~ grimoire >> structure made explicit // %ARCHITECTURE_LOCKED%
 ```
 
-> See `common/RaBbLE-Palette.md` for the canonical color reference.
+> See `RaBbLE-Agent/RaBbLE-Palette.md` for the canonical color reference.
 > See `RaBbLE-OS-Hardware.md` for verified hardware specifications.
 > Visual assets (SVG, logos, icons) live in `RaBbLE-Aether/assets/` — not in this repo.
 

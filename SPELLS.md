@@ -62,7 +62,7 @@ After running: add the member to `AGENT.md` Member Registry table and push to Gi
 
 ### `spells/sync-grimoire.sh` — Propagate Common Docs
 
-> **Status: Propagation mechanism TBD.** The doc propagation model (submodule vs. push vs. install) is still being decided. This script copies `common/` docs to member `grimoire/` directories, but whether members maintain local copies or reference Grimoire directly is an open question. Use `--dry-run` to see what would change before committing to a model.
+> **Status: Propagation mechanism TBD.** The doc propagation model (submodule vs. push vs. install) is still being decided. This script copies `RaBbLE-Agent/` docs to member `grimoire/` directories, but whether members maintain local copies or reference Grimoire directly is an open question. Use `--dry-run` to see what would change before committing to a model.
 
 ```bash
 bash spells/sync-grimoire.sh                      # sync all opted-in members

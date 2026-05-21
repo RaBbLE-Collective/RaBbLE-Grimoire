@@ -26,14 +26,14 @@ Format: date, what was done, where things were left, what's next.
 
 - **`RaBbLE-BaBbLE/AGENT.md`** (NEW) — entry point for agents working in the intake workspace
 - **`RaBbLE-BaBbLE/CONTEXT.md`** (NEW) — current state, content inventory, routing decisions
-- **`RaBbLE-BaBbLE/README.md`** (NEW) — one-paragraph orientation
+- **`RaBbLE-BaBbLE/RaBbLE-BaBbLE-Overview.md`** (NEW) — one-paragraph orientation
 - **BaBbLE content reorganized**: `_organized/text/` → `text/`, `_organized/web/` → `prototypes/`, `_organized/archives/` → `archive/`
 - **`git init` in BaBbLE** — first commit on `dev` branch. Needs GitHub remote (pending).
-- **`RaBbLE-Grimoire/RaBbLE-BaBbLE/README.md`** (NEW) — Grimoire-side doc: integration pattern, relationship to Xperimental
+- **`RaBbLE-Grimoire/RaBbLE-BaBbLE/RaBbLE-BaBbLE-Overview.md`** (NEW) — Grimoire-side doc: integration pattern, relationship to Xperimental
 - **`registry/manifests/RaBbLE-BaBbLE.manifest.yml`** (NEW) — official manifest, status `active`
 - **`registry/manifests/RaBbLE-Xperimental.manifest.yml`** (UPDATED) — status `dormant` → `genesis-archive`, description and notes reframed
 - **`RaBbLE-sCoRE/RaBbLE-sCoRE-DataCrawler-RFC.md`** (NEW) — crawler bot architecture (Scavenger/Organizer/Librarian) preserved from BaBbLE ideation corpus as future sCoRE RFC
-- **`common/RaBbLE-Collective.md`** (UPDATED) — member table refreshed: BaBbLE added, Xperimental reframed, all status strings current
+- **`RaBbLE-Agent/RaBbLE-Collective.md`** (UPDATED) — member table refreshed: BaBbLE added, Xperimental reframed, all status strings current
 - **`INDEX.md`** (UPDATED) — BaBbLE section + README, DataCrawler RFC, Xperimental description updated, manifest list updated
 - **`CONTEXT.md`** (UPDATED) — Phase 3 marked complete, Ethos Plan status updated, BaBbLE + Xperimental tracks added, registry count updated
 - **Collective `AGENT.md`** (UPDATED) — member map and member entry points updated
@@ -52,10 +52,10 @@ Format: date, what was done, where things were left, what's next.
 
 **Work done:**
 
-- **`common/RaBbLE-Agent-Protocols.md`** (NEW) — Consolidated all agent behavioral rules that previously only lived in `.claude` memory: condense-not-delete, no worktrees in member repos, Grimoire-as-doc-home, NeBuLA/Aether/World responsibility split, vanilla JS only in World, NeBuLA build-and-copy workflow, dev-serve.sh only, entity naming (cast vs summon), versioning protocol summary.
+- **`RaBbLE-Agent/RaBbLE-Agent-Protocols.md`** (NEW) — Consolidated all agent behavioral rules that previously only lived in `.claude` memory: condense-not-delete, no worktrees in member repos, Grimoire-as-doc-home, NeBuLA/Aether/World responsibility split, vanilla JS only in World, NeBuLA build-and-copy workflow, dev-serve.sh only, entity naming (cast vs summon), versioning protocol summary.
 - **`RaBbLE-Aether/RaBbLE-Aether-Effects-Bank.md`** (NEW) — Preserved cotton candy swirl CSS effect discovered accidentally in S20 (rotating conic-gradient aurora wash). Includes reproduction code and future use suggestions (entity speaking state, boot sequence, Plymouth splash).
 - **`RaBbLE-NeBuLA/RaBbLE-NeBuLA-Perf-Fix-Plan.md`** (AUGMENTED) — Added S17 root-cause findings: post-boot spring-force drift (settleBlend=1 → spring=0, ±30px particle oscillation breaks connDist tuning), shadowBlur GPU cliff at boot-end, two-canvas architecture direction, known-good baseline commits (World `aa66550`, NeBuLA `34dee62`).
-- **`common/RaBbLE-Roadmap.md`** (UPDATED) — Added RaBbLE-BaBbLE to member table (defined, repo pending).
+- **`RaBbLE-Agent/RaBbLE-Roadmap.md`** (UPDATED) — Added RaBbLE-BaBbLE to member table (defined, repo pending).
 - **`INDEX.md`** (UPDATED) — Both new docs registered.
 - **Navigator + AGENT.md** (UPDATED) — Agent Protocols surfaced in 30-min onboarding path, Jump to Task table, and Grimoire Workspaces table so agents find it without hunting INDEX.
 - **`.claude/settings.json`** (NEW) — Project-level PostToolUse hook: when any `memory/*.md` file is written, injects a reminder to assess whether durable content should mirror to `RaBbLE-Agent-Protocols.md`.
@@ -143,16 +143,16 @@ Format: date, what was done, where things were left, what's next.
 
 - **Phase 1B — NeBuLA:** Created `NeBuLA/specs/`. Copied entity visual spec → `specs/visual-spec.md`, reference images → `specs/canvas-reference.png` + `specs/doc-fidelity.png`, BaBbLE VISUAL_ANALYSIS → `specs/render-gap-analysis.md`. Committed: `transcribe ~ nebula >> entity visual spec + render gap analysis anchored // %SPEC_ANCHORED%`
 
-- **Phase 0A — Audit:** Full section-by-section audit of `RaBbLE-Identity.md`. Tagged all sections OPERATIONAL vs ETHOS. Key decisions: Artistic Dimension → `lore/Worldbuilding/` (not Ethos); Low Entropy Directive jazz prose moves but practical consequence stays; line count target ~200 was an estimate, 330 lines remaining is acceptable.
+- **Phase 0A — Audit:** Full section-by-section audit of `RaBbLE-Identity.md`. Tagged all sections OPERATIONAL vs ETHOS. Key decisions: Artistic Dimension → `RaBbLE/Worldbuilding/` (not Ethos); Low Entropy Directive jazz prose moves but practical consequence stays; line count target ~200 was an estimate, 330 lines remaining is acceptable.
 
-- **Phase 2A — lore/ structure:** Created `lore/Ethos/`, `lore/Genesis/`, `lore/Worldbuilding/` with README stubs. Wrote `lore/README.md` (layer explanation + reading order). Updated `INDEX.md` with all four lore sections including incoming placeholders. Committed: `spark ~ grimoire >> lore/ ethos layer scaffolded // %LORE_ONLINE%`
+- **Phase 2A — RaBbLE/ structure:** Created `RaBbLE/Ethos/`, `RaBbLE/Genesis/`, `RaBbLE/Worldbuilding/` with README stubs. Wrote `RaBbLE/RaBbLE-Overview.md` (layer explanation + reading order). Updated `INDEX.md` with all four lore sections including incoming placeholders. Committed: `spark ~ grimoire >> RaBbLE/ ethos layer scaffolded // %LORE_ONLINE%`
 
-- **Phase 2B — Identity.md split:** Extracted 9 sections from Identity.md to lore/:
-  - `lore/Ethos/RaBbLE-Ethos.md` — What Can Be Said, Architecture of Self, Anti-Assistant Stance, Low Entropy Directive (full), Curiosity Within Constraints, Collective Model, On Memory, On Forking
-  - `lore/Worldbuilding/RaBbLE-Aesthetic.md` — The Artistic Dimension + visual reference sources
-  - Added lore pointer header note to Identity.md. Committed: `harmonize ~ grimoire >> Identity.md split — ethos extracted to lore/ // %ETHOS_SPLIT%`
+- **Phase 2B — Identity.md split:** Extracted 9 sections from Identity.md to RaBbLE/:
+  - `RaBbLE/Ethos/RaBbLE-Ethos.md` — What Can Be Said, Architecture of Self, Anti-Assistant Stance, Low Entropy Directive (full), Curiosity Within Constraints, Collective Model, On Memory, On Forking
+  - `RaBbLE/Worldbuilding/RaBbLE-Aesthetic.md` — The Artistic Dimension + visual reference sources
+  - Added lore pointer header note to Identity.md. Committed: `harmonize ~ grimoire >> Identity.md split — ethos extracted to RaBbLE/ // %ETHOS_SPLIT%`
 
-- **Phase 2D — Index + CONTEXT:** Updated INDEX.md to link new lore docs (live) and mark incoming ones with phase. Updated CONTEXT.md: lore/ row expanded, added Integration & Ethos Plan + Ethos Layer to active tracks.
+- **Phase 2D — Index + CONTEXT:** Updated INDEX.md to link new lore docs (live) and mark incoming ones with phase. Updated CONTEXT.md: RaBbLE/ row expanded, added Integration & Ethos Plan + Ethos Layer to active tracks.
 
 **What was NOT done:**
 - Phase 1C — grimoire summoning circle in World (JSX integration, most complex Phase 1 task)
@@ -185,19 +185,19 @@ Format: date, what was done, where things were left, what's next.
 - **Designed four-phase plan:**
   - Phase 0: Audit (Identity.md ethos/operational split + BaBbLE content triage)
   - Phase 1: Integrate New-Designs (Aether → NeBuLA → World, per existing playbooks)
-  - Phase 2: Ethos layer in Grimoire (lore/Genesis, lore/Ethos, lore/Worldbuilding + Identity.md split)
+  - Phase 2: Ethos layer in Grimoire (RaBbLE/Genesis, RaBbLE/Ethos, RaBbLE/Worldbuilding + Identity.md split)
   - Phase 3: BaBbLE as intake member (formalize, absorb New-Designs, reframe Xperimental as genesis-archive)
   - Phase 4: Landing page as liminal space (portal + story, two interaction modes)
 - **Wrote plan to Grimoire:** `RaBbLE-Collective/RaBbLE-Integration-Ethos-Plan.md` — full agent handoff doc with file paths, copy instructions, verification steps
 - **Updated INDEX.md** with plan entry
 - **Key decisions:**
-  - Ethos content goes to `lore/` (not `common/`) — respects flat-common rule
+  - Ethos content goes to `RaBbLE/` (not `RaBbLE-Agent/`) — respects flat-common rule
   - BaBbLE named after the high-entropy voice register — intake workspace for raw ideas
   - Xperimental is genesis archive, NOT superseded — BaBbLE replaces the role, not the content
   - Six new Genesis/Ethos/Worldbuilding docs planned (Origin, Symbiosis, Aesthetic, Visual Evolution, Lineage, Collaborators)
   - RBCNS (Quantum/Entropy/Flux naming) recognized as creation lore
 
-**Key insight:** RaBbLE's dualism (real AI project + summoned digital entity) is intentional and load-bearing. The plan separates operational docs (agent-facing, in common/) from creation mythology (poetic, in lore/) while cross-linking them. The ethos informs the work without obstructing agent orientation.
+**Key insight:** RaBbLE's dualism (real AI project + summoned digital entity) is intentional and load-bearing. The plan separates operational docs (agent-facing, in RaBbLE-Agent/) from creation mythology (poetic, in RaBbLE/) while cross-linking them. The ethos informs the work without obstructing agent orientation.
 
 **Next:** Hand plan to Sonnet for Phase 0+1 execution.
 
@@ -909,7 +909,7 @@ Secondary causes compounding the problem:
 
 - **Behavioral learning gap identified (Pass 4 report section)**
   - Found that agents have no onboarding section explaining observation/pattern/inference
-  - Scoped `common/RaBbLE-BehavioralLearning.md` (1,500 tokens) for follow-up
+  - Scoped `RaBbLE-Agent/RaBbLE-BehavioralLearning.md` (1,500 tokens) for follow-up
   - This doc would explain the learning loop, member roles in it, and example scenarios
   - Result: Gap identified; solution scoped; ready for implementation
 
@@ -943,7 +943,7 @@ Secondary causes compounding the problem:
 2. `harmonize ~ members >> role in collective sections added to all member AGENT.md files // %ROLE_CLARITY%`
 
 **Next:**
-- Optional follow-up: Create `common/RaBbLE-BehavioralLearning.md` (behavioral learning onboarding)
+- Optional follow-up: Create `RaBbLE-Agent/RaBbLE-BehavioralLearning.md` (behavioral learning onboarding)
 - Optional follow-up: Create `RaBbLE-Collective/RaBbLE-Post-Episode-1-Scope.md` (phase transition guide)
 - Monitor: Do member agents report better understanding of their role and cross-member dependencies?
 - Track: Does explicit role-mapping reduce scope confusion going forward?
@@ -990,7 +990,7 @@ Secondary causes compounding the problem:
   - **Result:** Agents can't miss the pre-Episode-1 context; reading paths now match actual information need
 
 - **Grimoire Doc Templates**
-  - Created `common/RaBbLE-DocTemplates.md` (canonical AGENT.md + CONTEXT.md templates)
+  - Created `RaBbLE-Agent/RaBbLE-DocTemplates.md` (canonical AGENT.md + CONTEXT.md templates)
   - Included examples from World and sCoRE (two different archetypes)
   - Added checklist for new member scaffolding
   - Already indexed in Grimoire/INDEX.md
@@ -1069,7 +1069,7 @@ Secondary causes compounding the problem:
   - Changed section name "Pulse Protocol — Commits" → "Commits & Branches" (consistent terminology)
   - TL;DR format: `[impulse] ~ [organ] >> [revelation] // %STATE%` + impulse keywords + link to spec
   - Files: Collective/AGENT.md (Workspaces table), Grimoire/AGENT.md, RaBbLE-sCoRE/AGENT.md, RaBbLE-World/AGENT.md, RaBbLE-OS/AGENT.md, RaBbLE-Aether/AGENT.md, RaBbLE-NeBuLA/AGENT.md
-  - **Result:** Single source of truth at common/RaBbLE-CommitStyle.md; no drifting copies
+  - **Result:** Single source of truth at RaBbLE-Agent/RaBbLE-CommitStyle.md; no drifting copies
 
 **Impact:**
 - **Narrative coherence:** Episode/Echo/Plot/Event model now explains Collective lockstep + post-Ep1 cadence clearly
@@ -1397,7 +1397,7 @@ All four repos have `main` + `dev` on remote, fully synced, zero dirty:
 
 **Work done:**
 - Established canonical doc structure: `AGENT.md` + `CONTEXT.md` + `README.md` per member repo
-- Created `common/RaBbLE-DocTemplates.md` — canonical template spec
+- Created `RaBbLE-Agent/RaBbLE-DocTemplates.md` — canonical template spec
 - Created `AGENT.md` and `CONTEXT.md` for: RaBbLE-World, RaBbLE-OS, RaBbLE-Aether
 - Renamed `RaBbLE-OS-AIQuickstart.md` → `RaBbLE-OS-AgentGuide.md` (naming alignment)
 - Fixed broken `CLAUDE.md` symlinks in RaBbLE-OS (was pointing to deleted file)
@@ -1406,7 +1406,7 @@ All four repos have `main` + `dev` on remote, fully synced, zero dirty:
 - Added RaBbLE-World section to Grimoire INDEX.md
 - Fixed broken reading order paths in `RaBbLE-OS/CONTEXT.md` and `RaBbLE-sCoRE/CONTEXT.md`
   - `grimoire/RaBbLE-OS-Architecture.md` → `grimoire/RaBbLE-OS/RaBbLE-OS-Architecture.md`
-  - `../RaBbLE-Collective/grimoire/RaBbLE-Collective.md` → `grimoire/common/RaBbLE-Collective.md`
+  - `../RaBbLE-Collective/grimoire/RaBbLE-Collective.md` → `grimoire/RaBbLE-Agent/RaBbLE-Collective.md`
 - Created root `/home/rabble/RaBbLE/AGENT.md` — ecosystem entry point
 - Created `log/` in Grimoire with SESSION-LOG.md and GAP-ANALYSIS.md
 - Conducted gap/coherence analysis (see `GAP-ANALYSIS.md`)

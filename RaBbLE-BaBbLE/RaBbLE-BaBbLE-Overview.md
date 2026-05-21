@@ -21,7 +21,7 @@ Content matures in BaBbLE → migrates to target member → BaBbLE keeps origina
 | VISUAL_ANALYSIS.md | RaBbLE-NeBuLA specs/ | Migrated in Phase 1B |
 | Crawler bot ideation | RaBbLE-sCoRE DataCrawler RFC | Migrated in Phase 3E |
 | Hyprland style guide | RaBbLE-Aether OS layer (TBD) | Pending Phase 3E decision |
-| Persona/soul.md | Genesis artifact — cross-links from lore/Genesis/ | Pending Phase 2C |
+| Persona/soul.md | Genesis artifact — cross-links from RaBbLE/Genesis/ | Pending Phase 2C |
 | Concept art | Stays in BaBbLE as visual reference | Stable |
 
 ## Member Entry Point

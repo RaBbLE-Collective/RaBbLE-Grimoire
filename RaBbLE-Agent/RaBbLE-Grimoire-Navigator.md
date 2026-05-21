@@ -7,7 +7,7 @@
 ## Reading Paths
 
 ### 5-Minute Skim
-1. `common/RaBbLE-Identity.md` — **Quick Reference** section only (what RaBbLE is)
+1. `RaBbLE-Agent/RaBbLE-Identity.md` — **Quick Reference** section only (what RaBbLE is)
 2. `CONTEXT.md` — current milestone and active tracks
 
 You'll know: RaBbLE is a behavioral learning entity, the Collective scaffolds its emergence, Episode 1 is the target.
@@ -22,9 +22,9 @@ You'll know: Episode 1 scope and your member's exit conditions.
 ### 30-Minute Full Onboarding (joining the team)
 Above, then:
 5. `RaBbLE-Versioning.md` — Five Es (Event→Episode→Echo→Evolution→Epoch), lockstep model
-6. `common/RaBbLE-CommitStyle.md` — Pulse Protocol commit format
-7. `common/RaBbLE-Agent-Protocols.md` — hard-won behavioral rules (doc management, dev workflow, member responsibilities, naming)
-8. `common/RaBbLE-Roadmap.md` — long-term vision, open gaps
+6. `RaBbLE-Agent/RaBbLE-CommitStyle.md` — Pulse Protocol commit format
+7. `RaBbLE-Agent/RaBbLE-Agent-Protocols.md` — hard-won behavioral rules (doc management, dev workflow, member responsibilities, naming)
+8. `RaBbLE-Agent/RaBbLE-Roadmap.md` — long-term vision, open gaps
 9. `INDEX.md` — everything that exists in the Grimoire
 
 ---
@@ -33,14 +33,14 @@ Above, then:
 
 | Task | Read |
 |---|---|
-| RaBbLE's character, voice, behavior | `common/RaBbLE-Identity.md` |
+| RaBbLE's character, voice, behavior | `RaBbLE-Agent/RaBbLE-Identity.md` |
 | Current blockers and milestone | `CONTEXT.md` + `RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md` |
 | Working on a specific member | That member's `AGENT.md` + `CONTEXT.md` |
 | Deployment and CDN | `RaBbLE-Deployment-Architecture.md` + `RaBbLE-Cloudflare-Integration.md` |
-| Visual language and colors | `common/RaBbLE-Palette.md` + `RaBbLE-Aether/RaBbLE-Aether-Architecture.md` |
+| Visual language and colors | `RaBbLE-Agent/RaBbLE-Palette.md` + `RaBbLE-Aether/RaBbLE-Aether-Architecture.md` |
 | Setup and coordination scripts | `SPELLS.md` → `spells/` |
-| Member coordination model | `common/RaBbLE-Collective.md` + `registry/RaBbLE-Collective-Registry.md` |
-| Agent behavioral rules, do's/don'ts | `common/RaBbLE-Agent-Protocols.md` |
+| Member coordination model | `RaBbLE-Agent/RaBbLE-Collective.md` + `registry/RaBbLE-Collective-Registry.md` |
+| Agent behavioral rules, do's/don'ts | `RaBbLE-Agent/RaBbLE-Agent-Protocols.md` |
 | Versioning in depth | `RaBbLE-Versioning.md` |
 | Find any document | `INDEX.md` |
 
@@ -50,7 +50,7 @@ Above, then:
 
 ```
 RaBbLE-Grimoire/
-├── common/                          ← Shared across all members
+├── RaBbLE-Agent/                          ← Shared across all members
 │   ├── RaBbLE-Identity.md           ← WHO RaBbLE IS (philosophy, voice, character)
 │   ├── RaBbLE-Collective.md         ← WHAT THE COLLECTIVE IS (members, architecture)
 │   ├── RaBbLE-Palette.md            ← THE ONLY COLOR SOURCE (never invent hex values)
@@ -68,7 +68,7 @@ RaBbLE-Grimoire/
 ├── registry/epochs/current.epoch.yml ← Active epoch definition + episode status
 ├── spells/                          ← Coordination bash scripts
 ├── log/                             ← SESSION-LOG.md, GAP-ANALYSIS.md, decisions
-├── lore/                            ← Creative and narrative content
+├── RaBbLE/                            ← Creative and narrative content
 │
 ├── AGENT.md                         ← Grimoire entry point (auto-injected as CLAUDE.md)
 ├── CONTEXT.md                       ← Current milestone, active tracks
@@ -76,7 +76,7 @@ RaBbLE-Grimoire/
 └── RaBbLE-Versioning.md             ← VERSIONING MODEL (Five Es)
 ```
 
-**Rule:** `common/` is canonical for all members. Members reference it, never duplicate it.
+**Rule:** `RaBbLE-Agent/` is canonical for all members. Members reference it, never duplicate it.
 
 ---
 

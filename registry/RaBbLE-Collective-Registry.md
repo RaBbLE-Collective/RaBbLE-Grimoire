@@ -26,9 +26,9 @@ RaBbLE-Grimoire/           ← the Grimoire IS the registry home
 ├── spells/
 │   ├── status.sh          ← health dashboard for all members
 │   ├── setup.sh           ← clone + wire all registered members
-│   ├── sync-grimoire.sh   ← propagate common/ docs (mechanism TBD)
+│   ├── sync-grimoire.sh   ← propagate RaBbLE-Agent/ docs (mechanism TBD)
 │   └── init-project.sh    ← scaffold a new member
-└── common/                ← canonical docs consumed by all members
+└── RaBbLE-Agent/                ← canonical docs consumed by all members
 ```
 
 ---
@@ -51,7 +51,7 @@ phase: 0
 epoch: 0
 status: active | scaffold | dormant | experimental | deprecated
 
-grimoire_sync: false   # true = receives common/ docs via sync-grimoire.sh
+grimoire_sync: false   # true = receives RaBbLE-Agent/ docs via sync-grimoire.sh
 palette_version: "1.0"
 entity_embedded: true
 pulse_protocol: true
@@ -80,7 +80,7 @@ This scaffolds the repo with AGENT.md, CONTEXT.md, and workspace structure, then
 
 ## Propagation (TBD)
 
-The mechanism for pushing `common/` docs to member repos is still being determined. Options under consideration:
+The mechanism for pushing `RaBbLE-Agent/` docs to member repos is still being determined. Options under consideration:
 - Git submodule (member repos include Grimoire as a submodule)
 - Published package (npm/pip/curl-installable)
 - `sync-grimoire.sh` push (current script, but propagation model not finalized)

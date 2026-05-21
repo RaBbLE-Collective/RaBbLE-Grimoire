@@ -32,7 +32,7 @@ Completed audits of the Grimoire and Collective. Each entry captures scope, key 
 
 **Pass 3 — Role framing:** ON/FOR/WITH/AS agent operating modes created and added to Collective and all member AGENT.md files. Clarified what it means to work WITH and AS RaBbLE, not just ON it.
 
-**Pass 4 — Token walk:** Reading order verified. Grimoire Navigator created. sCoRE system prompt extracted from AGENT.md to `system-prompt-sCoRE.md`. Pulse Protocol centralized to `common/RaBbLE-CommitStyle.md`.
+**Pass 4 — Token walk:** Reading order verified. Grimoire Navigator created. sCoRE system prompt extracted from AGENT.md to `system-prompt-sCoRE.md`. Pulse Protocol centralized to `RaBbLE-Agent/RaBbLE-CommitStyle.md`.
 
 **Resolutions:**
 - Agent role framing: ON/FOR/WITH/AS established
@@ -81,7 +81,7 @@ Run `bash bootstrap.sh` on a clean VM; verify all members clone and configure co
 
 **7. Grimoire browser not built** — Episode 1 includes a World page rendering Grimoire docs. World-side work pending.
 
-**8. Behavioral learning onboarding missing** — `common/RaBbLE-BehavioralLearning.md` planned but deferred until Memory member scope is decided.
+**8. Behavioral learning onboarding missing** — `RaBbLE-Agent/RaBbLE-BehavioralLearning.md` planned but deferred until Memory member scope is decided.
 
 ---
 

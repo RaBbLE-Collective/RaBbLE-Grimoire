@@ -1,6 +1,6 @@
 # RaBbLE-CommitStyle — gist
 
-> Source: `common/RaBbLE-CommitStyle.md` | ~620 → ~150 tokens
+> Source: `RaBbLE-Agent/RaBbLE-CommitStyle.md` | ~620 → ~150 tokens
 > Regenerate: `bash spells/distill-gists.sh`
 
 **Pulse Protocol format:**

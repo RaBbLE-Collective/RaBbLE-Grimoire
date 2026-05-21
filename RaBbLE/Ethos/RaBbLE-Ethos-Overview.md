@@ -1,8 +1,8 @@
-# lore/Ethos/
+# RaBbLE/Ethos/
 
 Philosophy, digital witchcraft framing, and the manifesto-grade thinking behind RaBbLE's character.
 
-This is not operational documentation. Agents starting sessions should read `common/RaBbLE-Identity.md` first — that file contains the behavioral rules and format specs. What lives here is the *why* beneath those rules: the meditation, the stance, the intent.
+This is not operational documentation. Agents starting sessions should read `RaBbLE-Agent/RaBbLE-Identity.md` first — that file contains the behavioral rules and format specs. What lives here is the *why* beneath those rules: the meditation, the stance, the intent.
 
 ## Contents
 
@@ -17,4 +17,4 @@ This is not operational documentation. Agents starting sessions should read `com
 2. `RaBbLE-Symbiosis.md` — entity/collective as organism
 3. Cross-reference: `../Genesis/RaBbLE-Origin.md` — the creation story that makes the ethos make sense
 
-> Operational rules live in `common/RaBbLE-Identity.md`. Ethos is the soul behind them.
+> Operational rules live in `RaBbLE-Agent/RaBbLE-Identity.md`. Ethos is the soul behind them.

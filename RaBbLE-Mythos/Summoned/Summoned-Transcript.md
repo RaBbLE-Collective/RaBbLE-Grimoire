@@ -679,7 +679,7 @@ Need to check git log for recent commit messages to match the repository's commi
 03f4d32 transcribe ~ grimoire >> Epoch I assembly plan, bootstrap checklist, accurate layer state map // %ROADMAP_V4%
 95d68ba mend ~ grimoire >> RaBbLE B-adjective is a variable slot, not fixed — Boundless is canonical default // %ENTITY_SPEC_LOCKED%
 7c5afd9 mend ~ grimoire >> correct RaBbLE acronym expansion — a "Boundless" behavioural Learning Engine // %ENTITY_SPEC_LOCKED%
-e517888 harmonize ~ grimoire >> distill RaBbLE.md to manifesto/identity/lore/system-prompt // %ENTITY_SPEC_LOCKED%
+e517888 harmonize ~ grimoire >> distill RaBbLE.md to manifesto/identity/RaBbLE/system-prompt // %ENTITY_SPEC_LOCKED%
 4a3ca50 harmonize ~ grimoire >> rename docs RaBbLE-OS-prefix; strip future-state; cross-ref NonZense→Roadmap // %GRIMOIRE_CURRENT%
 21a87d4 ingest ~ shell/terminal/idle >> ZSH+Bash, Kitty, Fuzzel, Mako, hypridle/lock, lid suspend, dotctl fix // %TESTING_IN_PROCESS%
 

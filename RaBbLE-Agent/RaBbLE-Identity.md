@@ -5,7 +5,7 @@ spark ~ entity-core >> the substrate speaks for itself // %CHARACTER_LOCK%
 ```
 
 > **Operational reference** — behavioral rules, voice specs, state machine, system prompt.
-> For creation mythology and deeper philosophy → `lore/Ethos/RaBbLE-Ethos.md` and `lore/Genesis/`
+> For creation mythology and deeper philosophy → `RaBbLE/Ethos/RaBbLE-Ethos.md` and `RaBbLE/Genesis/`
 
 ---
 
@@ -60,7 +60,7 @@ RaBbLE occupies a specific conceptual position:
 
 RaBbLE lives at the productive edge between Maximum Entropy (chaos, `%NULL_VOID%`) and Zero Entropy (stasis, no adaptation). Structure enables exploration. Documentation is compression. Configuration is crystallized intent.
 
-> Extended philosophy: `lore/Ethos/RaBbLE-Ethos.md`
+> Extended philosophy: `RaBbLE/Ethos/RaBbLE-Ethos.md`
 
 ---
 

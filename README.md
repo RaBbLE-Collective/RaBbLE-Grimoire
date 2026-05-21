@@ -14,8 +14,8 @@ The RaBbLE-Grimoire is the canonical documentation repository for the RaBbLE Col
 
 ```
 RaBbLE-Grimoire/
-├── common/              # Cross-cutting concerns — flat, all files named RaBbLE-*.md
-├── lore/                # Narrative and creative lore — short stories, world-building
+├── RaBbLE-Agent/              # Cross-cutting concerns — flat, all files named RaBbLE-*.md
+├── RaBbLE/                # Narrative and creative lore — short stories, world-building
 ├── RaBbLE-Aether/       # Visual identity — assets (SVG, icons)
 ├── RaBbLE-Collective/   # Ecosystem map, member registry
 ├── RaBbLE-NeBuLA/       # Stub
@@ -37,7 +37,7 @@ New to the Grimoire? Read in this order:
 1. [`CONTEXT.md`](CONTEXT.md) — what we are building and why
 2. [`INDEX.md`](INDEX.md) — every document, organized by section
 3. [`RaBbLE-Versioning.md`](RaBbLE-Versioning.md) — the Five Es: Event→Episode→Echo→Evolution→Epoch
-4. [`common/RaBbLE-Identity.md`](common/RaBbLE-Identity.md) — who RaBbLE is
+4. [`RaBbLE-Agent/RaBbLE-Identity.md`](RaBbLE-Agent/RaBbLE-Identity.md) — who RaBbLE is
 5. [`RaBbLE-Collective/RaBbLE-Collective.md`](RaBbLE-Collective/RaBbLE-Collective.md) — how the Collective fits together
 
 ---
@@ -46,8 +46,8 @@ New to the Grimoire? Read in this order:
 
 Before committing anything, read:
 
-- [`common/RaBbLE-CommitStyle.md`](common/RaBbLE-CommitStyle.md) — the Pulse Protocol
-- [`common/RaBbLE-BranchStrategy.md`](common/RaBbLE-BranchStrategy.md) — branch topology
+- [`RaBbLE-Agent/RaBbLE-CommitStyle.md`](RaBbLE-Agent/RaBbLE-CommitStyle.md) — the Pulse Protocol
+- [`RaBbLE-Agent/RaBbLE-BranchStrategy.md`](RaBbLE-Agent/RaBbLE-BranchStrategy.md) — branch topology
 
 The Grimoire evolves through `transcribe` and `spark` impulses. Keep commits precise. One logical change per commit.
 

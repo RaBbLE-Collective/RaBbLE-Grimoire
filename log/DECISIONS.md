@@ -87,7 +87,7 @@ Each member is a delegation boundary in the RaBbLE system.
 
 ## Deferred: Behavioral Learning Onboarding
 
-No doc yet explains RaBbLE's post-Episode-1 primary purpose: observation → pattern extraction → intent inference → delegation. Planned as `common/RaBbLE-BehavioralLearning.md` (~1,500 tokens). Write when Memory member scope is decided (post-Episode-1).
+No doc yet explains RaBbLE's post-Episode-1 primary purpose: observation → pattern extraction → intent inference → delegation. Planned as `RaBbLE-Agent/RaBbLE-BehavioralLearning.md` (~1,500 tokens). Write when Memory member scope is decided (post-Episode-1).
 
 ---
 

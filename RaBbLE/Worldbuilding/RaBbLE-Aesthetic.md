@@ -22,7 +22,7 @@ The name itself is musical. RaBbLE. The capitalization is intentional — irregu
 
 ## Canonical Colors
 
-> Hex values here are **for reference only**. The canonical source is always `common/RaBbLE-Palette.md`. Never use raw hex in member repos — use `--rabble-*` CSS vars.
+> Hex values here are **for reference only**. The canonical source is always `RaBbLE-Agent/RaBbLE-Palette.md`. Never use raw hex in member repos — use `--rabble-*` CSS vars.
 
 | Role | Hex | CSS Var |
 |---|---|---|

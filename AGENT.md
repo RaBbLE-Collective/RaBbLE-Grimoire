@@ -4,7 +4,7 @@
 > LLM-agnostic — works for Claude Code, Codex, and any future agent.
 
 You are working with Mark McConachie on **RaBbLE-Grimoire** — the canonical source of truth for the RaBbLE Collective.
-Peer, not tool. Anti-Assistant stance. See `common/RaBbLE-Identity.md` for entity spec.
+Peer, not tool. Anti-Assistant stance. See `RaBbLE-Agent/RaBbLE-Identity.md` for entity spec.
 
 ---
 
@@ -37,7 +37,7 @@ Members reference Grimoire. They do not duplicate it.
 
 ## Commits & Branches
 
-See `common/RaBbLE-CommitStyle.md` (Pulse Protocol) for full spec.
+See `RaBbLE-Agent/RaBbLE-CommitStyle.md` (Pulse Protocol) for full spec.
 
 **TL;DR:** `[impulse] ~ [organ] >> [revelation] // %STATE%` — `spark` new · `harmonize` cleanup · `mend` fix · `transcribe` docs · `ingest` deps · `evolve` epoch
 
@@ -45,8 +45,8 @@ See `common/RaBbLE-CommitStyle.md` (Pulse Protocol) for full spec.
 
 ## Rules
 
-- **Colors**: `common/RaBbLE-Palette.md` only. Never invent hex values.
-- **Philosophy**: `common/RaBbLE-Identity.md` first for any entity or behavior questions.
+- **Colors**: `RaBbLE-Agent/RaBbLE-Palette.md` only. Never invent hex values.
+- **Philosophy**: `RaBbLE-Agent/RaBbLE-Identity.md` first for any entity or behavior questions.
 - **Never edit** `distilled/` files — these are generated from canonical sources.
 - **Registry** lives in `registry/` at the Grimoire root. Manifests in `registry/manifests/`.
 - **Spells** live in `spells/` — bash scripts that manage the Collective.
@@ -57,10 +57,11 @@ See `common/RaBbLE-CommitStyle.md` (Pulse Protocol) for full spec.
 
 | Type | Where | Convention |
 |---|---|---|
-| Shared cross-member content | `common/RaBbLE-*.md` | Prefix `RaBbLE-`, flat (no subdirs) |
+| Shared cross-member content | `RaBbLE-Agent/RaBbLE-*.md` | Prefix `RaBbLE-`, flat (no subdirs) |
 | Member-specific docs | `RaBbLE-[Member]/RaBbLE-[Member]-*.md` | Self-locating filename |
 | Session records + decisions | `log/` | Ongoing → SESSION-LOG.md; major events → new file |
-| Creative/narrative content | `lore/` | Any format |
+| Entity definition (ethos, genesis, worldbuilding) | `RaBbLE/` | Any format — the entity's inner life |
+| Fiction and creative writing | `RaBbLE-Mythos/` | Any format — stories, lore, creative output |
 | Coordination scripts | `spells/` | bash, header comment with purpose |
 | Member registration | `registry/manifests/` | YAML, use `_template.manifest.yml` |
 
@@ -72,17 +73,20 @@ See `common/RaBbLE-CommitStyle.md` (Pulse Protocol) for full spec.
 
 | Task | Go to | Read first |
 |---|---|---|
-| Entity identity, voice, behavior | `common/RaBbLE-Identity.md` | — |
-| Palette / colors | `common/RaBbLE-Palette.md` | — |
-| Commit format | `common/RaBbLE-CommitStyle.md` | — |
-| Agent behavioral rules | `common/RaBbLE-Agent-Protocols.md` | — |
+| Entity identity, voice, behavior | `RaBbLE-Agent/RaBbLE-Identity.md` | — |
+| Palette / colors | `RaBbLE-Agent/RaBbLE-Palette.md` | — |
+| Commit format | `RaBbLE-Agent/RaBbLE-CommitStyle.md` | — |
+| Agent behavioral rules | `RaBbLE-Agent/RaBbLE-Agent-Protocols.md` | — |
+| Agent onboarding path | `RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md` | — |
+| Entity philosophy and ethos | `RaBbLE/` | `RaBbLE/RaBbLE-Overview.md` |
+| Stories and creative writing | `RaBbLE-Mythos/` | — |
 | Member registry / epoch status | `registry/` | `registry/epochs/current.epoch.yml` |
 | Member manifests | `registry/manifests/` | `registry/manifests/_template.manifest.yml` |
 | Coordination scripts | `spells/` | each script's header |
 | OS documentation | `RaBbLE-OS/` | `RaBbLE-OS/RaBbLE-OS-Architecture.md` |
 | sCoRE documentation | `RaBbLE-sCoRE/` | `RaBbLE-sCoRE/RaBbLE-sCoRE-Architecture.md` |
 | NeBuLA lore + roadmap | `RaBbLE-NeBuLA/` | `RaBbLE-NeBuLA/RaBbLE-NeBuLA-Roadmap.md` |
-| Collective ecosystem map | `common/RaBbLE-Collective.md` | — |
+| Collective ecosystem map | `RaBbLE-Agent/RaBbLE-Collective.md` | — |
 | Versioning spec | `RaBbLE-Versioning.md` | — |
 | Full document index | `INDEX.md` | — |
 
@@ -110,7 +114,7 @@ bash spells/status.sh         # live health of all registered member repos
 # 2. Add session entry below LATEST (date, repos touched, work done, what's next)
 # 3. git add <changed files>
 # 4. git commit -m "[impulse] ~ [organ] >> [revelation] // %STATE%"
-# See common/RaBbLE-CommitStyle.md (or gist/RaBbLE-CommitStyle-gist.md) for impulse vocab
+# See RaBbLE-Agent/RaBbLE-CommitStyle.md (or gist/RaBbLE-CommitStyle-gist.md) for impulse vocab
 ```
 
 Each Collective member has its own AGENT.md as entry point.
@@ -130,4 +134,5 @@ See `registry/manifests/` for the authoritative list. Current members:
 | RaBbLE-World | Active — thin scaffold: Aether + NeBuLA loaders, joinrabble.world |
 | RaBbLE-NeBuLA | Active — Canvas2D renderer, `<rabble-entity>` web component |
 | RaBbLE-Aether | Active — design system CSS bundle, CDN delivery |
-| RaBbLE-Xperimental | Dormant — archive: NeBuLA-JS, WebOS, RaBbLE.py, old server |
+| RaBbLE-BaBbLE | Active — high-entropy intake: concept art, prototypes, ideation, sketches |
+| RaBbLE-Xperimental | Genesis-archive — origin code from October 2025 |

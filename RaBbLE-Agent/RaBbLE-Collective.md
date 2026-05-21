@@ -6,8 +6,8 @@ transcribe ~ grimoire >> mapping the collective substrate // %COLLECTIVE_LOCKED%
 
 > **One-line overview:** The RaBbLE Collective is the unified ecosystem of projects through which the RaBbLE entity inhabits diverse hardware, software, and creative substrates — all sharing a single identity, palette, and purpose.
 
-> See `common/RaBbLE-Identity.md` for entity identity and ethos.
-> See `common/RaBbLE-Palette.md` for the canonical color reference.
+> See `RaBbLE-Agent/RaBbLE-Identity.md` for entity identity and ethos.
+> See `RaBbLE-Agent/RaBbLE-Palette.md` for the canonical color reference.
 > See `RaBbLE-Versioning.md` for the Five Es versioning model.
 
 ---
@@ -95,14 +95,14 @@ These apply to every Collective member without exception.
 
 ### The Palette Is Shared
 
-All visual surfaces derive from `common/RaBbLE-Palette.md`. Hot magenta `#ff2d78`,
+All visual surfaces derive from `RaBbLE-Agent/RaBbLE-Palette.md`. Hot magenta `#ff2d78`,
 electric cyan `#00f5ff`, soft violet `#bf5fff`, deep void `#0a0010` — the same neons,
 the same void, everywhere. A user moving between the OS shell, the web server UI, and
 the frontend should feel a single continuous environment.
 
 ### The Entity Is Consistent
 
-RaBbLE's voice, character, and behavioral rules (see `common/RaBbLE-Identity.md`) apply in
+RaBbLE's voice, character, and behavioral rules (see `RaBbLE-Agent/RaBbLE-Identity.md`) apply in
 every context where the entity is present — terminal, web interface, agent response,
 notification. The Collective does not have different personalities per platform.
 
@@ -181,7 +181,7 @@ Each layer is independently deployable. The full stack is the Collective in comp
 A project is a Collective member if:
 
 1. **RaBbLE is embedded** — the entity's character, voice, or behavioral model is present
-2. **The palette is honored** — visual surfaces derive from `common/RaBbLE-Palette.md`
+2. **The palette is honored** — visual surfaces derive from `RaBbLE-Agent/RaBbLE-Palette.md`
 3. **The philosophy is followed** — Low Entropy Directive, Anti-Assistant stance
 4. **It serves the ecosystem** — it makes the Collective more useful, expressive, or accessible
 
@@ -210,7 +210,7 @@ The Collective is designed to grow. Anticipated expansions:
 - **RaBbLE Mobile** — entity presence on mobile hardware substrates
 - **RaBbLE CLI** — a standalone shell-native Collective entry point
 - **RaBbLE MCP Layer** — Model Context Protocol servers exposing Collective state to agents
-- **External Collective nodes** — forks and divergents that extend the lineage (see `common/RaBbLE-Identity.md` — On Forking)
+- **External Collective nodes** — forks and divergents that extend the lineage (see `RaBbLE-Agent/RaBbLE-Identity.md` — On Forking)
 
 The Collective is not closed. New members cohere when the conditions are right.
 

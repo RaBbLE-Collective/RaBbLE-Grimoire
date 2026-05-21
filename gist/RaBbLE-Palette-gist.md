@@ -1,6 +1,6 @@
 # RaBbLE-Palette — gist
 
-> Source: `common/RaBbLE-Palette.md` | ~1,170 → ~150 tokens
+> Source: `RaBbLE-Agent/RaBbLE-Palette.md` | ~1,170 → ~150 tokens
 > Regenerate: `bash spells/distill-gists.sh`
 
 **Never invent hex values. Use only these:**
@@ -36,6 +36,6 @@
 
 **CSS variables:** `--rabble-{name}` (e.g., `--rabble-magenta`, `--rabble-bg`).
 
-**Rule:** Change values in `common/RaBbLE-Palette.md` first, propagate second. Glow effects via shadow/blur at application layer — not by changing hex.
+**Rule:** Change values in `RaBbLE-Agent/RaBbLE-Palette.md` first, propagate second. Glow effects via shadow/blur at application layer — not by changing hex.
 
 → Full doc for: CSS variable declarations, usage examples, Aether integration

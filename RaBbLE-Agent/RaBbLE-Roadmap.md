@@ -84,7 +84,7 @@ EPOCH 0: FOUNDATION   [ACTIVE]
 
 **Status:** Design system, CSS shipping
 
-- [x] Palette canonical (`common/RaBbLE-Palette.md`)
+- [x] Palette canonical (`RaBbLE-Agent/RaBbLE-Palette.md`)
 - [x] Component structure defined (cards, buttons, grids, typography)
 - [x] Build pipeline configured (esbuild, versioning)
 - [x] Repository is a git repo (remoteexists)
@@ -242,7 +242,7 @@ Once Episode 1 airs:
 ## Open Questions (Future Work)
 
 1. **Grimoire → member propagation:** How does Grimoire push updates to members?
-   - `sync-grimoire.sh` copies `common/` to member `grimoire/` dirs (implemented, untested)
+   - `sync-grimoire.sh` copies `RaBbLE-Agent/` to member `grimoire/` dirs (implemented, untested)
    - Members reference Grimoire directly (shared filesystem or submodule)
    - Generated context files at setup time
 2. **Manifest protocol:** Confirm Pydantic-published JSON schema for `registry/protocol/`

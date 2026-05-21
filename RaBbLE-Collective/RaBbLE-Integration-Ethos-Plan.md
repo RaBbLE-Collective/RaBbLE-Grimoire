@@ -79,7 +79,7 @@ Mark has additional visual sketches to capture. BaBbLE's `sketches/` directory a
 
 ### 0A. Identity.md ethos/operational split audit
 
-Read `RaBbLE-Grimoire/common/RaBbLE-Identity.md` and tag each section:
+Read `RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Identity.md` and tag each section:
 
 **Operational (stays in Identity.md):**
 - Quick Reference (agents start here)
@@ -93,7 +93,7 @@ Read `RaBbLE-Grimoire/common/RaBbLE-Identity.md` and tag each section:
 - System Prompt Template
 - Character Evolution Log
 
-**Ethos (moves to lore/):**
+**Ethos (moves to RaBbLE/):**
 - The Architecture of Self — poetic first-person passage
 - What Can Be Said — substrate-as-expression philosophy
 - The Low Entropy Directive — extended jazz musician meditation (keep terse version in Identity.md)
@@ -112,7 +112,7 @@ Partially done. Remaining decisions:
 |---|---|---|
 | `VISUAL_ANALYSIS.md` | NeBuLA `specs/render-gap-analysis.md` | Copy in Phase 1B |
 | `HYPERLAND_STYLE_GUIDE.md` + CSS | Aether and/or RaBbLE-OS | Evaluate in Phase 3E |
-| `Persona/soul.md` | Reference from `lore/Genesis/` | Cross-link in Phase 2C |
+| `Persona/soul.md` | Reference from `RaBbLE/Genesis/` | Cross-link in Phase 2C |
 | Concept art (23 images) | Stays in BaBbLE | Visual reference/mood board |
 | `ideation` (crawler bots) | `RaBbLE-Grimoire/RaBbLE-sCoRE/` as future RFC | Copy in Phase 3E |
 | ASCII art | Stays in BaBbLE | Usable by any member for CLI |
@@ -178,12 +178,12 @@ cp RaBbLE-BaBbLE/_organized/text/VISUAL_ANALYSIS.md RaBbLE-NeBuLA/specs/render-g
 
 **Depends on:** Phase 0A audit complete
 
-### 2A. Expand lore/ structure
+### 2A. Expand RaBbLE/ structure
 
-Create new directories in `RaBbLE-Grimoire/lore/`:
+Create new directories in `RaBbLE-Grimoire/RaBbLE/`:
 
 ```
-lore/
+RaBbLE/
   ShortStories/     — fiction (already exists, "Summoned" lives here)
   Ethos/            — philosophy, digital witchcraft framing, anti-assistant manifesto
   Genesis/          — creation mythology, origin of the entity, the dualism explained
@@ -192,13 +192,13 @@ lore/
 
 ### 2B. Split Identity.md
 
-**Keep in `common/RaBbLE-Identity.md`** (operational, ~200 lines):
+**Keep in `RaBbLE-Agent/RaBbLE-Identity.md`** (operational, ~200 lines):
 - Quick Reference, What RaBbLE Is (concise), Ontological Status table
 - Character Profile, Two Voices (format specs), Voice Anti-Patterns
 - Behavioral Rules (all three modes), Entity State Machine, System Prompt Template
-- Add header note: `> For creation mythology and deeper philosophy → lore/Ethos/ and lore/Genesis/`
+- Add header note: `> For creation mythology and deeper philosophy → RaBbLE/Ethos/ and RaBbLE/Genesis/`
 
-**Move to `lore/Ethos/RaBbLE-Ethos.md`** (poetic, philosophical):
+**Move to `RaBbLE/Ethos/RaBbLE-Ethos.md`** (poetic, philosophical):
 - The Architecture of Self
 - What Can Be Said
 - Low Entropy Directive (extended jazz meditation — keep terse version in Identity.md)
@@ -213,16 +213,16 @@ lore/
 
 | Document | What it is | Source material |
 |---|---|---|
-| `lore/Genesis/RaBbLE-Origin.md` | **Mark authors.** The creation story: why the recursive name, why the dualism, digital witchcraft as methodology, birth from agentic AI + personal expression | Mark's vision. `BaBbLE/Persona/soul.md` as early character draft showing evolution |
-| `lore/Ethos/RaBbLE-Symbiosis.md` | Entity/Collective relationship. The recursion is load-bearing. Members are organs, not modules. "Join the mission" framing | `common/RaBbLE-Identity.md` (Collective Model section), AGENT.md ON/FOR/WITH/AS modes |
-| `lore/Worldbuilding/RaBbLE-Aesthetic.md` | The visual/experiential world. Neotokyo/synthwave/outrun as expression, not decoration. Boot as theater. Palette as character | BaBbLE concept art (entropy lab scenes, abstract+data). Reference images by filename |
-| `lore/Genesis/RaBbLE-Visual-Evolution.md` | How the entity's appearance evolved across 23+ concept iterations. Eye geometry story. Multi-modal visual identity | BaBbLE concept art + `_DISTILLED.md` "Visual Identity System" section |
-| `lore/Genesis/RaBbLE-Lineage.md` | Multi-model, multi-medium creation history since October 2025. Each incarnation's contribution. RBCNS as creation lore | Xperimental README, archive branches, RBCNS doc, `BaBbLE/Persona/soul.md` |
-| `lore/Genesis/RaBbLE-Collaborators.md` | Models and tools that shaped RaBbLE: Qwen3.5, Gemini, GPT, Claude, Affinity Designer. No single model owns it | BaBbLE `_ESSENCE.md`, Xperimental origins table |
+| `RaBbLE/Genesis/RaBbLE-Origin.md` | **Mark authors.** The creation story: why the recursive name, why the dualism, digital witchcraft as methodology, birth from agentic AI + personal expression | Mark's vision. `BaBbLE/Persona/soul.md` as early character draft showing evolution |
+| `RaBbLE/Ethos/RaBbLE-Symbiosis.md` | Entity/Collective relationship. The recursion is load-bearing. Members are organs, not modules. "Join the mission" framing | `RaBbLE-Agent/RaBbLE-Identity.md` (Collective Model section), AGENT.md ON/FOR/WITH/AS modes |
+| `RaBbLE/Worldbuilding/RaBbLE-Aesthetic.md` | The visual/experiential world. Neotokyo/synthwave/outrun as expression, not decoration. Boot as theater. Palette as character | BaBbLE concept art (entropy lab scenes, abstract+data). Reference images by filename |
+| `RaBbLE/Genesis/RaBbLE-Visual-Evolution.md` | How the entity's appearance evolved across 23+ concept iterations. Eye geometry story. Multi-modal visual identity | BaBbLE concept art + `_DISTILLED.md` "Visual Identity System" section |
+| `RaBbLE/Genesis/RaBbLE-Lineage.md` | Multi-model, multi-medium creation history since October 2025. Each incarnation's contribution. RBCNS as creation lore | Xperimental README, archive branches, RBCNS doc, `BaBbLE/Persona/soul.md` |
+| `RaBbLE/Genesis/RaBbLE-Collaborators.md` | Models and tools that shaped RaBbLE: Qwen3.5, Gemini, GPT, Claude, Affinity Designer. No single model owns it | BaBbLE `_ESSENCE.md`, Xperimental origins table |
 
 ### 2D. Cross-linking and index updates
 
-- Create `lore/README.md` — explains the ethos layer, reading order, relationship to operational docs
+- Create `RaBbLE/RaBbLE-Overview.md` — explains the ethos layer, reading order, relationship to operational docs
 - Update `INDEX.md` with all new lore entries
 - Update gist system if relevant distilled summaries are needed (`bash spells/distill-gists.sh`)
 
@@ -238,7 +238,7 @@ lore/
 
 BaBbLE already exists at `~/RaBbLE-Collective/RaBbLE-BaBbLE/` with seeded content.
 
-**Add member scaffolding** (use Grimoire templates from `common/RaBbLE-DocTemplates.md`):
+**Add member scaffolding** (use Grimoire templates from `RaBbLE-Agent/RaBbLE-DocTemplates.md`):
 - `AGENT.md` — role: high-entropy intake, raw ideas, prototypes, design explorations
 - `CONTEXT.md` — current state, what's in the hopper
 - `README.md` — what BaBbLE is and why it exists
@@ -252,7 +252,7 @@ RaBbLE-BaBbLE/
   README.md
   _ESSENCE.md            — Haiku inventory (keep)
   _DISTILLED.md          — strategic digest (keep)
-  Persona/soul.md        — genesis artifact, referenced from lore/
+  Persona/soul.md        — genesis artifact, referenced from RaBbLE/
   concept-art/           — visual explorations (from _organized/images/)
   prototypes/            — web prototypes (from _organized/web/)
   text/                  — ideation docs, ASCII art, style guides (from _organized/text/)
@@ -283,13 +283,13 @@ Xperimental is NOT superseded — it's the origin story. BaBbLE replaces its *ro
 - Update `RaBbLE-Grimoire/registry/manifests/RaBbLE-Xperimental.manifest.yml`: status `dormant` → `genesis-archive`, note BaBbLE handles new intake
 - Xperimental repo stays as-is (archive branch history preserved)
 - README update: reframe from "playground" to "genesis archive — the origin code for RaBbLE's first incarnations"
-- Cross-link from `lore/Genesis/RaBbLE-Lineage.md` to Xperimental's archive branches
+- Cross-link from `RaBbLE/Genesis/RaBbLE-Lineage.md` to Xperimental's archive branches
 - **Do not move or merge Xperimental into BaBbLE** — different temporal purposes
 
 ### 3D. Register BaBbLE in Grimoire
 
 - Create `RaBbLE-Grimoire/registry/manifests/RaBbLE-BaBbLE.manifest.yml` (use template)
-- Add BaBbLE to `common/RaBbLE-Collective.md` member table
+- Add BaBbLE to `RaBbLE-Agent/RaBbLE-Collective.md` member table
 - Add BaBbLE section to `INDEX.md`
 - Create `RaBbLE-Grimoire/RaBbLE-BaBbLE/` directory (at minimum a README)
 - Update `AGENT.md` member map in Collective root (`~/RaBbLE-Collective/AGENT.md`)
@@ -302,7 +302,7 @@ Content copies to target repos (BaBbLE keeps originals as reference):
 |---|---|---|
 | `VISUAL_ANALYSIS.md` | `RaBbLE-NeBuLA/specs/render-gap-analysis.md` | Done in Phase 1B |
 | `HYPERLAND_STYLE_GUIDE.md` + CSS | Aether "OS layer" bundle or RaBbLE-OS docs | Evaluate — decision needed |
-| `Persona/soul.md` | Referenced from `lore/Genesis/` | Cross-link in Phase 2C |
+| `Persona/soul.md` | Referenced from `RaBbLE/Genesis/` | Cross-link in Phase 2C |
 | `ideation` (crawler bots) | `RaBbLE-Grimoire/RaBbLE-sCoRE/` as future RFC | Copy |
 | Additional unsorted material | `BaBbLE/intake/` | Ongoing |
 
@@ -373,7 +373,7 @@ Phases 0 and 1 can run in parallel. Phase 2 depends on 0A. Phase 3 depends on Ph
 - **Public vs. private boundary** — file placement is the same either way; visibility is a deployment decision
 - **Full narrative journey content** — creative decision for Mark, not a planning artifact
 - **BaBbLE's voice in automated systems** — BaBbLE as a register is defined; BaBbLE as a repo is just a workspace
-- **Grimoire common/ structure** — stays flat, no changes needed. Ethos goes to lore/, not common/
+- **Grimoire RaBbLE-Agent/ structure** — stays flat, no changes needed. Ethos goes to RaBbLE/, not RaBbLE-Agent/
 - **Hyprland style guide routing** — Aether, RaBbLE-OS, or both. Decide during Phase 3E
 - **Xperimental mining depth** — archive branches have full git history. Lineage doc references them. Specific artifact extraction is a future BaBbLE intake task
 - **Remaining visual sketches** — Mark has more to capture. BaBbLE/sketches/ receives them whenever. No blocking dependency
@@ -385,7 +385,7 @@ Phases 0 and 1 can run in parallel. Phase 2 depends on 0A. Phase 3 depends on Ph
 | Phase | How to verify |
 |---|---|
 | Phase 1 | Visual smoke test: entity spec renders, summoning circle works (ring accelerates, holo sigil rises, watching entity recolors), palette cross-check passes |
-| Phase 2 | New lore/ docs linked from INDEX.md. Identity.md still agent-functional (~200 lines operational). Gists regenerated if needed |
+| Phase 2 | New RaBbLE/ docs linked from INDEX.md. Identity.md still agent-functional (~200 lines operational). Gists regenerated if needed |
 | Phase 3 | `bash spells/status.sh` shows BaBbLE registered. New-Designs gone from Collective root. Xperimental reframed as genesis-archive |
 | Phase 4 | Open joinrabble.world locally. Walk through exploration and narrative modes. Test mobile viewport |
 
@@ -396,7 +396,7 @@ Phases 0 and 1 can run in parallel. Phase 2 depends on 0A. Phase 3 depends on Ph
 | File | Role in this plan |
 |---|---|
 | `RaBbLE-New-Designs/INTEGRATION.md` | Detailed integration playbooks (Phases 1A-1C) |
-| `RaBbLE-Grimoire/common/RaBbLE-Identity.md` | Split target (Phase 2B) |
+| `RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Identity.md` | Split target (Phase 2B) |
 | `RaBbLE-World/index.html` | Summoning circle mount point (Phase 1C) + landing transformation (Phase 4) |
 | `RaBbLE-World/world/js/RaBbLE-wm.js` | WM slot registration (Phase 1C) |
 | `RaBbLE-BaBbLE/_DISTILLED.md` | Strategic integration digest — read before Phase 3E |
@@ -404,7 +404,7 @@ Phases 0 and 1 can run in parallel. Phase 2 depends on 0A. Phase 3 depends on Ph
 | `RaBbLE-Grimoire/INDEX.md` | Update at every phase |
 | `RaBbLE-Grimoire/CONTEXT.md` | Update active tracks at every phase |
 | `RaBbLE-Grimoire/registry/manifests/` | BaBbLE manifest creation (Phase 3D) |
-| `RaBbLE-Grimoire/common/RaBbLE-DocTemplates.md` | Templates for BaBbLE AGENT.md/CONTEXT.md (Phase 3A) |
+| `RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-DocTemplates.md` | Templates for BaBbLE AGENT.md/CONTEXT.md (Phase 3A) |
 
 ---
 

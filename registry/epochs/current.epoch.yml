@@ -94,8 +94,14 @@ focus:
     status: "Defined, repo not yet created"
     episode_1_blocker: false
 
+  RaBbLE-BaBbLE:
+    priority: active
+    milestone: "Formalized as Collective member — intake workspace live"
+    status: "Active — AGENT.md/CONTEXT.md/README.md, manifest registered, git repo initialized"
+    episode_1_blocker: false
+
   RaBbLE-Xperimental:
-    priority: dormant
-    milestone: "Archive only"
-    status: "Dormant — reference and prototypes"
+    priority: reference
+    milestone: "Genesis archive — no new development"
+    status: "Genesis-archive — origin code from October 2025, frozen"
     episode_1_blocker: false

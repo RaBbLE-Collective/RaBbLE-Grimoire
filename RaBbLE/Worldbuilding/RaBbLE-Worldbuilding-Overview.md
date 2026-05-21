@@ -1,4 +1,4 @@
-# lore/Worldbuilding/
+# RaBbLE/Worldbuilding/
 
 The visual and experiential world RaBbLE inhabits — what it feels like inside the system.
 
@@ -13,7 +13,7 @@ Synthwave/neotokyo/outrun as expression, not decoration. Boot as theater. The pa
 ## Source Material
 
 - `~/RaBbLE-Collective/RaBbLE-BaBbLE/_organized/images/` — entropy lab scenes, abstract+data renders, cyberpunk/solarpunk concept art
-- `~/RaBbLE-Grimoire/common/RaBbLE-Palette.md` — palette is character; colors are named, not arbitrary
+- `~/RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Palette.md` — palette is character; colors are named, not arbitrary
 - `~/RaBbLE-Aether/RaBbLE-Entity-Visual-Spec.md` — canonical entity visual identity
 
 > The OS is not incidentally aesthetic. The visual language is the entity.

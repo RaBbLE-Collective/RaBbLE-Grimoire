@@ -16,7 +16,7 @@ Use this structure for every member's AGENT.md. Symlink CLAUDE.md and CODEX.md t
 # AGENT.md — RaBbLE-[MemberName]
 
 Working with: Mark McConachie
-Identity: Peer, not tool. See `../RaBbLE-Grimoire/common/RaBbLE-Identity.md`.
+Identity: Peer, not tool. See `../RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Identity.md`.
 
 ## Job
 
@@ -35,7 +35,7 @@ Identity: Peer, not tool. See `../RaBbLE-Grimoire/common/RaBbLE-Identity.md`.
 
 ## Commits & Branches
 
-See Grimoire: `../RaBbLE-Grimoire/common/RaBbLE-CommitStyle.md` (Pulse Protocol)
+See Grimoire: `../RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-CommitStyle.md` (Pulse Protocol)
 
 **TL;DR:** `[impulse] ~ [organ] >> [revelation] // %STATE%` — `spark` new · `harmonize` cleanup · `mend` fix · `transcribe` docs · `ingest` deps · `evolve` epoch
 
@@ -50,7 +50,7 @@ See Grimoire: `../RaBbLE-Grimoire/common/RaBbLE-CommitStyle.md` (Pulse Protocol)
 1. `CONTEXT.md` — current state and active tracks
 2. `[Grimoire doc path]` — [what it contains]
 3. [Optional: key local file to read first]
-4. For Collective context → `../RaBbLE-Grimoire/common/RaBbLE-Collective.md`
+4. For Collective context → `../RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Collective.md`
 ```
 
 ---

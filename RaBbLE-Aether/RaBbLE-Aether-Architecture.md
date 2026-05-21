@@ -12,7 +12,7 @@ RaBbLE-Aether is the visual design system and asset library for the RaBbLE Colle
 
 | Concern | Owner |
 |---|---|
-| Color palette (vars, semantic tokens) | `RaBbLE-Grimoire/common/RaBbLE-Palette.md` |
+| Color palette (vars, semantic tokens) | `RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Palette.md` |
 | Rendered assets (SVG, PNG, icons, logos) | `RaBbLE-Aether/assets/` |
 | Motion principles and keyframe definitions | `RaBbLE-Aether` (planned) |
 | Member-facing CSS bundle (palette as CSS vars) | `RaBbLE-Aether` (planned) |
@@ -51,7 +51,7 @@ Member repos reference Aether assets by path or via a future published bundle. T
 
 ## Palette Publishing
 
-The canonical palette definition is in `RaBbLE-Grimoire/common/RaBbLE-Palette.md`.
+The canonical palette definition is in `RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Palette.md`.
 
 Aether's job is to export that definition into consumable forms:
 - `assets/palette/rabble-palette.css` — CSS custom properties

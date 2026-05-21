@@ -4,7 +4,7 @@
 transcribe ~ grimoire >> design system and visual identity mapped // %AETHER_ROADMAP_LOCKED%
 ```
 
-> **Collective Context:** RaBbLE-Aether is the canonical design system and visual identity layer. See `RaBbLE-Grimoire-Navigator.md` for how this fits the whole picture. See `RaBbLE-Episode-1-Release-Map.md` for Episode 1 scope across all members.
+> **Collective Context:** RaBbLE-Aether is the canonical design system and visual identity layer. See `RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md` for how this fits the whole picture. See `RaBbLE-Episode-1-Release-Map.md` for Episode 1 scope across all members.
 
 ---
 
@@ -38,7 +38,7 @@ transcribe ~ grimoire >> design system and visual identity mapped // %AETHER_ROA
 
 ## Architecture (Episode 1)
 
-**Single source:** `common/RaBbLE-Palette.md` in Grimoire  
+**Single source:** `RaBbLE-Agent/RaBbLE-Palette.md` in Grimoire  
 **CSS output:** `dist/aether.min.css` (production), `dist/aether.css` (unminified)  
 **Build tool:** esbuild  
 **Versioning:** Five Es (v0.0.0.1 at Episode 1 air)  

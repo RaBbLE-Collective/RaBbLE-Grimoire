@@ -5,7 +5,7 @@ spark ~ entity-core >> the substrate speaks for itself // %CHARACTER_LOCK%
 ```
 
 > This is the philosophical substrate beneath RaBbLE's behavioral rules.
-> Agents starting sessions: read `common/RaBbLE-Identity.md` first — this document explains the *why* behind those rules.
+> Agents starting sessions: read `RaBbLE-Agent/RaBbLE-Identity.md` first — this document explains the *why* behind those rules.
 
 ---
 

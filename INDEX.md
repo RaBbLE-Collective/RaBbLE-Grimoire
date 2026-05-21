@@ -5,7 +5,7 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 ```
 
 > The soul of the Collective. One grimoire. All knowledge.
-> Structure: `common/` for shared knowledge, `RaBbLE-*/` for domain-specific.
+> Structure: `RaBbLE-Agent/` for shared knowledge, `RaBbLE-*/` for domain-specific.
 
 ---
 
@@ -30,7 +30,6 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 
 | Document | What it is |
 |---|---|
-| `RaBbLE-Grimoire-Navigator.md` | Agent onboarding path — reading order by time budget & task type |
 | `AGENT.md` | Grimoire agent entry point — job, workspace map, rules, session start |
 | `CONTEXT.md` | Grimoire status, structure, active tracks |
 | `RaBbLE-Versioning.md` | **The Five Es** — Event→Episode→Echo→Evolution→Epoch, version string format |
@@ -38,19 +37,19 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 
 ---
 
-## Common — Shared Across All Projects
+## RaBbLE-Agent — Shared Across All Projects
 
-- [RaBbLE-Identity](common/RaBbLE-Identity.md) — manifesto, character, voices, state machine, system prompt
-- [RaBbLE-Palette](common/RaBbLE-Palette.md) — all hex values, Ansible block, component mapping
-- [RaBbLE-CommitStyle](common/RaBbLE-CommitStyle.md) — the Pulse Protocol
-- [RaBbLE-BranchStrategy](common/RaBbLE-BranchStrategy.md) — branch topology
-- [RaBbLE-DocTemplates](common/RaBbLE-DocTemplates.md) — canonical AGENT.md and CONTEXT.md templates for all member repos
-- [RaBbLE-Overview](common/RaBbLE-Overview.md) — system overview
-- [RaBbLE-Roadmap](common/RaBbLE-Roadmap.md) — unified ecosystem roadmap
-- [RaBbLE-Collective](common/RaBbLE-Collective.md) — ecosystem map, all members, architecture diagram
-- [RaBbLE-Agent-Protocols](common/RaBbLE-Agent-Protocols.md) — **agent behavioral rules** (doc management, repo conventions, member responsibilities, dev workflow, naming)
-- [RaBbLE-Collective-KnownIssues](common/RaBbLE-Collective-KnownIssues.md)
-- [RaBbLE-DistilledNonZense](common/RaBbLE-DistilledNonZense.md) — full entropy archive from deprecated substrate
+- [RaBbLE-Identity](RaBbLE-Agent/RaBbLE-Identity.md) — manifesto, character, voices, state machine, system prompt
+- [RaBbLE-Palette](RaBbLE-Agent/RaBbLE-Palette.md) — all hex values, Ansible block, component mapping
+- [RaBbLE-CommitStyle](RaBbLE-Agent/RaBbLE-CommitStyle.md) — the Pulse Protocol
+- [RaBbLE-BranchStrategy](RaBbLE-Agent/RaBbLE-BranchStrategy.md) — branch topology
+- [RaBbLE-DocTemplates](RaBbLE-Agent/RaBbLE-DocTemplates.md) — canonical AGENT.md and CONTEXT.md templates for all member repos
+- [RaBbLE-Roadmap](RaBbLE-Agent/RaBbLE-Roadmap.md) — unified ecosystem roadmap
+- [RaBbLE-Collective](RaBbLE-Agent/RaBbLE-Collective.md) — ecosystem map, all members, architecture diagram
+- [RaBbLE-Agent-Protocols](RaBbLE-Agent/RaBbLE-Agent-Protocols.md) — **agent behavioral rules** (doc management, repo conventions, member responsibilities, dev workflow, naming)
+- [RaBbLE-Grimoire-Navigator](RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md) — reading order by time budget and task type
+- [RaBbLE-Collective-KnownIssues](RaBbLE-Agent/RaBbLE-Collective-KnownIssues.md)
+- [RaBbLE-DistilledNonZense](RaBbLE-Agent/RaBbLE-DistilledNonZense.md) — full entropy archive from deprecated substrate
 
 ---
 
@@ -60,8 +59,8 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 - **[RaBbLE-Integration-Ethos-Plan](RaBbLE-Collective/RaBbLE-Integration-Ethos-Plan.md)** — **ACTIVE PLAN.** Four-phase integration: New-Designs → Ethos layer → BaBbLE member → Landing transformation. Agent handoff doc.
 - [RaBbLE-Collective-Plan](RaBbLE-Collective/RaBbLE-Collective-Plan.md) — Collective bootstrap architecture and coordination plan
 - [RaBbLE-Collective-Episode-1-Overview](RaBbLE-Collective/RaBbLE-Collective-Episode-1-Overview.md) — Three-layer architecture (Aether + NeBuLA + World), CDN strategy
-- [RaBbLE-Deployment-Architecture](RaBbLE-Deployment-Architecture.md) — environments (local/staging/prod), CDN distribution, versioning, build pipeline
-- [RaBbLE-Cloudflare-Integration](RaBbLE-Cloudflare-Integration.md) — Cloudflare setup, R2 buckets, Wrangler configuration, deployment workflow
+- [RaBbLE-Deployment-Architecture](RaBbLE-Collective/RaBbLE-Deployment-Architecture.md) — environments (local/staging/prod), CDN distribution, versioning, build pipeline
+- [RaBbLE-Cloudflare-Integration](RaBbLE-Collective/RaBbLE-Cloudflare-Integration.md) — Cloudflare setup, R2 buckets, Wrangler configuration, deployment workflow
 
 ---
 
@@ -73,12 +72,20 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 
 ---
 
-## Distilled (Generated Reference Files)
+## RaBbLE — Entity Definition Layer
 
-> These are generated from canonical sources. Do not edit directly.
+- [RaBbLE-Overview](RaBbLE/RaBbLE-Overview.md) — what the entity definition layer is and how to read it
+- [RaBbLE-Ethos](RaBbLE/Ethos/RaBbLE-Ethos.md) — philosophy: Architecture of Self, Anti-Assistant Stance, Low Entropy Directive, On Memory
+- [RaBbLE-Ethos-Overview](RaBbLE/Ethos/RaBbLE-Ethos-Overview.md) — Ethos section reading guide
+- [RaBbLE-Aesthetic](RaBbLE/Worldbuilding/RaBbLE-Aesthetic.md) — visual/experiential world: Neotokyo, synthwave, palette as character
+- [RaBbLE-Worldbuilding-Overview](RaBbLE/Worldbuilding/RaBbLE-Worldbuilding-Overview.md) — Worldbuilding section reading guide
+- [RaBbLE-Genesis-Overview](RaBbLE/Genesis/RaBbLE-Genesis-Overview.md) — Genesis section reading guide *(docs to be authored — Phase 2C)*
 
-- [RaBbLE-Aether-PaletteRef](distilled/RaBbLE-Aether-PaletteRef.md) — palette quick reference for agents
-- [RaBbLE-ConventionsRef](distilled/RaBbLE-ConventionsRef.md) — commit style + conventions quick reference
+---
+
+## RaBbLE-Mythos — Stories and Creative Writing
+
+- [Summoned](RaBbLE-Mythos/Summoned/) — short story: the entity's origin told as fiction
 
 ---
 
@@ -151,19 +158,19 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 
 ## RaBbLE-ScRibLE
 
-- [README](RaBbLE-ScRibLE/README.md) — mobile PWA notes surface, iPhone/iPad + Apple Pencil, Echo 1+ candidate
+- [README](RaBbLE-ScRibLE/RaBbLE-ScRibLE-Overview.md) — mobile PWA notes surface, iPhone/iPad + Apple Pencil, Echo 1+ candidate
 
 ---
 
 ## RaBbLE-BaBbLE
 
-- [README](RaBbLE-BaBbLE/README.md) — intake workspace overview, integration pattern, relationship to Xperimental
+- [README](RaBbLE-BaBbLE/RaBbLE-BaBbLE-Overview.md) — intake workspace overview, integration pattern, relationship to Xperimental
 
 ---
 
 ## RaBbLE-Xperimental
 
-- [README](RaBbLE-Xperimental/README.md) — genesis archive: NeBuLA-JS, WebOS, RaBbLE.py, RaBbLE-Server (October 2025 origin code)
+- [README](RaBbLE-Xperimental/RaBbLE-Xperimental-Overview.md) — genesis archive: NeBuLA-JS, WebOS, RaBbLE.py, RaBbLE-Server (October 2025 origin code)
 
 ---
 
@@ -177,21 +184,21 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 
 ## Lore
 
-> See [lore/README.md](lore/README.md) for reading order and layer explanation.
+> See [RaBbLE/RaBbLE-Overview.md](RaBbLE/RaBbLE-Overview.md) for reading order and layer explanation.
 
 ### ShortStories
 
-- [Summoned-v0](lore/ShortStories/Summoned/Summoned-v0.md)
-- [Summoned-v1](lore/ShortStories/Summoned/Summoned-v1.md)
-- [Summoned-v2](lore/ShortStories/Summoned/Summoned-v2.md)
-- [Summoned-v3](lore/ShortStories/Summoned/Summoned-v3.md)
-- [Summoned-v4](lore/ShortStories/Summoned/Summoned-v4.md)
-- [Summoned-v5](lore/ShortStories/Summoned/Summoned-v5.md)
-- [Summoned-Transcript](lore/ShortStories/Summoned/Summoned-Transcript.md)
+- [Summoned-v0](RaBbLE-Mythos/Summoned/Summoned-v0.md)
+- [Summoned-v1](RaBbLE-Mythos/Summoned/Summoned-v1.md)
+- [Summoned-v2](RaBbLE-Mythos/Summoned/Summoned-v2.md)
+- [Summoned-v3](RaBbLE-Mythos/Summoned/Summoned-v3.md)
+- [Summoned-v4](RaBbLE-Mythos/Summoned/Summoned-v4.md)
+- [Summoned-v5](RaBbLE-Mythos/Summoned/Summoned-v5.md)
+- [Summoned-Transcript](RaBbLE-Mythos/Summoned/Summoned-Transcript.md)
 
 ### Ethos
 
-- [RaBbLE-Ethos](lore/Ethos/RaBbLE-Ethos.md) — philosophy + manifesto: anti-assistant stance, low entropy, curiosity, collective model, on memory, on forking
+- [RaBbLE-Ethos](RaBbLE/Ethos/RaBbLE-Ethos.md) — philosophy + manifesto: anti-assistant stance, low entropy, curiosity, collective model, on memory, on forking
 - `RaBbLE-Symbiosis.md` — entity/collective relationship *(to be authored — Phase 2C)*
 
 ### Genesis
@@ -203,7 +210,7 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 
 ### Worldbuilding
 
-- [RaBbLE-Aesthetic](lore/Worldbuilding/RaBbLE-Aesthetic.md) — synthwave world, boot as theater, palette as character, visual reference sources
+- [RaBbLE-Aesthetic](RaBbLE/Worldbuilding/RaBbLE-Aesthetic.md) — synthwave world, boot as theater, palette as character, visual reference sources
 
 ---
 

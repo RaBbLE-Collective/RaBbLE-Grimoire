@@ -1,6 +1,6 @@
 # RaBbLE-Roadmap — gist
 
-> Source: `common/RaBbLE-Roadmap.md` | ~2,746 → ~250 tokens
+> Source: `RaBbLE-Agent/RaBbLE-Roadmap.md` | ~2,746 → ~250 tokens
 > Regenerate: `bash spells/distill-gists.sh`
 
 **Current position:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot in progress. All members accumulating Events. Target: Episode 1 air in 2026-Q2.
