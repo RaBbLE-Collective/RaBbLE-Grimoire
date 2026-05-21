@@ -31,7 +31,7 @@ Format: date, what was done, where things were left, what's next.
   - Added `partition-setup` command — user-facing workflow: show lsblk state, display confirmations, format partition, mount, add to fstab. Triple-check safeguards (confirm device name + `yes` final confirmation).
   - Fixed `VM_PARTITION_LABEL="RaBbLE-VM"` (no prompts; locked for auto-detection).
   - Integrated `detect_vm_partition()` into main dispatch for all non-help commands.
-- **Documentation:** Partition layout documented in Grimoire (`RaBbLE-OS-PartitionLayout.md`; moved from RaBbLE-OS repo per architecture rule: Grimoire is source of truth).
+- **Documentation:** Partition layout documented in Grimoire (`RaBbLE-OS-PartitionLayout.md`; moved from RaBbLE-OS repo per architecture rule: Grimoire is source of truth). Known issues documented (`RaBbLE-OS-KnownIssues.md`): GParted GUI fails on Hyprland+Fedora 43 due to polkit authorization + glycin-svg sandbox incompatibility. Workaround: use CLI tools or boot live ISO.
 
 **What's next:** Cast Fedora Everything ISO for custom Kickstart testing · Phase 2C authoring.
 
