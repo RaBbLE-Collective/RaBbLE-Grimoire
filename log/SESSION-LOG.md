@@ -5,14 +5,34 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-20 · Session 25
+## LATEST — 2026-05-20 · Session 26
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S25):** RaBbLE-OS VM workflow complete: nvme0n1p6 formatted as BTRFS (RaBbLE-VM), vmctl enhanced with partition-setup + auto-detect. Partition layout documented (Grimoire). Ready to cast Fedora Everything ISO for custom Kickstart iteration.
+**Last session (S26):** Session memory KB integration complete. `.claude` memories distilled into Grimoire as durable docs: `common/RaBbLE-Agent-Protocols.md` (new), `RaBbLE-Aether/RaBbLE-Aether-Effects-Bank.md` (new), NeBuLA perf doc + roadmap updated. Navigator + AGENT.md wired to surface protocols. Hook added to project settings so memory writes prompt Grimoire mirror assessment.
 **Active blockers:** distill-gists.sh broken · Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified.
 **Next:** Cast Fedora Everything VM · Phase 2C authoring (Mark writes Origin) · Phase 3 BaBbLE formalization.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-20 (Session 26) — Session Memory → Grimoire KB Integration
+
+**Repos touched:** RaBbLE-Grimoire (`dev`), RaBbLE-Collective (`dev`)
+
+**Objective:** Distill accumulated `.claude` session memory into the Grimoire so all agents (not just Claude Code) benefit from hard-won rules and session insights.
+
+**Work done:**
+
+- **`common/RaBbLE-Agent-Protocols.md`** (NEW) — Consolidated all agent behavioral rules that previously only lived in `.claude` memory: condense-not-delete, no worktrees in member repos, Grimoire-as-doc-home, NeBuLA/Aether/World responsibility split, vanilla JS only in World, NeBuLA build-and-copy workflow, dev-serve.sh only, entity naming (cast vs summon), versioning protocol summary.
+- **`RaBbLE-Aether/RaBbLE-Aether-Effects-Bank.md`** (NEW) — Preserved cotton candy swirl CSS effect discovered accidentally in S20 (rotating conic-gradient aurora wash). Includes reproduction code and future use suggestions (entity speaking state, boot sequence, Plymouth splash).
+- **`RaBbLE-NeBuLA/RaBbLE-NeBuLA-Perf-Fix-Plan.md`** (AUGMENTED) — Added S17 root-cause findings: post-boot spring-force drift (settleBlend=1 → spring=0, ±30px particle oscillation breaks connDist tuning), shadowBlur GPU cliff at boot-end, two-canvas architecture direction, known-good baseline commits (World `aa66550`, NeBuLA `34dee62`).
+- **`common/RaBbLE-Roadmap.md`** (UPDATED) — Added RaBbLE-BaBbLE to member table (defined, repo pending).
+- **`INDEX.md`** (UPDATED) — Both new docs registered.
+- **Navigator + AGENT.md** (UPDATED) — Agent Protocols surfaced in 30-min onboarding path, Jump to Task table, and Grimoire Workspaces table so agents find it without hunting INDEX.
+- **`.claude/settings.json`** (NEW) — Project-level PostToolUse hook: when any `memory/*.md` file is written, injects a reminder to assess whether durable content should mirror to `RaBbLE-Agent-Protocols.md`.
+
+**What's next:** Cast Fedora Everything VM · Phase 2C authoring (Mark writes Origin) · Phase 3 BaBbLE formalization.
 
 ---
 
