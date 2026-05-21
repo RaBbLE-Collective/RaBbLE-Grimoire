@@ -5,14 +5,35 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-20 · Session 24
+## LATEST — 2026-05-20 · Session 25
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S24):** Phase 1C complete. Grimoire summoning circle live in World left rail — vanilla JS (no React). NeBuLA gains `ui/` SVG factories (GrimoireRing, GrimoireEye, EntityMini). visual-screenshot.sh hardened: RaBbLE-Captures dir, scratch workspace 9, auto-close, workspace restore.
+**Last session (S25):** RaBbLE-OS VM workflow complete: nvme0n1p6 formatted as BTRFS (RaBbLE-VM), vmctl enhanced with partition-setup + auto-detect. Partition layout documented (Grimoire). Ready to cast Fedora Everything ISO for custom Kickstart iteration.
 **Active blockers:** distill-gists.sh broken · Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified.
-**Next:** Phase 2C authoring (Mark writes Origin) · Phase 3 BaBbLE formalization · Phase 4 landing transformation.
+**Next:** Cast Fedora Everything VM · Phase 2C authoring (Mark writes Origin) · Phase 3 BaBbLE formalization.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-20 (Session 25) — RaBbLE-OS VM Partition Setup + VMCTL Enhancement
+
+**Repos touched:** RaBbLE-OS (`RaBbLE-OS-New-Horizons`), RaBbLE-Grimoire (`dev`)
+
+**Objective:** Prepare nvme0n1p6 (32GB BTRFS partition) for VM storage. Enhance vmctl for user-friendly partition setup.
+
+**Work done:**
+
+- Audited old fedora partition (nvme0n1p6): 21GB used. Found SSH keys (obsolete, regenerated on OS restart), old RaBbLE repos (RaBbLE, RaBbLE-JS, RaBbLE-OS, RaBbLE_BaBbLE — all git-tracked on GitHub already). No unique data worth preserving.
+- Formatted nvme0n1p6 as BTRFS with label initially `vm-storage`, then corrected to `RaBbLE-VM` for vmctl auto-detection consistency.
+- **Enhanced vmctl (`RaBbLE-OS-vmctl.sh`)**:
+  - Added `detect_vm_partition()` — scans for BTRFS partition by label `RaBbLE-VM`, auto-mounts at `/mnt/vms` if not already mounted. Falls back to `/var/lib/libvirt/images` if no partition found.
+  - Added `partition-setup` command — user-facing workflow: show lsblk state, display confirmations, format partition, mount, add to fstab. Triple-check safeguards (confirm device name + `yes` final confirmation).
+  - Fixed `VM_PARTITION_LABEL="RaBbLE-VM"` (no prompts; locked for auto-detection).
+  - Integrated `detect_vm_partition()` into main dispatch for all non-help commands.
+- **Documentation:** Partition layout documented in Grimoire (`RaBbLE-OS-PartitionLayout.md`; moved from RaBbLE-OS repo per architecture rule: Grimoire is source of truth).
+
+**What's next:** Cast Fedora Everything ISO for custom Kickstart testing · Phase 2C authoring.
 
 ---
 
