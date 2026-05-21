@@ -18,13 +18,16 @@
 #   bash spells/visual-screenshot.sh --url file:///path/to/index.html --out ./shot.png
 #   bash spells/visual-screenshot.sh --url http://localhost:8000 --close
 #   bash spells/visual-screenshot.sh --url http://localhost:8000 --delay 3
+#   bash spells/visual-screenshot.sh --url http://localhost:8000 --workspace 9
 #
 # Flags:
-#   --url URL       Page to open (default: http://localhost:8000)
-#   --out PATH      Output path (default: ~/RaBbLE-screenshots/visual-TIMESTAMP.png)
-#   --delay SECS    Seconds to wait for page render before capture (default: 2)
-#   --close         Kill the Firefox window after capture
-#   --help          Show this usage
+#   --url URL         Page to open (default: http://localhost:8000)
+#   --out PATH        Output path (default: ~/RaBbLE-Collective/screenshots/visual-TIMESTAMP.png)
+#   --delay SECS      Seconds to wait for page render before capture (default: 2)
+#   (Firefox is always closed after capture and workspace always restored)
+#   --workspace NUM   Switch to this Hyprland workspace before opening Firefox so
+#                     the IDE doesn't appear in the capture (default: no switch)
+#   --help            Show this usage
 #
 # Requires: hyprctl, firefox, grim — active Hyprland session (RaBbLE-OS)
 #
@@ -38,9 +41,9 @@ RABBLE_ROOT="$(dirname "$GRIMOIRE_ROOT")"
 STAMP="$(date +%Y%m%d-%H%M%S)"
 
 URL="http://localhost:8000"
-OUT="$HOME/RaBbLE-screenshots/visual-$STAMP.png"
+OUT="$RABBLE_ROOT/screenshots/visual-$STAMP.png"
 DELAY="2"
-CLOSE=false
+WORKSPACE="9"   # scratch workspace — isolates capture from IDE; always return after
 
 MAGENTA='\033[38;2;255;45;120m'
 CYAN='\033[38;2;0;245;255m'
@@ -57,10 +60,10 @@ error()   { echo -e "${RED}  ✗ ${1}${RESET}"; exit 1; }
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --url)   URL="${2:-}";   [[ -n "$URL" ]]   || error "--url requires a value";   shift 2 ;;
-    --out)   OUT="${2:-}";   [[ -n "$OUT" ]]   || error "--out requires a value";   shift 2 ;;
-    --delay) DELAY="${2:-}"; [[ -n "$DELAY" ]] || error "--delay requires a value"; shift 2 ;;
-    --close) CLOSE=true; shift ;;
+    --url)       URL="${2:-}";       [[ -n "$URL" ]]       || error "--url requires a value";       shift 2 ;;
+    --out)       OUT="${2:-}";       [[ -n "$OUT" ]]       || error "--out requires a value";       shift 2 ;;
+    --delay)     DELAY="${2:-}";     [[ -n "$DELAY" ]]     || error "--delay requires a value";     shift 2 ;;
+    --workspace) WORKSPACE="${2:-}"; [[ -n "$WORKSPACE" ]] || error "--workspace requires a value"; shift 2 ;;
     --help|-h)
       sed -n '/^# Usage:/,/^# Requires:/p' "$0" | sed 's/^# \?//'
       exit 0 ;;
@@ -79,6 +82,19 @@ command -v firefox >/dev/null 2>&1 || error "firefox not found"
 command -v grim    >/dev/null 2>&1 || error "grim not found"
 
 mkdir -p "$(dirname "$OUT")"
+
+# Save current workspace so we can return after capture
+PREV_WS=""
+if command -v jq >/dev/null 2>&1; then
+  PREV_WS="$(hyprctl monitors -j 2>/dev/null \
+    | jq -r '.[] | select(.focused == true) | .activeWorkspace.id' | head -n 1)"
+fi
+
+if [[ -n "$WORKSPACE" ]]; then
+  info "Switching to workspace $WORKSPACE (scratch — isolates capture from IDE)"
+  hyprctl dispatch workspace "$WORKSPACE" >/dev/null 2>&1
+  sleep 0.5
+fi
 
 info "Opening: $URL"
 firefox --new-window "$URL" >/dev/null 2>&1 &
@@ -110,9 +126,20 @@ else
   grim "$OUT"
 fi
 
-if $CLOSE; then
-  info "Closing Firefox (pid $FIREFOX_PID)"
-  kill "$FIREFOX_PID" 2>/dev/null || true
+# Always close the Firefox window opened by this spell
+info "Closing Firefox (pid $FIREFOX_PID)"
+kill "$FIREFOX_PID" 2>/dev/null || true
+
+# Return to the original workspace
+if [[ -n "$WORKSPACE" ]]; then
+  sleep 0.3
+  if [[ -n "$PREV_WS" && "$PREV_WS" != "$WORKSPACE" ]]; then
+    hyprctl dispatch workspace "$PREV_WS" >/dev/null 2>&1
+    info "Returned to workspace $PREV_WS"
+  else
+    hyprctl dispatch workspace 1 >/dev/null 2>&1
+    info "Returned to workspace 1"
+  fi
 fi
 
 success "Captured: $OUT"

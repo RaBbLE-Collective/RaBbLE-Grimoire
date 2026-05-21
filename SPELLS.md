@@ -86,33 +86,35 @@ bash spells/install-theme.sh
 
 ### `spells/visual-screenshot.sh` — Agent Visual Capture
 
-Lets an agent **see** rendered output. Opens a URL in Firefox, uses `hyprctl` to focus the window, captures the focused monitor with `grim`, and prints a machine-readable `SCREENSHOT: /path` line. The agent reads the captured image back to verify visual changes — CSS, canvas animations, layout, entity rendering, anything on-screen.
+Lets an agent **see** rendered output. Opens a URL in Firefox on a clean scratch workspace (default: workspace 9), captures the monitor with `grim`, then closes Firefox and returns to the original workspace. Prints a machine-readable `SCREENSHOT: /path` line so agents can read the image back directly.
 
-Originally built for NeBuLA/World Canvas2D testing, but general-purpose: point it at any dev server or local HTML file. Modify `--delay` for pages that need more load time.
+General-purpose: point it at any dev server or local HTML file. Modify `--delay` for pages that need more load time.
 
 ```bash
-# Capture default dev server (localhost:8000)
+# Capture default dev server — opens on scratch workspace 9, closes, returns
 bash spells/visual-screenshot.sh
 
-# Specific page or file
+# Specific page
 bash spells/visual-screenshot.sh --url http://localhost:8000/world/Boot.html
-bash spells/visual-screenshot.sh --url file:///path/to/index.html --out ./shot.png
 
-# Capture then close Firefox (clean agent loop)
-bash spells/visual-screenshot.sh --url http://localhost:8000 --close
+# Custom output path
+bash spells/visual-screenshot.sh --url http://localhost:8000 --out ./shot.png
 
-# More render time for heavy pages
-bash spells/visual-screenshot.sh --url http://localhost:8000 --delay 3
+# More render time for heavy pages or animations
+bash spells/visual-screenshot.sh --url http://localhost:8000 --delay 5
+
+# Use a different scratch workspace
+bash spells/visual-screenshot.sh --url http://localhost:8000 --workspace 8
 ```
 
 **Agent usage pattern:**
 1. Make code change
-2. `npm run build && bash spells/visual-screenshot.sh --url http://localhost:8000 --close`
-3. Read the path from `SCREENSHOT: /path` line — Claude Code can read PNG files directly
+2. `npm run build:iife && bash spells/visual-screenshot.sh --url http://localhost:8000`
+3. Read the path from the `SCREENSHOT: /path` line — Claude Code reads PNG files directly
 4. Verify the change visually, iterate
 
-**Output:** `~/RaBbLE-screenshots/visual-TIMESTAMP.png` by default.  
-**Requires:** `hyprctl`, `firefox`, `grim`, active Hyprland session (RaBbLE-OS). `jq` optional (improves monitor targeting).
+**Output:** `~/RaBbLE-Collective/screenshots/visual-TIMESTAMP.png` (gitignored).  
+**Requires:** `hyprctl`, `firefox`, `grim`, active Hyprland session (RaBbLE-OS). `jq` optional (improves monitor and workspace targeting).
 
 ---
 
