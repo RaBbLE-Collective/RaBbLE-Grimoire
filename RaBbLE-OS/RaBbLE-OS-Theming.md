@@ -251,6 +251,105 @@ cp ~/.config/zsh/p10k.zsh ~/RaBbLE-OS/dotfiles/shell/zsh/p10k.zsh
 
 ---
 
+## GTK and Qt Desktop Theming — Unified Aether
+
+The compositor, bar, and terminal are already palette-aligned. The remaining surface area is
+GTK apps (pavucontrol, nm-connection-editor, Firefox chrome, gnome-disk-utility) and Qt/KDE
+apps (Dolphin). These need a unified Aether theme so all apps feel like one system.
+
+### The Problem: Three Rendering Toolkits
+
+| Toolkit | Apps | Theming System |
+|---|---|---|
+| GTK3 | pavucontrol, nm-applet, celluloid | `~/.local/share/themes/<name>/gtk-3.0/gtk.css` |
+| GTK4 + libadwaita | gnome-disk-utility, newer GNOME apps | `~/.config/gtk-4.0/gtk.css` (partial — libadwaita resists) |
+| Qt5/Qt6 | Dolphin, qt apps | Kvantum SVG engine via qt5ct/qt6ct |
+
+### The Solution Stack
+
+**Qt — Kvantum + qt5ct/qt6ct**
+Kvantum is an SVG-based Qt theme engine giving full visual control over Qt5 and Qt6 apps,
+including Dolphin and all KDE frameworks applications.
+
+Required packages: `kvantum`, `qt5ct`, `qt6ct`
+
+Required env vars in `config/hypr/conf.d/env.conf`:
+```ini
+env = QT_QPA_PLATFORMTHEME,qt6ct
+env = QT_STYLE_OVERRIDE,kvantum
+```
+
+Theme files deployed by Ansible:
+```
+~/.config/Kvantum/RaBbLE-Aether/RaBbLE-Aether.kvconfig
+~/.config/Kvantum/RaBbLE-Aether/RaBbLE-Aether.svg
+~/.config/qt5ct/qt5ct.conf
+~/.config/qt6ct/qt6ct.conf
+```
+
+KDE color accents (Dolphin folder color, dialog palette):
+```
+~/.local/share/color-schemes/RaBbLE-Aether.colors
+```
+
+**GTK3 — Custom CSS theme**
+```
+~/.local/share/themes/RaBbLE-Aether/gtk-3.0/gtk.css
+~/.local/share/themes/RaBbLE-Aether/index.theme
+```
+Set via env: `env = GTK_THEME,RaBbLE-Aether`
+Or via gsettings: `gsettings set org.gnome.desktop.interface gtk-theme 'RaBbLE-Aether'`
+
+**GTK4 / libadwaita — Partial override**
+libadwaita controls its own accent colors and resists full external theming by design.
+`~/.config/gtk-4.0/gtk.css` injects palette overrides for background, surfaces, and borders.
+Full palette fidelity is not achievable in GTK4 without patching libadwaita itself.
+Accept partial theming; unify visually through the icon theme instead.
+
+**Icons — papirus-icon-theme + papirus-folders**
+papirus-dark provides a clean, consistent icon language across GTK and Qt apps.
+`papirus-folders` tints folder icons to any color — use Aether magenta (`#ff2d78`).
+
+Required packages: `papirus-icon-theme`, `papirus-folders`
+
+```bash
+# After install — tint folders to Aether primary
+papirus-folders --color magenta --theme Papirus-Dark
+```
+
+**GTK settings tool for Wayland — nwg-look**
+Standard `lxappearance` uses X11 and does not apply correctly under Hyprland.
+`nwg-look` is the wlroots-native equivalent.
+
+Required package: `nwg-look`
+
+### Aether as Theme Generator
+
+The palette is canonical in `RaBbLE-Agent/RaBbLE-Palette.md` and deployed as Ansible vars
+in `ansible/inventory/group_vars/all.yml`. GTK and Kvantum theme files should be Ansible
+**templates** (`.j2`) driven by those vars, not static files. Palette change in one place
+propagates to all toolkit themes on next `ansible-playbook` run.
+
+Planned role: `ansible/roles/desktop/theme/` — not yet created.
+
+### Theming Priority per Component
+
+| Component | Coverage | Method |
+|---|---|---|
+| Hyprland borders/blur | Full | `look.conf` |
+| Waybar | Full | `style.css` (already done) |
+| Kitty terminal | Full | `kitty.conf` palette block |
+| Qt5/Qt6 (Dolphin, etc.) | Full | Kvantum + qt6ct |
+| GTK3 apps | Full | Custom Aether gtk.css theme |
+| GTK4 / libadwaita apps | Partial | `~/.config/gtk-4.0/gtk.css` injection |
+| SDDM greeter | Full | Custom QML theme |
+| Plymouth boot | Full | Script theme with palette palette |
+| GRUB2 boot | Full | theme.txt + generated assets |
+| Icons | Full | papirus-dark + magenta folder tint |
+| Cursor | Full | Bibata-Modern-Classic via hyprcursor |
+
+---
+
 ## Adding a New Dotfile
 
 1. Create the file in the appropriate `dotfiles/` subdirectory

@@ -4,10 +4,14 @@
 transcribe ~ package-layer >> all packages declared // %MANIFEST_LOCKED%
 ```
 
-> This is the canonical list of packages that constitute a RaBbLE-OS install.
-> Goal: a fresh Fedora minimal + this manifest = complete RaBbLE-OS experience.
-> The KDE spin is used as the bootstrap base and purged after Hyprland is stable —
-> KDE packages are not part of the RaBbLE-OS manifest.
+> **Canonical machine-readable source:** `RaBbLE-OS/ansible/packages/manifest.yml`
+> That file is the single source of truth consumed by both Ansible and the Kickstart generator.
+> This document is the human-readable overview and decision rationale layer.
+> When the two conflict, the manifest wins.
+
+> **Install path (updated S30):** Fedora Everything netinstall → Kickstart → Ansible bootstrap.
+> The KDE/Sway spin is no longer the base. KDE purge role is now obsolete.
+> Goal: a fresh Fedora minimal + manifest.yml = complete RaBbLE-OS experience.
 
 ---
 

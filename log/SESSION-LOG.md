@@ -5,14 +5,34 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-21 · Session 31
+## LATEST — 2026-05-21 · Session 32
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S31):** Hyprland window rules — VM on ws5, Dolphin Wayland class fix, 80% default float size. dotctl workflow enforced: repo→system rule added to RaBbLE-OS AGENT.md and Grimoire Agent Protocols. Agents now have no excuse to edit live system files.
+**Last session (S32):** RaBbLE-OS gap analysis + post-mortem. Package manifest created (`ansible/packages/manifest.yml` — 59 packages, 9 layers, every decision recorded). Polkit autostart bug fixed (hyprpolkitagent). Power button shutdown-on-wake bug fixed (logind HandlePowerKey). GTK/Qt unified Aether theming plan documented. Grimoire Packages + Theming docs updated.
 **Active blockers:** Phase 2C (Genesis/Ethos authoring, Mark writes Origin) · sCoRE Railway unverified · BaBbLE needs GitHub remote.
-**Next:** Phase 2C authoring · Phase 4 (landing transformation) · BaBbLE GitHub remote · ChRySaLiS archive.
+**Next:** Opus plan session — KS setup + Full DE coverage + Grimoire OS doc restructure.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-21 (Session 32) — RaBbLE-OS Gap Analysis + Package Manifest
+
+**Repos touched:** RaBbLE-OS (`RaBbLE-OS-New-Horizons`), RaBbLE-Grimoire (`dev`)
+
+**Objective:** Full gap analysis and post-mortem on RaBbLE-OS. Create package manifest. Fix live bugs. Plan unified Aether theming.
+
+**Work done:**
+
+- **Gap analysis:** Full audit of Ansible roles, config files, and package lists against actual system state. Identified P0–P4 gaps. Waybar theming confirmed solid (style.css exists and is palette-aligned — had been incorrectly flagged as missing).
+- **Package manifest:** Created `ansible/packages/manifest.yml` — 59 packages across 9 layers (ks-bootstrap, core, boot, audio, fonts, wayland, compositor, desktop, apps, hardware, layer/*). Every entry has `reason`, `source`, `platform`, `layer`, `ks` fields. Single source of truth for Ansible and future KS generation.
+- **Polkit bug fixed:** `autostart.conf` was calling polkit-gnome binary path (package not installed). Fixed to `systemctl --user start hyprpolkitagent` — matching the package already in hyprland vars.
+- **Power button bug fixed:** `HandlePowerKey` was unset — logind defaulted to `poweroff`. Pressing power to wake from suspend caused immediate shutdown. Fixed in `99-rabble-lid.conf`: `HandlePowerKey=suspend` + `HandlePowerKeySuspended=ignore`.
+- **GParted → gnome-disk-utility:** GParted has two-layer failure on Fedora 43 (polkit + bubblewrap/SVG segfault). gnome-disk-utility works correctly with hyprpolkitagent. Decision recorded in manifest and KnownIssues.
+- **Install path decision:** Moving from Sway spin base to Fedora Everything netinstall + KS + Ansible. Grimoire Packages.md updated with pointer to manifest and netinstall path note.
+- **GTK/Qt unified theming plan:** Kvantum + qt5ct/qt6ct for Qt, custom gtk.css for GTK3, `~/.config/gtk-4.0/gtk.css` injection for GTK4/libadwaita (partial), papirus-dark + magenta folder tint for icons, nwg-look for GTK settings. Full section added to Grimoire RaBbLE-OS-Theming.md. Aether palette as the generator — Ansible templates driven by vars.
+
+**What's next:** Opus plan session — KS setup + Full DE coverage implementation plan + Grimoire RaBbLE-OS doc restructure for lower token / higher context agent orientation.
 
 ---
 
