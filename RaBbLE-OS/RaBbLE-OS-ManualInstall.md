@@ -1,5 +1,9 @@
 # ManualInstallProcess.md — Validated Bootstrap from Clean Base
 
+> **HISTORICAL — KDE spin era (pre-S30).** Install path has changed.
+> Current install: Fedora Everything netinstall + KS + Ansible. See `GettingStarted.md`.
+> This document is preserved for reference — the manual steps remain valid on bare Fedora.
+
 ```
 transcribe ~ grimoire >> manual process crystallized // %INSTALL_PROCESS_LOCKED%
 ```

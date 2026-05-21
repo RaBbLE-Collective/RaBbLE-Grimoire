@@ -109,23 +109,33 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 
 ## RaBbLE-OS
 
-- **[RaBbLE-OS-Roadmap](RaBbLE-OS/RaBbLE-OS-Roadmap.md)** — **Episode 1 commitment:** daily-driver substrate (Fedora 43 + Hyprland, fully themed)
-- [RaBbLE-OS-Architecture](RaBbLE-OS/RaBbLE-OS-Architecture.md)
-- [RaBbLE-OS-GettingStarted](RaBbLE-OS/RaBbLE-OS-GettingStarted.md)
-- [RaBbLE-OS-AgentGuide](RaBbLE-OS/RaBbLE-OS-AgentGuide.md) — full agent reference: layers, commands, branch conventions
-- [RaBbLE-OS-ShellGuide](RaBbLE-OS/RaBbLE-OS-ShellGuide.md)
-- [RaBbLE-OS-BootFlow](RaBbLE-OS/RaBbLE-OS-BootFlow.md)
-- [RaBbLE-OS-VM-Guide](RaBbLE-OS/RaBbLE-OS-VM-Guide.md) — KVM dev VM setup, bootstrap test loop, vmctl reference, GPU passthrough wishlist
-- [RaBbLE-OS-AddingTargets](RaBbLE-OS/RaBbLE-OS-AddingTargets.md) — how to add new Ansible targets
-- [RaBbLE-OS-Bootstrap](RaBbLE-OS/RaBbLE-OS-Bootstrap.md) — bootstrap process documentation
-- [RaBbLE-OS-Epoch-I-Diff](RaBbLE-OS/RaBbLE-OS-Epoch-I-Diff.md) — delta from stock Fedora to RaBbLE-OS
-- [RaBbLE-OS-Hardware](RaBbLE-OS/RaBbLE-OS-Hardware.md) — hardware profile and specs
-- [RaBbLE-OS-HyprlandGuide](RaBbLE-OS/RaBbLE-OS-HyprlandGuide.md) — Hyprland window manager configuration
-- [RaBbLE-OS-KnownIssues](RaBbLE-OS/RaBbLE-OS-KnownIssues.md) — current blockers and workarounds
-- [RaBbLE-OS-ManualInstall](RaBbLE-OS/RaBbLE-OS-ManualInstall.md) — manual installation steps
-- [RaBbLE-OS-Packages](RaBbLE-OS/RaBbLE-OS-Packages.md) — package list and dependencies
-- [RaBbLE-OS-PartitionLayout](RaBbLE-OS/RaBbLE-OS-PartitionLayout.md) — disk partition scheme (nvme layout, VM storage)
+**Tier 1 — read these first (always):**
+- [RaBbLE-OS-AgentGuide](RaBbLE-OS/RaBbLE-OS-AgentGuide.md) — entry point: what it is, key commands, reading order
+- [RaBbLE-OS-Architecture](RaBbLE-OS/RaBbLE-OS-Architecture.md) — layer model, role tree, boot chain, hardware targeting
+- **[RaBbLE-OS-Roadmap](RaBbLE-OS/RaBbLE-OS-Roadmap.md)** — **Episode 1 status, stub phases, what's next**
+
+**Tier 2 — read when working in a specific area:**
+- [RaBbLE-OS-KnownIssues](RaBbLE-OS/RaBbLE-OS-KnownIssues.md) — open bugs and blockers
 - [RaBbLE-OS-Theming](RaBbLE-OS/RaBbLE-OS-Theming.md) — GTK/Qt/terminal theme configuration
+- [RaBbLE-OS-Reference](RaBbLE-OS/RaBbLE-OS-Reference.md) — symlink map, HiDPI flow, GPU arch, layer state, observability
+- [RaBbLE-OS-Checklists](RaBbLE-OS/RaBbLE-OS-Checklists.md) — bootstrap checklist, power testing, Ep1 verification, assembly plan
+- [RaBbLE-OS-BootFlow](RaBbLE-OS/RaBbLE-OS-BootFlow.md) — per-stage boot chain detail
+
+**Tier 3 — deep reference / historical:**
+- [RaBbLE-OS-Hardware](RaBbLE-OS/RaBbLE-OS-Hardware.md) — ProArt P16 specs
+- [RaBbLE-OS-HyprlandGuide](RaBbLE-OS/RaBbLE-OS-HyprlandGuide.md) — keybinds, layout, window rules
+- [RaBbLE-OS-ShellGuide](RaBbLE-OS/RaBbLE-OS-ShellGuide.md) — ZSH/Bash reference
+- [RaBbLE-OS-VM-Guide](RaBbLE-OS/RaBbLE-OS-VM-Guide.md) — KVM dev VM setup, vmctl reference
+- [RaBbLE-OS-AddingTargets](RaBbLE-OS/RaBbLE-OS-AddingTargets.md) — how to add new Ansible hardware targets
+- [RaBbLE-OS-Bootstrap](RaBbLE-OS/RaBbLE-OS-Bootstrap.md) — Bootstrap.sh internals
+- [RaBbLE-OS-PartitionLayout](RaBbLE-OS/RaBbLE-OS-PartitionLayout.md) — disk partition scheme
+- [RaBbLE-OS-GettingStarted](RaBbLE-OS/RaBbLE-OS-GettingStarted.md) — current install path pointer
+- [RaBbLE-OS-Packages](RaBbLE-OS/RaBbLE-OS-Packages.md) — pointer to manifest.yml
+- [RaBbLE-OS-Implementation-Plan](RaBbLE-OS/RaBbLE-OS-Implementation-Plan.md) — KS installer architecture detail
+
+**Historical (preserved, not active):**
+- [RaBbLE-OS-ManualInstall](RaBbLE-OS/RaBbLE-OS-ManualInstall.md) — KDE spin era manual steps
+- [RaBbLE-OS-Epoch-I-Diff](RaBbLE-OS/RaBbLE-OS-Epoch-I-Diff.md) — 2026-04-22 branch handoff
 
 ---
 

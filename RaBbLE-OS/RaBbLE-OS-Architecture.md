@@ -134,24 +134,6 @@ See `BootFlow.md` for per-stage detail and troubleshooting.
 
 ---
 
-## GPU Architecture (Optimus/PRIME)
-
-```
-AMD Radeon 890M (iGPU)                  NVIDIA RTX 4060 Mobile (dGPU)
-        │                                           │
-  Drives Wayland display                   PRIME offload only
-  Compositor: Hyprland                    (DRI_PRIME=pci-0000_64_00_0 <cmd>)
-  AQ_DRM_DEVICES=                          CUDA available always
-    pci-0000:65:00.0-card                  No direct display output in Hybrid mode
-        │                                  Loads at graphical.target — not initramfs
-  [eDP-1: 3840×2400 @60Hz, scale 2×]
-```
-
-> ⚠️ **Optimus:** The RTX 4060 does not drive the display in Hybrid mode. It is available
-> for compute, LLM inference, CUDA workloads via PRIME offload only.
-
----
-
 ## Power Management Flow
 
 ```
@@ -164,7 +146,7 @@ asusd  ←→  power-profiles-daemon (PPD)
 supergfxd  →  GPU mode (Integrated / Hybrid / Dedicated / Compute)
 ```
 
-Sleep path: `systemctl suspend` → systemd-sleep hooks → NVIDIA VRAM preserved → `s2idle` (S0ix)
+GPU architecture (Optimus/PRIME detail) → `Reference.md`.
 
 ---
 
@@ -200,132 +182,11 @@ Current version: **v0.54** (lionheartp COPR, March 2026)
 
 ---
 
-## HiDPI Variable Flow
-
-All HiDPI values are defined once in `ansible/inventory/group_vars/asus_proart_p16.yml` and propagate through Ansible templates:
-
-```
-group_vars/asus_proart_p16.yml
-  rabble_hidpi_scale: 2
-  rabble_gfx_mode: "3840x2400x32,auto"
-  rabble_console_font: "ter-v32b"
-  rabble_hypr_monitor: "eDP-1,3840x2400@60,0x0,2"
-        │
-        ├── grub.j2                  → GRUB_GFXMODE=3840x2400x32,auto
-        ├── vconsole.conf.j2         → FONT=ter-v32b
-        ├── sddm-hidpi.conf.j2       → QT_SCREEN_SCALE_FACTORS=2
-        ├── xdg-environment.conf.j2  → GDK_SCALE=2, XCURSOR_SIZE=48
-        └── hyprland-machine.conf.j2 → monitor=eDP-1,3840x2400@60,0x0,2
-                                       XCURSOR_SIZE=48
-                                       xwayland.force_zero_scaling=true
-```
-
----
-
 ## Theme System
 
-The RaBbLE synthwave outrun palette is defined once in `ansible/inventory/group_vars/all.yml` and propagates through all layers via Ansible variables. See `RaBbLE-Palette.md` for the full canonical reference and design philosophy.
-
-**Core palette — quick reference:**
-
-| Role | Hex | Ansible Variable |
-|---|---|---|
-| Hot Magenta (primary neon) | `#ff2d78` | `rabble_palette.magenta` |
-| Electric Cyan (secondary neon) | `#00f5ff` | `rabble_palette.cyan` |
-| Soft Violet (tertiary neon) | `#bf5fff` | `rabble_palette.violet` |
-| Outrun Pink (grid/horizon) | `#ff79c6` | `rabble_palette.pink` |
-| Deep Void (background) | `#0a0010` | `rabble_palette.bg` |
-| Surface | `#12132a` | `rabble_palette.surface` |
-| Raised | `#1a1b2e` | `rabble_palette.raised` |
-| Border | `#2a2840` | `rabble_palette.border` |
-| Primary Text | `#e8e6f0` | `rabble_palette.text` |
-| Muted Text | `#6b6880` | `rabble_palette.muted` |
-| Error | `#e05c6f` | `rabble_palette.red` |
-| Success | `#50fa7b` | `rabble_palette.green` |
-| Warning | `#f1fa8c` | `rabble_palette.yellow` |
-
-Changing any value in `all.yml` propagates everywhere at next Ansible run. See `Theming.md` for per-component theming instructions.
-
----
-
-## Config Symlink Map
-
-All user configs live as static files in `config/` and are symlinked by Ansible into `~/.config/`. Edit the repo file — the symlink keeps `~/.config/` in sync automatically.
-
-| Repo path | Deployed to |
-|---|---|
-| `config/hyprland/hyprland.conf` | `~/.config/hypr/hyprland.conf` |
-| `config/hyprland/conf.d/` | `~/.config/hypr/conf.d/` |
-| `config/hyprland/scripts/` | `~/.config/hypr/scripts/` |
-| `config/quickshell/shell.qml` | `~/.config/quickshell/shell.qml` |
-| `config/quickshell/bar/` | `~/.config/quickshell/bar/` |
-| `config/quickshell/launcher/` | `~/.config/quickshell/launcher/` |
-| `config/quickshell/widgets/` | `~/.config/quickshell/widgets/` |
-| `config/shell/zsh/aliases.zsh` | `~/.config/zsh/aliases.zsh` |
-| `config/shell/zsh/functions.zsh` | `~/.config/zsh/functions.zsh` |
-| `config/shell/starship.toml` | `~/.config/starship.toml` |
-| `config/shell/kitty/kitty.conf` | `~/.config/kitty/kitty.conf` |
-| `config/shell/mako.conf` | `~/.config/mako/config` |
-| `config/waybar/config.jsonc` | `~/.config/waybar/config.jsonc` |
-| `config/waybar/style.css` | `~/.config/waybar/style.css` |
-
-**Not symlinked — machine-local, Ansible-templated:**
-
-| Generated path | Source template |
-|---|---|
-| `~/.config/hypr/machine.conf` | `roles/ui_ux/hyprland/templates/hyprland-machine.conf.j2` |
-| `~/.config/environment.d/rabble.conf` | `roles/core/templates/xdg-environment.conf.j2` |
-| `/etc/default/grub` | `roles/boot/grub2/templates/grub.j2` |
-| `/etc/vconsole.conf` | `roles/boot/grub2/templates/vconsole.conf.j2` |
-| `/etc/sddm.conf.d/rabble.conf` | `roles/boot/session_manager/templates/sddm.conf.j2` |
-| `/etc/sddm.conf.d/hidpi.conf` | `roles/boot/session_manager/templates/sddm-hidpi.conf.j2` |
-| `/etc/supergfxd.conf` | `roles/hardware/x64/asus_proart_p16/templates/supergfxd.conf.j2` |
-| `/etc/modprobe.d/rabble-nvidia-defer.conf` | `roles/hardware/x64/asus_proart_p16/templates/nvidia-defer.conf.j2` |
-
----
-
-## Observability & Debugging
-
-```bash
-# Sleep / suspend
-cat /sys/power/mem_sleep                    # must show [s2idle]
-journalctl -b -u systemd-suspend           # last suspend logs
-systemctl status nvidia-suspend            # NVIDIA suspend service
-cat /proc/acpi/wakeup                      # ACPI wakeup sources
-
-# GPU / display
-hyprctl monitors                           # active monitor config
-hyprctl devices                            # input devices
-DRI_PRIME=pci-0000_64_00_0 glxinfo | grep renderer   # NVIDIA PRIME test
-
-# ASUS platform
-asusctl profile -l                         # power profiles
-supergfxctl --status                       # GPU mode
-asusctl led-mode -l                        # keyboard LED modes
-cat /sys/class/power_supply/BAT*/capacity  # battery %
-
-# SDDM theme testing (without reboot)
-sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/rabble
-
-# Hyprland version
-hyprctl version                            # confirm v0.54+
-```
-
----
-
-## Future: Multi-Repo Layer Model
-
-When the project matures, the layer model maps cleanly to separate repositories:
-
-```
-rabble-os-base/         ← Layer 0
-rabble-os-hardware/     ← Layer 1, hardware profiles
-rabble-os-bootchain/    ← Layer 2, GRUB/Plymouth/SDDM
-rabble-os-desktop/      ← Layer 3, Hyprland + theme
-rabble-os-apps/         ← Layer 4, tooling
-rabble-os-entity/       ← Layer 5, AI stack
-rabble-os-manifest/     ← top-level, pulls all layers + machine config
-```
+The palette is defined in `ansible/inventory/group_vars/all.yml` and propagates via Ansible variables.
+Full palette → `RaBbLE-Agent/RaBbLE-Palette.md`. Per-component theming → `Theming.md`.
+HiDPI variable flow, config symlink map, observability commands → `Reference.md`.
 
 ---
 

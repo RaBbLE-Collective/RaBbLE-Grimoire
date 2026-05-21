@@ -1,5 +1,8 @@
 # RaBbLE-OS-Epoch-I-Diff.md
 
+> **HISTORICAL — branch-specific handoff from 2026-04-22.**
+> `RaBbLE/epoch-I` → now `RaBbLE/episode-I`. See `Roadmap.md` for current Episode 1 state.
+
 This document is a handoff map for agents helping finalize the `RaBbLE/epoch-I`
 release.
 
