@@ -129,6 +129,28 @@ HTML pages link to `aether.css` in dev — **NOT** `aether.min.css`. Linking to 
 
 ---
 
+## RaBbLE-OS Config Workflow
+
+### Repo → System, never the reverse
+
+All config changes for RaBbLE-OS go through the repo first, then deploy via `dotctl`. Never edit `~/.config/` or any live system file directly.
+
+```
+Edit:    RaBbLE-OS/config/hypr/conf.d/windowrules.conf   (or any bundle)
+Deploy:  ./RaBbLE-OS-dotctl.sh apply hypr
+Reload:  ./RaBbLE-OS-dotctl.sh reload hypr
+```
+
+If you catch yourself about to edit a live file, stop — edit the repo source instead.
+
+If a file has already drifted (direct edit happened), use `dotctl diff hypr` to inspect, then `dotctl pull hypr` to recover it into the repo before committing.
+
+**Why:** Direct edits create drift that gets overwritten silently on the next `apply`. The repo is the source of truth; the system is a deployed copy.
+
+**Applies to:** All dotctl bundles — `hypr` · `waybar` · `quickshell` · `kitty` · `fuzzel` · `zsh` · `bash` · `mako` · `wallpapers` · `claude`. Same principle applies to Ansible-managed system config: change the playbook, not the system file.
+
+---
+
 ## Entity Naming and Spell Vocabulary
 
 - **`RaBbLE`** — always this capitalisation. Informal aliases (`rabble`, `RABBLE`) are tolerated, but RaBbLE knows it was misnamed.

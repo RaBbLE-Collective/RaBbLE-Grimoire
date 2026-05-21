@@ -5,14 +5,31 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-21 · Session 30
+## LATEST — 2026-05-21 · Session 31
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S30):** ChRySaLiS audit — all content verified migrated. Episode names locked: Ep1=Genesis, Ep2=Exodus (Biblical arc, intentional lore). Cinematic boot item added to Episode 2 — Exodus in OS Roadmap; fix/boot-chain clarified as minimal Ep1 theming. All ChRySaLiS path refs removed; git ref `RaBbLE-World@36d4547` is canonical boot sequence anchor.
+**Last session (S31):** Hyprland window rules — VM on ws5, Dolphin Wayland class fix, 80% default float size. dotctl workflow enforced: repo→system rule added to RaBbLE-OS AGENT.md and Grimoire Agent Protocols. Agents now have no excuse to edit live system files.
 **Active blockers:** Phase 2C (Genesis/Ethos authoring, Mark writes Origin) · sCoRE Railway unverified · BaBbLE needs GitHub remote.
 **Next:** Phase 2C authoring · Phase 4 (landing transformation) · BaBbLE GitHub remote · ChRySaLiS archive.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-21 (Session 31) — Hyprland Window Rules + dotctl Protocol
+
+**Repos touched:** RaBbLE-OS (`RaBbLE-OS-New-Horizons`), RaBbLE-Grimoire (`dev`)
+
+**Objective:** Fix Hyprland window rules for VM isolation and Dolphin float; enforce dotctl workflow in docs.
+
+**Work done:**
+
+- **VM workspace rule:** `virt-manager` auto-routed to ws 5 (not silent — view follows so it's obvious).
+- **Dolphin Wayland class fix:** Old pattern `^(dolphin|Dolphin|...)$` didn't match Wayland app ID `org.kde.dolphin`. Changed to `.*[Dd]olphin.*` to catch both.
+- **Default float size:** `size 80% 80%` + `center` wildcard rule added at top of windowrules.conf; specific app rules below override via last-match-wins.
+- **dotctl workflow enforced:** Agent edited `~/.config/hypr/` directly (wrong). Changes ported back to repo. `RaBbLE-OS/AGENT.md` updated with prominent "Config Flow — ALWAYS Repo → System" section + full dotctl command reference. Same rule added to `RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Agent-Protocols.md`.
+
+**What's next:** Same blockers as S30 — Phase 2C authoring, BaBbLE remote, landing transformation.
 
 ---
 
