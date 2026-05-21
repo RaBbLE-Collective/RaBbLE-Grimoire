@@ -23,6 +23,7 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 | `gist/RaBbLE-Palette-gist.md` | All hex values, CSS variables | ~150 |
 | `gist/RaBbLE-Collective-Overview-gist.md` | Three-layer architecture (Aether+NeBuLA+World) | ~200 |
 | `gist/RaBbLE-Episode1-gist.md` | Exit conditions, blockers, deploy sequence | ~250 |
+| `gist/RaBbLE-Integration-Map-gist.md` | Cross-member data flow, CDN chain, boundaries | ~300 |
 
 ---
 

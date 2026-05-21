@@ -132,3 +132,7 @@ Completed audits of the Grimoire and Collective. Each entry captures scope, key 
 
 **8. Behavioral learning onboarding missing** — `RaBbLE-Agent/RaBbLE-BehavioralLearning.md` planned but deferred until Memory member scope is decided. *Status: deferred with Memory member.*
 
+**9. Architecture gists for sCoRE and World** — Code members lack agent-facing file maps. ~500-token architecture gists would save agents from reading ~180K (sCoRE) or ~120K (World) raw code to orient. *Status: recommended (S29 audit), not yet created.*
+
+**10. INDEX.md audit-only demotion** — Flat doc index is useful for audits but agents rarely need it during work. Gist system + AGENT.md Workspaces table route better. Consider marking audit-only to reduce noise. *Status: recommended, not yet actioned.*
+

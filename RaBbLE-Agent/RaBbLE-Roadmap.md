@@ -239,6 +239,25 @@ Once Episode 1 airs:
 
 ---
 
+## Agent Context Optimization (Ongoing)
+
+Recommendations from S29 token audit (~1.56M total tokens; docs ~1M, code ~525K):
+
+| Item | Status | Impact |
+|---|---|---|
+| **Architecture gists for sCoRE and World** | Pending | ~500 tokens each vs ~180K/~120K raw code. Biggest context savings. |
+| **Integration map gist** | Done (S29) | `gist/RaBbLE-Integration-Map-gist.md` — cross-member data flow in ~300 tokens |
+| **Code documentation** | Ongoing | Docs are optimized; code has no agent-facing summaries yet. Add as codebase grows. |
+| **INDEX.md demotion** | Pending | Useful for audits, rarely for agents. Consider marking audit-only. |
+
+**Architecture gist template** (for sCoRE, World, and future members with significant code):
+- File/directory map with one-line purpose per entry
+- Entry points and key abstractions
+- External dependencies and integration surfaces
+- ~500 tokens target
+
+---
+
 ## Open Questions (Future Work)
 
 1. **Grimoire → member propagation:** How does Grimoire push updates to members?
