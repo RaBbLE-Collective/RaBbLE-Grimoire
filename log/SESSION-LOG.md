@@ -5,14 +5,58 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-21 · Session 34
+## LATEST — 2026-05-22 · Session 35
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S34):** RaBbLE-OS Grimoire docs restructured from flat monoliths into a KB graph. 7 subdirectories (layers/ hardware/ ops/ fix/ verify/ desktop/ historical/). 17 new atomic files with deep `→` links. KnownIssues consolidated to Grimoire fix/. OS repo AGENT.md slimmed to 20-line pointer. Both monolith files (Architecture, Reference, Checklists) absorbed and deleted.
+**Last session (S35):** Phase 1 stubs implemented (core/packages, plymouth, sddm + enable, desktop/fonts role). Phase 4 installer complete: `RaBbLE-OS.ks`, `spells/generate-kickstart.py`, `--unattended`/`--inventory` Bootstrap flags, `vm.hosts.yml`. KS → firstboot service → SDDM flow ready to test in a VM.
 **Active blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified · BaBbLE needs GitHub remote.
-**Next:** Phase 1 stubs — core/packages, boot/plymouth, boot/session_manager, desktop/fonts role.
+**Next:** Boot KS in VM (Fedora 44 netinstall ISO is in `RaBbLE-OS/ISO/`). Verify SDDM greeter appears. Then Phase 2 stubs (boot config, browser).
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-22 (Session 35) — Phase 1 Stubs + Phase 4 KS Installer
+
+**Repos touched:** RaBbLE-OS (`RaBbLE-OS-New-Horizons`) · RaBbLE-Grimoire (`dev`)
+
+**Work done:**
+
+- **Phase 1 stubs implemented** (all four items from roadmap):
+  - `ansible/roles/core/tasks/packages.yml` — real DNF install of ~20 core packages (NetworkManager, zsh, neovim, polkit, jq, git, xdg-utils, btop, fastfetch, zsh-autosuggestions, etc.)
+  - `ansible/roles/boot/plymouth/tasks/packages.yml` — installs `plymouth` + `plymouth-plugin-script`
+  - `ansible/roles/boot/session_manager/tasks/packages.yml` — installs `sddm`, enables service, symlinks `graphical.target` as systemd default
+  - `ansible/roles/desktop/fonts/` — new role (tasks/main + tasks/packages + vars/main): JetBrains Mono, Font Awesome free+brands, Noto sans+emoji
+  - `ansible/site.yml` — fonts play inserted between boot chain and Layer 3 desktop
+
+- **Phase 4 installer implemented**:
+  - `RaBbLE-OS.ks` — Tier 1 Kickstart for Fedora 44 netinstall. Autopart btrfs for VMs; remove `clearpart`/`autopart` lines for interactive Anaconda partitioning on bare metal. `%post` installs NOPASSWD sudo, clones repo, enables firstboot service.
+  - Firstboot service (`rabble-os-setup.service`) runs `Bootstrap.sh --unattended --inventory ansible/inventory/vm.hosts.yml` with `RABBLE_TAGS=base,boot` on first boot after network is up. Sentinel file at `/var/lib/rabble-os/.setup-complete` prevents re-run.
+  - `spells/generate-kickstart.py` — reads `manifest.yml`, emits `%packages` block. Skips `ks: false`, COPR, and rpmfusion packages. `--platform` flag, `--all` flag, `--show-skipped` for debugging.
+  - `RaBbLE-OS-Bootstrap.sh` — `--unattended` (validates NOPASSWD sudo, skips `--ask-become-pass`) + `--inventory <path>` override.
+  - `ansible/inventory/vm.hosts.yml` — `localhost` in `generic_x64` group; use instead of default `hosts.yml` on any non-ProArt machine.
+
+- **Roadmap updated** in Grimoire: Phase 1 and Phase 4 items checked off.
+
+**Where to pick up next:**
+
+1. **VM smoke test** — boot `RaBbLE-OS/ISO/Fedora-Everything-netinst-x86_64-44-1.7.iso` with the KS:
+   ```bash
+   # Serve the KS locally (from RaBbLE-OS dir):
+   python3 -m http.server 8080
+   # Boot VM with: inst.ks=http://<host-ip>:8080/RaBbLE-OS.ks
+   # Or: virt-install --extra-args "inst.ks=..."
+   # After install + reboot: journalctl -u rabble-os-setup -f
+   # Goal: SDDM greeter appears → Phase 1 done
+   ```
+
+2. **Phase 2 stubs** — boot chain config:
+   - `boot/plymouth/config` → RaBbLE theme + `plymouth-set-default-theme` + dracut
+   - `boot/session_manager/config` → SDDM QML theme + Wayland conf + `hyprland.desktop`
+   - `boot/grub2` → 4K font, `fbcon=font:TER16x32`
+   - `apps/browsers` → firefox
+
+3. **After desktop layer** — run `RABBLE_TAGS=desktop,apps ./RaBbLE-OS-Bootstrap.sh --inventory ansible/inventory/vm.hosts.yml` for full Hyprland DE in the VM.
 
 ---
 
