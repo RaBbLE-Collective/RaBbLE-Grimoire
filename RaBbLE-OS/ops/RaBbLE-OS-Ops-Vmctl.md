@@ -351,3 +351,8 @@ for g in /sys/kernel/iommu_groups/*/devices/*; do
 ```
 spark ~ substrate >> VM dev workflow documented // %VM_WORKFLOW%
 ```
+
+→ `ops/RaBbLE-OS-Ops-Install.md` — full install path (KS + Ansible)
+→ `ops/RaBbLE-OS-Ops-Bootstrap.md` — Bootstrap.sh internals
+→ `hardware/RaBbLE-OS-Hardware-GenericX64.md` — VM hardware profile (generic_x64)
+→ `verify/RaBbLE-OS-Verify-Checklist.md` — verification after VM bootstrap

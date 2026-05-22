@@ -205,3 +205,7 @@ AMD Strix Point HX 370 does not support S3 deep sleep. `s2idle` is the only vali
 ```
 transcribe ~ boot-chain >> flow documented, outrun locked // %BOOT_FLOW_LOCKED%
 ```
+
+→ `layers/RaBbLE-OS-Layer-Boot.md` — boot layer roles and Phase plan
+→ `fix/RaBbLE-OS-Fix-BootChain.md` — active boot chain blockers
+→ `fix/RaBbLE-OS-KnownIssues.md` — Plymouth black flash, SDDM Qt6 validation

@@ -134,9 +134,7 @@ This command:
 
 ---
 
-## See Also
-
-- `RaBbLE-OS-KnownIssues.md` — Known issues (GParted on Hyprland, etc.)
-- `RaBbLE-OS-vmctl.sh` — VM lifecycle management
-- `RaBbLE-OS-Bootstrap.sh` — Full system provisioning
-- `ansible/site.yml` — Ansible layer definitions
+→ `fix/RaBbLE-OS-KnownIssues.md` — GParted segfault on Hyprland (resolved), active issues
+→ `ops/RaBbLE-OS-Ops-Vmctl.md` — VM lifecycle: cast, start, snapshot, restore
+→ `ops/RaBbLE-OS-Ops-Bootstrap.md` — Bootstrap.sh internals
+→ `ops/RaBbLE-OS-Ops-Install.md` — full install path and disk layout choices

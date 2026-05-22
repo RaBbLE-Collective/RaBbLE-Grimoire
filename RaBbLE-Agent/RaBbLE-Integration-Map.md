@@ -13,7 +13,7 @@ spark ~ grimoire >> mapping how the organs connect // %INTEGRATION_MAP%
 ## System Data Flow
 
 ```
-User → World (web UI) → sCoRE (intent routing) → Claude/LLM (delegation)
+User → World (web UI) → sCoRE (intent routing) → Agent/LLM (delegation)
                 ↑                    ↑
             Aether (CSS)        OS (system state)
             NeBuLA (renderer)   Memory (future — observation store)
@@ -60,7 +60,7 @@ NeBuLA src/ → esbuild → nebula.iife.js → Cloudflare R2 → World <script>
 These boundaries are load-bearing architectural decisions, not suggestions.
 
 - **World never imports source** — only CDN-distributed bundles from Aether and NeBuLA. World is a thin scaffold: state management and assembly, not rendering or styling.
-- **sCoRE is the only member that calls external APIs** — LLMs (Groq, OpenRouter, Claude), future external services. No other member makes outbound API calls.
+- **sCoRE is the only member that calls external APIs** — LLMs (Groq, OpenRouter, Agent), future external services. No other member makes outbound API calls.
 - **Grimoire never runs** — it produces docs, spells, and registry data. It is not a service, does not start processes, and has no runtime dependencies.
 - **OS provides ambient state, receives no writes** — sCoRE reads system state from OS observation points. Nothing writes to OS programmatically. OS is the substrate, not a managed service.
 - **NeBuLA owns all visual rendering** — entity animation, Canvas2D/Three.js, Flat-Chaos runtime. World assembles NeBuLA output but never renders directly.
@@ -78,7 +78,7 @@ These boundaries are load-bearing architectural decisions, not suggestions.
                        ↕
                     sCoRE (intent routing)
                        ↕
-                    Claude/LLM
+                    Agent/LLM
                        ↕
                     OS (substrate)
                        ↕

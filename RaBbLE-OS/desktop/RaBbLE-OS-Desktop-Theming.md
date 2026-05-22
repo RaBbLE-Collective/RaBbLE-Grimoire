@@ -389,3 +389,8 @@ border=2a2840ff
 ```
 transcribe ~ grimoire >> theming guide crystallized // %THEME_LOCKED%
 ```
+
+→ `layers/RaBbLE-OS-Layer-Desktop.md` — desktop layer role state and theming tasks
+→ `desktop/RaBbLE-OS-Desktop-Hyprland.md` — Hyprland border and gap config
+→ `fix/RaBbLE-OS-KnownIssues.md` — Qt theme env vars not set, Kitty not themed
+→ `../RaBbLE-Agent/RaBbLE-Palette.md` — canonical palette source (never invent hex values)

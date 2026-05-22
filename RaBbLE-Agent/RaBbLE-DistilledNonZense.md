@@ -191,7 +191,7 @@ The full hardware profile (CPU, GPU table, NPU, Memory, Storage, Display, Kernel
 │  (Character, Voice, Behavioral Memory, Orchestration)│
 ├──────────────────┬──────────────────────────────────┤
 │   AGENTIC LAYER  │      SHELL INTEGRATION            │
-│  (Claude Code,   │  (aichat, shell AI, keybinds)     │
+│  (Claude Code,  │  (aichat, shell AI, keybinds)     │
 │   AutoGen, etc.) │                                   │
 ├──────────────────┴──────────────────────────────────┤
 │               MODEL ROUTING LAYER                    │
@@ -226,8 +226,8 @@ systemctl enable --now ollama
 
 | Provider | Model | Best For |
 |---|---|---|
-| Anthropic | `claude-sonnet-4-*` | Complex reasoning, long-form work, code |
-| Anthropic | `claude-haiku-4-*` | Fast tasks, classification, routing |
+| Anthropic | `Agent-sonnet-4-*` | Complex reasoning, long-form work, code |
+| Anthropic | `Agent-haiku-4-*` | Fast tasks, classification, routing |
 | Groq | `llama-3.3-70b` | Speed-critical tasks (low latency) |
 
 ### API Key Management
@@ -261,7 +261,7 @@ claude auth
 ```bash
 cargo install aichat
 # Config: ~/.config/aichat/config.yaml
-model: claude:claude-sonnet-4-20250514
+model: Agent:Agent-sonnet-4-20250514
 clients:
   - type: anthropic
     api_key: $ANTHROPIC_API_KEY
@@ -282,9 +282,9 @@ pip install chromadb mem0ai
 ### Model Selection Heuristic
 
 ```
-Frontier reasoning, complex code, long context → claude-sonnet-4-*
-Fast, simple, classification, routing          → claude-haiku-* or llama3.2:3b (local)
-Code generation only                           → qwen2.5-coder or claude-sonnet-4-*
+Frontier reasoning, complex code, long context → Agent-sonnet-4-*
+Fast, simple, classification, routing          → Agent-haiku-* or llama3.2:3b (local)
+Code generation only                           → qwen2.5-coder or Agent-sonnet-4-*
 Privacy required (no data egress)              → ollama local models only
 Speed above quality                            → groq (cloud) or llama3.2:3b (local)
 Vision/screenshots                             → llava (local) or gpt-4o (cloud)

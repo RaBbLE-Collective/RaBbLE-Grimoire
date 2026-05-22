@@ -200,3 +200,8 @@ See `KnownIssues.md` for the full active tracker. Hardware-specific notes:
 ```
 transcribe ~ grimoire >> hardware substrate mapped // %HARDWARE_LOCKED%
 ```
+
+→ `layers/RaBbLE-OS-Layer-Hardware.md` — hardware layer structure and role state
+→ `fix/RaBbLE-OS-Fix-Nvidia.md` — NVIDIA Optimus defer fix
+→ `fix/RaBbLE-OS-Fix-Suspend.md` — s2idle / suspend-resume verification
+→ `fix/RaBbLE-OS-KnownIssues.md` — asusd intermittent start, XRT packages

@@ -131,3 +131,7 @@ This prevents accidentally applying ASUS-specific config to non-ASUS hardware.
 ```
 transcribe ~ grimoire >> target protocol documented // %TARGET_PROTOCOL_LOCKED%
 ```
+
+→ `hardware/RaBbLE-OS-Hardware-GenericX64.md` — generic x64 profile as base reference
+→ `hardware/RaBbLE-OS-Hardware-ProArtP16.md` — ProArt P16 as concrete example
+→ `layers/RaBbLE-OS-Layer-Hardware.md` — hardware layer structure

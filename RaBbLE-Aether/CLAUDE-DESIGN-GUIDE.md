@@ -1,4 +1,4 @@
-# CLAUDE-DESIGN-GUIDE.md — Using Claude Design with RaBbLE-Aether
+# CLAUDE-DESIGN-GUIDE.md — Using Claude for RaBbLE-Aether Design
 
 ```
 transcribe ~ aether >> design language rendered for Claude Design // %AETHER_LIVE%

@@ -105,3 +105,7 @@ Full item list branches from New Horizons after Episode 1 lands.
 
 AI stack: Ollama local inference, MCP servers, Quickshell replaces Waybar.
 Spec in `DistilledNonZense.md` § VII.
+
+→ `RaBbLE-OS-AgentGuide.md` — directory map and navigation by task
+→ `fix/RaBbLE-OS-KnownIssues.md` — active blockers per layer
+→ `verify/RaBbLE-OS-Verify-Checklist.md` — post-phase verification gate

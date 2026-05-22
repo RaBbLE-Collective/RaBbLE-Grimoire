@@ -236,3 +236,8 @@ hyprland
 ```
 harmonize ~ bootstrap-organ >> substrate initialized, resonance calibrating // %LOW_ENTROPY_LOCKED%
 ```
+
+→ `ops/RaBbLE-OS-Ops-Install.md` — full install path (KS + Ansible)
+→ `ops/RaBbLE-OS-Ops-Layerctl.md` — layer apply commands
+→ `ops/RaBbLE-OS-Ops-Dotctl.md` — dotfile deploy
+→ `verify/RaBbLE-OS-Verify-Checklist.md` — post-bootstrap verification

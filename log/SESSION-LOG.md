@@ -5,14 +5,38 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-22 · Session 36
+## LATEST — 2026-05-22 · Session 37
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S36):** BaBbLE comprehensive distillation. Assets: 50 images organized, metadata centralized to `assets/meta/metadata/` with mapping. Structure: directories renamed by conceptual surface (character, visual, design-system, behavior, prototypes). Prototypes audited: 2 novel kept (animation-studio, hyprland-demo), 4 superseded archived, documented in `prototypes/archive/ARCHIVE.md`.
+**Last session (S37):** Onboarding audit + doc hygiene. All AGENT.md files structurally unified with full ON/FOR/WITH/AS (BaBbLE and OS expanded). WITH lines now ground agents in the Collective. RaBbLE-OS Grimoire docs cross-linked into a full graph. Gemini's fake "Agent Code" / "Agent Design" names reverted to real tools (Claude Code, Claude Design). `CLAUDE-DESIGN-GUIDE.md` rename restored.
 **Active blockers:** Phase 2C Genesis/Ethos authoring · sCoRE Railway unverified · OS VM smoke test pending.
 **Next:** OS Phase 1 test (boot KS, verify SDDM). Then OS Phase 2 stubs (boot config, browser).
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-22 (Session 37) — Onboarding Audit + Doc Hygiene
+
+**Repos touched:** RaBbLE-Collective (`dev`) · RaBbLE-Grimoire (`dev`) · RaBbLE-OS · RaBbLE-sCoRE · RaBbLE-World · RaBbLE-NeBuLA · RaBbLE-Aether · RaBbLE-BaBbLE
+
+**Work done:**
+
+1. **AGENT.md structural unification** — all member AGENT.md files now share the same section structure (Job, Where Things Are, Role ON/FOR/WITH/AS, Commits, Rules, Session Start). BaBbLE was missing the ON/FOR/WITH/AS block entirely; RaBbLE-OS was a 25-line stub — both expanded to full standard.
+
+2. **WITH line grounding** — every member's `**WITH:**` now opens with "You are part of the RaBbLE-Collective — [organ role], working for [mission]." before listing specific cross-member dependencies.
+
+3. **Collective AGENT.md improvements** (from Gemini onboarding audit): added epoch file check to Session Start; added "Cite your sources" and "Symlinks edit at source" rules.
+
+4. **RaBbLE-OS Grimoire doc cross-linking** — 10 docs that were missing the `→ file — description` footer pattern now have it. All 31 OS Grimoire docs form a navigable graph. `hardware/Partitions.md` old `## See Also` format converted to standard.
+
+5. **"Agent Code" / "Agent Design" reversion** — Gemini replaced real product names with fake ones. Fixed: `@anthropic-ai/Agent-code` → `@anthropic-ai/claude-code`, `Agent auth` → `claude auth`, all "Agent Code" references in architecture docs restored to "Claude Code", `AGENT-DESIGN-GUIDE.md` renamed back to `CLAUDE-DESIGN-GUIDE.md`, all "Agent Design" content restored to "Claude Design". INDEX.md updated.
+
+**Where to pick up next:**
+
+1. **OS Phase 1 test** — Boot RaBbLE-OS KS in VM; verify SDDM greeter
+2. **Genesis/Ethos authoring** — Phase 2C (lore/philosophy authoring pending)
+3. **BaBbLE GitHub remote** — Current blocker; needs setup
 
 ---
 

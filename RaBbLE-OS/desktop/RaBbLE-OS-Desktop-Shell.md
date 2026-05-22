@@ -364,3 +364,8 @@ On wake: display is restored, hyprlock is already showing.
 | `XDG_CONFIG_HOME` | `~/.config` |
 | `XDG_CACHE_HOME` | `~/.cache` |
 | `XDG_DATA_HOME` | `~/.local/share` |
+
+→ `layers/RaBbLE-OS-Layer-Desktop.md` — desktop layer role state
+→ `desktop/RaBbLE-OS-Desktop-Hyprland.md` — Hyprland keybinds and env var loading
+→ `ops/RaBbLE-OS-Ops-Dotctl.md` — how shell configs are deployed
+→ `fix/RaBbLE-OS-KnownIssues.md` — ZSH XRT prompt artifact, Kitty theming gap

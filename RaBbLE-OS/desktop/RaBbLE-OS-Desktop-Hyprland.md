@@ -298,3 +298,9 @@ Manual lock: `Super+L` or `loginctl lock-session`
 
 Source of truth for all files: `RaBbLE-OS/config/hypr/` in the RaBbLE-OS repo.
 Changes go to the repo first, then deployed via `dotctl`.
+
+→ `layers/RaBbLE-OS-Layer-Desktop.md` — Hyprland layer role state and Phase plan
+→ `desktop/RaBbLE-OS-Desktop-Shell.md` — ZSH/Bash config reference
+→ `desktop/RaBbLE-OS-Desktop-Theming.md` — palette application, Kvantum, GTK
+→ `ops/RaBbLE-OS-Ops-Dotctl.md` — how Hyprland configs are deployed
+→ `fix/RaBbLE-OS-KnownIssues.md` — active Hyprland issues (windowrule migration, GPU config)

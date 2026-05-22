@@ -65,7 +65,7 @@ A web server that handles agentic workflows, routing intelligence between infere
 - Agentic workflow orchestration (multi-step, multi-agent tasks)
 - Inference endpoint routing — local or remote, right model for right task
 - Local endpoints: Ollama, llama.cpp, vLLM, FastFlowLM (NPU via XRT)
-- Remote endpoints: Anthropic (Claude), Groq, OpenAI-compatible APIs
+- Remote endpoints: Anthropic (Agent), Groq, OpenAI-compatible APIs
 - OpenAI-compatible API surface for downstream consumers
 - Model selection heuristic: cost, latency, capability, privacy requirements
 
