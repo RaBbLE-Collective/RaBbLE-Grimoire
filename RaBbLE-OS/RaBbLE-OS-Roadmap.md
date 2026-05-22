@@ -18,10 +18,10 @@ transcribe ~ grimoire >> roadmap consolidated // %S34%
 ### Stub Debt — Phases (boot-critical first)
 
 **Phase 1 — Boot into a DE:**
-- [ ] `core/packages` → DNF install all `layer: core` manifest entries (~20 pkgs)
-- [ ] `boot/plymouth/packages` → `plymouth`, `plymouth-plugin-script`
-- [ ] `boot/session_manager/packages` → `sddm`
-- [ ] New `desktop/fonts` role → JetBrains Mono, Font Awesome, Noto (before compositor)
+- [x] `core/packages` → DNF install all `layer: core` manifest entries (~20 pkgs)
+- [x] `boot/plymouth/packages` → `plymouth`, `plymouth-plugin-script`
+- [x] `boot/session_manager/packages` → `sddm` + enable service + graphical.target
+- [x] New `desktop/fonts` role → JetBrains Mono, Font Awesome, Noto (before compositor)
 - Done when: SDDM greeter appears on fresh Fedora Everything install
 
 **Phase 2 — Themed boot + browser:**
@@ -39,10 +39,11 @@ transcribe ~ grimoire >> roadmap consolidated // %S34%
 - [ ] `layer/flatpak` → flatpak + Flathub
 
 **Phase 4 — Installer:**
-- [ ] `RaBbLE-OS.ks` — Tier 1 KS (interactive partitioning, Anaconda)
-- [ ] `spells/generate-kickstart.py` — manifest → `%packages`
-- [ ] `--unattended` Bootstrap flag
-- Done when: KS boot → Anaconda → reboot → RaBbLE-OS
+- [x] `RaBbLE-OS.ks` — Tier 1 KS (autopart VM default, drop clearpart/autopart for interactive)
+- [x] `spells/generate-kickstart.py` — manifest → `%packages` (COPR/rpmfusion excluded, --platform flag)
+- [x] `--unattended` Bootstrap flag + `--inventory` override
+- [x] `ansible/inventory/vm.hosts.yml` — generic_x64 localhost inventory for VM use
+- Done when: KS boot → Anaconda → reboot → firstboot service → SDDM
 
 **Phase 5 — Reproducibility gate:**
 - [ ] Fresh Fedora Everything → KS → reboot → all acceptance criteria pass
