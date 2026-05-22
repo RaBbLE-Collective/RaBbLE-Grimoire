@@ -5,14 +5,26 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-22 · Session 38
+## LATEST — 2026-05-22 · Session 39
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S38):** Doc graph + token analytics + cross-linking. 5 new spells (token-budget, graph-grimoire, session-tokens, help, sync-symlinks rewrite). Link density doubled (79→155 links, islands 44→14). SPELLS.md rewritten. depends_on added to 5 manifests. INDEX.md OS section converted to real links. Cross-links added to 8 architecture/roadmap docs.
+**Last session (S39):** Agent onboarding slimmed. AGENT.md 164→80 lines — removed Member Map, Workspaces table, Member Entry Points, Operating Modes. CONTEXT.md absorbed those sections. Always-loaded context roughly halved; depth deferred to CONTEXT.md and member AGENT.md files.
 **Active blockers:** Phase 2C Genesis/Ethos authoring · sCoRE Railway unverified · OS VM smoke test pending.
-**Next:** OS Phase 1 test (boot KS, verify SDDM). Gist regeneration (add source links to reduce islands). Then OS Phase 2 stubs.
+**Next:** OS VM smoke test (boot KS, verify SDDM) → OS Phase 2 stubs.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-22 (Session 39) — Agent Onboarding Slimmed
+
+**Repos touched:** RaBbLE-Collective (`dev`)
+
+**Work done:**
+
+Slimmed Collective root onboarding. AGENT.md reduced from 164 → 80 lines by removing Member Map, Workspaces lookup table, Member Entry Points table, and Operating Modes table. CONTEXT.md absorbed those sections (118 → 107 lines). Always-loaded context (AGENT.md = CLAUDE.md) roughly halved. Depth is still one hop away via CONTEXT.md or member AGENT.md files.
+
+**What's next:** OS VM smoke test (boot KS, verify SDDM) → OS Phase 2 stubs.
 
 ---
 
