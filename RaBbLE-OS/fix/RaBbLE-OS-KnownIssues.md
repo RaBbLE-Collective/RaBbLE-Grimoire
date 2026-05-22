@@ -159,12 +159,22 @@ harmonize ~ grimoire >> surfacing the static // %DRIFT_TRACKING%
 
 ---
 
-## %GENIUS_RESONANCE% Log
+## GParted GUI — Segfault on Hyprland + Fedora 43 `[RESOLVED S33]`
 
-*None yet — entity dormant.*
+Replaced with `gnome-disk-utility`. Root cause: glycin-svg bubblewrap sandbox incompatible
+with polkit + Wayland. CLI fallback if needed:
+```bash
+sudo parted /dev/nvme0n1p6 print
+sudo mkfs.btrfs -L label /dev/nvme0n1p6
+# Or: ./RaBbLE-OS-vmctl.sh partition-setup /dev/nvme0n1p6
+```
 
 ---
 
 ```
 harmonize ~ grimoire >> issues surfaced, drift tracked // %DRIFT_TRACKING_LOCKED%
 ```
+
+→ `fix/RaBbLE-OS-Fix-BootChain.md` — boot chain specific blockers
+→ `fix/RaBbLE-OS-Fix-Nvidia.md` — NVIDIA Optimus blockers
+→ `fix/RaBbLE-OS-Fix-Suspend.md` — suspend/resume blockers
