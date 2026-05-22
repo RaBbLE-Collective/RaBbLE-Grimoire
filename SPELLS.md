@@ -1,82 +1,138 @@
 # RaBbLE Grimoire Spells
 
 ```
-transcribe ~ grimoire >> the incantations that manifest realms // %SPELLS_INITIALIZED%
+transcribe ~ grimoire >> the incantations that manifest realms // %SPELLS_CURRENT%
 ```
 
-Spells are the bash scripts in `spells/` that manage the RaBbLE Collective from Grimoire as the single source of truth — cloning members, wiring symlinks, checking health, and (eventually) propagating canonical docs.
+Spells are bash scripts in `spells/` that manage the RaBbLE Collective. Grimoire is the source; spells are the distribution mechanism. Run `bash spells/help.sh` for a quick reference.
 
-**Key principle:** Grimoire is the source. Spells are the distribution mechanism. Never duplicate Grimoire content in member repos.
+**All spells run from Grimoire root:** `cd RaBbLE-Grimoire && bash spells/<name>.sh`
+**Every spell supports `--help`** for usage, flags, and examples.
 
 ---
 
-## Implemented Spells
+## Quick Reference
 
-### `spells/status.sh` — Collective Health Dashboard
-
-Shows the state of all registered members at a glance.
-
-```bash
-bash spells/status.sh
-```
-
-**What it shows:**
-- Epoch name and number (from `registry/epochs/current.epoch.yml`)
-- Grimoire itself: branch, clean/modified state
-- Each registered member: branch, git state, whether AGENT.md is present
-- Palette version consistency across manifests
-
-**Reads:** `registry/manifests/*.manifest.yml`, `registry/epochs/current.epoch.yml`
+| Spell | Purpose | When to use |
+|---|---|---|
+| `help.sh` | List all spells with descriptions | Orienting — what's available |
+| `status.sh` | Collective health dashboard | Start of session — check member states |
+| `setup.sh` | Bootstrap: clone repos, wire symlinks | Fresh machine or new member added |
+| `sync-symlinks.sh` | Create CLAUDE.md/CODEX.md/GEMINI.md → AGENT.md | After adding a repo or fixing broken links |
+| `sync-grimoire.sh` | Push Grimoire docs to member `grimoire/` dirs | After updating shared RaBbLE-Agent/ docs |
+| `init-project.sh` | Scaffold a new Collective member | Creating a new repo |
+| `dev-serve.sh` | Launch local dev environment (Aether+NeBuLA+World) | Development — always use this, not manual servers |
+| `cast-aether.sh` | Build + stage Aether CSS to World | After Aether CSS changes, before testing in World |
+| `cast-cdn.sh` | Build all + deploy to joinrabble.world via wrangler | Production deploy |
+| `deploy-score.sh` | Deploy sCoRE to Railway | sCoRE deploy |
+| `distill-gists.sh` | Regenerate gist/ summaries via Claude CLI | After major doc changes |
+| `install-theme.sh` | Install RaBbLE theme on OS | RaBbLE-OS theming setup |
+| `visual-screenshot.sh` | Capture browser screenshot for agent visual review | Verifying UI changes — agent sees the PNG |
+| `token-budget.sh` | Calculate token cost of onboarding paths | Auditing doc bloat, optimizing agent context |
+| `graph-grimoire.sh` | Build doc link graph (JSON + Mermaid) | Auditing cross-links, finding orphan docs |
+| `session-tokens.sh` | Parse Claude Code transcripts for usage data | Tracking token spend per session/project |
 
 ---
 
-### `spells/setup.sh` — Bootstrap the Collective
+## Setup & Bootstrap
 
-Clones or updates all registered member repos, sets up CLAUDE.md and CODEX.md symlinks (→ AGENT.md), and optionally syncs common docs.
+### `setup.sh` — Bootstrap the Collective
+
+Clones or updates all registered member repos, creates symlinks, optionally syncs common docs.
 
 ```bash
-bash spells/setup.sh              # full setup: pull all + wire symlinks
-bash spells/setup.sh --links-only  # symlinks only, no pulls
-bash spells/setup.sh --pull-only   # pull/update only, no symlink changes
-bash spells/setup.sh --project RaBbLE-OS  # single project
+bash spells/setup.sh                          # full: pull all + wire symlinks
+bash spells/setup.sh --links-only             # symlinks only, no pulls
+bash spells/setup.sh --pull-only              # pull/update only
+bash spells/setup.sh --project RaBbLE-OS      # single project
 ```
-
-**Grimoire does not relocate itself.** This script runs from wherever Grimoire lives and sets up member repos as neighbors in `$RABBLE_ROOT/`.
 
 **Reads:** `registry/manifests/*.manifest.yml`
-**Writes:** symlinks in member repo roots
 
----
+### `sync-symlinks.sh` — Wire Agent Entry Points
 
-### `spells/init-project.sh` — Scaffold a New Member
+Creates CLAUDE.md, CODEX.md, GEMINI.md as symlinks to AGENT.md in every member repo. Ensures those names are in `.gitignore`. AGENT.md is the canonical file — symlinks are gitignored derivatives.
 
-Creates a new Collective member repo with standard scaffolding: AGENT.md, CONTEXT.md, REFERENCES.md, workspace CONTEXT.md files, and a manifest entry.
+```bash
+bash spells/sync-symlinks.sh                  # create all symlinks
+bash spells/sync-symlinks.sh --dry-run        # preview only
+```
+
+### `init-project.sh` — Scaffold New Member
+
+Creates a new Collective member with standard structure: AGENT.md, CONTEXT.md, REFERENCES.md, manifest entry.
 
 ```bash
 bash spells/init-project.sh --slug RaBbLE-[Name] --role [substrate|server|frontend|tooling]
 ```
 
-After running: add the member to `AGENT.md` Member Registry table and push to GitHub.
+### `sync-grimoire.sh` — Propagate Common Docs
 
----
-
-### `spells/sync-grimoire.sh` — Propagate Common Docs
-
-> **Status: Propagation mechanism TBD.** The doc propagation model (submodule vs. push vs. install) is still being decided. This script copies `RaBbLE-Agent/` docs to member `grimoire/` directories, but whether members maintain local copies or reference Grimoire directly is an open question. Use `--dry-run` to see what would change before committing to a model.
+Copies `RaBbLE-Agent/` docs to member `grimoire/` directories. Members opt in via `grimoire_sync: true` in their manifest.
 
 ```bash
-bash spells/sync-grimoire.sh                      # sync all opted-in members
-bash spells/sync-grimoire.sh --project RaBbLE-OS  # single project
-bash spells/sync-grimoire.sh --dry-run            # preview only
+bash spells/sync-grimoire.sh                  # sync all opted-in members
+bash spells/sync-grimoire.sh --project RaBbLE-OS
+bash spells/sync-grimoire.sh --dry-run
 ```
-
-Members opt in via `grimoire_sync: true` in their manifest. Docs synced are listed in the `COMMON_DOCS` array at the top of the script.
 
 ---
 
-### `spells/install-theme.sh` — Install RaBbLE Theme
+## Development
 
-Installs the RaBbLE synthwave outrun theme across OS-level components. RaBbLE-OS specific.
+### `dev-serve.sh` — Local Dev Environment
+
+Launches Aether watcher + NeBuLA watcher + World dev server. **Always use this** — never run `dev-cdn.js` or `esbuild --watch` manually.
+
+```bash
+bash spells/dev-serve.sh
+```
+
+**Prereqs:** Node.js, npm, repos cloned. Serves on `localhost:8000` (configurable).
+
+### `visual-screenshot.sh` — Agent Visual Capture
+
+Opens a URL in Firefox on a scratch Hyprland workspace, captures via `grim`, closes, returns. Prints `SCREENSHOT: /path` for agent file reading.
+
+```bash
+bash spells/visual-screenshot.sh                                      # default dev server
+bash spells/visual-screenshot.sh --url http://localhost:8000/Boot.html
+bash spells/visual-screenshot.sh --delay 5                            # heavy pages
+```
+
+**Requires:** Hyprland session, Firefox, `grim`.
+
+---
+
+## Build & Deploy
+
+### `cast-aether.sh` — Publish Aether CSS
+
+Builds Aether CSS bundle and stages it into World for Cloudflare deploy.
+
+```bash
+bash spells/cast-aether.sh
+```
+
+### `cast-cdn.sh` — Full CDN Deploy
+
+Builds Aether + NeBuLA, stages into World, deploys to `joinrabble.world` via Wrangler.
+
+```bash
+bash spells/cast-cdn.sh
+```
+
+### `deploy-score.sh` — Deploy sCoRE to Railway
+
+Wraps `RaBbLE-sCoRE/harness/` with Grimoire-level awareness.
+
+```bash
+bash spells/deploy-score.sh
+```
+
+### `install-theme.sh` — OS Theme Installation
+
+Installs RaBbLE synthwave theme across OS components. RaBbLE-OS specific.
 
 ```bash
 bash spells/install-theme.sh
@@ -84,63 +140,70 @@ bash spells/install-theme.sh
 
 ---
 
-### `spells/visual-screenshot.sh` — Agent Visual Capture
+## Docs & Maintenance
 
-Lets an agent **see** rendered output. Opens a URL in Firefox on a clean scratch workspace (default: workspace 9), captures the monitor with `grim`, then closes Firefox and returns to the original workspace. Prints a machine-readable `SCREENSHOT: /path` line so agents can read the image back directly.
+### `distill-gists.sh` — Regenerate Gist Summaries
 
-General-purpose: point it at any dev server or local HTML file. Modify `--delay` for pages that need more load time.
+Uses Claude CLI to distill canonical docs into `gist/` summaries (~200 words each). Gists are the primary low-token onboarding path.
 
 ```bash
-# Capture default dev server — opens on scratch workspace 9, closes, returns
-bash spells/visual-screenshot.sh
-
-# Specific page
-bash spells/visual-screenshot.sh --url http://localhost:8000/world/Boot.html
-
-# Custom output path
-bash spells/visual-screenshot.sh --url http://localhost:8000 --out ./shot.png
-
-# More render time for heavy pages or animations
-bash spells/visual-screenshot.sh --url http://localhost:8000 --delay 5
-
-# Use a different scratch workspace
-bash spells/visual-screenshot.sh --url http://localhost:8000 --workspace 8
+bash spells/distill-gists.sh                  # regenerate all
+bash spells/distill-gists.sh identity         # one gist (by slug)
 ```
 
-**Agent usage pattern:**
-1. Make code change
-2. `npm run build:iife && bash spells/visual-screenshot.sh --url http://localhost:8000`
-3. Read the path from the `SCREENSHOT: /path` line — Claude Code reads PNG files directly
-4. Verify the change visually, iterate
+**Available slugs:** identity, collective, roadmap, commitstyle, versioning, palette, overview, episode1, integration
 
-**Output:** `~/RaBbLE-Collective/RaBbLE-Captures/visual-TIMESTAMP.png` (gitignored).  
-**Requires:** `hyprctl`, `firefox`, `grim`, active Hyprland session (RaBbLE-OS). `jq` optional (improves monitor and workspace targeting).
+**Requires:** `claude` CLI in PATH.
 
 ---
 
-## Planned (Not Yet Implemented)
+## Analytics
 
-These were in the original SPELLS.md framework spec. Deferred until the propagation mechanism is decided:
+### `token-budget.sh` — Onboarding Token Cost
 
-| Spell | Purpose |
-|---|---|
-| `spells/generate-llm-context.py` | Compose CONTEXT.md from Grimoire sections for a specific member |
-| `spells/generate-agent-brief.py` | Create focused agent context for a specific task |
-| `spells/health-check.py` | Detailed health report with version compatibility matrix |
-| `spells/fetch-remotes.py` | Verify all manifest repos are reachable |
+Calculates approximate token cost for each agent reading path defined in the Navigator. Answers: "how much does onboarding cost?"
+
+```bash
+bash spells/token-budget.sh                   # full per-file breakdown
+bash spells/token-budget.sh --summary         # totals only
+```
+
+### `graph-grimoire.sh` — Documentation Link Graph
+
+Scans all `.md` files, extracts markdown links, builds an adjacency graph. Reports orphan docs (no incoming links), hub docs, and islands (completely disconnected).
+
+```bash
+bash spells/graph-grimoire.sh                 # graph + summary
+bash spells/graph-grimoire.sh --json-only     # JSON only, skip Mermaid
+```
+
+**Outputs:** `log/grimoire-graph.json` (adjacency list), `log/grimoire-graph.md` (Mermaid diagram — renderable in GitHub/Obsidian).
+
+### `session-tokens.sh` — Claude Code Token Telemetry
+
+Parses Claude Code session JSONL transcripts to extract token usage per session.
+
+```bash
+bash spells/session-tokens.sh                 # all sessions
+bash spells/session-tokens.sh --recent 10     # last 10 sessions
+bash spells/session-tokens.sh --json          # write log/session-tokens.json
+```
+
+**Reads:** `~/.claude/projects/-home-rabble-RaBbLE-*/*.jsonl`
 
 ---
 
 ## Spell Authoring Conventions
 
-- All spells use `GRIMOIRE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"` as root
-- `RABBLE_ROOT="$(dirname "$GRIMOIRE_ROOT")"` is the parent containing all member repos
-- Scripts must not relocate the Grimoire — it expands, not moves
-- Headers: `# RaBbLE-Grimoire — {script-name}`
-- Pulse Protocol commit when adding/modifying spells: `spark ~ grimoire >> ...`
+- Root: `GRIMOIRE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"`
+- Parent: `RABBLE_ROOT="$(dirname "$GRIMOIRE_ROOT")"`
+- Every spell must support `--help` / `-h`
+- Headers: `# RaBbLE-Grimoire — {script-name}` + purpose line + Pulse Protocol commit tag
+- Colors: use the MAGENTA/CYAN/GREEN/YELLOW/MUTED constants from `status.sh`
+- Pulse Protocol commit: `spark ~ grimoire >> ...` for new spells
 
 ---
 
 ```
-transcribe ~ grimoire >> spells documented // %SPELLS_LOCKED%
+transcribe ~ grimoire >> spells documented // %SPELLS_CURRENT%
 ```

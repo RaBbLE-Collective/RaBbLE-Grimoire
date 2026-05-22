@@ -42,6 +42,11 @@ subcomponents:
     path: harness/
     description: "Railway deployment tooling"
 
+# Dependencies — other Collective members this member consumes at runtime
+depends_on: []
+# sCoRE has no member dependencies — it calls external APIs (LLMs) only.
+# Post-Ep1: will read OS ambient state and write to Memory.
+
 # Notes
 notes: >
   Pre-Episode-1 work (Plots A–C): coordination shell, dispatch, identity, server absorbed.

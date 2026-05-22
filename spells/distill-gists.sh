@@ -10,6 +10,18 @@
 
 set -euo pipefail
 
+if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+  echo "distill-gists.sh — regenerate gist/ summaries from canonical Grimoire docs"
+  echo ""
+  echo "Usage: bash spells/distill-gists.sh [slug]"
+  echo "  slug   Optional — regenerate one gist only (identity, collective, roadmap,"
+  echo "         commitstyle, versioning, palette, overview, episode1, integration)"
+  echo ""
+  echo "Requires: claude CLI in PATH. Uses Claude to distill full docs into ~200-word gists."
+  echo "Run from: RaBbLE-Grimoire/ root"
+  exit 0
+fi
+
 GRIMOIRE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 GIST_DIR="$GRIMOIRE_ROOT/gist"
 FILTER="${1:-}"

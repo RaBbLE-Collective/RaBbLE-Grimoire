@@ -11,6 +11,16 @@
 
 set -euo pipefail
 
+if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+  echo "status.sh — Collective health dashboard"
+  echo ""
+  echo "Usage: bash spells/status.sh"
+  echo ""
+  echo "Shows: epoch, branch, git state, AGENT.md presence, symlink status"
+  echo "for every registered member in registry/manifests/."
+  exit 0
+fi
+
 GRIMOIRE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 RABBLE_ROOT="$(dirname "$GRIMOIRE_ROOT")"
 MANIFESTS_DIR="$GRIMOIRE_ROOT/registry/manifests"

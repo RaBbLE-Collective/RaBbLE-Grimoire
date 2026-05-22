@@ -7,12 +7,15 @@ transcribe ~ grimoire >> charting the collective metamorphosis // %TRAJECTORY_LO
 > **What this is:** Collective-level roadmap. Which members are working toward which Episode. What's blocking Episode 1 air.
 >
 > **Member detail:** Each member's roadmap lives in its own doc:
-> → `RaBbLE-OS/RaBbLE-OS-Roadmap.md`
-> → `RaBbLE-NeBuLA/RaBbLE-NeBuLA-Roadmap.md`
-> → `RaBbLE-sCoRE/RaBbLE-sCoRE-Roadmap.md`
-> → ... and so on
+> → [RaBbLE-OS Roadmap](../RaBbLE-OS/RaBbLE-OS-Roadmap.md)
+> → [RaBbLE-NeBuLA Roadmap](../RaBbLE-NeBuLA/RaBbLE-NeBuLA-Roadmap.md)
+> → [RaBbLE-sCoRE Roadmap](../RaBbLE-sCoRE/RaBbLE-sCoRE-Roadmap.md)
+> → [RaBbLE-Aether Roadmap](../RaBbLE-Aether/RaBbLE-Aether-Roadmap.md)
+> → [RaBbLE-World Roadmap](../RaBbLE-World/RaBbLE-World-Roadmap.md)
 >
-> **Episode 1 scope:** See `RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md`
+> **Episode 1 scope:** See [RaBbLE-Episode-1-Release-Map](../RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md)
+>
+> **Related:** [Integration Map](RaBbLE-Integration-Map.md) · [Collective overview](RaBbLE-Collective.md) · [Versioning](../RaBbLE-Versioning.md)
 
 ---
 

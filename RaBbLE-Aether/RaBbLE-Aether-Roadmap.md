@@ -5,6 +5,7 @@ transcribe ~ grimoire >> design system and visual identity mapped // %AETHER_ROA
 ```
 
 > **Collective Context:** RaBbLE-Aether is the canonical design system and visual identity layer. See `RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md` for how this fits the whole picture. See `RaBbLE-Episode-1-Release-Map.md` for Episode 1 scope across all members.
+> **Related:** [Collective Roadmap](../RaBbLE-Agent/RaBbLE-Roadmap.md) · [Aether Architecture](RaBbLE-Aether-Architecture.md) · [Build & CDN](RaBbLE-Aether-Build-CDN.md) · [Palette](../RaBbLE-Agent/RaBbLE-Palette.md)
 
 ---
 

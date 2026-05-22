@@ -5,6 +5,7 @@ transcribe ~ grimoire >> web presence and entity interaction surface mapped // %
 ```
 
 > **Collective Context:** RaBbLE-World is the public face and orchestration layer. See `RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md` for how this fits the whole picture. See `RaBbLE-Episode-1-Release-Map.md` for Episode 1 scope across all members.
+> **Related:** [Collective Roadmap](../RaBbLE-Agent/RaBbLE-Roadmap.md) · [World Architecture](RaBbLE-World-Architecture.md) · [Aether Architecture](../RaBbLE-Aether/RaBbLE-Aether-Architecture.md) · [NeBuLA API](../RaBbLE-NeBuLA/RaBbLE-NeBuLA-API.md) · [sCoRE Architecture](../RaBbLE-sCoRE/RaBbLE-sCoRE-Architecture.md)
 
 ---
 

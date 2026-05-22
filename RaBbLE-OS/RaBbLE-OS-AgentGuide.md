@@ -3,6 +3,8 @@
 Ansible-driven Fedora 43 + Hyprland desktop. The entity's body.
 Active branch: `RaBbLE-OS-New-Horizons`. Key tools: `layerctl.sh` · `dotctl.sh` · `vmctl.sh`.
 
+> **Related:** [Collective Roadmap](../RaBbLE-Agent/RaBbLE-Roadmap.md) · [OS Roadmap](RaBbLE-OS-Roadmap.md) · [Integration Map](../RaBbLE-Agent/RaBbLE-Integration-Map.md)
+
 ---
 
 ## Directory Tree

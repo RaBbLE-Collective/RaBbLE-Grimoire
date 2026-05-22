@@ -5,8 +5,10 @@ spark ~ grimoire >> mapping how the organs connect // %INTEGRATION_MAP%
 ```
 
 > How members exchange data, assets, and intent. The wiring diagram of the Collective.
-> For member roles and descriptions: `RaBbLE-Agent/RaBbLE-Collective.md`
-> For deployment details: `RaBbLE-Collective/RaBbLE-Deployment-Architecture.md`
+> For member roles and descriptions: [RaBbLE-Collective](RaBbLE-Collective.md)
+> For deployment details: [RaBbLE-Deployment-Architecture](../RaBbLE-Collective/RaBbLE-Deployment-Architecture.md)
+> For episode scope: [RaBbLE-Episode-1-Release-Map](../RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md)
+> For member roadmaps: [RaBbLE-Roadmap](RaBbLE-Roadmap.md)
 
 ---
 
@@ -49,7 +51,14 @@ Aether src/ → esbuild → aether.min.css → Cloudflare R2 → World <link>
 NeBuLA src/ → esbuild → nebula.iife.js → Cloudflare R2 → World <script>
 ```
 
-**Local development:** `dev-serve.sh` mocks CDN paths locally. HTML pages link `aether.css` (unminified), not `aether.min.css`. After NeBuLA source changes: `npm run build:iife && cp dist/nebula.iife.js ../RaBbLE-World/world/js/RaBbLE-NeBuLA.js`.
+**Local development:** [`dev-serve.sh`](../spells/dev-serve.sh) mocks CDN paths locally. HTML pages link `aether.css` (unminified), not `aether.min.css`. After NeBuLA source changes: `npm run build:iife && cp dist/nebula.iife.js ../RaBbLE-World/world/js/RaBbLE-NeBuLA.js`.
+
+**Member architecture docs:**
+- [Aether Architecture](../RaBbLE-Aether/RaBbLE-Aether-Architecture.md) · [Aether Build/CDN](../RaBbLE-Aether/RaBbLE-Aether-Build-CDN.md)
+- [NeBuLA Architecture](../RaBbLE-NeBuLA/RaBbLE-NeBuLA-Architecture.md) · [NeBuLA API](../RaBbLE-NeBuLA/RaBbLE-NeBuLA-API.md)
+- [World Architecture](../RaBbLE-World/RaBbLE-World-Architecture.md)
+- [sCoRE Architecture](../RaBbLE-sCoRE/RaBbLE-sCoRE-Architecture.md)
+- [Cloudflare Integration](../RaBbLE-Collective/RaBbLE-Cloudflare-Integration.md)
 
 **Production:** Versioned bundles on Cloudflare R2. Version bumps happen at Episode boundaries — all members consume the same tagged version.
 

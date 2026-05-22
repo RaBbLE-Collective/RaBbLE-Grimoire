@@ -26,6 +26,15 @@ palette_version: "1.0"
 entity_embedded: true
 pulse_protocol: true
 
+# Dependencies — other Collective members this member consumes at runtime
+depends_on:
+  - slug: RaBbLE-Aether
+    mechanism: CDN CSS bundle (aether.css)
+  - slug: RaBbLE-NeBuLA
+    mechanism: CDN IIFE bundle (nebula.iife.js, <rabble-entity> web component)
+  - slug: RaBbLE-sCoRE
+    mechanism: HTTP/REST API (intent routing, chat endpoint)
+
 # Notes
 notes: >
   Active branch: dev. Deployed at joinrabble.world via Cloudflare Workers.

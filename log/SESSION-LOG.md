@@ -5,18 +5,40 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-22 · Session 37
+## LATEST — 2026-05-22 · Session 38
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S37):** Onboarding audit + doc hygiene. All AGENT.md files structurally unified with full ON/FOR/WITH/AS (BaBbLE and OS expanded). WITH lines now ground agents in the Collective. RaBbLE-OS Grimoire docs cross-linked into a full graph. Gemini's fake "Agent Code" / "Agent Design" names reverted to real tools (Claude Code, Claude Design). `CLAUDE-DESIGN-GUIDE.md` rename restored.
+**Last session (S38):** Doc graph + token analytics + cross-linking. 5 new spells (token-budget, graph-grimoire, session-tokens, help, sync-symlinks rewrite). Link density doubled (79→155 links, islands 44→14). SPELLS.md rewritten. depends_on added to 5 manifests. INDEX.md OS section converted to real links. Cross-links added to 8 architecture/roadmap docs.
 **Active blockers:** Phase 2C Genesis/Ethos authoring · sCoRE Railway unverified · OS VM smoke test pending.
-**Next:** OS Phase 1 test (boot KS, verify SDDM). Then OS Phase 2 stubs (boot config, browser).
+**Next:** OS Phase 1 test (boot KS, verify SDDM). Gist regeneration (add source links to reduce islands). Then OS Phase 2 stubs.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
 ---
 
-## 2026-05-22 (Session 37) — Onboarding Audit + Doc Hygiene
+## 2026-05-22 (Session 38) — Doc Graph, Token Analytics, Cross-Linking, Spell Expansion
+
+**Repos touched:** RaBbLE-Grimoire (`dev`) · RaBbLE-Collective (`dev`)
+
+**Work done:**
+
+1. **5 new spells:** `token-budget.sh` (onboarding cost calculator), `graph-grimoire.sh` (doc link graph → JSON + Mermaid), `session-tokens.sh` (Claude Code transcript telemetry), `help.sh` (meta-spell), `sync-symlinks.sh` (rewritten — manages CLAUDE/CODEX/GEMINI → AGENT.md + .gitignore).
+
+2. **Cross-linking pass:** Added markdown links to RaBbLE-Roadmap, RaBbLE-Collective, RaBbLE-Integration-Map, 5 member roadmaps, OS AgentGuide. INDEX.md OS section converted from plain text to 30+ real links. Link density: 79→155 edges, islands: 44→14.
+
+3. **Token budget baseline:** Gist onboarding ~3,332 tokens. Full 30-min ~15,330. Auto-injected per session ~14,941. Full Grimoire surface ~240K tokens (117 files).
+
+4. **Manifest depends_on:** Added cross-member dependency declarations to World (3), NeBuLA (1), OS (1), sCoRE (0), Aether (0).
+
+5. **SPELLS.md full rewrite:** Quick-reference table, grouped by purpose, all 16 spells documented. `--help` added to distill-gists.sh and status.sh.
+
+6. **AGENT.md symlink docs updated:** Both Collective root and Grimoire AGENT.md now document the canonical strategy (AGENT.md committed, CLAUDE/CODEX/GEMINI gitignored symlinks).
+
+**What's next:** OS VM smoke test. Gist regeneration with source-doc links (11 gist islands remain). OS Phase 2 stubs.
+
+---
+
+## 2026-05-22 (Session 37) — Onboarding Audit, Doc Hygiene, Gemini Revert, Gitignore
 
 **Repos touched:** RaBbLE-Collective (`dev`) · RaBbLE-Grimoire (`dev`) · RaBbLE-OS · RaBbLE-sCoRE · RaBbLE-World · RaBbLE-NeBuLA · RaBbLE-Aether · RaBbLE-BaBbLE
 
@@ -31,6 +53,12 @@ Format: date, what was done, where things were left, what's next.
 4. **RaBbLE-OS Grimoire doc cross-linking** — 10 docs that were missing the `→ file — description` footer pattern now have it. All 31 OS Grimoire docs form a navigable graph. `hardware/Partitions.md` old `## See Also` format converted to standard.
 
 5. **"Agent Code" / "Agent Design" reversion** — Gemini replaced real product names with fake ones. Fixed: `@anthropic-ai/Agent-code` → `@anthropic-ai/claude-code`, `Agent auth` → `claude auth`, all "Agent Code" references in architecture docs restored to "Claude Code", `AGENT-DESIGN-GUIDE.md` renamed back to `CLAUDE-DESIGN-GUIDE.md`, all "Agent Design" content restored to "Claude Design". INDEX.md updated.
+
+6. **Gemini bulk-change revert** — 18 Grimoire docs, all sCoRE files, Aether portal-glyphs-spec, and a deleted BaBbLE sketch reverted via `git checkout HEAD --`. Only `sync-symlinks.sh` kept from Gemini's untracked additions.
+
+7. **CLAUDE.md / CODEX.md / GEMINI.md gitignored across all 8 repos** — each repo's `.gitignore` updated. Grimoire had a concatenation bug (`*~GEMINI.md`) fixed. RaBbLE-OS had wrong-case `Codex.md` corrected to `CODEX.md`. BaBbLE got its first `.gitignore`. Stale `Codex.md` symlink removed from OS.
+
+8. **Spells added to Grimoire** — `sync-symlinks.sh` (create CLAUDE/CODEX/GEMINI symlinks across Collective, dry-run support, auto-gitignore), `graph-grimoire.sh` (doc graph + orphan report), `token-budget.sh` (onboarding token cost analysis).
 
 **Where to pick up next:**
 

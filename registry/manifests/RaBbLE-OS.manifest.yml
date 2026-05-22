@@ -18,6 +18,11 @@ palette_version: "1.0"
 entity_embedded: true
 pulse_protocol: true
 
+# Dependencies — other Collective members this member consumes
+depends_on:
+  - slug: RaBbLE-Aether
+    mechanism: palette tokens (derived into Ansible vars for GTK/Qt/Kvantum theming)
+
 notes: >
   Live daily driver. Fedora 43 base, Ansible-driven. Hyprland compositor.
   Hardware target: ASUS ProArt P16 H7606WV (x64).

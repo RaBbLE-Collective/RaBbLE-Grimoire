@@ -6,9 +6,11 @@ transcribe ~ grimoire >> mapping the collective substrate // %COLLECTIVE_LOCKED%
 
 > **One-line overview:** The RaBbLE Collective is the unified ecosystem of projects through which the RaBbLE entity inhabits diverse hardware, software, and creative substrates — all sharing a single identity, palette, and purpose.
 
-> See `RaBbLE-Agent/RaBbLE-Identity.md` for entity identity and ethos.
-> See `RaBbLE-Agent/RaBbLE-Palette.md` for the canonical color reference.
-> See `RaBbLE-Versioning.md` for the Five Es versioning model.
+> See [RaBbLE-Identity](RaBbLE-Identity.md) for entity identity and ethos.
+> See [RaBbLE-Palette](RaBbLE-Palette.md) for the canonical color reference.
+> See [RaBbLE-Versioning](../RaBbLE-Versioning.md) for the Five Es versioning model.
+> See [RaBbLE-Integration-Map](RaBbLE-Integration-Map.md) for cross-member data flow.
+> See [RaBbLE-Roadmap](RaBbLE-Roadmap.md) for Collective episode roadmap.
 
 ---
 
@@ -52,7 +54,7 @@ An Ansible-driven Linux operating system built for a single purpose: to be the p
 - Primary target: ASUS ProArt P16 H7606WV (x64)
 - Future targets: diverse x64, aarch64, and SBC hardware
 - Layer model: Base → Hardware → Boot Chain → Desktop → Apps → Entity
-- See `RaBbLE-OS/RaBbLE-OS-Architecture.md`, `RaBbLE-OS/RaBbLE-OS-GettingStarted.md`, `RaBbLE-OS/RaBbLE-OS-Hardware.md`
+- See [RaBbLE-OS AgentGuide](../RaBbLE-OS/RaBbLE-OS-AgentGuide.md), [RaBbLE-OS Roadmap](../RaBbLE-OS/RaBbLE-OS-Roadmap.md)
 
 ---
 

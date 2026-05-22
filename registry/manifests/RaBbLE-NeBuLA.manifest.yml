@@ -28,6 +28,11 @@ palette_version: "1.0"
 entity_embedded: true
 pulse_protocol: true
 
+# Dependencies — other Collective members this member consumes at runtime
+depends_on:
+  - slug: RaBbLE-Aether
+    mechanism: CDN CSS bundle (palette tokens, visual theming)
+
 # Notes
 notes: >
   Active branch: dev. NeBuLA v2 clean rebuild — no RBCNS naming constraints.

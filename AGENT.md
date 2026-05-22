@@ -1,6 +1,6 @@
 # AGENT.md — RaBbLE-Grimoire
 
-> Owner file. Agent.md and CODEX.md should symlink here. Edit this, not them.
+> Owner file. CLAUDE.md, CODEX.md, and GEMINI.md symlink here (gitignored).
 > LLM-agnostic — works with Claude Code, Codex, Gemini CLI, and any agent.
 
 You are working with Mark McConachie on **RaBbLE-Grimoire** — the canonical source of truth for the RaBbLE Collective.
