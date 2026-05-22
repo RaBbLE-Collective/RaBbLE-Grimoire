@@ -55,23 +55,23 @@ print_file_tokens() {
   local tokens
   tokens=$(token_count "$file")
   if [[ "$SUMMARY_ONLY" != "--summary" ]]; then
-    printf "  ${TEXT}%-60s${RESET} ${CYAN}%6d${RESET}\n" "$label" "$tokens"
+    printf "  ${TEXT}%-60s${RESET} ${CYAN}%6d${RESET}\n" "$label" "$tokens" >&2
   fi
   echo "$tokens"
 }
 
 section_header() {
-  echo ""
-  echo -e "${MAGENTA}$1${RESET}"
+  echo "" >&2
+  echo -e "${MAGENTA}$1${RESET}" >&2
   if [[ "$SUMMARY_ONLY" != "--summary" ]]; then
-    printf "  ${MUTED}%-60s %6s${RESET}\n" "File" "Tokens"
-    printf "  ${MUTED}%-60s %6s${RESET}\n" "────────────────────────────────────────────────────────────" "──────"
+    printf "  ${MUTED}%-60s %6s${RESET}\n" "File" "Tokens" >&2
+    printf "  ${MUTED}%-60s %6s${RESET}\n" "────────────────────────────────────────────────────────────" "──────" >&2
   fi
 }
 
 section_total() {
   local total="$1" label="$2"
-  echo -e "  ${VIOLET}${label}: ${GREEN}~${total} tokens${RESET}"
+  echo -e "  ${VIOLET}${label}: ${GREEN}~${total} tokens${RESET}" >&2
 }
 
 echo ""
@@ -95,7 +95,7 @@ for dir in "$RABBLE_ROOT" "$RABBLE_ROOT"/RaBbLE-*/; do
     fi
   done
 done
-section_total "$auto_total" "Auto-injected total (one repo at a time)"
+section_total "$auto_total" "Auto-injected total (all repos combined — one pair loaded per session)"
 
 # --- Gist onboarding ---
 section_header "Gist Onboarding (cat gist/*.md)"
@@ -160,7 +160,7 @@ while IFS= read -r f; do
   surface_total=$((surface_total + t))
   ((file_count++)) || true
   if [[ "$SUMMARY_ONLY" != "--summary" ]]; then
-    printf "  ${MUTED}%-60s${RESET} ${MUTED}%6d${RESET}\n" "${f#$GRIMOIRE_ROOT/}" "$t"
+    printf "  ${MUTED}%-60s${RESET} ${MUTED}%6d${RESET}\n" "${f#$GRIMOIRE_ROOT/}" "$t" >&2
   fi
 done < <(find "$GRIMOIRE_ROOT" -name '*.md' -type f | sort)
 section_total "$surface_total" "Full surface ($file_count files)"
