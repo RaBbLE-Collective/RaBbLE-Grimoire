@@ -5,14 +5,31 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-21 · Session 33
+## LATEST — 2026-05-21 · Session 34
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S33):** Implementation plan written + integrated into Roadmap as Episode 1 Plot C (Installer & Packaging). 3-tier installer: KS→custom live ISO→Calamares. 3 quick-win Ansible bugs fixed (supergfxd include, nvidia idempotency, gparted→gnome-disk-utility). Stub debt phased into Roadmap (6 phases, boot-critical first). Doc restructure designed but not yet executed.
-**Active blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified · BaBbLE needs GitHub remote · Hyprland crash during S33 (investigate).
-**Next:** Grimoire doc restructure (Task 2) → Phase 1 stubs (core/packages, sddm, plymouth, fonts) → Phase 2 stubs.
+**Last session (S34):** RaBbLE-OS Grimoire docs restructured from flat monoliths into a KB graph. 7 subdirectories (layers/ hardware/ ops/ fix/ verify/ desktop/ historical/). 17 new atomic files with deep `→` links. KnownIssues consolidated to Grimoire fix/. OS repo AGENT.md slimmed to 20-line pointer. Both monolith files (Architecture, Reference, Checklists) absorbed and deleted.
+**Active blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified · BaBbLE needs GitHub remote.
+**Next:** Phase 1 stubs — core/packages, boot/plymouth, boot/session_manager, desktop/fonts role.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-21 (Session 34) — RaBbLE-OS KB Graph Restructure
+
+**Repos touched:** RaBbLE-Grimoire (`dev`) · RaBbLE-OS
+
+**Work done:**
+
+- **KB graph restructure:** RaBbLE-OS Grimoire docs reorganized from flat monoliths into a walkable knowledge graph. 7 subdirectories: `layers/` `hardware/` `ops/` `fix/` `verify/` `desktop/` `historical/`.
+- **17 new atomic files:** Each covers one topic, ends with `→` deep links to related nodes. `layers/RaBbLE-OS-Layer-*.md` (6 files), `ops/RaBbLE-OS-Ops-*.md` (5 files), `fix/RaBbLE-OS-Fix-*.md` (3 files), `verify/RaBbLE-OS-Verify-*.md` (3 files).
+- **Monoliths absorbed:** Architecture.md, Reference.md, Checklists.md content distributed across atomic files, then deleted. No coverage lost.
+- **KnownIssues consolidated:** Grimoire `fix/` is canonical; OS repo copy removed. GParted entry merged in.
+- **OS repo AGENT.md:** Slimmed from 83 lines to 20-line navigation pointer. Docs pointer to Grimoire.
+- **AgentGuide.md** rewritten as sitemap node — directory map + task→file navigation table.
+
+**What's next:** Phase 1 stubs — core/packages, boot/plymouth, boot/session_manager, desktop/fonts role.
 
 ---
 
