@@ -5,14 +5,56 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-22 · Session 35
+## LATEST — 2026-05-22 · Session 36
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S35):** Phase 1 stubs implemented (core/packages, plymouth, sddm + enable, desktop/fonts role). Phase 4 installer complete: `RaBbLE-OS.ks`, `spells/generate-kickstart.py`, `--unattended`/`--inventory` Bootstrap flags, `vm.hosts.yml`. KS → firstboot service → SDDM flow ready to test in a VM.
-**Active blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified · BaBbLE needs GitHub remote.
-**Next:** Boot KS in VM (Fedora 44 netinstall ISO is in `RaBbLE-OS/ISO/`). Verify SDDM greeter appears. Then Phase 2 stubs (boot config, browser).
+**Last session (S36):** BaBbLE comprehensive distillation. Assets: 50 images organized, metadata centralized to `assets/meta/metadata/` with mapping. Structure: directories renamed by conceptual surface (character, visual, design-system, behavior, prototypes). Prototypes audited: 2 novel kept (animation-studio, hyprland-demo), 4 superseded archived, documented in `prototypes/archive/ARCHIVE.md`.
+**Active blockers:** Phase 2C Genesis/Ethos authoring · sCoRE Railway unverified · OS VM smoke test pending.
+**Next:** OS Phase 1 test (boot KS, verify SDDM). Then OS Phase 2 stubs (boot config, browser).
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-22 (Session 36) — BaBbLE Comprehensive Distillation
+
+**Repos touched:** RaBbLE-Collective (`dev`) · RaBbLE-BaBbLE (`dev`)
+
+**Work done:**
+
+1. **Asset metadata reorganization** (continuation from Gemini's audit):
+   - Moved all 50 `.meta.md` sidecar files from scattered locations to centralized `assets/meta/metadata/`
+   - Created `assets/meta/metadata-map.json` for image path → metadata filename lookup
+   - Added `assets/meta/README.md` explaining the new organization
+   - Status: All 50 images fully accounted for, metadata co-located and mapped
+
+2. **BaBbLE directory structure distilled** (renamed by conceptual surface, not medium):
+   - `character/` — Entity identity (soul.md, essence-schema.json)
+   - `visual/` — Rendering specs and representations (render-spec.md, nebula-triage.md, ascii.txt)
+   - `design-system/` — Interface language (hyprland-guide.md, hyprland.css)
+   - `behavior/` — Learning architecture (crawler-bots.md)
+   - `prototypes/` — Novel UI patterns (animation-studio.html, hyprland-demo.html kept; others archived)
+   - Removed obsolete: `text/`, `Persona/` (content distributed by concept)
+   - All moves via `git mv` (history preserved)
+
+3. **Prototype novelty audit**:
+   - Surveyed RaBbLE-World, Aether, NeBuLA, RaBbLE-OS to assess what's novel
+   - **Kept (novel):** animation-studio.html (no visual editor UI in NeBuLA), hyprland-demo.html (no HTML bridge in OS)
+   - **Archived (superseded):** chat.html (World live), index.html (World live), debug/example/test (utility), RabbleOS (live repo)
+   - Created `prototypes/archive/ARCHIVE.md` documenting rationale and policy
+
+4. **Documentation updated**:
+   - AGENT.md: "Where Things Are" table
+   - CONTEXT.md: Content inventory
+   - _DISTILLED.md: File-by-file disposition + all references
+   - _ESSENCE.md: All path references throughout
+   - _INTEGRATION_CHECKLIST.md: All path references
+
+**Where to pick up next:**
+
+1. **OS Phase 1 test** — Boot RaBbLE-OS KS in VM; verify SDDM greeter
+2. **Genesis/Ethos authoring** — Phase 2C (lore/philosophy authoring pending)
+3. **BaBbLE GitHub remote** — Current blocker; needs setup
 
 ---
 
@@ -161,7 +203,7 @@ Format: date, what was done, where things were left, what's next.
 
 - **Stale path refs:** Fixed 40+ `common/` → `RaBbLE-Agent/` references across all member AGENT.md and CONTEXT.md files
 - **Gist system:** All 8 gists regenerated from current sources; total ~3,660 tokens (was estimated ~2,000). distill-gists.sh paths fixed.
-- **Symlinks:** CLAUDE.md/CODEX.md now symlink to AGENT.md across all 8 repos (Grimoire, sCoRE, OS, World, NeBuLA, Aether, BaBbLE, Xperimental)
+- **Symlinks:** Agent.md/CODEX.md now symlink to AGENT.md across all 8 repos (Grimoire, sCoRE, OS, World, NeBuLA, Aether, BaBbLE, Xperimental)
 - **INDEX.md:** 15 previously unindexed docs added (OS docs, NeBuLA specs, Aether debug session)
 - **REFERENCES.md:** Trimmed ~800 tokens by removing content duplicated from AGENT.md
 - **DECISIONS.md:** 5 missing decisions captured (sCoRE subprocess-first, NeBuLA Canvas2D-first, No React in World, Aether CDN-first, symlink convention)
@@ -210,17 +252,17 @@ Format: date, what was done, where things were left, what's next.
 
 **Repos touched:** RaBbLE-Grimoire (`dev`), RaBbLE-Collective (`dev`)
 
-**Objective:** Distill accumulated `.claude` session memory into the Grimoire so all agents (not just Claude Code) benefit from hard-won rules and session insights.
+**Objective:** Distill accumulated `.Agent` session memory into the Grimoire so all agents (not just Agent Code) benefit from hard-won rules and session insights.
 
 **Work done:**
 
-- **`RaBbLE-Agent/RaBbLE-Agent-Protocols.md`** (NEW) — Consolidated all agent behavioral rules that previously only lived in `.claude` memory: condense-not-delete, no worktrees in member repos, Grimoire-as-doc-home, NeBuLA/Aether/World responsibility split, vanilla JS only in World, NeBuLA build-and-copy workflow, dev-serve.sh only, entity naming (cast vs summon), versioning protocol summary.
+- **`RaBbLE-Agent/RaBbLE-Agent-Protocols.md`** (NEW) — Consolidated all agent behavioral rules that previously only lived in `.Agent` memory: condense-not-delete, no worktrees in member repos, Grimoire-as-doc-home, NeBuLA/Aether/World responsibility split, vanilla JS only in World, NeBuLA build-and-copy workflow, dev-serve.sh only, entity naming (cast vs summon), versioning protocol summary.
 - **`RaBbLE-Aether/RaBbLE-Aether-Effects-Bank.md`** (NEW) — Preserved cotton candy swirl CSS effect discovered accidentally in S20 (rotating conic-gradient aurora wash). Includes reproduction code and future use suggestions (entity speaking state, boot sequence, Plymouth splash).
 - **`RaBbLE-NeBuLA/RaBbLE-NeBuLA-Perf-Fix-Plan.md`** (AUGMENTED) — Added S17 root-cause findings: post-boot spring-force drift (settleBlend=1 → spring=0, ±30px particle oscillation breaks connDist tuning), shadowBlur GPU cliff at boot-end, two-canvas architecture direction, known-good baseline commits (World `aa66550`, NeBuLA `34dee62`).
 - **`RaBbLE-Agent/RaBbLE-Roadmap.md`** (UPDATED) — Added RaBbLE-BaBbLE to member table (defined, repo pending).
 - **`INDEX.md`** (UPDATED) — Both new docs registered.
 - **Navigator + AGENT.md** (UPDATED) — Agent Protocols surfaced in 30-min onboarding path, Jump to Task table, and Grimoire Workspaces table so agents find it without hunting INDEX.
-- **`.claude/settings.json`** (NEW) — Project-level PostToolUse hook: when any `memory/*.md` file is written, injects a reminder to assess whether durable content should mirror to `RaBbLE-Agent-Protocols.md`.
+- **`.Agent/settings.json`** (NEW) — Project-level PostToolUse hook: when any `memory/*.md` file is written, injects a reminder to assess whether durable content should mirror to `RaBbLE-Agent-Protocols.md`.
 
 **What's next:** Cast Fedora Everything VM · Phase 2C authoring (Mark writes Origin) · Phase 3 BaBbLE formalization.
 
@@ -631,7 +673,7 @@ Format: date, what was done, where things were left, what's next.
 **gist/ system created:**
 - 8 distilled docs in `gist/`: Identity, Collective, Roadmap, CommitStyle, Versioning, Palette, CollectiveOverview, Episode1
 - ~150-250 words each, ~2,000 tokens total for full picture
-- `spells/distill-gists.sh` — Claude CLI spell to regenerate all gists from canonical sources
+- `spells/distill-gists.sh` — Agent CLI spell to regenerate all gists from canonical sources
 - New agent path: `cat gist/*.md` → complete orientation
 
 **Commit and log flow made explicit:**
@@ -698,8 +740,8 @@ Format: date, what was done, where things were left, what's next.
 - `AGENT.md` "Getting Started" section split into two paths: new agent (→ Navigator) vs. returning agent (→ CONTEXT.md + SESSION-LOG)
 - Member registry table in AGENT.md updated (NeBuLA was still listed as "Scaffold", World still mentioned entity.js)
 - `CONTEXT.md` active tracks updated — manifests no longer listed as missing; NeBuLA and World tracks reflect Session 9 architecture
-- `INDEX.md` — registry manifest list corrected; Aether design docs (CLAUDE-DESIGN-GUIDE, SYSTEM-PROMPT) indexed; Release Map elevated to top of Collective section
-- Aether CLAUDE-DESIGN-GUIDE.md and SYSTEM-PROMPT.md added to git tracking (they're proper Grimoire docs, were untracked)
+- `INDEX.md` — registry manifest list corrected; Aether design docs (Agent-DESIGN-GUIDE, SYSTEM-PROMPT) indexed; Release Map elevated to top of Collective section
+- Aether Agent-DESIGN-GUIDE.md and SYSTEM-PROMPT.md added to git tracking (they're proper Grimoire docs, were untracked)
 
 **What's left untracked (session artifacts, content preserved elsewhere):**
 - `log/.audit-grimoire-2026-05-14.md` — content captured in ONBOARDING-DECISIONS.md
@@ -1213,7 +1255,7 @@ Secondary causes compounding the problem:
 - **sCoRE system prompt isolation**
   - Moved RaBbLE-sCoRE/AGENT.md → system-prompt-sCoRE.md (internal sCoRE constraints when running as entity)
   - Created new RaBbLE-sCoRE/AGENT.md (standard member entry point, matches World/OS/Aether pattern)
-  - Created SYSTEM-PROMPT-SETUP.md (instructions for loading system prompt via .claude/settings.json)
+  - Created SYSTEM-PROMPT-SETUP.md (instructions for loading system prompt via .Agent/settings.json)
   - Updated Grimoire/INDEX.md to link system prompt + setup guide (marked "Internal")
   - **Result:** System prompt no longer corrupts project onboarding; agents doing normal work read standard AGENT.md
 
@@ -1376,13 +1418,13 @@ Continuation of the WM/NeBuLA/PWA session (previous context ran out). All change
 - `palette/` — `rabble-palette.css` (CSS custom properties), `rabble-palette.json` (DTCG design tokens), `rabble-palette.scss` (SCSS vars + mixins)
 - `motion/` — `rabble-motion.css`: 20+ canonical `@keyframes`, all `rabble-`prefixed, utility classes
 - `components/` — `rabble-components.css`: unified component library (resets, overlays, brand text, buttons, cards, status pills, forms, glass surfaces, nav, terminal/log, scrollbars)
-- `logos/` — `rabble-portal-glyphs.svg` (neon synthwave treatment), `rabble-portal-glyphs-spec.md` (full eye anatomy — orb geometry, portal rings, portal opposition mechanic, Claude Design prompts)
+- `logos/` — `rabble-portal-glyphs.svg` (neon synthwave treatment), `rabble-portal-glyphs-spec.md` (full eye anatomy — orb geometry, portal rings, portal opposition mechanic, Agent Design prompts)
 - `reference/` — `xperimental-distillation.md`: NeBuLA-JS FlatChaos + WebOS entity mechanics extracted and indexed
 
-**Entry point + Claude Design integration:**
+**Entry point + Agent Design integration:**
 - `rabble.css` — single import: Google Fonts + palette + motion + components in correct order
-- `CLAUDE-DESIGN-GUIDE.md` — component prompts, animation vocabulary, discard list
-- `SYSTEM-PROMPT.md` — three tiers (quick card, short, full) for pasting into Claude Design sessions
+- `Agent-DESIGN-GUIDE.md` — component prompts, animation vocabulary, discard list
+- `SYSTEM-PROMPT.md` — three tiers (quick card, short, full) for pasting into Agent Design sessions
 
 **Audit pass — fixed before shipping:**
 - 17 unprefixed `@keyframes` renamed to `rabble-*` (namespace collision prevention)
@@ -1397,7 +1439,7 @@ Continuation of the WM/NeBuLA/PWA session (previous context ran out). All change
 - NeBuLA-JS: FlatChaos pipeline (Source → Filter → Transmute → Sink), entropy attractor algorithm, q_flux_weave vocabulary, BaBbLE command set
 
 **Eye anatomy spec — portal opposition mechanic documented:**
-The portal rings can be above or below their orb, and they always move in opposition. This creates expression without changing orb shapes. States: idle (default asymmetry), speaking (portals move further out), listening (positions flip). Added to `rabble-portal-glyphs-spec.md` with Claude Design prompts.
+The portal rings can be above or below their orb, and they always move in opposition. This creates expression without changing orb shapes. States: idle (default asymmetry), speaking (portals move further out), listening (positions flip). Added to `rabble-portal-glyphs-spec.md` with Agent Design prompts.
 
 **Git:** Initialized as private GitHub repo `markm1206/RaBbLE-Aether`. `main` = Epoch 0 scaffold. `dev` = 12 Pulse Protocol commits for all session work.
 
@@ -1417,7 +1459,7 @@ The portal rings can be above or below their orb, and they always move in opposi
 - `aether/` directory populated by `cast-aether.sh`
 - Committed: design tokens, motion library, components, portal glyph SVG, entry point
 - Live at `joinrabble.world/aether/rabble.css` after next `wrangler deploy`
-- Claude Design artifacts can now reference: `<link href="https://joinrabble.world/aether/rabble.css">`
+- Agent Design artifacts can now reference: `<link href="https://joinrabble.world/aether/rabble.css">`
 
 ---
 
@@ -1426,7 +1468,7 @@ The portal rings can be above or below their orb, and they always move in opposi
 **Repo scaffold (was missing, now matches all other Collective members):**
 - `AGENT.md` — job definition, workspace map pointing to Grimoire, session start, rules (no RBCNS prefixes, no Layer 1 re-implementation, 1000 entities @ 60 FPS contract)
 - `CONTEXT.md` — episode tracker, current state (Ep1 not started), entry conditions
-- `CLAUDE.md` / `CODEX.md` — symlinks to AGENT.md
+- `Agent.md` / `CODEX.md` — symlinks to AGENT.md
 
 **Grimoire NeBuLA section — all 7 docs aligned:**
 - `FlatChaos` — Pulse Protocol header added, "revolutionary" language replaced, provenance noted
@@ -1505,7 +1547,7 @@ All four repos have `main` + `dev` on remote, fully synced, zero dirty:
 **Work done:**
 - Established `markm1206/RaBbLE` as the `RaBbLE-Collective` root repo
 - Archived old content: `archive/v0-collective-scaffold`, `archive/reliquary-grimoire-site`
-- Rewrote `main`: `AGENT.md`, `README.md`, `CONTEXT.md`, `bootstrap.sh`, `.gitignore`, `CLAUDE.md`/`CODEX.md` symlinks
+- Rewrote `main`: `AGENT.md`, `README.md`, `CONTEXT.md`, `bootstrap.sh`, `.gitignore`, `Agent.md`/`CODEX.md` symlinks
 - `.gitignore` explicitly lists all member repos (`RaBbLE-*/`) — fully modular, zero coupling
 - Wired `~/RaBbLE/` as live git clone of `markm1206/RaBbLE` (it IS the Collective root now)
 - Updated `registry/manifests/RaBbLE-Collective.manifest.yml` — repo URL and status corrected
@@ -1562,8 +1604,8 @@ All four repos have `main` + `dev` on remote, fully synced, zero dirty:
 - Created `RaBbLE-Agent/RaBbLE-DocTemplates.md` — canonical template spec
 - Created `AGENT.md` and `CONTEXT.md` for: RaBbLE-World, RaBbLE-OS, RaBbLE-Aether
 - Renamed `RaBbLE-OS-AIQuickstart.md` → `RaBbLE-OS-AgentGuide.md` (naming alignment)
-- Fixed broken `CLAUDE.md` symlinks in RaBbLE-OS (was pointing to deleted file)
-- Created `CLAUDE.md → AGENT.md` and `CODEX.md → AGENT.md` symlinks for World, OS, Aether
+- Fixed broken `Agent.md` symlinks in RaBbLE-OS (was pointing to deleted file)
+- Created `Agent.md → AGENT.md` and `CODEX.md → AGENT.md` symlinks for World, OS, Aether
 - Created `RaBbLE-Aether/RaBbLE-Aether-Architecture.md` (Grimoire gap fill)
 - Added RaBbLE-World section to Grimoire INDEX.md
 - Fixed broken reading order paths in `RaBbLE-OS/CONTEXT.md` and `RaBbLE-sCoRE/CONTEXT.md`
