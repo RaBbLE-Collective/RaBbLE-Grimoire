@@ -12,6 +12,17 @@ harmonize ~ grimoire >> surfacing the static // %DRIFT_TRACKING%
 
 ## Active Issues `[OPEN]`
 
+### System Recovery
+
+**Emergency mode inaccessible — no root password set (Fedora default)**
+- Fedora installs with root locked by default; emergency mode prompts for root password → dead end
+- Any fstab failure (missing partition, wrong label, no `nofail`) drops to emergency with no way in
+- Mitigation: all optional mounts MUST use `nofail` in fstab (enforced by Ansible virtualization role)
+- Long-term fix options: (a) set a root password via Ansible, (b) add `rd.break` recovery instructions to GRUB menu, or (c) keep a live USB recovery kit handy
+- Status: mitigated by nofail enforcement; root password decision deferred
+
+---
+
 ### Boot Chain
 
 **GRUB2 — background image bit depth mismatch**
@@ -141,6 +152,21 @@ harmonize ~ grimoire >> surfacing the static // %DRIFT_TRACKING%
 
 ---
 
+### VM Partition / vmctl
+
+**vmctl --raw-disk could destroy host RaBbLE-VM partition `[FIXED S41]`**
+- `vmctl cast-ks --raw-disk /dev/nvme0n1pX` would pass the RaBbLE-VM BTRFS partition directly to virt-install
+- The KS installer's `clearpart --all --initlabel` wiped the BTRFS filesystem and `RaBbLE-VM` label
+- Because `/etc/fstab` mounted by label with `defaults` (no `nofail`), the daily driver dropped to emergency mode on next boot
+- **Fix (S41):**
+  1. vmctl now blocks `--raw-disk` when the target device is the RaBbLE-VM partition
+  2. fstab entry uses `nofail,x-systemd.device-timeout=5s` — system boots regardless of partition state
+  3. Ansible virtualization role checks and corrects fstab entries missing `nofail`
+  4. `vmctl destroy` warns if the RaBbLE-VM label is missing post-cleanup
+- **Rule:** VM tooling must NEVER create hard boot dependencies. The VM partition is optional infrastructure.
+
+---
+
 ## Resolved Issues `[FIXED]`
 
 | Date | Issue | Resolution |
@@ -156,6 +182,7 @@ harmonize ~ grimoire >> surfacing the static // %DRIFT_TRACKING%
 | 2026-04-13 | Bootstrap Ansible install broken | Fixed: `pipx install --include-deps ansible` |
 | 2026-04-13 | Hyprland black screen on update | v0.54 windowrule breaking change; clean reinstall; COPR switched to lionheartp |
 | 2026-04-13 | Snapper active but non-functional | grub-btrfs not available on Fedora 43; bootable snapshots not achievable; deferred to post-v1 |
+| 2026-05-23 | vmctl --raw-disk destroyed RaBbLE-VM partition + fstab lacked nofail → emergency mode | Blocked --raw-disk on VM partition; fstab nofail enforced; Ansible safety check added |
 
 ---
 

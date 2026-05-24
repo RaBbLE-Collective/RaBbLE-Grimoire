@@ -5,14 +5,34 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-23 · Session 40 (OS)
+## LATEST — 2026-05-23 · Session 41 (OS)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S40):** vmctl QoL overhaul — enhanced status dashboard (IP, uptime, disk, color-coded state), new commands (ssh, logs, recast), stop with --force/--timeout, connect without sudo, categorized help, --quiet flag, tab completions, test spell. Grimoire vmctl docs updated.
+**Last session (S41):** vmctl safety overhaul — blocked --raw-disk from targeting RaBbLE-VM partition, fstab nofail enforced (live + vmctl + Ansible), ctl scripts symlinked to ~/.local/bin via Ansible core role, emergency mode gap documented. Incident: VM partition reformat caused unbootable daily driver.
 **Active blockers:** Phase 2C Genesis/Ethos authoring · sCoRE Railway unverified · firstboot Bootstrap verification pending.
-**Next:** Run test-vmctl with running VM → verify firstboot Bootstrap → Phase 4B → Phase 2 stubs.
+**Next:** Verify firstboot Bootstrap → Phase 4B (KS-owns-packages) → Phase 2 stubs.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-23 (Session 41) — vmctl Safety & ctl Script Install
+
+**Repos touched:** RaBbLE-OS (`RaBbLE-OS-New-Horizons`) · RaBbLE-Grimoire (`dev`)
+
+**Work done:**
+
+1. **S41 incident response:** vmctl `--raw-disk` passed the RaBbLE-VM BTRFS partition to a VM installer, which destroyed the label/filesystem via `clearpart`. fstab lacked `nofail`, so the daily driver dropped to emergency mode (which is inaccessible on Fedora without root password).
+
+2. **vmctl partition guard:** New `is_rabble_vm_partition()` + `reject_raw_disk_if_vm_partition()` — hard block on `--raw-disk` targeting the RaBbLE-VM partition. Post-destroy health check warns if label is missing.
+
+3. **fstab nofail enforced:** Live `/etc/fstab` fixed. vmctl `partition-setup` now writes `nofail,x-systemd.device-timeout=5s`. Ansible `virtualization` role scans and corrects fstab entries missing `nofail`.
+
+4. **ctl scripts in PATH:** New Ansible `core/tasks/ctl-scripts.yml` symlinks vmctl/dotctl/layerctl into `~/.local/bin/`. vmctl completions registered for short name.
+
+5. **Docs:** KnownIssues updated (incident + emergency mode gap). Vmctl ops doc updated (safety warnings, recovery instructions). ISSUES.md resolved entry added.
+
+**What's next:** Verify firstboot Bootstrap → Phase 4B → Phase 2 stubs.
 
 ---
 

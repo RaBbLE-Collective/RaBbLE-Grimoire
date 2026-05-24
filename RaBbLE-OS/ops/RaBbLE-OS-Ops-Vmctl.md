@@ -31,6 +31,8 @@
 
 **Decision (S36):** qcow2 is the default. Raw partition is available via `--raw-disk` flag but is not the primary workflow. Snapshots are essential for the test loop — restore-bootstrap-verify-repeat.
 
+**CRITICAL (S41):** `--raw-disk` must NEVER target the `RaBbLE-VM` host partition. The VM installer reformats whatever device it receives — this destroyed the BTRFS label and filesystem, and the missing `nofail` in fstab caused the daily driver to drop to emergency mode. vmctl now blocks this automatically. The `/etc/fstab` entry for the VM partition must always include `nofail,x-systemd.device-timeout=5s`.
+
 ### Where the VM Lives
 
 The VM has **two runtime components** — neither lives inside the RaBbLE-OS git repo.
@@ -190,8 +192,13 @@ RABBLE_VM_DISK_DIR=/mnt/vms sudo ./RaBbLE-OS-vmctl.sh cast-ks ISO/...
 
 **Raw partition (not recommended for dev):**
 ```bash
-sudo ./RaBbLE-OS-vmctl.sh cast-ks --raw-disk /dev/nvme0n1p6 ISO/...
+sudo ./RaBbLE-OS-vmctl.sh cast-ks --raw-disk /dev/sdX ISO/...
 ```
+
+> **SAFETY:** `--raw-disk` is blocked when the target is the RaBbLE-VM partition.
+> The VM installer's `clearpart --all` would destroy the BTRFS label and filesystem,
+> which previously caused the daily driver to drop to emergency mode (S41 incident).
+> Use qcow2 mode instead — the disk image is stored ON the RaBbLE-VM partition.
 
 ---
 
@@ -310,7 +317,7 @@ cd ~/RaBbLE-OS && git pull && bash RaBbLE-OS-Bootstrap.sh
 ./RaBbLE-OS-vmctl.sh snapshots              # list all snapshots
 ```
 
-**Tab completions:** `source spells/vmctl-completions.sh` in your `.bashrc` or `.zshrc`.
+**Tab completions:** After running the Ansible `base` layer, `vmctl` is symlinked into `~/.local/bin/` with tab completions auto-loaded. For manual setup: `source spells/vmctl-completions.sh` in your shell rc.
 
 **Environment variable overrides:**
 
@@ -353,6 +360,17 @@ Cast runs as sudo and launches virt-viewer as your real user (via `sudo -u $SUDO
 glxinfo | grep "OpenGL renderer"   # "virgl" = hardware path, "llvmpipe" = software
 WLR_NO_HARDWARE_CURSORS=1 Hyprland # workaround for cursor issues in software mode
 ```
+
+### System drops to emergency mode after VM partition changes
+
+Fedora's emergency mode requires a root password — which is not set by default, making it effectively useless. If the daily driver drops to emergency mode because a VM partition is missing or its label was destroyed:
+
+1. **Boot from live USB** (or add `init=/bin/bash` to GRUB kernel cmdline)
+2. Mount the root filesystem: `mount /dev/nvme0n1pX /mnt`
+3. Edit fstab: `vi /mnt/etc/fstab` — add `nofail` to the VM partition line (or comment it out)
+4. Reboot: `umount /mnt && reboot`
+
+**Prevention:** The `nofail` fix is now enforced by vmctl and the Ansible virtualization role. If you see a `/mnt/vms` fstab entry without `nofail`, fix it immediately.
 
 ### SPICE window is blank / black
 
