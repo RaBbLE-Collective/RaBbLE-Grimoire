@@ -5,14 +5,38 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-23 · Session 37 (OS)
+## LATEST — 2026-05-23 · Session 40 (OS)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S37):** KS automation working end-to-end. Fixed: initrd-inject delivery (replaced HTTP server), missing `reboot` directive, `@core` replaces `@^minimal-environment` (Fedora 44), hardcoded mirrorlist (Anaconda doesn't expand `$releasever`), firstboot systemd `+` prefix for root ops, canonical clone structure (Collective → Grimoire → OS). Grimoire docs updated. Phase 4B (KS-owns-packages) roadmapped.
+**Last session (S40):** vmctl QoL overhaul — enhanced status dashboard (IP, uptime, disk, color-coded state), new commands (ssh, logs, recast), stop with --force/--timeout, connect without sudo, categorized help, --quiet flag, tab completions, test spell. Grimoire vmctl docs updated.
 **Active blockers:** Phase 2C Genesis/Ethos authoring · sCoRE Railway unverified · firstboot Bootstrap verification pending.
-**Next:** Verify firstboot Bootstrap runs → SDDM greeter → Phase 4B (KS-owns-packages refactor) → Phase 2 stubs.
+**Next:** Run test-vmctl with running VM → verify firstboot Bootstrap → Phase 4B → Phase 2 stubs.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-23 (Session 40) — vmctl QoL Overhaul
+
+**Repos touched:** RaBbLE-OS (`RaBbLE-OS-New-Horizons`) · RaBbLE-Grimoire (`dev`)
+
+**Work done:**
+
+1. **Enhanced status dashboard:** Color-coded VM state (green=running, dim=shutoff, red=crashed), IP address via DHCP lease, process uptime, RAM/vCPUs, disk usage (qcow2 size + virtual), snapshot count, SPICE URI. No-arg invocation shows dashboard if VM exists, help otherwise.
+
+2. **New commands:** `ssh [cmd]` — SSH into VM as root via auto-detected IP. `logs [unit]` — tail journalctl over SSH (defaults to rabble-os-setup). `recast <iso>` — destroy + cast-ks in one step.
+
+3. **Stop improvements:** `--force` for immediate kill, `--timeout N` for custom wait, auto-prompts to force after timeout expires.
+
+4. **Connect improvements:** Skips sudo dance when user is in libvirt group. Shows SPICE URI + serial console fallback on failure.
+
+5. **General polish:** `--quiet`/`-q` global flag + `RABBLE_VM_QUIET` env var. Categorized help output. `vm_ip()` helper. Fixed `set -euo pipefail` crash on `virsh domblklist` for shut-off VMs.
+
+6. **New spells:** `spells/vmctl-completions.sh` (bash/zsh tab completions), `spells/test-vmctl.sh` (automated test suite — 33 pass, 2 skip on shut-off VM).
+
+7. **Grimoire docs:** `ops/RaBbLE-OS-Ops-Vmctl.md` reference section rewritten with all new commands, completions, env vars.
+
+**What's next:** Run test-vmctl with running VM (SSH/logs/uptime verification) → verify firstboot Bootstrap → Phase 4B → Phase 2 stubs.
 
 ---
 

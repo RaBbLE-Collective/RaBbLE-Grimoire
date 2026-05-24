@@ -45,7 +45,7 @@ The RaBbLE-OS repo holds only:
 - `RaBbLE-OS.ks` — Kickstart file for automated installs
 - `ISO/` — installation media (gitignored, not tracked)
 
-This is why most vmctl commands need sudo — those paths are owned by root/libvirt.
+If your user is in the `libvirt` group, most vmctl commands work without sudo. Only `setup`, `partition-setup`, and disk operations on system paths need root.
 
 ### Using an alternate disk location
 
@@ -278,21 +278,39 @@ cd ~/RaBbLE-OS && git pull && bash RaBbLE-OS-Bootstrap.sh
 ## vmctl Reference
 
 ```bash
-./RaBbLE-OS-vmctl.sh partition-setup <dev> # format + mount BTRFS VM partition
-./RaBbLE-OS-vmctl.sh setup                # one-time host preparation
-./RaBbLE-OS-vmctl.sh cast <iso>           # create VM from ISO (interactive Anaconda)
-./RaBbLE-OS-vmctl.sh cast-ks <iso>        # create VM with automated KS install (recommended)
-./RaBbLE-OS-vmctl.sh cast-ks --raw-disk <dev> <iso>  # cast-ks using raw partition
-./RaBbLE-OS-vmctl.sh status               # show VM state + snapshot count
-./RaBbLE-OS-vmctl.sh start                # start VM
-./RaBbLE-OS-vmctl.sh stop                 # graceful shutdown
-./RaBbLE-OS-vmctl.sh connect              # open SPICE display
-./RaBbLE-OS-vmctl.sh snapshot <name>      # create named snapshot
-./RaBbLE-OS-vmctl.sh restore  <name>      # revert to snapshot (prompts)
-./RaBbLE-OS-vmctl.sh snapshots            # list all snapshots
-./RaBbLE-OS-vmctl.sh destroy              # delete VM + disk (prompts for name)
-./RaBbLE-OS-vmctl.sh help                 # show usage
+./RaBbLE-OS-vmctl.sh                        # dashboard (status if VM exists, else help)
+./RaBbLE-OS-vmctl.sh --quiet <cmd>          # suppress info/success output
+
+# Setup
+./RaBbLE-OS-vmctl.sh partition-setup <dev>  # format + mount BTRFS VM partition
+./RaBbLE-OS-vmctl.sh setup                  # one-time host preparation
+
+# Create & Destroy
+./RaBbLE-OS-vmctl.sh cast <iso>             # interactive Anaconda install
+./RaBbLE-OS-vmctl.sh cast-ks <iso>          # automated KS install (recommended)
+./RaBbLE-OS-vmctl.sh cast-ks --raw-disk <dev> <iso>  # cast-ks with raw partition
+./RaBbLE-OS-vmctl.sh recast <iso>           # destroy + cast-ks in one step
+./RaBbLE-OS-vmctl.sh destroy                # delete VM + disk (prompts for name)
+
+# Lifecycle
+./RaBbLE-OS-vmctl.sh status                 # dashboard: state, IP, uptime, disk, SPICE
+./RaBbLE-OS-vmctl.sh start                  # start VM
+./RaBbLE-OS-vmctl.sh stop                   # graceful shutdown (60s timeout, then prompts)
+./RaBbLE-OS-vmctl.sh stop --force           # immediate force-stop
+./RaBbLE-OS-vmctl.sh stop --timeout 120     # custom timeout before force prompt
+./RaBbLE-OS-vmctl.sh connect                # open SPICE display (auto-starts if stopped)
+./RaBbLE-OS-vmctl.sh ssh                    # SSH into VM as root
+./RaBbLE-OS-vmctl.sh ssh <cmd>              # run a command over SSH
+./RaBbLE-OS-vmctl.sh logs                   # tail rabble-os-setup journal
+./RaBbLE-OS-vmctl.sh logs <unit>            # tail any systemd unit
+
+# Snapshots
+./RaBbLE-OS-vmctl.sh snapshot <name>        # create named snapshot
+./RaBbLE-OS-vmctl.sh restore  <name>        # revert to snapshot (prompts)
+./RaBbLE-OS-vmctl.sh snapshots              # list all snapshots
 ```
+
+**Tab completions:** `source spells/vmctl-completions.sh` in your `.bashrc` or `.zshrc`.
 
 **Environment variable overrides:**
 
@@ -303,6 +321,7 @@ cd ~/RaBbLE-OS && git pull && bash RaBbLE-OS-Bootstrap.sh
 | `RABBLE_VM_VCPUS` | `4` | vCPU count |
 | `RABBLE_VM_DISK_SIZE` | `20` | Disk size in GB (qcow2 only) |
 | `RABBLE_VM_DISK_DIR` | `/var/lib/libvirt/images` | Where the qcow2 lives |
+| `RABBLE_VM_QUIET` | *(unset)* | Set to `1` to suppress info/success output |
 
 All vmctl commands target `qemu:///system` (set via `LIBVIRT_DEFAULT_URI`) — VMs are always visible regardless of whether you run with or without sudo.
 
