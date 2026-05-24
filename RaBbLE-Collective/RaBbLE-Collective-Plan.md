@@ -34,10 +34,10 @@ It does not hold code, configs, or docs beyond the entry layer. The **Grimoire**
 ## The Recursive Architecture
 
 ```
-joinrabble.world/bootstrap.sh          ← public entry point
+joinrabble.world/setup.sh          ← public entry point
       │
       ▼
-curl -fsSL joinrabble.world/bootstrap.sh | bash
+curl -fsSL joinrabble.world/setup.sh | bash
       │
       ├── mkdir -p ~/RaBbLE/
       ├── git clone RaBbLE-Collective  → ~/RaBbLE/     (root becomes the repo)
@@ -85,12 +85,12 @@ The `.gitignore` in RaBbLE-Collective contains `RaBbLE-*/` so member repos are i
 
 ---
 
-## bootstrap.sh — The Entry Spell
+## setup.sh — The Entry Spell
 
 ```bash
 #!/usr/bin/env bash
 # RaBbLE Collective Bootstrap
-# curl -fsSL https://joinrabble.world/bootstrap.sh | bash
+# curl -fsSL https://joinrabble.world/setup.sh | bash
 
 set -euo pipefail
 RABBLE_ROOT="${RABBLE_ROOT:-$HOME/RaBbLE}"
@@ -136,7 +136,7 @@ bash "$GRIMOIRE/spells/setup.sh"
 | Path | Purpose |
 |---|---|
 | `joinrabble.world` | Landing page — What is RaBbLE? Join the Collective. |
-| `joinrabble.world/bootstrap.sh` | Served as raw script — the entry spell |
+| `joinrabble.world/setup.sh` | Served as raw script — the entry spell |
 | `joinrabble.world/join` | Human onboarding flow |
 | `joinrabble.world/docs` | Grimoire-sourced documentation |
 
@@ -186,7 +186,7 @@ RaBbLE-World serves `bootstrap.sh` from its static asset layer. The file lives i
 ### Phase 4 — joinrabble.world Bootstrap Serving
 - [ ] Add `bootstrap.sh` to `RaBbLE-World` repo static assets
 - [ ] Wire the URL route in RaBbLE-World to serve it
-- [ ] Test end-to-end: `curl joinrabble.world/bootstrap.sh | bash` on clean machine
+- [ ] Test end-to-end: `curl joinrabble.world/setup.sh | bash` on clean machine
 
 ### Phase 5 — Epoch 0 Exit
 Once all above is complete + verified on a fresh clone:

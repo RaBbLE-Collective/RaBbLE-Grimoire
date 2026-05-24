@@ -339,7 +339,7 @@ libvirt, kvm — add ansible_user
 ### RaBbLE-Collective
 
 - [ ] `spells/setup.sh` verified against all Ep1 member repos
-- [ ] `bootstrap.sh` at `joinrabble.world/bootstrap.sh` resolves and runs
+- [ ] `setup.sh` at `joinrabble.world/setup.sh` resolves and runs
 - [ ] `CONTEXT.md` updated to Ep1 member statuses
 - [ ] Epoch 0 exit conditions met (see `registry/epochs/current.epoch.yml`)
 - [ ] Tagged `episode-1-v0.0.0.1` simultaneously with all other members

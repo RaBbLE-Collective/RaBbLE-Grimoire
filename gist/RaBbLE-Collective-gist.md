@@ -23,6 +23,6 @@
 
 **Architecture:** Aether (theme) → CDN → NeBuLA (renderer) → CDN → World (scaffold). sCoRE routes intent. OS is substrate. All share the Grimoire as source of truth.
 
-**Bootstrap:** `curl -fsSL https://joinrabble.world/bootstrap.sh | bash` — clones Grimoire, expands rest.
+**Setup:** `curl -fsSL https://joinrabble.world/setup.sh | bash` — clones Grimoire, expands rest.
 
 → Full doc for: member-by-member deep descriptions, hardware targets, routing model, deployment architecture, cross-cutting principles
