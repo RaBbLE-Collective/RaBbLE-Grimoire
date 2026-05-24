@@ -5,14 +5,36 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-22 · Session 39
+## LATEST — 2026-05-23 · Session 37 (OS)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S39):** Agent onboarding slimmed. AGENT.md 164→80 lines — removed Member Map, Workspaces table, Member Entry Points, Operating Modes. CONTEXT.md absorbed those sections. Always-loaded context roughly halved; depth deferred to CONTEXT.md and member AGENT.md files.
-**Active blockers:** Phase 2C Genesis/Ethos authoring · sCoRE Railway unverified · OS VM smoke test pending.
-**Next:** OS VM smoke test (boot KS, verify SDDM) → OS Phase 2 stubs.
+**Last session (S37):** KS automation working end-to-end. Fixed: initrd-inject delivery (replaced HTTP server), missing `reboot` directive, `@core` replaces `@^minimal-environment` (Fedora 44), hardcoded mirrorlist (Anaconda doesn't expand `$releasever`), firstboot systemd `+` prefix for root ops, canonical clone structure (Collective → Grimoire → OS). Grimoire docs updated. Phase 4B (KS-owns-packages) roadmapped.
+**Active blockers:** Phase 2C Genesis/Ethos authoring · sCoRE Railway unverified · firstboot Bootstrap verification pending.
+**Next:** Verify firstboot Bootstrap runs → SDDM greeter → Phase 4B (KS-owns-packages refactor) → Phase 2 stubs.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-23 (Session 37) — KS Automation Fixed, Grimoire Docs Updated
+
+**Repos touched:** RaBbLE-OS (`RaBbLE-OS-New-Horizons`) · RaBbLE-Grimoire (`dev`)
+
+**Work done:**
+
+1. **KS delivery fixed:** Replaced HTTP server approach with `--initrd-inject` — injects KS directly into boot initrd, eliminating firewall/network dependency entirely. Fixed `file:///` → `file:/` path convention.
+
+2. **KS bugs fixed:** Added `reboot` directive (was missing — Anaconda hung on completion screen). Fixed `ExecStartPre`/`ExecStartPost` in firstboot service (needed `+` prefix for root operations). Replaced `@^minimal-environment` with `@core` (Fedora 44 comps). Hardcoded mirrorlist URL (Anaconda doesn't expand `$releasever` during initrd boot).
+
+3. **Clone strategy decision:** KS `%post` now clones canonical Collective structure: `~/RaBbLE/` (Collective) → `~/RaBbLE/RaBbLE-Grimoire/` → `~/RaBbLE/RaBbLE-OS/`. Skips other members — only what OS needs.
+
+4. **vmctl improvements:** Removed `--wait -1` blocking (SPICE connects immediately), `cmd_connect` uses `connect_to_vm` helper (works under sudo), removed dead HTTP server cleanup code.
+
+5. **Grimoire docs updated:** `ops/Install.md` rewritten (Tier 1 working, decisions documented), `ops/Vmctl.md` updated (cast-ks workflow, qcow2 vs raw decisions, storage section), `Roadmap.md` Phase 4 marked working + Phase 4B added (KS-owns-packages refactor).
+
+6. **Diagnostic spell:** `spells/diagnose-vm-net.sh` — libvirt network, DHCP leases, nftables rules.
+
+**What's next:** Verify firstboot Bootstrap runs → SDDM greeter → Phase 4B → Phase 2 stubs.
 
 ---
 

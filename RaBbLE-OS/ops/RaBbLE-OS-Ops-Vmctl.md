@@ -1,18 +1,14 @@
 # RaBbLE-OS-VM-Guide.md — VM Dev Workflow
 
-```
-spark ~ substrate >> VM dev workflow: QEMU/KVM + vmctl + bootstrap path // %VM_WORKFLOW%
-```
-
 > Use this guide to build and maintain a Fedora KVM development VM for testing RaBbLE-OS
-> bootstraps without touching your daily driver. A clean snapshot becomes your reset point —
-> run the bootstrap, verify, revert, repeat.
+> bootstraps without touching your daily driver.
 
 ---
 
 ## What You'll End Up With
 
-- A QEMU/KVM VM running Fedora (Sway spin) — tested with 43 and 44
+- A QEMU/KVM VM running Fedora 44 (minimal + Ansible bootstrap)
+- Automated Kickstart install via `cast-ks` — no manual Anaconda interaction
 - SPICE display — renders in a virt-viewer window on your host desktop
 - virgl 3D acceleration when conditions allow (auto-detected at cast time)
 - A `clean-install` snapshot you can restore in seconds for clean bootstrap tests
@@ -20,7 +16,22 @@ spark ~ substrate >> VM dev workflow: QEMU/KVM + vmctl + bootstrap path // %VM_W
 
 ---
 
-## Where the VM Lives
+## Storage Decisions
+
+### qcow2 (Default) vs Raw Partition
+
+| | qcow2 | Raw Partition (`--raw-disk`) |
+|---|---|---|
+| **Storage** | `/var/lib/libvirt/images/rabble-os-dev.qcow2` | Direct block device (e.g. `/dev/nvme0n1p6`) |
+| **Snapshots** | Full support via libvirt | Not supported by libvirt |
+| **Size** | 20GB thin-provisioned (grows on demand) | Fixed — uses entire partition |
+| **Performance** | Slightly slower (copy-on-write overhead) | Native disk speed |
+| **Portability** | Easy to move/backup | Tied to hardware |
+| **Use case** | Dev testing, snapshot-restore loops | Bare-metal-like performance testing |
+
+**Decision (S36):** qcow2 is the default. Raw partition is available via `--raw-disk` flag but is not the primary workflow. Snapshots are essential for the test loop — restore-bootstrap-verify-repeat.
+
+### Where the VM Lives
 
 The VM has **two runtime components** — neither lives inside the RaBbLE-OS git repo.
 
@@ -31,19 +42,20 @@ The VM has **two runtime components** — neither lives inside the RaBbLE-OS git
 
 The RaBbLE-OS repo holds only:
 - `RaBbLE-OS-vmctl.sh` — the spell
+- `RaBbLE-OS.ks` — Kickstart file for automated installs
 - `ISO/` — installation media (gitignored, not tracked)
 
 This is why most vmctl commands need sudo — those paths are owned by root/libvirt.
 
 ### Using an alternate disk location
 
-If you have a dedicated partition for VM work (e.g. an old RaBbLE-OS install partition), point vmctl at it:
-
 ```bash
-RABBLE_VM_DISK_DIR=/mnt/old-rabble-partition ./RaBbLE-OS-vmctl.sh cast ISO/...
+RABBLE_VM_DISK_DIR=/mnt/vms ./RaBbLE-OS-vmctl.sh cast-ks ISO/...
 ```
 
 Or set it permanently in your shell env. The partition just needs to be mounted and writable by root.
+
+If you have a dedicated BTRFS partition labeled `RaBbLE-VM`, use `partition-setup` to format and mount it (see `hardware/RaBbLE-OS-Hardware-Partitions.md`).
 
 ### ISO storage convention
 
@@ -100,19 +112,21 @@ ls /dev/kvm               # should exist
 
 ---
 
-## Part 2 — Get a Fedora Sway Spin ISO
+## Part 2 — Get a Fedora Everything Netinstall ISO
 
-Download the Fedora Sway spin. The VM has been tested with Fedora 43 and 44.
+Download the Fedora Everything netinstall ISO. Tested with Fedora 44.
 
-**Download page:** https://spins.fedoraproject.org/sway/
+**Download page:** https://fedoraproject.org/everything/download
 
 Save it to `RaBbLE-OS/ISO/` (gitignored):
 
 ```bash
-mv ~/Downloads/Fedora-Sway-Live-*.iso ~/RaBbLE/RaBbLE-OS/ISO/
+mv ~/Downloads/Fedora-Everything-netinst-x86_64-44-*.iso ~/RaBbLE/RaBbLE-OS/ISO/
 ```
 
-**osinfo-db note:** `virt-install` uses an osinfo variant for CPU/driver hints. The `osinfo-db` package in the Fedora repo may lag behind by one release — e.g. on a Fedora 43 host, `fedora44` may not be in the db yet. `vmctl cast` auto-selects the highest available variant at runtime, so this is handled transparently.
+**Why netinstall, not Sway spin?** The KS automation needs `--location` (to extract kernel/initrd and inject the KS file). The netinstall ISO is designed for this. The Sway spin is a live ISO — `cast` (interactive) still supports it, but `cast-ks` (automated) requires the netinstall.
+
+**osinfo-db note:** `virt-install` uses an osinfo variant for CPU/driver hints. The `osinfo-db` package may lag behind by one release. `vmctl` auto-selects the highest available variant at runtime (currently falls back to `fedora43` for Fedora 44 ISOs).
 
 ---
 
@@ -128,77 +142,91 @@ sudo ./RaBbLE-OS-vmctl.sh setup
 
 ## Part 4 — Create the VM
 
+Two modes: **automated** (KS, recommended) or **interactive** (manual Anaconda).
+
+### Automated (cast-ks) — Recommended
+
 ```bash
 cd ~/RaBbLE/RaBbLE-OS
+sudo ./RaBbLE-OS-vmctl.sh cast-ks ISO/Fedora-Everything-netinst-x86_64-44-*.iso
+```
+
+**What cast-ks does:**
+1. Extracts kernel+initrd from the netinstall ISO via `--location`
+2. Injects `RaBbLE-OS.ks` into the initrd via `--initrd-inject`
+3. Boots the VM — Anaconda reads the KS and runs unattended
+4. KS downloads ~510 packages from Fedora mirrors (~723 MB)
+5. `%post` clones the canonical Collective structure:
+   - `~/RaBbLE/` (Collective root)
+   - `~/RaBbLE/RaBbLE-Grimoire/` (knowledge layer)
+   - `~/RaBbLE/RaBbLE-OS/` (OS member — working branch)
+6. Creates `rabble-os-setup.service` (firstboot) → runs Bootstrap with `base,boot`
+7. VM reboots into the installed OS
+8. Opens SPICE display for you to watch (reconnect with `connect` after reboot)
+
+**After reboot:** reconnect to watch firstboot progress:
+```bash
+sudo ./RaBbLE-OS-vmctl.sh connect
+# or serial: sudo virsh console rabble-os-dev
+```
+
+### Interactive (cast)
+
+```bash
 sudo ./RaBbLE-OS-vmctl.sh cast ISO/Fedora-Sway-Live-44-*.iso
 ```
 
-**What cast does automatically:**
-- Detects virgl 3D capability — enables `spice,gl=on` + `accel3d=yes` if a display session and DRI render node are available; falls back to software rendering (llvmpipe) otherwise
-- Sets ACLs so the qemu user can read the ISO from `ISO/` without moving it
-- Selects the highest available `fedoraNNN` osinfo variant
-- Cleans up any previous failed cast before starting
-- Opens the SPICE display window automatically when the VM is ready
-
-**Override VM specs via env vars:**
-```bash
-RABBLE_VM_RAM=8192 RABBLE_VM_VCPUS=6 sudo ./RaBbLE-OS-vmctl.sh cast ISO/...
-RABBLE_VM_DISK_DIR=/mnt/old-rabble-partition sudo ./RaBbLE-OS-vmctl.sh cast ISO/...
-```
-
----
-
-## Part 5 — Install Fedora Inside the VM
-
-The Fedora Sway live environment boots into the SPICE window. Open the Anaconda installer.
+Uses `--cdrom` — boots into the live environment for manual Anaconda install.
 
 **SPICE keyboard grab:** virt-viewer captures keyboard input when focused. Press `Ctrl+Alt` to release the grab back to your host compositor.
 
-**Installer settings:**
+### Common options
 
-| Setting | Value |
-|---|---|
-| Installation destination | The 40 GB virtio disk (`vda`) |
-| Partitioning | Automatic (Btrfs recommended — Snapper works with it) |
-| Root account | Disable root login; create your user with sudo |
-| Hostname | `rabble-os-dev` |
-| Software selection | Sway spin defaults |
+**Override VM specs via env vars:**
+```bash
+RABBLE_VM_RAM=8192 RABBLE_VM_VCPUS=6 sudo ./RaBbLE-OS-vmctl.sh cast-ks ISO/...
+RABBLE_VM_DISK_DIR=/mnt/vms sudo ./RaBbLE-OS-vmctl.sh cast-ks ISO/...
+```
 
-Takes ~10–20 minutes. When complete: **shut down the VM from inside the guest** (`poweroff`). Do not just close the virt-viewer window.
+**Raw partition (not recommended for dev):**
+```bash
+sudo ./RaBbLE-OS-vmctl.sh cast-ks --raw-disk /dev/nvme0n1p6 ISO/...
+```
 
 ---
 
-## Part 6 — Snapshot Clean State
+## Part 5 — Snapshot Clean State
 
-After the installer finishes and the VM has shut down cleanly:
+After the firstboot service completes (SDDM appears or Bootstrap finishes):
 
 ```bash
-sudo ./RaBbLE-OS-vmctl.sh snapshot clean-install
+sudo ./RaBbLE-OS-vmctl.sh snapshot post-firstboot
 sudo ./RaBbLE-OS-vmctl.sh snapshots   # verify
 ```
 
-This is your **reset point** — restore to this before every bootstrap test.
+For a pre-bootstrap snapshot (right after KS install, before firstboot runs):
+```bash
+# Must catch it before firstboot — or re-cast
+sudo ./RaBbLE-OS-vmctl.sh snapshot clean-install
+```
+
+These are your **reset points** — restore before each test cycle.
 
 ---
 
-## Part 7 — Run the RaBbLE-OS Bootstrap
+## Part 6 — Run Further Bootstrap Layers
 
-Each bootstrap test starts from a restore:
+After `cast-ks`, the firstboot service runs `base,boot` tags automatically. For the full desktop:
 
 ```bash
-sudo ./RaBbLE-OS-vmctl.sh restore clean-install
-sudo ./RaBbLE-OS-vmctl.sh start
-./RaBbLE-OS-vmctl.sh connect
+sudo ./RaBbLE-OS-vmctl.sh connect
 ```
 
 Inside the VM:
-
 ```bash
-# Option A — curl install
-curl -fsSL https://raw.githubusercontent.com/markm1206/RaBbLE-OS/main/RaBbLE-OS-Install.sh | bash
-
-# Option B — if repo already cloned in VM
-bash ~/RaBbLE-OS/RaBbLE-OS-Install.sh
+cd ~/RaBbLE/RaBbLE-OS
+RABBLE_TAGS=desktop,apps ./RaBbLE-OS-Bootstrap.sh \
+    --inventory ansible/inventory/vm.hosts.yml
 ```
 
 ---
@@ -250,17 +278,20 @@ cd ~/RaBbLE-OS && git pull && bash RaBbLE-OS-Bootstrap.sh
 ## vmctl Reference
 
 ```bash
-./RaBbLE-OS-vmctl.sh setup             # one-time host preparation
-./RaBbLE-OS-vmctl.sh cast <iso>        # create VM from ISO (auto-cleans failed casts)
-./RaBbLE-OS-vmctl.sh status            # show VM state + snapshot count
-./RaBbLE-OS-vmctl.sh start             # start VM
-./RaBbLE-OS-vmctl.sh stop              # graceful shutdown
-./RaBbLE-OS-vmctl.sh connect           # open SPICE display
-./RaBbLE-OS-vmctl.sh snapshot <name>   # create named snapshot
-./RaBbLE-OS-vmctl.sh restore  <name>   # revert to snapshot (prompts)
-./RaBbLE-OS-vmctl.sh snapshots         # list all snapshots
-./RaBbLE-OS-vmctl.sh destroy           # delete VM + disk (prompts for name)
-./RaBbLE-OS-vmctl.sh help              # show usage
+./RaBbLE-OS-vmctl.sh partition-setup <dev> # format + mount BTRFS VM partition
+./RaBbLE-OS-vmctl.sh setup                # one-time host preparation
+./RaBbLE-OS-vmctl.sh cast <iso>           # create VM from ISO (interactive Anaconda)
+./RaBbLE-OS-vmctl.sh cast-ks <iso>        # create VM with automated KS install (recommended)
+./RaBbLE-OS-vmctl.sh cast-ks --raw-disk <dev> <iso>  # cast-ks using raw partition
+./RaBbLE-OS-vmctl.sh status               # show VM state + snapshot count
+./RaBbLE-OS-vmctl.sh start                # start VM
+./RaBbLE-OS-vmctl.sh stop                 # graceful shutdown
+./RaBbLE-OS-vmctl.sh connect              # open SPICE display
+./RaBbLE-OS-vmctl.sh snapshot <name>      # create named snapshot
+./RaBbLE-OS-vmctl.sh restore  <name>      # revert to snapshot (prompts)
+./RaBbLE-OS-vmctl.sh snapshots            # list all snapshots
+./RaBbLE-OS-vmctl.sh destroy              # delete VM + disk (prompts for name)
+./RaBbLE-OS-vmctl.sh help                 # show usage
 ```
 
 **Environment variable overrides:**
@@ -270,7 +301,7 @@ cd ~/RaBbLE-OS && git pull && bash RaBbLE-OS-Bootstrap.sh
 | `RABBLE_VM_NAME` | `rabble-os-dev` | VM name in all virsh commands |
 | `RABBLE_VM_RAM` | `4096` | RAM in MB |
 | `RABBLE_VM_VCPUS` | `4` | vCPU count |
-| `RABBLE_VM_DISK_SIZE` | `40` | Disk size in GB |
+| `RABBLE_VM_DISK_SIZE` | `20` | Disk size in GB (qcow2 only) |
 | `RABBLE_VM_DISK_DIR` | `/var/lib/libvirt/images` | Where the qcow2 lives |
 
 All vmctl commands target `qemu:///system` (set via `LIBVIRT_DEFAULT_URI`) — VMs are always visible regardless of whether you run with or without sudo.
@@ -348,11 +379,8 @@ for g in /sys/kernel/iommu_groups/*/devices/*; do
 
 ---
 
-```
-spark ~ substrate >> VM dev workflow documented // %VM_WORKFLOW%
-```
-
-→ `ops/RaBbLE-OS-Ops-Install.md` — full install path (KS + Ansible)
+→ `ops/RaBbLE-OS-Ops-Install.md` — install path decisions (KS delivery, package source, tier roadmap)
 → `ops/RaBbLE-OS-Ops-Bootstrap.md` — Bootstrap.sh internals
+→ `hardware/RaBbLE-OS-Hardware-Partitions.md` — partition layout + VM partition setup
 → `hardware/RaBbLE-OS-Hardware-GenericX64.md` — VM hardware profile (generic_x64)
 → `verify/RaBbLE-OS-Verify-Checklist.md` — verification after VM bootstrap

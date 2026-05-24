@@ -38,20 +38,38 @@ transcribe ~ grimoire >> roadmap consolidated // %S34%
 - [ ] `layer/bluetooth` → bluez, blueman
 - [ ] `layer/flatpak` → flatpak + Flathub
 
-**Phase 4 — Installer:**
+**Phase 4 — Installer: `[WORKING — S37]`**
 - [x] `RaBbLE-OS.ks` — Tier 1 KS (autopart VM default, drop clearpart/autopart for interactive)
 - [x] `spells/generate-kickstart.py` — manifest → `%packages` (COPR/rpmfusion excluded, --platform flag)
 - [x] `--unattended` Bootstrap flag + `--inventory` override
 - [x] `ansible/inventory/vm.hosts.yml` — generic_x64 localhost inventory for VM use
+- [x] `vmctl cast-ks` — automated KS install via `--initrd-inject` (no HTTP server)
+- [x] `url --mirrorlist` in KS — netinstall package source (hardcoded fedora-44/x86_64)
+- [x] `reboot` directive — VM auto-reboots into installed OS after KS completes
+- [x] Firstboot systemd service — runs Bootstrap with `base,boot` tags on first boot
+- [x] `spells/diagnose-vm-net.sh` — network diagnostic for VM troubleshooting
 - Done when: KS boot → Anaconda → reboot → firstboot service → SDDM
+- **Status:** KS install completes, VM reboots, firstboot pending verification
+
+**Phase 4B — KS-owns-packages refactor:**
+- [ ] Update `generate-kickstart.py` to emit `repo` directives for COPR/rpmfusion sources
+- [ ] Stop filtering COPR/rpmfusion packages out of `%packages` — Anaconda handles them with `repo` directives
+- [ ] Move all package installation into KS `%packages` (manifest.yml stays single source of truth)
+- [ ] Ansible firstboot becomes config-only (services, dotfiles, themes) — no package downloads
+- [ ] Lighter, faster firstboot: no network-dependent package installs, less likely to fail
+- [ ] Replace `@core` with full generated `%packages` from manifest
+- Done when: KS installs everything, Ansible only configures
 
 **Phase 5 — Reproducibility gate:**
 - [ ] Fresh Fedora Everything → KS → reboot → all acceptance criteria pass
-- [ ] VM smoke test (generic_x64)
+- [ ] VM smoke test (generic_x64) — firstboot → SDDM greeter
 - [ ] Idempotency: second `layerctl apply all` changes nothing
 
-**Phase 6 — Custom live ISO:**
-- [ ] `RaBbLE-OS-LiveISO.ks` + `installer/live-config/` + `spells/build-iso.sh`
+**Phase 6 — Custom live ISO (Tier 2 north star):**
+- [ ] `RaBbLE-OS-LiveISO.ks` — live session KS (different from install KS)
+- [ ] `installer/live-config/` — branding, theme assets for live environment
+- [ ] `spells/build-iso.sh` — `lorax`/`livemedia-creator` wrapper
+- [ ] Boot RaBbLE-themed Hyprland live session → partition → run `rabble-install`
 
 ### Assembly (porting New Horizons → episode-I)
 
