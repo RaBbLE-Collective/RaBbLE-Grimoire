@@ -5,14 +5,34 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-23 · Session 41 (OS)
+## LATEST — 2026-05-23 · Session 42 (OS)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S41):** vmctl safety overhaul + KS fixes. Blocked --raw-disk on RaBbLE-VM partition, fstab nofail enforced, ctl scripts in PATH, qcow2 auto-detects VM partition, SPICE connect fixed, KS clones dev branches. Old VM destroyed, recasting on VM partition.
-**Active blockers:** Phase 2C Genesis/Ethos authoring · sCoRE Railway unverified · firstboot Bootstrap verification in progress (recast).
-**Next:** Verify recast + firstboot Bootstrap → Phase 4B (KS-owns-packages) → Phase 2 stubs.
+**Last session (S42):** vmctl console command (serial TTY for TUI/CLI), SSH fixed to rabble user, KS serial console enabled, firstboot ExecStart fixed (Permission denied → /bin/bash), Grimoire manifests SSH→HTTPS for Aether+World.
+**Active blockers:** Phase 2C Genesis/Ethos authoring · sCoRE Railway unverified · firstboot Bootstrap running manually (recast needed for full fix).
+**Next:** Recast VM with fixes → verify firstboot Bootstrap end-to-end → Phase 4B (KS-owns-packages) → Phase 2 stubs.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-05-23 (Session 42) — vmctl Console + Firstboot Fixes
+
+**Repos touched:** RaBbLE-OS (`RaBbLE-OS-New-Horizons`) · RaBbLE-Grimoire (`dev`)
+
+**Work done:**
+
+1. **vmctl `console` command:** New serial console access via `virsh console` — works in TUI/CLI without SPICE/GUI. Added `--serial pty` to both `cast` and `cast-ks` virt-install calls.
+
+2. **KS serial console:** Bootloader args include `console=tty0 console=ttyS0,115200n8`. `serial-getty@ttyS0` enabled in `%post` so login prompt appears on serial after boot.
+
+3. **Firstboot permission denied fix:** `ExecStart` changed from direct script execution to `/bin/bash /home/rabble/RaBbLE/RaBbLE-OS/RaBbLE-OS-Bootstrap.sh` — bypasses SELinux/noexec issues after %post clone.
+
+4. **SSH as rabble, not root:** `vmctl ssh` and `vmctl logs` now connect as `rabble` (root is locked in KS). `logs` uses `sudo journalctl`.
+
+5. **Manifest SSH→HTTPS:** RaBbLE-Aether and RaBbLE-World manifests changed from `git@github.com:` to `https://github.com/` — the only two that used SSH. Fixes Grimoire setup.sh clone failures on machines without SSH keys.
+
+**Left off:** Fixes committed but not yet recast. User running OS Bootstrap manually on current VM.
 
 ---
 

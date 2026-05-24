@@ -9,7 +9,7 @@ description: "Web presence + entity chat surface + Layer 1 entity renderer. join
 role: frontend
 
 # Repository
-repo: git@github.com:markm1206/RaBbLE-World.git
+repo: https://github.com/markm1206/RaBbLE-World.git
 branch: main
 worktree_root: RaBbLE-World
 

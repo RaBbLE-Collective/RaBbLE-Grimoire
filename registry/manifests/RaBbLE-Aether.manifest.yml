@@ -9,7 +9,7 @@ description: "Canonical design system — palette tokens, typography, motion, co
 role: design-system
 
 # Repository
-repo: git@github.com:markm1206/RaBbLE-Aether.git
+repo: https://github.com/markm1206/RaBbLE-Aether.git
 branch: main
 worktree_root: RaBbLE-Aether
 
