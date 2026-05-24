@@ -8,9 +8,9 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-05-23 · Session 41 (OS)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S41):** vmctl safety overhaul — blocked --raw-disk from targeting RaBbLE-VM partition, fstab nofail enforced (live + vmctl + Ansible), ctl scripts symlinked to ~/.local/bin via Ansible core role, emergency mode gap documented. Incident: VM partition reformat caused unbootable daily driver.
-**Active blockers:** Phase 2C Genesis/Ethos authoring · sCoRE Railway unverified · firstboot Bootstrap verification pending.
-**Next:** Verify firstboot Bootstrap → Phase 4B (KS-owns-packages) → Phase 2 stubs.
+**Last session (S41):** vmctl safety overhaul + KS fixes. Blocked --raw-disk on RaBbLE-VM partition, fstab nofail enforced, ctl scripts in PATH, qcow2 auto-detects VM partition, SPICE connect fixed, KS clones dev branches. Old VM destroyed, recasting on VM partition.
+**Active blockers:** Phase 2C Genesis/Ethos authoring · sCoRE Railway unverified · firstboot Bootstrap verification in progress (recast).
+**Next:** Verify recast + firstboot Bootstrap → Phase 4B (KS-owns-packages) → Phase 2 stubs.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
@@ -32,7 +32,15 @@ Format: date, what was done, where things were left, what's next.
 
 5. **Docs:** KnownIssues updated (incident + emergency mode gap). Vmctl ops doc updated (safety warnings, recovery instructions). ISSUES.md resolved entry added.
 
-**What's next:** Verify firstboot Bootstrap → Phase 4B → Phase 2 stubs.
+6. **KS branch fix:** Collective and Grimoire clones now specify `dev` branch. Previously defaulted to `main` (stale), causing Bootstrap to fail with wrong Grimoire content.
+
+7. **qcow2 auto-detect VM partition:** `init_vm_disk_mode()` checks if `/mnt/vms` is mounted and uses it. Previous default `/var/lib/libvirt/images/` bypassed the dedicated VM partition entirely.
+
+8. **SPICE connect rewrite:** Old `if cmd & then` pattern always succeeded (backgrounding returns 0). Now checks `kill -0` after 2s to verify virt-viewer actually started. Proper Wayland env forwarding under sudo.
+
+9. **Old VM destroyed:** Removed stale qcow2 from `/var/lib/libvirt/images/`. Recast in progress targeting `/mnt/vms/`.
+
+**What's next:** Verify recast + firstboot Bootstrap → Phase 4B → Phase 2 stubs.
 
 ---
 
