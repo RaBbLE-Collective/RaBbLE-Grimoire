@@ -7,3 +7,6 @@ GEMINI.md
 *.swp
 *.swo
 *~
+
+# Volatile per-run token snapshot (regenerate: spells/session-tokens.sh --json)
+log/session-tokens.json

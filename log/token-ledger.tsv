@@ -1,0 +1,14 @@
+# RaBbLE token-ledger — breadcrumbs tying Claude Code sessions to features.
+# Read by: spells/session-tokens.sh --by-feature  (joins weighted spend per feature)
+# Convention: append one row at end of session, alongside the SESSION-LOG update.
+# Format (tab-separated):  session_id <TAB> feature <TAB> note
+#   session_id  the Claude Code session UUID (basename of the .jsonl transcript)
+#   feature     short kebab slug grouping spend (e.g. os-vmctl, token-tracking, world-graph)
+#   note        free text, optional
+# Lines beginning with # are ignored. Unlisted sessions group as "(untagged)".
+f56ac447-640f-4109-9afa-363e193b59db	token-tracking	verify + extend token tracking; roadmap filing
+4a59ee92-972e-4e79-8eda-018d282e0a22	os-vmctl	S42 vmctl console + firstboot fixes
+116e327f-e874-4461-998a-8d43be0601f0	os-vmctl	S41/42 vmctl safety + ctl install
+006dd089-01f2-468d-9fb4-3b722721c0f1	os-vmctl	S41 vmctl incident response
+cd7ffb73-e9a5-4fa1-9892-f6888b34bb8d	os-vmctl	S40 vmctl QoL overhaul
+35102ed6-c37a-40a3-8d91-7579d985c5b5	os-vmctl	S40 vmctl QoL overhaul

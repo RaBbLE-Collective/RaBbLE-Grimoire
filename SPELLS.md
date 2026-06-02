@@ -184,12 +184,24 @@ bash spells/graph-grimoire.sh --json-only     # JSON only, skip Mermaid
 Parses Claude Code session JSONL transcripts to extract token usage per session.
 
 ```bash
-bash spells/session-tokens.sh                 # all sessions
+bash spells/session-tokens.sh                 # all sessions (weighted-cost table)
 bash spells/session-tokens.sh --recent 10     # last 10 sessions
 bash spells/session-tokens.sh --json          # write log/session-tokens.json
+bash spells/session-tokens.sh --onboarding    # orientation cost before first edit
+bash spells/session-tokens.sh --by-feature    # group spend by feature (ledger)
 ```
 
 **Reads:** `~/.claude/projects/-home-rabble-RaBbLE-*/*.jsonl`
+
+**Weighted cost:** raw counts mislead (output ≈5× input, cache-read ≈0.1×, cache-write
+≈1.25×). The **Weighted** column normalizes to input-equivalent tokens — a single
+honest spend figure. `$` estimate uses `RABBLE_INPUT_PRICE` ($/MTok input, default 15).
+
+**Per-feature attribution** needs a breadcrumb: at end of session, append a row to
+`log/token-ledger.tsv` — `session_id <TAB> feature <TAB> note`. `--by-feature` joins
+ledger → weighted spend. Untagged sessions group together. The session UUID is the
+basename of the active `.jsonl` transcript. This is the seed of the self-learning
+loop: each session records what it spent where, so per-feature cost sharpens over time.
 
 ---
 
