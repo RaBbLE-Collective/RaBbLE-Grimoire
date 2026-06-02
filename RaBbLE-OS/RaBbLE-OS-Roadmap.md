@@ -124,6 +124,10 @@ Full item list branches from New Horizons after Episode 1 lands.
 AI stack: Ollama local inference, MCP servers, Quickshell replaces Waybar.
 Spec in `DistilledNonZense.md` § VII.
 
+**Candidate:** Agentic app builder in the OS — [injn.ai](https://injn.ai/). Lets the
+substrate generate/assemble apps on demand, aligned with the AI-stack theme. Study
+fit alongside Ollama/MCP. (Surfaced from `BaBbLE.scratch`, 2026-06-02.)
+
 → `RaBbLE-OS-AgentGuide.md` — directory map and navigation by task
 → `fix/RaBbLE-OS-KnownIssues.md` — active blockers per layer
 → `verify/RaBbLE-OS-Verify-Checklist.md` — post-phase verification gate
