@@ -5,14 +5,36 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-05-23 · Session 42 (OS)
+## LATEST — 2026-06-02 · Session 43 (Collective/Grimoire)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S42):** vmctl console command (serial TTY for TUI/CLI), SSH fixed to rabble user, KS serial console enabled, firstboot ExecStart fixed (Permission denied → /bin/bash), Grimoire manifests SSH→HTTPS for Aether+World.
-**Active blockers:** Phase 2C Genesis/Ethos authoring · sCoRE Railway unverified · firstboot Bootstrap running manually (recast needed for full fix).
-**Next:** Recast VM with fixes → verify firstboot Bootstrap end-to-end → Phase 4B (KS-owns-packages) → Phase 2 stubs.
+**Last session (S43):** Token tracking verified + extended — `session-tokens.sh` now weighted-cost honest (+$ est), with `--onboarding` (orientation %) and `--by-feature` (ledger). Breadcrumb step added to all 8 AGENT.md; `log/token-ledger.tsv` seeded. injn.ai → OS Ep3; grimoire-graph + liminal-space vision → World Ep2+.
+**Active blockers:** OS recast pending · sCoRE Railway unverified · Phase 2C Genesis/Ethos authoring.
+**Next (OS, carried from S42):** Recast VM → verify firstboot Bootstrap end-to-end → Phase 4B (KS-owns-packages) → Phase 2 stubs.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-02 (Session 43) — Token Tracking + Roadmap Filing
+
+**Repos touched:** RaBbLE-Grimoire (`dev`) · RaBbLE-Collective (`dev`) · all member repos (AGENT.md breadcrumb)
+
+**Work done:**
+
+1. **Token tracking verified + corrected.** Audited the two in-progress spells. `token-budget.sh` (static onboarding cost) was sound. `session-tokens.sh` reported `input+output` as "Total" — misleading (cache is the dominant cost). Fixed: split CacheR/CacheW, added a **Weighted** column (input-equivalent: output×5, cache-read×0.1, cache-write×1.25) + a `$` estimate (`RABBLE_INPUT_PRICE`, default 15).
+
+2. **`--onboarding` mode.** Measures weighted spend *before the first file edit* (orientation/planning) as a % of the session. Recent sessions average ~16% (range 3–32%).
+
+3. **`--by-feature` mode + breadcrumb ledger.** New `log/token-ledger.tsv` (`session_id <TAB> feature <TAB> note`) joins to weighted spend, grouping cost per feature. Seeded with known recent sessions (os-vmctl, token-tracking).
+
+4. **Breadcrumb ritual wired into all 8 AGENT.md** (6 members + Collective root + Grimoire) — end-of-session step appends a ledger row. Seed of the self-learning loop: each session records what it spent where.
+
+5. **Roadmap filing.** injn.ai (agentic app builder) → `RaBbLE-OS-Roadmap.md` § Episode 3. Grimoire graph view (Obsidian-style) + liminal landing space → `RaBbLE-World-Roadmap.md` Ep2+, citing existing `graph-grimoire.sh` data layer.
+
+**Token cost (this session, f56ac447):** 169 msgs · input 114K · output 211K · cacheR 14.1M · cacheW 414K · **weighted ~3.09M units (~$46)**.
+
+**Left off:** Breadcrumb convention is in place but only fills if followed each session. OS recast (S42 next-step) still pending. Did not edit static roadmap status text to match `current.epoch.yml` (left as scope-of-record).
 
 ---
 
