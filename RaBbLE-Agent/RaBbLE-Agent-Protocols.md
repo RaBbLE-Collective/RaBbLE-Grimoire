@@ -38,6 +38,18 @@ The Grimoire does not need a `_template.manifest.yml` entry for itself. It is en
 
 ---
 
+## Tooling & Automation
+
+### Agent-agnostic mechanisms only
+
+All Collective automation and session rituals must work for every agent — Claude Code, Codex, Gemini CLI, and any future one. Do not build automation on agent-specific mechanisms. Specifically: Claude Code's `settings.json` hooks (`Stop`, `SessionEnd`, etc.) only fire for Claude, so they are **not** an acceptable home for shared rituals.
+
+**Why:** The Collective is explicitly LLM-agnostic — `AGENT.md` is the canonical owner, and `CLAUDE.md` / `CODEX.md` / `GEMINI.md` are gitignored symlinks to it. Anything that lives only in `.claude/` silently locks the workflow to one agent and breaks the moment another agent does the work.
+
+**How:** Prefer pure-bash spells (any agent can `bash` them) and git-level hooks (fire for any agent that commits) over agent-specific config. Example: the end-of-session token breadcrumb uses `spells/end-session.sh` plus a `spells/hooks/post-commit` git hook — not a settings.json hook.
+
+---
+
 ## Grimoire as Documentation Home
 
 All architecture, API, usage, and design docs live in the Grimoire. Member repos contain only source code, tests, build config, and an AGENT.md that points to Grimoire docs.

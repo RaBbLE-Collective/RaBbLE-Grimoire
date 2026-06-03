@@ -5,14 +5,27 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-02 · Session 43 (Collective/Grimoire)
+## LATEST — 2026-06-03 · Session 44 (Grimoire)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S43):** Token tracking verified + extended — `session-tokens.sh` weighted-cost honest (+$ est), `--onboarding`, `--by-feature`. Agent-agnostic breadcrumb: `end-session.sh` spell + post-commit hook (installed all 9 repos), wired into all 8 AGENT.md. injn.ai → OS Ep3; grimoire-graph + liminal-space → World Ep2+.
+**Last session (S44):** Promoted agent-agnostic tooling to canon — new "Tooling & Automation → Agent-agnostic mechanisms only" section in `RaBbLE-Agent-Protocols.md` (no Claude-only `settings.json` hooks; prefer bash spells + git hooks). Was previously only in agent memory. Gist regen: no protocols gist exists, no change.
 **Active blockers:** OS recast pending · sCoRE Railway unverified · Phase 2C Genesis/Ethos authoring.
 **Next (OS, carried from S42):** Recast VM → verify firstboot Bootstrap end-to-end → Phase 4B (KS-owns-packages) → Phase 2 stubs.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-03 (Session 44) — Agent-Agnostic Tooling → Canon
+
+**Repos touched:** RaBbLE-Grimoire (`dev`)
+
+**Work done:**
+
+1. **Agent-agnostic principle promoted to canon.** Added a "Tooling & Automation → Agent-agnostic mechanisms only" section to `RaBbLE-Agent/RaBbLE-Agent-Protocols.md`. Rule: all Collective automation/session rituals must work for every agent (Claude Code, Codex, Gemini CLI); Claude Code `settings.json` hooks are explicitly disallowed for shared rituals. Why: Collective is LLM-agnostic (`AGENT.md` canonical, others symlink). How: bash spells + git-level hooks, with the `end-session.sh` + `post-commit` breadcrumb as the worked example.
+2. **Gist regen.** Ran `distill-gists.sh` — no protocols gist in the gist set, so no gist change.
+
+**What's next:** Carried OS track unchanged (recast → firstboot verify → Phase 4B).
 
 ---
 
