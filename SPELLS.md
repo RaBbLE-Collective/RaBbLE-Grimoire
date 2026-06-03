@@ -31,6 +31,8 @@ Spells are bash scripts in `spells/` that manage the RaBbLE Collective. Grimoire
 | `token-budget.sh` | Calculate token cost of onboarding paths | Auditing doc bloat, optimizing agent context |
 | `graph-grimoire.sh` | Build doc link graph (JSON + Mermaid) | Auditing cross-links, finding orphan docs |
 | `session-tokens.sh` | Parse Claude Code transcripts for usage data | Tracking token spend per session/project |
+| `end-session.sh` | Record end-of-session feature breadcrumb (agent-agnostic) | Closing a session — tag its token spend |
+| `install-hooks.sh` | Install the post-commit breadcrumb hook in all repos | Once per machine / after cloning a new member |
 
 ---
 
@@ -197,11 +199,41 @@ bash spells/session-tokens.sh --by-feature    # group spend by feature (ledger)
 ≈1.25×). The **Weighted** column normalizes to input-equivalent tokens — a single
 honest spend figure. `$` estimate uses `RABBLE_INPUT_PRICE` ($/MTok input, default 15).
 
-**Per-feature attribution** needs a breadcrumb: at end of session, append a row to
-`log/token-ledger.tsv` — `session_id <TAB> feature <TAB> note`. `--by-feature` joins
-ledger → weighted spend. Untagged sessions group together. The session UUID is the
-basename of the active `.jsonl` transcript. This is the seed of the self-learning
-loop: each session records what it spent where, so per-feature cost sharpens over time.
+**Per-feature attribution** needs a breadcrumb: a row in `log/token-ledger.tsv` —
+`session_id <TAB> feature <TAB> note`. `--by-feature` joins ledger → weighted spend.
+Don't write the row by hand — use `end-session.sh` (explicit) or the post-commit hook
+(automatic). This is the seed of the self-learning loop: each session records what it
+spent where, so per-feature cost sharpens over time.
+
+### `end-session.sh` — End-of-Session Breadcrumb (agent-agnostic)
+
+The deliberate way to close a session. Records one ledger row tying the session to a
+feature. Pure bash — works under Claude, Codex, Gemini, any agent. **No `.claude/`
+settings, no agent-specific hooks** (the Collective is LLM-agnostic; settings.json
+hooks would only fire for Claude).
+
+```bash
+bash spells/end-session.sh <feature-slug> [note]     # upsert this session's breadcrumb
+```
+
+Resolves the session id from the active Claude transcript for the cwd; falls back to a
+git-commit key for non-Claude agents. **Upserts** — re-running replaces the row, and it
+overrides any provisional row the hook wrote.
+
+### `install-hooks.sh` + post-commit hook — automatic fallback
+
+So the breadcrumb still lands when the agent forgets. `install-hooks.sh` symlinks
+`spells/hooks/post-commit` into every member repo's `.git/hooks/`. The hook fires on any
+commit (git-level → agent-agnostic) and, **only if the session isn't already tagged**,
+appends a provisional row using the commit's `~ organ` as the feature. Explicit
+`end-session.sh` tags always win.
+
+```bash
+bash spells/install-hooks.sh    # once per machine, and after cloning a new member
+```
+
+Git hooks live in `.git/` and are not cloned — re-run after cloning. The end-of-session
+ritual in every member's AGENT.md calls `end-session.sh`; the hook is the safety net.
 
 ---
 

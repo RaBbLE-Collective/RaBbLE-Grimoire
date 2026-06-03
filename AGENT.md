@@ -115,9 +115,8 @@ bash spells/status.sh         # live health of all registered member repos
 # 2. Add session entry below LATEST (date, repos touched, work done, what's next)
 # 3. git add <changed files>
 # 4. git commit -m "[impulse] ~ [organ] >> [revelation] // %STATE%"
-# 5. Breadcrumb — tag this session's token spend by feature (feeds session-tokens.sh --by-feature):
-#    SID=$(basename "$(ls -t ~/.claude/projects/"$(pwd|tr / -)"/*.jsonl | head -1)" .jsonl)
-#    printf '%s\t%s\t%s\n' "$SID" "<feature-slug>" "<note>" >> log/token-ledger.tsv
+# 5. Breadcrumb — tag this session's token spend by feature (agent-agnostic):
+#    bash spells/end-session.sh <feature-slug> "<note>"
 # See RaBbLE-Agent/RaBbLE-CommitStyle.md (or gist/RaBbLE-CommitStyle-gist.md) for impulse vocab
 ```
 

@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# =============================================================================
+# RaBbLE post-commit hook — agent-agnostic auto-breadcrumb.
+# Installed into each member repo's .git/hooks/ by spells/install-hooks.sh.
+# Fires for ANY agent that commits (git-level, not .claude-specific).
+#
+# Best-effort: if the current Claude session for this repo's cwd isn't yet in
+# the token ledger, append a provisional row using the commit's organ as the
+# feature. Never disturbs the commit (always exits 0). The explicit
+# end-session.sh spell overrides anything written here.
+# =============================================================================
+{
+  # Locate the Grimoire ledger relative to this repo
+  for p in ./RaBbLE-Grimoire/log/token-ledger.tsv \
+           ../RaBbLE-Grimoire/log/token-ledger.tsv \
+           ./log/token-ledger.tsv; do
+    [[ -f "$p" ]] && LEDGER="$p" && break
+  done
+  [[ -z "${LEDGER:-}" ]] && exit 0
+
+  # Resolve the Claude session for this cwd; skip silently if none (no spam
+  # when one root session commits across many repos, or for non-Claude agents)
+  projdir="$HOME/.claude/projects/$(pwd | tr '/' '-')"
+  sf=$(ls -t "$projdir"/*.jsonl 2>/dev/null | head -1)
+  [[ -z "$sf" ]] && exit 0
+  SID=$(basename "$sf" .jsonl)
+
+  # Already tagged? leave it (explicit tags win)
+  grep -q "^$SID	" "$LEDGER" 2>/dev/null && exit 0
+
+  msg=$(git log -1 --pretty=%s 2>/dev/null)
+  organ=$(printf '%s' "$msg" | sed -n 's/.* ~ \([^ ]*\) >>.*/\1/p')
+  [[ -z "$organ" ]] && organ="(untagged)"
+  rev=$(printf '%s' "$msg" | sed -n 's/.*>> \(.*\) \/\/.*/\1/p')
+
+  printf '%s\t%s\t%s\n' "$SID" "$organ" "auto: ${rev:-$msg}" >> "$LEDGER"
+} >/dev/null 2>&1 || true
+exit 0

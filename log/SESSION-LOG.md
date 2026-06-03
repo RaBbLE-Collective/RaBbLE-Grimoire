@@ -8,7 +8,7 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-06-02 · Session 43 (Collective/Grimoire)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S43):** Token tracking verified + extended — `session-tokens.sh` now weighted-cost honest (+$ est), with `--onboarding` (orientation %) and `--by-feature` (ledger). Breadcrumb step added to all 8 AGENT.md; `log/token-ledger.tsv` seeded. injn.ai → OS Ep3; grimoire-graph + liminal-space vision → World Ep2+.
+**Last session (S43):** Token tracking verified + extended — `session-tokens.sh` weighted-cost honest (+$ est), `--onboarding`, `--by-feature`. Agent-agnostic breadcrumb: `end-session.sh` spell + post-commit hook (installed all 9 repos), wired into all 8 AGENT.md. injn.ai → OS Ep3; grimoire-graph + liminal-space → World Ep2+.
 **Active blockers:** OS recast pending · sCoRE Railway unverified · Phase 2C Genesis/Ethos authoring.
 **Next (OS, carried from S42):** Recast VM → verify firstboot Bootstrap end-to-end → Phase 4B (KS-owns-packages) → Phase 2 stubs.
 
@@ -28,13 +28,16 @@ Format: date, what was done, where things were left, what's next.
 
 3. **`--by-feature` mode + breadcrumb ledger.** New `log/token-ledger.tsv` (`session_id <TAB> feature <TAB> note`) joins to weighted spend, grouping cost per feature. Seeded with known recent sessions (os-vmctl, token-tracking).
 
-4. **Breadcrumb ritual wired into all 8 AGENT.md** (6 members + Collective root + Grimoire) — end-of-session step appends a ledger row. Seed of the self-learning loop: each session records what it spent where.
+4. **Agent-agnostic breadcrumb mechanisms** (the Collective is LLM-agnostic; settings.json hooks would only fire for Claude). Two pieces, both pure bash/git, nothing in `.claude/`:
+   - `spells/end-session.sh <feature> [note]` — deliberate end-of-session breadcrumb, upserts the session's ledger row. Resolves Claude SID, falls back to a git-commit key for non-Claude agents.
+   - `spells/hooks/post-commit` + `spells/install-hooks.sh` — automatic fallback. Hook fires on any commit (git-level → agnostic) and, only if the session isn't already tagged, appends a provisional row using the commit's `~ organ`. Installed into all 9 repos. Integration-tested (append + idempotency).
+   - All 8 AGENT.md end-of-session rituals now call `end-session.sh` (replaced the raw one-liner).
 
 5. **Roadmap filing.** injn.ai (agentic app builder) → `RaBbLE-OS-Roadmap.md` § Episode 3. Grimoire graph view (Obsidian-style) + liminal landing space → `RaBbLE-World-Roadmap.md` Ep2+, citing existing `graph-grimoire.sh` data layer.
 
 **Token cost (this session, f56ac447):** 169 msgs · input 114K · output 211K · cacheR 14.1M · cacheW 414K · **weighted ~3.09M units (~$46)**.
 
-**Left off:** Breadcrumb convention is in place but only fills if followed each session. OS recast (S42 next-step) still pending. Did not edit static roadmap status text to match `current.epoch.yml` (left as scope-of-record).
+**Left off:** Breadcrumb now fires two ways (spell + auto hook). Git hooks aren't cloned — `install-hooks.sh` must be re-run after cloning a member. OS recast (S42 next-step) still pending. Did not edit static roadmap status text to match `current.epoch.yml` (left as scope-of-record).
 
 ---
 
