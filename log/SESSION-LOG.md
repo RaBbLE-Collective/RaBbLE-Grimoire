@@ -30,7 +30,7 @@ Format: date, what was done, where things were left, what's next.
 
 4. **Agent-agnostic breadcrumb mechanisms** (the Collective is LLM-agnostic; settings.json hooks would only fire for Claude). Two pieces, both pure bash/git, nothing in `.claude/`:
    - `spells/end-session.sh <feature> [note]` — deliberate end-of-session breadcrumb, upserts the session's ledger row. Resolves Claude SID, falls back to a git-commit key for non-Claude agents.
-   - `spells/hooks/post-commit` + `spells/install-hooks.sh` — automatic fallback. Hook fires on any commit (git-level → agnostic) and, only if the session isn't already tagged, appends a provisional row using the commit's `~ organ`. Installed into all 9 repos. Integration-tested (append + idempotency).
+   - `spells/hooks/post-commit` + `spells/install-hooks.sh` — automatic fallback. Hook fires on any commit (git-level → agnostic) and, only if the session isn't already tagged, appends one provisional row using the commit's `~ organ`. Guarded to tag only a *live* session (transcript <15 min old) — caught + fixed a mis-attribution where a root session committing into a member repo tagged that repo's stale transcript. Writes silently to the ledger (no commit noise); leaves one uncommitted ledger row in Grimoire, folded into the next commit. Installed in all 9 repos. Integration-tested (append, idempotency, freshness).
    - All 8 AGENT.md end-of-session rituals now call `end-session.sh` (replaced the raw one-liner).
 
 5. **Roadmap filing.** injn.ai (agentic app builder) → `RaBbLE-OS-Roadmap.md` § Episode 3. Grimoire graph view (Obsidian-style) + liminal landing space → `RaBbLE-World-Roadmap.md` Ep2+, citing existing `graph-grimoire.sh` data layer.

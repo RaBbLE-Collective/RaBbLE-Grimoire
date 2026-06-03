@@ -11,4 +11,4 @@
 006dd089-01f2-468d-9fb4-3b722721c0f1	os-vmctl	S41 vmctl incident response
 cd7ffb73-e9a5-4fa1-9892-f6888b34bb8d	os-vmctl	S40 vmctl QoL overhaul
 35102ed6-c37a-40a3-8d91-7579d985c5b5	os-vmctl	S40 vmctl QoL overhaul
-f56ac447-640f-4109-9afa-363e193b59db	token-tracking	S43: verify+extend token tracking, end-session spell + post-commit hook, roadmap filing
+f56ac447-640f-4109-9afa-363e193b59db	token-tracking	S43: token tracking verified+extended (weighted/onboarding/by-feature), agent-agnostic end-session spell + post-commit hook w/ freshness guard, all 8 AGENT.md wired, roadmap filing (injn.ai, world-graph)
