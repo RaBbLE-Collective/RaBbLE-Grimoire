@@ -23,6 +23,11 @@
   projdir="$HOME/.claude/projects/$(pwd | tr '/' '-')"
   sf=$(ls -t "$projdir"/*.jsonl 2>/dev/null | head -1)
   [[ -z "$sf" ]] && exit 0
+  # Only tag a session that is actually live — transcript touched in the last
+  # 15 min. Guards against attributing a commit to a stale session that merely
+  # happens to be the newest transcript for this cwd (e.g. a root session
+  # committing into a member repo that holds an old transcript).
+  [[ -n "$(find "$sf" -mmin -15 2>/dev/null)" ]] || exit 0
   SID=$(basename "$sf" .jsonl)
 
   # Already tagged? leave it (explicit tags win)
