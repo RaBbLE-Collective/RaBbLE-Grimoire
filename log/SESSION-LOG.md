@@ -5,14 +5,35 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-08 · Session 53 (NeBuLA — entity rendering overhaul, 85% perf gain)
+## LATEST — 2026-06-08 · Session 54 (World — RaBbLE-bg.js perf overhaul, landing page lag fixed)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S53):** Full NeBuLA rendering performance overhaul. Split rendering into two composited canvas layers (entity=eyes/portals always responsive; field=particles/connections throttle-able). Replaced per-particle `shadowBlur` with single GPU-composite `ctx.filter=blur()` pass. Dropped particles 480→260 (capped 300). Sparse k-NN connection topology ("living brain"). Post-boot physics throttled every-other-frame. Measured result: field layer 2.5ms→0.38ms (−85%), 13.4ms budget headroom. Playwright headless screenshot spell added.
+**Last session (S54):** Finished the landing page lag fix started in S53. Rewrote `RaBbLE-bg.js` draw(): physics throttle every-other-frame, flat particle pass (no shadowBlur), offscreen glow buffer composited with `ctx.filter=blur(8px)` (one GPU pass), all connection lines batched into single `beginPath()/stroke()`. Particle count 280→100, glow fraction 35%→12%. Same approach as NeBuLA Phase 4.
 **Blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified · recast needed for firstboot verification.
-**Next:** Phase 5 rearchitecture (absorb RaBbLE-bg.js ambient effects into NeBuLA), or VM/OS bootstrap polish path.
+**Next:** Phase 5 — absorb `RaBbLE-bg.js` into NeBuLA effect modules (shared RAF loop, shared frame budget). Or OS/VM bootstrap polish path.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-08 (Session 54) — World: RaBbLE-bg.js landing page perf overhaul
+
+**Repos touched:** RaBbLE-World (`feature/rabble-collective-community-page`), RaBbLE-Grimoire (`log/SESSION-LOG.md`)
+
+**Work done:**
+
+Completed the landing page performance fix left open from S53. `RaBbLE-bg.js` was running a fully independent, unoptimized RAF loop alongside NeBuLA — 280 particles, per-particle `shadowBlur` (22px for glow, 3px for flat), O(n²) individual `ctx.stroke()` per connection pair. Rewrote draw():
+
+1. **Physics throttle:** `physicsFrame ^= 1` skips position update every other frame — halves the sin/cos budget with no perceptible motion change.
+2. **Flat + glow two-pass draw:** Non-glow particles draw directly every frame. Glow particles draw flat into an offscreen `glowCv` buffer every 3 frames; that buffer is composited onto the main canvas with `ctx.filter='blur(8px)'` at drawImage time. One GPU blur pass replaces N `shadowBlur` calls.
+3. **Batched connections:** All qualifying edges (d² < 85²) are accumulated into a single `beginPath()` path, `stroke()` called once. Eliminates per-pair stroke overhead. Squared-distance check removes `Math.sqrt` from the hot loop.
+4. **Density:** 280 → 100 particles; glow fraction 35% → 12%.
+
+Same architecture as NeBuLA Phase 4 (particle-system.js), now applied consistently to the landing page ambient renderer.
+
+**Where it's left:** `RaBbLE-bg.js` is now optimized but still a separate second RAF loop. Phase 5 (absorb into NeBuLA effect modules) remains the clean solution.
+
+**Next:** Phase 5 (NeBuLA effect modules absorb bg.js) or OS/VM bootstrap polish path.
 
 ---
 
