@@ -5,12 +5,40 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## LATEST — 2026-06-08 · Session 52 (RaBbLE-World — RaBbLE-Collective community surface + join path)
+
+**Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1/2 bridge.
+**Last session (S52):** Added a dedicated `RaBbLE-Collective` page in World as the public community surface for visitors who want to understand the organism and join the channel. The page uses the existing Aether/NeBuLA loaders, presents the Collective organs and joining path in a narrative format, mounts NeBuLA entity miniatures for the member cards, and exposes a copyable starter intro. Also wired a visible homepage CTA and added the new Collective organ/panel entry to the landing nav so the page is discoverable from both the main door and the mobile Collective overlay.
+**Active blockers:** World still needs a fuller modular split; Aether/NeBuLA bundle ownership boundaries need a follow-up pass.
+**Next:** Refactor World/Aether/NeBuLA into smaller, clearer modules and shared primitives; verify the new page visually in a real browser session when the graphics stack is available; merge `feature/rabble-collective-community-page` after the follow-up modularization pass or once the branch is ready to land.
+
+> This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-08 (Session 52) — RaBbLE-World: RaBbLE-Collective community surface + join path
+
+**Repos touched:** RaBbLE-World (`feature/rabble-collective-community-page`) — branch `feature/rabble-collective-community-page`; RaBbLE-Grimoire (`log/SESSION-LOG.md`, `log/token-ledger.tsv`)
+
+**Work done:**
+
+1. **Built a dedicated community page for RaBbLE-World.** Added `world/RaBbLE-Collective.html` with the existing Aether/NeBuLA loader pattern, a hero section that explains the Collective, a visible join CTA, a copyable starter intro, a member/origin map, and a closing call-to-action. The page is intentionally static and keeps logic out of World beyond a small mounting helper.
+2. **Added a page-specific layout and micro-runtime.** `world/css/RaBbLE-Collective.css` handles the page structure, cards, CTA treatment, and responsive layout; `world/js/RaBbLE-collective.js` mounts NeBuLA miniatures for the member cards, starts the ambient background, and copies the join template to the clipboard.
+3. **Surfaced the page from the main landing surface.** Updated `index.html` to include a visible `join the Collective` CTA, and expanded `world/js/RaBbLE-landing.js` with a `Collective` organ entry and panel content so the new page appears in the mobile nav / organ explorer.
+4. **Kept the code within the static-site rules.** Verified `node --check` on the new JS and ran `git diff --check` to confirm the patch is clean.
+
+**Where it's left:** Branch is ready with the new community surface in place. Visual verification still needs a live browser session with the local World server and graphics stack.
+
+**Next:** Split World, Aether, and NeBuLA into smaller modules / shared primitives; then verify the new community page visually and land the branch.
+
+---
+
 ## LATEST — 2026-06-08 · Session 51 (RaBbLE-OS — sCoRE Usage Tracker: direct API, rebrand, live state colors)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
 **Last session (S51):** Rebuilt the Waybar LLM tracker as the **sCoRE Usage Tracker** — first sCoRE applet living in RaBbLE-OS. Replaced the abandoned userscript+bridge plan with direct Anthropic API polling (Firefox cookies + curl_cffi), anchored token/reset windows to the API's real `resets_at`, renamed all scripts `score-*`, and built a notification-style state scheme (green/cyan = ready, cyan-violet pulse = busy, flashing magenta `⚑` = tool-permission prompt waiting on you — driven by a new Claude Code hook merged into `~/.claude/settings.json` via dotctl). Split the busy-glyph animation into a cheap continuous `score-glyph-stream.sh` (Waybar-driven, ~5x/sec) over a slow `score-status-daemon.sh` cache-writer (~5s), so the wave animates smoothly without re-parsing transcripts every tick.
 **Active blockers:** OS recast pending · sCoRE Railway unverified · Phase 2C Genesis/Ethos authoring.
-**Next:** Watch the "needs input" flash through a real permission prompt to confirm the lag fix held · merge `feature/waybar-llm-status` → `RaBbLE-OS-New-Horizons` · recast VM → verify firstboot bootstrap.
+**Next:** Watch the pill through a full real session (prompt → tool use → permission prompt → response) to confirm the hook-driven lifecycle states feel instant and correct · merge `feature/waybar-llm-status` → `RaBbLE-OS-New-Horizons` · recast VM → verify firstboot bootstrap.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
