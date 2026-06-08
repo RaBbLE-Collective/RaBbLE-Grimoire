@@ -32,6 +32,7 @@ historical/     Stale docs — KDE-spin era installs, branch diffs, implementati
 | Work on NVIDIA / GPU | `fix/RaBbLE-OS-Fix-Nvidia.md` |
 | Work on Hyprland config | `desktop/RaBbLE-OS-Desktop-Hyprland.md` |
 | Work on theming | `desktop/RaBbLE-OS-Desktop-Theming.md` |
+| Work on the Waybar Claude/Codex usage pills | `desktop/RaBbLE-OS-Desktop-sCoRE-UsageTracker.md` |
 | Understand config flow | `ops/RaBbLE-OS-Ops-ConfigFlow.md` |
 | Install on a machine | `ops/RaBbLE-OS-Ops-Install.md` |
 | Test in a VM | `ops/RaBbLE-OS-Ops-Vmctl.md` |
