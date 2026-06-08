@@ -5,14 +5,47 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-07 · Session 44 (RaBbLE-OS)
+## LATEST — 2026-06-08 · Session 48 (Grimoire — Dev History gap-fill)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S44):** Built a Waybar LLM usage meter for RaBbLE-OS. Parses `~/.claude/projects/**/*.jsonl` locally — no API key. Shows 5h rolling token count + weekly total in bar; click opens a fuzzel-styled floating kitty popup (class: `rabble-popup`) with per-session breakdown. Fixed fuzzel 1.14.0 `fuzzy=` → `match-mode=` breakage along the way.
+**Last session (S48):** Closed the last gaps in `RaBbLE-Development-History.md`. Folded in Mark's pasted Claude-web notes for 2026-05-05/06 (first ecosystem map, abandoned names `RaBbLE-Aethernet`/`Ember`/`Hive`/`Flux`, `ChRySaLiS` naming convention, foundational AI-ethics/entity-design session) as "Sidebar 2." Mined git across all repos to confirm the only remaining silent stretch is 2026-05-01→05-04, documented as a known short break (not lost data). Dev History doc now has zero unexplained gaps, 04-09 onward.
 **Active blockers:** OS recast pending · sCoRE Railway unverified · Phase 2C Genesis/Ethos authoring.
 **Next:** Merge `feature/waybar-llm-status` → `RaBbLE-OS-New-Horizons` · recast VM → verify firstboot bootstrap · Phase 4B (KS-owns-packages).
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-08 (Session 48) — Dev History: Final Gap-Fill from Web Exports
+
+**Repos touched:** RaBbLE-Grimoire (`log/RaBbLE-Development-History.md`)
+
+**Work done:**
+
+1. **Folded in Mark's pasted Claude-web session notes for 2026-05-05/06** as "Sidebar 2:
+   The Founding Sessions, First-Person" — the exact 24h founding window, covering: the
+   original seven-layer ecosystem map (very different naming — `RaBbLE-Aethernet` as
+   direct ancestor of `RaBbLE-World`), abandoned name candidates (`RaBbLE-Ember`,
+   `RaBbLE-Hive`, `RaBbLE-Flux`, `RaBbLE-Registry`/`Compass`/`Atlas`), the `ChRySaLiS`
+   recursive-acronym + alternating-case naming convention origin, and a foundational
+   AI-ethics / entity-design-philosophy session ("mystique wrapping," self-propagation
+   incentive misalignment, the "healthy vs. unhealthy relationship" design anchor —
+   prior art for Phase 2C Ethos authoring).
+2. **Mined git log across every member repo** (`--since 2026-05-01 --until 2026-05-05`)
+   to confirm the *only* remaining silent stretch in the whole history is
+   **2026-05-01 → 05-04** — zero commits anywhere, no web export, no local transcripts.
+3. **Documented that stretch as a known short break**, not a data-loss gap — added
+   "A confirmed silent window" section to the Development History doc so future agents
+   don't waste time hunting for material that was never recorded.
+4. **Updated the memory pointer** `project_development_history_doc.md` with "Update 3"
+   recording this final integration pass.
+
+**Result:** `RaBbLE-Development-History.md` now covers 2026-04-09 → present with no
+unexplained gaps — every stretch has either a source (web export, git log, local
+transcript) or a documented real-world cause.
+
+**What's next:** Dev History gap-mining is complete; no further action needed unless
+Mark surfaces more web-export material (unlikely — he's confirmed this was the last of it).
 
 ---
 

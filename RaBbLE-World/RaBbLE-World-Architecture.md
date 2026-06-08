@@ -344,6 +344,31 @@ This can proceed in parallel with NeBuLA decomposition (phases 1-5).
 
 ---
 
+## Lessons & Gotchas (distilled from S5–S46)
+
+- **World is a thin scaffold — nothing more.** State machines, data, DOM assembly,
+  mounting. No rendering logic, no embedded effects, no CSS beyond layout/structure.
+  Anything that looks like "look-and-feel" belongs in Aether; anything that looks like
+  "visual effect / entity rendering" belongs in NeBuLA. *(S9 pivot moved
+  `rabble-entity.js`, ~700 lines, out of World entirely.)*
+- **No React, no JSX, no frameworks — vanilla JS only.** Convert any prototypes before
+  landing them. The established idioms are Alpine.js (already loaded) and the
+  `NeBuLA.ui` factory pattern (`{ el, ...controls, destroy() }`). In-browser Babel
+  transpilation was considered and explicitly rejected.
+- **Link `aether.css` (dev), never `aether.min.css`.** The watch build only emits the
+  unminified file — pages requesting `.min.css` silently got stale/404 CSS for an
+  entire regression session before this was traced. Always run `dev-serve.sh`; never
+  run `dev-cdn.js` or esbuild watch manually.
+- **`RaBbLE-Boot.html` is a living spec artifact — do not delete.** Its boot timeline
+  (particle convergence → portal arcs → eye emergence, ~7s) is the reference for the
+  future native C++ Plymouth backend (NeBuLA Episode 6).
+- **Two CDN loaders only** (`RaBbLE-aether.js`, `RaBbLE-NeBuLA.js`) — both must show
+  visible failure banners on load failure. "Degraded mode is never silent."
+- **Never duplicate Aether classes in page CSS.** If a visual style is missing, add it
+  to Aether — see `RaBbLE-World-Architecture.md:45`.
+
+---
+
 ```
 transcribe ~ grimoire >> architecture updated, applet consolidation planned // %ARCHITECTURE_UPDATED%
 ```

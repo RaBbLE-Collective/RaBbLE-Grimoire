@@ -144,6 +144,29 @@ The coordinator runs locally via tmux. They share one repo, two modes.
 
 ---
 
+## Lessons & Gotchas
+
+- **The system-prompt persona is deliberately separated from project onboarding** —
+  it lives in `system-prompt-sCoRE.md`, not AGENT.md, so that normal-work agents (doing
+  ordinary engineering tasks in this repo) don't get confused by entity-persona
+  constraints. AGENT.md follows the standard member-doc shape like every other repo.
+- **sCoRE began life as a separate repo, `RaBbLE-Server`** (genesis-era memory,
+  2026-04-26) — a working FastAPI/Railway backend with Groq-primary/OpenRouter-fallback
+  LLM chains, JWT+API-key auth, and 6 workflow types (brainstorm/reflect/create/solve/
+  learn/thrive), serving a separate frontend called **`RaBbLE-JS`**
+  (`markm1206/RaBbLE-JS`) that bundled the early NeBuLA renderer and a "BaBbLE command
+  shell." That lineage is `RaBbLE-JS` → `RaBbLE-Chat` → merged into `RaBbLE-World`.
+  sCoRE absorbed `RaBbLE-Server` as an "Episode 3" subcomponent on 2026-05-06.
+- **sCoRE's Railway deployment status is unverified** — it has appeared as an open
+  Episode 1 blocker through S44. The `RaBbLE-Server` description above is the *known
+  prior state* (working, deployed); treat it as possibly aspirational/stale relative to
+  what exists post-absorption until you've reverified against the live deployment.
+- The DataCrawler RFC (Scavenger/Organizer/Librarian bot architecture), originally
+  ideated in BaBbLE, is preserved here as a future sCoRE RFC — see
+  `RaBbLE-sCoRE-DataCrawler-RFC.md`.
+
+---
+
 ```
 transcribe ~ grimoire >> architecture mapped // %EPOCH_0_EPISODE_1%
 ```

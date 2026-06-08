@@ -1,5 +1,41 @@
 # RaBbLE-NeBuLA-Architecture.md
 
+## Lessons & Gotchas (distilled from S14–S46)
+
+- **Build before testing — every time.** Editing `src/` has zero visible effect until
+  you rebuild and copy: `npm run build:iife && cp dist/nebula.iife.js
+  ../RaBbLE-World/world/js/RaBbLE-NeBuLA.js`. A whole multi-session triage was lost to
+  "fixes that appeared not to work" before this was made canon.
+- **On a broken perf baseline, roll back — don't iterate.** The Codex
+  `feature-nebula-animation-optimization` branch caused 1fps cliffs and broken visuals;
+  several rounds of tuning on top of it failed or were unverifiable. The fix was to
+  reset to known-good (World `aa66550`, NeBuLA `34dee62`), preserve the experiment on
+  `feat/nebula-perf`, and rebuild forward from there. Don't trust anything on that
+  branch as canonical.
+- **Pre-computed connection links are wrong *during* boot.** Scattered particles
+  produce long, expensive stroke paths even at near-zero alpha — use small-radius
+  dynamic distance checks during boot, switch to pre-computed links once settled.
+- **Post-boot particles drift ~±30px sinusoidally** because `settleBlend=1` zeroes the
+  spring force — `connDist` has to account for this drift (try 85–100px), not just the
+  nominal radius, or connection density will look wrong.
+- **`shadowBlur` is the #1 GPU cost** (it's applied to ~45% of particles); flipping it
+  on en masse at boot-end caused the 1fps cliff. Batch all connection strokes into one
+  `beginPath`+`stroke` per frame — per-connection `ctx.stroke()` calls are catastrophic.
+- **Two-canvas split is the standing architecture decision:** a particle/connection
+  layer that's allowed to drop frames, plus a dedicated eye layer that always runs its
+  own RAF at 60fps. See `RaBbLE-NeBuLA-Rearchitecture.md` (verified through Phase 3).
+- **Always verify visually.** `visual-screenshot.sh` (build → capture → compare) is
+  mandatory before claiming any rendering fix works — fps numbers alone have been wrong
+  before.
+- **RBCNS naming (`q_`/`e_`/`f_` prefixes) is archived lore only** — do not revive it;
+  it was philosophically self-contradictory (claimed low-entropy while being rigid).
+- **Long-range vision (Mark, S46):** NeBuLA should grow into a visualization/animation
+  *studio* with a WYSIWYG keyframe editor, not stay just a renderer — design new
+  per-layer parameter interfaces (size/position/timing/easing) as future editor
+  binding surfaces from the start.
+
+---
+
 ```
 transcribe ~ grimoire >> architecture updated: system interface, frame budget, effects layer, responsibility split // %NEBULA_ARCH_UPDATED%
 ```
