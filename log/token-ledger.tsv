@@ -22,3 +22,4 @@ commit-59c173e	waybar-usage-meter	Calibrated llm-status.sh against web meter, bu
 commit-a510bb7	score-usage-tracker	S51: rebuilt as sCoRE Usage Tracker (direct API, rebrand, live state colors, hook-driven needs-input + lag fix)
 commit-3d68b83	score-usage-tracker	S51 wrap: merged feature/waybar-llm-status -> RaBbLE-OS-New-Horizons, documented architecture in Grimoire (sCoRE-UsageTracker.md)
 c60d3286-56dc-4cd0-888d-361ac53aa65c	rabble-world-community-page	community page plus shared runtime/base-layer modularization
+412342ec-0022-4153-82c8-ad7f32cb7e16	nebula-perf-overhaul	Two-canvas split, sparse k-NN connections, GPU-composite bloom, physics throttle. Field layer: 2.5ms→0.38ms (-85%). Playwright screenshot spell added.

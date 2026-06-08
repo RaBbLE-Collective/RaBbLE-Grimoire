@@ -135,7 +135,7 @@ Replace O(n²) connection loop with grid-based spatial hash:
 - `MAX_DRAWN_CONNECTIONS = MAX_PRECOMPUTED_LINKS = 200` — matches plan cap.
 - `rebuild()` is O(n²) but runs only on init and resize, not per-frame — correct.
 
-### Phase 4 — Glow layer compositing
+### Phase 4 — Glow layer compositing ✅ COMPLETE
 
 Offscreen canvas for glow particles:
 - Draw glow particles (shadowBlur) to offscreen canvas every 2 frames
@@ -143,6 +143,27 @@ Offscreen canvas for glow particles:
 - Non-glow particles draw directly (no shadowBlur)
 - Under load, glow interval auto-increases to 3–4 frames
 - Glow persistence between frames = smooth bloom effect
+
+**Implementation notes (Session 53):**
+- `particle-system.js` now draws in two passes: flat particles direct to the
+  field context every frame, glow particles into an offscreen `_glowCanvas`
+  redrawn every `glowInterval` frames (2 normal, 3/4 under load) and
+  composited via `drawImage()` every frame. Interval ramps off the existing
+  `adaptiveGlow` signal — no new load-detection plumbing needed.
+- **Bonus — went further than the plan:** split rendering into two stacked,
+  independently-composited `<canvas>` layers (`element.js` creates both):
+  an **entity layer** (eyes + portals, drawn first, every frame, unconditionally)
+  and a **field layer** (particles + connections, the offscreen-glow-composited,
+  CPU-heavy half). The orchestrator (`canvas2d/index.js`) draws the entity
+  layer to its own context before the field layer ever gets a chance to spend
+  time, and the field layer is gated as a whole via `budget.canDraw('field', 2)`
+  — it can be skipped for up to 2 consecutive frames and simply holds its
+  last-painted content, since it's a separately-composited GPU layer rather
+  than interleaved draw calls on a shared canvas. This directly satisfies the
+  "eyes always responsive, particles/connections never block them" goal beyond
+  what frame budgeting alone could guarantee on a single canvas.
+- `_updateCanvasSize()` and `resize()` now size both canvases (and the glow
+  buffer) identically; `element.js`'s `_resize()` sizes both host canvases.
 
 ### Phase 5 — Effects systems (absorb bg.js)
 
