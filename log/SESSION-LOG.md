@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-08 · Session 53 (World/Aether/NeBuLA — modular seams landed)
+## LATEST — 2026-06-08 · Session 53 (NeBuLA — entity rendering overhaul, 85% perf gain)
 
-**Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1/2 bridge.
-**Last session (S53):** Continued the RaBbLE-World community page work by extracting a shared `RaBbLEPageRuntime` helper for World pages, adding a new Aether `rabble-base.css` foundation layer imported ahead of the existing component bundle, and introducing `src/ui/shared.js` in NeBuLA so the SVG factories share UID generation instead of each carrying their own counter. Rebuilt the Aether dev CSS and the NeBuLA IIFE bundle, then synced the rebuilt NeBuLA payload back into `RaBbLE-World/world/js/RaBbLE-NeBuLA.js` so the checked-in browser bundle matches the source refactor.
-**Active blockers:** Full visual verification still needs a live browser/session on the target graphics stack. Aether still has a large component monolith; this pass added the first stable seam, not the full split.
-**Next:** Push the modularization further by splitting Aether’s remaining component monolith into smaller concerns and expanding the World runtime helper into other pages where the boilerplate repeats.
+**Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
+**Last session (S53):** Full NeBuLA rendering performance overhaul. Split rendering into two composited canvas layers (entity=eyes/portals always responsive; field=particles/connections throttle-able). Replaced per-particle `shadowBlur` with single GPU-composite `ctx.filter=blur()` pass. Dropped particles 480→260 (capped 300). Sparse k-NN connection topology ("living brain"). Post-boot physics throttled every-other-frame. Measured result: field layer 2.5ms→0.38ms (−85%), 13.4ms budget headroom. Playwright headless screenshot spell added.
+**Blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified · recast needed for firstboot verification.
+**Next:** Phase 5 rearchitecture (absorb RaBbLE-bg.js ambient effects into NeBuLA), or VM/OS bootstrap polish path.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
