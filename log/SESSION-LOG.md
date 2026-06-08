@@ -5,14 +5,37 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-08 · Session 48 (Grimoire — Dev History gap-fill)
+## LATEST — 2026-06-08 · Session 49 (RaBbLE-OS — waybar usage-meter calibration + web tracking)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S48):** Closed the last gaps in `RaBbLE-Development-History.md`. Folded in Mark's pasted Claude-web notes for 2026-05-05/06 (first ecosystem map, abandoned names `RaBbLE-Aethernet`/`Ember`/`Hive`/`Flux`, `ChRySaLiS` naming convention, foundational AI-ethics/entity-design session) as "Sidebar 2." Mined git across all repos to confirm the only remaining silent stretch is 2026-05-01→05-04, documented as a known short break (not lost data). Dev History doc now has zero unexplained gaps, 04-09 onward.
+**Last session (S49):** Calibrated waybar's Claude usage meter (`llm-status.sh`) against the real web meter (caught 45%→50% drift mid-session), added ↓in/↑out token-spend display, and built a regression pipeline (`llm-usage-log.sh` + `llm-usage-fit.py`) to fit per-model/per-token-type weights toward Anthropic's real accounting (output > input, cache reads cheaper, model multipliers). Web-chat shares the pool but leaves no local token trace — added a loopback bridge (`llm-usage-bridge.py`, Hyprland-autostarted) + DevTools console snippet to relay the web meter's % in, flagged `web_used` so the fit isolates clean samples and estimates the invisible web contribution as a residual.
 **Active blockers:** OS recast pending · sCoRE Railway unverified · Phase 2C Genesis/Ethos authoring.
-**Next:** Merge `feature/waybar-llm-status` → `RaBbLE-OS-New-Horizons` · recast VM → verify firstboot bootstrap · Phase 4B (KS-owns-packages).
+**Next:** Capture clean + `--web` data points with `llm-usage-log.sh` during normal work to grow the regression · merge `feature/waybar-llm-status` → `RaBbLE-OS-New-Horizons` · recast VM → verify firstboot bootstrap.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-08 (Session 49) — RaBbLE-OS: Waybar Usage-Meter Calibration & Web-Usage Tracking
+
+**Repos touched:** RaBbLE-OS (`config/waybar/scripts/`, `config/hypr/conf.d/autostart.conf`) — branch `feature/waybar-llm-status`
+
+**Work done:**
+
+1. **Calibrated `llm-status.sh` limits against the real Claude web usage meter.** First pass used Mark's verbal readings (45% @ 383K tokens / 18% weekly); a second check mid-session caught the meter had moved to 50%/19%, so `FIVE_H_LIMIT`/`WEEKLY_LIMIT` were recalibrated to `804000`/`14700000`. Documented in-script that this is an approximation that will drift (raw token-sum ≠ Anthropic's real weighted accounting) and needs periodic recalibration.
+2. **Added ↓in/↑out token-spend display** to both the bar text and tooltip — `count_tokens_since` now reports input/output separately instead of a combined total.
+3. **Built a regression pipeline to tune the formula toward reality**, after Mark noted output tokens cost more than input and Opus/Sonnet/Haiku carry different multipliers:
+   - `llm-usage-log.sh <5h|week> <pct> [--web]` — records an observation: per-model breakdown of `input`/`cache_creation`/`cache_read`/`output` tokens (discovered cache-read tokens dwarf raw input — e.g. 380K cache-read vs 7K input in one window, a gap the old estimate ignored entirely) alongside the % read off the web meter.
+   - `llm-usage-fit.py` — least-squares regression per window (`pct ≈ Σ c[model,type]·tokens`), normalized against `claude-sonnet-4-6 input = 1.0x` to print interpretable "output costs ~Nx its input" / "Opus multiplier ≈ Nx" figures for experimental tuning.
+4. **Solved the "invisible web usage" hole.** Mark pointed out that claude.ai web-chat draws on the same usage pool but leaves zero trace in local `.jsonl` transcripts — any observation logged during a web session would corrupt the regression by attributing web-driven % moves to CC tokens. Added a `web_used` flag throughout the pipeline (CLI `--web`, bridge payload, log schema); `llm-usage-fit.py` now trains only on clean (CC-only) samples and scores `--web`-flagged samples against that baseline to *estimate* the web-only contribution as a residual (`observed % − CC-only prediction`).
+5. **Built the relay path from the web UI itself**, since manually checking `/settings/usage` and typing numbers in was "annoying":
+   - `llm-usage-bridge.py` — loopback-only (127.0.0.1:8765) HTTP listener, autostarted via `exec-once` in `hypr/conf.d/autostart.conf` (follows the `split-dir-daemon.sh` convention), forwards `{window, pct, web_used}` POSTs into `llm-usage-log.sh`.
+   - `llm-usage-console-snippet.js` — zero-install DevTools console/Snippet script (Mark didn't want an extension dependency) that scans rendered page text for `N%` near "session"/"week" keywords and POSTs to the bridge, auto-tagged `web_used: true` since reading from the web session implies web usage in that window.
+   - Explicitly avoided any approach that would extract Firefox session cookies/credentials to query Anthropic's APIs directly — the chosen design only reads what's already rendered on screen, same as a human typing the number in.
+
+**Where it's left:** Pipeline is deployed (`dotctl apply waybar` + `hypr`) and bridge is running live. Only 2 seed observations logged so far — not enough for a meaningful fit yet (`llm-usage-fit.py` needs ≥2 clean samples per window, more for a good fit). Mark plans to capture data points organically during tomorrow's work.
+
+**Next:** Accumulate clean + `--web` observations over the coming days/weeks → run `llm-usage-fit.py` → fold the tuned coefficients back into `llm-status.sh` as the production formula. Merge `feature/waybar-llm-status` once the formula stabilizes.
 
 ---
 
