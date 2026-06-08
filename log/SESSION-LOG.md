@@ -10,7 +10,7 @@ Format: date, what was done, where things were left, what's next.
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
 **Last session (S46):** Reshaped the entity's eyes/portals in both Canvas2D and Three.js backends to match `RaBbLE4K.png` — measured reference proportions pixel-by-pixel (eye W:H ratio, portal size/placement, cyan-left/magenta-right color pairing), then iterated with Mark on size/thickness tuning. Verified visually via `visual-screenshot.sh` against both `RaBbLE-NeBuLA-Demo.html` and `RaBbLE-NeBuLA.html`.
 **Active blockers:** OS recast pending · sCoRE Railway unverified · Phase 2C Genesis/Ethos authoring.
-**Next (NeBuLA):** Modularize NeBuLA further + perf pass — eyes must hold 30+ FPS on all hardware; consider giving eyes their own composited 2D layer. Also: audit RaBbLE-NeBuLA + RaBbLE-World for full documentation and clean separation of concerns.
+**Next (NeBuLA):** Modularize + perf pass — eyes must hold 30+ FPS on all hardware via their own composited 2D layer; design that layer's param interface with a future WYSIWYG keyframe/asset editor in mind (Mark's vision: NeBuLA → visualization/animation studio for RaBbLE, authoring assets World pages render). Also audit NeBuLA + World docs and separation of concerns.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
@@ -63,6 +63,14 @@ Format: date, what was done, where things were left, what's next.
   the Layer 1/Layer 2 separation of concerns (NeBuLA owns rendering, World is
   scaffold/assembly only — see each member's AGENT.md) is actually held in the code,
   not just the docs.
+- **New long-range vision from Mark:** NeBuLA should evolve into a visualization +
+  animation *studio* for RaBbLE — not just a rendering engine. Concretely: a WYSIWYG
+  editor for visually mocking up animation keyframes and resizing/positioning the
+  eyes (and other entity parts) interactively, producing assets that NeBuLA can then
+  render into different RaBbLE-World pages. When designing the composited eye layer
+  above, build its param interface (size, position, timing/easing) with this future
+  editor's needs in mind — the layer's tunable surface should be the editor's binding
+  surface, not something bolted on after.
 
 ---
 
