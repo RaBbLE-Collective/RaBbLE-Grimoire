@@ -5,14 +5,30 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-08 · Session 56 (World — Collective page atmospheric restyle + brand casing canon)
+## LATEST — 2026-06-08 · Session 55b (NeBuLA — AmbientField tight budget: half-rate + no connections)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S56):** Full visual survey of all 8 World pages. `RaBbLE-Collective.css` restyled atmospheric-first: transparent shell, card chrome stripped to ~22% opacity, 72px section gaps, no hard dividers. Brand casing rule (`RaBbLE`, `NeBuLA`, `sCoRE`, `ScRibLE` — never uppercase) documented in Grimoire design guide and World AGENT.md. NeBuLA bundle updated from studio work.
+**Last session (S55b):** Landing page pulse still 25ms after S55. Root cause: AmbientField O(N²) connections (4,950 checks/frame) + runs at 60fps despite 0.11px/frame drift. Fix: half-rate render (skip every other frame, hold GPU texture) + kill connections (0.07 alpha = invisible). Phase doubled to 0.022 to preserve drift speed. Background: ~0.5-1ms/frame vs ~4-5ms before.
 **Blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified.
-**Next:** Atmospheric restyle pass on OS and Docs pages; deploy Collective when satisfied.
+**Next:** Atmospheric restyle pass on OS/Docs pages (S56 work); Phase 2C; OS/VM bootstrap.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-08 (Session 55b) — NeBuLA/World: AmbientField tight budget
+
+**Repos touched:** RaBbLE-NeBuLA (`dev`), RaBbLE-World (`feature/rabble-collective-community-page`)
+
+**Work done:**
+
+Landing page pulse still 25ms post-S55. Diagnosed: two JS systems sharing the same frame (AmbientField + entity), with AmbientField burning 3–5ms from O(N²) connections and 60fps rendering of near-imperceptible ambient drift.
+
+- **Kill connections** (`ambient-field.js`): removed O(N²) loop (4,950 pairs, 0.07 alpha, invisible). Not replaced.
+- **Half-rate rendering**: skip every other RAF frame entirely; GPU holds previous canvas texture at no cost. Phase step doubled to 0.022 to keep perceived drift speed the same.
+- Result: AmbientField frame cost ~0.5–1ms vs ~4–5ms before.
+
+**What's next:** See S56.
 
 ---
 
