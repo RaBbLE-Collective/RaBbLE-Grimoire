@@ -5,14 +5,32 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-08 · Session 55 (NeBuLA — perf pass complete)
+## LATEST — 2026-06-08 · Session 56 (World — Collective page atmospheric restyle + brand casing canon)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S55):** All three perf issues from S54 resolved. (1) `ctx.filter=blur` replaced with CSS element filter on DOM-resident glow canvas — blur now runs on compositor thread. (2) Flicker fixed: pulse formula drops `t` dependency. (3) `particleSystem.update()` gated behind `shouldSkipFieldUpdate()`. Three-canvas stack in entity: field/glow/entity, z:0/1/2.
+**Last session (S56):** Full visual survey of all 8 World pages. `RaBbLE-Collective.css` restyled atmospheric-first: transparent shell, card chrome stripped to ~22% opacity, 72px section gaps, no hard dividers. Brand casing rule (`RaBbLE`, `NeBuLA`, `sCoRE`, `ScRibLE` — never uppercase) documented in Grimoire design guide and World AGENT.md. NeBuLA bundle updated from studio work.
 **Blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified.
-**Next:** Phase 2C, or OS/VM bootstrap polish.
+**Next:** Atmospheric restyle pass on OS and Docs pages; deploy Collective when satisfied.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-08 (Session 56) — World: Collective atmospheric restyle + brand casing rule
+
+**Repos touched:** RaBbLE-World (`feature/rabble-collective-community-page`), RaBbLE-Grimoire (`dev`)
+
+**Work done:**
+
+1. **Visual survey** — all 8 World pages screenshotted and audited (index, Boot, Chat, Docs, OS, NeBuLA, NeBuLA-Demo, Collective). Confirmed Boot/Chat entity rendering already fixed in S53; NeBuLA-Demo Canvas2D backend confirmed working after two-canvas split. Survey screenshots saved to `RaBbLE-Captures/`.
+
+2. **`RaBbLE-Collective.css` — atmospheric restyle:** Shell background dropped from `rgba(10,0,16,0.72)` to transparent (removed). Card chrome stripped — backgrounds 18–26% opacity (was 76–82%), borders at 30–35% opacity (was solid). Section dividers removed; 72px padding gaps replace hard `border-bottom` lines. Step circle badges replaced with inline mono index labels. Hover transitions added to info-card and member-card. Page grew 135px taller from breathing room alone.
+
+3. **Brand name casing rule:** All four organ names (`RaBbLE`, `NeBuLA`, `sCoRE`, `ScRibLE`) must never render uppercase. Root cause: `text-transform: uppercase` on `.collective-nav` was inherited by `.nav-brand`, rendering "RABBLE-COLLECTIVE". Fixed with `text-transform: none` on `.nav-brand`. Rule documented in `RaBbLE-Aether/CLAUDE-DESIGN-GUIDE.md § Brand Name Casing` (table, rationale, CSS pattern) and added as a Rule bullet in `RaBbLE-World/AGENT.md`.
+
+4. **NeBuLA bundle** (`world/js/RaBbLE-NeBuLA.js`) updated — reflects NeBuLA studio work from parallel session.
+
+**What's next:** Atmospheric restyle pass on OS.html and Docs.html; deploy Collective to joinrabble.world when all pages feel cohesive.
 
 ---
 

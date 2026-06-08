@@ -47,7 +47,31 @@ Copy these into Claude Design's color picker or reference them in prompts.
 | **Body / UI** | Exo 2, Rajdhani | 400–600 | Normal case |
 | **Terminal / Mono** | Share Tech Mono, Space Mono | 400 | Uppercase for labels, mixed for log output |
 
-The brand name **RaBbLE** always has irregular capitalisation — `R`, `a`, `B`, `b`, `L`, `E`. Never `RABBLE` or `Rabble`.
+### Brand Name Casing — Never Uppercase
+
+Every organ name has intentional mixed case. CSS `text-transform: uppercase` must **never** be inherited by or applied to elements containing these names:
+
+| Name | Correct | Wrong |
+|---|---|---|
+| The entity | `RaBbLE` | `RABBLE`, `Rabble` |
+| The renderer | `NeBuLA` | `NEBULA`, `Nebula` |
+| The coordinator | `sCoRE` | `SCORE`, `SCoRE`, `score` |
+| The scribe | `ScRibLE` | `SCRIBLE`, `Scrible` |
+
+**CSS rule:** Any element rendered in `--font-hero` (Orbitron) that contains a brand name must explicitly set `text-transform: none` to prevent inheriting an uppercase context from a parent nav, label, or pill rule.
+
+```css
+/* Correct — brand name survives uppercase nav parent */
+.nav-brand {
+  text-transform: none; /* NO text-transform — RaBbLE, NeBuLA, sCoRE must not uppercased */
+}
+
+/* Wrong — "RaBbLE-Collective" renders as "RABBLE-COLLECTIVE" */
+.nav { text-transform: uppercase; }
+.nav-brand { /* no override */ }
+```
+
+The same applies to inline text inside `.hero-title`, `.callout-copy`, or any `font-hero` display element — if a parent carries `text-transform: uppercase`, override it explicitly.
 
 ---
 
