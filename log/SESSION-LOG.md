@@ -5,18 +5,37 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-08 · Session 54 (World — RaBbLE-bg.js perf overhaul, landing page lag fixed)
+## LATEST — 2026-06-08 · Session 54 (NeBuLA/World — Phase 5 complete: AmbientField absorbed)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S54):** Finished the landing page lag fix started in S53. Rewrote `RaBbLE-bg.js` draw(): physics throttle every-other-frame, flat particle pass (no shadowBlur), offscreen glow buffer composited with `ctx.filter=blur(8px)` (one GPU pass), all connection lines batched into single `beginPath()/stroke()`. Particle count 280→100, glow fraction 35%→12%. Same approach as NeBuLA Phase 4.
-**Blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified · recast needed for firstboot verification.
-**Next:** Phase 5 — absorb `RaBbLE-bg.js` into NeBuLA effect modules (shared RAF loop, shared frame budget). Or OS/VM bootstrap polish path.
+**Last session (S54):** NeBuLA Phase 5 complete. Added `AmbientField` effect to NeBuLA — outrun grid baked to offscreen canvas on resize (zero per-frame gradient cost), ambient particles with GPU-composite glow, batched connections. `RaBbLE-bg.js` is now a 10-line shim calling `new NeBuLA.AmbientField()`. Landing page runs one RAF loop, not two. Also completed S53 draw() optimizations earlier this session.
+**Blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified.
+**Next:** OS/VM bootstrap polish, or Phase 2C (Genesis/Ethos authoring).
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
 ---
 
-## 2026-06-08 (Session 54) — World: RaBbLE-bg.js landing page perf overhaul
+## 2026-06-08 (Session 54, continued) — NeBuLA/World: Phase 5 — AmbientField
+
+**Repos touched:** RaBbLE-NeBuLA (`dev`), RaBbLE-World (`feature/rabble-collective-community-page`), RaBbLE-Grimoire (`log/SESSION-LOG.md`)
+
+**Work done:**
+
+Added `src/effects/ambient-field.js` to NeBuLA — a self-contained ambient renderer that consolidates everything `RaBbLE-bg.js` was doing:
+
+1. **Grid baked to offscreen canvas** on init and resize. The outrun perspective grid is fully static between resizes — all 19 vertical + 12 horizontal gradient strokes happen once, not 60× per second. Frame cost: one `drawImage()`.
+2. **Same particle perf pattern as NeBuLA particle-system.js**: physics throttle (every-other-frame), two-pass flat+glow render, glow buffer composited with `ctx.filter=blur(8px)`, connections batched to single `beginPath()/stroke()`, squared-distance check.
+3. **Exported as `window.NeBuLA.AmbientField`** in the IIFE build (62.7kb).
+4. **`RaBbLE-bg.js` reduced to 10 lines**: `new NeBuLA.AmbientField({ particles: true, grid: true })`. Landing page now runs a single RAF loop owned by NeBuLA; the second competing loop is gone.
+
+**Where it's left:** Phase 5 is complete. RaBbLE-bg.js is a shim. AmbientField is the canonical ambient renderer.
+
+**Next:** Phase 2C (Genesis/Ethos authoring — Mark authors this), or OS/VM bootstrap polish.
+
+---
+
+## 2026-06-08 (Session 54, earlier) — World: RaBbLE-bg.js landing page perf overhaul
 
 **Repos touched:** RaBbLE-World (`feature/rabble-collective-community-page`), RaBbLE-Grimoire (`log/SESSION-LOG.md`)
 
