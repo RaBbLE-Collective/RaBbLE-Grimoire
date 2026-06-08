@@ -5,14 +5,31 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-08 · Session 49 (RaBbLE-OS — waybar usage-meter calibration + web tracking)
+## LATEST — 2026-06-08 · Session 50 (RaBbLE-OS — Waybar LLM tracker adds Codex + live web readings)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S49):** Calibrated waybar's Claude usage meter (`llm-status.sh`) against the real web meter (caught 45%→50% drift mid-session), added ↓in/↑out token-spend display, and built a regression pipeline (`llm-usage-log.sh` + `llm-usage-fit.py`) to fit per-model/per-token-type weights toward Anthropic's real accounting (output > input, cache reads cheaper, model multipliers). Web-chat shares the pool but leaves no local token trace — added a loopback bridge (`llm-usage-bridge.py`, Hyprland-autostarted) + DevTools console snippet to relay the web meter's % in, flagged `web_used` so the fit isolates clean samples and estimates the invisible web contribution as a residual.
+**Last session (S50):** Extended the Waybar LLM tracker from Claude-only estimates into a Claude+Codex monitor. `llm-status.sh` now reads fresh Claude web-meter observations from `~/.cache/rabble/llm-usage-latest.json`, displays estimate-vs-web delta in the tooltip, and parses Codex `~/.codex/sessions/**/*.jsonl` `token_count` telemetry for real `used_percent`, reset time, plan, and token totals. `llm-usage-log.sh` now writes the latest-observation cache, and the click-through detail popup includes Claude web readings plus Codex quota/tokens. Deployed and reloaded Waybar via `dotctl`.
 **Active blockers:** OS recast pending · sCoRE Railway unverified · Phase 2C Genesis/Ethos authoring.
-**Next:** Capture clean + `--web` data points with `llm-usage-log.sh` during normal work to grow the regression · merge `feature/waybar-llm-status` → `RaBbLE-OS-New-Horizons` · recast VM → verify firstboot bootstrap.
+**Next:** Keep collecting Claude web readings to tune estimate drift · merge `feature/waybar-llm-status` → `RaBbLE-OS-New-Horizons` · recast VM → verify firstboot bootstrap.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-08 (Session 50) — RaBbLE-OS: Waybar LLM Tracker Adds Codex + Live Web Readings
+
+**Repos touched:** RaBbLE-OS (`config/waybar/config.jsonc`, `config/waybar/scripts/`) — branch `feature/waybar-llm-status`; RaBbLE-Grimoire (`log/SESSION-LOG.md`, token ledger)
+
+**Work done:**
+
+1. **Added Codex quota support to the Waybar module.** `llm-status.sh` now parses Codex session JSONL under `~/.codex/sessions/**/*.jsonl`, using `token_count.rate_limits.primary.used_percent` as the real quota percent rather than inventing a token limit. Tooltip includes plan, reset countdown, and local 5h/7d token totals.
+2. **Made Claude web readings immediately useful.** `llm-usage-log.sh` still appends regression samples to `llm-usage-log.jsonl`, but now also updates `llm-usage-latest.json`. `llm-status.sh` reads that cache and, when fresh, shows the real web `%` in the bar while preserving the local estimate and displaying the discrepancy as `Delta N.pp` in the tooltip.
+3. **Updated the detail popup.** `llm-usage-detail.py` now presents a broader "LLM Usage" view: Claude session breakdown, latest Claude web readings, and Codex quota/tokens.
+4. **Deployed and verified live.** Ran shell/Python checks, tested the logger with an isolated temp home, confirmed Waybar JSON output, deployed with `./RaBbLE-OS-dotctl.sh apply waybar`, cleaned generated `__pycache__` artifacts, and reloaded Waybar.
+
+**Where it's left:** Live Waybar is showing both providers (`Claude ... | Codex ...`). Claude remains estimate-first unless a fresh web reading is available; Codex uses its own reported percent.
+
+**Next:** Continue collecting Claude web readings to tune estimate drift; merge `feature/waybar-llm-status` after the tracker stabilizes.
 
 ---
 

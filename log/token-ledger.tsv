@@ -18,3 +18,4 @@ commit-a7188c4	babble-knowledge-graph	Reorganized 50-asset visual archive into t
 8539c8a4-e499-4f3e-947a-9ecca0f652ab	waybar-llm-status	S44 waybar LLM usage meter: 5h/weekly token tracking, fuzzel popup, less pager, rabble-popup Hyprland class
 d79253a9-5124-49ee-a47a-305f3d15680d	dev-history-gapfill	Closed final gaps in RaBbLE-Development-History.md — folded in web-export notes for 05-05/06 founding sessions, confirmed 05-01-05-04 silent stretch is a known short break
 commit-59c173e	waybar-usage-meter	Calibrated llm-status.sh against web meter, built regression pipeline (llm-usage-log.sh/fit.py) and web-usage tracking bridge (bridge.py + console snippet) to close the invisible-web-usage gap
+019ea5d1-e9f7-70c3-8263-9fadaf78909a	waybar-llm-status	Added Codex quota telemetry and live Claude web-reading override to Waybar LLM tracker
