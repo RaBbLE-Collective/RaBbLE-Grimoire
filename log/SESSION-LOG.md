@@ -5,14 +5,48 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-07 · Session 46 (NeBuLA)
+## LATEST — 2026-06-07 · Session 44 (RaBbLE-OS)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S46):** Reshaped the entity's eyes/portals in both Canvas2D and Three.js backends to match `RaBbLE4K.png` — measured reference proportions pixel-by-pixel (eye W:H ratio, portal size/placement, cyan-left/magenta-right color pairing), then iterated with Mark on size/thickness tuning. Verified visually via `visual-screenshot.sh` against both `RaBbLE-NeBuLA-Demo.html` and `RaBbLE-NeBuLA.html`.
+**Last session (S44):** Built a Waybar LLM usage meter for RaBbLE-OS. Parses `~/.claude/projects/**/*.jsonl` locally — no API key. Shows 5h rolling token count + weekly total in bar; click opens a fuzzel-styled floating kitty popup (class: `rabble-popup`) with per-session breakdown. Fixed fuzzel 1.14.0 `fuzzy=` → `match-mode=` breakage along the way.
 **Active blockers:** OS recast pending · sCoRE Railway unverified · Phase 2C Genesis/Ethos authoring.
-**Next (NeBuLA):** Modularize + perf pass — eyes must hold 30+ FPS on all hardware via their own composited 2D layer; design that layer's param interface with a future WYSIWYG keyframe/asset editor in mind (Mark's vision: NeBuLA → visualization/animation studio for RaBbLE, authoring assets World pages render). Also audit NeBuLA + World docs and separation of concerns.
+**Next:** Merge `feature/waybar-llm-status` → `RaBbLE-OS-New-Horizons` · recast VM → verify firstboot bootstrap · Phase 4B (KS-owns-packages).
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-07 (Session 44) — RaBbLE-OS Waybar LLM Usage Meter
+
+**Repos touched:** RaBbLE-OS (`feature/waybar-llm-status`)
+
+**Work done:**
+
+1. **Created `config/waybar/scripts/llm-status.sh`** — polls `~/.claude/projects/**/*.jsonl`
+   every 30s, counts tokens in the 5h rolling window and 7-day week, outputs Waybar JSON.
+   Shows agent state (busy ⚡ / ready ▶ / idle ·) + token count. No API key required.
+   Configurable `FIVE_H_LIMIT` / `WEEKLY_LIMIT` vars at top for percentage display once
+   limits are calibrated.
+2. **Created `config/waybar/scripts/llm-usage-detail.py`** — full per-session breakdown
+   (5h / 24h / 7d), ANSI colors when TTY, plain text when piped. `FORCE_COLOR=1` env
+   override for piping into less while preserving colors.
+3. **Wired into Waybar** — `custom/llm-status` as first right-side module; click opens
+   a floating kitty popup (`--class rabble-popup`) piped through `less -R` with a
+   cyan "q to close" hint in the header. Hyprland window rules: float + center + 680×420
+   + 0.94 opacity. `rabble-popup` class is reusable for future agent popups.
+4. **Fixed fuzzel 1.14.0 breakage** — `fuzzy=yes` in `fuzzel.ini` is invalid; replaced
+   with `match-mode=fuzzy`. Was silently breaking the app launcher every session.
+5. Debugged several JSON issues: surrogate-pair Nerd Font codepoints rejected by Waybar's
+   strict parser (fix: `ensure_ascii=False`); real newlines in JSON strings (fix: Python
+   env-var pass-through + `json.dumps`).
+
+**Where it was left:**
+- Branch `feature/waybar-llm-status` on RaBbLE-OS, not yet merged to `RaBbLE-OS-New-Horizons`.
+- `FIVE_H_LIMIT` / `WEEKLY_LIMIT` at 0 (raw count) — calibrate after next rate-limit hit.
+- ESC can't quit `less` without breaking scroll (escape sequences conflict); `q` only.
+
+**What's next:**
+- Merge feature branch · recast VM · Phase 4B packages.
 
 ---
 
