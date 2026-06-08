@@ -5,14 +5,62 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-03 · Session 44 (Grimoire)
+## LATEST — 2026-06-07 · Session 45 (BaBbLE)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S44):** Promoted agent-agnostic tooling to canon — new "Tooling & Automation → Agent-agnostic mechanisms only" section in `RaBbLE-Agent-Protocols.md` (no Claude-only `settings.json` hooks; prefer bash spells + git hooks). Was previously only in agent memory. Gist regen: no protocols gist exists, no change.
+**Last session (S45):** Reorganized BaBbLE's 50-asset visual archive into a browsable knowledge graph — flattened confusing nested category dirs into 9 themed folders (anatomy/states/aesthetics/environments/appendages/branding/moodboards/renders/narrative), each holding images + `.meta.md` together. Rebuilt `index.json` with auto-derived tags + `related[]` cross-links; added `assets/GRAPH.md` as the LLM concept-thread entry point. Consolidated six overlapping/drifted top-level docs into a single `_ROUTING.md`, archived originals.
 **Active blockers:** OS recast pending · sCoRE Railway unverified · Phase 2C Genesis/Ethos authoring.
 **Next (OS, carried from S42):** Recast VM → verify firstboot Bootstrap end-to-end → Phase 4B (KS-owns-packages) → Phase 2 stubs.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-07 (Session 45) — BaBbLE Visual Archive → Knowledge Graph
+
+**Repos touched:** RaBbLE-BaBbLE (`dev`)
+
+**Work done:**
+
+1. **Reorganized the 50-asset visual library by theme.** Replaced confusing nested
+   dirs (`concepts/containment_chamber/diffusions/`, `concepts/living_substrate/between
+   planes/`, `sprites/`, `vibes/imported/`, etc.) with 9 flat thematic folders —
+   `anatomy/`, `states/`, `aesthetics/`, `environments/`, `appendages/`, `branding/`,
+   `moodboards/`, `renders/`, `narrative/`. Each image now lives next to its `.meta.md`
+   sidecar (previously centralized separately in `assets/meta/metadata/`, requiring a
+   lookup map to cross-reference).
+2. **Rebuilt `assets/meta/index.json` as an actual graph.** Every entry now carries
+   auto-derived `tags` (e.g. `eyes`, `manifestation`, `cyberpunk`, `hand-drawn`,
+   `ai-generated`) and `related[]` — up to 5 other assets sharing 2+ tags — so an
+   LLM can traverse by concept instead of just listing folder contents.
+3. **Added `assets/GRAPH.md`** — 14 concept-thread groupings (Eye Portal Design,
+   Manifestation Sequences, Entropy & Dissolution States, Genesis & Origin Material,
+   AI Diffusion Explorations, etc.) as the narrative entry point for exploring ideas
+   across the archive, distinct from folder-by-folder browsing (`meta/INDEX.md`).
+4. **Consolidated doc sprawl.** `_ESSENCE.md`, `_DISTILLED.md`, and
+   `_INTEGRATION_CHECKLIST.md` had drifted out of sync with the actual layout
+   (referencing dirs like `_organized/`, `assets/images/` that no longer existed) and
+   overlapped heavily. Merged their actionable content into a single `_ROUTING.md`
+   ("what's here → which member it migrates to"); archived originals to
+   `_archive/2026-05-consolidation/` with a pointer note (condense, don't delete).
+   Also archived 5 one-time audit-trail files from `assets/meta/` (rename logs,
+   completion summaries) and removed one exact byte-duplicate JSON.
+5. **Updated `AGENT.md` and `CONTEXT.md`** to point at the new structure.
+
+**Why:** Mark flagged that BaBbLE's meta files had become confusing/overwhelming —
+the asset metadata existed but wasn't *browsable as a concept space*. The new
+structure makes BaBbLE function as an actual concept-ingestion surface: an LLM (or
+Mark) can enter through a theme, a tag, or a concept thread and traverse outward via
+`related[]` links, rather than needing to already know which of several
+overlapping audit docs to trust.
+
+**Where it was left:** Commit `a7188c4` on `dev`. All renames tracked by git
+(119 files changed, mostly renames — verified zero broken paths in `index.json`
+and zero stale references to old directory names across `.md` files).
+
+**What's next:** No immediate follow-up required — BaBbLE is intake/reference only.
+When visual work resumes on NeBuLA/Aether, `_ROUTING.md` and `assets/GRAPH.md` are
+the entry points for pulling concepts forward into those repos.
 
 ---
 
