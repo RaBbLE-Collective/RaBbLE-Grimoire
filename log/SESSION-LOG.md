@@ -5,14 +5,64 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-07 · Session 45 (BaBbLE)
+## LATEST — 2026-06-07 · Session 46 (NeBuLA)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S45):** Reorganized BaBbLE's 50-asset visual archive into a browsable knowledge graph — flattened confusing nested category dirs into 9 themed folders (anatomy/states/aesthetics/environments/appendages/branding/moodboards/renders/narrative), each holding images + `.meta.md` together. Rebuilt `index.json` with auto-derived tags + `related[]` cross-links; added `assets/GRAPH.md` as the LLM concept-thread entry point. Consolidated six overlapping/drifted top-level docs into a single `_ROUTING.md`, archived originals.
+**Last session (S46):** Reshaped the entity's eyes/portals in both Canvas2D and Three.js backends to match `RaBbLE4K.png` — measured reference proportions pixel-by-pixel (eye W:H ratio, portal size/placement, cyan-left/magenta-right color pairing), then iterated with Mark on size/thickness tuning. Verified visually via `visual-screenshot.sh` against both `RaBbLE-NeBuLA-Demo.html` and `RaBbLE-NeBuLA.html`.
 **Active blockers:** OS recast pending · sCoRE Railway unverified · Phase 2C Genesis/Ethos authoring.
-**Next (OS, carried from S42):** Recast VM → verify firstboot Bootstrap end-to-end → Phase 4B (KS-owns-packages) → Phase 2 stubs.
+**Next (NeBuLA):** Modularize NeBuLA further + perf pass — eyes must hold 30+ FPS on all hardware; consider giving eyes their own composited 2D layer. Also: audit RaBbLE-NeBuLA + RaBbLE-World for full documentation and clean separation of concerns.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-07 (Session 46) — NeBuLA Entity Eyes/Portals Matched to Reference Portrait
+
+**Repos touched:** RaBbLE-NeBuLA (`dev`), RaBbLE-World (deployed bundle copy only)
+
+**Work done:**
+
+1. **Measured `RaBbLE4K.png` reference precisely** (also at `RaBbLE-OS/assets/` and
+   `RaBbLE-Aether/assets/entity/`) — used pixel-level component analysis to get the
+   eye width:height:gap ratio (~121:445:257, i.e. tall narrow ovals close together),
+   portal ellipse size/placement (equal-size flattened ellipses; cyan portal sits
+   *above* the left/cyan eye, magenta *below* the right/magenta eye), and outline
+   thickness.
+2. **Reshaped eyes + portals in both rendering backends** to match:
+   - `canvas2d/eye-system.js`: `EYE_W/EYE_H` retuned through several passes (final:
+     38/110) and outline `lineWidth` 2→3; `PORTAL_W/PORTAL_H` set to equal-size 90/28
+     for both eyes (previously asymmetric).
+   - `canvas2d/portal-system.js`: swapped color/offset pairing so cyan portal draws
+     above the left eye, magenta below the right (was mirrored from reference).
+   - `threejs-backend.js`: matched `xRadius/yRadius` ratio to the 2D eyes, unified
+     portal geometry (was asymmetric), swapped ring-mat colors and portal Y-offsets
+     to match the reference's cyan-left/magenta-right pairing, added `linewidth: 2`
+     hint to ring materials (WebGL mostly ignores >1px — flagged as a known limit).
+3. **Verified visually** at each iteration via `visual-screenshot.sh` against
+   `RaBbLE-NeBuLA-Demo.html` (split Canvas2D/Three.js view) and the live World
+   `index.html` header entity — cropped/zoomed captures to confirm proportions,
+   thickness, and color placement against the reference side-by-side.
+4. Corrected a workflow slip: started a raw `python -m http.server` instead of
+   `dev-serve.sh`, which broke CDN bundle resolution (`NeBuLA bundle not loaded`);
+   killed it and relaunched via `dev-serve.sh` — confirmed the CDN mock serves fine
+   even though esbuild's `--watch` exits immediately under a non-TTY background shell
+   (`stopped automatically because stdin was closed`) — a known limitation when
+   driving the dev environment from an agent shell, not a real Aether bug.
+
+**Where it was left:**
+- `nebula.iife.js` rebuilt and copied to `RaBbLE-World/world/js/RaBbLE-NeBuLA.js`
+  (manual copy — NeBuLA's watcher wasn't live during this session for the reason above).
+- Local CDN mock running on `:8000`; Aether/NeBuLA watchers not live (need a real TTY).
+
+**What's next (per Mark, for S47+):**
+- Modularize NeBuLA further and pursue a performance pass — **the eyes must hold
+  30+ FPS on all hardware**. Mark suggested giving the eyes their own composited 2D
+  layer on top of the main render, decoupling their frame budget from the rest of
+  the scene.
+- Audit RaBbLE-NeBuLA and RaBbLE-World for full documentation coverage and confirm
+  the Layer 1/Layer 2 separation of concerns (NeBuLA owns rendering, World is
+  scaffold/assembly only — see each member's AGENT.md) is actually held in the code,
+  not just the docs.
 
 ---
 
