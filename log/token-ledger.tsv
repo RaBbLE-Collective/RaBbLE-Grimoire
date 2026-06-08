@@ -15,3 +15,6 @@ f56ac447-640f-4109-9afa-363e193b59db	token-tracking	S43: token tracking verified
 commit-37f2a28	agent-agnostic-canon	Promoted agent-agnostic tooling principle to canon in RaBbLE-Agent-Protocols.md
 commit-a7188c4	babble-knowledge-graph	Reorganized 50-asset visual archive into themed knowledge graph with tags/related links + GRAPH.md; consolidated 6 overlapping docs into _ROUTING.md
 23b3ecb7-d100-4d5f-b13c-a867c0921287	nebula-entity-portrait-match	Reshaped entity eyes/portals in both Canvas2D and Three.js NeBuLA backends to match RaBbLE4K.png reference proportions, portal symmetry, and color pairing
+8539c8a4-e499-4f3e-947a-9ecca0f652ab	waybar-llm-status	S44 waybar LLM usage meter: 5h/weekly token tracking, fuzzel popup, less pager, rabble-popup Hyprland class
+d79253a9-5124-49ee-a47a-305f3d15680d	dev-history-gapfill	Closed final gaps in RaBbLE-Development-History.md — folded in web-export notes for 05-05/06 founding sessions, confirmed 05-01-05-04 silent stretch is a known short break
+commit-59c173e	waybar-usage-meter	Calibrated llm-status.sh against web meter, built regression pipeline (llm-usage-log.sh/fit.py) and web-usage tracking bridge (bridge.py + console snippet) to close the invisible-web-usage gap
