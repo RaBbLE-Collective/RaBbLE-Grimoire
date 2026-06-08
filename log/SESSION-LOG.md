@@ -5,14 +5,32 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-08 · Session 50 (RaBbLE-OS — Waybar LLM tracker adds Codex + live web readings)
+## LATEST — 2026-06-08 · Session 51 (RaBbLE-OS — sCoRE Usage Tracker: direct API, rebrand, live state colors)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S50):** Extended the Waybar LLM tracker from Claude-only estimates into a Claude+Codex monitor. `llm-status.sh` now reads fresh Claude web-meter observations from `~/.cache/rabble/llm-usage-latest.json`, displays estimate-vs-web delta in the tooltip, and parses Codex `~/.codex/sessions/**/*.jsonl` `token_count` telemetry for real `used_percent`, reset time, plan, and token totals. `llm-usage-log.sh` now writes the latest-observation cache, and the click-through detail popup includes Claude web readings plus Codex quota/tokens. Deployed and reloaded Waybar via `dotctl`.
+**Last session (S51):** Rebuilt the Waybar LLM tracker as the **sCoRE Usage Tracker** — first sCoRE applet living in RaBbLE-OS. Replaced the abandoned userscript+bridge plan with direct Anthropic API polling (Firefox cookies + curl_cffi), anchored token/reset windows to the API's real `resets_at`, renamed all scripts `score-*`, and built a notification-style state scheme (green/cyan = ready, cyan-violet pulse = busy, flashing magenta `⚑` = tool-permission prompt waiting on you — driven by a new Claude Code hook merged into `~/.claude/settings.json` via dotctl). Split the busy-glyph animation into a cheap continuous `score-glyph-stream.sh` (Waybar-driven, ~5x/sec) over a slow `score-status-daemon.sh` cache-writer (~5s), so the wave animates smoothly without re-parsing transcripts every tick.
 **Active blockers:** OS recast pending · sCoRE Railway unverified · Phase 2C Genesis/Ethos authoring.
-**Next:** Keep collecting Claude web readings to tune estimate drift · merge `feature/waybar-llm-status` → `RaBbLE-OS-New-Horizons` · recast VM → verify firstboot bootstrap.
+**Next:** Watch the "needs input" flash through a real permission prompt to confirm the lag fix held · merge `feature/waybar-llm-status` → `RaBbLE-OS-New-Horizons` · recast VM → verify firstboot bootstrap.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-08 (Session 51) — RaBbLE-OS: sCoRE Usage Tracker — direct API, rebrand, live state colors
+
+**Repos touched:** RaBbLE-OS (`config/waybar/`, `config/hypr/conf.d/autostart.conf`, `RaBbLE-OS-dotctl.sh`, `~/.claude/settings.json` via dotctl) — branch `feature/waybar-llm-status`
+
+**Work done:**
+
+1. **Replaced the userscript+bridge web-integration plan with direct API polling.** New `score-usage-api-poll.py` (uv self-contained script) reads the Firefox `claude.ai` session cookie and calls Anthropic's internal `/api/organizations/{org}/usage` endpoint directly via `curl_cffi` Chrome-impersonation — exact official percentages, zero browser interaction. Anchored all 5h token counts and reset countdowns to the API's real `resets_at` (fixing a bug where the bar double-counted ~600K tokens across window resets instead of the actual ~50-60K). Added auto-logging of per-model token-delta regression samples and a delta-based fitter (`score-usage-fit.py`) that isolates web/other usage as the residual.
+2. **Rebranded as the "sCoRE Usage Tracker"** — Mark's call: this is the first sCoRE applet living in RaBbLE-OS, expected to eventually be controlled by sCoRE itself. Renamed every script `llm-* → score-*` (and all cross-references) so a future port into RaBbLE-sCoRE is a clean directory move.
+3. **Built a notification-style live-state color scheme.** Replaced the generic lightning-bolt icon with a traveling block-wave (`▁▂▄▆█▆▄▂`) for "busy," `✱`/`>_` for idle (Claude in RaBbLE-Magenta, Codex muted), `▶` for ready, and a new flashing-magenta `⚑` "needs input" state. That last state required a real signal — added `score-claude-hook.sh`, wired into `~/.claude/settings.json`'s `Notification`/`PreToolUse`/`UserPromptSubmit` hooks via a new `_post_apply_waybar` dotctl step (merges, never clobbers, so hand-added hooks survive re-applies). It drops a marker file the moment a tool-permission prompt appears and clears it on response — the only reliable way to distinguish "blocked on you" from "thinking," since both look identical in the transcript.
+4. **Split the busy-glyph animation into two tiers** so it can run at Waybar's max redraw rate without burning CPU on a full transcript parse (~0.6s/call): `score-status-daemon.sh` refreshes the heavy JSON (tokens, tooltip) every ~5s to `~/.cache/rabble/score-<mode>.json` with the glyph left as a literal `@GLYPH@` placeholder; `score-glyph-stream.sh` is a cheap continuous-output loop (pure bash string substitution, no subprocess) that Waybar runs directly, repainting just the glyph ~5x/sec.
+5. **Fixed a "needs input" lag Mark spotted live** — `score-glyph-stream.sh` was reading the marker path into a variable but never checking it, so the flashing-magenta state only appeared once the slow daemon (every ~5s) re-parsed the transcript and rewrote the cached class, lagging the real hook signal noticeably. Now the cheap loop `stat`s the marker directly each ~0.2s tick (claude only) and patches both the glyph *and* the cached `class` field in the emitted JSON, so the CSS color/flash-animation flips in lockstep with the icon — effectively zero perceptible delay between Claude blocking on a permission prompt and the pill flashing. Commit `fafd6fb`.
+
+**Where it's left:** Deployed and reloaded live; wave animates smoothly, color states verified by forcing each class, and the needs-input lag fix is live (verified the marker → cache → glyph chain reacts within one ~0.2s tick). Still need to see it fire naturally through a real permission prompt — Claude Code only loads hooks at session startup, so this conversation's hook entries weren't active for it yet.
+
+**Next:** Confirm the hook fires naturally in a new session and the flash feels instant; merge `feature/waybar-llm-status` → `RaBbLE-OS-New-Horizons` once confirmed.
 
 ---
 
