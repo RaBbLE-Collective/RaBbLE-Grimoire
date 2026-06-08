@@ -5,14 +5,33 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-08 · Session 55b (NeBuLA — AmbientField tight budget: half-rate + no connections)
+## LATEST — 2026-06-08 · Session 55c (NeBuLA — shadowBlur eliminated; all glow via CSS compositor)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S55b):** Landing page pulse still 25ms after S55. Root cause: AmbientField O(N²) connections (4,950 checks/frame) + runs at 60fps despite 0.11px/frame drift. Fix: half-rate render (skip every other frame, hold GPU texture) + kill connections (0.07 alpha = invisible). Phase doubled to 0.022 to preserve drift speed. Background: ~0.5-1ms/frame vs ~4-5ms before.
+**Last session (S55c):** Root cause of 25ms frames found: `ctx.shadowBlur` — 4+ calls/frame on eyes+portals = 16-24ms of Skia software blur on the main thread. Fix: draw crisp shapes on entity canvas (no shadowBlur); draw oversized glow shapes on glowCanvas (CSS `filter:blur(8px)` on DOM element → compositor thread, zero JS cost). Particles re-added. Flicker bug fixed (shared glowCanvas clear timing conflict). Budget doc: `Grimoire/RaBbLE-NeBuLA/RaBbLE-NeBuLA-Canvas2D-Perf.md`.
 **Blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified.
-**Next:** Atmospheric restyle pass on OS/Docs pages (S56 work); Phase 2C; OS/VM bootstrap.
+**Next:** Verify 60fps on landing page; Phase 2C; OS/VM bootstrap polish.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-08 (Session 55c) — NeBuLA/Grimoire: shadowBlur elimination, all glow via CSS compositor
+
+**Repos touched:** RaBbLE-NeBuLA (`dev`), RaBbLE-Grimoire (`dev`)
+
+**Work done:**
+
+`ctx.shadowBlur` was the real culprit behind 25ms frames — each call triggers a full Skia software Gaussian blur on the main JS thread. Eyes + portals had 4+ calls per frame = 16-24ms wasted before any particle draw.
+
+- Eliminated all `shadowBlur` from `eye-system.js` and `portal-system.js`
+- Glow shapes now drawn to `glowCanvas` (oversized to compensate for CSS 8px blur radius)
+- `glowCanvas` has `style="filter:blur(8px)"` — blur runs on GPU compositor thread, zero JS cost
+- Particles re-added (they were not the primary culprit; ~1-2ms at 150 count)
+- Fixed glow flicker: `particle-system.js` was calling `clearRect` on shared glowCanvas mid-frame, wiping eye glow. Fixed by making external-canvas path skip clearRect (backend owns the clear) and always redraw particle glow (backend clears every frame, N-frame cache = blank for N-1 frames)
+- Grimoire perf reference: `RaBbLE-NeBuLA/RaBbLE-NeBuLA-Canvas2D-Perf.md` — measured costs, budget table, no-shadowBlur rule
+
+**What's next:** Verify 60fps in browser DevTools; Phase 2C; OS/VM bootstrap.
 
 ---
 
