@@ -12,3 +12,6 @@
 cd7ffb73-e9a5-4fa1-9892-f6888b34bb8d	os-vmctl	S40 vmctl QoL overhaul
 35102ed6-c37a-40a3-8d91-7579d985c5b5	os-vmctl	S40 vmctl QoL overhaul
 f56ac447-640f-4109-9afa-363e193b59db	token-tracking	S43: token tracking verified+extended (weighted/onboarding/by-feature), agent-agnostic end-session spell + post-commit hook w/ freshness guard, all 8 AGENT.md wired, roadmap filing (injn.ai, world-graph)
+commit-37f2a28	agent-agnostic-canon	Promoted agent-agnostic tooling principle to canon in RaBbLE-Agent-Protocols.md
+commit-a7188c4	babble-knowledge-graph	Reorganized 50-asset visual archive into themed knowledge graph with tags/related links + GRAPH.md; consolidated 6 overlapping docs into _ROUTING.md
+23b3ecb7-d100-4d5f-b13c-a867c0921287	nebula-entity-portrait-match	Reshaped entity eyes/portals in both Canvas2D and Three.js NeBuLA backends to match RaBbLE4K.png reference proportions, portal symmetry, and color pairing
