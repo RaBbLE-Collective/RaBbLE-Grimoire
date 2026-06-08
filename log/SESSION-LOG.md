@@ -5,6 +5,34 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## LATEST — 2026-06-08 · Session 53 (World/Aether/NeBuLA — modular seams landed)
+
+**Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1/2 bridge.
+**Last session (S53):** Continued the RaBbLE-World community page work by extracting a shared `RaBbLEPageRuntime` helper for World pages, adding a new Aether `rabble-base.css` foundation layer imported ahead of the existing component bundle, and introducing `src/ui/shared.js` in NeBuLA so the SVG factories share UID generation instead of each carrying their own counter. Rebuilt the Aether dev CSS and the NeBuLA IIFE bundle, then synced the rebuilt NeBuLA payload back into `RaBbLE-World/world/js/RaBbLE-NeBuLA.js` so the checked-in browser bundle matches the source refactor.
+**Active blockers:** Full visual verification still needs a live browser/session on the target graphics stack. Aether still has a large component monolith; this pass added the first stable seam, not the full split.
+**Next:** Push the modularization further by splitting Aether’s remaining component monolith into smaller concerns and expanding the World runtime helper into other pages where the boilerplate repeats.
+
+> This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-08 (Session 53) — World/Aether/NeBuLA: modular seams landed
+
+**Repos touched:** RaBbLE-World (`feature/rabble-collective-community-page`), RaBbLE-Aether (`dev`), RaBbLE-NeBuLA (`dev`) — plus `RaBbLE-Grimoire` (`log/SESSION-LOG.md`, `log/token-ledger.tsv`)
+
+**Work done:**
+
+1. **World gained a shared page runtime.** Added `world/js/RaBbLE-page-runtime.js` with reusable helpers for background boot, ready-state class toggling, clipboard CTA wiring, and NeBuLA mini mounting. `RaBbLE-Collective.html` now loads that module and `RaBbLE-collective.js` consumes it instead of owning the helpers inline.
+2. **Aether gained a stable base layer seam.** Added `assets/base/rabble-base.css` and imported it from `src/entry.css` ahead of the palette, motion, and component layers. This gives the system a clear place for resets, overlay primitives, and brand typography without forcing the component bundle to carry the whole foundation forever.
+3. **NeBuLA gained a shared UI utility.** Added `src/ui/shared.js` with `nextUid(prefix)` and updated the SVG factories (`entity-mini`, `grimoire-eye`, `grimoire-ring`) to share UID generation, including unique ring gradient IDs, instead of each file carrying its own counter.
+4. **Kept browser-facing assets in sync.** Rebuilt Aether’s dev CSS, rebuilt NeBuLA’s IIFE bundle, and copied the fresh `dist/nebula.iife.js` back into `RaBbLE-World/world/js/RaBbLE-NeBuLA.js` so the tracked browser bundle matches the source tree.
+
+**Where it's left:** The refactor now has a real first layer of shared modules, but Aether still has a large component file and World still has per-page script patterns to absorb.
+
+**Next:** Continue splitting the Aether component monolith and migrate more World pages onto the shared runtime where it makes sense.
+
+---
+
 ## LATEST — 2026-06-08 · Session 52 (RaBbLE-World — RaBbLE-Collective community surface + join path)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1/2 bridge.

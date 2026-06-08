@@ -20,4 +20,5 @@ d79253a9-5124-49ee-a47a-305f3d15680d	dev-history-gapfill	Closed final gaps in Ra
 commit-59c173e	waybar-usage-meter	Calibrated llm-status.sh against web meter, built regression pipeline (llm-usage-log.sh/fit.py) and web-usage tracking bridge (bridge.py + console snippet) to close the invisible-web-usage gap
 019ea5d1-e9f7-70c3-8263-9fadaf78909a	waybar-llm-status	Added Codex quota telemetry and live Claude web-reading override to Waybar LLM tracker
 commit-a510bb7	score-usage-tracker	S51: rebuilt as sCoRE Usage Tracker (direct API, rebrand, live state colors, hook-driven needs-input + lag fix)
-c60d3286-56dc-4cd0-888d-361ac53aa65c	rabble-world-community-page	community page + modularization plan
+commit-3d68b83	score-usage-tracker	S51 wrap: merged feature/waybar-llm-status -> RaBbLE-OS-New-Horizons, documented architecture in Grimoire (sCoRE-UsageTracker.md)
+c60d3286-56dc-4cd0-888d-361ac53aa65c	rabble-world-community-page	community page plus shared runtime/base-layer modularization
