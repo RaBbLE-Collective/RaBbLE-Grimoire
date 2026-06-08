@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-08 · Session 54 (NeBuLA/World — Phase 5 complete: AmbientField absorbed)
+## LATEST — 2026-06-08 · Session 54 (NeBuLA/World — Phase 5 done; 3 open perf issues)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S54):** NeBuLA Phase 5 complete. Added `AmbientField` effect to NeBuLA — outrun grid baked to offscreen canvas on resize (zero per-frame gradient cost), ambient particles with GPU-composite glow, batched connections. `RaBbLE-bg.js` is now a 10-line shim calling `new NeBuLA.AmbientField()`. Landing page runs one RAF loop, not two. Also completed S53 draw() optimizations earlier this session.
+**Last session (S54):** Phase 5 complete — `AmbientField` in NeBuLA, `RaBbLE-bg.js` is a 10-line shim, landing page runs one RAF loop. Three perf issues remain: (1) `ctx.filter=blur()` is a Skia/main-thread call — fix is CSS element `filter:blur()` on a DOM-resident glow canvas; (2) glow buffer alpha desyncs from flat draw → flicker (1-line fix in `_visibility()`); (3) `particleSystem.update()` runs before eye draw unconditionally. Handoff doc written.
 **Blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified.
-**Next:** OS/VM bootstrap polish, or Phase 2C (Genesis/Ethos authoring).
+**Next:** NeBuLA perf pass — see `RaBbLE-Grimoire/RaBbLE-NeBuLA/RaBbLE-NeBuLA-Perf-Handoff.md`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
