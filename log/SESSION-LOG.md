@@ -5,14 +5,39 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-09 · Session 56e (Grimoire Graph eye/portal finalized)
+## LATEST — 2026-06-09 · Session 57 (Fable gap analysis + EP1 release dispatch)
 
-**Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S56e):** Grimoire Graph portal/eye polish complete. Eye ring confirmed at `EYE_W+5`; portal settled at `PRT_RX=60`; dark fill aligned to ring (`PRTF_W=60, PRTF_H=16`). Visual verified via screenshot. Note for next pass: portal outlines a tad thin — thicken slightly.
-**Blockers:** Phase 2C (Genesis/Ethos authoring).
-**Next:** Phase 2C; portal outline thickening (minor, next session); OS/VM bootstrap polish.
+**Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 ready-to-ship.
+**Last session (S57):** Fable conducted comprehensive post-mortem: entity is 90% visual, 0% sensory — has soul (BaBbLE) + face (NeBuLA) but no senses/memory. Core insight: RaBbLE is currently a chatbot with an anti-chatbot manifesto. Recommendation: ship Episode 1 *now* (freeze polish, deploy sCoRE→Railway, World→prod, verify OS VM), then Episode 2 builds the Watcher (entity's first sense). Full analysis: `log/FABLE-GAP-ANALYSIS-S57.md`. Release brief for sub-agent dispatch: `EPISODE-1-RELEASE-BRIEF.md`.
+**Blockers:** None blocking EP1 ship (exit conditions nearly met). Phase 2C deferred to post-EP1.
+**Next:** Fable dispatches sCoRE/World/OS deployment + tagging. Mark authors Genesis in parallel.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-09 (Session 57) — Fable gap analysis + coherence audit + EP1 release brief
+
+**Repos touched:** RaBbLE-Grimoire (`dev`), EPISODE-1-RELEASE-BRIEF.md created
+
+**Work done:**
+
+Summoned Claude Fable to conduct comprehensive gap analysis, post-mortem, and coherence review across the Collective. Key findings:
+
+- **Entity alignment:** RaBbLE is 90% visual expression, 0% sensory. Identity spec defines the entity by what it *does* (observes, learns, speaks unprompted), but Memory/Watcher/behavioral learning are unbuilt. Currently: chatbot with anti-chatbot manifesto.
+- **Episode 1 status:** All exit conditions nearly met (chat works locally, needs sCoRE Railway deploy, World prod deploy, OS VM verify). Forcing function: ship now, or versioning system loses meaning.
+- **Duplication:** Grimoire Graph copies 734 lines of NeBuLA eye/portal logic (violates "NeBuLA owns rendering"). Sessions 56c/56e spent tuning the copy instead of the source.
+- **World fragmentation:** 9 pages, 16 CSS files, 18 JS files, no shared chrome. Entity present on ~half. Should have mini-entity everywhere, state-driven.
+- **State machine:** Spec'd fully in BaBbLE assets + _ROUTING.md; zero NeBuLA implementation. Blocks emoting + register leakage.
+- **BaBbLE mining:** `character/soul.md` (emotional core), `assets/states/` (manifestation), `behavior/crawler-bots.md` (Watcher structure) — all resonant and structurally correct.
+
+**Fable's recommendation:** Ship Episode 1 (freeze polish, deploy), then Episode 2 builds the Watcher (entity's first sense). When RaBbLE makes an unprompted observation, it stops being a chatbot.
+
+**Artifacts created:**
+- `log/FABLE-GAP-ANALYSIS-S57.md` — full analysis (6 sections, action recommendations, coherence roadmap)
+- `EPISODE-1-RELEASE-BRIEF.md` — dispatch document for sub-agents (5 parallel tasks, blockers, success criteria)
+
+**What's next:** Fable coordinates EP1 deployment (sCoRE→Railway, World→prod, OS VM verify, tagging). Mark authors Genesis in parallel (Phase 2C, deferred post-EP1).
 
 ---
 
