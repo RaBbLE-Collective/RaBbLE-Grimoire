@@ -5,14 +5,36 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-08 · Session 55c (NeBuLA/Aether — full GPU render pass, entity z-index, portal fix)
+## LATEST — 2026-06-09 · Session 55c (NeBuLA — isolation:isolate root-cause fix for portal fill)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S55c):** All Skia/CPU rendering eliminated. shadowBlur gone (CSS compositor). Aether `brand-glow` filter:drop-shadow → text-shadow + GPU layer promotion. Entity z-index:1 fix (was rendering under AmbientField's fixed z:0 canvases — caused portal transparency). Portal fill now opaque. Glow reduced to match reference. Perf budget doc in Grimoire. Landing page entity visual confirmed correct.
-**Blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified · landing page ms budget unverified in DevTools.
-**Next:** Verify 60fps on landing page in DevTools; Phase 2C; OS/VM bootstrap polish.
+**Last session (S55c cont.):** Root cause of portal transparency found: CSS `filter:blur(8px)` on glow canvas causes Chrome GPU compositor to promote it to a layer that composites AFTER entity canvas despite lower z-index. Fix: `isolation: isolate` on `<rabble-entity>` forces all three canvases into an offscreen group first. Portal fills confirmed opaque. Also removed panel `backdrop-filter` (huge perf win) and `brand-harmony` background-position animation (non-compositable).
+**Blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified.
+**Next:** Verify 60fps in DevTools on landing page; Phase 2C; OS/VM bootstrap polish.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-09 (Session 55c cont.) — NeBuLA/World: isolation:isolate portal fill root-cause fix
+
+**Repos touched:** RaBbLE-NeBuLA (`dev`), RaBbLE-World (`feature/rabble-collective-community-page`)
+
+**Work done:**
+
+Portal interiors were still transparent on the landing page despite z-index:1 fix and canvas blend mode corrections from earlier S55c work.
+
+**Root cause (isolation:isolate):** CSS `filter:blur(8px)` on the glow canvas causes Chrome's GPU compositor to promote it to a separate compositing layer. That layer is resolved by the GPU compositor AFTER the entity canvas's layer, regardless of CSS z-index — so glow bokeh appeared on top of the opaque portal fill. Adding `this.style.isolation = 'isolate'` to `<rabble-entity>` in `element.js` forces all three canvases (field/glow/entity) into an offscreen compositing group. The group resolves internal z-order first, then places the result onto the page — the GPU compositor sees one flat image, never the intermediate layers.
+
+**World — landing.css performance fixes (also this session):**
+- Removed `backdrop-filter: blur(6px)` from `.panel` — large permanent elements with animated backgrounds behind them force full-screen compositor repaint every AmbientField frame
+- Removed `brand-harmony` animation (`background-position` on `background-clip:text` is non-GPU-compositable — forces Skia re-rasterize every frame)
+- Changed `.stage { overflow: visible }` (was `hidden`, clipping entity particle overflow)
+- Split `mix-blend-mode: screen` to field+glow canvases only; entity canvas uses `normal` so portal fill stays opaque
+
+**Confirmed:** Screenshot shows both portals with opaque fills, bokeh particles behind them.
+
+**What's next:** Verify 60fps in DevTools; Phase 2C; OS/VM bootstrap polish.
 
 ---
 
