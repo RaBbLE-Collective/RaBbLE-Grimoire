@@ -5,14 +5,34 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-09 · Session 56 (NeBuLA Studio — comprehensive WYSIWYG entity editor)
+## LATEST — 2026-06-09 · Session 56 (NeBuLA Studio — WYSIWYG editor + modular World refactor)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S56):** World/NeBuLA modular refactor completed. NeBuLA extended with runtime config API (`setEyeConfig`, `setParticleConfig`, `setPortalVisible`, `getSnapshot`). NeBuLA Studio rebuilt as a 3-panel WYSIWYG editor: entity controls, animation sequencer with keyframes, performance graphs, JSON export/import. Landing page entity sizing fixed.
-**Blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified. Visual verify Studio in browser.
-**Next:** `dev-serve.sh` + screenshot Studio; Phase 2C; OS/VM bootstrap polish.
+**Last session (S56):** NeBuLA runtime config API added (`setEyeConfig`, `setParticleConfig`, `setPortalVisible`, `getSnapshot`). Studio rebuilt as 3-panel WYSIWYG: entity controls, jolt pad, animation sequencer, perf graphs, export/import. World modularized (data/metrics/boot split, CSS split, page registry). Studio visually verified in browser.
+**Blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified.
+**Next:** Phase 2C; OS/VM bootstrap polish; landing page 60fps DevTools verify.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-09 (Session 56 close) — NeBuLA Studio: visual polish + browser verify
+
+**Repos touched:** RaBbLE-World (`feature/rabble-collective-community-page`)
+
+**Work done:**
+
+Studio visual polish pass after initial WYSIWYG build. Key fixes:
+- Added `RaBbLE-landing-shell.css` to Studio load order — without it `--neon-cyan/violet/magenta`, `--text-primary/muted`, `--void-deepest` were all unset, causing silent color fallbacks
+- Entity sizing: `min(100%, calc(75vh × 1.4375), 580px)` — fills center stage, height-aware so it never clips
+- Panel identity accents: 2px violet/cyan/magenta top stripe per column + `border-right` dividers
+- Sticky section headers (`position: sticky; top: 0`) so section labels stay pinned while scrolling
+- Per-state active button colors: idle=cyan, thinking=violet, speaking=magenta
+- Compact ctrl padding 8px→5px to show more controls without scroll
+- Perf graphs get 16px horizontal margin so they don't bleed to panel edges
+- Visual verified in browser: portals, particles, eyes, all three panel columns confirmed working
+
+**What's next:** Phase 2C; OS/VM bootstrap polish; landing page 60fps verify.
 
 ---
 
