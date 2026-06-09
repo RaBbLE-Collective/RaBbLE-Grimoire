@@ -5,14 +5,31 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-09 · Session 56 (NeBuLA Studio — WYSIWYG editor + modular World refactor)
+## LATEST — 2026-06-09 · Session 56b (sCoRE local dev: multi-provider LLM + RaBbLE entity persona)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S56):** NeBuLA runtime config API added (`setEyeConfig`, `setParticleConfig`, `setPortalVisible`, `getSnapshot`). Studio rebuilt as 3-panel WYSIWYG: entity controls, jolt pad, animation sequencer, perf graphs, export/import. World modularized (data/metrics/boot split, CSS split, page registry). Studio visually verified in browser.
-**Blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified.
-**Next:** Phase 2C; OS/VM bootstrap polish; landing page 60fps DevTools verify.
+**Last session (S56b):** sCoRE wired for local chat playground. Added CC/Codex/local_llm (Ollama/llama.cpp/vllm) providers to LLM chain; fast tier now routes to Haiku via CC first. Enriched RABBLE_SYSTEM with full entity persona (anti-assistant, clinical whimsy, pattern obsession). `server/.env` DEMO_MODE=true for local auth bypass. `spells/local-start.sh` one-command boot. World chat pinned to `model_tier:fast`.
+**Blockers:** Phase 2C (Genesis/Ethos authoring) · CC local API port to confirm (default 3001).
+**Next:** Test chat end-to-end with CC running; Phase 2C; OS/VM bootstrap polish.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-09 (Session 56b) — sCoRE local chat playground + entity persona
+
+**Repos touched:** RaBbLE-sCoRE (`dev`), RaBbLE-World (`feature/rabble-collective-community-page`)
+
+**Work done:**
+
+RaBbLE-Chat is now usable as a local entity playground backed by sCoRE. Changes:
+- `server/llm.py`: Added `claude_code`, `codex`, `local_llm` to `BUILTIN_PROVIDERS` with `api_key_required: False`. Fast tier chain: CC Haiku → local_llm → Groq → OpenRouter. Fixed `_available_candidates` and `_headers` to handle keyless providers correctly.
+- `server/agents.py`: Rewrote `RABBLE_SYSTEM` with full RaBbLE character from Identity gist — anti-assistant stance, clinical whimsy, unbounded curiosity, pattern obsession, confident directness, anti-sycophancy, information density.
+- `server/.env`: `DEMO_MODE=true`, `CC_LOCAL_URL=http://localhost:3001`, cloud keys optional/commented.
+- `spells/local-start.sh`: One-command local boot (install deps + uvicorn --reload).
+- `world/js/RaBbLE-chat.js`: Pinned `model_tier: 'fast'` — entity chat always Haiku, never auto-escalates.
+
+**What's next:** Verify CC local API port; end-to-end chat test; Phase 2C; OS/VM bootstrap.
 
 ---
 
