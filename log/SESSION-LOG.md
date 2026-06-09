@@ -5,14 +5,33 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-09 · Session 57 (Fable gap analysis + EP1 release dispatch)
+## LATEST — 2026-06-09 · Session 58 (EP1 dispatch — blocked on manual Render deploy)
 
-**Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 ready-to-ship.
-**Last session (S57):** Fable conducted comprehensive post-mortem: entity is 90% visual, 0% sensory — has soul (BaBbLE) + face (NeBuLA) but no senses/memory. Core insight: RaBbLE is currently a chatbot with an anti-chatbot manifesto. Recommendation: ship Episode 1 *now* (freeze polish, deploy sCoRE→Railway, World→prod, verify OS VM), then Episode 2 builds the Watcher (entity's first sense). Full analysis: `log/FABLE-GAP-ANALYSIS-S57.md`. Release brief for sub-agent dispatch: `EPISODE-1-RELEASE-BRIEF.md`.
-**Blockers:** None blocking EP1 ship (exit conditions nearly met). Phase 2C deferred to post-EP1.
-**Next:** Fable dispatches sCoRE/World/OS deployment + tagging. Mark authors Genesis in parallel.
+**Phase:** Epoch 0 · Episode 1 in flight, paused at deploy.
+**Last session (S58):** EP1 dispatch ran. **Pivot: Render, not Railway** (free). sCoRE deploy blocked — needs Mark's browser steps: see runbook in `EPISODE-1-RELEASE-BRIEF.md`'s companion `EP1-DISPATCH-STATE.md` (Collective root). OS VM statically verified; recast proof pending. Release doc drafted (`log/EPISODE-1-RELEASE.md`). supergfxd bug actually fixed; doc drift noted.
+**Blockers:** Render deploy (Mark, ~5 min) → World deploy → tagging.
+**Next:** Mark runs Render runbook; next agent reads `EP1-DISPATCH-STATE.md`, dispatches World, tags.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-09 (Session 58) — EP1 release dispatch: pivot to Render, blockers surfaced
+
+**Repos touched:** RaBbLE-Collective (`EP1-DISPATCH-STATE.md` created), RaBbLE-Grimoire (`log/EPISODE-1-RELEASE.md` drafted), RaBbLE-sCoRE (`render.yaml` +3 secret declarations, uncommitted), RaBbLE-OS (`spells/generate-kickstart.py` fix, uncommitted on `RaBbLE-OS-New-Horizons`)
+
+**Work done:**
+
+Fable coordinated EP1 dispatch per `EPISODE-1-RELEASE-BRIEF.md`. Four sub-agents ran; outcome was mostly reconnaissance — sandbox permission denials plus a transient classifier outage prevented agents from executing deploys. Honest assessment: high token spend, no deploy shipped; value is the blocker map and runbooks.
+
+- **Pivot:** Mark chose Render over Railway (fully free). Railway was never linked for sCoRE anyway (expired auth, unrelated project).
+- **sCoRE findings:** Render-ready (`render.yaml` existed; Procfile honors `$PORT`; `/health` endpoint). GitHub remote exists (`markm1206/RaBbLE-sCoRE` — CONTEXT.md "deferred" note stale). CRITICAL: cloud deploy needs `GROQ_API_KEY`/`OPENROUTER_API_KEY` (local chat uses `claude_code` subprocess provider, absent in containers; keys commented out in `server/.env`). Agent added 3 `sync: false` secret declarations to `render.yaml`.
+- **OS VM:** statically verified (KS matches manifest, %post coherent, nofail safety present, hyprpolkitagent wired). Fixed generator drift (`@^minimal-environment`→`@core`). supergfxd stub bug fixed since S33 — AgentGuide:114 and manifest.yml:507 are stale docs. Fedora 43→44 doc drift noted. Dynamic recast proof = Mark's manual step.
+- **Docs:** `log/EPISODE-1-RELEASE.md` drafted with Genesis framing + placeholders; SESSION-LOG draft section at its bottom (superseded by this entry for S58 facts).
+
+**Where things stand:** Full state + Mark's manual Render runbook: `RaBbLE-Collective/EP1-DISPATCH-STATE.md`. Tasks: sCoRE deploy (manual), World deploy (blocked on URL), VM recast (manual), tagging (blocked on all three).
+
+**What's next:** Mark: Render dashboard deploy + commit `render.yaml` + commit OS generator fix. Then a fresh session dispatches World deploy and tagging, finalizes `EPISODE-1-RELEASE.md`, updates Railway→Render in epoch file and `deploy-score.sh`. Domain question open: `joinrabble.world` (epoch) vs `rabble.world` (brief).
 
 ---
 
