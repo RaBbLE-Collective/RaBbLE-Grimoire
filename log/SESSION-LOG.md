@@ -5,14 +5,42 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-09 · Session 55c (NeBuLA — isolation:isolate root-cause fix for portal fill)
+## LATEST — 2026-06-09 · Session 56 (NeBuLA Studio — comprehensive WYSIWYG entity editor)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S55c cont.):** Root cause of portal transparency found: CSS `filter:blur(8px)` on glow canvas causes Chrome GPU compositor to promote it to a layer that composites AFTER entity canvas despite lower z-index. Fix: `isolation: isolate` on `<rabble-entity>` forces all three canvases into an offscreen group first. Portal fills confirmed opaque. Also removed panel `backdrop-filter` (huge perf win) and `brand-harmony` background-position animation (non-compositable).
-**Blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified.
-**Next:** Verify 60fps in DevTools on landing page; Phase 2C; OS/VM bootstrap polish.
+**Last session (S56):** World/NeBuLA modular refactor completed. NeBuLA extended with runtime config API (`setEyeConfig`, `setParticleConfig`, `setPortalVisible`, `getSnapshot`). NeBuLA Studio rebuilt as a 3-panel WYSIWYG editor: entity controls, animation sequencer with keyframes, performance graphs, JSON export/import. Landing page entity sizing fixed.
+**Blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified. Visual verify Studio in browser.
+**Next:** `dev-serve.sh` + screenshot Studio; Phase 2C; OS/VM bootstrap polish.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-09 (Session 56) — NeBuLA/World: comprehensive Studio WYSIWYG + modular refactor
+
+**Repos touched:** RaBbLE-NeBuLA (`dev`), RaBbLE-World (`dev`)
+
+**Work done:**
+
+World landing page entity mismatch fixed (CSS container width `min(36vw,460px)` mirrors boot page). `RaBbLE-landing.js` split into 4 modules: data, metrics, boot, core. CSS split into 4 focused files. `RaBbLE-pages.js` page registry created.
+
+NeBuLA `Canvas2dBackend` extended with runtime config API:
+- `setEyeConfig()` — saccade mode (calm/normal/alert/chaotic), blink interval, distraction freq, spring strength, damping, jolt decay, waveform per-state amplitude/frequency
+- `setParticleConfig()` — glow fraction, orbit speed multiplier, size range, bloom radius (with auto-rebuild)
+- `setPortalVisible(bool)` — toggle portal arcs at runtime
+- `getSnapshot()` — serializable config JSON
+
+NeBuLA Studio rebuilt as 3-panel WYSIWYG:
+- Left: entity state, entropy, waveform/interactive/portal toggles, jolt pad, particle controls, palette strip
+- Center: entity canvas, boot timeline progress bar, live metrics row
+- Right: tabbed inspector (Eyes, Animation Sequencer, Performance graphs, Log, Export/Import)
+- Animation sequencer: add/delete keyframes, play/stop/loop, Canvas2D timeline, 3 presets
+- Performance: dual Canvas2D graphs (FPS + entropy history), budget breakdown per pass
+- Export: JSON snapshot, import preset, HTML embed generator, clipboard copy
+
+Pages registry updated with Studio entry.
+
+**What's next:** `dev-serve.sh` + screenshot Studio for visual verify; Phase 2C (Genesis/Ethos); OS/VM bootstrap polish.
 
 ---
 
