@@ -5,14 +5,32 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-09 · Session 56b (sCoRE local dev: multi-provider LLM + RaBbLE entity persona)
+## LATEST — 2026-06-09 · Session 56c (World: Grimoire Graph page — cosmic knowledge browser)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S56b):** sCoRE wired for local chat playground. Added CC/Codex/local_llm (Ollama/llama.cpp/vllm) providers to LLM chain; fast tier now routes to Haiku via CC first. Enriched RABBLE_SYSTEM with full entity persona (anti-assistant, clinical whimsy, pattern obsession). `server/.env` DEMO_MODE=true for local auth bypass. `spells/local-start.sh` one-command boot. World chat pinned to `model_tier:fast`.
-**Blockers:** Phase 2C (Genesis/Ethos authoring) · CC local API port to confirm (default 3001).
-**Next:** Test chat end-to-end with CC running; Phase 2C; OS/VM bootstrap polish.
+**Last session (S56c):** Built `RaBbLE-Grimoire-Graph.html` — standalone Three.js page with 27 Grimoire docs as force-directed graph nodes (bilinear palette gradient by member) surrounding the entity's eyes rendered in-scene. Eyes/portals exactly match NeBuLA threejs-backend geometry (EYE_W=18, EYE_H=52): cyan ring+portal above left eye, magenta below right. Draw-in portal arc animation, blink FSM, iris tracking, drag/pan/zoom, click info panel.
+**Blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE chat end-to-end verify.
+**Next:** Phase 2C; verify chat with CC running; OS/VM bootstrap polish.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-09 (Session 56c) — World: Grimoire Graph cosmic knowledge browser
+
+**Repos touched:** RaBbLE-World (`feature/rabble-collective-community-page`)
+
+**Work done:**
+
+New standalone page `world/RaBbLE-Grimoire-Graph.html` — force-directed graph of Grimoire docs rendered in Three.js with the entity eyes at center. Key choices:
+- 27 curated `GRIMOIRE_DOCS` as nodes colored by bilinear palette gradient (member → UV → hex)
+- 49 semantic edges; force sim: repulsion/spring/gravity/cohesion with velocity cap (MAX_V=12)
+- Eyes/portals in Three.js orthographic scene matching NeBuLA threejs-backend exactly (scale ×100): EYE_W=18, EYE_H=52, EYE_GAP=38, dark portal fills, draw-in arc animation, blink FSM, iris lerp
+- Portal positions confirmed from `_buildEyes` comment: cyan arc+fill ABOVE left eye, magenta BELOW right
+- Stacked additive `ringLine` halos for thick glowing portal appearance
+- Drag/pan/scroll zoom; click node → info panel; double-click → eye jolt; neural connections
+
+**What's next:** Phase 2C; sCoRE chat verify; OS/VM bootstrap polish.
 
 ---
 
