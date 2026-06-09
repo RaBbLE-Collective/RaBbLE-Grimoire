@@ -5,14 +5,34 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-09 · Session 56c (World: Grimoire Graph page — cosmic knowledge browser)
+## LATEST — 2026-06-09 · Session 56c close (World: Grimoire Graph — eye/portal refinement pass)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S56c):** Built `RaBbLE-Grimoire-Graph.html` — standalone Three.js page with 27 Grimoire docs as force-directed graph nodes (bilinear palette gradient by member) surrounding the entity's eyes rendered in-scene. Eyes/portals exactly match NeBuLA threejs-backend geometry (EYE_W=18, EYE_H=52): cyan ring+portal above left eye, magenta below right. Draw-in portal arc animation, blink FSM, iris tracking, drag/pan/zoom, click info panel.
+**Last session (S56c close):** Grimoire Graph eye/portal refinement: thick filled `ellipseRingMesh` annulus outlines replace 1px lines; portal Y offset 15→68 so rings float clearly beyond eye body. Remaining polish needed: eye outlines still slightly too thick, portal arcs need more horizontal width (PRT_RX currently 45, needs ~60-70). Graph force sim stable with velocity cap.
 **Blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE chat end-to-end verify.
-**Next:** Phase 2C; verify chat with CC running; OS/VM bootstrap polish.
+**Next:** Eye/portal fine-tuning (see handoff note); Phase 2C; sCoRE chat verify.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-09 (Session 56c close) — Grimoire Graph eye/portal refinement + handoff
+
+**Repos touched:** RaBbLE-World (`feature/rabble-collective-community-page`)
+
+**Work done:**
+
+Refinement pass on `RaBbLE-grimoire-graph.js`:
+- Eye outlines: replaced 1px `ringLine` calls with `ellipseRingMesh` (filled `ShapeGeometry` annulus, outer = eye + 7/10px, inner = eye edge). Added `ellipseRingMesh()` helper. Added outer soft glow aura (`AdditiveBlending` ellipse behind the solid band).
+- Portal position: `PRT_Y` 15 → 68, so portal arcs float clearly outside the eye body rather than sitting on the equator.
+- Added `leftRingGlow`/`rightRingGlow` to blink FSM scale array.
+
+**Handoff notes for next agent — remaining eye/portal tweaks:**
+- Eye ring outlines: currently 7px wide (`EYE_W+7` outer, `EYE_W` inner). Mark says slightly too thick — try reducing to 4-5px (e.g. outer = `EYE_W+5`, inner = `EYE_W`).
+- Portal arcs: currently `PRT_RX=45` (45px half-width). Mark says needs to be wider horizontally. Try `PRT_RX=70-80` for a more dramatic flat-disc ring; update `addPortalHalos` accordingly.
+- All constants in the "Entity eye constants" block at top of `RaBbLE-grimoire-graph.js`. `dev-serve.sh` for local preview, screenshot spell for verification.
+
+**What's next:** Eye/portal tweaks per handoff; Phase 2C; sCoRE chat verify.
 
 ---
 
