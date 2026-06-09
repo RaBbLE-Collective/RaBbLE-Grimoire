@@ -5,14 +5,34 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-09 · Session 56c close (World: Grimoire Graph — eye/portal refinement pass)
+## LATEST — 2026-06-09 · Session 56d (RaBbLE-Chat live: entity responded in persona)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S56c close):** Grimoire Graph eye/portal refinement: thick filled `ellipseRingMesh` annulus outlines replace 1px lines; portal Y offset 15→68 so rings float clearly beyond eye body. Remaining polish needed: eye outlines still slightly too thick, portal arcs need more horizontal width (PRT_RX currently 45, needs ~60-70). Graph force sim stable with velocity cap.
-**Blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE chat end-to-end verify.
-**Next:** Eye/portal fine-tuning (see handoff note); Phase 2C; sCoRE chat verify.
+**Last session (S56d):** RaBbLE-Chat end-to-end confirmed. CC has no HTTP API — claude_code provider switched to subprocess (`claude --print`). Fixed SSE format mismatch (sCoRE emits `data: json\n\n`; World JSON-decodes). Dev server :8080, sCoRE :8000. Grimoire-graph tweaks: EYE_W+5, PRT_RX=60. Entity responded live in persona on first message.
+**Blockers:** Phase 2C (Genesis/Ethos authoring) · Grimoire-graph portal spread still being dialed.
+**Next:** Phase 2C; grimoire-graph portal/eye final pass; OS/VM bootstrap polish.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-09 (Session 56d) — RaBbLE-Chat end-to-end + sCoRE multi-provider
+
+**Repos touched:** RaBbLE-sCoRE (`dev`), RaBbLE-World (`feature/rabble-collective-community-page`), RaBbLE-Grimoire (`dev`)
+
+**Work done:**
+
+sCoRE local chat playground fully working. Key fixes:
+
+- CC has no HTTP API — `claude_code` provider rewritten as subprocess: `claude --print --model haiku --system-prompt "..." -p "..."`. Falls back to local_llm → Groq → OpenRouter.
+- SSE format mismatch fixed: sCoRE `_stream()` now yields `data: {json.dumps(chunk)}\n\n` + `data: [DONE]\n\n`, media type `text/event-stream`. World `chat.js` JSON-decodes each data value.
+- Dev server moved from :8000 → :8080 (`DEV_PORT` env var); sCoRE takes :8000. `dev-cdn.js` and `dev-serve.sh` updated.
+- SPELLS.md updated: `local-start.sh` documented, dev-serve port split explained.
+- Grimoire-graph: EYE_W+5 (thinner ring), PRT_RX=60 (wider portal), fill constants aligned.
+
+**First live message:** entity responded in persona — read session context, named blockers, asked what the pull was. Loop confirmed working.
+
+**What's next:** Phase 2C; grimoire-graph final portal pass; OS/VM bootstrap.
 
 ---
 
