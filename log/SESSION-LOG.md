@@ -5,14 +5,31 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-09 · Session 56d (RaBbLE-Chat live: entity responded in persona)
+## LATEST — 2026-06-09 · Session 56e (Grimoire Graph eye/portal finalized)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S56d):** RaBbLE-Chat end-to-end confirmed. CC has no HTTP API — claude_code provider switched to subprocess (`claude --print`). Fixed SSE format mismatch (sCoRE emits `data: json\n\n`; World JSON-decodes). Dev server :8080, sCoRE :8000. Grimoire-graph tweaks: EYE_W+5, PRT_RX=60. Entity responded live in persona on first message.
-**Blockers:** Phase 2C (Genesis/Ethos authoring) · Grimoire-graph portal spread still being dialed.
-**Next:** Phase 2C; grimoire-graph portal/eye final pass; OS/VM bootstrap polish.
+**Last session (S56e):** Grimoire Graph portal/eye polish complete. Eye ring confirmed at `EYE_W+5`; portal settled at `PRT_RX=60`; dark fill aligned to ring (`PRTF_W=60, PRTF_H=16`). Visual verified via screenshot. Note for next pass: portal outlines a tad thin — thicken slightly.
+**Blockers:** Phase 2C (Genesis/Ethos authoring).
+**Next:** Phase 2C; portal outline thickening (minor, next session); OS/VM bootstrap polish.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-09 (Session 56e) — Grimoire Graph eye/portal final polish
+
+**Repos touched:** RaBbLE-World (`feature/rabble-collective-community-page`), RaBbLE-Grimoire (`dev`)
+
+**Work done:**
+
+Picked up S56c/S56d handoff: portal and eye ring tweaks in `RaBbLE-grimoire-graph.js`.
+
+- Eye ring: `EYE_W+7` → `EYE_W+5` (slightly thinner annulus outline, looks correct)
+- Portal horizontal spread: `PRT_RX` dialed 45 → 75 → settled at 60
+- Portal dark fill: `PRTF_W/PRTF_H` realigned to match ring exactly (`60 × 16` = `PRT_RX × PRT_RY`)
+- Visual verified via Playwright screenshot at each step
+
+**Remaining:** Portal outline lines are a touch thin — thicken slightly next session.
 
 ---
 
