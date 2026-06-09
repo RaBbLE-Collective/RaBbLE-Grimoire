@@ -21,10 +21,11 @@ Spells are bash scripts in `spells/` that manage the RaBbLE Collective. Grimoire
 | `sync-symlinks.sh` | Create CLAUDE.md/CODEX.md/GEMINI.md → AGENT.md | After adding a repo or fixing broken links |
 | `sync-grimoire.sh` | Push Grimoire docs to member `grimoire/` dirs | After updating shared RaBbLE-Agent/ docs |
 | `init-project.sh` | Scaffold a new Collective member | Creating a new repo |
-| `dev-serve.sh` | Launch local dev environment (Aether+NeBuLA+World) | Development — always use this, not manual servers |
+| `dev-serve.sh` | Launch local dev environment (Aether+NeBuLA+World on :8080) | Development — always use this, not manual servers |
 | `cast-aether.sh` | Build + stage Aether CSS to World | After Aether CSS changes, before testing in World |
 | `cast-cdn.sh` | Build all + deploy to joinrabble.world via wrangler | Production deploy |
 | `deploy-score.sh` | Deploy sCoRE to Railway | sCoRE deploy |
+| *(sCoRE)* `local-start.sh` | Start sCoRE API server locally on :8000 | Local chat dev — run before opening RaBbLE-Chat |
 | `distill-gists.sh` | Regenerate gist/ summaries via Claude CLI | After major doc changes |
 | `install-theme.sh` | Install RaBbLE theme on OS | RaBbLE-OS theming setup |
 | `visual-screenshot.sh` | Capture browser screenshot for agent visual review | Verifying UI changes — agent sees the PNG |
@@ -87,10 +88,61 @@ bash spells/sync-grimoire.sh --dry-run
 Launches Aether watcher + NeBuLA watcher + World dev server. **Always use this** — never run `dev-cdn.js` or `esbuild --watch` manually.
 
 ```bash
-bash spells/dev-serve.sh
+bash spells/dev-serve.sh              # full: Aether + NeBuLA watchers + World on :8080
+bash spells/dev-serve.sh --world      # World server only (no watchers)
+bash spells/dev-serve.sh --aether     # Aether watcher only
+bash spells/dev-serve.sh --nebula     # NeBuLA watcher only
+DEV_PORT=9000 bash spells/dev-serve.sh  # override port
 ```
 
-**Prereqs:** Node.js, npm, repos cloned. Serves on `localhost:8000` (configurable).
+**Port:** `8080` (default) — intentionally leaves `8000` free for sCoRE API. Override with `DEV_PORT`.
+
+**Prereqs:** Node.js, npm, repos cloned.
+
+### `RaBbLE-sCoRE/spells/local-start.sh` — Start sCoRE API Locally
+
+Installs Python deps and starts the sCoRE FastAPI server with hot-reload. Run this before opening RaBbLE-Chat so the entity has a backend to talk to.
+
+```bash
+# Cast from sCoRE root
+cd ~/RaBbLE/RaBbLE-sCoRE && bash spells/local-start.sh
+```
+
+**Port:** `8000` (or `$PORT` from `server/.env`). Runs on `:8000` — World dev server uses `:8080`, so they coexist.
+
+**Prereqs:** Python 3.11+, `server/.env` exists (see `server/env.defaults` and `server/secrets.example`). Minimum `.env` for local play:
+
+```bash
+DEMO_MODE=true          # bypass JWT — all requests come through as guest
+CC_LOCAL_URL=http://localhost:3001   # adjust to wherever CC's local API is listening
+```
+
+**LLM provider chain (fast tier):**
+1. Claude Code local API (`CC_LOCAL_URL`) — Haiku, uses CC's existing auth
+2. Local inference (`LOCAL_LLM_URL`) — Ollama / llama.cpp / vllm, OpenAI-compatible
+3. Groq (`GROQ_API_KEY`) — cloud fallback
+4. OpenRouter (`OPENROUTER_API_KEY`) — cloud fallback
+
+sCoRE falls through the chain automatically — if CC isn't running, it tries the next candidate.
+
+**Full local stack:**
+```bash
+# Terminal 1 — CC local API (your existing workflow)
+# Terminal 2 — sCoRE
+cd ~/RaBbLE/RaBbLE-sCoRE && bash spells/local-start.sh
+# Terminal 3 — World
+cd ~/RaBbLE/RaBbLE-World && bash ../RaBbLE-Grimoire/spells/dev-serve.sh
+# Browser
+open http://localhost:8080/world/RaBbLE-Chat.html
+```
+
+**Quick smoke test:**
+```bash
+curl http://localhost:8000/health
+curl -s -X POST http://localhost:8000/api/v1/chat \
+  -H 'Content-Type: application/json' \
+  -d '{"messages":[{"role":"user","content":"who are you?"}],"model_tier":"fast"}'
+```
 
 ### `visual-screenshot.sh` — Agent Visual Capture
 
@@ -126,11 +178,13 @@ bash spells/cast-cdn.sh
 
 ### `deploy-score.sh` — Deploy sCoRE to Railway
 
-Wraps `RaBbLE-sCoRE/harness/` with Grimoire-level awareness.
+Wraps `RaBbLE-sCoRE/harness/` with Grimoire-level awareness. Pushes to Railway production.
 
 ```bash
 bash spells/deploy-score.sh
 ```
+
+**Note:** For local dev use `RaBbLE-sCoRE/spells/local-start.sh` instead — see Development section above.
 
 ### `install-theme.sh` — OS Theme Installation
 
