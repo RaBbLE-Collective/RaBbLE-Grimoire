@@ -15,7 +15,7 @@
 #   bash spells/dev-serve.sh --world      — World + local server only
 #   bash spells/dev-serve.sh --help       — this message
 #
-# Access: http://localhost:8000 (opens in browser automatically)
+# Access: http://localhost:8080 (opens in browser automatically)
 #
 # cast ~ dev >> aether + nebula + world running local, cdn mocked // %DEV_CAST%
 # =============================================================================
@@ -102,7 +102,7 @@ const AETHER_ROOT = path.join(RABBLE_ROOT, 'RaBbLE-Aether');
 const NEBULA_ROOT = path.join(RABBLE_ROOT, 'RaBbLE-NeBuLA');
 const WORLD_ROOT = path.join(RABBLE_ROOT, 'RaBbLE-World');
 
-const PORT = 8000;
+const PORT = parseInt(process.env.DEV_PORT || '8080', 10);
 const HOSTNAME = 'localhost';
 
 const server = http.createServer((req, res) => {
@@ -228,14 +228,14 @@ fi
 echo ""
 pulse "════════════════════════════════════════"
 info "Dev environment ready"
-info "http://localhost:8000"
+info "http://localhost:${DEV_PORT:-8080}"
 echo ""
 
 # Try to open browser
 if command -v xdg-open &> /dev/null; then
-  xdg-open "http://localhost:8000" &
+  xdg-open "http://localhost:${DEV_PORT:-8080}" &
 elif command -v open &> /dev/null; then
-  open "http://localhost:8000" &
+  open "http://localhost:${DEV_PORT:-8080}" &
 fi
 
 # Keep running until interrupted

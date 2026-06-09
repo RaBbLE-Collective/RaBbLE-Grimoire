@@ -9,7 +9,7 @@ const AETHER_ROOT = path.join(RABBLE_ROOT, 'RaBbLE-Aether');
 const NEBULA_ROOT = path.join(RABBLE_ROOT, 'RaBbLE-NeBuLA');
 const WORLD_ROOT = path.join(RABBLE_ROOT, 'RaBbLE-World');
 
-const PORT = 8000;
+const PORT = parseInt(process.env.DEV_PORT || '8080', 10);
 const HOSTNAME = 'localhost';
 
 const server = http.createServer((req, res) => {
