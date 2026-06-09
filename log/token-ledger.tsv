@@ -22,4 +22,9 @@ commit-59c173e	waybar-usage-meter	Calibrated llm-status.sh against web meter, bu
 commit-a510bb7	score-usage-tracker	S51: rebuilt as sCoRE Usage Tracker (direct API, rebrand, live state colors, hook-driven needs-input + lag fix)
 commit-3d68b83	score-usage-tracker	S51 wrap: merged feature/waybar-llm-status -> RaBbLE-OS-New-Horizons, documented architecture in Grimoire (sCoRE-UsageTracker.md)
 c60d3286-56dc-4cd0-888d-361ac53aa65c	rabble-world-community-page	community page plus shared runtime/base-layer modularization
-412342ec-0022-4153-82c8-ad7f32cb7e16	nebula-perf-overhaul	Two-canvas split, sparse k-NN connections, GPU-composite bloom, physics throttle. Field layer: 2.5ms→0.38ms (-85%). Playwright screenshot spell added.
+412342ec-0022-4153-82c8-ad7f32cb7e16	perf-handoff	S54 close: 3 open perf issues documented — ctx.filter main-thread blur, alpha flicker, update/draw ordering
+5087a506-5502-4b83-8072-5f8deb4ef520	nebula-perf	AmbientField: half-rate 30fps + no connections; bg cost ~0.5-1ms
+commit-4305c0a	nebula-studio	S56: Studio WYSIWYG + NeBuLA runtime config API + World modular refactor + visual polish verified
+96059b01-c904-474d-8317-582bfcdeaf6b	Collective	auto: current state S56c: Grimoire Graph cosmic knowledge browser live
+commit-6007cf8	grimoire-graph	S56c: Three.js cosmic knowledge browser with eyes/portals matching NeBuLA threejs-backend exactly
+commit-81f3088	grimoire-graph	S56c close: thick ring outlines + portal Y offset; handoff: reduce ring width, widen portal arcs horizontally

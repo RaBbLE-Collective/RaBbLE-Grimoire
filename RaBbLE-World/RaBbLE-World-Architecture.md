@@ -194,6 +194,35 @@ Full renderer documentation lives in `RaBbLE-NeBuLA/` in the Grimoire.
 
 ---
 
+## JS Module Map (post-refactor)
+
+World JS is split into focused modules loaded in order:
+
+| Module | Global | Purpose |
+|---|---|---|
+| `RaBbLE-aether.js` | — | Injects Aether CSS bundle from CDN; failure monitor |
+| `RaBbLE-NeBuLA.js` | `window.NeBuLA` | Injects NeBuLA JS bundle from CDN; defines `<rabble-entity>` |
+| `RaBbLE-landing-data.js` | `window.LandingData` | All data constants for landing (ORGANS, BOOT_LOG_LINES, etc.) |
+| `RaBbLE-landing-metrics.js` | `window.LandingMetrics` | rAF pulse loop, entropy computation, substrate detection |
+| `RaBbLE-landing-boot.js` | `window.LandingBoot` | Boot log playback timeline with callback API |
+| `RaBbLE-landing.js` | Alpine.data('landing') | Landing page Alpine component — wires all modules into reactive state |
+| `RaBbLE-pages.js` | `window.RaBbLE_PAGES` | Page registry — source of truth for all World page URLs |
+| `RaBbLE-page-runtime.js` | `window.RaBbLEPageRuntime` | Shared page utilities: startBackground, mountEntityMini, mountStatusbar, mountPageNav |
+| `RaBbLE-Studio.js` | — | NeBuLA Studio controls — vanilla JS, no Alpine |
+
+### LandingBoot.play callback API
+
+`window.LandingBoot.play(lines, callbacks)` — plays a boot log timeline.
+
+- `lines`: array of `{ at: ms, msg: string, cls?: string, ts?: string, tag?: string, entityState?: string }`
+- `callbacks.pushLine(line)`: called for each log line at its `at` timestamp
+- `callbacks.setEntityState(state)`: called when a line has `entityState` set
+- `callbacks.onComplete()`: called after all lines have fired
+
+This interface is reusable by any page that needs a boot sequence (e.g., NeBuLA-OS emulation).
+
+---
+
 ### `boot.js`
 
 Boot sequence controller. Three responsibilities:
