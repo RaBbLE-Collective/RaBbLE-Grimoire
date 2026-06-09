@@ -5,33 +5,47 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-08 · Session 55c (NeBuLA — shadowBlur eliminated; all glow via CSS compositor)
+## LATEST — 2026-06-08 · Session 55c (NeBuLA/Aether — full GPU render pass, entity z-index, portal fix)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · Episode 1 pilot.
-**Last session (S55c):** Root cause of 25ms frames found: `ctx.shadowBlur` — 4+ calls/frame on eyes+portals = 16-24ms of Skia software blur on the main thread. Fix: draw crisp shapes on entity canvas (no shadowBlur); draw oversized glow shapes on glowCanvas (CSS `filter:blur(8px)` on DOM element → compositor thread, zero JS cost). Particles re-added. Flicker bug fixed (shared glowCanvas clear timing conflict). Budget doc: `Grimoire/RaBbLE-NeBuLA/RaBbLE-NeBuLA-Canvas2D-Perf.md`.
-**Blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified.
-**Next:** Verify 60fps on landing page; Phase 2C; OS/VM bootstrap polish.
+**Last session (S55c):** All Skia/CPU rendering eliminated. shadowBlur gone (CSS compositor). Aether `brand-glow` filter:drop-shadow → text-shadow + GPU layer promotion. Entity z-index:1 fix (was rendering under AmbientField's fixed z:0 canvases — caused portal transparency). Portal fill now opaque. Glow reduced to match reference. Perf budget doc in Grimoire. Landing page entity visual confirmed correct.
+**Blockers:** Phase 2C (Genesis/Ethos authoring) · sCoRE Railway unverified · landing page ms budget unverified in DevTools.
+**Next:** Verify 60fps on landing page in DevTools; Phase 2C; OS/VM bootstrap polish.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
 ---
 
-## 2026-06-08 (Session 55c) — NeBuLA/Grimoire: shadowBlur elimination, all glow via CSS compositor
+## 2026-06-08 (Session 55c) — NeBuLA/Aether/World/Grimoire: shadowBlur elimination + full GPU render pass
 
-**Repos touched:** RaBbLE-NeBuLA (`dev`), RaBbLE-Grimoire (`dev`)
+**Repos touched:** RaBbLE-NeBuLA (`dev`), RaBbLE-Aether (`dev`), RaBbLE-World (`dev`), RaBbLE-Grimoire (`dev`)
 
 **Work done:**
 
 `ctx.shadowBlur` was the real culprit behind 25ms frames — each call triggers a full Skia software Gaussian blur on the main JS thread. Eyes + portals had 4+ calls per frame = 16-24ms wasted before any particle draw.
 
+**NeBuLA — shadowBlur elimination:**
 - Eliminated all `shadowBlur` from `eye-system.js` and `portal-system.js`
 - Glow shapes now drawn to `glowCanvas` (oversized to compensate for CSS 8px blur radius)
 - `glowCanvas` has `style="filter:blur(8px)"` — blur runs on GPU compositor thread, zero JS cost
 - Particles re-added (they were not the primary culprit; ~1-2ms at 150 count)
-- Fixed glow flicker: `particle-system.js` was calling `clearRect` on shared glowCanvas mid-frame, wiping eye glow. Fixed by making external-canvas path skip clearRect (backend owns the clear) and always redraw particle glow (backend clears every frame, N-frame cache = blank for N-1 frames)
-- Grimoire perf reference: `RaBbLE-NeBuLA/RaBbLE-NeBuLA-Canvas2D-Perf.md` — measured costs, budget table, no-shadowBlur rule
+- Fixed glow flicker: `particle-system.js` was calling `clearRect` on shared glowCanvas mid-frame, wiping eye glow. Fixed: external-canvas path skips clearRect (backend owns the clear), always redraws
+- Reduced glow intensity; portal fill fully opaque (was transparent at edge, letting glowCanvas bleed through)
+- Portal glow arc narrowed (lineWidth 9→4, alpha 0.7→0.45) to prevent bleed into socket interior
 
-**What's next:** Verify 60fps in browser DevTools; Phase 2C; OS/VM bootstrap.
+**NeBuLA — entity z-index stacking fix:**
+- `element.js`: `if (!this.style.zIndex) this.style.zIndex = '1'`
+- Root cause: `position:relative` with no z-index ranks below `position:fixed; z-index:0` (AmbientField canvases) in CSS paint order. AmbientField glow canvas was compositing ON TOP of the entity, making portal interiors appear colored/transparent on the landing page.
+
+**Aether — brand-glow animation fix (15-20ms savings on landing page):**
+- `brand-glow` keyframes used `filter:drop-shadow` — same Skia software path as ctx.shadowBlur, runs on main JS thread every animation frame
+- Replaced with `text-shadow` (GPU-compositable, compositor thread)
+- Added `will-change:transform` + `transform:translateZ(0)` to `.rabble-brand-flow` to promote wordmark to GPU compositor layer
+- Aether rebuilt and deployed to `RaBbLE-World/world/css/aether.css`
+
+**Grimoire:** `RaBbLE-NeBuLA/RaBbLE-NeBuLA-Canvas2D-Perf.md` — measured costs, budget table, no-shadowBlur rule. Hard rule: no shadowBlur, no ctx.filter — all blur is CSS.
+
+**What's next:** Verify 60fps in browser DevTools on landing page; Phase 2C; OS/VM bootstrap.
 
 ---
 
