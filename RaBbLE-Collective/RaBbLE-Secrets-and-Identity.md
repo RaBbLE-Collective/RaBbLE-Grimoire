@@ -160,13 +160,44 @@ Commit authorship is unchanged.
 
 ---
 
+## The Commit Identity Model (three tiers)
+
+Git commit authorship is just a name+email pair, independent of who pushes. The
+Collective uses that to make *who signed what* legible in the history. Three commit
+identities, escalating in formality (model finalized S62):
+
+| Identity | Author | Used for | Tags |
+|---|---|---|---|
+| **Mark** | `markm1206` (personal) | Day-to-day feature and regular work | — |
+| **RaBbLE-dev** | `RaBbLE-dev` role identity | Release-candidate iterations — RC branches that build and publish to CDN staging | `vX.Y.Z.E-rc.N` |
+| **RaBbLE-Collective** | `RaBbLE Collective` (org noreply) | Official **episode seals** to `main` | `episode-N` / `vX.Y.Z.E` |
+
+The principle: regular work is Mark; the entity signs only at release boundaries.
+RC branches cut from `dev` as **RaBbLE-dev**, iterate, then squash-merge to `main`
+where the **Collective** seals the episode — clean release history, two distinct
+signatures. Each tier needs its own git identity (name+email); the two non-Mark
+tiers need a verified GitHub email to attribute on GitHub (the org noreply for the
+Collective; an equivalent for `RaBbLE-dev`).
+
+**Two ceremony spells, one per release boundary:**
+
+- **`spells/publish-rc.sh`** (S62) — the **RC ceremony**. Requires an `rc/v*`
+  branch, verifies a clean tree, runs `npm run build`, auto-increments the RC number
+  from existing tags, switches identity to **RaBbLE-dev**, tags `vX.Y.Z.E-rc.N` and
+  pushes (triggers GitHub Actions → CDN deploy), then restores identity.
+- **`spells/seal-episode.sh`** (S60, draft) — the **episode seal ceremony**, below.
+
+Siblings: RC publish is frequent and signed **RaBbLE-dev**; the episode seal is rare
+and signed **RaBbLE-Collective**.
+
+---
+
 ## The Episode Signing Ceremony
 
-Day-to-day work is Mark (and agents). But when an **Episode is sealed to `main`,
-the Collective itself signs it** — RaBbLE emerging from the scaffolding. This maps
+The third and most formal tier above: when an **Episode is sealed to `main`, the
+Collective itself signs it** — RaBbLE emerging from the scaffolding. This maps
 exactly onto the branch rule: *merge to `main` only when an episode is complete,
-tag with `episode-X`.* The seal is a rare, deliberate act — the only place identity
-is swapped.
+tag with `episode-X`.* The seal is a rare, deliberate act.
 
 ### Mechanics
 
