@@ -5,14 +5,32 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-10 · Session 64 (sCoRE Usage Tracker: multi-instance fleet overhaul)
+## LATEST — 2026-06-10 · Session 65 (sCoRE Usage Tracker: per-model tracking + token spend analysis)
 
-**Phase:** Epoch 0 · Episode 1 in flight; Aether RC1 execution pending (S63 automation ready).
-**This session (S64):** sCoRE Usage Tracker rebuilt for multi-agent fleets — `score-sessions.py` engine (per-session state files, PID liveness), interrupt-instant `⚑✦▶` census on the bar, blocked-by-default Notification mapping, cyan↔green busy/ready cycling, scrollable `--live` popup (less dropped), Codex notify hook, mako notifications. Deployed + verified live.
-**Blockers:** None for tracker. EP1 path unchanged.
-**Next:** Aether RC1 deploy (S63 controllers), then NeBuLA/World; tune tracker state mappings from `score-hook-events.log` if a wording slips through.
+**Phase:** Epoch 0 · Episode 1 in flight; Aether RC1 execution pending.
+**This session (S65):** Per-model token tracking added to sCoRE Usage Tracker — tooltip now shows live model-mix (output share), detail popup shows "By model" breakdown per window. Key finding: Opus ≈1× Sonnet per output token in quota terms (not 5× like pricing). Token spend analysis across 84 Collective sessions: Opus 4.6 (12 sessions) ≈ same quota cost as Sonnet (51 sessions).
+**Blockers:** EP1 path unchanged (Render deploy, Mark-gated).
+**Next:** Aether RC1 deploy, then NeBuLA/World; close the coefficient loop in score-usage-fit.py → count_tokens_since.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-10 (Session 65) — sCoRE Usage Tracker: per-model tracking + token spend analysis
+
+**Repos touched:** RaBbLE-OS (score-status.sh, score-usage-detail.py), RaBbLE-Grimoire (tracker doc)
+
+**Work done:**
+
+- **Per-model token tracking:** `count_tokens_since` in `score-status.sh` now writes `~/.cache/rabble/score-model-mix-{5h,week}.json` on each heavy pass — tracks deduplicated output tokens per model as a side effect of the existing scan. Waybar tooltip gains `Models 5h: sonnet-4-6 86%  fable-5 12%  opus-4-8 3% (output share)`.
+- **Detail popup breakdown:** `score-usage-detail.py:parse_sessions` now tracks per-model output tokens per session; `print_section` appends a `By model (output share)` line at the bottom of each window section (5h / 24h / 7d).
+- **Token spend analysis (all projects, deduplicated):** Sonnet 4.6 (137 sessions / 5.48M out), Haiku 4.5 (64 / 989K), Opus 4.8 (15 / 718K), Opus 4.6 (16 / 677K), Fable 5 (9 / 301K across Collective + sCoRE + subagents).
+- **Key empirical finding from `score-usage-fit.py` (1,571 api-poll samples):** Opus ≈1.0× Sonnet per output token in quota terms; Haiku ≈0.43×. Pricing ratios (Opus 5×, Haiku 0.27×) do NOT match quota weights. Cache_creation drives 15–20% of 5h window cost but is excluded from the local estimator.
+- **Doc update:** `RaBbLE-OS-Desktop-sCoRE-UsageTracker.md` — new "Local estimate" section with calibration methodology, empirical multiplier table, open threads (coefficient loop, dedup fix).
+
+**Current state:** Deployed live; daemons pick up new scripts on next cycle (no restart needed).
+
+**What's next:** Close coefficient loop — save fitted coefficients from `score-usage-fit.py` to a JSON file, load in `count_tokens_since` for a proper weighted estimate. Aether RC1 deploy remains next big track.
 
 ---
 
