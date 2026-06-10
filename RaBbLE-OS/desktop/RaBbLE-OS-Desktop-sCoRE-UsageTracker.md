@@ -3,6 +3,7 @@
 ```
 spark ~ sCoRE Usage Tracker >> hook becomes ground truth + interrupt-driven push // %S51%
 mend  ~ sCoRE Usage Tracker >> multi-instance session engine + live popup + notifications // %S61%
+mend  ~ sCoRE Usage Tracker >> per-model tracking + estimate calibration from empirical fit // %S62%
 ```
 
 > Lives in `RaBbLE-OS/config/waybar/scripts/score-*` and `config/waybar/{config.jsonc,style.css}`.
@@ -117,8 +118,40 @@ One mechanism serves both "animate smoothly while busy" and "react instantly whe
 
 ---
 
+## Local estimate — how it works and how to tune it
+
+`score-status.sh:count_tokens_since` parses `~/.claude/projects/**/*.jsonl` and sums raw `input_tokens + output_tokens` within the window. The percentage bar divides by `FIVE_H_LIMIT` / `WEEKLY_LIMIT`.
+
+**Known limitation:** each turn writes multiple JSONL records (one per streaming content block: thinking, text, tool-use) all with the same `requestId` and the same usage counters — so raw counts are 2–3× overcounted. The limits (804K / 14.7M) are calibrated against this same inflated count, so the percentage still tracks reality as long as the overcount ratio stays roughly constant within a session. This is a known quirk; fixing it properly requires re-deriving the limits from clean deduplicated data.
+
+**Why the estimate drifts:** `cache_creation` tokens (the main cost driver for new sessions — empirically 15–20% of 5h quota from the `score-usage-fit.py` regression) are **not included** in the raw sum. A session that hits the cache hard looks cheap locally but registers fully with Anthropic.
+
+**Recalibrating the limits:** Note the `FIVE_H_LIMIT` and `WEEKLY_LIMIT` constants, compare to the web meter's observed %, update the constants. Alternatively, `score-usage-fit.py` can derive per-model per-token-type coefficients automatically from the api-poll log (see the Key section below).
+
+### Key empirical finding — model multipliers (S62, 2026-06-10)
+
+`score-usage-fit.py` on 1,571 api-poll samples (16 5h window instances, 4 weekly windows):
+
+| Model | Output quota weight vs Sonnet | Notes |
+|---|---|---|
+| Haiku 4.5 | ~0.43× | Much cheaper per session; verified by weekly fit |
+| Sonnet 4.6 | 1.0× (baseline) | |
+| Opus 4.6 / 4.8 | ~1.0× | Nearly equal to Sonnet **per output token** |
+| Fable 5 | ~1.0× | Treated as Sonnet-equivalent; insufficient data |
+
+**This is very different from pricing** (where Opus is 5× Sonnet). For quota purposes, Anthropic weighs models nearly equally per output token — the big cost driver is **session count and cache_creation volume**, not which model you pick. Cache reads are ~0.005× the weight of output tokens (negligible).
+
+**Practical implication:** you can't economise by switching to Haiku within the same number of sessions (saves ~57% per output token). Switching Opus → Sonnet within sessions also doesn't save as much as you'd expect from pricing (~0% savings per output token in quota terms). The biggest lever is reducing turn count.
+
+### Per-model tracking (added S62)
+
+`count_tokens_since` now writes `~/.cache/rabble/score-model-mix-5h.json` and `score-model-mix-week.json` after each heavy-tier pass. The tooltip shows `Models 5h: sonnet-4-6 85%  opus-4-6 15%` (output share). The click-through popup (`score-usage-detail.py`) now shows a `By model` summary at the bottom of each time window's session list.
+
+---
+
 ## Open threads
 
 - **Codex turn-start** — `notify` only covers turn-complete; busy detection stays heuristic until Codex grows real lifecycle hooks (then mirror the Claude bridge in `score-sessions.py`)
-- **Drift tuning** — `score-usage-fit.py` keeps logging regression samples to refine the local estimate against the API's authoritative reading over time
+- **Close the coefficient loop** — `score-usage-fit.py` now has stable weekly-window coefficients (RMSE 0.446 pp). The next step is to save them to `~/.cache/rabble/score-usage-coeffs.json` and have `count_tokens_since` load that file instead of the hardcoded raw-sum formula. Until then, `score-usage-fit.py` is purely diagnostic.
+- **Deduplication + limit recal** — fixing the ~2.57× streaming-record duplicate count would make the absolute token display accurate; requires re-deriving `FIVE_H_LIMIT` / `WEEKLY_LIMIT` from a clean calibration pass (read raw in+out from the api-poll log at a known %, not from the local JSONL parser).
 - This is the **first sCoRE applet** — expect it to migrate wholesale into RaBbLE-sCoRE once that member is ready to own its own UI surfaces; the `score-` prefix and self-contained `~/.cache/rabble/` cache layout are deliberate preparation for that move
