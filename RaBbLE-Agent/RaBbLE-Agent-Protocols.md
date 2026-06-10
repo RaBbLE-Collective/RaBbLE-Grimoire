@@ -184,7 +184,7 @@ Any `--font-hero` (Orbitron) element containing a brand name (`RaBbLE`, `NeBuLA`
 .nav-brand { text-transform: none; /* RaBbLE, NeBuLA, sCoRE must not be uppercased */ }
 ```
 
-Full rule: `RaBbLE-Aether/CLAUDE-DESIGN-GUIDE.md § Brand Name Casing`.
+Full rule: `RaBbLE-Aether/RaBbLE-Aether-Design-Guide.md § Brand Name Casing`.
 
 ---
 

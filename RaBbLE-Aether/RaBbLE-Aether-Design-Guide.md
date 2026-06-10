@@ -1,10 +1,10 @@
-# CLAUDE-DESIGN-GUIDE.md — Using Claude for RaBbLE-Aether Design
+# RaBbLE-Aether-Design-Guide.md — Creating RaBbLE Visual Assets
 
 ```
-transcribe ~ aether >> design language rendered for Claude Design // %AETHER_LIVE%
+transcribe ~ aether >> design language rendered for design tooling // %AETHER_LIVE%
 ```
 
-This guide gives you the palette, component vocabulary, and ready-to-use prompts for creating RaBbLE visual assets in Claude Design sessions.
+This guide gives you the palette, component vocabulary, and ready-to-use prompts for creating RaBbLE visual assets in any AI design or image-generation tool (it was authored against Claude Design, but nothing here is tool-specific).
 
 ---
 
@@ -16,7 +16,7 @@ This guide gives you the palette, component vocabulary, and ready-to-use prompts
 
 ## The Canonical Palette — Always Use These Hex Values
 
-Copy these into Claude Design's color picker or reference them in prompts.
+Copy these into your design tool's color picker or reference them in prompts.
 
 | Name | Hex | Use |
 |---|---|---|
@@ -196,7 +196,7 @@ Tag colors: OK=#50fa7b, ERR=#ff2d78, INFO=#00f5ff, RBL=#bf5fff, WARN=#f1fa8c
 
 ## Animation Vocabulary
 
-Use these when describing motion in Claude Design:
+Use these when describing motion to an image or animation tool:
 
 | Name | Behavior | Trigger |
 |---|---|---|
