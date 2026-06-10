@@ -45,6 +45,13 @@ Design conversation with Mark on how the RaBbLE Collective should hold its own c
 - **`spells/seal-episode.sh` (DRAFT):** the **Episode Signing Ceremony**. Day-to-day commits stay Mark/agents; episode seals to `main` are authored by the Collective via per-command `-c user.name/user.email` override (noreply email, authorship ≠ pusher). Annotated tag in Pulse format, `evolve` impulse, optional SSH signing for the Verified badge. Guarded — exits with instructions until `COLLECTIVE_EMAIL` is set (account doesn't exist yet).
 - Registered both in `INDEX.md`.
 
+**Follow-on work (same session):**
+
+- **Agent-Protocols promotion:** mined `.claude` memory for Grimoire-relevant rules; the doc was already well-synced, so promoted only the two cross-cutting rules buried in member-only docs — brand-name `text-transform:none` casing, and "VM/dev storage is never a boot dependency" (`nofail`) — into `RaBbLE-Agent/RaBbLE-Agent-Protocols.md`.
+- **Design-guide de-Claude:** `git mv RaBbLE-Aether/CLAUDE-DESIGN-GUIDE.md → RaBbLE-Aether-Design-Guide.md`, removed Claude-specific framing (kept an honest "authored against Claude Design" mention per the prior Gemini-neutralization lesson), updated all live refs (INDEX, Agent-Protocols, World AGENT.md, memory) + regenerated `grimoire-graph`.
+- **Memory sync:** rebuilt `MEMORY.md` index to match files (pruned 3 superseded May-14 snapshots after confirming their value lives in Grimoire; verified 0 dead links). Recorded promote-before-prune discipline; `.claude` stays untracked (Mark's call), with a separate future-idea note about private-git backup.
+- **Identity-model reconciliation:** updated `RaBbLE-Secrets-and-Identity.md` to the **three-tier** commit-identity model from the concurrent S62 thread (Mark / RaBbLE-dev for RCs / Collective for seals), framing `publish-rc.sh` (RC ceremony) and `seal-episode.sh` (seal ceremony) as siblings.
+
 **Mark's action items (not agent-doable):** create the GitHub org from his personal account (contact/billing = proton); optionally the `RaBbLE-Collective` role account as second owner; create Collective Groq + OpenRouter accounts (billing on the Collective); stand up the password-manager vault; transfer `RaBbLE-sCoRE` + `RaBbLE-World` after Render verifies.
 
 **What's next:** Unchanged EP1 critical path — Mark's Render runbook, then World prod deploy + tagging. Finish `seal-episode.sh` once the Collective account + noreply email exist; consider scaffolding the SOPS/age slice in sCoRE so the Collective keys land in it from birth.
