@@ -28,3 +28,7 @@ commit-4305c0a	nebula-studio	S56: Studio WYSIWYG + NeBuLA runtime config API + W
 96059b01-c904-474d-8317-582bfcdeaf6b	Collective	auto: current state S56c: Grimoire Graph cosmic knowledge browser live
 commit-6007cf8	grimoire-graph	S56c: Three.js cosmic knowledge browser with eyes/portals matching NeBuLA threejs-backend exactly
 commit-81f3088	grimoire-graph	S56c close: thick ring outlines + portal Y offset; handoff: reduce ring width, widen portal arcs horizontally
+78b640f4-ae17-4e84-adf4-d8334b379a71	Collective	auto: current state S56e close: grimoire-graph portal/eye finalized
+504c236e-79e7-4bc9-b46c-bf61f32b1e69	Collective	auto: EP1 release dispatch brief
+0e405563-4f09-4fef-a695-1f94a98f758d	ep1-release-dispatch	S58: EP1 dispatch via sub-agents; pivot Railway->Render; blocked on manual Render deploy; OS VM static-verified; high token spend, recon-only outcome
+1ca441cc-6b1d-4f41-a9b2-a11ea747d212	world-ep1-cohesion	global page nav + Docs rebuild + loader unification; root dev rebase

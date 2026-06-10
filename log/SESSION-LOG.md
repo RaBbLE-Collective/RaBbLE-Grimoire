@@ -5,14 +5,31 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-09 · Session 58 (EP1 dispatch — blocked on manual Render deploy)
+## LATEST — 2026-06-09 · Session 59 (World EP1 cohesion + Collective dev rebase)
 
-**Phase:** Epoch 0 · Episode 1 in flight, paused at deploy.
-**Last session (S58):** EP1 dispatch ran. **Pivot: Render, not Railway** (free). sCoRE deploy blocked — needs Mark's browser steps: see runbook in `EPISODE-1-RELEASE-BRIEF.md`'s companion `EP1-DISPATCH-STATE.md` (Collective root). OS VM statically verified; recast proof pending. Release doc drafted (`log/EPISODE-1-RELEASE.md`). supergfxd bug actually fixed; doc drift noted.
-**Blockers:** Render deploy (Mark, ~5 min) → World deploy → tagging.
-**Next:** Mark runs Render runbook; next agent reads `EP1-DISPATCH-STATE.md`, dispatches World, tags.
+**Phase:** Epoch 0 · Episode 1 in flight, still paused at Render deploy.
+**Last session (S59):** Collective root `dev` rebased onto `origin/dev` (was ahead 14/behind 1; clean). World cohesion pass: global ◈ page nav on all surfaces, Docs rebuilt on standard stack, Demo's localhost bundle ref fixed. Playwright-verified; captures in `RaBbLE-Captures/`. World commit `1c7d99b` on `feature/rabble-collective-community-page`.
+**Blockers:** Render deploy (Mark, runbook in `EP1-DISPATCH-STATE.md`) → World deploy → tagging. OS/VM pushed post-EP1.
+**Next:** Mark runs Render runbook; then World prod deploy + tagging.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-09 (Session 59) — World cohesion for EP1 + root dev rebase
+
+**Repos touched:** RaBbLE-Collective (rebase only), RaBbLE-World (`1c7d99b`), RaBbLE-Grimoire (this log)
+
+**Work done:**
+
+- **Git mend:** Collective root `dev` had diverged (ahead 14, behind 1 — remote had `setup.sh` clone-dev fix). No file overlap; rebased cleanly onto `origin/dev`. Now ahead 14, push when ready.
+- **World chrome unification** (gap analysis rec #5, scoped to navigation for EP1): new `world/css/RaBbLE-chrome.css` + `mountGlobalNav` in `RaBbLE-page-runtime.js` — a fixed ◈ toggle (bottom-right) opening a panel of all live pages, current page highlighted. Auto-mounts via `<body data-page-id>`; added to all 9 live surfaces (Boot stays a reference artifact).
+- **Docs page rebuilt:** old `RaBbLE-Docs.html` was fully rogue (Google Fonts link, 113-line inline `<style>` with raw hex, no Aether, content documented a dead React prototype "RaBbLE-WebChat v0.4.7"). Rebuilt on the standard stack (loaders, theme vars, new `RaBbLE-docs.css`) with current content: Collective members, World architecture, entity states, sCoRE chat API, Five Es. Entity mini in the sidebar.
+- **Loader unification:** Chat/OS/Demo used raw `<link>` to the Aether CDN path (no failure banner) — switched to `js/RaBbLE-aether.js`. **Demo bug fixed:** NeBuLA bundle was hardcoded to `http://localhost:8000/nebula/...` — broken in prod; now uses the standard include.
+- **Doc drift fixed:** World CONTEXT.md referenced nonexistent `dev-serve.sh`; the real dev server is `RaBbLE-Grimoire/spells/dev-cdn.js` (maps `/aether/*`,`/nebula/*` → member `dist/`; `DEV_PORT`, default 8080) — documented. Noted: `world/js/RaBbLE-NeBuLA.js` is the actual NeBuLA IIFE bundle, not a loader, despite AGENT.md describing it as one.
+- Verified with Playwright served via `dev-cdn.js` (Docs/Chat/OS/landing) — captures saved to `RaBbLE-Captures/S59-world-*.png`.
+
+**What's next:** Unchanged from S58 — Mark's Render runbook, then World prod deploy + tagging. Hex sweep of remaining page CSS (22+12+11 instances) deferred post-EP1; statusbar/entity-mini-everywhere graduation to Aether/NeBuLA.ui deferred to Ep2.
 
 ---
 
