@@ -56,6 +56,11 @@ warn() { echo -e "  ${YELLOW}!${RESET}  $*"; }
 err()  { echo -e "  ${RED}✗${RESET}  $*" >&2; }
 header() { echo -e "\n${MAGENTA}$*${RESET}\n"; }
 
+suggest_setup() {
+  echo ""
+  info "Run: bash spells/$(basename "$0") setup <member>"
+}
+
 # ─ Paths ─────────────────────────────────────────────────────────────────────
 SPELL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 GRIMOIRE_ROOT="$(cd "$SPELL_DIR/.." && pwd)"
@@ -74,6 +79,7 @@ cmd_setup() {
 
   MEMBER_REPO="RaBbLE-$(echo "$member" | sed 's/^./\U&/')"
   MEMBER_ROOT="$COLLECTIVE_ROOT/$MEMBER_REPO"
+  GITHUB_ORG="${GITHUB_ORG:-RaBbLE-Collective}"
 
   header "Setup $MEMBER_REPO for Deployment"
 
@@ -82,26 +88,81 @@ cmd_setup() {
     exit 1
   fi
 
-  ok "Member: $MEMBER_REPO"
-
-  # Step 1: Create workflow
-  info "Creating GitHub Actions workflow..."
-  bash "$SPELL_DIR/create-member-workflow.sh" "$member" || {
-    if [ "$dry_run" != "--dry-run" ]; then
-      exit 1
-    fi
-  }
-
-  # Step 2: Set GitHub secrets
-  info "Configuring GitHub Actions secrets..."
-  bash "$SPELL_DIR/cloudflare-ctl.sh" secrets-setup "$member" || {
-    warn "Could not auto-configure secrets"
-    warn "Set manually at: https://github.com/markm1206/$MEMBER_REPO/settings/secrets/actions"
-  }
-
+  ok "Member: $MEMBER_REPO at $MEMBER_ROOT"
   echo ""
+
+  # ── Step 1: Node.js ──────────────────────────────────────────────────────
+  info "Step 1/4  Node.js"
+  if command -v node &>/dev/null; then
+    ok "Node.js $(node --version)"
+  else
+    err "Node.js not found — install from: https://nodejs.org"
+    exit 1
+  fi
+  echo ""
+
+  # ── Step 2: gh CLI ───────────────────────────────────────────────────────
+  info "Step 2/4  GitHub CLI (gh)"
+  if command -v gh &>/dev/null; then
+    ok "gh installed ($(gh --version | head -1))"
+    if gh auth status &>/dev/null 2>&1; then
+      ok "gh authenticated"
+    else
+      if [ "$dry_run" != "--dry-run" ]; then
+        warn "gh not authenticated. Opening login..."
+        gh auth login
+      else
+        warn "gh not authenticated — run: gh auth login"
+      fi
+    fi
+  else
+    err "gh CLI not installed — https://cli.github.com"
+    exit 1
+  fi
+  echo ""
+
+  # ── Step 3: Cloudflare credentials check ────────────────────────────────
+  info "Step 3/4  Cloudflare credentials"
+  local cf_ok=true
+  if [ -n "${CLOUDFLARE_API_TOKEN:-}" ]; then
+    ok "CLOUDFLARE_API_TOKEN set"
+  else
+    warn "CLOUDFLARE_API_TOKEN not set"
+    cf_ok=false
+  fi
+  if [ -n "${CLOUDFLARE_ACCOUNT_ID:-}" ]; then
+    ok "CLOUDFLARE_ACCOUNT_ID set"
+  else
+    warn "CLOUDFLARE_ACCOUNT_ID not set"
+    cf_ok=false
+  fi
+  if [ "$cf_ok" = "false" ]; then
+    info "Run cloudflare setup first: bash spells/cloudflare-ctl.sh setup"
+  fi
+  echo ""
+
+  # ── Step 4: Workflow + secrets ───────────────────────────────────────────
+  info "Step 4/4  GitHub Actions workflow + secrets"
+
+  if [ "$dry_run" != "--dry-run" ]; then
+    bash "$SPELL_DIR/create-member-workflow.sh" "$member" || {
+      warn "Could not create workflow — check create-member-workflow.sh"
+    }
+    bash "$SPELL_DIR/cloudflare-ctl.sh" secrets-setup "$member" || {
+      warn "Could not auto-configure secrets"
+      info "Set manually at: https://github.com/$GITHUB_ORG/$MEMBER_REPO/settings/secrets/actions"
+    }
+  else
+    warn "DRY RUN — would create workflow and push GitHub secrets"
+  fi
+  echo ""
+
   ok "Setup complete"
-  info "Next: bash spells/member-ctl.sh publish $member v0.0.0.1"
+  echo ""
+  info "Next steps:"
+  info "  bash spells/cloudflare-ctl.sh r2-setup          # ensure R2 bucket exists (once)"
+  info "  bash spells/cloudflare-ctl.sh r2-domain add     # attach CDN domain (once)"
+  info "  bash spells/member-ctl.sh publish $member v0.0.0.1"
   echo ""
 }
 
@@ -128,6 +189,12 @@ cmd_publish() {
   [ "$dry_run" = "--dry-run" ] && warn "DRY RUN — no changes will be made"
 
   cd "$MEMBER_ROOT"
+
+  # Guard: GitHub workflow must exist
+  if [ ! -f ".github/workflows/deploy.yml" ]; then
+    err "GitHub Actions workflow not found — run setup first"
+    suggest_setup; exit 1
+  fi
 
   # Run publish-rc.sh
   if [ "$dry_run" = "--dry-run" ]; then

@@ -9,6 +9,7 @@
 #   bash spells/cloudflare-ctl.sh <command> [options]
 #
 # Commands:
+#   setup                      # Install wrangler + guided credential collection (start here)
 #   auth                       # Verify/configure Cloudflare authentication
 #   r2-setup                   # Create R2 buckets (rabble-cdn-prod)
 #   r2-list                    # List R2 buckets
@@ -22,6 +23,7 @@
 #   help                       # Show this help
 #
 # Examples:
+#   bash spells/cloudflare-ctl.sh setup                # first run: install + authenticate
 #   bash spells/cloudflare-ctl.sh r2-setup --dry-run
 #   bash spells/cloudflare-ctl.sh r2-domain add        # attach cdn.joinrabble.world
 #   bash spells/cloudflare-ctl.sh r2-domain verify     # poll until the TLS cert is active
@@ -61,6 +63,12 @@ if ! command -v wrangler &>/dev/null; then
   wrangler() { npx --yes wrangler "$@"; }
 fi
 
+# Print a "run setup" hint — call before any prerequisite-failure exit
+suggest_setup() {
+  echo ""
+  info "Run: bash spells/$(basename "$0") setup"
+}
+
 # ─ Paths ─────────────────────────────────────────────────────────────────────
 SPELL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 GRIMOIRE_ROOT="$(cd "$SPELL_DIR/.." && pwd)"
@@ -71,7 +79,145 @@ GITHUB_ORG="${GITHUB_ORG:-RaBbLE-Collective}"   # repos now live under the org
 CDN_DOMAIN="${CDN_DOMAIN:-cdn.joinrabble.world}"
 CDN_BUCKET="${CDN_BUCKET:-rabble-cdn-prod}"
 
+# Source saved credentials if present (written by: cloudflare-ctl.sh setup)
+# Env vars always take precedence over stored config.
+CF_CONFIG_FILE="$CF_CONFIG_DIR/config"
+if [ -f "$CF_CONFIG_FILE" ]; then
+  # shellcheck source=/dev/null
+  source "$CF_CONFIG_FILE"
+fi
+
 # ─ Commands ──────────────────────────────────────────────────────────────────
+
+cmd_setup() {
+  header "Cloudflare Setup"
+
+  echo ""
+  info "Installs wrangler, collects credentials, and saves to $CF_CONFIG_DIR/config"
+  info "(gitignored, chmod 600 — never committed)"
+  echo ""
+
+  # ── Step 1: wrangler ────────────────────────────────────────────────────
+  info "Step 1/4  wrangler CLI"
+
+  if command -v wrangler &>/dev/null; then
+    ok "wrangler installed globally ($(wrangler --version 2>/dev/null || echo 'unknown'))"
+  elif npx --yes wrangler --version &>/dev/null 2>&1; then
+    ok "wrangler available via npx — no global install needed"
+    info "To install globally: npm install -g wrangler"
+  else
+    warn "Installing wrangler globally..."
+    if npm install -g wrangler; then
+      ok "wrangler installed"
+    else
+      err "npm install failed. Install Node.js first: https://nodejs.org"
+      exit 1
+    fi
+  fi
+  echo ""
+
+  # ── Step 2: API token ────────────────────────────────────────────────────
+  info "Step 2/4  Cloudflare API token"
+  info "Create at: https://dash.cloudflare.com/profile/api-tokens"
+  info "Scopes needed: Account > R2:Edit  ·  Zone > DNS:Edit + SSL and Certificates:Edit"
+  echo ""
+
+  if [ -n "${CLOUDFLARE_API_TOKEN:-}" ]; then
+    local masked="${CLOUDFLARE_API_TOKEN:0:10}...${CLOUDFLARE_API_TOKEN: -5}"
+    ok "CLOUDFLARE_API_TOKEN already set ($masked)"
+    read -r -p "  Use this token? [Y/n] " _use
+    if [[ "${_use:-Y}" =~ ^[nN] ]]; then
+      read -s -r -p "  Paste new API token: " CLOUDFLARE_API_TOKEN; echo ""
+    fi
+  else
+    read -s -r -p "  Paste API token: " CLOUDFLARE_API_TOKEN; echo ""
+    if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
+      err "API token required"
+      exit 1
+    fi
+  fi
+  export CLOUDFLARE_API_TOKEN
+  ok "API token accepted"
+  echo ""
+
+  # ── Step 3: Account ID ──────────────────────────────────────────────────
+  info "Step 3/4  Cloudflare Account ID"
+  info "Found in the right panel at: https://dash.cloudflare.com"
+  echo ""
+
+  if [ -n "${CLOUDFLARE_ACCOUNT_ID:-}" ]; then
+    ok "CLOUDFLARE_ACCOUNT_ID: $CLOUDFLARE_ACCOUNT_ID"
+    read -r -p "  Use this? [Y/n] " _use
+    if [[ "${_use:-Y}" =~ ^[nN] ]]; then
+      read -r -p "  Account ID: " CLOUDFLARE_ACCOUNT_ID
+    fi
+  else
+    read -r -p "  Account ID: " CLOUDFLARE_ACCOUNT_ID
+    if [ -z "${CLOUDFLARE_ACCOUNT_ID:-}" ]; then
+      err "Account ID required"
+      exit 1
+    fi
+  fi
+  export CLOUDFLARE_ACCOUNT_ID
+  ok "Account ID: $CLOUDFLARE_ACCOUNT_ID"
+  echo ""
+
+  # ── Step 4: Zone ID ─────────────────────────────────────────────────────
+  info "Step 4/4  Zone ID for joinrabble.world"
+  info "Found on the Overview tab at: https://dash.cloudflare.com (right panel)"
+  echo ""
+
+  if [ -n "${CLOUDFLARE_ZONE_ID:-}" ]; then
+    ok "CLOUDFLARE_ZONE_ID: $CLOUDFLARE_ZONE_ID"
+    read -r -p "  Use this? [Y/n] " _use
+    if [[ "${_use:-Y}" =~ ^[nN] ]]; then
+      read -r -p "  Zone ID: " CLOUDFLARE_ZONE_ID
+    fi
+  else
+    read -r -p "  Zone ID: " CLOUDFLARE_ZONE_ID
+    if [ -z "${CLOUDFLARE_ZONE_ID:-}" ]; then
+      warn "Zone ID not set — r2-domain add will not work until provided"
+    fi
+  fi
+  export CLOUDFLARE_ZONE_ID
+  [ -n "${CLOUDFLARE_ZONE_ID:-}" ] && ok "Zone ID: $CLOUDFLARE_ZONE_ID"
+  echo ""
+
+  # ── Save config ──────────────────────────────────────────────────────────
+  mkdir -p "$CF_CONFIG_DIR"
+  cat > "$CF_CONFIG_DIR/config" <<CFEOF
+# Cloudflare credentials — DO NOT COMMIT (gitignored)
+# Written by: bash spells/cloudflare-ctl.sh setup  ($(date +%Y-%m-%d))
+CLOUDFLARE_API_TOKEN="${CLOUDFLARE_API_TOKEN}"
+CLOUDFLARE_ACCOUNT_ID="${CLOUDFLARE_ACCOUNT_ID}"
+CLOUDFLARE_ZONE_ID="${CLOUDFLARE_ZONE_ID:-}"
+CFEOF
+  chmod 600 "$CF_CONFIG_DIR/config"
+  ok "Credentials saved to $CF_CONFIG_DIR/config"
+  echo ""
+
+  # ── GitHub Actions secrets (optional) ───────────────────────────────────
+  if command -v gh &>/dev/null && gh auth status &>/dev/null 2>&1; then
+    info "gh CLI authenticated. Push secrets to GitHub Actions now?"
+    read -r -p "  Push to RaBbLE-Aether? [Y/n] " _push
+    if [[ ! "${_push:-Y}" =~ ^[nN] ]]; then
+      cmd_secrets_setup "aether"
+    fi
+  else
+    info "gh CLI not authenticated — skipping GitHub secrets push"
+    info "When ready: bash spells/cloudflare-ctl.sh secrets-setup aether"
+  fi
+
+  echo ""
+  ok "Setup complete."
+  echo ""
+  info "Next steps:"
+  info "  bash spells/cloudflare-ctl.sh r2-setup          # ensure R2 bucket exists"
+  info "  bash spells/cloudflare-ctl.sh r2-domain add     # attach cdn.joinrabble.world"
+  info "  bash spells/cloudflare-ctl.sh r2-domain verify  # wait for TLS cert (~2 min)"
+  info "  (then run publish-rc.sh to deploy Aether RC1)"
+  echo ""
+}
 
 cmd_auth() {
   header "Cloudflare Authentication"
@@ -82,7 +228,7 @@ cmd_auth() {
     wrangler whoami
   else
     warn "wrangler not authenticated"
-    info "Run: wrangler login"
+    suggest_setup
     exit 1
   fi
 
@@ -117,14 +263,14 @@ cmd_r2_setup() {
 
   # Verify wrangler (function or binary)
   if ! type wrangler &>/dev/null; then
-    err "wrangler not found — install: npm install -g wrangler (or ensure npx is available)"
-    exit 1
+    err "wrangler not found"
+    suggest_setup; exit 1
   fi
 
   # Verify auth
   if ! wrangler whoami &>/dev/null; then
-    err "wrangler not authenticated — run: wrangler login"
-    exit 1
+    err "wrangler not authenticated"
+    suggest_setup; exit 1
   fi
 
   info "Creating R2 buckets..."
@@ -165,7 +311,7 @@ cmd_r2_verify() {
 
   if ! wrangler whoami &>/dev/null; then
     err "wrangler not authenticated"
-    exit 1
+    suggest_setup; exit 1
   fi
 
   info "Checking R2 setup..."
@@ -194,12 +340,12 @@ cmd_r2_domain() {
   header "R2 Custom Domain — $CDN_DOMAIN → $CDN_BUCKET"
 
   if ! type wrangler &>/dev/null; then
-    err "wrangler not found — install: npm install -g wrangler (or ensure npx is available)"
-    exit 1
+    err "wrangler not found"
+    suggest_setup; exit 1
   fi
   if ! wrangler whoami &>/dev/null; then
-    err "wrangler not authenticated — run: wrangler login  OR  npx wrangler login"
-    exit 1
+    err "wrangler not authenticated"
+    suggest_setup; exit 1
   fi
 
   case "$action" in
@@ -253,9 +399,14 @@ cmd_secrets_setup() {
   fi
 
   if ! command -v gh &>/dev/null; then
-    warn "gh CLI not installed"
-    info "Install: https://cli.github.com"
-    exit 1
+    err "gh CLI not installed — https://cli.github.com"
+    suggest_setup; exit 1
+  fi
+
+  if ! gh auth status &>/dev/null 2>&1; then
+    err "gh CLI not authenticated"
+    info "Run: gh auth login"
+    suggest_setup; exit 1
   fi
 
   MEMBER_REPO="RaBbLE-$(echo "$member" | sed 's/^./\U&/')"
@@ -381,6 +532,7 @@ cmd_help() {
 COMMAND="${1:-help}"
 
 case "$COMMAND" in
+  setup)         cmd_setup ;;
   auth)          cmd_auth ;;
   r2-setup)      cmd_r2_setup "${2:-}" ;;
   r2-list)       cmd_r2_list ;;

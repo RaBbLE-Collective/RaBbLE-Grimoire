@@ -10,3 +10,6 @@ GEMINI.md
 
 # Volatile per-run token snapshot (regenerate: spells/session-tokens.sh --json)
 log/session-tokens.json
+
+# Local credentials — written by spells/*-ctl.sh setup, never committed
+.cloudflare/

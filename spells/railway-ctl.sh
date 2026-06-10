@@ -50,6 +50,11 @@ warn() { echo -e "  ${YELLOW}!${RESET}  $*"; }
 err()  { echo -e "  ${RED}✗${RESET}  $*" >&2; }
 header() { echo -e "\n${MAGENTA}$*${RESET}\n"; }
 
+suggest_setup() {
+  echo ""
+  info "Run: bash spells/$(basename "$0") setup"
+}
+
 # ─ Paths ─────────────────────────────────────────────────────────────────────
 SPELL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 GRIMOIRE_ROOT="$(cd "$SPELL_DIR/.." && pwd)"
@@ -61,38 +66,71 @@ SCORE_ROOT="$COLLECTIVE_ROOT/RaBbLE-sCoRE"
 cmd_setup() {
   header "Railway Setup"
 
-  if [ "${1:-}" = "--dry-run" ]; then
-    warn "DRY RUN — no installation will occur"
-  fi
+  local dry_run="${1:-}"
+  [ "$dry_run" = "--dry-run" ] && warn "DRY RUN — no installation will occur"
+  echo ""
 
-  info "Step 1: Check Railway CLI"
-  if command -v railway &>/dev/null; then
-    RAILWAY_VERSION=$(railway --version 2>/dev/null || echo "unknown")
-    ok "Railway CLI installed ($RAILWAY_VERSION)"
+  # ── Step 1: Node.js ─────────────────────────────────────────────────────
+  info "Step 1/3  Node.js (required for Railway CLI)"
+  if command -v node &>/dev/null; then
+    ok "Node.js $(node --version)"
   else
-    if [ "${1:-}" = "--dry-run" ]; then
+    err "Node.js not found. Install from: https://nodejs.org"
+    exit 1
+  fi
+  echo ""
+
+  # ── Step 2: Railway CLI ─────────────────────────────────────────────────
+  info "Step 2/3  Railway CLI"
+  if command -v railway &>/dev/null; then
+    ok "Railway CLI installed ($(railway --version 2>/dev/null || echo 'unknown'))"
+  else
+    if [ "$dry_run" = "--dry-run" ]; then
       warn "Would install: npm install -g @railway/cli"
     else
       warn "Installing Railway CLI..."
-      npm install -g @railway/cli
-      ok "Railway CLI installed"
+      if npm install -g @railway/cli; then
+        ok "Railway CLI installed"
+      else
+        err "Installation failed"
+        exit 1
+      fi
     fi
   fi
 
-  info ""
-  info "Step 2: Railway Authentication"
-  if [ "${1:-}" = "--dry-run" ]; then
-    warn "Would verify: railway whoami"
-  else
-    if railway whoami &>/dev/null; then
-      ok "Already authenticated"
+  if [ "$dry_run" != "--dry-run" ]; then
+    if railway whoami &>/dev/null 2>&1; then
+      ok "Already authenticated ($(railway whoami 2>/dev/null | head -1 || echo 'logged in'))"
     else
-      warn "Authenticate with Railway..."
+      info "Opening browser for Railway login..."
       railway login
       ok "Authentication complete"
     fi
   fi
+  echo ""
 
+  # ── Step 3: gh CLI (for GitHub integration) ─────────────────────────────
+  info "Step 3/3  GitHub CLI (gh)"
+  if command -v gh &>/dev/null; then
+    ok "gh installed ($(gh --version | head -1))"
+    if gh auth status &>/dev/null 2>&1; then
+      ok "gh authenticated"
+    else
+      if [ "$dry_run" != "--dry-run" ]; then
+        warn "gh not authenticated. Run: gh auth login"
+      fi
+    fi
+  else
+    warn "gh CLI not installed — optional but needed for secrets setup"
+    info "Install: https://cli.github.com"
+  fi
+  echo ""
+
+  ok "Setup complete."
+  echo ""
+  info "Next steps:"
+  info "  bash spells/railway-ctl.sh init server    # link to Railway project"
+  info "  bash spells/railway-ctl.sh deploy server  # deploy sCoRE"
   echo ""
 }
 
@@ -101,6 +139,15 @@ cmd_init() {
   local dry_run="${2:-}"
 
   header "Initialize Railway Project"
+
+  if ! command -v railway &>/dev/null; then
+    err "railway CLI not installed"
+    suggest_setup; exit 1
+  fi
+  if ! railway whoami &>/dev/null 2>&1; then
+    err "railway not authenticated"
+    suggest_setup; exit 1
+  fi
 
   if [ "$dry_run" = "--dry-run" ]; then
     warn "Would initialize: railway init"
@@ -124,6 +171,15 @@ cmd_deploy() {
 
   header "Deploy to Railway — $service"
 
+  if ! command -v railway &>/dev/null; then
+    err "railway CLI not installed"
+    suggest_setup; exit 1
+  fi
+  if ! railway whoami &>/dev/null 2>&1; then
+    err "railway not authenticated"
+    suggest_setup; exit 1
+  fi
+
   if [ "$dry_run" = "--dry-run" ]; then
     warn "Would deploy: railway up --detach"
     info "From: $SCORE_ROOT/$service/"
@@ -138,13 +194,9 @@ cmd_deploy() {
     info "Deploying $service..."
     if railway up --detach; then
       ok "Deployment triggered"
-
-      # Get URL
-      if command -v railway &>/dev/null; then
-        sleep 2
-        URL=$(railway open --external --silent 2>/dev/null || echo "https://railway.app")
-        info "Service URL: $URL"
-      fi
+      sleep 2
+      URL=$(railway open --external --silent 2>/dev/null || echo "https://railway.app")
+      info "Service URL: $URL"
     else
       err "Deployment failed"
       exit 1
