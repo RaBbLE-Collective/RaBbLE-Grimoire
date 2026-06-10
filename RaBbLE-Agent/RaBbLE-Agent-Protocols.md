@@ -161,6 +161,12 @@ If a file has already drifted (direct edit happened), use `dotctl diff hypr` to 
 
 **Applies to:** All dotctl bundles — `hypr` · `waybar` · `quickshell` · `kitty` · `fuzzel` · `zsh` · `bash` · `mako` · `wallpapers` · `claude`. Same principle applies to Ansible-managed system config: change the playbook, not the system file.
 
+### VM/dev storage is never a boot dependency
+
+The `/mnt/vms` (RaBbLE-VM) partition — and any VM/dev storage — must never be able to block boot of the daily driver. Every fstab entry referencing it (and any Ansible role, KS config, or systemd unit) must use `nofail,x-systemd.device-timeout=5s`. `vmctl` must never reformat a partition without preserving its filesystem label.
+
+**Why:** In S40, vmctl reformatted the VM partition and dropped its `RaBbLE-VM` label; the fstab entry used `defaults` (no `nofail`), so systemd couldn't find the device and dropped to emergency mode — the system looked unbootable and needed manual recovery. Full detail: `RaBbLE-OS/fix/RaBbLE-OS-KnownIssues.md`.
+
 ---
 
 ## Entity Naming and Spell Vocabulary
@@ -169,6 +175,16 @@ If a file has already drifted (direct edit happened), use `dotctl diff hypr` to 
 - **`cast`** — spells are **cast**, not summoned. Post-install incantation: `RaBbLE cast <spell>`
 - **`summon`** — reserved for summoning an entity. `score summon RaBbLE` is correct. Do not use `summon` for running scripts.
 - **Inside the Collective** (pre-install wizard phase): `bash spells/<spell>.sh`. No global `RaBbLE` command yet.
+
+### Brand names must not be uppercased in the UI
+
+Any `--font-hero` (Orbitron) element containing a brand name (`RaBbLE`, `NeBuLA`, `sCoRE`, `ScRibLE`) must explicitly set `text-transform: none`. Parent nav/label rules commonly carry `text-transform: uppercase`; without an override the mixed-case names silently render all-caps — wrong, and easy to miss.
+
+```css
+.nav-brand { text-transform: none; /* RaBbLE, NeBuLA, sCoRE must not be uppercased */ }
+```
+
+Full rule: `RaBbLE-Aether/CLAUDE-DESIGN-GUIDE.md § Brand Name Casing`.
 
 ---
 
