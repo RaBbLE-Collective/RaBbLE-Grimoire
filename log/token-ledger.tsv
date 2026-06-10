@@ -35,3 +35,5 @@ commit-81f3088	grimoire-graph	S56c close: thick ring outlines + portal Y offset;
 78b45de5-0e59-48df-92bc-a107eaf54b0d	sCoRE	auto: CONTEXT.md: Render deploy live, Episode 1 exit conditions update
 8713e8ec-2c16-415d-9b9c-591a8e33aa99	collective	auto: EP1 deployment runbook: World/NeBuLA/Aether CI/CD via GitHub Actions + Cloudflare
 commit-3422888	secrets-identity	S60: Collective identity & secrets model doc + seal-episode.sh draft spell
+commit-1bf9b58	ep1-render-deploy	sCoRE live, Aether RC1 ready, CI/CD runbook + org remotes
+commit-b39346a	score-tracker	S64: multi-instance session engine, instant census, live scrolling popup, codex notify

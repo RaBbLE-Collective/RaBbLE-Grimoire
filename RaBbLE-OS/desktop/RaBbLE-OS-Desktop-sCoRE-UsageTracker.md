@@ -2,6 +2,7 @@
 
 ```
 spark ~ sCoRE Usage Tracker >> hook becomes ground truth + interrupt-driven push // %S51%
+mend  ~ sCoRE Usage Tracker >> multi-instance session engine + live popup + notifications // %S61%
 ```
 
 > Lives in `RaBbLE-OS/config/waybar/scripts/score-*` and `config/waybar/{config.jsonc,style.css}`.
@@ -12,13 +13,16 @@ spark ~ sCoRE Usage Tracker >> hook becomes ground truth + interrupt-driven push
 
 ## What it is
 
-Two Waybar pills — `Claude ✱ 45% / 31%wk` and `Codex >_ 12%` — that show, at a glance:
+Two Waybar pills — `Claude ▁ ⚑1 ✦2 ▶1 45% / 31%wk` and `Codex >_×2 12%` — that show, at a glance:
 
-- **Live state**: idle / ready / busy / needs-input, each with its own glyph and color
+- **Live state**: idle / ready / busy / needs-input, each with its own glyph and color — aggregated across **every running instance** with priority blocked > computing > ready; one blocked agent flashes the pill even while others grind on, and when busy and ready agents coexist (nothing blocked) the pill **cycles cyan↔green every 2s** so both fleets stay visible
+- **Agent census**: per-state counts, zero counts omitted — `⚑N` blocked on you · `✦N` computing · `▶N` ready/waiting; the tooltip lists each agent (state · project · age · session id). The census is a `@CENSUS@` placeholder in the heavy tier's cache, repainted by the glyph-stream from the live aggregate — so a new block's ⚑ count lands on the bar **on the same interrupt as the color flash**, not at the next 5s heavy pass
+- **Blocked is the default read of a Notification** — permission-prompt wording varies between Claude Code versions, so the engine only maps the known idle reminder ("waiting for your input") to ready, and even that can never demote an existing needs-input (a pending permission dialog idles too; only the user acting clears a block). Every hook event + message is appended to `~/.cache/rabble/score-hook-events.log` (rolling) for tuning these mappings against reality
 - **Quota**: 5h-window and weekly-window usage percentage (Claude via Anthropic's official usage API; Codex via `token_count.rate_limits` in its session transcripts)
-- **Detail on click**: a `kitty` popup running `score-usage-detail.py` with full token breakdowns, reset countdowns, and (for Claude) a comparison between the local transcript-based estimate and the API's authoritative reading
+- **Detail on click**: a `kitty` popup running `score-usage-detail.py --live` — self-refreshing (2s), with an Agents panel (state, project, model, current context size, session token totals, turn duration), quota bars with reset countdowns, and per-session 5h/24h/7d token breakdowns; `q` closes
+- **Desktop notifications** (mako): when an agent gets blocked on you (critical urgency), when a long turn (≥3 min) finishes, and when a Codex turn completes — touch `~/.cache/rabble/score-notifications-off` to silence
 
-It is a **notification surface**, not just a meter — the whole point of the live-state color scheme is to answer "what is Claude doing right now, and does it need me?" without alt-tabbing to the terminal.
+It is a **notification surface and agent manager**, not just a meter — the whole point is to answer "what are my agents doing right now, how many are there, and do any of them need me?" without alt-tabbing through terminals.
 
 ---
 
@@ -61,18 +65,25 @@ Both daemons are launched via `exec-once` in `config/hypr/conf.d/autostart.conf`
 
 **The problem this solves:** guessing Claude's busy/ready state from transcript file mtimes cannot work. Claude only writes to its transcript when a turn *completes* — not while it's generating — so an mtime-based heuristic flashes "ready" mid-response. There is no way to read "thinking" off the filesystem.
 
-**The fix:** `score-claude-hook.sh`, wired into `~/.claude/settings.json` (merged via `_post_apply_waybar` in `RaBbLE-OS-dotctl.sh` — never hand-edit `settings.json`, the dotctl step merges idempotently and never clobbers hooks you add by hand). It listens across Claude's full conversational lifecycle — these are real Claude Code lifecycle events, not inferred:
+**The fix:** `score-claude-hook.sh` (a thin wrapper over `score-sessions.py`, the session-state engine), wired into `~/.claude/settings.json` (merged via `_post_apply_waybar` in `RaBbLE-OS-dotctl.sh` — never hand-edit `settings.json`, the dotctl step merges idempotently and never clobbers hooks you add by hand). It listens across Claude's full conversational lifecycle — these are real Claude Code lifecycle events, not inferred:
 
 | Event | New state | Why |
 |---|---|---|
+| `SessionStart` / `SessionEnd` | ready / removed | Instance registered / deregistered |
 | `UserPromptSubmit` | busy | You just asked it to work |
 | `PreToolUse` / `PostToolUse` | busy | Actively running tools |
-| `Notification` (message mentions "permission") | **needs-input** | Blocked on *your* authorization |
-| `Stop` / `SubagentStop` | ready | Turn finished, idle for input |
+| `SubagentStop` | busy | A subagent finished — the **parent is still digesting its result** (the old mapping to "ready" flashed green mid-flight; that was a bug) |
+| `Notification` (default) | **needs-input** | Wants your attention — blocked until *you* act |
+| `Notification` ("waiting for your input") | ready | The idle reminder — an open prompt is just ready; never demotes an existing needs-input |
+| `Stop` | ready | Turn finished, idle for input |
 
-State lands in `~/.cache/rabble/claude-live-state` as a single word. `score-status.sh` and `score-glyph-stream.sh` treat it as **authoritative** over their mtime heuristics whenever it's fresh — stale beyond 10 minutes (e.g. Claude crashed mid-turn) and they fall back to the heuristic, so the pill can't get permanently wedged in "busy."
+### Multi-instance: one state file per session
 
-**Codex has no equivalent hook surface.** Its busy/ready detection is still the mtime heuristic — tightened from "newer than the cache file" to `-newermt '-8 seconds'` (the former had a race that flipped it back to "ready" right after each cache refresh), but it remains a guess. **If/when Codex grows a hook surface, mirror this bridge for it** — that's the natural next step, not a redesign.
+The original design kept ONE global state file that every instance's hooks overwrote — with two agents running, whichever fired last won, so a blocked agent's "needs-input" could be silently clobbered by another agent's "busy". `score-sessions.py` instead keeps one file per session under `~/.cache/rabble/claude-sessions/<session_id>.json` (state, cwd/project, transcript path, owning PID, busy-since) and aggregates them into `~/.cache/rabble/claude-agg-state` (`"<state> <total> <busy> <needs-input> <ready>"` — first word readable by anything that only wants the overall state; the single-word `claude-live-state` is still written for legacy readers).
+
+**Liveness is PID-checked, not guessed:** each hook records its `claude` ancestor PID (walked via `/proc`); a session whose PID is gone is pruned on the next pass — a crashed agent can never wedge the bar. Sessions that never resolved a PID fall back to mtime staleness (busy degrades to ready after 10 min, the file expires after 6 h). Hook-less stragglers (instances started before the wiring) still register via a `pgrep -cx claude` fallback in `score-status.sh`.
+
+**Codex's only hook surface is `notify`** (agent-turn-complete), wired into `~/.codex/config.toml` by the same dotctl step → `score-codex-notify.sh`. That buys an instant "ready" flip at turn end (the engine touches `codex-live-state`; both the heavy tier and the glyph-stream treat "no transcript written since" as proof the turn is over) plus a turn-complete desktop notification. Busy detection remains the `-newermt '-8 seconds'` mtime heuristic — there is no turn-start event yet. Instance count is `pgrep -cx codex`. **If/when Codex grows a full hook surface, mirror the Claude bridge** — the engine already has the seams for it.
 
 ---
 
@@ -93,19 +104,21 @@ One mechanism serves both "animate smoothly while busy" and "react instantly whe
 
 | File | Role |
 |---|---|
-| `config/waybar/scripts/score-status.sh` | Heavy computation — transcript parsing, token math, tooltip building, `source_state()` (state resolution: heuristic + hook override) |
+| `config/waybar/scripts/score-sessions.py` | **Session-state engine** — per-session state files, PID liveness, pruning, aggregation, desktop notifications, FIFO pokes. Subcommands: `update` (hook stdin), `codex-notify`, `summary [--shell]` |
+| `config/waybar/scripts/score-status.sh` | Heavy computation — transcript parsing, token math, tooltip building (evals `score-sessions.py summary --shell` for Claude state/counts/agent list) |
 | `config/waybar/scripts/score-status-daemon.sh` | Wraps `score-status.sh` in a ~5s loop, writes the cached JSON with `@GLYPH@` placeholder |
-| `config/waybar/scripts/score-glyph-stream.sh` | Cheap continuous-output loop Waybar actually execs — repaints the glyph, applies the live-state override, sleeps via wake-FIFO `read -t` |
-| `config/waybar/scripts/score-claude-hook.sh` | Claude Code hook bridge — writes `claude-live-state` and pokes the wake-FIFO |
+| `config/waybar/scripts/score-glyph-stream.sh` | Cheap continuous-output loop Waybar actually execs — repaints the glyph, applies the aggregate-state override, sleeps via wake-FIFO `read -t` |
+| `config/waybar/scripts/score-claude-hook.sh` | Claude Code hook bridge — thin `exec` into `score-sessions.py update` |
+| `config/waybar/scripts/score-codex-notify.sh` | Codex `notify` bridge — thin `exec` into `score-sessions.py codex-notify` |
 | `config/waybar/scripts/score-usage-api-poll.py` | Polls Anthropic's official usage API (~90s) via Firefox session cookie + `curl_cffi` |
-| `config/waybar/scripts/score-usage-detail.py` | Click-through popup detail view |
+| `config/waybar/scripts/score-usage-detail.py` | Click-through popup — `--live` self-refreshing mode (Agents panel + quota bars every 2s, heavy token sections every 15s, incremental transcript tailing between repaints) with native scrolling (↑↓/jk/PgUp/PgDn/g/G; escape sequences decoded so arrows never quit — the `less` Esc failure mode is gone) |
 | `config/waybar/scripts/score-usage-fit.py` | Delta-based regression fitter — isolates web/other usage as residual against local estimates |
-| `RaBbLE-OS-dotctl.sh` → `_post_apply_waybar()` | Merges the hook into `~/.claude/settings.json` on every `dotctl apply waybar` — idempotent, never clobbers |
+| `RaBbLE-OS-dotctl.sh` → `_post_apply_waybar()` | Merges the hook into `~/.claude/settings.json` AND the notify program into `~/.codex/config.toml` on every `dotctl apply waybar` — idempotent, never clobbers |
 
 ---
 
 ## Open threads
 
-- **Codex hook surface** — the natural next step once Codex grows lifecycle hooks; would let it shed its mtime heuristic the same way Claude did
+- **Codex turn-start** — `notify` only covers turn-complete; busy detection stays heuristic until Codex grows real lifecycle hooks (then mirror the Claude bridge in `score-sessions.py`)
 - **Drift tuning** — `score-usage-fit.py` keeps logging regression samples to refine the local estimate against the API's authoritative reading over time
 - This is the **first sCoRE applet** — expect it to migrate wholesale into RaBbLE-sCoRE once that member is ready to own its own UI surfaces; the `score-` prefix and self-contained `~/.cache/rabble/` cache layout are deliberate preparation for that move

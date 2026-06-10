@@ -5,14 +5,80 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-10 · Session 61 (sCoRE Render live + Aether RC1 ready)
+## LATEST — 2026-06-10 · Session 64 (sCoRE Usage Tracker: multi-instance fleet overhaul)
 
-**Phase:** Epoch 0 · Episode 1: sCoRE deployed, Aether RC1 in CDN staging, NeBuLA + World readying for tag.
-**Last session (S61):** sCoRE Render deployment verified live. Full EP1 CI/CD runbook for World/NeBuLA/Aether (GitHub Actions + Cloudflare R2 CDN + tag-triggered). Aether RC1 prepared (LICENSE, README, Sovereign Accord). Git remotes updated all four repos to RaBbLE-Collective org.
-**Blockers:** NeBuLA CDN setup (parallel to Aether), Groq/OpenRouter keys integration in deployed sCoRE, test scripts for providers.
-**Next:** Tag Aether RC1; deploy NeBuLA; sCoRE test suites + Groq/OpenRouter credentials; World integration + Episode 1 tag cascade.
+**Phase:** Epoch 0 · Episode 1 in flight; Aether RC1 execution pending (S63 automation ready).
+**This session (S64):** sCoRE Usage Tracker rebuilt for multi-agent fleets — `score-sessions.py` engine (per-session state files, PID liveness), interrupt-instant `⚑✦▶` census on the bar, blocked-by-default Notification mapping, cyan↔green busy/ready cycling, scrollable `--live` popup (less dropped), Codex notify hook, mako notifications. Deployed + verified live.
+**Blockers:** None for tracker. EP1 path unchanged.
+**Next:** Aether RC1 deploy (S63 controllers), then NeBuLA/World; tune tracker state mappings from `score-hook-events.log` if a wording slips through.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-10 (Session 64) — sCoRE Usage Tracker: multi-instance session engine + live popup
+
+**Repos touched:** RaBbLE-OS (config/waybar/, RaBbLE-OS-dotctl.sh), RaBbLE-Grimoire (tracker doc, Agent-Protocols)
+
+**Work done:**
+
+- **score-sessions.py (new):** session-state engine — one state file per Claude instance under `~/.cache/rabble/claude-sessions/` (the old single global file let concurrent agents clobber each other), PID-checked liveness via `/proc` ancestor walk, stale-busy demotion, aggregation into `claude-agg-state` ("state total busy needs ready"), desktop notifications (needs-input critical, long-turn ≥3min finish, Codex turn complete; `score-notifications-off` silences), wake-FIFO pokes via `O_NONBLOCK`.
+- **Hook fixes:** `SubagentStop` now maps to busy (old →ready flashed green mid-flight); `SessionStart`/`SessionEnd` register/deregister instances (wired via dotctl jq merge). Notification mapping is **blocked-by-default** — only the idle reminder ("waiting for your input") reads as ready, and it never demotes an existing needs-input; every event+message logs to `score-hook-events.log` for tuning.
+- **Bar census:** `Claude ▂ ⚑1 ✦2 ▶1 45%/31%wk` — per-state counts (zero-omitted), repainted every tick by the glyph-stream from the live aggregate via a `@CENSUS@` placeholder, so blocked counts land on the same interrupt as the magenta flash. Priority blocked > computing > ready; busy+ready coexisting cycles the pill cyan↔green every 2s. `●` swapped for `✦` (rendered as a dot).
+- **Popup (`score-usage-detail.py --live`):** self-refreshing (agents panel + quota bars 2s, heavy sections 15s), Agents panel (state, project, model, ctx size, session Σ tokens, turn duration, block reason), color quota bars, native scrolling (↑↓/jk/PgUp/PgDn/g/G) with decoded escape sequences — arrows no longer quit; `less` removed from the on-click path.
+- **Codex:** `notify` program wired into `~/.codex/config.toml` (agent-turn-complete) → instant ready flip + notification; instance count via `pgrep -cx codex`.
+- **Agent-Protocols:** added `pkill -f` self-match gotcha (harness wrapper cmdline contains the full command text — exit 144, output lost; split kill/start calls).
+
+**Current state:** Deployed via `dotctl apply waybar`, daemon + waybar restarted, all paths verified live (census, cycling, blocked precedence, notifications, popup).
+
+**What's next:** Watch `score-hook-events.log` for unmapped notification wordings; tracker migrates to RaBbLE-sCoRE in a later episode.
+
+---
+
+## 2026-06-10 (Session 63) — CLI-only automation: unified spell controllers
+
+**Repos touched:** RaBbLE-Grimoire (spells/), RaBbLE-Aether (.github/workflows/)
+
+**Work done:**
+
+- **cloudflare-ctl.sh (new):** Unified Cloudflare controller for R2, CDN, secrets. Subcommands: auth, r2-setup, r2-list, r2-verify, secrets-setup, secrets-show, status, monitor, open, help. CLI-only R2 bucket creation, GitHub Actions secret setup, CDN deployment monitoring via polling.
+- **railway-ctl.sh (new):** Unified Railway controller for sCoRE deployment. Subcommands: setup, init, deploy, status, logs, env-show, env-set, open, help. Wraps railway CLI with RaBbLE patterns.
+- **member-ctl.sh (new):** Unified member deployment orchestrator. Works for Aether, NeBuLA, World, sCoRE. Subcommands: setup, publish, workflow, secrets, status, monitor, help. Chains cloudflare-ctl + publish-rc into single workflow. Member-agnostic pattern.
+- **publish-rc.sh (enhanced):** Fully automated RC lifecycle. Auto-detects member from directory (RaBbLE-Aether → aether) or accepts explicit argument. Creates rc/v* branch as RaBbLE-dev, initial commit, push, build, auto-increment RC tag, push tag (triggers GH Actions). Supports --dry-run. Usage: `bash spells/publish-rc.sh [member] <version> [--dry-run]`
+- **setup-cloudflare-r2.sh (enhanced):** Non-interactive mode for CI automation. Reads CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID from environment. Supports --non-interactive flag.
+- **RaBbLE-Aether/.github/workflows/deploy.yml (new):** GitHub Actions template. Triggers on v* tags, builds via npm, uploads dist/* to R2 at `aether/v{version}/`, purges CDN cache. Reusable for NeBuLA/World.
+- **Spell consolidation:** Replaced deploy-render.sh, deploy-railway.sh, setup-cloudflare-r2.sh pattern with three domain-organized controllers. Each controller: subcommands, --help, --dry-run, env var support, colored output.
+
+**Complete workflow (any member):**
+```bash
+export CLOUDFLARE_API_TOKEN="v1.0..." CLOUDFLARE_ACCOUNT_ID="abc123..."
+bash spells/cloudflare-ctl.sh r2-setup
+bash spells/member-ctl.sh setup aether
+bash spells/member-ctl.sh publish aether v0.0.0.1
+bash spells/member-ctl.sh monitor aether v0.0.0.1-rc.1
+```
+
+**Current state:** CLI automation complete. Zero dashboard required. Aether RC fully ready.
+
+**What's next:** Execute Aether RC1, validate CDN, Railway sCoRE, NeBuLA RC, World RC, Episode 1 seal.
+
+---
+
+## 2026-06-10 (Session 62) — RC identity model + publish-rc.sh spell
+
+**Repos touched:** RaBbLE-Grimoire (spells/publish-rc.sh)
+
+**Work done:**
+
+- **Git identity architecture finalized:** Three-tier model — `markm1206` for feature/regular work; `RaBbLE-dev` for RC iterations (`v0.0.0.1-rc.N` tags); `RaBbLE-Collective` for official episode seals (`v0.0.0.1` tags on main). RC branches from dev, squash-merges to main for clean release history.
+- **`spells/publish-rc.sh` (new):** Automated RC publishing workflow. Requires `rc/v*` branch, verifies clean tree, runs `npm run build`, auto-increments RC number by checking existing tags, switches identity to `RaBbLE-dev`, tags and pushes (triggers GitHub Actions → CDN deploy). Restores identity on completion. Follows spell style (colors, validation, ceremony confirmation).
+- **Committed to RaBbLE-Grimoire dev** with message: `spark ~ grimoire >> publish-rc.sh spell for RC iteration cycle // %RC_PUBLISH%`
+
+**Current state:** publish-rc.sh ready. Aether RC1 ready to execute (branch + publish pending).
+
+**Blocker encountered:** `/run` skill showing documentation instead of executing git commands. Unusual behavior; recommend investigating on restart.
+
+**What's next:** Create rc/v0.0.0.1-rc.1 in Aether, run publish-rc.sh, test CDN. NeBuLA same flow. Groq/OpenRouter integration + sCoRE test scripts.
 
 ---
 

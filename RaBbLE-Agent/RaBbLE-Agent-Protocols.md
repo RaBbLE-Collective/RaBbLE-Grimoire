@@ -48,6 +48,14 @@ All Collective automation and session rituals must work for every agent — Clau
 
 **How:** Prefer pure-bash spells (any agent can `bash` them) and git-level hooks (fire for any agent that commits) over agent-specific config. Example: the end-of-session token breadcrumb uses `spells/end-session.sh` plus a `spells/hooks/post-commit` git hook — not a settings.json hook.
 
+### pkill -f self-match kills the agent's own shell
+
+Agent harnesses (Claude Code, Codex) run shell commands wrapped in a `sh -c '<entire command text>'` process — so the wrapper's own cmdline contains everything the agent typed. A `pkill -f <pattern>` whose plain pattern string appears **anywhere** in the same compound command (a restart line, a heredoc body, an echo) matches the wrapper itself and kills the agent's shell mid-command (exit 144, output lost). Bracket tricks (`[s]core`) only protect the pattern argument, not other plain mentions in the same command.
+
+**Why:** The wrapper's argv *is* the command text; pgrep/pkill `-f` matches against full cmdlines.
+
+**How:** Split kill and start into separate tool calls; in the kill call, ensure the pattern appears nowhere in plain form (e.g. `pkill -f 'status-daemon[.]sh'` with no other mention of the daemon name). A killed wrapper's already-forked children may still complete — verify actual process state afterwards instead of assuming the command failed.
+
 ---
 
 ## Grimoire as Documentation Home
