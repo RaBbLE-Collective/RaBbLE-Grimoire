@@ -5,14 +5,31 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-10 · Session 60 (Collective identity & secrets model)
+## LATEST — 2026-06-10 · Session 61 (sCoRE Render live + Aether RC1 ready)
 
-**Phase:** Epoch 0 · Episode 1 in flight, still paused at Render deploy.
-**Last session (S60):** Documented how the Collective owns its own accounts/keys ahead of EP1 — new `RaBbLE-Collective/RaBbLE-Secrets-and-Identity.md` (proton root identity, two-tier secrets = password manager + SOPS/age, GitHub org + optional role account, repo-transfer fix-ups, breakglass). Drafted `spells/seal-episode.sh` — the Episode Signing Ceremony (episode merges to `main` authored by the Collective, not Mark); refuses to run until the Collective GitHub account exists.
-**Blockers:** Render deploy (Mark, runbook in `EP1-DISPATCH-STATE.md`) → World deploy → tagging. Identity tasks (org, role account, Collective Groq/OpenRouter accounts) are Mark's to enact.
-**Next:** Mark runs Render runbook; create GitHub org + Collective service accounts; finish `seal-episode.sh` once noreply email known.
+**Phase:** Epoch 0 · Episode 1: sCoRE deployed, Aether RC1 in CDN staging, NeBuLA + World readying for tag.
+**Last session (S61):** sCoRE Render deployment verified live. Full EP1 CI/CD runbook for World/NeBuLA/Aether (GitHub Actions + Cloudflare R2 CDN + tag-triggered). Aether RC1 prepared (LICENSE, README, Sovereign Accord). Git remotes updated all four repos to RaBbLE-Collective org.
+**Blockers:** NeBuLA CDN setup (parallel to Aether), Groq/OpenRouter keys integration in deployed sCoRE, test scripts for providers.
+**Next:** Tag Aether RC1; deploy NeBuLA; sCoRE test suites + Groq/OpenRouter credentials; World integration + Episode 1 tag cascade.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-10 (Session 61) — sCoRE Render live + Aether RC1 staging
+
+**Repos touched:** RaBbLE-sCoRE (CONTEXT.md), RaBbLE-Collective (EP1-DEPLOYMENT-RUNBOOK.md, remotes), RaBbLE-Aether (LICENSE, README)
+
+**Work done:**
+
+- **sCoRE Render deployment:** Live at https://rabble-score-x7qq.onrender.com. Health check verified (`{"status":"ok","entity":"RaBbLE","version":"v0.0.0.0"}`). Updated CONTEXT.md Episode 1 exit conditions to mark Render deploy complete.
+- **EP1-DEPLOYMENT-RUNBOOK.md (new):** Complete CI/CD guide for World/NeBuLA/Aether. Documents: Cloudflare account + R2 bucket setup, API token generation, GitHub Actions workflows (3 repos, one per file), secret configuration, tag-triggered deployment flow, URL structure (`cdn.joinrabble.world/{aether,nebula}/v{version}/`). Committed to Collective root.
+- **Git remotes updated:** All four repos (sCoRE, World, NeBuLA, Aether) now point to `RaBbLE-Collective` org on GitHub (was `markm1206` personal). Verified with git remote -v.
+- **Aether RC1 preparation:** LICENSE (Sovereign Accord from RaBbLE-OS), comprehensive README (installation, palette reference, versioning, deployment flow). Committed to RaBbLE-Aether dev branch, ready for tag `v0.0.0.1-rc.1`.
+
+**Current state:** sCoRE live + tested. Aether ready to tag and deploy to CDN via GitHub Actions. NeBuLA follows same pattern. World awaits Groq/OpenRouter keys for API testing.
+
+**What's next:** Tag Aether RC1 and watch CDN deploy; same for NeBuLA; sCoRE test scripts for LLM provider fallback chain; Groq/OpenRouter Collective account credentials.
 
 ---
 
