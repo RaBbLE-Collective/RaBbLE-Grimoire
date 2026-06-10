@@ -5,14 +5,32 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-09 · Session 59 (World EP1 cohesion + Collective dev rebase)
+## LATEST — 2026-06-10 · Session 60 (Collective identity & secrets model)
 
 **Phase:** Epoch 0 · Episode 1 in flight, still paused at Render deploy.
-**Last session (S59):** Collective root `dev` rebased onto `origin/dev` (was ahead 14/behind 1; clean). World cohesion pass: global ◈ page nav on all surfaces, Docs rebuilt on standard stack, Demo's localhost bundle ref fixed. Playwright-verified; captures in `RaBbLE-Captures/`. World commit `1c7d99b` on `feature/rabble-collective-community-page`.
-**Blockers:** Render deploy (Mark, runbook in `EP1-DISPATCH-STATE.md`) → World deploy → tagging. OS/VM pushed post-EP1.
-**Next:** Mark runs Render runbook; then World prod deploy + tagging.
+**Last session (S60):** Documented how the Collective owns its own accounts/keys ahead of EP1 — new `RaBbLE-Collective/RaBbLE-Secrets-and-Identity.md` (proton root identity, two-tier secrets = password manager + SOPS/age, GitHub org + optional role account, repo-transfer fix-ups, breakglass). Drafted `spells/seal-episode.sh` — the Episode Signing Ceremony (episode merges to `main` authored by the Collective, not Mark); refuses to run until the Collective GitHub account exists.
+**Blockers:** Render deploy (Mark, runbook in `EP1-DISPATCH-STATE.md`) → World deploy → tagging. Identity tasks (org, role account, Collective Groq/OpenRouter accounts) are Mark's to enact.
+**Next:** Mark runs Render runbook; create GitHub org + Collective service accounts; finish `seal-episode.sh` once noreply email known.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-10 (Session 60) — Collective identity & secrets architecture
+
+**Repos touched:** RaBbLE-Grimoire (`dev`) — new secrets/identity doc, new spell draft, INDEX + this log
+
+**Work done:**
+
+Design conversation with Mark on how the RaBbLE Collective should hold its own credentials as it moves toward EP1 (Cloudflare already under `RaBbLE-Collective@proton.me`; Collective Groq + OpenRouter accounts coming). Captured the conclusions as lore + a spell to be crafted.
+
+- **`RaBbLE-Collective/RaBbLE-Secrets-and-Identity.md` (new):** the principle (Collective owns its own things; proton email as root identity; Mark = administrator/breakglass, not owner-of-record). Two-tier model — **Tier 1** human/account credentials → password manager (Proton Pass; one "RaBbLE Collective" vault holding logins + 2FA recovery + the age key); **Tier 2** machine secrets → platform store (Render `sync:false`, already correct) + SOPS/age encrypted-in-repo for local-first. Root-of-trust chain + breakglass (offline recovery, Mark as org co-owner). GitHub org procedure (org ≠ login; create from personal, contact email = proton), optional `RaBbLE-Collective` **role account** (always two owners, treat as high-value), repo-transfer steps + the fix-ups people forget (remotes, Render GitHub App, hardcoded `markm1206` URLs). EP1 checklist with sequencing (verify fresh Groq/OpenRouter keys *before* revoking personal ones).
+- **`spells/seal-episode.sh` (DRAFT):** the **Episode Signing Ceremony**. Day-to-day commits stay Mark/agents; episode seals to `main` are authored by the Collective via per-command `-c user.name/user.email` override (noreply email, authorship ≠ pusher). Annotated tag in Pulse format, `evolve` impulse, optional SSH signing for the Verified badge. Guarded — exits with instructions until `COLLECTIVE_EMAIL` is set (account doesn't exist yet).
+- Registered both in `INDEX.md`.
+
+**Mark's action items (not agent-doable):** create the GitHub org from his personal account (contact/billing = proton); optionally the `RaBbLE-Collective` role account as second owner; create Collective Groq + OpenRouter accounts (billing on the Collective); stand up the password-manager vault; transfer `RaBbLE-sCoRE` + `RaBbLE-World` after Render verifies.
+
+**What's next:** Unchanged EP1 critical path — Mark's Render runbook, then World prod deploy + tagging. Finish `seal-episode.sh` once the Collective account + noreply email exist; consider scaffolding the SOPS/age slice in sCoRE so the Collective keys land in it from birth.
 
 ---
 
