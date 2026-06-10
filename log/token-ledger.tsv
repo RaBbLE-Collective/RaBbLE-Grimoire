@@ -32,3 +32,6 @@ commit-81f3088	grimoire-graph	S56c close: thick ring outlines + portal Y offset;
 504c236e-79e7-4bc9-b46c-bf61f32b1e69	Collective	auto: EP1 release dispatch brief
 0e405563-4f09-4fef-a695-1f94a98f758d	ep1-release-dispatch	S58: EP1 dispatch via sub-agents; pivot Railway->Render; blocked on manual Render deploy; OS VM static-verified; high token spend, recon-only outcome
 1ca441cc-6b1d-4f41-a9b2-a11ea747d212	world-ep1-cohesion	global page nav + Docs rebuild + loader unification; root dev rebase
+78b45de5-0e59-48df-92bc-a107eaf54b0d	sCoRE	auto: CONTEXT.md: Render deploy live, Episode 1 exit conditions update
+8713e8ec-2c16-415d-9b9c-591a8e33aa99	collective	auto: EP1 deployment runbook: World/NeBuLA/Aether CI/CD via GitHub Actions + Cloudflare
+commit-3422888	secrets-identity	S60: Collective identity & secrets model doc + seal-episode.sh draft spell
