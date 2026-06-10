@@ -56,6 +56,11 @@ warn() { echo -e "  ${YELLOW}!${RESET}  $*"; }
 err()  { echo -e "  ${RED}✗${RESET}  $*" >&2; }
 header() { echo -e "\n${MAGENTA}$*${RESET}\n"; }
 
+# Prefer globally installed wrangler; fall back to npx on-demand (no global install needed)
+if ! command -v wrangler &>/dev/null; then
+  wrangler() { npx --yes wrangler "$@"; }
+fi
+
 # ─ Paths ─────────────────────────────────────────────────────────────────────
 SPELL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 GRIMOIRE_ROOT="$(cd "$SPELL_DIR/.." && pwd)"
@@ -110,9 +115,9 @@ cmd_r2_setup() {
   header "R2 Bucket Setup"
   [ "$dry_run" = "--dry-run" ] && warn "DRY RUN — no buckets will be created"
 
-  # Verify wrangler
-  if ! command -v wrangler &>/dev/null; then
-    err "wrangler not found — install: npm install -g wrangler"
+  # Verify wrangler (function or binary)
+  if ! type wrangler &>/dev/null; then
+    err "wrangler not found — install: npm install -g wrangler (or ensure npx is available)"
     exit 1
   fi
 
@@ -188,12 +193,12 @@ cmd_r2_domain() {
 
   header "R2 Custom Domain — $CDN_DOMAIN → $CDN_BUCKET"
 
-  if ! command -v wrangler &>/dev/null; then
-    err "wrangler not found — install: npm install -g wrangler"
+  if ! type wrangler &>/dev/null; then
+    err "wrangler not found — install: npm install -g wrangler (or ensure npx is available)"
     exit 1
   fi
   if ! wrangler whoami &>/dev/null; then
-    err "wrangler not authenticated — run: wrangler login"
+    err "wrangler not authenticated — run: wrangler login  OR  npx wrangler login"
     exit 1
   fi
 
