@@ -37,3 +37,15 @@ commit-81f3088	grimoire-graph	S56c close: thick ring outlines + portal Y offset;
 commit-3422888	secrets-identity	S60: Collective identity & secrets model doc + seal-episode.sh draft spell
 commit-1bf9b58	ep1-render-deploy	sCoRE live, Aether RC1 ready, CI/CD runbook + org remotes
 commit-b39346a	score-tracker	S64: multi-instance session engine, instant census, live scrolling popup, codex notify
+commit-6f0ecc2	score-tracker-per-model	per-model tracking tooltip+popup, token spend analysis, empirical quota multiplier findings from score-usage-fit.py
+985fadef-bded-428b-902b-87d270c4e020	score-chat-test	sCoRE Haiku chat test 2026-06-10 22:33
+7f25d61a-2828-419c-bc59-dc725ebb46d9	score-chat-test	sCoRE Haiku chat test 2026-06-10 22:31
+ca8da4bb-d974-4653-af97-b0bd4e970a5b	score-chat-test	sCoRE Haiku chat test 2026-06-10 22:16
+7733cfbb-897c-4d25-8262-d2e281681699	score-chat-test	sCoRE Haiku chat test 2026-06-10 22:13
+b8811c39-0691-40ac-9389-7fbadc0ce00b	score-chat-test	sCoRE Haiku chat test 2026-06-10 22:12
+ed759ec5-2c3c-4dd7-b8b1-9552bfb33de3	score-chat-test	sCoRE Haiku chat test 2026-06-10 22:09
+7e8bc58f-f7fa-4016-b9b2-17c19f676c61	score-chat-test	sCoRE Haiku chat test 2026-06-10 22:07
+e06453a1-d16b-4366-8b7b-62890a04e153	score-chat-test	sCoRE Haiku chat test 2026-06-10 22:06
+eb0444f4-a28a-47f8-8b18-783b92a29314	score-chat-test	sCoRE Haiku chat test 2026-06-10 22:05
+020ed87b-472f-4537-8719-1a456ff9ac05	score-chat-test	sCoRE Haiku chat test 2026-06-09 22:15
+73b244e2-3165-4e8d-b54d-5d6d480eb73b	score-chat-test	sCoRE Haiku chat test 2026-06-09 13:35

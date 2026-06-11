@@ -5,14 +5,32 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-10 · Session 66 (sCoRE: Grimoire gist injection into chat system prompt)
+## LATEST — 2026-06-11 · Session 67 (sCoRE chat test: Haiku live; token capture + ledger integration)
 
 **Phase:** Epoch 0 · Episode 1 in flight; Aether RC1 execution pending.
-**This session (S66):** Built `server/grimoire.py` — auto-discovers Grimoire gist dir at startup, loads Identity + Collective + Roadmap gists (~670 tokens) + visitor join section into sCoRE chat system prompt. RaBbLE now knows what the Collective is and how to onboard visitors. Cloud deploys degrade gracefully to join-only.
+**This session (S67):** Captured 11 sCoRE chat test sessions (Haiku 4.5) into Grimoire token records — regenerated session-tokens.json (now 99 sessions), tagged all tests `score-chat-test` in token-ledger.tsv. Model confirmed: Haiku 4.5. Total test output: 17,734 tokens across 11 sessions. S66 Grimoire gist injection is working.
 **Blockers:** EP1 path unchanged (Render deploy, Mark-gated).
 **Next:** Aether RC1 deploy, NeBuLA/World; close coefficient loop in score-usage-fit.py.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-11 (Session 67) — sCoRE chat test: Haiku live; token capture + ledger integration
+
+**Repos touched:** RaBbLE-Grimoire (log/session-tokens.json, log/token-ledger.tsv, log/SESSION-LOG.md)
+
+**Work done:**
+
+- **Identified sCoRE test sessions:** 11 `RaBbLE-sCoRE-server` sessions from 2026-06-09 to 2026-06-10, all running `claude-haiku-4-5-20251001`. Mark tested the sCoRE chat API (built in S66 with Grimoire gist injection) live.
+- **Token capture:** Regenerated `log/session-tokens.json` via `spells/session-tokens.sh --json` — 63 → 99 sessions (36 new entries picked up across sCoRE-server and other projects).
+- **Ledger integration:** Added all 11 sCoRE test sessions to `log/token-ledger.tsv` tagged `score-chat-test`.
+- **Model confirmed:** `claude-haiku-4-5-20251001` — all sCoRE chat turns run on Haiku.
+- **Test totals:** Input: 276 · Output: 17,734 · Cache read: 295,050 · Cache write: 195,140 · Weighted: 362,369 units. Sessions ranged 8–12 seconds each (chat turns only, no tool use).
+
+**Current state:** All sCoRE test sessions are now tracked in Grimoire ledger with cost attribution.
+
+**What's next:** Aether RC1 deploy; coefficient loop in score-usage-fit.py.
 
 ---
 
