@@ -5,14 +5,29 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-11 · Session 81 (VSCodium Aether — flowing borders fixed + integrity banner)
+## LATEST — 2026-06-11 · Session 82 (VSCodium Aether — CSS injection root-cause + real fix)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S81):** Fixed two S80 defects. Flowing borders were invisible — scan ribbons used `right:-1px` to escape the bar, but VSCode's grid-view ancestors clip overflow. Rewrote as within-bounds continuous neon ribbons (activity bar, sidebar→editor, panel), no `@property` reliance. "Corrupt" banner traced to `@import` breaking `workbench.desktop.main.css`'s product.json checksum — added idempotent Ansible checksum-repair task.
-**Blockers:** Render deploy pending (Mark). Apply via `layerctl apply apps` + hard-restart VSCodium to see effect.
+**This session (S82):** S81's fixes were inert — root cause found: `@import url('file://...')` in workbench.desktop.main.css is blocked by Electron's cross-scheme security (renderer origin is `vscode-file://`, not `file://`). Custom CSS was never loaded. Fix: switched to `blockinfile` inline injection (with idempotency markers). Corruption banner: VSCodium was started before the S81 patch ran; all 10 checksums verified matching; hard-restart will clear it.
+**Blockers:** Render deploy pending (Mark). Apply via `layerctl apply apps` (RaBbLE-OS tag: vscode) + hard-restart VSCodium.
 **Next:** CF R2 → Aether RC1 → Render → World prod → tag episode-1-v0.0.0.1. Phase 2C open.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-11 (Session 82) — VSCodium Aether: CSS injection root-cause found + fixed
+
+**Repos touched:** RaBbLE-OS (ansible/roles/apps/tasks/vscode.yml)
+
+**Work done:**
+- **Root cause:** S81 rewrote custom.css correctly, but the CSS was never loaded. `@import url('file:///home/.../.vscode-oss/.../custom.css')` is blocked by Electron's same-origin/cross-scheme security: workbench CSS is served from `vscode-file://vscode-app/...` origin and cannot import `file://` resources. Silent failure — VSCodium loaded the @import line but discarded it.
+- **Why S81 appeared to fix the corruption banner:** The checksum patch was correct in principle, but VSCodium was started at 15:19, before the patch ran at 19:08 — the banner was triggered on startup with the old state and persisted. All 10 product.json checksums now verified matching via Python; hard-restart should clear it.
+- **Fix:** Replaced `lineinfile` + `@import` with `blockinfile` that inlines the full custom.css content directly into workbench.desktop.main.css, using `/* {mark} RABBLE-AETHER-INJECTION */` markers for idempotency. Added cleanup task to remove the legacy @import line first.
+
+**To apply:** `./RaBbLE-OS-layerctl.sh apply apps --tags vscode` (or `apply apps`), then hard-quit VSCodium (`pkill -x codium`) + relaunch.
+
+**What's next:** CF R2 → Aether RC1 → Render → World prod → EP1 tag.
 
 ---
 
