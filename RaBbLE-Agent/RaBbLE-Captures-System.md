@@ -2,8 +2,8 @@
 
 > Living system for organizing visual documentation across the Collective
 
-**Version:** 1.0  
-**Last Updated:** 2026-06-10  
+**Version:** 1.1  
+**Last Updated:** 2026-06-11  
 **Steward:** Agents of the Collective  
 **Spell Integration:** `spells/visual-screenshot.sh`
 
@@ -70,6 +70,18 @@ bash RaBbLE-Grimoire/spells/visual-screenshot.sh \
 - Captures monitor with `grim` after render delay
 - Automatically closes Firefox and returns to original workspace
 - Useful for full-page layouts, multi-app scenarios, OS UI work
+
+### RaBbLE-OS keyboard shortcuts (Print key — S72):
+
+The OS screenshot keybinds now route directly into RaBbLE-Captures:
+
+| Key | Destination | Use for |
+|-----|-------------|---------|
+| `Print` | `Collective-Atmosphere/capture-screen_TIMESTAMP.png` | Full desktop state captures |
+| `Shift+Print` | `Design-Iterations/by-date/capture-region_TIMESTAMP.png` | Targeted region captures |
+| `Ctrl+Print` | clipboard only (no file saved) | Quick copy |
+
+`~/Pictures/Screenshots/` is no longer the default capture location. Rename and move captures from `Design-Iterations/by-date/` to their final category when classification is clear.
 
 ---
 

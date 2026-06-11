@@ -5,14 +5,37 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-11 · Session 71 (RaBbLE-OS fastfetch: dual-portal ANSI logo + Episode 1 Preview)
+## LATEST — 2026-06-11 · Session 72 (Captures triage: 28 screenshots sorted + OS keybind redirect)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S71):** Built fastfetch identity package for RaBbLE-OS — dual-portal ANSI logo (cyan ring-above + magenta ring-below), "RaBbLE" in banner3 block letters using full palette, "Episode 1 Preview" tagline. Ansible desktop/fastfetch role auto-deploys on fresh install. Changed `rabble_epoch_name` → "Episode 1 Preview" (feeds `/etc/os-release` via template).
+**This session (S72):** Visual triage of ~/Pictures/Screenshots/ via 5 parallel Haiku agents — 28 RaBbLE images sorted into RaBbLE-Captures (Entity-UI, NeBuLA, World, Grimoire, OS), 23 non-RaBbLE left behind. OS Print keybinds redirected to RaBbLE-Captures; screenshot.sh added to RaBbLE-OS config source + deployed via dotctl.
 **Blockers:** Live `/etc/os-release` still shows "Epoch I" — needs `sudo` Ansible run or manual sed.
 **Next:** CF R2 payment → r2-setup → deploy Aether RC1 → Render deploy sCoRE → World prod → tag EP1.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-11 (Session 72) — Captures triage: 28 screenshots sorted + OS keybind redirect
+
+**Repos touched:** RaBbLE-OS (config/hypr/scripts/screenshot.sh, config/hypr/conf.d/functionkeys.conf), RaBbLE-Grimoire (RaBbLE-Agent/RaBbLE-Captures-System.md, log/SESSION-LOG.md)
+
+**Work done:**
+
+- **Visual triage:** 5 parallel Haiku subagents inspected all 50 images in ~/Pictures/Screenshots/. 28 identified as RaBbLE-related, 23 non-RaBbLE (hackertyper.net session, counseling website, blank tabs) left in place.
+- **Captures sorted:** Moved to:
+  - `Entity-UI/Boot/` — 10 files (particle scatter frames Apr 24, entity eyes Apr 26, boot logo May 14, Canvas2D/Quantum iterations May 14–16)
+  - `Entity-UI/Portal/` — 3 files (dual-orbital portal renders Jun 10–11)
+  - `Entity-UI/Components/` — 1 file (logo+entity dev May 17)
+  - `World/Pages/landing/` — 5 files (particles, gridstate, portal entity, EP1 preview)
+  - `NeBuLA/` — 3 files (layers demo, rendering demo, Break/Codex effects)
+  - `Grimoire/` — 1 file (editor session Apr 21)
+  - `Collective-Atmosphere/` — 1 file (OS filebrowser Apr 14)
+  - `Design-Iterations/by-date/` — 4 files (OS editor build/statusbar, World dev workspace)
+- **OS keybind redirect:** `Print` → `RaBbLE-Captures/Collective-Atmosphere/capture-screen_TIMESTAMP.png`; `Shift+Print` → `RaBbLE-Captures/Design-Iterations/by-date/capture-region_TIMESTAMP.png`. `screenshot.sh` added to RaBbLE-OS config source (was orphaned in ~/.config only), deployed via dotctl, Hyprland reloaded.
+- **Captures-System.md updated:** Keybind section added; `~/Pictures/Screenshots/` is no longer the default capture location.
+
+**What's next:** CF R2 payment → r2-setup → deploy Aether RC1 → Render/sCoRE → World prod → tag `episode-1-v0.0.0.1`.
 
 ---
 
