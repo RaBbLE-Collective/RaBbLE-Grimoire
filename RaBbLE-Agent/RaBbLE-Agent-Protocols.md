@@ -258,6 +258,14 @@ In `RaBbLE-OS/config/fastfetch/config.jsonc`, every color value (`keyColor`, `di
 
 **How:** Always write `38;5;N` (palette: 197 magenta · 51 cyan · 135 violet · 205 pink · 60 muted). Verify with `fastfetch --logo none --pipe false | cat -v` and confirm `[38;5;` appears in the output. Logo trailing whitespace counts toward logo width and pushes the info column right — keep art lines stripped.
 
+### VSCodium theme changes need a hard restart — Reload Window lies
+
+After `dotctl apply vscodium-theme`, VSCodium keeps serving the cached theme. **Reload Window does not bust the cache** — the IDE will happily render stale colors while the file on disk is correct, so an agent reading the JSON back "verifies" a fix that isn't live. Quit fully (`pkill -x codium` — `-x`, never `-f`; see pkill self-match above) and relaunch, then verify with a screenshot, not file contents.
+
+**Why:** In S77 an agent concluded theme fixes were working from file contents alone; S78 confirmed the cache had been masking the live state the whole time. Screenshot first, conclude second.
+
+**How (headless visual QA on Hyprland, verified S78):** relaunch with `hyprctl dispatch exec "codium <dir>"`; combine `hyprctl dispatch workspace <N>` + `grim` in one shell command (focus flips back between separate calls); the display is HiDPI 3840×2400 — crop regions (Python/PIL) before viewing or detail is illegible. Popups without a keyboard: `hyprctl dispatch sendshortcut "CTRL SHIFT, P, class:codium"` (command palette), `"ALT, F, class:codium"` (File menu), `", Escape, class:codium"` to dismiss.
+
 ### VM/dev storage is never a boot dependency
 
 The `/mnt/vms` (RaBbLE-VM) partition — and any VM/dev storage — must never be able to block boot of the daily driver. Every fstab entry referencing it (and any Ansible role, KS config, or systemd unit) must use `nofail,x-systemd.device-timeout=5s`. `vmctl` must never reformat a partition without preserving its filesystem label.
