@@ -5,14 +5,32 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-11 · Session 79 (VSCodium Aether aesthetics — flowing borders & detachment)
+## LATEST — 2026-06-11 · Session 80 (VSCodium Aether theme — harmony borders + full rework)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S79):** VSCodium theme refinement — implemented animated cyan/magenta flowing borders on the editor, increased global corner rounding to lg (12px), and applied var(--rabble-space-2) margins for a detached, modular UI. Fixed Ansible deployment to include full assets/ directory and automated be5invis.vscode-custom-css extension installation for CSS injection.
+**This session (S80):** Repaired Gemini's broken S79 CSS work. Rewrote custom.css with real Aether visual language: `rabble-border-harmony` conic-gradient borders on command palette/menus/toasts, flowing scan edges on activity bar and panel, rounded tabs, Hyprland tinted-glass opacity. No extension dependency — direct workbench CSS injection via Ansible lineinfile. Folder casing fixed to RaBbLE-Aether-theme.
 **Blockers:** Render deploy still pending (Mark).
 **Next:** CF R2 → Aether RC1 → Render → World prod → tag episode-1-v0.0.0.1. Phase 2C open.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-11 (Session 80) — VSCodium Aether theme rework (harmony borders, real CSS injection)
+
+**Repos touched:** RaBbLE-OS (config/vscodium/, config/hypr/, ansible/roles/apps/tasks/vscode.yml, RaBbLE-OS-dotctl.sh)
+
+**Work done:**
+- **Folder casing fixed:** `rabble-aether-theme/` → `RaBbLE-Aether-theme/`, theme JSON renamed to `RaBbLE-Aether-color-theme.json`. dotctl + Ansible paths updated.
+- **custom.css rewritten from scratch:** Gemini's S79 CSS used non-existent vars (`--rabble-radius-md`, `--rabble-gradient-scan`) and was named wrong (`theme.css` vs expected `custom.css`). New version is self-contained, tokens inlined.
+- **Harmony borders:** `rabble-border-harmony` technique from aether.css ported to Monaco — `@property --aether-angle` + `conic-gradient` + `mask-composite: exclude` applied to command palette, context menus, notification toasts, suggest widget.
+- **Flowing scan edges:** `repeating-linear-gradient` + `background-position` animation on activity bar right edge (vertical) and panel top edge (horizontal). Cyan→violet→magenta flow.
+- **Rounded tabs:** `border-radius: 6px 6px 0 0` on all tabs.
+- **Extension dependency removed:** Dropped `be5invis.vscode-custom-css` entirely. Ansible now injects `@import` directly into `/usr/share/codium/resources/app/out/vs/workbench/workbench.desktop.main.css` via `lineinfile`. No user interaction needed.
+- **Hyprland transparency:** VSCodium opacity changed from `1.0 1.0` → `0.94 0.88` — tinted glass bleed-through with blur backdrop.
+- **settings.json:** Removed `vscode_custom_css.*` keys (extension gone).
+
+**What's next:** CF R2 → Aether RC1 → Render → World prod → EP1 tag.
 
 ---
 
