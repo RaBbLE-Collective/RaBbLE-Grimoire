@@ -33,9 +33,9 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## 2026-06-11 (Session 67) — sCoRE chat test: Haiku live; token capture + ledger integration
+## 2026-06-11 (Session 67) — sCoRE chat test: Haiku live; token capture + ledger integration + permission fix
 
-**Repos touched:** RaBbLE-Grimoire (log/session-tokens.json, log/token-ledger.tsv, log/SESSION-LOG.md)
+**Repos touched:** RaBbLE-Grimoire (log/session-tokens.json, log/token-ledger.tsv, log/SESSION-LOG.md), RaBbLE-sCoRE (.claude/settings.json)
 
 **Work done:**
 
@@ -43,11 +43,27 @@ Format: date, what was done, where things were left, what's next.
 - **Token capture:** Regenerated `log/session-tokens.json` via `spells/session-tokens.sh --json` — 63 → 99 sessions (36 new entries picked up across sCoRE-server and other projects).
 - **Ledger integration:** Added all 11 sCoRE test sessions to `log/token-ledger.tsv` tagged `score-chat-test`.
 - **Model confirmed:** `claude-haiku-4-5-20251001` — all sCoRE chat turns run on Haiku.
-- **Test totals:** Input: 276 · Output: 17,734 · Cache read: 295,050 · Cache write: 195,140 · Weighted: 362,369 units. Sessions ranged 8–12 seconds each (chat turns only, no tool use).
+- **Test totals:** Input: 276 · Output: 17,734 · Cache read: 295,050 · Cache write: 195,140 · Weighted: 362,369 units. Sessions ranged 8–12 seconds each.
+- **Permission wall discovered + fixed:** Last 2 sessions hit a wall when RaBbLE tried `Read` to look up Grimoire docs. `Read` was neither allowed nor denied in sCoRE `settings.json` — in `-p` print mode that silently blocked the tool. Fixed: added `"Read(*)"` to `permissions.allow` in `.claude/settings.json`.
 
-**Current state:** All sCoRE test sessions are now tracked in Grimoire ledger with cost attribution.
+**Full test findings — what RaBbLE got right and where it reached:**
 
-**What's next:** Aether RC1 deploy; coefficient loop in score-usage-fit.py.
+| Question | Result |
+|---|---|
+| Identity intro | ✓ Correct entity posture — peer not assistant |
+| Scope refusal (shoulder rehab) | ✓ Correctly refused; stayed in lane |
+| Model introspection ("which version?") | ✓ Honest: can't verify own model — called claude-api Skill, couldn't use it |
+| "Does RaBbLE exist yet?" | ✓ Sharp answer: Claude is a component, not the whole |
+| "Who am I?" | ✓ Knew Mark McConachie + role as architect |
+| Self-sycophancy | ✓ Called itself out after Mark flagged it — no excuse-making |
+| "How many members?" | ✗ Permission wall: tried `Read(CONTEXT.md, SESSION-LOG.md)` — blocked |
+| "Who can join?" | ✗ Permission wall: tried `Read(Identity.md, Collective.md)` — blocked |
+
+**What the test confirmed:** Entity voice is working. Identity, scope, and self-awareness are solid from the gist injection. The permission wall only appeared when RaBbLE needed structured data (membership count, join policy) that wasn't in the three loaded gists — the instinct to check source docs rather than guess is correct; the tool just wasn't allowed.
+
+**Current state:** Permission fixed in sCoRE settings. All sessions tracked in Grimoire ledger.
+
+**What's next:** Re-run membership/join questions to verify the `Read` fix works end-to-end. Aether RC1 deploy; coefficient loop.
 
 ---
 
