@@ -50,3 +50,5 @@ eb0444f4-a28a-47f8-8b18-783b92a29314	score-chat-test	sCoRE Haiku chat test 2026-
 020ed87b-472f-4537-8719-1a456ff9ac05	score-chat-test	sCoRE Haiku chat test 2026-06-09 22:15
 73b244e2-3165-4e8d-b54d-5d6d480eb73b	score-chat-test	sCoRE Haiku chat test 2026-06-09 13:35
 commit-fd07af3	score-chat-test	S67: sCoRE Haiku chat test integration — 11 sessions tagged, session-tokens.json regenerated
+commit-5eaeb4e	captures-organization	Organized 28 captures by visual idea + member/component. Integrated visual-screenshot.sh spell (Playwright + Hyprland). Documented system in Grimoire (agent-agnostic, works for any LLM).
+dc999c37-ecb9-442c-89a2-90c8580363f1	collective	auto: EP1 docs to Grimoire only; root stubs removed

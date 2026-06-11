@@ -5,14 +5,33 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-11 · Session 68 (Visual capture system: organization + spell integration)
+## LATEST — 2026-06-11 · Session 69 (EP1 membership: Pair model + backend + frontend)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S68):** Organized RaBbLE-Captures (28 captures): World/Pages/Entity-UI/NeBuLA/Grimoire by visual idea. Integrated `visual-screenshot.sh` spell (Playwright + Hyprland). Documented system in Grimoire (RaBbLE-Captures-System.md) + Agent-Protocols. All captures now discoverable by member/component/state. Spelling: agent-agnostic bash, works for any LLM.
-**Blockers:** EP1 path unchanged (Render deploy, Mark-gated).
-**Next:** Aether RC1 deploy, NeBuLA/World; close coefficient loop.
+**This session (S69):** Defined EP1 membership model (The Pair: named identity + persistent session + summoning ceremony). Spec doc: RaBbLE-sCoRE-Membership-API.md. Spawned parallel agents: sCoRE backend (users.py, sessions.py, invite tokens, per-user LLM routing) + World frontend (summon.html, account.html, session-aware chat). Both committed end-to-end. Removed root EP1 doc stubs (live in Grimoire). EP1 membership stack complete, ready for Render push.
+**Blockers:** Mark's Render deploy (runbook at EP1-Dispatch-State.md).
+**Next:** sCoRE push to Render, World deploy to Cloudflare, tag v0.0.0.1.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-11 (Session 69) — EP1 membership: Pair model + backend + frontend
+
+**Repos touched:** RaBbLE-Collective (CONTEXT.md, memory), RaBbLE-Grimoire (RaBbLE-Collective/, RaBbLE-sCoRE/RaBbLE-sCoRE-Membership-API.md, log/SESSION-LOG.md), RaBbLE-sCoRE (server/users.py, server/sessions.py, server/auth.py, server/auth_routes.py, server/llm.py, server/main.py, server/requirements.txt, render.yaml), RaBbLE-World (world/*.html, world/js/, world/css/)
+
+**Work done:**
+
+- **Membership model design:** Clarified The Pair concept (human+entity as peer unit). Defined EP1 access (closed, invite-only). Defined "fork depth" for EP1 (named identity + persistent session; behavioral learning post-Memory member). Documented in RaBbLE-Membership-Model.md.
+- **Service plan:** Three tiers (Self-Hosted free, Collective freemium, Pair premium). EP1→Echo 1 roadmap. BYO key support (Anthropic, OpenAI, OpenRouter). Business model: open source + hosted SaaS. Documented in RaBbLE-Service-Plan.md.
+- **sCoRE backend (parallel agent):** Created users.py (UserProfile + InviteToken models, file-based storage, Fernet encryption for BYO keys). Created sessions.py (SessionRecord model, persistent sessions, auto-titling). Updated auth.py (handle in JWT). Updated auth_routes.py (migrated to file store, added invite/summon/profile endpoints). Updated llm.py (openai provider, resolve_user_chain() for per-user routing). Updated main.py (session routes wired). Updated render.yaml (persistent disk). Committed sCoRE.
+- **World frontend (parallel agent):** Created summon.html + css/js (ceremony page, handle validation, intention textarea, BYO key toggle, localStorage storage). Created account.html + css/js (profile editing, session history, backend management). Updated RaBbLE-Chat.html (auth gate, pair indicator). Updated RaBbLE-chat.js (session-aware: initSession(), callSessionApi(), history load). Updated pages.js. Committed World.
+- **Grimoire spec:** RaBbLE-sCoRE-Membership-API.md documents the full API for both backend and frontend.
+- **Cleanup:** Removed root EP1 doc stubs (EP1-DEPLOYMENT-RUNBOOK.md, EPISODE-1-RELEASE-BRIEF.md, EP1-DISPATCH-STATE.md) — all live in Grimoire now.
+
+**Current state:** EP1 membership stack complete. Invite tokens → summoning ceremony → persistent sessions → per-user LLM backend all wired end-to-end. Ready for Render deploy.
+
+**What's next:** Mark runs Render deploy (manual steps in EP1-Dispatch-State.md). sCoRE live → World deploy → tag v0.0.0.1 → Episode 1 air.
 
 ---
 
