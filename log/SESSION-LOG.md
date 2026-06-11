@@ -5,14 +5,30 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-11 · Session 77 (RaBbLE Aether VSCodium theme — WIP)
+## LATEST — 2026-06-11 · Session 78 (RaBbLE Aether VSCodium theme — visually verified)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S77):** Built RaBbLE Aether VSCodium theme extension — `config/vscodium/extensions/rabble-aether-theme/`, dotctl bundles (vscodium + vscodium-theme), Ansible vscode.yml task, codium manifest entry. Extension installed live. Theme loads and activates. Navy/blue surface color problem identified and partially corrected (sidebar + tabs moved to void) but requires Fable 5 visual iteration pass — not confirmed fixed due to VSCodium cache making live verification unreliable.
-**Blockers:** RaBbLE Aether theme needs visual QA pass with hard restart. Render deploy still pending (Mark).
-**Next:** Fable 5 theme refinement (see handoff prompt in log). CF R2 → Aether RC1 → Render → EP1 tag.
+**This session (S78):** VSCodium theme visual QA done — live grim screenshots vs Jobotron/World ground truth. S77 sidebar/tab void fix confirmed working. Purged remaining `#12132a` from floating surfaces (command palette → raised, command center → void + magenta border, settings rows → magenta tints); selections unified on violet; menus magenta. `window.zoomLevel: 1` default (Mark request). Committed `b1b5fcf` on RaBbLE-OS-New-Horizons.
+**Blockers:** Render deploy still pending (Mark).
+**Next:** CF R2 → Aether RC1 → Render → World prod → tag `episode-1-v0.0.0.1`. Phase 2C open.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-11 (Session 78) — RaBbLE Aether VSCodium theme visual QA (verified live)
+
+**Repos touched:** RaBbLE-OS (config/vscodium/extensions/rabble-aether-theme/, config/vscodium/User/settings.json)
+
+**Work done:**
+- **Verification workflow that actually works:** hard-quit (`pkill -x codium`, never `-f`), relaunch via `hyprctl dispatch exec`, `hyprctl dispatch workspace 3` + `grim`, crop HiDPI 3840×2400 regions with PIL for readable inspection. `hyprctl dispatch sendshortcut "CTRL SHIFT, P, class:codium"` opens command palette headlessly for popup screenshots.
+- **Ground truth:** screenshotted Jobotron (127.0.0.1:8000) + World OS/Collective pages via visual-screenshot.sh --playwright. Confirmed the look: void everywhere, structure from neon borders/labels, raised purple only on floating cards.
+- **Confirmed S77 fix:** sidebar + tabs + editor + panel + status bar all void — navy gone from large flat areas (screenshot-verified after hard restart).
+- **Navy purge round 2:** every remaining surface `#12132a` removed except `terminal.ansiBlack` (color slot, not a surface). Command palette/quickInput → raised `#1a1b2e`; command center → void + `#ff2d7840` border; statusBarItem hover, settings rows, menu selection → magenta tints; sticky-scroll hover, dropdown list, inlay hints, keybinding table, welcome tiles, debug toolbar → raised; peek/walkthrough editors → void; editor/terminal/global selections unified on violet `#bf5fff35`; fold background violet tint.
+- **Settings:** `window.zoomLevel: 1` — Mark finds one zoom step up more readable on this HiDPI system.
+- All changes screenshot-verified live before commit: palette popup, command center, File menu, editor, terminal. Commit `b1b5fcf`.
+
+**What's next:** CF R2 → Aether RC1 → Render → World prod → EP1 tag.
 
 ---
 
