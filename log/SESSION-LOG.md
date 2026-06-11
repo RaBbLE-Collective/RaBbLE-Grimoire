@@ -5,14 +5,31 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-11 · Session 67 (sCoRE chat test: Haiku live; token capture + ledger integration)
+## LATEST — 2026-06-11 · Session 68 (Visual capture system: organization + spell integration)
 
-**Phase:** Epoch 0 · Episode 1 in flight; Aether RC1 execution pending.
-**This session (S67):** Captured 11 sCoRE chat test sessions (Haiku 4.5) into Grimoire token records — regenerated session-tokens.json (now 99 sessions), tagged all tests `score-chat-test` in token-ledger.tsv. Model confirmed: Haiku 4.5. Total test output: 17,734 tokens across 11 sessions. S66 Grimoire gist injection is working.
+**Phase:** Epoch 0 · Episode 1 in flight.
+**This session (S68):** Organized RaBbLE-Captures (28 captures): World/Pages/Entity-UI/NeBuLA/Grimoire by visual idea. Integrated `visual-screenshot.sh` spell (Playwright + Hyprland). Documented system in Grimoire (RaBbLE-Captures-System.md) + Agent-Protocols. All captures now discoverable by member/component/state. Spelling: agent-agnostic bash, works for any LLM.
 **Blockers:** EP1 path unchanged (Render deploy, Mark-gated).
-**Next:** Aether RC1 deploy, NeBuLA/World; close coefficient loop in score-usage-fit.py.
+**Next:** Aether RC1 deploy, NeBuLA/World; close coefficient loop.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-11 (Session 68) — Visual capture system: organization + spell integration
+
+**Repos touched:** RaBbLE-Grimoire (RaBbLE-Agent/, INDEX.md, log/SESSION-LOG.md)
+
+**Work done:**
+
+- **Organized RaBbLE-Captures:** 28 captures reorganized into logical structure: World/Pages (6 per category), World/States/liminal (4), Entity-UI (Boot/Components/Portal), NeBuLA (3), Grimoire (2), Collective-Atmosphere (1). Naming convention: `{member}-{component}-{state}_{YYYYMMDD}.png`.
+- **Spell integration:** Documented `visual-screenshot.sh` in new RaBbLE-Captures-System.md. Two methods: Playwright (headless, recommended for agents, works anywhere) + Hyprland (Firefox+grim, full-screen/OS work on RaBbLE-OS only). Output: machine-readable `SCREENSHOT: /path` for agent parsing.
+- **Grimoire documentation:** Created RaBbLE-Captures-System.md with full system, naming rules, discovery patterns, spell reference. Updated RaBbLE-Agent-Protocols.md with new "Visual Capture Workflow" section. Updated INDEX.md.
+- **Agent-agnostic design:** Pure bash spell, works for any agent (Claude Code, Codex, Gemini, future). No Claude-specific mechanisms.
+
+**Current state:** RaBbLE-Captures is organized, discoverable, and system is documented in Grimoire (single source of truth). All agents can capture, organize, and find visual work.
+
+**What's next:** Aether RC1 deploy, NeBuLA/World; coefficient loop.
 
 ---
 
