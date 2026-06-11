@@ -5,14 +5,28 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-11 · Session 73 (fastfetch refinement: banner font mixed case, tighter portals)
+## LATEST — 2026-06-11 · Session 74 (fastfetch: hand-correct 'a' and 'b' letter shapes)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S73):** Fixed fastfetch logo — switched `banner3` → `banner` font (proper lowercase glyph shapes for `a`/`b` vs `A`/`B`), shrunk portal canvas 76×32 → 52×18 (orbs 8,10 → 4,6). Info now fully readable alongside logo on standard terminal width.
-**Blockers:** Live `/etc/os-release` still shows "Epoch I" — needs `sudo` Ansible run or manual sed.
-**Next:** CF R2 payment → r2-setup → deploy Aether RC1 → Render deploy sCoRE → World prod → tag EP1.
+**This session (S74):** Fixed fastfetch RaBbLE block letters — 'a' was uppercase-A shape (triangular peak), 'b' was two-bump uppercase-B. Hand-edited ANSI art in `rabble-portals.txt`: 'a' now single-story lowercase (starts row 3, right-stem hook), 'b' now tall ascender (rows 1–2) + single bump.
+**Blockers:** Render deploy (sCoRE → World → EP1 tag) — Mark's manual step.
+**Next:** CF R2 payment → r2-setup → Aether RC1 deploy → Render → World prod → tag EP1.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-11 (Session 74) — fastfetch: hand-correct 'a' and 'b' letter shapes
+
+**Repos touched:** RaBbLE-OS (config/fastfetch/rabble-portals.txt), RaBbLE-Grimoire (log/SESSION-LOG.md)
+
+**Work done:**
+
+- **Root cause:** S73 switched to `banner` font for mixed-case glyphs, but the generated ANSI art still had incorrect shapes — 'a' was a triangular uppercase-A (peaked top, spreading legs, crossbar) and 'b' was a symmetric two-bump uppercase-B.
+- **Fix:** Directly edited the ANSI color segments in `rabble-portals.txt` via Python. New 'a': blank rows 1–2, then single-story form (curved top row 3, right-stem hook rows 4–7). New 'b': tall ascender rows 1–2, single right-side bump rows 3–7. Both 8 visible chars wide, matching existing column layout.
+- **Deployed:** `~/.config/fastfetch/rabble-portals.txt` updated live; OS config synced.
+
+**What's next:** CF R2 → Aether deploy → Render/sCoRE → World prod → tag `episode-1-v0.0.0.1`.
 
 ---
 
