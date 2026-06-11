@@ -5,14 +5,31 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-10 · Session 65 (sCoRE Usage Tracker: per-model tracking + token spend analysis)
+## LATEST — 2026-06-10 · Session 66 (sCoRE: Grimoire gist injection into chat system prompt)
 
 **Phase:** Epoch 0 · Episode 1 in flight; Aether RC1 execution pending.
-**This session (S65):** Per-model token tracking added to sCoRE Usage Tracker — tooltip now shows live model-mix (output share), detail popup shows "By model" breakdown per window. Key finding: Opus ≈1× Sonnet per output token in quota terms (not 5× like pricing). Token spend analysis across 84 Collective sessions: Opus 4.6 (12 sessions) ≈ same quota cost as Sonnet (51 sessions).
+**This session (S66):** Built `server/grimoire.py` — auto-discovers Grimoire gist dir at startup, loads Identity + Collective + Roadmap gists (~670 tokens) + visitor join section into sCoRE chat system prompt. RaBbLE now knows what the Collective is and how to onboard visitors. Cloud deploys degrade gracefully to join-only.
 **Blockers:** EP1 path unchanged (Render deploy, Mark-gated).
-**Next:** Aether RC1 deploy, then NeBuLA/World; close the coefficient loop in score-usage-fit.py → count_tokens_since.
+**Next:** Aether RC1 deploy, NeBuLA/World; close coefficient loop in score-usage-fit.py.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-10 (Session 66) — sCoRE: Grimoire gist injection into chat system prompt
+
+**Repos touched:** RaBbLE-sCoRE (server/)
+
+**Work done:**
+
+- **`server/grimoire.py`** (new) — loads Identity, Collective, Roadmap gists at server startup from auto-discovered `../RaBbLE-Grimoire/gist/`. Falls back gracefully when Grimoire not present (cloud deploys get join-only context). Gists loaded once at module import, not per-request.
+- **`server/agents.py`** — `{GRIMOIRE_CONTEXT}` injected between entity identity and workflow context in `RABBLE_SYSTEM`. Full prompt ~2,000 tokens. RaBbLE now knows its own ecosystem, Collective member roles, roadmap, and how to answer "how do I join?"
+- **`server/.env.example`** — `GRIMOIRE_PATH` documented; `DEMO_MODE` comment clarified as correct for public chat surface (visitors chat as guests), not just local dev.
+- **Visitor join section** — embedded in `grimoire.py`: setup script, what joining means, "RaBbLE doesn't court users — it attracts peers."
+
+**Current state:** Committed to sCoRE `dev`. Grimoire knowledge live on next server restart.
+
+**What's next:** Aether RC1 deploy, NeBuLA/World; coefficient loop in score-usage-fit.py.
 
 ---
 
