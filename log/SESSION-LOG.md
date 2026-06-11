@@ -5,14 +5,31 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-11 · Session 70 (Aether→CF deploy pipeline + Ansible collective role)
+## LATEST — 2026-06-11 · Session 71 (RaBbLE-OS fastfetch: dual-portal ANSI logo + Episode 1 Preview)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S70):** Built Aether→Cloudflare RC1 deploy pipeline. Fixed cloudflare-ctl.sh (exec bits on all spells, export bug for CLOUDFLARE_API_TOKEN, added deploy-rc command). Added Ansible `rabble-collective` role (nodejs, wrangler, age, gh). CF auth working. R2 blocked: needs payment method added to CF account before r2-setup can create buckets.
-**Blockers:** CF R2 needs payment info (one-time enablement on dash.cloudflare.com → R2 Object Storage). Resume deploy after card added.
-**Next:** Add card to CF → r2-setup → r2-domain add/verify → deploy-rc v0.0.0.1-rc.1.
+**This session (S71):** Built fastfetch identity package for RaBbLE-OS — dual-portal ANSI logo (cyan ring-above + magenta ring-below), "RaBbLE" in banner3 block letters using full palette, "Episode 1 Preview" tagline. Ansible desktop/fastfetch role auto-deploys on fresh install. Changed `rabble_epoch_name` → "Episode 1 Preview" (feeds `/etc/os-release` via template).
+**Blockers:** Live `/etc/os-release` still shows "Epoch I" — needs `sudo` Ansible run or manual sed.
+**Next:** CF R2 payment → r2-setup → deploy Aether RC1 → Render deploy sCoRE → World prod → tag EP1.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-11 (Session 71) — RaBbLE-OS fastfetch: dual-portal ANSI logo + Episode 1 Preview
+
+**Repos touched:** RaBbLE-OS (assets/generate_rabble_fastfetch.py, config/fastfetch/config.jsonc + rabble-portals.txt, ansible/roles/desktop/fastfetch/, ansible/inventory/group_vars/all.yml, config/shell/zsh/.zshrc), RaBbLE-Grimoire (log/SESSION-LOG.md)
+
+**Work done:**
+
+- **Fastfetch ANSI logo:** Dual-portal design — LEFT=cyan (orbital ring sits above orb tip), RIGHT=magenta (ring below), violet inner ring accent on both. Matches boot screen visual reference (`entity-boot-screen_20260608.png`). Canvas: 76×32 chars, `hw=8, hh=10`.
+- **"RaBbLE" block text:** `pyfiglet` `banner3` font with `#`→`█` block replacement — Orbitron-style solid geometric letters. Per-letter colors: R=white, a=violet, B=magenta, b=magenta, L=cyan, E=cyan. Full palette separator; "Episode 1 Preview" in violet; "Low Entropy. Infinite Resonance." in dim.
+- **Generator script:** `assets/generate_rabble_fastfetch.py` — reproducible, tunable. Run from RaBbLE-OS root to regenerate logo.
+- **Ansible auto-deploy:** New `desktop/fastfetch` role deploys `config.jsonc` + `rabble-portals.txt` to `~/.config/fastfetch/`. Wired into site.yml Layer 3 Desktop play and dotfiles pass. Fresh install → identity logo automatically.
+- **ZSH startup:** `.zshrc` now runs `fastfetch` on new interactive shells (skips tmux/SSH/vscode).
+- **Episode 1 Preview:** Changed `rabble_epoch_name` in group_vars/all.yml. Propagates to `/etc/os-release` PRETTY_NAME and GRUB entries on next Ansible run. Live file still says "Epoch I" — needs manual or Ansible update.
+
+**What's next:** Mark runs `sudo sed -i 's/Epoch I/Episode 1 Preview/g' /etc/os-release` or full Ansible core run to fix live OS display. Then: CF R2 → Aether deploy → Render/sCoRE → World prod → tag `episode-1-v0.0.0.1`.
 
 ---
 
