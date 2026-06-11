@@ -15,6 +15,7 @@
 #   r2-list                    # List R2 buckets
 #   r2-verify                  # Verify R2 bucket configuration
 #   r2-domain [add|verify|remove]  # Connect cdn.joinrabble.world → bucket (public CDN)
+#   deploy-rc <version>        # Build Aether + upload to R2 at versioned CDN path
 #   secrets-setup <member>     # Configure GitHub Actions secrets
 #   secrets-show               # Display configured secrets (masked)
 #   status                     # Overall deployment status
@@ -27,6 +28,7 @@
 #   bash spells/cloudflare-ctl.sh r2-setup --dry-run
 #   bash spells/cloudflare-ctl.sh r2-domain add        # attach cdn.joinrabble.world
 #   bash spells/cloudflare-ctl.sh r2-domain verify     # poll until the TLS cert is active
+#   bash spells/cloudflare-ctl.sh deploy-rc v0.0.0.1-rc.1   # build + upload Aether RC1 to CDN
 #   bash spells/cloudflare-ctl.sh secrets-setup aether
 #   bash spells/cloudflare-ctl.sh monitor aether v0.0.0.1-rc.1
 #   bash spells/cloudflare-ctl.sh status
@@ -85,6 +87,8 @@ CF_CONFIG_FILE="$CF_CONFIG_DIR/config"
 if [ -f "$CF_CONFIG_FILE" ]; then
   # shellcheck source=/dev/null
   source "$CF_CONFIG_FILE"
+  # Export so wrangler and other child processes inherit the token
+  export CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID CLOUDFLARE_ZONE_ID
 fi
 
 # ─ Commands ──────────────────────────────────────────────────────────────────
@@ -96,6 +100,21 @@ cmd_setup() {
   info "Installs wrangler, collects credentials, and saves to $CF_CONFIG_DIR/config"
   info "(gitignored, chmod 600 — never committed)"
   echo ""
+
+  # ── Prerequisite: Node.js / npm ─────────────────────────────────────────
+  if ! command -v npm &>/dev/null; then
+    warn "npm not found — Node.js is required to install wrangler."
+    echo ""
+    info "Install via RaBbLE-OS Ansible (recommended):"
+    info "  cd RaBbLE-OS"
+    info "  ansible-playbook -i ansible/inventory/hosts.yml ansible/site.yml --tags collective -K"
+    echo ""
+    info "Or install Node.js manually: https://nodejs.org"
+    echo ""
+    read -r -p "  Continue anyway (wrangler install will fail)? [y/N] " _npm_cont
+    [[ "${_npm_cont:-N}" =~ ^[yY] ]] || exit 0
+    echo ""
+  fi
 
   # ── Step 1: wrangler ────────────────────────────────────────────────────
   info "Step 1/4  wrangler CLI"
@@ -188,9 +207,9 @@ cmd_setup() {
   cat > "$CF_CONFIG_DIR/config" <<CFEOF
 # Cloudflare credentials — DO NOT COMMIT (gitignored)
 # Written by: bash spells/cloudflare-ctl.sh setup  ($(date +%Y-%m-%d))
-CLOUDFLARE_API_TOKEN="${CLOUDFLARE_API_TOKEN}"
-CLOUDFLARE_ACCOUNT_ID="${CLOUDFLARE_ACCOUNT_ID}"
-CLOUDFLARE_ZONE_ID="${CLOUDFLARE_ZONE_ID:-}"
+export CLOUDFLARE_API_TOKEN="${CLOUDFLARE_API_TOKEN}"
+export CLOUDFLARE_ACCOUNT_ID="${CLOUDFLARE_ACCOUNT_ID}"
+export CLOUDFLARE_ZONE_ID="${CLOUDFLARE_ZONE_ID:-}"
 CFEOF
   chmod 600 "$CF_CONFIG_DIR/config"
   ok "Credentials saved to $CF_CONFIG_DIR/config"
@@ -511,6 +530,97 @@ cmd_monitor() {
   echo ""
 }
 
+cmd_deploy_rc() {
+  local version="${1:-}"
+
+  header "Deploy Aether RC → CDN"
+
+  if [ -z "$version" ]; then
+    warn "Usage: cloudflare-ctl.sh deploy-rc <version>"
+    info "Example: cloudflare-ctl.sh deploy-rc v0.0.0.1-rc.1"
+    exit 1
+  fi
+
+  # Normalize version
+  version="${version#v}"
+  RC_VERSION="v${version}"
+  R2_PREFIX="aether/${RC_VERSION}"
+  AETHER_ROOT="$(dirname "$GRIMOIRE_ROOT")/RaBbLE-Aether"
+
+  # Preflight: wrangler auth
+  if ! wrangler whoami &>/dev/null; then
+    err "wrangler not authenticated — run: npx wrangler login"
+    suggest_setup; exit 1
+  fi
+  ok "wrangler authenticated"
+
+  # Preflight: Aether repo
+  if [[ ! -d "$AETHER_ROOT" ]]; then
+    err "RaBbLE-Aether not found: $AETHER_ROOT"
+    exit 1
+  fi
+  AETHER_SHA=$(git -C "$AETHER_ROOT" rev-parse --short HEAD 2>/dev/null || echo "unknown")
+  AETHER_DIRTY=$(git -C "$AETHER_ROOT" status --porcelain 2>/dev/null | wc -l | tr -d ' ')
+  info "Aether @ $AETHER_SHA"
+  [[ "$AETHER_DIRTY" -gt 0 ]] && warn "Aether has $AETHER_DIRTY uncommitted change(s) — building working tree"
+  info "Target: $CDN_DOMAIN/$R2_PREFIX/"
+  echo ""
+
+  # Build Aether
+  info "Building Aether..."
+  if [[ ! -f "$AETHER_ROOT/node_modules/.bin/esbuild" ]]; then
+    info "Installing Aether deps..."
+    npm ci --prefix "$AETHER_ROOT" --silent
+  fi
+  npm run build:min --prefix "$AETHER_ROOT" 2>&1 | grep -E 'dist/|Done|error' || true
+
+  for f in dist/aether.css dist/aether.min.css; do
+    [[ -f "$AETHER_ROOT/$f" ]] || { err "Build output missing: $f"; exit 1; }
+  done
+  ok "Aether built"
+  echo ""
+
+  # Upload to R2
+  info "Uploading → $CDN_BUCKET/$R2_PREFIX/"
+
+  _r2_put() {
+    local src="$1" key="$2" ct="$3"
+    if [[ ! -f "$src" ]]; then
+      warn "  skipping (missing): $(basename "$src")"
+      return 0
+    fi
+    if wrangler r2 object put "${CDN_BUCKET}/${key}" --file "$src" --content-type "$ct" 2>/dev/null; then
+      ok "  $(basename "$key")"
+    else
+      err "  failed: $(basename "$key")"
+      return 1
+    fi
+  }
+
+  _r2_put "$AETHER_ROOT/dist/aether.css"         "$R2_PREFIX/aether.css"         "text/css"
+  _r2_put "$AETHER_ROOT/dist/aether.css.map"     "$R2_PREFIX/aether.css.map"     "application/json"
+  _r2_put "$AETHER_ROOT/dist/aether.min.css"     "$R2_PREFIX/aether.min.css"     "text/css"
+  _r2_put "$AETHER_ROOT/dist/aether.min.css.map" "$R2_PREFIX/aether.min.css.map" "application/json"
+
+  echo ""
+  ok "Deployed to CDN"
+  info "  https://$CDN_DOMAIN/$R2_PREFIX/aether.css"
+  info "  https://$CDN_DOMAIN/$R2_PREFIX/aether.min.css"
+  echo ""
+
+  # Spot-check via curl
+  info "Verifying..."
+  TEST_URL="https://$CDN_DOMAIN/$R2_PREFIX/aether.min.css"
+  HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "$TEST_URL" 2>/dev/null || echo "000")
+  if [ "$HTTP_CODE" = "200" ]; then
+    ok "Live: $TEST_URL"
+  else
+    warn "HTTP $HTTP_CODE — CDN propagation may take a minute"
+    info "Retry: bash spells/cloudflare-ctl.sh monitor aether $RC_VERSION"
+  fi
+  echo ""
+}
+
 cmd_open() {
   info "Opening Cloudflare Dashboard..."
   if command -v xdg-open &>/dev/null; then
@@ -538,6 +648,7 @@ case "$COMMAND" in
   r2-list)       cmd_r2_list ;;
   r2-verify)     cmd_r2_verify ;;
   r2-domain)     cmd_r2_domain "${2:-}" ;;
+  deploy-rc)     cmd_deploy_rc "${2:-}" ;;
   secrets-setup) cmd_secrets_setup "${2:-}" ;;
   secrets-show)  cmd_secrets_show ;;
   status)        cmd_status ;;

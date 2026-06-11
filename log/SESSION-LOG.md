@@ -5,14 +5,29 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-11 · Session 69 (EP1 membership: Pair model + backend + frontend)
+## LATEST — 2026-06-11 · Session 70 (Aether→CF deploy pipeline + Ansible collective role)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S69):** Defined EP1 membership model (The Pair: named identity + persistent session + summoning ceremony). Spec doc: RaBbLE-sCoRE-Membership-API.md. Spawned parallel agents: sCoRE backend (users.py, sessions.py, invite tokens, per-user LLM routing) + World frontend (summon.html, account.html, session-aware chat). Both committed end-to-end. Removed root EP1 doc stubs (live in Grimoire). EP1 membership stack complete, ready for Render push.
-**Blockers:** Mark's Render deploy (runbook at EP1-Dispatch-State.md).
-**Next:** sCoRE push to Render, World deploy to Cloudflare, tag v0.0.0.1.
+**This session (S70):** Built Aether→Cloudflare RC1 deploy pipeline. Fixed cloudflare-ctl.sh (exec bits on all spells, export bug for CLOUDFLARE_API_TOKEN, added deploy-rc command). Added Ansible `rabble-collective` role (nodejs, wrangler, age, gh). CF auth working. R2 blocked: needs payment method added to CF account before r2-setup can create buckets.
+**Blockers:** CF R2 needs payment info (one-time enablement on dash.cloudflare.com → R2 Object Storage). Resume deploy after card added.
+**Next:** Add card to CF → r2-setup → r2-domain add/verify → deploy-rc v0.0.0.1-rc.1.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-11 (Session 70) — Aether→CF deploy pipeline + Ansible collective role
+
+**Repos touched:** RaBbLE-Grimoire (spells/cloudflare-ctl.sh, log/SESSION-LOG.md), RaBbLE-OS (ansible/site.yml, ansible/packages/manifest.yml, ansible/roles/apps/rabble-collective/)
+
+**Work done:**
+
+- **cloudflare-ctl.sh:** Fixed execute bits on all spells (were 644, should be 755). Fixed CLOUDFLARE_API_TOKEN not exported to child processes (wrangler never saw the token). Added `deploy-rc <version>` command: builds Aether, uploads CSS artifacts to R2 at versioned CDN path via `wrangler r2 object put`. Added npm preflight check to `setup` (points to Ansible collective role if missing).
+- **Ansible rabble-collective role:** New role at `roles/apps/rabble-collective/`. Installs nodejs, gh, age via dnf; wrangler via `community.general.npm` (global, idempotent). Wired into site.yml as standalone play with `--tags collective`. Package entries added to manifest.yml.
+- **CF setup:** Ran `cloudflare-ctl.sh setup` — token, Account ID, Zone ID saved to `.cloudflare/config`. Token verified active via curl. `wrangler auth` confirmed working.
+- **Blocker hit:** R2 bucket creation failed (CF error 10042) — R2 not enabled. Requires one-time payment method activation on dash.cloudflare.com → R2 Object Storage. Deploy pipeline complete and ready; blocked only on this manual CF step.
+
+**What's next:** Add payment method to CF account → `r2-setup` → `r2-domain add` → `r2-domain verify` → `deploy-rc v0.0.0.1-rc.1`
 
 ---
 
