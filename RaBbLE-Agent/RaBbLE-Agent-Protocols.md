@@ -149,6 +149,87 @@ HTML pages link to `aether.css` in dev — **NOT** `aether.min.css`. Linking to 
 
 ---
 
+## Visual Capture Workflow
+
+All visual documentation (screenshots, UI captures, design iteration snapshots) uses the unified `visual-screenshot.sh` spell and `RaBbLE-Captures` organization system.
+
+**Spell:** `RaBbLE-Grimoire/spells/visual-screenshot.sh`  
+**System doc:** `RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Captures-System.md`
+
+### When to capture: Two methods, one choice
+
+| Scenario | Method | Command |
+|---|---|---|
+| Browser/web page (recommended) | Playwright headless | `bash spells/visual-screenshot.sh --playwright` |
+| Full-screen/OS/multi-window work | Hyprland + Firefox | `bash spells/visual-screenshot.sh` |
+
+**Playwright (default for agents):**
+- Headless Chromium, no Hyprland required
+- Works anywhere — CI, remote machines, non-RaBbLE-OS
+- Faster, doesn't interrupt workflow
+- Requires: Node.js + `npx`
+
+**Hyprland (RaBbLE-OS only):**
+- Opens real Firefox in workspace 9 (scratch)
+- Captures full monitor with `grim`
+- Automatically closes Firefox and returns to original workspace
+- Requires: active Hyprland session, Firefox, `grim`, `hyprctl`
+
+### Capture workflow
+
+1. **Run spell with appropriate method:**
+   ```bash
+   # Browser pages (most common)
+   bash RaBbLE-Grimoire/spells/visual-screenshot.sh \
+     --url http://localhost:8000/world/Chat.html \
+     --playwright
+
+   # Full-screen/OS work (Hyprland only)
+   bash RaBbLE-Grimoire/spells/visual-screenshot.sh --delay 3
+   ```
+
+2. **Spell outputs machine-readable path:**
+   ```
+   SCREENSHOT: /home/rabble/RaBbLE-Collective/RaBbLE-Captures/visual-20260610-143022.png
+   ```
+
+3. **Move to appropriate category and rename:**
+   ```bash
+   mv RaBbLE-Captures/visual-20260610-143022.png \
+      RaBbLE-Captures/World/Pages/chat/world-chat-new-feature_20260610.png
+   ```
+
+### Naming convention
+
+```
+{member}-{component}-{state}_{YYYYMMDD}.png
+```
+
+Examples:
+- `world-chat-page_20260609.png` — Finished page
+- `world-liminal-glitch-effect_20260609.png` — Visual state/effect
+- `entity-boot-screen_20260608.png` — Component state
+- `design-iteration-20260609-01.png` — Dev progress (sequential per date)
+
+**Full reference:** `RaBbLE-Captures-System.md` § Naming Convention
+
+### Where captures live
+
+```
+RaBbLE-Captures/
+├── World/Pages/{landing,chat,docs,os}/
+├── World/States/liminal/
+├── Entity-UI/{Boot,Components,Portal}/
+├── NeBuLA/
+├── Grimoire/
+├── Collective-Atmosphere/
+└── Design-Iterations/by-date/
+```
+
+**Why:** Captures are ephemeral (`.gitignore`d), but their organization enables visual discovery across the Collective and session progress tracking.
+
+---
+
 ## RaBbLE-OS Config Workflow
 
 ### Repo → System, never the reverse
