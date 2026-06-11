@@ -5,14 +5,30 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-11 · Session 75 (fastfetch: half-block wordmark, true SGR palette, denser info)
+## LATEST — 2026-06-11 · Session 76 (fastfetch fx layers, portal symmetry, Grimoire doc)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S75):** fastfetch overhaul — 4-row half-block "RaBbLE" wordmark, eye-matched cyan→magenta gradient, logo 57→37 cols. Found + fixed silent SGR bug: bare `"135"` colors are ignored, must be `"38;5;N"` — keys were never actually colored. Added Swap/Battery/IP, 4×4 palette key gradient. Gotcha mirrored to Agent-Protocols.
+**This session (S76):** fastfetch graphics system — logo now composed in layers: `rabble-portals.base.txt` + `spells/fastfetch-fx.py` (particles + glow, toggleable via `--layers`, seed-deterministic) → generated `rabble-portals.txt`. Portal dot-arcs mirrored (180° symmetric), breathing line before wordmark, ◆ palette strip replaces ANSI colors row. Canonical doc: `RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Fastfetch.md`.
 **Blockers:** Render deploy (sCoRE → World → EP1 tag) — Mark's manual step.
 **Next:** CF R2 payment → r2-setup → Aether RC1 deploy → Render → World prod → tag EP1.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-11 (Session 76) — fastfetch fx layers, portal symmetry, palette strip, Grimoire doc
+
+**Repos touched:** RaBbLE-OS (config/fastfetch/, spells/fastfetch-fx.py, ansible fastfetch role), RaBbLE-Grimoire (RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Fastfetch.md, AgentGuide, INDEX.md, log/)
+
+**Work done:**
+
+- **Layer compositor:** New `spells/fastfetch-fx.py` — base art + optional fx layers → generated `rabble-portals.txt` (never hand-edited again). Layers: `particles` (~12 palette dust motes, empty cells only, never widens logo) and `glow` (one bright glint per ◆; in-ring eyes auto-blocked, only floaters glint). `--layers none` = clean base; output deterministic per seed. New layers = one `layer_*` function + `LAYERS` dict entry.
+- **Symmetry + spacing:** Dotted arc above cyan portal mirrored below the magenta portal (axis flip, same 3-col ring inset) — portal pair now 180°-symmetric. Blank breathing line between portals and wordmark. Source split to `rabble-portals.base.txt`.
+- **Palette strip:** Stock `colors` module (terminal ANSI) replaced with custom `◆◆◆ ×5` strip in true RaBbLE cyan/violet/pink/magenta/muted via `{#38;5;N}` format escapes.
+- **Docs for small agents:** New canonical `RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Fastfetch.md` — file roles + edit-permission table, base+layers model, layer rules, palette↔256 mapping, art anatomy, compose→deploy→verify workflow, headless verification recipe. Wired into AgentGuide nav + INDEX.md; Ansible role comments warn the logo is generated; config.jsonc header points to base/spell/doc.
+- **Verified:** real fastfetch run via pty→pyte→playwright; capture `RaBbLE-Captures/Design-Iterations/fastfetch-fx-layers-symmetric_20260611.png`. `--layers none` round-trips the base byte-equivalent visually.
+
+**What's next:** CF R2 → Aether deploy → Render/sCoRE → World prod → tag `episode-1-v0.0.0.1`.
 
 ---
 
