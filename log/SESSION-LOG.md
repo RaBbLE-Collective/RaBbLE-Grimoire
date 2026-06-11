@@ -5,14 +5,29 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-11 · Session 72 (Captures triage: 28 screenshots sorted + OS keybind redirect)
+## LATEST — 2026-06-11 · Session 73 (fastfetch refinement: banner font mixed case, tighter portals)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S72):** Visual triage of ~/Pictures/Screenshots/ via 5 parallel Haiku agents — 28 RaBbLE images sorted into RaBbLE-Captures (Entity-UI, NeBuLA, World, Grimoire, OS), 23 non-RaBbLE left behind. OS Print keybinds redirected to RaBbLE-Captures; screenshot.sh added to RaBbLE-OS config source + deployed via dotctl.
+**This session (S73):** Fixed fastfetch logo — switched `banner3` → `banner` font (proper lowercase glyph shapes for `a`/`b` vs `A`/`B`), shrunk portal canvas 76×32 → 52×18 (orbs 8,10 → 4,6). Info now fully readable alongside logo on standard terminal width.
 **Blockers:** Live `/etc/os-release` still shows "Epoch I" — needs `sudo` Ansible run or manual sed.
 **Next:** CF R2 payment → r2-setup → deploy Aether RC1 → Render deploy sCoRE → World prod → tag EP1.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-11 (Session 73) — fastfetch refinement: banner font mixed case, tighter portals
+
+**Repos touched:** RaBbLE-OS (assets/generate_rabble_fastfetch.py, config/fastfetch/rabble-portals.txt), RaBbLE-Grimoire (log/SESSION-LOG.md)
+
+**Work done:**
+
+- **Mixed case fix:** `banner3` font treats lowercase same as uppercase (`a` == `A` → "RABBLE"). Switched to `banner` font which has distinct lowercase glyphs: `a` = open rounded shape, `b` = single-loop form, both starting one row lower (shorter cap height). "RaBbLE" now reads as mixed case.
+- **Tighter portals:** Canvas 76×32 → 52×18; orb half-width/height 8,10 → 4,6; ring prx 11 → 7. Logo width ~52 chars (was ~76), giving info column ~100 chars on a 160-char terminal — all 14 info fields fully visible, nothing truncated.
+- **Generator updated:** `assets/generate_rabble_fastfetch.py` reflects new params; run from repo root to regenerate.
+- **Deployed:** `~/.config/fastfetch/rabble-portals.txt` updated live; Ansible role unchanged (deploys same path).
+
+**What's next:** CF R2 → Aether deploy → Render/sCoRE → World prod → tag `episode-1-v0.0.0.1`.
 
 ---
 
