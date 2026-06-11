@@ -250,6 +250,14 @@ If a file has already drifted (direct edit happened), use `dotctl diff hypr` to 
 
 **Applies to:** All dotctl bundles — `hypr` · `waybar` · `quickshell` · `kitty` · `fuzzel` · `zsh` · `bash` · `mako` · `wallpapers` · `claude`. Same principle applies to Ansible-managed system config: change the playbook, not the system file.
 
+### fastfetch colors are raw SGR params — bare indexes silently fail
+
+In `RaBbLE-OS/config/fastfetch/config.jsonc`, every color value (`keyColor`, `display.color.*`, title colors, `percent.color.*`) is passed through as a raw SGR parameter, not a 256-color index. `"135"` emits `\e[135m` — an undefined code terminals silently ignore, so the text renders default white-bold and *looks* deliberately styled. The 256-color form is `"38;5;135"`.
+
+**Why:** The original config used bare `"57"`, later `"135"` — the keys were never actually colored, and nobody noticed for weeks because bold masked the failure (found S75).
+
+**How:** Always write `38;5;N` (palette: 197 magenta · 51 cyan · 135 violet · 205 pink · 60 muted). Verify with `fastfetch --logo none --pipe false | cat -v` and confirm `[38;5;` appears in the output. Logo trailing whitespace counts toward logo width and pushes the info column right — keep art lines stripped.
+
 ### VM/dev storage is never a boot dependency
 
 The `/mnt/vms` (RaBbLE-VM) partition — and any VM/dev storage — must never be able to block boot of the daily driver. Every fstab entry referencing it (and any Ansible role, KS config, or systemd unit) must use `nofail,x-systemd.device-timeout=5s`. `vmctl` must never reformat a partition without preserving its filesystem label.

@@ -52,5 +52,6 @@ commit-fd07af3	score-chat-test	S67: sCoRE Haiku chat test integration — 11 ses
 commit-5eaeb4e	captures-organization	Organized 28 captures by visual idea + member/component. Integrated visual-screenshot.sh spell (Playwright + Hyprland). Documented system in Grimoire (agent-agnostic, works for any LLM).
 dc999c37-ecb9-442c-89a2-90c8580363f1	collective	auto: EP1 docs to Grimoire only; root stubs removed
 commit-2cfa811	cf-deploy-pipeline	S70: cloudflare-ctl deploy-rc, spell exec bits, token export fix, ansible collective role, R2 blocked on CF payment
-8539c8a4-e499-4f3e-947a-9ecca0f652ab	fastfetch-identity	fastfetch ANSI logo: tighter dual-portal + Orbitron block text + full palette + Episode 1 Preview tagline + Ansible auto-deploy
 commit-51c58a4	captures-triage	S72: 28 screenshots sorted into RaBbLE-Captures via Haiku agents; OS Print keybind redirected from ~/Pictures/Screenshots to Captures tree; screenshot.sh added to RaBbLE-OS config source
+8539c8a4-e499-4f3e-947a-9ecca0f652ab	fastfetch-refinement	banner font for proper RaBbLE mixed case; portal canvas 76x32→52x18 for readable info column
+103b3fe4-b8f3-4f76-860e-7e3c00baf5c1	os-fastfetch	S75: half-block wordmark, SGR palette fix, denser info column

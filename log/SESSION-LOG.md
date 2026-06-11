@@ -5,14 +5,30 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-11 · Session 74 (fastfetch: hand-correct 'a' and 'b' letter shapes)
+## LATEST — 2026-06-11 · Session 75 (fastfetch: half-block wordmark, true SGR palette, denser info)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S74):** Fixed fastfetch RaBbLE block letters — 'a' was uppercase-A shape (triangular peak), 'b' was two-bump uppercase-B. Hand-edited ANSI art in `rabble-portals.txt`: 'a' now single-story lowercase (starts row 3, right-stem hook), 'b' now tall ascender (rows 1–2) + single bump.
+**This session (S75):** fastfetch overhaul — 4-row half-block "RaBbLE" wordmark, eye-matched cyan→magenta gradient, logo 57→37 cols. Found + fixed silent SGR bug: bare `"135"` colors are ignored, must be `"38;5;N"` — keys were never actually colored. Added Swap/Battery/IP, 4×4 palette key gradient. Gotcha mirrored to Agent-Protocols.
 **Blockers:** Render deploy (sCoRE → World → EP1 tag) — Mark's manual step.
 **Next:** CF R2 payment → r2-setup → Aether RC1 deploy → Render → World prod → tag EP1.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-11 (Session 75) — fastfetch: half-block wordmark, true SGR palette, denser info column
+
+**Repos touched:** RaBbLE-OS (config/fastfetch/), RaBbLE-Grimoire (RaBbLE-Agent/RaBbLE-Agent-Protocols.md, log/SESSION-LOG.md)
+
+**Work done:**
+
+- **Wordmark:** Replaced 7-row block letters with a 4-row half-block (▀▄█) "RaBbLE" — 33 cols, 1-space kerning, Orbitron-style flat geometry, ◆ accent. Per-column gradient cyan→violet→pink→magenta matching the portal eyes (left cyan, right magenta); divider line flipped to match.
+- **SGR bug (silent since the original config):** fastfetch color values are raw SGR params — bare `"135"` emits `\e[135m`, which terminals ignore; keys were never colored, bold masked it. Fixed everywhere to `"38;5;N"`. Mirrored to Agent-Protocols → RaBbLE-OS Config Workflow.
+- **Denser layout:** Stripped trailing padding + 9-col leading indent from art (logo 57→37 cols); 1-space separator; OS format `{pretty-name}` (keeps Episode 1 Preview tagline, drops arch); Display/GPU formats trimmed.
+- **Coverage vs defaults:** Compared against `fastfetch --config none` — adopted Swap, Battery, Local IP; deliberately skipped integrated GPU, /mnt/vms disk, Cursor, Locale. Key gradient rebalanced to 4×4 bands; title `rabble@localhost` = cyan/dim/magenta.
+- **Verification:** pyte→HTML→playwright pipeline for terminal art (pty + TIOCSWINSZ; don't feed full fastfetch output through pyte — cursor escapes scramble). Comparison capture: `RaBbLE-Captures/Design-Iterations/fastfetch-compare-default-vs-rabble-140655.png`.
+
+**What's next:** CF R2 → Aether deploy → Render/sCoRE → World prod → tag `episode-1-v0.0.0.1`.
 
 ---
 
