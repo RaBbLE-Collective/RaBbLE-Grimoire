@@ -5,14 +5,31 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-11 · Session 76 (fastfetch fx layers, portal symmetry, Grimoire doc)
+## LATEST — 2026-06-11 · Session 77 (RaBbLE Aether VSCodium theme — WIP)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S76):** fastfetch graphics system — logo now composed in layers: `rabble-portals.base.txt` + `spells/fastfetch-fx.py` (particles + glow, toggleable via `--layers`, seed-deterministic) → generated `rabble-portals.txt`. Portal dot-arcs mirrored (180° symmetric), breathing line before wordmark, ◆ palette strip replaces ANSI colors row. Canonical doc: `RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Fastfetch.md`.
-**Blockers:** Render deploy (sCoRE → World → EP1 tag) — Mark's manual step.
-**Next:** CF R2 payment → r2-setup → Aether RC1 deploy → Render → World prod → tag EP1.
+**This session (S77):** Built RaBbLE Aether VSCodium theme extension — `config/vscodium/extensions/rabble-aether-theme/`, dotctl bundles (vscodium + vscodium-theme), Ansible vscode.yml task, codium manifest entry. Extension installed live. Theme loads and activates. Navy/blue surface color problem identified and partially corrected (sidebar + tabs moved to void) but requires Fable 5 visual iteration pass — not confirmed fixed due to VSCodium cache making live verification unreliable.
+**Blockers:** RaBbLE Aether theme needs visual QA pass with hard restart. Render deploy still pending (Mark).
+**Next:** Fable 5 theme refinement (see handoff prompt in log). CF R2 → Aether RC1 → Render → EP1 tag.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-11 (Session 77) — RaBbLE Aether VSCodium theme (WIP, needs visual QA)
+
+**Repos touched:** RaBbLE-OS (config/vscodium/, ansible/roles/apps/tasks/vscode.yml, ansible/packages/manifest.yml, RaBbLE-OS-dotctl.sh)
+
+**Work done:**
+- Created VSCodium theme extension: `config/vscodium/extensions/rabble-aether-theme/` — package.json (publisher: RaBbLE-Collective, license: RaBbLE-Collective SvAccord License) + `themes/rabble-aether-color-theme.json` (200+ UI chrome tokens, full syntax highlighting for JS/TS/HTML/CSS/JSON/YAML/Shell/Markdown, semantic token colors). All colors from Palette.md only.
+- Created `config/vscodium/User/settings.json` — activates theme, JetBrains Mono, telemetry off.
+- Added two dotctl bundles: `vscodium` → `~/.config/VSCodium/User/`, `vscodium-theme` → `~/.vscode-oss/extensions/RaBbLE-Collective.rabble-aether-theme-0.0.1/`
+- Implemented `ansible/roles/apps/tasks/vscode.yml` — creates dirs, deploys theme files via `copy` tasks, tagged `[apps, vscode]`. Added `codium` entry to `ansible/packages/manifest.yml`.
+- Extension naming: initial wrong dir name (`rabble-aether-theme`) fixed to VSCodium convention (`RaBbLE-Collective.rabble-aether-theme-0.0.1`).
+- Multiple UI refinement passes: selections/highlights moved to magenta/violet tints; more cyan (active line numbers, sidebar headers, breadcrumb, panel section headers, codelens, inlay hints); active/inactive tabs moved to void `#0a0010`; sidebar moved to void; borders switched from `#2a2840` (navy-reading) to `#ff2d7840` (magenta).
+- **Remaining problem:** `#12132a` (surface) reads as navy blue on flat static surfaces without neon animation context. Sidebar fix deployed to disk but not visually confirmed due to VSCodium caching — needs hard restart + Fable 5 visual QA pass.
+
+**What's next:** Hard-restart VSCodium, Fable 5 visual iteration (see handoff prompt). CF R2 → Aether RC1 → Render → EP1 tag.
 
 ---
 
