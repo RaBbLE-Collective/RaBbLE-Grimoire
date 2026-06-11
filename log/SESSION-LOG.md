@@ -5,14 +5,29 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-11 · Session 80 (VSCodium Aether theme — harmony borders + full rework)
+## LATEST — 2026-06-11 · Session 81 (VSCodium Aether — flowing borders fixed + integrity banner)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S80):** Repaired Gemini's broken S79 CSS work. Rewrote custom.css with real Aether visual language: `rabble-border-harmony` conic-gradient borders on command palette/menus/toasts, flowing scan edges on activity bar and panel, rounded tabs, Hyprland tinted-glass opacity. No extension dependency — direct workbench CSS injection via Ansible lineinfile. Folder casing fixed to RaBbLE-Aether-theme.
-**Blockers:** Render deploy still pending (Mark).
+**This session (S81):** Fixed two S80 defects. Flowing borders were invisible — scan ribbons used `right:-1px` to escape the bar, but VSCode's grid-view ancestors clip overflow. Rewrote as within-bounds continuous neon ribbons (activity bar, sidebar→editor, panel), no `@property` reliance. "Corrupt" banner traced to `@import` breaking `workbench.desktop.main.css`'s product.json checksum — added idempotent Ansible checksum-repair task.
+**Blockers:** Render deploy pending (Mark). Apply via `layerctl apply apps` + hard-restart VSCodium to see effect.
 **Next:** CF R2 → Aether RC1 → Render → World prod → tag episode-1-v0.0.0.1. Phase 2C open.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-11 (Session 81) — VSCodium Aether: flowing borders fixed + integrity banner solved
+
+**Repos touched:** RaBbLE-OS (config/vscodium/.../assets/custom.css, ansible/roles/apps/tasks/vscode.yml)
+
+**Work done:**
+- **Flowing border was invisible (only static magenta showed):** S80's scan ribbons used `right:-1px`/`top:-1px` to escape the element edge, but VSCode wraps every part in `.monaco-grid-view` containers with `overflow:hidden` that clip escaping pseudo-elements — only the literal `border-right` survived. Rewrote the activity-bar/panel ribbons to live **inside** the edge (`right:0`/`top:0`, 3px, glow box-shadow) and added a third on the **sidebar→editor** seam (`-2s` phase offset). Continuous cyan→violet→magenta `repeating-linear-gradient` + `background-position` flow (`aether-flow-y`/`aether-flow-x`) — no `@property` dependency.
+- **"Your installation appears to be corrupt" banner:** Root-caused to integrity checking. `vs/workbench/workbench.desktop.main.css` is SHA-256 checksummed in `product.json` (`checksums`); the S80 `@import` injection invalidates it. Verified algorithm = `base64(sha256(file)).rstrip('=')` against two unmodified files. Added Ansible task that recomputes + rewrites the checksum after injection — idempotent, `become: true`, survives VSCodium upgrades (which restore the original file).
+- The capture PNG Mark flagged is a valid 3840×2400 PNG; the "corrupt" message was the integrity banner, not a bad file.
+
+**To apply (needs root → via layer, not raw sudo):** `./RaBbLE-OS-layerctl.sh apply apps`, then hard-quit + relaunch VSCodium (Reload Window won't bust the CSS/integrity cache).
+
+**What's next:** CF R2 → Aether RC1 → Render → World prod → EP1 tag.
 
 ---
 
