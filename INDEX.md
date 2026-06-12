@@ -80,7 +80,7 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 
 - [RaBbLE-Collective-Registry](registry/RaBbLE-Collective-Registry.md) — registry reference documentation
 - [registry/epochs/current.epoch.yml](registry/epochs/current.epoch.yml) — active epoch definition, per-member Episode 1 status
-- **manifests/**: RaBbLE-Collective · RaBbLE-OS · RaBbLE-sCoRE · RaBbLE-Aether · RaBbLE-NeBuLA · RaBbLE-World · RaBbLE-BaBbLE · RaBbLE-Chrysalis · RaBbLE-Xperimental (new)
+- **manifests/**: RaBbLE-Collective · RaBbLE-OS · RaBbLE-sCoRE · RaBbLE-Aether · RaBbLE-NeBuLA · RaBbLE-World · RaBbLE-BaBbLE · RaBbLE-Chrysalis · RaBbLE-Xperimental
 
 ---
 
@@ -195,13 +195,19 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 
 ## RaBbLE-BaBbLE
 
-- [README](RaBbLE-BaBbLE/RaBbLE-BaBbLE-Overview.md) — intake workspace overview, integration pattern, relationship to Xperimental
+- [README](RaBbLE-BaBbLE/RaBbLE-BaBbLE-Overview.md) — intake surface: concept art, prototypes, creation lore, captures layer, knowledge graph
+
+---
+
+## RaBbLE-Chrysalis
+
+- [README](RaBbLE-Chrysalis/RaBbLE-Chrysalis-Overview.md) — genesis archive: NeBuLA-JS, WebOS, RaBbLE.py, RaBbLE-Server (pre-Collective origin); Reliquary for archived branches from any member
 
 ---
 
 ## RaBbLE-Xperimental
 
-- [README](RaBbLE-Xperimental/RaBbLE-Xperimental-Overview.md) — genesis archive: NeBuLA-JS, WebOS, RaBbLE.py, RaBbLE-Server (October 2025 origin code)
+- [README](RaBbLE-Xperimental/RaBbLE-Xperimental-Overview.md) — active sandbox: rablets in development, prototype members, experiments not yet emerged
 
 ---
 

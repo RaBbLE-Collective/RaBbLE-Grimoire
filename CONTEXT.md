@@ -60,7 +60,7 @@ Every design decision, character trait, protocol schema, and technical pattern l
 | Integration & Ethos Plan (`RaBbLE-Collective/RaBbLE-Integration-Ethos-Plan.md`) | **Active** — Phase 1A✓ 1B✓ 1C✓ 0A✓ 2A✓ 2B✓ 2D✓ 3✓ · Phase 2C (Mark authors), 4 pending |
 | Palette (`RaBbLE-Agent/RaBbLE-Palette.md`) | Stable |
 | Roadmap (`RaBbLE-Agent/RaBbLE-Roadmap.md`) | Current — Episode 1 streams visible, open questions documented |
-| Registry (`registry/`) | 8 manifests live (Collective, OS, sCoRE, Aether, NeBuLA, World, BaBbLE, Xperimental) |
+| Registry (`registry/`) | 9 manifests live (Collective, OS, sCoRE, Aether, NeBuLA, World, BaBbLE, Chrysalis, Xperimental) |
 | Spells (`spells/`) | 6 spells live; `validate-links.sh` planned (non-blocking) |
 | Versioning spec (`RaBbLE-Versioning.md`) | Stable — Five Es locked |
 | Episode tracking (`registry/epochs/current.epoch.yml`) | Episode 1 pending — all members accumulating Events |
@@ -71,7 +71,8 @@ Every design decision, character trait, protocol schema, and technical pattern l
 | RaBbLE-NeBuLA | Active — Canvas2dBackend + BootSequence complete. `<rabble-entity>` now in NeBuLA. |
 | RaBbLE-BaBbLE | **Active** — formalized as Collective member (Phase 3). AGENT.md/CONTEXT.md/README.md live. Manifest registered. |
 | RaBbLE-ScRibLE | Defined — mobile PWA. Repo not yet created. Deferred to Epoch 1+. |
-| RaBbLE-Xperimental | Genesis-archive — origin code from October 2025. Manifest updated. BaBbLE handles new intake. |
+| RaBbLE-Chrysalis | Genesis-archive — origin code from pre-Collective era. Reliquary for archived branches. Renamed from Xperimental S92. |
+| RaBbLE-Xperimental | Active sandbox — rablets in development, prototype members, experiments not yet emerged. New repo, created S92. |
 | RaBbLE-OS | Active — daily-driver substrate, Ep1 plots in progress, versioning diverged (deferred) |
 
 ## Reading Order for a New Session

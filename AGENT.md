@@ -137,5 +137,6 @@ See `registry/manifests/` for the authoritative list. Current members:
 | RaBbLE-World | Active — thin scaffold: Aether + NeBuLA loaders, joinrabble.world |
 | RaBbLE-NeBuLA | Active — Canvas2D renderer, `<rabble-entity>` web component |
 | RaBbLE-Aether | Active — design system CSS bundle, CDN delivery |
-| RaBbLE-BaBbLE | Active — high-entropy intake: concept art, prototypes, ideation, sketches |
-| RaBbLE-Xperimental | Genesis-archive — origin code from October 2025 |
+| RaBbLE-BaBbLE | Active — intake surface: concept art, prototypes, ideation, creation lore, captures |
+| RaBbLE-Chrysalis | Genesis-archive — origin code from pre-Collective era; Reliquary for archived branches |
+| RaBbLE-Xperimental | Active sandbox — rablets in development, prototype members, experiments not yet emerged |

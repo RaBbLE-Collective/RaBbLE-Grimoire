@@ -28,7 +28,7 @@
 #
 # Flags:
 #   --url URL         Page to open (default: http://localhost:8000)
-#   --out PATH        Output path (default: ~/RaBbLE-Collective/RaBbLE-Captures/visual-TIMESTAMP.png)
+#   --out PATH        Output path (default: ~/RaBbLE-Collective/RaBbLE-BaBbLE/captures/visual-TIMESTAMP.png)
 #   --delay SECS      Seconds to wait for page render (default: 2)
 #   --playwright      Use headless Playwright/Chromium instead of Firefox+grim
 #   (Hyprland method only:)
@@ -48,7 +48,7 @@ RABBLE_ROOT="$(dirname "$GRIMOIRE_ROOT")"
 STAMP="$(date +%Y%m%d-%H%M%S)"
 
 URL="http://localhost:8000"
-OUT="$RABBLE_ROOT/RaBbLE-Captures/visual-$STAMP.png"
+OUT="$RABBLE_ROOT/RaBbLE-BaBbLE/captures/visual-$STAMP.png"
 DELAY="2"
 WORKSPACE="9"   # scratch workspace — isolates capture from IDE; always return after
 PLAYWRIGHT=0    # 0 = Hyprland/Firefox, 1 = headless Playwright

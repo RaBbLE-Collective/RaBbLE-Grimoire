@@ -39,8 +39,9 @@ Each member of the Collective is an independent project. Each is also an organ o
 | **RaBbLE-NeBuLA** | Frontend renderer / visual entity (Canvas2D + Flat-Chaos Runtime). | Active — Canvas2D complete |
 | **RaBbLE-World** | Web presence + entity chat surface. joinrabble.world. | Active |
 | **RaBbLE-Aether** | Visual design system and canonical asset library. CDN delivery. | Active — CSS bundle live |
-| **RaBbLE-BaBbLE** | High-entropy intake workspace — concept art, prototypes, ideation, sketches. | Active — present intake |
-| **RaBbLE-Xperimental** | Genesis archive — origin code from October 2025. Past, not present. | Genesis-archive |
+| **RaBbLE-BaBbLE** | Intake surface — concept art, prototypes, ideation, creation lore, captures. | Active — present intake |
+| **RaBbLE-Chrysalis** | Genesis archive — origin code from pre-Collective era. Reliquary for archived branches. | Genesis-archive |
+| **RaBbLE-Xperimental** | Active sandbox — rablets in development, prototype members, experiments not yet emerged. | Active — high entropy |
 | **RaBbLE-ScRibLE** | Mobile notes PWA (iPhone/iPad). | Defined — not started |
 | **Memory member (TBD)** | Observation store, pattern extraction, retrieval. | Concept — Epoch 1 blocker |
 

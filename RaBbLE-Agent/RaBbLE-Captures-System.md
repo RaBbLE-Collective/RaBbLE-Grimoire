@@ -2,16 +2,18 @@
 
 > Living system for organizing visual documentation across the Collective
 
-**Version:** 1.1  
-**Last Updated:** 2026-06-11  
-**Steward:** Agents of the Collective  
+**Version:** 1.2
+**Last Updated:** 2026-06-12
+**Steward:** Agents of the Collective
 **Spell Integration:** `spells/visual-screenshot.sh`
+
+> **Location updated S92:** Captures moved from `RaBbLE-BaBbLE/captures/` (standalone) → `RaBbLE-BaBbLE/captures/` (BaBbLE layer). All paths below reflect the new location.
 
 ---
 
 ## Overview
 
-RaBbLE-Captures (`~/RaBbLE-Collective/RaBbLE-Captures/`) is the central visual archive for:
+The captures layer (`~/RaBbLE-Collective/RaBbLE-BaBbLE/captures/`) is the visual intake layer within BaBbLE — the central archive for:
 - **Page snapshots** — finished World pages, Grimoire interfaces, Aether/NeBuLA demos
 - **UI states & effects** — entity rendering, liminal states, visual iterations
 - **Component details** — Portal, Boot, Entity closeups
@@ -40,7 +42,7 @@ bash RaBbLE-Grimoire/spells/visual-screenshot.sh \
 # With custom output location
 bash RaBbLE-Grimoire/spells/visual-screenshot.sh \
   --url http://localhost:8000 \
-  --out RaBbLE-Captures/World/Pages/chat/world-chat-new-state_$(date +%Y%m%d).png \
+  --out RaBbLE-BaBbLE/captures/World/Pages/chat/world-chat-new-state_$(date +%Y%m%d).png \
   --playwright
 ```
 
@@ -88,7 +90,7 @@ The OS screenshot keybinds now route directly into RaBbLE-Captures:
 ## Directory Structure
 
 ```
-RaBbLE-Captures/
+RaBbLE-BaBbLE/captures/
 ├── World/                              # World app captures
 │   ├── Pages/                          # Finished page screenshots
 │   │   ├── landing/                    # Landing page iterations
@@ -167,13 +169,13 @@ The spell outputs `visual-YYYYMMDD-HHMMSS.png` by default. After capture, move a
 
 ```bash
 # After capturing with spell:
-mv RaBbLE-Captures/visual-20260609-143022.png \
-   RaBbLE-Captures/World/Pages/chat/world-chat-new-feature_20260609.png
+mv RaBbLE-BaBbLE/captures/visual-20260609-143022.png \
+   RaBbLE-BaBbLE/captures/World/Pages/chat/world-chat-new-feature_20260609.png
 
 # Or use the --out flag to name it immediately:
 bash spells/visual-screenshot.sh \
   --url http://localhost:8000/world/Chat.html \
-  --out RaBbLE-Captures/World/Pages/chat/world-chat-new-feature_$(date +%Y%m%d).png \
+  --out RaBbLE-BaBbLE/captures/World/Pages/chat/world-chat-new-feature_$(date +%Y%m%d).png \
   --playwright
 ```
 
@@ -224,7 +226,7 @@ world-chat-entity-fix_20260610.png          # Updated version later
 
 ### Start of session:
 ```bash
-ls -la RaBbLE-Captures/World/Pages/
+ls -la RaBbLE-BaBbLE/captures/World/Pages/
 # Quick visual reference of what's been captured
 ```
 
@@ -235,7 +237,7 @@ ls -la RaBbLE-Captures/World/Pages/
 # Capture with spell, then rename
 bash RaBbLE-Grimoire/spells/visual-screenshot.sh \
   --url http://localhost:8000/world/Chat.html \
-  --out RaBbLE-Captures/World/Pages/chat/world-chat-feature-test_$(date +%Y%m%d).png \
+  --out RaBbLE-BaBbLE/captures/World/Pages/chat/world-chat-feature-test_$(date +%Y%m%d).png \
   --playwright
 ```
 
@@ -244,12 +246,12 @@ bash RaBbLE-Grimoire/spells/visual-screenshot.sh \
 bash RaBbLE-Grimoire/spells/visual-screenshot.sh \
   --url http://localhost:8000 \
   --workspace 9
-# Then move from ~/RaBbLE-Collective/RaBbLE-Captures/visual-* to proper category
+# Then move from ~/RaBbLE-Collective/RaBbLE-BaBbLE/captures/visual-* to proper category
 ```
 
 ### End of session:
 - Review captures for important milestones
-- Move spell output from root `RaBbLE-Captures/` to category directories
+- Move spell output from root `RaBbLE-BaBbLE/captures/` to category directories
 - Rename to match convention
 - Note any new captures in SESSION-LOG.md
 - Ensure new files follow naming convention
@@ -265,22 +267,22 @@ find RaBbLE-Captures -name "*20260609*" -type f | sort
 
 ### Find all chat interface captures:
 ```bash
-find RaBbLE-Captures/World/Pages/chat -name "*.png" | sort
+find RaBbLE-BaBbLE/captures/World/Pages/chat -name "*.png" | sort
 ```
 
 ### Find all liminal effect variants:
 ```bash
-find RaBbLE-Captures/World/States/liminal -name "*.png"
+find RaBbLE-BaBbLE/captures/World/States/liminal -name "*.png"
 ```
 
 ### Find design iteration history:
 ```bash
-ls RaBbLE-Captures/Design-Iterations/by-date/design-iteration-20260609-* | sort
+ls RaBbLE-BaBbLE/captures/Design-Iterations/by-date/design-iteration-20260609-* | sort
 ```
 
 ### Find Entity UI variants:
 ```bash
-find RaBbLE-Captures/Entity-UI -name "*variant*"
+find RaBbLE-BaBbLE/captures/Entity-UI -name "*variant*"
 ```
 
 ---
@@ -335,7 +337,7 @@ bash spells/visual-screenshot.sh --url file:///path/to/index.html
 ### Output format:
 
 ```
-SCREENSHOT: /home/rabble/RaBbLE-Collective/RaBbLE-Captures/visual-20260610-143022.png
+SCREENSHOT: /home/rabble/RaBbLE-Collective/RaBbLE-BaBbLE/captures/visual-20260610-143022.png
 ```
 
 Agents can parse the `SCREENSHOT: ` line to retrieve the path programmatically.
@@ -349,7 +351,7 @@ Agents can parse the `SCREENSHOT: ` line to retrieve the path programmatically.
 - **Naming:** No spaces, special chars, or CamelCase
 - **Dates:** Always YYYYMMDD (sortable by filename)
 - **Git:** RaBbLE-Captures is .gitignored — captures are ephemeral; document important ones in Grimoire
-- **Spell output:** Default path is `~/RaBbLE-Collective/RaBbLE-Captures/visual-TIMESTAMP.png`
+- **Spell output:** Default path is `~/RaBbLE-Collective/RaBbLE-BaBbLE/captures/visual-TIMESTAMP.png`
 
 ---
 
@@ -365,7 +367,7 @@ If a new visual idea emerges:
 
 Example: If Entity-AI voice states emerge:
 ```bash
-mkdir -p RaBbLE-Captures/Entity-UI/Voice
+mkdir -p RaBbLE-BaBbLE/captures/Entity-UI/Voice
 # Files: entity-voice-speaking_YYYYMMDD.png
 # Update this doc with new category
 ```

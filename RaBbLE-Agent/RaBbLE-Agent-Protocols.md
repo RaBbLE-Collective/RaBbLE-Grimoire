@@ -227,13 +227,13 @@ All visual documentation (screenshots, UI captures, design iteration snapshots) 
 
 2. **Spell outputs machine-readable path:**
    ```
-   SCREENSHOT: /home/rabble/RaBbLE-Collective/RaBbLE-Captures/visual-20260610-143022.png
+   SCREENSHOT: /home/rabble/RaBbLE-Collective/RaBbLE-BaBbLE/captures/visual-20260610-143022.png
    ```
 
 3. **Move to appropriate category and rename:**
    ```bash
-   mv RaBbLE-Captures/visual-20260610-143022.png \
-      RaBbLE-Captures/World/Pages/chat/world-chat-new-feature_20260610.png
+   mv RaBbLE-BaBbLE/captures/visual-20260610-143022.png \
+      RaBbLE-BaBbLE/captures/World/Pages/chat/world-chat-new-feature_20260610.png
    ```
 
 ### Naming convention
@@ -253,7 +253,7 @@ Examples:
 ### Where captures live
 
 ```
-RaBbLE-Captures/
+RaBbLE-BaBbLE/captures/
 ├── World/Pages/{landing,chat,docs,os}/
 ├── World/States/liminal/
 ├── Entity-UI/{Boot,Components,Portal}/
