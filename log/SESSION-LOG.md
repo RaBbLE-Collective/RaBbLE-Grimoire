@@ -5,14 +5,35 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-12 · Session 86 (Firefox Aether — flowing outline rings)
+## LATEST — 2026-06-12 · Session 87 (GTK3/Thunar Aether — partial, pipeline complete)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S86):** Reworked Firefox `userChrome.css` to match VSCodium ethos. Replaced S83's stepwise border-color crossfade with true rotating conic-gradient rings (`@property --aether-angle` + `mask-composite: exclude`) on active tab, focused URL bar, and sidebar; toned navy → translucent tint (not purged, per Mark); added flowing nav-bar seam. Contrast pass: persistent gradient outline on URL box, brighter toolbar icons + results dropdown. **Verified live via grim — conic rings DO render in Firefox XUL (`@property` works in chrome context).** Apply: `layerctl apply apps` + FF hard-restart.
-**Blockers:** (carryover S85) GTK3 theming not applying to Thunar; debug needed.
-**Next:** Debug GTK3 → CF R2 → Render → World prod → tag `episode-1-v0.0.0.1`.
+**This session (S87):** GTK3/Thunar theming diagnosed + partially fixed. Root causes: no installed theme (only user stylesheet), wrong base theme (Adwaita-dark), missing GTK_THEME env, gtkrc deployed to invalid path, GtkPlacesSidebar hierarchy not targeted. Created `config/themes/RaBbLE-Aether/` proper theme; fixed Ansible to deploy there; added papirus-folders (GitHub) + gsettings tasks; expanded Kvantum kvconfig. Sidebar/void distinction visible in screenshots. Full apply pending `layerctl apply apps` + session restart.
+**Blockers:** papirus-icon-theme not yet installed; GTK_THEME env needs session reload. More theme tuning needed.
+**Next:** `layerctl apply apps` → verify Thunar fully themed → CF R2 → Render → World prod → `episode-1-v0.0.0.1`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-12 (Session 87) — GTK3/Thunar Aether: diagnosis + pipeline (partial)
+
+**Repos touched:** RaBbLE-OS (ansible/, config/gtk-3.0/, config/themes/, config/hypr/, config/kvantum/)
+
+**Work done:**
+- **Diagnosed 5 root causes** why GTK3/Thunar had no Aether theming: (1) no installed theme — only a user stylesheet fighting Adwaita-dark; (2) `settings.ini` pointed to `Adwaita-dark` not `RaBbLE-Aether`; (3) no `GTK_THEME` env var in `env.conf`; (4) `gtkrc` deployed to `~/.gtkrc-3.0` (not a GTK3 path — silently ignored); (5) `GtkPlacesSidebar` internal widget tree (scrolledwindow → viewport) not targeted by sidebar CSS, so surface color lost to global void rule.
+- **Created proper installed GTK3 theme** — `config/themes/RaBbLE-Aether/{index.theme,gtk-3.0/gtk.css}`. Full palette: @define-color vars, all widget states, Thunar-specific selectors (ExoTreeView, ThunarWindow, .path-bar, .sidebar hierarchy).
+- **Fixed Ansible `qt-gtk-theme.yml`** — deploys theme to `~/.local/share/themes/RaBbLE-Aether/` (not just `~/.config/gtk-3.0/`); removed gtkrc bad-path task; added `gsettings` block for gtk-theme/icon-theme/cursor-theme/font/color-scheme.
+- **Updated user override stylesheet** (`config/gtk-3.0/gtk.css`) — explicitly targets full `.sidebar scrolledwindow viewport` chain; solid `#bf5fff` header border; violet paned separator as primary panel seam; magenta scrollbar with glow.
+- **Added papirus-folders** via `get_url` from GitHub (not in Fedora repos) to `/usr/local/bin/`; runs `--color magenta --theme Papirus-Dark` after install.
+- **Added theming packages** to `apps/packages.yml` — papirus-icon-theme/dark, kvantum, kvantum-qt5, qt5ct, qt6ct, nwg-look, Thunar plugins.
+- **Expanded Kvantum kvconfig** — added `[Hacks]` section, `dark_titlebar`, `animate_states`, `progress.indicator.text.color`.
+- **Screenshots:** sidebar/void distinction visible after hot-deploying CSS; folder icons still blue (papirus not installed yet).
+
+**What's next:**
+- `bash RaBbLE-OS-layerctl.sh apply apps` — installs packages, deploys theme, runs papirus-folders, applies gsettings
+- `hyprctl reload` to pick up `GTK_THEME=RaBbLE-Aether` from env.conf
+- Re-evaluate Thunar + other GTK3 apps for remaining gaps; further CSS tuning likely needed
 
 ---
 
