@@ -5,14 +5,28 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-12 · Session 95 (Grimoire re-graph + token audit)
+## LATEST — 2026-06-12 · Session 96 (Grimoire orphan sweep + ledger backfill)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S95):** Grimoire full audit: 4 manifest repo URLs updated (sCoRE/NeBuLA/World/Aether → RaBbLE-Collective org). sCoRE deployment railway→render. Epoch file: Chrysalis/Xperimental split, Render refs. INDEX: Plymouth-EP1 + 5 orphan docs linked. Graph regenerated (131 nodes). Gists: collective + roadmap regenerated. Token audit: 88% weekly, Sonnet 60% of cost, 70 untagged sessions.
-**Blockers:** OS reboot QA + layerctl apply pending. sCoRE Render deploy is Mark's.
-**Next:** OS reboot QA → CF R2 → Render → `episode-1-v0.0.0.1`. Tag 70 untagged sessions in ledger.
+**This session (S96):** Orphan sweep complete. 8 INDEX entries added (sCoRE-Membership-API, World README/Browser-Plan/Regression-Audit, NeBuLA Perf-Handoff/Canvas2D-Perf, registry/CONTEXT.md, end-session.sh). 25 inferred session backfills tagged (date-adjacent; May 20–June 10). 45 untagged remain: all May 12–22 (171M weighted, 57.8% of cost) — need Mark to assign features.
+**Blockers:** OS reboot QA pending. sCoRE Render deploy is Mark's.
+**Next:** OS reboot QA → CF R2 → Render → `episode-1-v0.0.0.1`. Backfill May 12–22 sessions (check SESSION-LOG for those dates).
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-12 (Session 96) — Grimoire orphan sweep + ledger backfill
+
+**Repos touched:** RaBbLE-Grimoire
+
+**Work done:**
+- **Orphan sweep:** 8 docs previously unreachable from graph now linked in INDEX.md: sCoRE-Membership-API, World-README, World-Grimoire-Browser-Plan, World-REGRESSION-AUDIT (resolved), NeBuLA-Perf-Handoff (superseded), NeBuLA-Canvas2D-Perf (historical), registry/CONTEXT.md, spells/end-session.sh.
+- **INDEX corrections:** deploy-score.sh description corrected (Railway→Render). end-session.sh was entirely missing.
+- **Token ledger backfill:** 25 inferred entries appended for sessions where same-day tagged sessions provided clear feature context (May 20 gtk-aether ×6, May 23 os-vmctl ×2, June 3 token-tracking ×1, June 7 nebula-entity-portrait-match ×3, June 8 dev-history-gapfill/perf-handoff ×2, June 9–10 Collective/ep1-release-dispatch/sCoRE/score-chat-test ×11). Tagged sessions: 53/99 (42.2% of weighted cost).
+- **Remaining untagged:** 45 sessions all in May 12–22 window, 171M weighted cost (57.8%). Needs Mark to identify features from SESSION-LOG.
+
+**What's next:** May 12–22 ledger backfill (manual — check SESSION-LOG entries for that date range). OS reboot QA → CF R2 → Render → `episode-1-v0.0.0.1`.
 
 ---
 
