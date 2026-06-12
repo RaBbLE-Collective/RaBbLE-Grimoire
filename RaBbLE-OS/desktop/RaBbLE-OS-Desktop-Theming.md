@@ -432,7 +432,7 @@ The injected CSS mirrors the Aether component vocabulary exactly:
 | Floating overlays (palette, toasts, menus) | `::before` conic-gradient ring + `aether-glow-cycle` | `.rabble-border-harmony` |
 | Cycling box-shadow glow | `@keyframes aether-glow-cycle` | `@keyframes harmony-glow` |
 
-**Panel ring details:** `inset: 0; padding: 2px` keeps the ring within element bounds — immune to `overflow: hidden` on ancestor containers (critical in VSCodium's grid-view layout). The conic-gradient rotates from the element's center so all 4 corners connect seamlessly. Both activitybar and sidebar use the same `aether-harmony-spin 9s` timing so their adjacent edges stay color-matched.
+**Panel ring details:** `inset: 0; padding: 2px; border-radius: 8px` keeps the ring within element bounds (immune to ancestor `overflow: hidden`) and rounds the corners to match Hyprland's `rounding = 10`. The conic-gradient rotates from the element's center so all 4 corners connect seamlessly. Both activitybar and sidebar use the same `aether-harmony-spin 9s` timing so their adjacent edges stay color-matched.
 
 **Tab ribbon:** Replaces the solid `tab.activeBorderTop` (set transparent in JSON) with a 2px `linear-gradient(90deg, cyan, violet, magenta, violet, cyan)` at `background-size: 200% 100%`, scrolled by `aether-flow-x`. One full gradient sweep visible at all times — no repeating barber-pole pattern.
 
