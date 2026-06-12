@@ -5,14 +5,31 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-11 · Session 82 (VSCodium Aether — CSS injection root-cause + real fix)
+## LATEST — 2026-06-11 · Session 83 (Firefox RaBbLE-Aether theme)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S82):** S81's fixes were inert — root cause found: `@import url('file://...')` in workbench.desktop.main.css is blocked by Electron's cross-scheme security (renderer origin is `vscode-file://`, not `file://`). Custom CSS was never loaded. Fix: switched to `blockinfile` inline injection (with idempotency markers). Corruption banner: VSCodium was started before the S81 patch ran; all 10 checksums verified matching; hard-restart will clear it.
-**Blockers:** Render deploy pending (Mark). Apply via `layerctl apply apps` (RaBbLE-OS tag: vscode) + hard-restart VSCodium.
-**Next:** CF R2 → Aether RC1 → Render → World prod → tag episode-1-v0.0.0.1. Phase 2C open.
+**This session (S83):** Firefox RaBbLE-Aether theme. userChrome.css (cycling neon tab borders — border-color+background animation; XUL ignores box-shadow), userContent.css (scrollbars, about:* pages), user.js (prefs lock), browsers.yml Ansible role. Nav bar: cyan inset seam top + magenta bottom. Apply: `layerctl apply apps` + FF hard-restart. Kvantum/GTK theming is next.
+**Blockers:** Render deploy (Mark, runbook in `EP1-DISPATCH-STATE.md`) → World deploy → tagging.
+**Next:** Kvantum/GTK → CF R2 → Render → World prod → tag `episode-1-v0.0.0.1`. Phase 2C open.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-11 (Session 83) — Firefox RaBbLE-Aether theme
+
+**Repos touched:** RaBbLE-OS (config/firefox/userChrome.css, config/firefox/userContent.css, config/firefox/user.js, ansible/roles/apps/tasks/browsers.yml)
+
+**Work done:**
+- **userChrome.css** — Full browser chrome theme. Void backgrounds throughout (`#0a0010`/`#12132a`/`#1a1b2e`). Active tab: `border-color + background` cycling keyframe (`aether-tab-outline`, 9s) through cyan → violet → magenta — XUL's `.tab-background` silently ignores `box-shadow` including `inset`, so the VSCodium approach required adaptation. Inactive tabs: `1px solid rgba(191,95,255,0.38)` border, no fill. Nav bar: cyan `box-shadow: inset 0 2px 0` top seam + magenta `border-bottom` seam. URL bar: magenta focus glow. Context menus, find bar, status panel all themed.
+- **userContent.css** — `scrollbar-width: thin; scrollbar-color: #ff2d78 #0a0010` globally. `about:newtab`, `about:config`, `about:preferences`, `about:downloads` all void-themed.
+- **user.js** — Locks prefs: stylesheets enabled, dark content theme, normal density (`uidensity: 0`; compact mode was crushing tab height to ~22px), Aether fonts (Exo 2 / Share Tech Mono), new tab noise suppression.
+- **browsers.yml** — Ansible role replacing stub. `find` the `*.default-release` profile, create `chrome/`, copy all three files. Graceful skip if profile not found. Tags: `apps,browsers,firefox`.
+- **Key gotcha:** `box-shadow: inset 0 0 0 1px` (VSCodium technique) does not render on Firefox XUL `.tab-background`. Workaround: animate `border-color` + `background` directly in `@keyframes`. Took 6+ screenshot iterations to isolate — wrong crop direction also wasted several rounds (Firefox was on left half, code was cropping right half).
+
+**To apply:** `./RaBbLE-OS-layerctl.sh apply apps` + full Firefox restart (not Refresh — it must reinitialize the profile).
+
+**What's next:** Kvantum/GTK theming — see handoff brief in session notes. Then CF R2 → Render → EP1 tag.
 
 ---
 
