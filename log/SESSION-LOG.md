@@ -5,14 +5,32 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-11 · Session 85 (Kvantum + GTK3 theming — WIP, not fully deployed)
+## LATEST — 2026-06-12 · Session 86 (Firefox Aether — flowing outline rings)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S85):** Kvantum/GTK3/GTK4 theming scaffold. Built complete theming layer: Kvantum theme (kvconfig + SVG), GTK3 (gtk.css + gtkrc + settings.ini), GTK4 CSS, qt5ct/qt6ct configs, Ansible role (qt-gtk-theme.yml), Qt env vars (Hyprland). Files deploy via Ansible, but GTK3 theme application incomplete — Thunar remains unthemed/light grey despite void CSS + gtkrc rules. Root cause: GTK3 theme engine priorities unclear; Adwaita-dark base interferes. CSS @keyframes cycling borders defined but not rendering. **Session ended due to system lag/power state issue; needs diagnosis.**
-**Blockers:** GTK3 theming not applying to Thunar; system performance degraded (battery + power mode off); need restart.
-**Next:** Restart system → debug GTK3 theme application (check if gtkrc/CSS actually loaded) → or pivot to simpler approach (custom theme fork or accept GTK limitation). Then CF R2 → Render → World → tag.
+**This session (S86):** Reworked Firefox `userChrome.css` to match VSCodium ethos. Replaced S83's stepwise border-color crossfade with true rotating conic-gradient rings (`@property --aether-angle` + `mask-composite: exclude`) on active tab, focused URL bar, and sidebar; toned navy → translucent tint (not purged, per Mark); added flowing nav-bar seam. Contrast pass: persistent gradient outline on URL box, brighter toolbar icons + results dropdown. **Verified live via grim — conic rings DO render in Firefox XUL (`@property` works in chrome context).** Apply: `layerctl apply apps` + FF hard-restart.
+**Blockers:** (carryover S85) GTK3 theming not applying to Thunar; debug needed.
+**Next:** Debug GTK3 → CF R2 → Render → World prod → tag `episode-1-v0.0.0.1`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-12 (Session 86) — Firefox Aether: flowing outline rings
+
+**Repos touched:** RaBbLE-OS (config/firefox/userChrome.css)
+
+**Work done:**
+- **Goal:** Make Firefox match the VSCodium RaBbLE-Aether ethos — flowing cyan→violet→magenta gradient outlines, navy toned down (not purged).
+- **Rotating conic rings:** Added `@property --aether-angle` + `aether-harmony-spin` keyframes (identical technique to VSCodium custom.css). Conic-gradient `::after`/`::before` with `mask-composite: exclude` paints only the border band → the gradient sweeps around the edge. Applied to: active tab (3-sided, bottom clipped to dock into content), focused URL bar, sidebar.
+- **Navy toned down:** `--ra-surface` (#12132a) large fills → `--ra-surface-soft: rgba(18,19,42,0.55)` translucent tint over void. Rings, not fills, carry the structure.
+- **Flowing nav-bar seam:** `#nav-bar::after` — animated linear-gradient (cyan→magenta) sliding sideways via `aether-flow-x`. No mask → highest-confidence flowing effect in XUL.
+- **Contrast/readability pass (Mark request):** Persistent gradient outline on URL box (static when idle at 0.55 opacity, rotates + brightens on focus); toolbar icon fill + button color lifted `--ra-dim` → `--ra-muted`; URL results dropdown given neon violet outline + cyan glow.
+- **Each ring has a static border fallback** so the theme degrades gracefully if any element refuses the pseudo-element.
+
+**Verification:** Deployed to live profile (`lg9gdx8d.default-release/chrome/`), hard-restarted Firefox, captured chrome with grim (HiDPI ×2). Confirmed: active-tab ring, inactive-tab outline, nav-bar flowing seam, focused-urlbar ring, persistent URL-box outline all render. Captures in `RaBbLE-Captures/OS-IDE/` (ff-chrome-tabs, ff-urlbar-detail, ff-urlbar-idle-detail). **Resolved the long-standing S83 assumption that XUL ignores advanced CSS — conic rings + `@property` + masks work fine in Firefox chrome.**
+
+**What's next:** Optionally tone the flat `#12132a` cards in userContent.css (about: pages). Then resume GTK3 debug (S85 blocker).
 
 ---
 

@@ -53,5 +53,15 @@ commit-5eaeb4e	captures-organization	Organized 28 captures by visual idea + memb
 dc999c37-ecb9-442c-89a2-90c8580363f1	collective	auto: EP1 docs to Grimoire only; root stubs removed
 commit-2cfa811	cf-deploy-pipeline	S70: cloudflare-ctl deploy-rc, spell exec bits, token export fix, ansible collective role, R2 blocked on CF payment
 commit-51c58a4	captures-triage	S72: 28 screenshots sorted into RaBbLE-Captures via Haiku agents; OS Print keybind redirected from ~/Pictures/Screenshots to Captures tree; screenshot.sh added to RaBbLE-OS config source
-8539c8a4-e499-4f3e-947a-9ecca0f652ab	fastfetch-refinement	banner font for proper RaBbLE mixed case; portal canvas 76x32→52x18 for readable info column
 103b3fe4-b8f3-4f76-860e-7e3c00baf5c1	os-fastfetch	S75: half-block wordmark, SGR palette fix, denser info column
+33830571-da8c-48c1-933f-888d1d8cd7dc	os-fastfetch	S76: fx layer compositor, portal symmetry, palette strip, canonical Grimoire doc
+commit-0e3f94e	vscodium-aether-theme	Built RaBbLE Aether VSCodium theme: extension, dotctl bundles, Ansible task. Navy surface problem identified, fix deployed but not visually confirmed due to VSCodium cache. Needs Fable 5 QA pass.
+commit-1b47b5b	vscodium-aether-theme	visual QA pass: navy purge verified live via grim screenshots; zoom +1 default
+ea35ad1d-92f4-470c-bffb-575109cde287	aether-vscode-refinement	Flowing borders and detached UI for VSCodium
+b2082751-cd2e-4c7d-84f1-aa1435cef9dd	collective	auto: current state S81: VSCodium Aether borders + integrity fix
+8539c8a4-e499-4f3e-947a-9ecca0f652ab	vscode-aether	S81: flowing neon borders within-bounds (escape clip fix) + product.json integrity checksum repair task
+commit-ef2a5b3	vscodium-aether-theme	Aether CSS theme: 3 conic ring surfaces (activitybar+sidebar, active editor group, terminal panel), 3-sided active tab ring with bottom drop, inactive tab outlines, rounded corners matching Hyprland rounding=10, Grimoire doc in Desktop-Theming.md
+0e62acf5-d1e2-45dd-9034-8166e2e4c97b	firefox-aether	Firefox RaBbLE-Aether theme — cycling neon tab borders, void bg, nav bar seams, Ansible browsers.yml
+commit-9cef714	vscode-aether-ui-fix	Fixed interactive UI occlusion by removing ::before overlays from popups; kept rings for static panels only
+commit-ed06ee4	theming	Kvantum+GTK3/4 scaffold complete; CSS/gtkrc deployment works but theme not applying to GTK apps; needs GTK3 theme engine debugging
+da255039-f456-40eb-9f7a-20abc076ac23	firefox-aether	S86: Firefox flowing conic outline rings, navy toned, URL-box outline + contrast pass; verified XUL renders @property rings
