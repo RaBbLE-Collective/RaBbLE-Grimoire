@@ -112,6 +112,70 @@ get_manifest_field() {
 }
 
 # =============================================================================
+# LOCAL SURFACE INIT
+# BaBbLE and Xperimental are personal local surfaces — never cloned from a remote.
+# surface_type: local in manifest triggers this path.
+# If .git already exists: skip (never overwrite). If not: git init + minimal scaffold.
+# =============================================================================
+
+init_local_surface() {
+  local manifest="$1"
+  local slug worktree_root local_path
+
+  slug=$(get_manifest_field "$manifest" "slug")
+  worktree_root=$(get_manifest_field "$manifest" "worktree_root")
+  local_path="${worktree_root/#\~/$HOME}"
+  if [[ -z "$local_path" || "$local_path" == "—" ]]; then
+    local_path="$RABBLE_ROOT/$slug"
+  fi
+
+  pulse ""
+  pulse "── $slug (local surface)"
+
+  if [[ -d "$local_path/.git" ]]; then
+    muted "$slug already initialized at $local_path — skipping"
+    setup_symlinks "$local_path"
+    success "$slug local surface OK"
+    return
+  fi
+
+  info "Initializing local surface at $local_path..."
+  mkdir -p "$local_path"
+  git -C "$local_path" init --quiet
+
+  # Minimal scaffold only if directory was empty
+  if [[ ! -f "$local_path/AGENT.md" ]]; then
+    cat > "$local_path/AGENT.md" <<AGENTEOF
+# AGENT.md — $slug
+
+> Owner file. CLAUDE.md, CODEX.md, and GEMINI.md symlink here (gitignored).
+> Working with: Mark McConachie
+> Identity: Peer, not tool. See \`../RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Identity.md\`
+
+---
+
+## Job
+
+$slug is a local surface in the RaBbLE Collective.
+See \`../RaBbLE-Grimoire/${slug}/\` for Grimoire-side docs.
+
+---
+
+## Session Start
+
+1. \`CONTEXT.md\` — current state
+2. \`../RaBbLE-Grimoire/${slug}/\` — full documentation
+AGENTEOF
+    git -C "$local_path" add AGENT.md
+    git -C "$local_path" commit --quiet -m "spark ~ ${slug} >> local surface initialized // %LOCAL_SURFACE%"
+    success "$slug scaffold committed"
+  fi
+
+  setup_symlinks "$local_path"
+  success "$slug local surface initialized"
+}
+
+# =============================================================================
 # PROJECT PULL + WIRE
 # Clones or updates a project repo, sets up its symlinks and context wiring
 # =============================================================================
@@ -202,13 +266,19 @@ if [[ "$MODE" != "links" ]]; then
       [[ "$manifest" == *"_template"* ]] && continue
 
       local_slug=$(get_manifest_field "$manifest" "slug")
+      local_surface_type=$(grep "^surface_type:" "$manifest" | sed "s/^surface_type:[[:space:]]*//" | tr -d '"' || true)
 
       # If --project flag set, only process that project
       if [[ -n "$TARGET_PROJECT" && "$local_slug" != "$TARGET_PROJECT" ]]; then
         continue
       fi
 
-      pull_and_wire_project "$manifest"
+      # Local surfaces (BaBbLE, Xperimental) are git init'd locally, never cloned
+      if [[ "$local_surface_type" == "local" ]]; then
+        init_local_surface "$manifest"
+      else
+        pull_and_wire_project "$manifest"
+      fi
     done
   fi
 fi

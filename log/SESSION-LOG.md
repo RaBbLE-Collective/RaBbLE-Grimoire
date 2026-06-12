@@ -5,14 +5,27 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-12 · Session 92 (Vision + doctrine: EP1 RC scope, Chrysalis split, BaBbLE intake)
+## LATEST — 2026-06-12 · Session 93 (Setup spell: local surfaces; Genesis visual archive migrated)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S92):** EP1 RC scope locked (3 pages). 6 new Grimoire docs: Personal Cosmos, Attachments/Mesh, Social/Aesthetic, Income Model, Shop, EP1-RC-Scope. Source-available / Sovereign Accord locked. Chrysalis/Xperimental split: local dir renamed; manifests updated. BaBbLE intake: Downloads historical docs + prototypes absorbed. Agent-Protocols: /tmp rule, bounds framing, Chrysalis distinction.
-**Blockers:** GitHub: rename Xperimental→Chrysalis + create new Xperimental (Mark). OS layerctl apply + reboot QA pending. sCoRE Render deploy is Mark's.
-**Next:** Mark does GitHub actions → OS reboot QA → Thunar → CF R2 → Render → `episode-1-v0.0.0.1`.
+**This session (S93):** `setup.sh` updated: BaBbLE + Xperimental now `surface_type: local` — init'd locally, never cloned; idempotent (skips if `.git` exists). Chrysalis manifest corrected (still had Xperimental slug/repo). 13 genesis images reviewed + migrated from BaBbLE → `RaBbLE/Genesis/visual/`; 5 metas corrected; `RaBbLE-Genesis-Visual-Catalog.md` created.
+**Blockers:** Chrysalis + RaBbLE-OS branch cleanup / Reliquary pending (next session, Mark-gated). OS layerctl apply + reboot QA pending. sCoRE Render deploy is Mark's.
+**Next:** Chrysalis Reliquary + OS branch pruning → OS reboot QA → Thunar → CF R2 → Render → `episode-1-v0.0.0.1`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-12 (Session 93) — Setup spell: local surfaces; Genesis visual archive migrated to Grimoire
+
+**Repos touched:** RaBbLE-Grimoire
+
+**Work done:**
+- **setup.sh local surface support:** Added `init_local_surface()` function. BaBbLE + Xperimental manifests get `surface_type: local`. Setup spell now routes local surfaces to `git init` (idempotent — skips if `.git` exists) rather than `git clone`. Fixed `grep` pipeline exit-code failure for manifests missing `surface_type` field.
+- **Chrysalis manifest corrected:** `RaBbLE-Chrysalis.manifest.yml` still had `slug: RaBbLE-Xperimental`, `repo: markm1206/RaBbLE-Xperimental` from before the rename. Fixed to `slug: RaBbLE-Chrysalis`, `repo: markm1206/RaBbLE-Chrysalis`, `role: archive`.
+- **Genesis visual archive:** 13 human-authored genesis images in `RaBbLE-BaBbLE/RaBbLE_Historical_Archive/` reviewed visually. 5 had wrong metas or names (Sketch_Aether_Flow_Colored was a logo variant not Aether; Sketch_Physical_Eyes_Detail was a circular badge not an eye close-up; Study_Eye_Expression_Range was a data-states cosmology sketch; Storyboard_Sequence_Animated was a digital wireframe animation not a hand-drawn storyboard; Entity HighFidelity A/B had swapped glitch/clean descriptions). All 13 migrated to `RaBbLE/Genesis/visual/` with corrected kebab-case names. `RaBbLE-Genesis-Visual-Catalog.md` created with visual review + accurate descriptions. Source directory deleted from BaBbLE (was untracked).
+
+**What's next:** Chrysalis Reliquary + RaBbLE-OS branch pruning (next session) → OS reboot QA → Thunar → CF R2 → Render → `episode-1-v0.0.0.1`.
 
 ---
 

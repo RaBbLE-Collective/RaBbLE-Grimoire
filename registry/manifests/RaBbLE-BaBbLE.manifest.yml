@@ -13,6 +13,7 @@ role: experimental
 repo: https://github.com/markm1206/RaBbLE-BaBbLE.git
 branch: main
 worktree_root: RaBbLE-BaBbLE
+surface_type: local
 
 # Status
 phase: 0

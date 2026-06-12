@@ -1,18 +1,19 @@
-# manifests/RaBbLE-Xperimental.manifest.yml
+# manifests/RaBbLE-Chrysalis.manifest.yml
 # Genesis archive for the RaBbLE Collective — the origin code, not a playground.
 # Contains extracted originals: RaBbLE.py, RaBbLE-Server, NeBuLA-JS, WebOS.
 # Frozen history — mined for lore and lineage. RaBbLE-BaBbLE handles new intake.
+# Renamed from RaBbLE-Xperimental (S92). RaBbLE-Reliquary = archived branches here.
 
 # Identity
-name: RaBbLE-Xperimental
-slug: RaBbLE-Xperimental
+name: RaBbLE-Chrysalis
+slug: RaBbLE-Chrysalis
 description: "Genesis archive — origin code from October 2025: RaBbLE.py, NeBuLA-JS, WebOS, first server"
-role: experimental
+role: archive
 
 # Repository
-repo: https://github.com/markm1206/RaBbLE-Xperimental.git
+repo: git@github.com:markm1206/RaBbLE-Chrysalis.git
 branch: main
-worktree_root: RaBbLE-Xperimental
+worktree_root: RaBbLE-Chrysalis
 
 # Status
 phase: 0
