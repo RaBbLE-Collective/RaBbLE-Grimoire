@@ -131,6 +131,57 @@ exit_op  = max(0, 1 - (lines_after - 5) * 0.33)  if lines_after > 5 else 1;
 
 ---
 
+---
+
+## Changes Made (S90)
+
+### 1 · Entity Square — Transparent Frames via `colorkey`
+
+**Problem:** Entity frames were captured from a WebM video of `RaBbLE-Boot.html`, which has `body { background: #03000b }`. Plymouth's void background is `#0a0010`. These differ slightly, causing a visible opaque rectangle behind the entity sprite.
+
+**Fix:** `build-assets.sh` step 2 now adds an ffmpeg `colorkey` filter to strip the page background and produce true transparent PNGs:
+
+```
+colorkey=0x03000b:0.15:0.1,format=rgba
+```
+
+- Color `0x03000b` = Boot.html body background
+- Similarity `0.15` absorbs WebM codec noise on flat dark regions
+- Blend `0.1` soft-edges dark gradients at the entity perimeter
+- `format=rgba` ensures RGBA PNG output
+
+Plymouth composites transparent entity frames over the void background naturally — no visible square.
+
+### 2 · Orbitron Wordmark — Pre-Rendered PNGs
+
+**Problem:** `Image.Text("RaBbLE", ..., "Orbitron Bold 64")` relies on Pango finding the font in the initrd. Font discovery via fontconfig is unreliable without a proper fc-cache in the initrd context; Plymouth silently falls back to DejaVu or Liberation, so the wordmark appeared in the wrong font.
+
+**Fix:** `build-assets.sh` step 5 (new) renders all 48 color-cycle wordmark states as individual PNGs using Playwright with Orbitron embedded as base64:
+
+```
+assets/wm-step-000.png .. assets/wm-step-047.png
+```
+
+Plymouth script loads these directly with `Image("assets/wm-step-NNN.png")`. No font lookup at boot time. The dracut conf's `install_items` for Orbitron-Bold.ttf is kept for future use (tagline text, etc.), but the wordmark no longer depends on it.
+
+### 3 · Boot Log — Left-Justified
+
+**Problem:** Each log line was individually centered on screen, causing the left edge to shift per line (varying message lengths). Mark: "should be left justified."
+
+**Fix:** Plymouth script now anchors all log lines at a fixed left margin:
+
+```
+log_left_x = right_start + 20;
+```
+
+ts/tag/msg sprites flow left-to-right from this anchor. The wordmark (`right_cx`, centered in the right section) sits above the log's left edge — satisfying "RaBbLE text centered above the log."
+
+### 4 · DRM Handoff Pause — Status
+
+`add_drivers+=" amdgpu "` is committed and in the dracut conf. Reboot QA still pending (no regression introduced; change was from S89). After `layerctl apply boot/plymouth` + reboot, check whether the pause is gone. If a residual pause remains, next step is `rd.plymouth.debug` to instrument Plymouth startup timing.
+
+---
+
 ## Asset Regeneration
 
 Whenever `RaBbLE-Boot.html` or the grid design changes:
@@ -156,10 +207,11 @@ sudo reboot
 ## QA Checklist
 
 - [ ] No black flash — entity visible from first Plymouth frame
-- [ ] Entity in left ~25% of screen, vertically centered, void background solid
+- [ ] Entity in left ~25% of screen, vertically centered — **no visible rectangular background** (transparent frame fix)
 - [ ] Cyan/magenta perspective grid fills lower screen, VP at ~74% height
-- [ ] "RaBbLE" in Orbitron Bold, centered in right 75%, color-cycling gradient
-- [ ] Boot log lines scroll upward from bottom-center; ~5 lines visible; fade in/out
+- [ ] "RaBbLE" in Orbitron Bold (not DejaVu/Liberation), centered in right 75%, color-cycling gradient
+- [ ] Boot log lines left-aligned, scrolling upward from bottom of right section; ~5 lines visible; fade in/out
 - [ ] Progress bar at bottom, no overlap with log conveyor
 - [ ] LUKS prompt centered and legible (dialog z-layer unchanged)
 - [ ] Shutdown/reboot mode: quiet_mode=1, entity loop only (no logs, wm dimmed)
+- [ ] `build-assets.sh` produces 48 `wm-step-NNN.png` files in `assets/`
