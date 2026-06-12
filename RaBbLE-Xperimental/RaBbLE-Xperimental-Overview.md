@@ -1,45 +1,35 @@
-# RaBbLE-Xperimental — Grimoire Entry
+# RaBbLE-Xperimental → RaBbLE-Chrysalis — Grimoire Entry
 
 ```
-transcribe ~ grimoire >> xperimental substrate indexed // %XPERIMENTAL_ARCHIVED%
+transcribe ~ grimoire >> Chrysalis transition: xperimental renamed, new xperimental born // %CHRYSALIS_TRANSITION%
 ```
 
-## Role
-
-`RaBbLE-Xperimental` is the high-entropy substrate archive for the RaBbLE Collective.
-It is not a graveyard — it is the primordial soup. Code here predates the Collective's
-conventions but contains real features, patterns, and lore that informed the current ecosystem.
-
-Mine it for insights. Do not develop in it.
+> **Transition status:** `RaBbLE-Xperimental` is being renamed to `RaBbLE-Chrysalis`. A new `RaBbLE-Xperimental` repo will be created for active rablet development. This doc covers both.
 
 ---
 
-## Archived Contents
+## RaBbLE-Chrysalis (Formerly Xperimental)
+
+`RaBbLE-Chrysalis` is the **genesis archive** — the primordial soup. Code and artifacts here predate the Collective's conventions but contain real features, patterns, and lore that informed the current ecosystem. It is not a graveyard. It is transformation in amber.
+
+The name Chrysalis is intentional: the old forms are preserved inside so new forms can emerge from them.
+
+### What Chrysalis Holds
 
 | Path | Origin | What it is |
 |---|---|---|
-| `Python-Xperiments/RaBbLE.py/` | `markm1206/RaBbLE.py` | Animated face frontend + LLM + speech-to-text (Python/pygame) |
+| `Python-Xperiments/RaBbLE.py/` | `markm1206/RaBbLE.py` | Animated face frontend + LLM + speech-to-text (Python/pygame) — the only un-ported origin project |
 | `Python-Xperiments/RaBbLE-Server/` | `markm1206/RaBbLE-Xperimental` | Intelligence microservices harness + Railway deploy scripts |
 | `JS-Xperiments/WebOS/` | `markm1206/RaBbLE-Xperimental` | RaBbLE Simple WebOS + 3D holographic renderer (RabbleJS v0.0.1–v0.1.1) |
 | `JS-Xperiments/NeBuLA-JS/` | `markm1206/RaBbLE-NeBuLA-JS` | NeBuLA rendering engine, BaBbLE command system, entropy visualizations |
 
-True dev history for each project lives in the `archive/` branches of the repo.
-The code on `dev` is a readable snapshot.
+Everything except `RaBbLE.py` has been ported to the current Collective. Chrysalis is essentially complete as an archive.
 
----
+### The Reliquary
 
-## What Was Extracted to the Collective
+Within Chrysalis (and as a general convention), **archived branches** live in a Reliquary — a set of `archive/` prefixed branches that preserve git history for completed or deprecated work.
 
-| Origin | Extracted to | Notes |
-|---|---|---|
-| `RaBbLE-Server` | `RaBbLE-sCoRE/server/` | Server functionality absorbed — sCoRE Episode 3 |
-| `NeBuLA-JS` lore | `RaBbLE-Grimoire/RaBbLE-NeBuLA/` | Flat-Chaos, RABL, RBCNS, identity migrated |
-| `WebOS` / 3D renderer | — | Patterns available for reference; no direct extraction yet |
-| `RaBbLE.py` | — | LLM + speech-to-text patterns; available for reference |
-
----
-
-## Archive Branches
+**Current Chrysalis archive branches:**
 
 | Branch | Contents |
 |---|---|
@@ -52,14 +42,65 @@ The code on `dev` is a readable snapshot.
 | `archive/nebula-BaBbLE-dev` | NeBuLA BaBbLE dev branch |
 | `archive/rabble-collective` | RaBbLE-Collective v0 scaffold |
 
+### Chrysalis Operating Rules
+
+- Mine for insights. Do not develop in it.
+- Does not receive Grimoire doc propagation
+- Archive branches are read-only; never rewrite history
+- Reliquary branches from other members (e.g., RaBbLE-OS historical branches) can be pushed here or to Mark's personal remote before pruning from the main repos
+
 ---
 
-## Relationship to Active Collective
+## RaBbLE-OS Reliquary
 
-`RaBbLE-Xperimental` does not receive Grimoire doc propagation — it predates
-the propagation system and is not an active development surface. Reference only.
+When RaBbLE-OS migrates to the Collective org and branches are pruned to `main / dev / RC1`, the historical branches should be preserved:
 
-Active successors:
-- WebOS 3D patterns → future NeBuLA v2 (see `RaBbLE-Grimoire/RaBbLE-NeBuLA/`)
-- Server patterns → `RaBbLE-sCoRE/server/`
-- Entity animations → inform `RaBbLE-World` entity.js design
+- **Option A:** Push to a Mark-owned personal remote before pruning (`markm1206/RaBbLE-OS-Reliquary`)
+- **Option B:** Push archive branches to Chrysalis under `archive/os-*` prefix
+
+Mark decides which. The branches must be preserved somewhere before any pruning happens on the Collective remote.
+
+See [RaBbLE-OS Migration Plan](../RaBbLE-OS/RaBbLE-OS-Migration-Plan.md).
+
+---
+
+## RaBbLE-Xperimental (New)
+
+A new `RaBbLE-Xperimental` repo is created as the **active sandbox** for things that have not yet emerged from experimentation: custom rablets, development prototypes, and experiments not ready for a dedicated member repo.
+
+### What New Xperimental Holds
+
+- Custom rablets in development (not yet published)
+- Prototype code that may become a new member repo
+- Development parts that belong to an existing member but aren't ready to land
+- Sandboxed experiments — "what if we tried X?"
+
+### New Xperimental Operating Rules
+
+- Nothing in Xperimental is permanent — it graduates or gets released
+- When a rablet or project is ready to publish, it moves to the Published Rablets layer
+- When a project is ready to become a full member, scaffold it with `spells/init-project.sh`
+- High-entropy is fine. This is the designed purpose.
+- Branch structure: `main` + feature branches per experiment. No archive branches — Chrysalis handles that.
+
+---
+
+## Transition Plan
+
+| Step | Action | Owner |
+|---|---|---|
+| 1 | Rename `RaBbLE-Xperimental` repo on GitHub → `RaBbLE-Chrysalis` | Mark |
+| 2 | Update local clone path and all Grimoire references | Agent |
+| 3 | Update registry manifest for Chrysalis | Agent |
+| 4 | Create new `RaBbLE-Xperimental` repo on GitHub (Collective org) | Mark |
+| 5 | Scaffold with `spells/init-project.sh` | Agent |
+| 6 | Update Grimoire registry manifest for new Xperimental | Agent |
+| 7 | Update INDEX.md and any cross-references | Agent |
+
+Steps 1 and 4 are Mark's GitHub actions. Steps 2–3 and 5–7 follow immediately after.
+
+---
+
+```
+transcribe ~ grimoire >> chrysalis transition: archive locked, new xperimental defined // %CHRYSALIS_TRANSITION%
+```

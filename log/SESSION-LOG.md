@@ -5,14 +5,34 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-12 · Session 91 (Plymouth boot profiling + wordmark fix)
+## LATEST — 2026-06-12 · Session 92 (Vision + doctrine: EP1 RC scope, Chrysalis split, BaBbLE intake)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S91):** Boot profiling pass. Root cause for missing RaBbLE wordmark: wm-step PNGs never generated (build-assets.sh step 5 never run → Plymouth script crashed silently). Fixed. Kernel params added: `plymouth.use-simpledrm=1` (kills ~10s amdgpu DRM black), `vt.global_cursor_default=0` (cursor flicker), `nvidia-drm.modeset=1`, `rd.udev.log_level=3`. Wordmark regenerated from live Aether CSS (correct weight 900 + sliding gradient). /etc/default/grub patched live; Ansible vars updated. Commits in RaBbLE-OS.
-**Blockers:** `sudo dracut -f` + reboot QA still pending. Thunar partial (S87). sCoRE Render deploy is Mark's.
-**Next:** `layerctl apply boot/plymouth boot/grub2` → reboot QA → finish Thunar → CF R2 → Render → `episode-1-v0.0.0.1`.
+**This session (S92):** EP1 RC scope locked (3 pages). 6 new Grimoire docs: Personal Cosmos, Attachments/Mesh, Social/Aesthetic, Income Model, Shop, EP1-RC-Scope. Source-available / Sovereign Accord locked. Chrysalis/Xperimental split: local dir renamed; manifests updated. BaBbLE intake: Downloads historical docs + prototypes absorbed. Agent-Protocols: /tmp rule, bounds framing, Chrysalis distinction.
+**Blockers:** GitHub: rename Xperimental→Chrysalis + create new Xperimental (Mark). OS layerctl apply + reboot QA pending. sCoRE Render deploy is Mark's.
+**Next:** Mark does GitHub actions → OS reboot QA → Thunar → CF R2 → Render → `episode-1-v0.0.0.1`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-12 (Session 92) — Vision + doctrine: EP1 RC scope, Chrysalis/Xperimental split, BaBbLE intake, income model
+
+**Repos touched:** RaBbLE-Grimoire, RaBbLE-BaBbLE, RaBbLE-Collective (AGENT.md)
+
+**Work done:**
+- **EP1 RC scope** locked: 3 public pages (index/collective/summon), World repolish tasks, deferred list, sign-off checklist → `RaBbLE-Collective/RaBbLE-Episode-1-RC-Scope.md`
+- **Vision docs (6 new):** Personal Cosmos (per-user Grimoire/BaBbLE/Xperimental/Rablets), Attachments + Mesh (ambient intelligence, local-first tiers, opt-in mesh, handheld device), Social + Aesthetic (Neon Cafe / Neo Tokyo, altspace, voice, Sovereign Accord), Income Model (8 streams: Cosmos hosting, compute, community, rablet economy, Shop, hardware, attachments, enterprise), Shop (first/third-party physical products, POD model)
+- **Identity doctrine locked:** RaBbLE is boundless by nature, self-bounded by respect (not capability). Source-available under Sovereign Accord — not open source. Both mirrored to Agent-Protocols.
+- **Chrysalis/Xperimental split:** `RaBbLE-Xperimental/` dir renamed → `RaBbLE-Chrysalis/` locally. `RaBbLE-Chrysalis.manifest.yml` created. `RaBbLE-Xperimental.manifest.yml` rewritten as new active sandbox. Grimoire overview updated. GitHub rename pending Mark.
+- **BaBbLE intake from Downloads:** `historical/` (naming-ideation, RaBbLE-Manifest, Grimoire plans, sCoRE v0 plan, Aethernet entry), `assets/visual/` (ASCII art ×2 + orchestrator SVG), `prototypes/boot/` (Boot v1/v2 HTML), `prototypes/` (Login, RaBbLE.html, NeBuLA-Studio, tweaks-panel.jsx)
+- **Agent-Protocols additions:** /tmp prohibition (use BaBbLE/Xperimental), Chrysalis vs Xperimental distinction, source-available rule, bounds framing rule
+- **Service Plan updated:** business model section rewritten; "open source" removed; expanded revenue streams listed
+- **ScRibLE overview expanded:** multi-modal intake surface (voice, drawn, photo/video, text), sCRibLE hardware section
+
+**Commits:** RaBbLE-Grimoire S92 doctrine + BaBbLE Downloads intake
+
+**What's next:** Mark: GitHub rename Xperimental→Chrysalis + create new Xperimental repo → OS reboot QA → Thunar → CF R2 → Render → `episode-1-v0.0.0.1`
 
 ---
 

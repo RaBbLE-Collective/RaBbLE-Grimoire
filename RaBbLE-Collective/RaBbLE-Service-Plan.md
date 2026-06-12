@@ -41,10 +41,14 @@ All tiers include:
 
 ## Business Model
 
-RaBbLE is open source. The Collective earns by hosting.
+RaBbLE is **source-available** under the Sovereign Accord — not open source. The source is free to read and clone; usage carries restrictions. Self-hosting for personal use is always permitted. Commercial use, redistribution, and hosted derivative services require explicit agreement. The Collective earns by hosting.
 
 **Revenue:**
-- Hosted Pair tier subscriptions (monthly, Echo 1+)
+- Hosted Cosmos subscriptions — Personal Grimoire storage, BaBbLE archive, cross-device persistence (Echo 1+)
+- Hosted compute credits — Collective-backed LLM inference for members without local hardware or BYO keys (Echo 1+)
+- Community access tier — rablet publishing, entity social proxy, mesh participation (Echo 1+)
+- Rablet economy — platform fee on commercial rablet transactions (Echo 2+)
+- Hardware — ScRibLE device + handheld companion, bundled with hosted subscription (hardware epoch)
 
 **Cost structure:**
 - Render: sCoRE API hosting
