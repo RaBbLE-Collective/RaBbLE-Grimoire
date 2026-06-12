@@ -5,14 +5,30 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-12 · Session 88 (rabble-aether boot chain: Plymouth + SDDM)
+## LATEST — 2026-06-12 · Session 89 (NeBuLA particle nebula: connection mesh restore)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S88):** Plymouth + SDDM themes built and committed (RaBbLE-OS `9eebbee`). Plymouth = frame player: 96 frames captured from RaBbLE-Boot.html via Playwright+ffmpeg (`build-assets.sh`), live boot log/wordmark/progress/LUKS prompt in `rabble-aether.script`. SDDM = pure-QML Qt6 greeter, grim-verified. Apply: `layerctl apply boot` (triggers `dracut --force`), reboot to see both. Docs: `RaBbLE-OS-Layer-Boot.md`.
-**Blockers:** (S87) Thunar theming partial — papirus-icon-theme install + session reload pending.
-**Next:** Apply+reboot QA boot chain → finish Thunar (`layerctl apply apps`) → CF R2 → Render → World prod → `episode-1-v0.0.0.1`.
+**This session (S89):** Local World entity drew zero connections — `ConnectionSystem` existed but was never wired into `Canvas2dBackend` (orphaned). Restored deployed/prod algorithm: radius mesh, per-particle colour, distance-faded alpha; wired on the field canvas. Raised `glowFraction` 0.12→0.42 for prod's cohesive haze. Rebuilt bundle → World; all pages share it. Eyes untouched (Mark's call). Captures: `RaBbLE-Captures/World/Particle-Unify/`.
+**Blockers:** (S88) boot-chain reboot QA pending; (S87) Thunar theming partial.
+**Next:** Reboot QA boot chain → finish Thunar → CF R2 → Render → World prod → `episode-1-v0.0.0.1`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-12 (Session 89) — NeBuLA particle nebula: connection mesh restore + glow haze
+
+**Repos touched:** RaBbLE-NeBuLA (canvas2d backend), RaBbLE-World (bundle)
+
+**Work done:**
+- **Diagnosed** the gap between local World home and joinrabble.world via Playwright captures: prod renders a dense, colourful connection mesh + soft cohesive particle haze; local rendered neither. Root cause — `src/backends/canvas2d/connection-system.js` existed but `Canvas2dBackend` never instantiated or drew it (FrameBudget even reserved a `connections` priority slot). Local entity = zero connections.
+- **Restored prod connection algorithm** in `connection-system.js`: radius mesh (pairs within 62+settle·20 ≈ 82px), `strokeStyle = particle.color`, `alpha = base·(1−dist/range)` distance fade. Step-2 iteration keeps cost ~0.05ms/frame. Removed orphaned sparse K-nearest code; kept boot spatial-hash branch (now colourised + faded).
+- **Wired ConnectionSystem** into `index.js` — drawn on the field canvas in lockstep with particles (flicker-free), recorded under the `connections` budget key.
+- **Glow haze** — `particle-system.js` `glowFraction` 0.12→0.42 to match prod's ~45% glow; crisp bokeh → one cohesive cloud.
+- Rebuilt IIFE → `RaBbLE-World/world/js/RaBbLE-NeBuLA.js`. Every page embeds the same `<rabble-entity>`; effect unified across all surfaces; home (480) matches prod (480).
+- **Perf:** budget probe — connections 0.056ms / particles 0.07ms with 13.4/14ms headroom; headless 19fps is software-render ceiling, real GPU = 60fps. FrameBudget auto-degrades glow if ever needed.
+
+**What's next:** Optional — bolder connection lines/glow if Mark wants. Eyes deliberately untouched.
 
 ---
 

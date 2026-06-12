@@ -59,9 +59,12 @@ commit-0e3f94e	vscodium-aether-theme	Built RaBbLE Aether VSCodium theme: extensi
 commit-1b47b5b	vscodium-aether-theme	visual QA pass: navy purge verified live via grim screenshots; zoom +1 default
 ea35ad1d-92f4-470c-bffb-575109cde287	aether-vscode-refinement	Flowing borders and detached UI for VSCodium
 b2082751-cd2e-4c7d-84f1-aa1435cef9dd	collective	auto: current state S81: VSCodium Aether borders + integrity fix
-8539c8a4-e499-4f3e-947a-9ecca0f652ab	vscode-aether	S81: flowing neon borders within-bounds (escape clip fix) + product.json integrity checksum repair task
 commit-ef2a5b3	vscodium-aether-theme	Aether CSS theme: 3 conic ring surfaces (activitybar+sidebar, active editor group, terminal panel), 3-sided active tab ring with bottom drop, inactive tab outlines, rounded corners matching Hyprland rounding=10, Grimoire doc in Desktop-Theming.md
 0e62acf5-d1e2-45dd-9034-8166e2e4c97b	firefox-aether	Firefox RaBbLE-Aether theme — cycling neon tab borders, void bg, nav bar seams, Ansible browsers.yml
 commit-9cef714	vscode-aether-ui-fix	Fixed interactive UI occlusion by removing ::before overlays from popups; kept rings for static panels only
 commit-ed06ee4	theming	Kvantum+GTK3/4 scaffold complete; CSS/gtkrc deployment works but theme not applying to GTK apps; needs GTK3 theme engine debugging
 da255039-f456-40eb-9f7a-20abc076ac23	firefox-aether	S86: Firefox flowing conic outline rings, navy toned, URL-box outline + contrast pass; verified XUL renders @property rings
+8539c8a4-e499-4f3e-947a-9ecca0f652ab	gtk-aether	S87: GTK3/Thunar theming — diagnosis + pipeline complete, visual partial. Apply: layerctl apply apps + hyprctl reload.
+6b669edc-e0e6-4485-9b13-597aa9956a0b	collective	auto: current state S88: rabble-aether boot chain
+ce17e1d4-9c75-41f2-96a9-f7114e11dd5a	boot-aether	S88: Plymouth frame-player + SDDM QML greeter built, committed RaBbLE-OS 9eebbee; reboot QA pending
+commit-50d242e	nebula-mesh	wired orphaned ConnectionSystem + restored prod radius mesh/glow haze; World bundle redeployed
