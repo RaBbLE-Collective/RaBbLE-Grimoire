@@ -5,14 +5,28 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-12 · Session 87 (GTK3/Thunar Aether — partial, pipeline complete)
+## LATEST — 2026-06-12 · Session 88 (rabble-aether boot chain: Plymouth + SDDM)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S87):** GTK3/Thunar theming diagnosed + partially fixed. Root causes: no installed theme (only user stylesheet), wrong base theme (Adwaita-dark), missing GTK_THEME env, gtkrc deployed to invalid path, GtkPlacesSidebar hierarchy not targeted. Created `config/themes/RaBbLE-Aether/` proper theme; fixed Ansible to deploy there; added papirus-folders (GitHub) + gsettings tasks; expanded Kvantum kvconfig. Sidebar/void distinction visible in screenshots. Full apply pending `layerctl apply apps` + session restart.
-**Blockers:** papirus-icon-theme not yet installed; GTK_THEME env needs session reload. More theme tuning needed.
-**Next:** `layerctl apply apps` → verify Thunar fully themed → CF R2 → Render → World prod → `episode-1-v0.0.0.1`.
+**This session (S88):** Plymouth + SDDM themes built and committed (RaBbLE-OS `9eebbee`). Plymouth = frame player: 96 frames captured from RaBbLE-Boot.html via Playwright+ffmpeg (`build-assets.sh`), live boot log/wordmark/progress/LUKS prompt in `rabble-aether.script`. SDDM = pure-QML Qt6 greeter, grim-verified. Apply: `layerctl apply boot` (triggers `dracut --force`), reboot to see both. Docs: `RaBbLE-OS-Layer-Boot.md`.
+**Blockers:** (S87) Thunar theming partial — papirus-icon-theme install + session reload pending.
+**Next:** Apply+reboot QA boot chain → finish Thunar (`layerctl apply apps`) → CF R2 → Render → World prod → `episode-1-v0.0.0.1`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-12 (Session 88) — rabble-aether boot chain: Plymouth frame-player + SDDM void greeter
+
+**Repos touched:** RaBbLE-OS (boot roles), RaBbLE-Grimoire (Layer-Boot doc)
+
+**Work done:**
+- **Plymouth (`rabble-aether`):** Took the ffmpeg pipeline route instead of hand-coding NeBuLA in Plymouth Script — recorded `RaBbLE-Boot.html` headless (Playwright video), cropped the entity to 96×512² frames at 12fps (5.6 MB total). `rabble-aether.script` plays convergence once, ping-pongs the eye pulse (frames 78–96), and draws live: fake boot log adapted from `RaBbLE-boot.js` (green/cyan/violet tags), 48-step color-cycling wordmark, real progress bar with cyan dot, systemd messages, LUKS password panel. `build-assets.sh` regenerates everything; Ansible only deploys committed frames.
+- **SDDM (`rabble-aether`):** Pure-QML Qt6 greeter — zero image assets, MultiEffect glows (ships in qt6-qtdeclarative). Radial void breath + scanlines (Canvas), pulsing ◈ sigil, cycling wordmark, violet-focus/cyan-typing fields, magenta→violet AUTHENTICATE. Validated offscreen parse + live grim screenshot. Activated via `/etc/sddm.conf.d/99-rabble-theme.conf`; deliberately no sddm restart on apply (would kill the session).
+- **Ansible:** plymouth config.yml filled (theme deploy, dracut font drop-in for JetBrains Mono in initrd, set-default-theme guard), `rebuild initrd` (`dracut --force`) handler; session_manager gains SDDM theme section (lid task untouched); `plymouth-plugin-label` pinned in manifest + role packages (Image.Text needs it).
+- **Gotcha (concurrent sessions):** S87's commit swept this session's staged files into `f8ba5b5` — split into `28e7390` (S87 apps/theming, message preserved) + `9eebbee` (boot chain); combined tree verified identical. Stage-then-commit isn't atomic when two agents share a repo.
+
+**What's next:** `layerctl apply boot` + reboot QA (initrd size, JetBrains Mono in initrd, LUKS prompt path). Tune frame crop/fps via `build-assets.sh` if needed.
 
 ---
 
