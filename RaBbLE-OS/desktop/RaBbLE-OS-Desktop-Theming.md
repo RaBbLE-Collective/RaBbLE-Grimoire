@@ -394,3 +394,82 @@ transcribe ~ grimoire >> theming guide crystallized // %THEME_LOCKED%
 → `desktop/RaBbLE-OS-Desktop-Hyprland.md` — Hyprland border and gap config
 → `fix/RaBbLE-OS-KnownIssues.md` — Qt theme env vars not set, Kitty not themed
 → `../RaBbLE-Agent/RaBbLE-Palette.md` — canonical palette source (never invent hex values)
+
+---
+
+## VSCodium — RaBbLE Aether Theme
+
+### What it is
+
+A full Aether visual injection for VSCodium. Two layers:
+
+1. **Color theme extension** (`RaBbLE-Aether`) — JSON workbench colors covering editor, sidebar, tabs, terminal, status bar, and all UI chrome. Palette-compliant: void `#0a0010`, raised `#1a1b2e`, magenta `#ff2d78`, cyan `#00f5ff`, violet `#bf5fff`.
+
+2. **Custom CSS injection** — dynamic effects impossible in JSON alone: conic-gradient panel rings, flowing tab ribbon, animated glow. Injected directly into VSCodium's bundled `workbench.desktop.main.css` at the top of the file.
+
+### File layout
+
+```
+RaBbLE-OS/config/vscodium/
+  User/
+    settings.json                          ← activates the theme + zoomLevel 1
+  extensions/RaBbLE-Aether-theme/
+    package.json                           ← extension manifest
+    themes/RaBbLE-Aether-color-theme.json  ← JSON workbench colors
+    assets/custom.css                      ← animated CSS effects (source of truth)
+```
+
+Deployed to `~/.vscode-oss/extensions/RaBbLE-Collective.rabble-aether-theme-0.0.1/` by Ansible.
+
+### CSS design language
+
+The injected CSS mirrors the Aether component vocabulary exactly:
+
+| Effect | CSS technique | Aether analogue |
+|---|---|---|
+| Panel ring borders (activitybar, sidebar) | `::before` conic-gradient + `mask-composite: exclude` | `.rabble-border-harmony` |
+| Tab strip top + panel top seam | `::before` linear-gradient `background-size: 200%` + scroll | `.rabble-harmony-line::after` |
+| Floating overlays (palette, toasts, menus) | `::before` conic-gradient ring + `aether-glow-cycle` | `.rabble-border-harmony` |
+| Cycling box-shadow glow | `@keyframes aether-glow-cycle` | `@keyframes harmony-glow` |
+
+**Panel ring details:** `inset: 0; padding: 2px` keeps the ring within element bounds — immune to `overflow: hidden` on ancestor containers (critical in VSCodium's grid-view layout). The conic-gradient rotates from the element's center so all 4 corners connect seamlessly. Both activitybar and sidebar use the same `aether-harmony-spin 9s` timing so their adjacent edges stay color-matched.
+
+**Tab ribbon:** Replaces the solid `tab.activeBorderTop` (set transparent in JSON) with a 2px `linear-gradient(90deg, cyan, violet, magenta, violet, cyan)` at `background-size: 200% 100%`, scrolled by `aether-flow-x`. One full gradient sweep visible at all times — no repeating barber-pole pattern.
+
+### How Ansible installs it
+
+Ansible role: `ansible/roles/apps/tasks/vscode.yml`, tags: `apps, vscode`.
+
+Steps performed:
+1. Create `~/.vscode-oss/extensions/RaBbLE-Collective.rabble-aether-theme-0.0.1/{assets,themes}/`
+2. Copy `settings.json` → `~/.config/VSCodium/User/settings.json`
+3. Copy extension files (package.json, color theme JSON, custom.css)
+4. Find `workbench.desktop.main.css` at `/usr/share/codium/resources/app/out/vs/workbench/`
+5. Remove any legacy `@import` injection (blocked by Electron's `vscode-file://` security policy)
+6. Inject `custom.css` content inline using `blockinfile` with `/* BEGIN/END RABBLE-AETHER-INJECTION */` markers
+7. Recompute the SHA-256 checksum in `product.json` (prevents "corrupt installation" banner)
+
+The injection is idempotent — re-running updates the block and recomputes the checksum.
+
+### How to apply / maintain
+
+```bash
+# Apply (requires sudo for the workbench CSS write):
+bash RaBbLE-OS-layerctl.sh apply apps --tags vscode
+# Prompts for BECOME password (sudo).
+
+# After applying, hard-restart VSCodium (Reload Window does NOT bust the theme cache):
+pkill -x codium && sleep 1 && hyprctl dispatch exec "codium <dir>"
+```
+
+**After every VSCodium package update**, re-run the Ansible task. The package update replaces `workbench.desktop.main.css` (and its checksum), wiping the injection. The task detects the change and re-injects.
+
+**Editing the CSS:** Edit the source at `config/vscodium/extensions/RaBbLE-Aether-theme/assets/custom.css`, then re-run Ansible. Never edit the injected copy in `/usr/share/codium/` directly — it will be overwritten on the next Ansible run or package update.
+
+### Known gotchas
+
+- `@import url('file://...')` is blocked by Electron's cross-scheme security model (`vscode-file://` cannot import `file://` resources). CSS must be inlined, not linked.
+- `overflow: hidden` on `.grid-view-container` ancestors clipped pseudo-elements that escaped element bounds with negative offsets. Fix: keep ribbons/rings inside element bounds using `inset: 0; padding: Npx` or `position: absolute; right/top: 0`.
+- The "Your installation appears to be corrupt" banner fires when `workbench.desktop.main.css` doesn't match the SHA-256 in `product.json`. The Ansible task repairs this automatically.
+- `Reload Window` (`Ctrl+Shift+P → Reload`) does NOT bust the theme cache. Only a hard process restart works: `pkill -x codium`.
+- Never use `pkill -f codium` — `-f` matches the full command line and will kill the agent's own harness shell if "codium" appears anywhere in it. Use `pkill -x codium` (exact name match only).
