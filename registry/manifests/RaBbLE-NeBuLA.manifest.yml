@@ -1,6 +1,6 @@
 # manifests/RaBbLE-NeBuLA.manifest.yml
 # Visual entity renderer — the Flat-Chaos quantum visualization engine.
-# NeBuLA-JS (original) is archived in RaBbLE-Xperimental. This is the v2 rebuild.
+# NeBuLA-JS (original) is archived in RaBbLE-Chrysalis. This is the v2 rebuild.
 
 # Identity
 name: RaBbLE-NeBuLA
@@ -9,7 +9,7 @@ description: "Flat-Chaos quantum visual renderer — the entity's ambient visual
 role: frontend
 
 # Repository
-repo: https://github.com/markm1206/RaBbLE-NeBuLA.git
+repo: git@github.com:RaBbLE-Collective/RaBbLE-NeBuLA.git
 branch: main
 worktree_root: RaBbLE-NeBuLA
 
@@ -41,6 +41,5 @@ notes: >
   Registers on World pages via the IIFE bundle loaded from CDN.
   Episode 1 deliverable: Canvas2D entity renderer at 60 FPS, CDN-ready bundle.
   Three.js Layer 2 deferred to Episode 2+.
-  Original NeBuLA-JS code archived in RaBbLE-Xperimental.
+  Original NeBuLA-JS code archived in RaBbLE-Chrysalis.
   Lore + architecture specs live in RaBbLE-Grimoire/RaBbLE-NeBuLA/.
-  HTTPS remote (not SSH) — note for setup.sh clone logic.

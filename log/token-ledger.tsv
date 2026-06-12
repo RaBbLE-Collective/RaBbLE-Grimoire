@@ -68,3 +68,7 @@ da255039-f456-40eb-9f7a-20abc076ac23	firefox-aether	S86: Firefox flowing conic o
 6b669edc-e0e6-4485-9b13-597aa9956a0b	collective	auto: current state S88: rabble-aether boot chain
 ce17e1d4-9c75-41f2-96a9-f7114e11dd5a	boot-aether	S88: Plymouth frame-player + SDDM QML greeter built, committed RaBbLE-OS 9eebbee; reboot QA pending
 commit-50d242e	nebula-mesh	wired orphaned ConnectionSystem + restored prod radius mesh/glow haze; World bundle redeployed
+4b1a1f43-1750-46c9-94d3-a5a20fb12056	plymouth-ep1-refinement	EP1 boot polish: entity left-quarter, Orbitron wordmark, log conveyor, floor grid, GPU flash fix (amdgpu in initrd)
+18a13fd4-2c75-495c-b53b-dcf45cc413f4	boot-plymouth-transparency	S90: entity bg key + radial vignette on 96 frames, Orbitron pre-render PNGs, log left-align, video QA IMG_8949
+b7cd9493-77bf-4ee2-b283-1126e26c9664	boot-plymouth	S91: wm-step PNGs root cause + live Aether capture + DRM kernel params
+5be0ec3b-08cf-4fa1-96e2-444078213593	s92-doctrine	EP1 RC scope, Personal Cosmos, Attachments/Mesh, Income/Shop, Chrysalis split, BaBbLE intake, doctrine corrections

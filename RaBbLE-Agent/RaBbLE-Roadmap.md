@@ -114,7 +114,7 @@ EPOCH 0: FOUNDATION   [ACTIVE]
 - [x] FastAPI structure in place
 - [x] Dispatch loop wired (local coordination working)
 
-**Next:** Wire LLM endpoint (Groq/OpenRouter); deploy to Railway/Render
+**Next:** Wire LLM endpoint (Groq/OpenRouter); deploy to Render (render.yaml present — Mark's manual deploy task)
 
 ### ⏳ RaBbLE-World
 
@@ -187,7 +187,7 @@ EPOCH 0: FOUNDATION   [ACTIVE]
 **Ep1 Deliverable:** Deployed endpoint callable from World chat
 - [ ] Groq/OpenRouter integration configured
 - [ ] Endpoint wired (receive query → call API → return response)
-- [ ] Deployed to Railway or Render
+- [ ] Deployed to Render (free tier — render.yaml committed, manual deploy via dashboard)
 - [ ] Version aligned to v0.0.0.1
 
 **Blocker:** None — MVP scope is straightforward
@@ -297,7 +297,8 @@ version strings stay at `v0.0.0`.
 | RaBbLE-NeBuLA | No versioning yet | Will start at v0.0.0.1 when repo is created |
 | RaBbLE-Aether | No versioning yet | Will start at v0.0.0.1 when git repo is initialized |
 | RaBbLE-ScRibLE | No versioning yet | Will start at v0.0.0.1 when repo is created |
-| RaBbLE-Xperimental | Archive — no active versioning | Dormant; archive branches preserve original history |
+| RaBbLE-Chrysalis | Archive — no active versioning | Frozen genesis archive; OS reliquary branches migrated here (S94) |
+| RaBbLE-Xperimental | Active sandbox (new, no versioning yet) | New repo distinct from Chrysalis; will start at v0.0.0.1 when emerged |
 
 **Echo 1** is the target stable state: all active members bootstrappable, manifests complete,
 Epoch 0 exit conditions met. Tagged `echo-1` across aligned repos simultaneously.

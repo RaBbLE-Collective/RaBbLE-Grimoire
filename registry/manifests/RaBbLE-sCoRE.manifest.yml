@@ -9,7 +9,7 @@ description: "Coordination intelligence engine + FastAPI web API. Intent → dec
 role: server
 
 # Repository
-repo: https://github.com/markm1206/RaBbLE-sCoRE.git
+repo: git@github.com:RaBbLE-Collective/RaBbLE-sCoRE.git
 branch: main
 worktree_root: RaBbLE-sCoRE
 
@@ -37,10 +37,10 @@ subcomponents:
     path: server/
     description: "FastAPI intelligence service (absorbed from RaBbLE-Server)"
     framework: fastapi
-    deployment: railway
+    deployment: render
   - name: harness
     path: harness/
-    description: "Railway deployment tooling"
+    description: "Render deployment config (render.yaml)"
 
 # Dependencies — other Collective members this member consumes at runtime
 depends_on: []
@@ -50,6 +50,8 @@ depends_on: []
 # Notes
 notes: >
   Pre-Episode-1 work (Plots A–C): coordination shell, dispatch, identity, server absorbed.
-  Episode 1 (pending): harness verified, Railway deploy, API tests passing, version aligned.
+  Episode 1 (pending): harness verified, Render deploy (free tier), API tests passing, version aligned.
+  Render: service rabble-score, render.yaml present, manual deploy via dashboard (Mark's task).
+  Cold-start on free tier: ~30–60s after 15 min idle — documented known limitation.
   Episode 1 airs with the Collective at v0.0.0.1.
   Server/coordinator split deferred — same repo, two surfaces. See Architecture doc.

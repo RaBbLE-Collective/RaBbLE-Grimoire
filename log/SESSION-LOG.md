@@ -5,14 +5,32 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-12 · Session 94 (Chrysalis identity + RaBbLE-OS reliquary migration)
+## LATEST — 2026-06-12 · Session 95 (Grimoire re-graph + token audit)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S94):** Chrysalis given proper identity: AGENT.md + README rewrite (genesis archive + reliquary, not playground). 6 RaBbLE-OS reliquary branches migrated → Chrysalis as `reliquary/os/*`, then deleted from RaBbLE-OS. Chrysalis dev pruned (ff into main). RaBbLE-OS now: main, New-Horizons, episode-I, 3 feature/fix branches.
-**Blockers:** OS layerctl apply + reboot QA pending. sCoRE Render deploy is Mark's.
-**Next:** OS reboot QA → Thunar → CF R2 → Render → `episode-1-v0.0.0.1`.
+**This session (S95):** Grimoire full audit: 4 manifest repo URLs updated (sCoRE/NeBuLA/World/Aether → RaBbLE-Collective org). sCoRE deployment railway→render. Epoch file: Chrysalis/Xperimental split, Render refs. INDEX: Plymouth-EP1 + 5 orphan docs linked. Graph regenerated (131 nodes). Gists: collective + roadmap regenerated. Token audit: 88% weekly, Sonnet 60% of cost, 70 untagged sessions.
+**Blockers:** OS reboot QA + layerctl apply pending. sCoRE Render deploy is Mark's.
+**Next:** OS reboot QA → CF R2 → Render → `episode-1-v0.0.0.1`. Tag 70 untagged sessions in ledger.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-12 (Session 95) — Grimoire re-graph, manifest sync, token audit
+
+**Repos touched:** RaBbLE-Grimoire, RaBbLE-Collective (AGENT.md)
+
+**Work done:**
+- **AGENT.md (Collective):** Updated current state to S94 (was stuck on S93).
+- **Manifests updated:** 4 repo URLs fixed to RaBbLE-Collective GitHub org (sCoRE, NeBuLA, World, Aether were still pointing at markm1206/*). sCoRE deployment updated railway→render. NeBuLA notes: Xperimental→Chrysalis for archived NeBuLA-JS reference.
+- **Epoch file:** Chrysalis + Xperimental split into two separate entries (Chrysalis=archive with OS reliquary, Xperimental=new active sandbox). World + sCoRE Railway→Render references fixed. sCoRE status updated ("ready to deploy — render.yaml present, Mark's task").
+- **Roadmap:** Railway→Render references fixed (2 locations). Versioning table: split Xperimental into Chrysalis (frozen archive) + Xperimental (new active sandbox).
+- **INDEX.md:** Plymouth EP1 layer doc linked from layers section. 5 orphan docs added: EP1-Dispatch-State, EPISODE-1-RELEASE, FABLE-GAP-ANALYSIS-S57, Episode-1-Deployment-Runbook, Episode-1-Release-Brief, Genesis-Visual-Catalog.
+- **Graph regenerated:** 131 nodes, graph now includes Chrysalis subgraph, Plymouth-EP1, all S92 vision docs (Membership-Model, Personal-Cosmos, Social-and-Aesthetic, etc.). Orphan count reduced.
+- **Gists:** Collective + Roadmap regenerated. Collective gist manually fixed (distillation dropped Chrysalis row).
+- **Token audit:** 99 sessions, 295M weighted cost (May 12–June 10). Weekly model mix: Sonnet 60%, Fable 18%, Haiku 13%, Opus 8%. Cache hit rate 99.9% — 83% cost savings. Current week at 88% of plan limit. 70 untagged sessions = 76.7% of all spend uncategorized. Top untagged sessions documented for ledger backfill.
+
+**What's next:** OS reboot QA → CF R2 → Render deploy → `episode-1-v0.0.0.1`. Backfill token ledger for 70 untagged sessions. Consider running `distill-gists.sh episode1` for Render reference update.
 
 ---
 

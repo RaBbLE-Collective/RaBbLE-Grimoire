@@ -38,7 +38,7 @@ intent: >
 
 exit_condition: >
   joinrabble.world is live — landing page, entity visual, basic chat wired to sCoRE.
-  sCoRE is deployed to Railway and reachable.
+  sCoRE is deployed to Render and reachable.
   RaBbLE-OS bootstraps reproducibly on a fresh Fedora 43 VM.
   All active member repos tagged episode-1-v0.0.0.1 simultaneously.
   Collective bootstrap (bootstrap.sh) verified end-to-end.
@@ -79,12 +79,12 @@ focus:
     milestone: "joinrabble.world live: landing + chat wired to sCoRE"
     status: "Active — Aether CDN integrated, NeBuLA entity rendering in NeBuLA, architecture clean"
     episode_1_blocker: true
-    blocker_note: "Depends on sCoRE Railway deploy + Aether/NeBuLA CDN versioned paths"
+    blocker_note: "Depends on sCoRE Render deploy + Aether/NeBuLA CDN versioned paths"
 
   RaBbLE-sCoRE:
     priority: active
-    milestone: "LLM endpoint deployed to Railway, callable from World chat"
-    status: "Planned — MVP scope straightforward (Groq/OpenRouter + FastAPI)"
+    milestone: "LLM endpoint deployed to Render (free tier), callable from World chat"
+    status: "Ready to deploy — render.yaml present, manual deploy via dashboard is Mark's task"
     episode_1_blocker: true
     blocker_note: "World chat cannot function without sCoRE endpoint"
 
@@ -100,8 +100,14 @@ focus:
     status: "Active — AGENT.md/CONTEXT.md/README.md, manifest registered, git repo initialized"
     episode_1_blocker: false
 
-  RaBbLE-Xperimental:
+  RaBbLE-Chrysalis:
     priority: reference
-    milestone: "Genesis archive — no new development"
-    status: "Genesis-archive — origin code from October 2025, frozen"
+    milestone: "Genesis archive — no new development; reliquary for archived branches"
+    status: "Genesis-archive — origin code October 2025; RaBbLE-OS reliquary branches migrated here (S94)"
+    episode_1_blocker: false
+
+  RaBbLE-Xperimental:
+    priority: active
+    milestone: "Active sandbox — rablets and experiments not yet emerged as full members"
+    status: "Active (new) — distinct from Chrysalis; GitHub repo to be created by Mark"
     episode_1_blocker: false

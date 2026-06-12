@@ -18,8 +18,9 @@
 | Aether | Design system + CDN-delivered CSS bundle | Active |
 | BaBbLE | High-entropy intake workspace — prototypes, ideation, sketches | Active |
 | ScRibLE | Mobile notes PWA (iPhone/iPad) | Defined — not started |
-| Xperimental | Genesis-archive — October 2025 origin code | Genesis-archive |
-| Memory (TBD) | Observation store, pattern extraction, retrieval | Concept — Epoch 1 blocker |
+| Chrysalis | Genesis archive — origin code Oct 2025 + OS reliquary branches | Genesis-archive |
+| Xperimental | Active sandbox — rablets, prototype members, experiments not yet emerged | Active (new) |
+| Memory (TBD) | Observation store, pattern extraction, retrieval | Concept — Echo 1 blocker |
 
 **Architecture:** Aether (theme) → CDN → NeBuLA (renderer) → CDN → World (scaffold). sCoRE routes intent. OS is substrate. All share the Grimoire as source of truth.
 
