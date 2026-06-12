@@ -5,14 +5,32 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-11 · Session 83 (Firefox RaBbLE-Aether theme)
+## LATEST — 2026-06-11 · Session 84 (VSCodium Aether: UI occlusion fixed)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S83):** Firefox RaBbLE-Aether theme. userChrome.css (cycling neon tab borders — border-color+background animation; XUL ignores box-shadow), userContent.css (scrollbars, about:* pages), user.js (prefs lock), browsers.yml Ansible role. Nav bar: cyan inset seam top + magenta bottom. Apply: `layerctl apply apps` + FF hard-restart. Kvantum/GTK theming is next.
+**This session (S84):** VSCodium Aether theme — interactive UI elements (command palette, context menus, toasts) were invisible/unclickable. Root cause: `::before` pseudo-elements with `position: absolute; inset: 0` were occluding popups despite `pointer-events: none`. Fixed by redesigning CSS: interactive elements now use `box-shadow` + `border` only; static panels (activitybar, sidebar, editor, panel) keep the rotating conic-gradient `::before` rings. Applied via `layerctl apply apps`.
 **Blockers:** Render deploy (Mark, runbook in `EP1-DISPATCH-STATE.md`) → World deploy → tagging.
-**Next:** Kvantum/GTK → CF R2 → Render → World prod → tag `episode-1-v0.0.0.1`. Phase 2C open.
+**Next:** Verify VSCodium working → Kvantum/GTK → CF R2 → Render → World prod → tag `episode-1-v0.0.0.1`. Phase 2C open.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-11 (Session 84) — VSCodium Aether: interactive UI occlusion fixed
+
+**Repos touched:** RaBbLE-OS (config/vscodium/extensions/RaBbLE-Aether-theme/assets/custom.css)
+
+**Work done:**
+- **Diagnosed UI breakage:** User reported command palette, right-click menus, and other interactive popups invisible/unclickable after S83 theme application.
+- **Root cause:** CSS used `::before { position: absolute; inset: 0; }` with conic-gradient borders on interactive elements (`.quick-input-widget`, `.context-view.monaco-menu-container`, `.notification-toast`, `.suggest-widget`). While `pointer-events: none` allows clicks through, the visual rendering of the `::before` pseudo-element still occludes the interactive content underneath.
+- **Solution:** Redesigned CSS architecture separating static from interactive elements:
+  - **STATIC PANELS** (activitybar, sidebar, editor-group-container, panel.bottom): Keep rotating conic-gradient `::before` rings with `position: absolute; inset: 0` and `mask-composite: exclude` — safe because no interactive content to occlude.
+  - **INTERACTIVE POPUPS** (command palette, context menus, toasts, suggest widget): Replaced `::before` with `box-shadow` glow + simple `border` — clean styling without occlusion.
+- **CSS changes:** Simplified command palette, context menu, notification toast, and suggest widget rules. Removed 50+ lines of `::before` overlay code that was breaking interaction.
+
+**To apply:** `./RaBbLE-OS-layerctl.sh apply apps` (Ansible handles CSS injection + checksum repair cleanly).
+
+**What's next:** Verify VSCodium functionality restored (command palette, context menus, suggestions all clickable). Then Kvantum/GTK theming.
 
 ---
 
