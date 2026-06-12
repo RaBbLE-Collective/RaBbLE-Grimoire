@@ -56,6 +56,14 @@ Agent harnesses (Claude Code, Codex) run shell commands wrapped in a `sh -c '<en
 
 **How:** Split kill and start into separate tool calls; in the kill call, ensure the pattern appears nowhere in plain form (e.g. `pkill -f 'status-daemon[.]sh'` with no other mention of the daemon name). A killed wrapper's already-forked children may still complete — verify actual process state afterwards instead of assuming the command failed.
 
+### Concurrent sessions share the git index — stage and commit atomically
+
+Mark often runs multiple agent sessions against the same member repo. `git add` followed later by `git commit` is not safe: another session's `git commit` in between sweeps **your** staged files into **its** commit (happened S87/S88 — a 114-file apps/theming commit silently absorbed the entire staged boot chain).
+
+**Why:** The index is repo-global shared state, not per-session. Whoever commits next takes everything staged.
+
+**How:** Stage and commit in a single tool call (`git add <paths> && git commit -m …`). Check `git log -1` immediately before committing — if HEAD moved since your last look, inspect before proceeding. If a foreign commit absorbed your files and is unpushed: `git reset --soft HEAD~1`, re-stage each session's hunks separately (`git apply --cached [-R] <filtered diff>`), recommit theirs with `git commit -C <old-hash>`, then yours; verify with `git diff <old-hash> HEAD` (must be empty).
+
 ---
 
 ## Grimoire as Documentation Home
@@ -265,6 +273,12 @@ After `dotctl apply vscodium-theme`, VSCodium keeps serving the cached theme. **
 **Why:** In S77 an agent concluded theme fixes were working from file contents alone; S78 confirmed the cache had been masking the live state the whole time. Screenshot first, conclude second.
 
 **How (headless visual QA on Hyprland, verified S78):** relaunch with `hyprctl dispatch exec "codium <dir>"`; combine `hyprctl dispatch workspace <N>` + `grim` in one shell command (focus flips back between separate calls); the display is HiDPI 3840×2400 — crop regions (Python/PIL) before viewing or detail is illegible. Popups without a keyboard: `hyprctl dispatch sendshortcut "CTRL SHIFT, P, class:codium"` (command palette), `"ALT, F, class:codium"` (File menu), `", Escape, class:codium"` to dismiss.
+
+### Boot-chain themes: QA without rebooting, deploy without restarting
+
+SDDM QML themes are verifiable headlessly and live (S88): `QT_QPA_PLATFORM=offscreen timeout 6 sddm-greeter-qt6 --test-mode --theme <dir>` — exit 124 (outlived the timeout) with silent output means the QML parsed and ran; then `QT_QPA_PLATFORM=wayland sddm-greeter-qt6 --test-mode --theme <dir>` + `grim` after ~1.5s for a visual screenshot (the test window closes on its own — capture early). Never let Ansible restart sddm on theme deploy: it kills the active session; the theme lands at next greeter start. Plymouth has no user-space dry run — the script plugin isn't even installed until `layerctl apply boot`; treat reboot QA as part of the task.
+
+The Plymouth theme itself is a **frame player**: `rabble-aether` plays PNG frames pre-captured from `RaBbLE-Boot.html` (Playwright video → ffmpeg). Regenerate via `build-assets.sh` in the theme dir when the boot animation changes — never hand-port NeBuLA effects into Plymouth Script. Full spec: `RaBbLE-OS/layers/RaBbLE-OS-Layer-Boot.md`.
 
 ### VM/dev storage is never a boot dependency
 
