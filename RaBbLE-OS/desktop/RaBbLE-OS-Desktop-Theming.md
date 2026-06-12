@@ -473,3 +473,8 @@ pkill -x codium && sleep 1 && hyprctl dispatch exec "codium <dir>"
 - The "Your installation appears to be corrupt" banner fires when `workbench.desktop.main.css` doesn't match the SHA-256 in `product.json`. The Ansible task repairs this automatically.
 - `Reload Window` (`Ctrl+Shift+P → Reload`) does NOT bust the theme cache. Only a hard process restart works: `pkill -x codium`.
 - Never use `pkill -f codium` — `-f` matches the full command line and will kill the agent's own harness shell if "codium" appears anywhere in it. Use `pkill -x codium` (exact name match only).
+
+### Tab outline design
+
+- **Inactive tabs**: `box-shadow: inset 0 0 0 1px rgba(191,95,255,0.38)` — solid violet perimeter, makes tab shape legible against the void background
+- **Active tab**: `::after` conic ring with `clip-path: inset(0 0 1px 0)` — removes the bottom edge so the tab "opens" into the editor group ring below it. The 3-sided ring (left + top + right) visually docks the active tab into the editor frame.
