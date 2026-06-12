@@ -5,14 +5,32 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-12 · Session 89b (Plymouth EP1 refinement)
+## LATEST — 2026-06-12 · Session 90 (Plymouth EP1 S90: transparency + font + log)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S89b):** Plymouth boot polish from phone-captured video: entity moved to left quarter, Orbitron Bold wordmark in right 75% with color-cycle, boot log as bottom-center scrolling conveyor (~5 lines, fade in/out), cyan/magenta outrun floor grid (NeBuLA AmbientField port, pre-rendered PNG), `add_drivers+=" amdgpu "` in dracut to eliminate 22s GPU flash. Orbitron-Bold.ttf bundled in role. Grimoire doc: `RaBbLE-OS/layers/RaBbLE-OS-Layer-Boot-Plymouth-EP1.md`.
-**Blockers:** Reboot QA still pending (apply `layerctl apply boot/plymouth` + reboot). Thunar partial (S87).
-**Next:** Apply boot chain + reboot QA → finish Thunar → CF R2 → Render → `episode-1-v0.0.0.1`.
+**This session (S90):** Plymouth pass 2 from video analysis (IMG_8949.mov — pre-S89 state confirmed). Four fixes: (1) entity square → bg key (#02000b, dist 5-18) + radial vignette (R=215-255) applied to all 96 frames in Python; (2) Orbitron fallback → pre-rendered 48 wm-step-*.png via Playwright; (3) boot log left-justified from right_start+20; (4) DRM 16s black is hardware POST time, not Plymouth bug. Commits in RaBbLE-OS; Grimoire doc updated.
+**Blockers:** Reboot QA still pending. Thunar partial (S87). sCoRE Render deploy is Mark's.
+**Next:** `layerctl apply boot/plymouth` + `build-assets.sh` (for wm-step PNGs) → reboot QA → finish Thunar → CF R2 → Render → `episode-1-v0.0.0.1`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-12 (Session 90) — Plymouth EP1 S90: entity transparency, Orbitron pre-render, log align
+
+**Repos touched:** RaBbLE-OS (ansible/boot/plymouth frames + script + build-assets.sh), RaBbLE-Grimoire (layers doc + session log)
+
+**Work done:**
+- Analyzed IMG_8949.mov (36s reboot video): confirmed S89 not yet applied (entity centered, no floor grid, fallback font). 16s black from frames 6-21 is hardware POST time — not a Plymouth DRM bug; DRM fix targets a separate flash *within* Plymouth.
+- **Entity transparency (all 96 frames processed):** Sampled actual frame bg color (#02000b, not #03000b). No clean colorkey gap — distribution continuous from dist 0-60. Two-pass Python: bg key (dist 5-18, removes opaque fill, fades halos) + radial cosine vignette (R_FULL=215, R_ZERO=255). Verified no content pixels at r>215. Entity now composites cleanly into Plymouth void — no visible square or disk.
+- **Orbitron font → pre-rendered PNGs:** Pango font discovery unreliable in initrd (Plymouth silently falls back). Added build-assets.sh step 5: Playwright renders 48 color-cycle wordmark PNGs (Orbitron Bold base64-embedded) → `assets/wm-step-000..047.png`. Plymouth script loads these directly.
+- **Boot log left-justified:** Changed per-line centered X to fixed `right_start + 20` anchor.
+- **build-assets.sh updated:** Replaced ffmpeg colorkey with Python bg-key+vignette post-step; added wordmark render step 5.
+- **Grimoire doc updated:** Plymouth-EP1.md § Changes Made (S90) with all four fixes + updated QA checklist.
+
+**Commits:** RaBbLE-OS: `d52a289` (script + build-assets), `fb30fce` (96 processed frames). Grimoire: `de14232` (doc).
+
+**What's next:** `bash RaBbLE-OS/ansible/roles/boot/plymouth/files/rabble-aether/build-assets.sh` (generates wm-step PNGs) → `layerctl apply boot/plymouth` → reboot QA.
 
 ---
 
