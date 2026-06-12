@@ -5,14 +5,33 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-12 · Session 89 (NeBuLA particle nebula: connection mesh restore)
+## LATEST — 2026-06-12 · Session 89b (Plymouth EP1 refinement)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S89):** Local World entity drew zero connections — `ConnectionSystem` existed but was never wired into `Canvas2dBackend` (orphaned). Restored deployed/prod algorithm: radius mesh, per-particle colour, distance-faded alpha; wired on the field canvas. Raised `glowFraction` 0.12→0.42 for prod's cohesive haze. Rebuilt bundle → World; all pages share it. Eyes untouched (Mark's call). Captures: `RaBbLE-Captures/World/Particle-Unify/`.
-**Blockers:** (S88) boot-chain reboot QA pending; (S87) Thunar theming partial.
-**Next:** Reboot QA boot chain → finish Thunar → CF R2 → Render → World prod → `episode-1-v0.0.0.1`.
+**This session (S89b):** Plymouth boot polish from phone-captured video: entity moved to left quarter, Orbitron Bold wordmark in right 75% with color-cycle, boot log as bottom-center scrolling conveyor (~5 lines, fade in/out), cyan/magenta outrun floor grid (NeBuLA AmbientField port, pre-rendered PNG), `add_drivers+=" amdgpu "` in dracut to eliminate 22s GPU flash. Orbitron-Bold.ttf bundled in role. Grimoire doc: `RaBbLE-OS/layers/RaBbLE-OS-Layer-Boot-Plymouth-EP1.md`.
+**Blockers:** Reboot QA still pending (apply `layerctl apply boot/plymouth` + reboot). Thunar partial (S87).
+**Next:** Apply boot chain + reboot QA → finish Thunar → CF R2 → Render → `episode-1-v0.0.0.1`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-12 (Session 89b) — Plymouth EP1 refinement: layout, floor grid, conveyor log
+
+**Repos touched:** RaBbLE-OS (ansible/boot/plymouth), RaBbLE-Grimoire (layers doc)
+
+**Work done:**
+- Analyzed phone-captured reboot video (IMG_8949.mov) — identified ~22s GPU black flash (VESA→DRM transition), centered entity layout, static log wall
+- `add_drivers+=" amdgpu "` in dracut conf — Plymouth starts in DRM KMS mode from frame 1, eliminates flash
+- Orbitron-Bold.ttf (~300KB) downloaded and bundled in role; Ansible installs to `/usr/share/fonts/rabble-fonts/`, injects into initrd; `font_wordmark = "Orbitron Bold 64"`
+- Entity repositioned to left 25% of screen (entity_cx = screen_w*0.25, vertically centered)
+- Wordmark repositioned to center of right 75% section; tagline follows
+- Boot log conveyor: lines appear at baseline (screen_h*0.80), scroll upward as new lines appear, ~5 visible, fade in over 8 ticks / fade out after scrolling >5 positions
+- Floor grid: ported NeBuLA `AmbientField._bakeGrid` geometry — 18 radial fan lines (alternating cyan/magenta, α=0.28) + 11 horizontal power-curved lines (α=0.22), VP at (W/2, H*0.74), Playwright canvas capture to `assets/floor-grid.png` (96K transparent PNG); committed
+- Progress bar moved 84%→88% height to clear conveyor
+- Grimoire: `RaBbLE-OS/layers/RaBbLE-OS-Layer-Boot-Plymouth-EP1.md` created (feature map + QA checklist)
+
+**What's next:** `layerctl apply boot/plymouth` + reboot for QA
 
 ---
 
