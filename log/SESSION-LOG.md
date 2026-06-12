@@ -5,14 +5,33 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-12 · Session 90 (Plymouth EP1 S90: transparency + font + log)
+## LATEST — 2026-06-12 · Session 91 (Plymouth boot profiling + wordmark fix)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S90):** Plymouth pass 2 from video analysis (IMG_8949.mov — pre-S89 state confirmed). Four fixes: (1) entity square → bg key (#02000b, dist 5-18) + radial vignette (R=215-255) applied to all 96 frames in Python; (2) Orbitron fallback → pre-rendered 48 wm-step-*.png via Playwright; (3) boot log left-justified from right_start+20; (4) DRM 16s black is hardware POST time, not Plymouth bug. Commits in RaBbLE-OS; Grimoire doc updated.
-**Blockers:** Reboot QA still pending. Thunar partial (S87). sCoRE Render deploy is Mark's.
-**Next:** `layerctl apply boot/plymouth` + `build-assets.sh` (for wm-step PNGs) → reboot QA → finish Thunar → CF R2 → Render → `episode-1-v0.0.0.1`.
+**This session (S91):** Boot profiling pass. Root cause for missing RaBbLE wordmark: wm-step PNGs never generated (build-assets.sh step 5 never run → Plymouth script crashed silently). Fixed. Kernel params added: `plymouth.use-simpledrm=1` (kills ~10s amdgpu DRM black), `vt.global_cursor_default=0` (cursor flicker), `nvidia-drm.modeset=1`, `rd.udev.log_level=3`. Wordmark regenerated from live Aether CSS (correct weight 900 + sliding gradient). /etc/default/grub patched live; Ansible vars updated. Commits in RaBbLE-OS.
+**Blockers:** `sudo dracut -f` + reboot QA still pending. Thunar partial (S87). sCoRE Render deploy is Mark's.
+**Next:** `layerctl apply boot/plymouth boot/grub2` → reboot QA → finish Thunar → CF R2 → Render → `episode-1-v0.0.0.1`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-12 (Session 91) — Plymouth boot profiling: wordmark root cause + DRM black screen fix
+
+**Repos touched:** RaBbLE-OS (ansible/boot/plymouth assets + grub group_vars), RaBbLE-Grimoire (session log)
+
+**Work done:**
+- **Boot profiling:** `systemd-analyze time/blame/critical-chain` — 27s total, graphical.target at 7.9s userspace. Identified three distinct issues: missing wordmark, ~10s DRM black screen, white text flicker between GRUB and Plymouth.
+- **Root cause — missing wordmark:** `wm-step-*.png` files were never generated (build-assets.sh step 5 had never been run). Plymouth's script language fails silently on missing Image() — entire splash aborted, leaving only void background. Generated 48 PNGs to Ansible source + committed.
+- **Wordmark quality fix:** First-pass PNGs used local Orbitron-Bold TTF (700 weight), manual color lerp, RGB (no alpha). Re-captured from live `localhost:8080` Aether CSS — correct 900 weight, exact `brand-harmony` sliding gradient, `brand-glow` drop-shadow, RGBA transparency. `build-assets.sh` step 5 updated to this live-capture approach.
+- **DRM black screen:** `plymouth.use-simpledrm=1` added to kernel cmdline — Plymouth stays on EFI framebuffer (simpledrm) throughout animation, eliminating amdgpu KMS mode switch that caused ~10s black screen mid-boot.
+- **Cursor/text flicker:** `vt.global_cursor_default=0` suppresses blinking text cursor between GRUB and Plymouth. `rd.udev.log_level=3` suppresses initrd udev noise.
+- **NVIDIA:** `nvidia-drm.modeset=1` added; GPU mode is integrated (dGPU suspended) but modeset prevents late DRM conflicts if mode ever changes.
+- **Ansible:** `rabble_grub_extra_cmdline` added to `asus_proart_p16.yml`; `/etc/default/grub` patched live.
+
+**Commits:** RaBbLE-OS: `2934e8b` (wm-step PNGs v1 + kernel params), `80e381d` (wm-step PNGs v2 from live Aether + build-assets.sh update).
+
+**What's next:** `layerctl apply boot/plymouth boot/grub2` (or `sudo dracut -f` + reboot) → reboot QA → Thunar → CF R2 → Render → `episode-1-v0.0.0.1`.
 
 ---
 
