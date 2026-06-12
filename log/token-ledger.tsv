@@ -72,3 +72,5 @@ commit-50d242e	nebula-mesh	wired orphaned ConnectionSystem + restored prod radiu
 18a13fd4-2c75-495c-b53b-dcf45cc413f4	boot-plymouth-transparency	S90: entity bg key + radial vignette on 96 frames, Orbitron pre-render PNGs, log left-align, video QA IMG_8949
 b7cd9493-77bf-4ee2-b283-1126e26c9664	boot-plymouth	S91: wm-step PNGs root cause + live Aether capture + DRM kernel params
 5be0ec3b-08cf-4fa1-96e2-444078213593	s92-doctrine	EP1 RC scope, Personal Cosmos, Attachments/Mesh, Income/Shop, Chrysalis split, BaBbLE intake, doctrine corrections
+commit-00d3b89	grimoire-audit	S95: Grimoire re-graph, manifest org sync, token audit, orphan doc fixes
+daf7eeb9-f624-4361-a77c-6d192b0e6ee4	grimoire-audit	S95: Grimoire re-graph, manifest org sync, token audit, orphan doc fixes, Chrysalis/Render sync
