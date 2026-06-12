@@ -5,14 +5,39 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-11 · Session 84 (VSCodium Aether: UI occlusion fixed)
+## LATEST — 2026-06-11 · Session 85 (Kvantum + GTK3 theming — WIP, not fully deployed)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S84):** VSCodium Aether theme — interactive UI elements (command palette, context menus, toasts) were invisible/unclickable. Root cause: `::before` pseudo-elements with `position: absolute; inset: 0` were occluding popups despite `pointer-events: none`. Fixed by redesigning CSS: interactive elements now use `box-shadow` + `border` only; static panels (activitybar, sidebar, editor, panel) keep the rotating conic-gradient `::before` rings. Applied via `layerctl apply apps`.
-**Blockers:** Render deploy (Mark, runbook in `EP1-DISPATCH-STATE.md`) → World deploy → tagging.
-**Next:** Verify VSCodium working → Kvantum/GTK → CF R2 → Render → World prod → tag `episode-1-v0.0.0.1`. Phase 2C open.
+**This session (S85):** Kvantum/GTK3/GTK4 theming scaffold. Built complete theming layer: Kvantum theme (kvconfig + SVG), GTK3 (gtk.css + gtkrc + settings.ini), GTK4 CSS, qt5ct/qt6ct configs, Ansible role (qt-gtk-theme.yml), Qt env vars (Hyprland). Files deploy via Ansible, but GTK3 theme application incomplete — Thunar remains unthemed/light grey despite void CSS + gtkrc rules. Root cause: GTK3 theme engine priorities unclear; Adwaita-dark base interferes. CSS @keyframes cycling borders defined but not rendering. **Session ended due to system lag/power state issue; needs diagnosis.**
+**Blockers:** GTK3 theming not applying to Thunar; system performance degraded (battery + power mode off); need restart.
+**Next:** Restart system → debug GTK3 theme application (check if gtkrc/CSS actually loaded) → or pivot to simpler approach (custom theme fork or accept GTK limitation). Then CF R2 → Render → World → tag.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-11 (Session 85) — Kvantum + GTK theming (incomplete, system lag)
+
+**Repos touched:** RaBbLE-OS (config/kvantum, config/gtk-3.0, config/gtk-4.0, config/qt5ct, config/qt6ct, ansible/roles/apps/tasks/qt-gtk-theme.yml, config/hypr/conf.d/env.conf, ansible/packages/manifest.yml)
+
+**Work done:**
+- **Kvantum theme:** Created RaBbLE-Aether kvconfig + simplified SVG covering all widget states. Deployed via Ansible to ~/.config/Kvantum/RaBbLE-Aether/.
+- **GTK3 CSS:** Multiple iterations targeting void (#0a0010) bg everywhere. Added @keyframes aether-border-cycle (cyan→violet→magenta 9s). CSS deployed but NOT applying to Thunar.
+- **GTK3 gtkrc:** Theme resource file with rabble-void style, class wildcards, base/bg/text colors all set to void. Deployed to ~/.gtkrc-3.0.
+- **GTK3 settings.ini:** Sets gtk-theme-name=Adwaita-dark, icon theme, fonts.
+- **GTK4 CSS:** Minimal (libadwaita sandboxing prevents most overrides).
+- **Qt configs:** qt5ct.conf + qt6ct.conf set style=kvantum + Papirus-Dark icons.
+- **Ansible role:** qt-gtk-theme.yml deploys all files, sets Kvantum default, optional papirus-folders tinting.
+- **Hyprland env:** Added QT_QPA_PLATFORMTHEME=qt6ct and QT_STYLE_OVERRIDE=kvantum to env.conf.
+- **Packages manifest:** Added papirus-icon-theme, papirus-folders, kvantum, kvantum-qt5, qt5ct, qt6ct to apps.theming category.
+
+**Issue — GTK3 theming not applying:**
+- Files deploy successfully (Ansible confirmed 2435 bytes gtk.css, 1374 bytes gtkrc, etc.).
+- Thunar remains light grey/unthemed despite void CSS + gtkrc rules applied.
+- CSS @keyframes and !important selectors not rendering.
+- Root cause unclear: GTK3 theme engine priorities, Adwaita-dark interference, or caching. Needs investigation.
+
+**Session ended:** System lag detected (battery warning + power mode off), restart needed before continuing.
 
 ---
 
