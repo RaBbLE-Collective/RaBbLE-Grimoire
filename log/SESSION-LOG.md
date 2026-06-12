@@ -5,14 +5,28 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-12 · Session 93 (Setup spell: local surfaces; Genesis visual archive migrated)
+## LATEST — 2026-06-12 · Session 94 (Chrysalis identity + RaBbLE-OS reliquary migration)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S93):** `setup.sh` updated: BaBbLE + Xperimental now `surface_type: local` — init'd locally, never cloned; idempotent (skips if `.git` exists). Chrysalis manifest corrected (still had Xperimental slug/repo). 13 genesis images reviewed + migrated from BaBbLE → `RaBbLE/Genesis/visual/`; 5 metas corrected; `RaBbLE-Genesis-Visual-Catalog.md` created.
-**Blockers:** Chrysalis + RaBbLE-OS branch cleanup / Reliquary pending (next session, Mark-gated). OS layerctl apply + reboot QA pending. sCoRE Render deploy is Mark's.
-**Next:** Chrysalis Reliquary + OS branch pruning → OS reboot QA → Thunar → CF R2 → Render → `episode-1-v0.0.0.1`.
+**This session (S94):** Chrysalis given proper identity: AGENT.md + README rewrite (genesis archive + reliquary, not playground). 6 RaBbLE-OS reliquary branches migrated → Chrysalis as `reliquary/os/*`, then deleted from RaBbLE-OS. Chrysalis dev pruned (ff into main). RaBbLE-OS now: main, New-Horizons, episode-I, 3 feature/fix branches.
+**Blockers:** OS layerctl apply + reboot QA pending. sCoRE Render deploy is Mark's.
+**Next:** OS reboot QA → Thunar → CF R2 → Render → `episode-1-v0.0.0.1`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-12 (Session 94) — Chrysalis identity + RaBbLE-OS reliquary migration
+
+**Repos touched:** RaBbLE-Chrysalis, RaBbLE-OS, RaBbLE-Grimoire
+
+**Work done:**
+- **Chrysalis identity established:** Wrote `AGENT.md` (read-only genesis archive + reliquary; one job: preserve the past). Rewrote `README.md` with two-part structure (genesis code on main, reliquary branches table with provenance). Added `.gitignore` to suppress stale nested `RaBbLE-Xperimental/` artifact from S93 (can `rm -rf RaBbLE-Chrysalis/RaBbLE-Xperimental` when convenient — real surface is at Collective root).
+- **RaBbLE-OS reliquary migration:** 6 branches (`reliquary/babble-embryo`, `reliquary/ep1-preclean`, `reliquary/grimoire-expansion`, `reliquary/grimoire-seed`, `reliquary/legacy-bootstrap`, `reliquary/os-dev-bootstrap`) moved to Chrysalis as `reliquary/os/<name>` (added OS as temp remote, fetched, pushed, removed remote). Deleted all 6 locally + remotely from RaBbLE-OS.
+- **Chrysalis dev pruned:** dev merged ff → main, dev branch deleted locally + remotely. Chrysalis now has main as sole living branch.
+- **RaBbLE-OS clean state:** main, `RaBbLE-OS-New-Horizons` (dev), `RaBbLE/episode-I`, `feature/quickshell-port`, `feature/waybar-llm-status`, `fix/proart-nvidia`.
+
+**What's next:** OS reboot QA → Thunar → CF R2 → Render → `episode-1-v0.0.0.1`.
 
 ---
 
