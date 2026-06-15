@@ -5,14 +5,38 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-15 · Session 103 (EP1 readiness audit + 4-stream cleanup)
+## LATEST — 2026-06-15 · Session 104 (World commit dates restored)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S103):** Full EP1 audit → `log/EP1-READINESS-AUDIT-S103.md`. Grimoire drift fixed (Railway→Render ×3, token counts, screenshot spell → captures/_inbox/). World given main/new-horizons treatment (main=stub, new-horizons=full history rebased, byte-identical to backup; pushed; default→main, world deleted, history → Chrysalis `archive/world-history`). BaBbLE captures inbox + filing + CLEANUP-PLAN. **Aether-as-platform-theme executed**: Kvantum re-based on Catppuccin Mocha (MIT), recolored to Aether (QA gate: 0 orphan hexes); VSCodium absorbed into Aether; OS slimmed to selectors. World spine locked (liminal as EP1 front door → shell+grimoire+summon); liminal reframed + verified.
+**This session (S104):** Recovered World's "lost" commit timeline. The S101/S103 main-rewrite was a plain rebase — it **preserved AUTHOR dates and only flattened COMMITTER dates** to `02:31:00`; nothing was truly lost. Fixed losslessly via a `commit-tree` walk setting committer:=author; synthetic `main stub` root backdated to `2026-05-05 21:42:01` so the graph reads monotonically. **Byte-identical content** (tip tree unchanged, zero diff), timeline May 5→Jun 15 restored. Both `main`+`new-horizons` force-pushed; `--force-with-lease` safely absorbed a concurrent session's in-flight `Shell.html` commit. Collective `main` is a SQUASH (not rebase) → per-commit dates unrecoverable there; granular history kept in `backup/new-horizons-pre-rewrite` + Chrysalis.
 **Blockers:** Awaiting Mark: **CF Pages prod-branch repoint** (was `world`) · **live theme deploy** (`layerctl apply --tags theming,vscode` on daily driver) · BaBbLE `historical/` move sign-off · OS reboot QA · Render deploy.
-**Next:** World page unification build (shell extraction → door set → grimoire browser graph+reader → summon flow) → harmonize Xperimental `master` → per-member RCs.
+**Next:** World page unification build (concurrent session in flight: liminal→shell rename) → apply the committer:=author date fix to other member repos given the same S101 treatment → harmonize Xperimental `master` → per-member RCs.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-15 (Session 104) — World commit dates restored
+
+**Repos touched:** RaBbLE-World (history rewrite + force-push), RaBbLE-Grimoire (log)
+
+**Context:** Mark flagged that the S101/S103 World branch restructure appeared to have lost commit dates (all reading `2026-06-15 02:31:00`), with originals preserved in Chrysalis — asked whether they could be restored onto the clean branches.
+
+**Diagnosis:** The rewrite was a plain `git rebase`, which **preserves author dates and only resets committer dates**. So the real timeline was never lost — it was intact in the author dates the whole time (verified: `new-horizons` author dates match `backup/world-pre-rewrite` 1:1; 0 commits had a flattened author date, 50 had a flattened committer date). `git log` default shows author date (looked fine); GitHub/graph views surface committer date (looked broken).
+
+**Fix (lossless, no Chrysalis needed):**
+- `commit-tree` walk oldest→newest rebuilding each commit with **committer date := its own preserved author date** (tree/message/identity untouched).
+- Synthetic `main stub` root (genuinely created Jun 15, no original) **backdated to `2026-05-05 21:42:01`** — 1s before the first real commit — so the graph reads monotonically.
+- Gotcha hit + fixed: `printf '%s'` dropped git's trailing message newline → divergent hashes; corrected to `printf '%s\n'`, which also re-aligned the rebuilt root to the original `main` root so both branches share it.
+- Verified: tip tree unchanged (`6b0a062`), `git diff` vs pre-restore empty, 0 committer≠author mismatches, 0 flattened dates. Safety tags kept local: `backup/world-flatdate-S104`, `backup/world-pre-rewrite`.
+
+**Concurrent-session catch:** RaBbLE-World had a **live session editing files** during this work (the EP1 liminal→`Shell.html` rename); the `new-horizons` tip advanced under me (`1ea5eec`→`922d325`) and the working tree held uncommitted changes (left untouched). Force-pushed both branches with `--force-with-lease=<branch>:<expected-origin-sha>` — the lease guard let the concurrent commit (`42d96b6`, real `02:56:31` date) land cleanly on top of the date-restored history instead of being clobbered. Final: `main e7bcca7`, `new-horizons 42d96b6`, local == origin.
+
+**Collective note:** Its `main` was a **squash** (Apr 28→Jun 15 collapsed into one pre-EP1 stub), not a rebase — per-commit dates can't be restored onto `main`. Genesis date already survives on the root; granular timeline stays archived in `backup/new-horizons-pre-rewrite` + Chrysalis. Per Mark's call, left untouched.
+
+**Memory saved:** `project_date_restore_committer_lesson` — for the planned same-pattern cleanup of other member repos.
+
+**What's next:** Other member repos given the S101 treatment likely have the same author-dates-intact situation → apply committer:=author there before/with their RCs. World page unification build continues in the concurrent session.
 
 ---
 
