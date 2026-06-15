@@ -58,6 +58,7 @@ See `RaBbLE-Palette.md` for the full table, design philosophy, Ansible variable 
 | Starship prompt | `dotfiles/shell/starship.toml` | `~/.config/starship.toml` (symlink) | `exec zsh` |
 | Foot terminal | `dotfiles/shell/foot.ini` | `~/.config/foot/foot.ini` (symlink) | reopen foot |
 | Mako notifications | `dotfiles/shell/mako.conf` | `~/.config/mako/config` (symlink) | `makoctl reload` |
+| swayOSD overlay | `config/swayosd/style.css` + `config.toml` | `~/.config/swayosd/` (dotctl `swayosd` bundle) | `pkill -x swayosd-server` then `swayosd-server &` |
 
 ---
 
@@ -478,3 +479,91 @@ pkill -x codium && sleep 1 && hyprctl dispatch exec "codium <dir>"
 
 - **Inactive tabs**: `box-shadow: inset 0 0 0 1px rgba(191,95,255,0.38)` — solid violet perimeter, makes tab shape legible against the void background
 - **Active tab**: `::after` conic ring with `clip-path: inset(0 0 1px 0)` — removes the bottom edge so the tab "opens" into the editor group ring below it. The 3-sided ring (left + top + right) visually docks the active tab into the editor frame.
+
+---
+
+## swayOSD — RaBbLE Aether Theme
+
+### What it is
+
+The volume / brightness / caps-lock overlay, themed to the Aether standard. swayOSD 0.3.1 is a
+**GTK4** app (`libgtk-4` + `gtk4-layer-shell`) that ships its own `style.css` which *overrides*
+the GTK theme — so the system GTK theming layer does **not** reach it. It needs a dedicated
+stylesheet.
+
+### File layout
+
+```
+RaBbLE-OS/config/swayosd/
+  style.css      ← Aether gradient ring + flowing text + flowing progress (source of truth)
+  config.toml    ← enables show_percentage so the gradient text is visible
+```
+
+Deployed to `~/.config/swayosd/` by the `swayosd` **dotctl bundle** (mirrors `mako`).
+swayOSD reads `$XDG_CONFIG_HOME/swayosd/{style.css,config.toml}` automatically; the server is
+autostarted from `config/hypr/conf.d/autostart.conf` (`exec-once = swayosd-server`).
+
+```bash
+./RaBbLE-OS-dotctl.sh apply swayosd
+pkill -x swayosd-server   # reload; server is respawned by Hyprland autostart, or:
+hyprctl dispatch exec swayosd-server
+```
+
+### CSS design language — and the GTK4 ceiling
+
+The intent is the VSCodium gold-standard ring. **GTK4 CSS cannot do most of that technique:**
+no `conic-gradient`, no `@property`, no `::before`/`::after`, no `mask-composite`, and no
+`background-clip: text`. What GTK4 *does* support: `@keyframes`/`animation`, `linear-gradient`,
+`box-shadow` (with blur), and **interpolation between compatible gradients**. So the Aether
+language is rebuilt with GTK-native primitives:
+
+| Effect | VSCodium technique (unavailable) | GTK4 adaptation used |
+|---|---|---|
+| Gradient ring border | `::before` conic-gradient + `mask-composite` | Outer `window#osd` = gradient, inner `#container` = void with `margin: 2px` → padding-box ring that respects `border-radius: 999px` |
+| Flowing border | conic spin via `@property` angle | `@keyframes` rotating the cyan→violet→magenta **colour stops** (GTK interpolates compatible gradients) |
+| Flowing progress fill | n/a | real `linear-gradient` cyan→magenta + same stop-rotation keyframes |
+| Flowing cyan→magenta text | `background-clip: text` on a gradient | **animated `color` cycle** cyan↔magenta (glyphs can't be gradient-clipped in GTK4) |
+| Ring glow | `aether-glow-cycle` box-shadow | identical — cycling `box-shadow` colour |
+
+swayOSD node names (v0.3.1): `window#osd`, `#container`, `image`, `label`, `progressbar`,
+`segmentedprogress`, `trough`/`segment`, `progress`/`segment.active`.
+
+### Known gotchas
+
+- The OSD window is on-screen only ~1s per change and `grim` itself takes ~0.5s, so screenshot
+  verification is hit-or-miss — capture a burst or trust the live view.
+- Restarting `swayosd-server` repeatedly during iteration can leave it dead (it's a Hyprland
+  child, not a systemd user service). Confirm with `pgrep -x swayosd-server` and respawn via
+  `hyprctl dispatch exec swayosd-server` if needed.
+- `swayosd-server` prints `Loaded user defined CSS file` on startup — use a short
+  `timeout 1 swayosd-server` to confirm the CSS parses without errors.
+
+---
+
+## Theming Maturity Status
+
+Snapshot of how close each themed surface is to the Aether gold standard (the VSCodium
+injection). Update as surfaces improve.
+
+| Surface | Maturity | Notes |
+|---|---|---|
+| VSCodium | **Gold standard** | Full conic-ring Aether injection; the reference all others aim at |
+| swayOSD | **At standard** | Gradient ring + flowing text/progress, within GTK4's limits |
+| fastfetch | **At standard** | Palette-clean ANSI art |
+| Hyprland / Waybar / Kitty / Foot | Solid | Palette-aligned, core daily surfaces |
+| Firefox chrome | **Mediocre** | Theme execution needs rework (see Firefox theme memory: about: cards still flat) |
+| GTK (3/4 apps) | **Needs work** | Personality layer exists but not yet at Aether standard |
+| Kvantum / Qt / KDE | **Needs work** | Most effort still required for visual parity |
+
+### Future: lift Aether-themed configs into the Aether theme layer
+
+Several Aether-themed configs currently live in `RaBbLE-OS/config/` and ship via **dotctl**
+(swayOSD `style.css`, mako, and the OS-layer GTK/Qt stylesheets). This is the pragmatic home
+today, but it mixes *authored Aether visuals* with *OS deployment plumbing*.
+
+The intended end-state (consistent with **Aether as Theme Generator** above and the
+`apps/tasks/qt-gtk-theme.yml` model where *Aether publishes theme artifacts; RaBbLE-OS deploys
+them*): the authored visual stylesheets migrate to **RaBbLE-Aether** as published theme
+artifacts (ideally palette-driven templates), leaving RaBbLE-OS holding only deployment +
+selectors. swayOSD's `style.css` is a natural candidate. Not yet done — recorded here so the
+next theming pass knows the direction.

@@ -5,15 +5,33 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-15 · Session 107 (entity visuals debug · NeBuLA = single 3D+2D renderer)
+## LATEST — 2026-06-15 · Session 108 (swayOSD themed to Aether standard)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S107):** Debugged the entity visuals. **2D (Canvas2D):** killed bokeh + flicker by giving every particle a crisp core (glow pass now only adds a halo, not the whole dot), shrank max size, tightened blur; strengthened the connection mesh and made portal glow stronger (two-pass bloom). **3D (Three.js):** fixed off-palette colors → palette neons, fixed the over-dense opaque blob (InstancedMesh can't do per-instance opacity → switched to additive blending + smaller/fewer particles), ported Grimoire-Graph layered eye-glow. **Wired the NeBuLA Demo L2 to `NeBuLA.ThreeJsBackend`** — NeBuLA is now the single entity renderer on all surfaces. Verified both via Playwright.
+**This session (S108):** Themed the swayOSD volume/brightness overlay to the Aether standard. swayOSD 0.3.1 is **GTK4** and ships its own `style.css` that overrides GTK theming, so it needed a dedicated stylesheet. Built `config/swayosd/style.css`: cyan→violet→magenta gradient pill border (padding-box ring — GTK4 has no conic-gradient/mask), **flowing** border + progress fill (keyframe colour-stop rotation), and **flowing cyan→magenta text** (animated `color` — GTK4 can't gradient-clip glyphs). Added `config.toml` (show_percentage) + new dotctl `swayosd` bundle. Documented the GTK4 ceiling, a swayOSD section, and a **theming maturity table** in `RaBbLE-OS-Desktop-Theming.md` (gold: VSCodium; at-standard: swayOSD/fastfetch; mediocre: Firefox; needs work: GTK + Kvantum/KDE), plus the future plan to lift Aether-authored configs into the Aether theme layer.
 **sCoRE is LIVE (S106):** `https://rabble-score-x7qq.onrender.com` (Render free tier, tracks new-horizons, OpenRouter backend). Managed via `spells/render-ctl.sh`.
 **Blockers:** Live **UI** needs World prod deploy (CF Pages → joinrabble.world) + a guest/invite path for the chat jwt-gate. CF Pages repoint · OS reboot QA still open. Three.js is a runtime CDN dep for Layer 2 (accepted — see NeBuLA Architecture doc).
-**Next:** Deploy World (CF Pages) so the UI is live → guest/invite path for chat → roll flip-point to remaining ~10 pages → surfaces (graph-as-docs, summon ceremony, OS sandbox).
+**Next:** Theming passes on Firefox (mediocre) and GTK + Kvantum/KDE (needs work). Carry-over: deploy World (CF Pages) so the UI is live → guest/invite path for chat → roll flip-point to remaining ~10 pages → surfaces (graph-as-docs, summon ceremony, OS sandbox).
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-15 (Session 108) — swayOSD themed to Aether standard (GTK4)
+
+**Repos touched:** RaBbLE-OS (`config/swayosd/style.css` + `config.toml` new, `RaBbLE-OS-dotctl.sh` swayosd bundle), RaBbLE-Grimoire (`RaBbLE-OS-Desktop-Theming.md`, this log).
+
+**Why:** Mark — give swayOSD the Aether gradient borders + flowing cyan→magenta text. Now another good theming example alongside fastfetch and VSCodium.
+
+**Done:**
+- **swayOSD theme** (`config/swayosd/style.css`): gradient pill border (cyan→violet→magenta) via padding-box ring (`window#osd` gradient + `#container` void with `margin:2px`) — respects `border-radius:999px`; flowing border + progress via keyframe colour-stop rotation; flowing cyan→magenta text via animated `color`; cycling box-shadow glow.
+- **GTK4 ceiling documented:** no conic-gradient / `@property` / pseudo-elements / `mask-composite` / `background-clip:text`; rebuilt the Aether language with GTK-native primitives (gradients interpolate across `@keyframes`).
+- **Deployment:** new `swayosd` dotctl bundle (mirrors `mako`); `config.toml` enables `show_percentage` so the gradient text shows. Verified CSS loads clean; server respawns via Hyprland autostart.
+- **Docs:** swayOSD section + **theming maturity table** + future "lift Aether-authored configs into the Aether theme layer" note in the Theming doc.
+
+**Gotcha:** repeated `swayosd-server` restarts during iteration can leave a wedged instance (PID alive but DBus name unregistered → triggers silently fail). Clear with `pkill -x swayosd-server` then relaunch detached via `setsid -f swayosd-server`; confirm serving with `swayosd-client --output-volume +0` (exit 0).
+
+**Next:** Firefox theme rework; GTK + Kvantum/KDE theming to reach Aether standard.
 
 ---
 
