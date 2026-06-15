@@ -113,7 +113,7 @@ called remotely.
 | `auth.py` | JWT + API key authentication |
 | `rate_limit.py` | Sliding-window rate limiter |
 
-Deployment: `harness/local.sh` (local) · `spells/deploy-render.sh` (Render)
+Deployment: `harness/local.sh` (local) · `spells/render-ctl.sh` (Render — see Deployment section below)
 
 ---
 
@@ -130,8 +130,45 @@ The sCoRE-as-daemon concept — running the coordinator as a standalone process
 independent of Claude Code CLI — is Evolution 1 territory. When that happens, the
 coordinator and server may naturally separate. Not now.
 
-Render deploys from `server/` as Root Directory. The harness controls that path.
-The coordinator runs locally via tmux. They share one repo, two modes.
+Render deploys from `server/` as Root Directory. The coordinator runs locally via tmux.
+They share one repo, two modes.
+
+---
+
+## Deployment (Live — Render)
+
+sCoRE's web API is **live on Render** (free tier) as of S106 (2026-06-15).
+
+| Field | Value |
+|---|---|
+| Service | `RaBbLE-sCoRE` (`srv-d8kdmam47okc739pqu90`) |
+| URL | `https://rabble-score-x7qq.onrender.com` |
+| Tracks branch | `new-horizons` (pre-episode convergence → `main` at Ep1 air) |
+| Root dir / runtime | `server/` · Python 3.12 · autoDeploy on push |
+| Plan | free — **no persistent disk**, ephemeral storage only |
+
+**Managed entirely via `spells/render-ctl.sh`** (Render REST API — no dashboard):
+`render-ctl.sh env-sync` (push provider keys from `server/.env`) · `deploy --wait` · `status` · `logs` · `env-set <k> <v>`. The only one-time manual step was minting the API key (stored in gitignored `RaBbLE-Grimoire/.render/`).
+
+> The service is a plain **Web Service**, not a Blueprint — so `render.yaml` is **reference-only** (it's not synced). Env vars are set via the API (`render-ctl.sh` / bulk PUT), not from `render.yaml`.
+
+**Environment:**
+
+| Var | Value | Why |
+|---|---|---|
+| `DEMO_MODE` | `true` | anonymous guest access — gates **auth**, not the LLM |
+| `OPENROUTER_API_KEY` | (secret) | live LLM provider; covers all tiers |
+| `JWT_SECRET` | (generated) | token signing |
+| `FRONTEND_URL` | `https://joinrabble.world` | CORS allow-origin (defaults to `*` if unset) |
+| `DATA_DIR` | `/tmp/rabble-data` | ephemeral (free tier has no disk); server `mkdir`s it |
+| `LLM_FAST_CHAIN` | `openrouter:google/gemma-4-26b-a4b-it:free` | skip claude_code/local_llm in cloud |
+| `PYTHON_VERSION` | `3.12` | runtime |
+
+**LLM tiers — OpenRouter alone is sufficient:** `fast`/`medium` → OpenRouter free Gemma; `strong` → Claude Sonnet (needs OpenRouter credits). Groq is optional, **not** an RC1 blocker.
+
+**Free-tier caveats:** sleeps after ~15 min idle → ~30–60s cold start (then ~7s warm); `:free` models rate-limit under load; data resets on restart (client state lives in the browser via World's `localStorage`).
+
+**World binding:** `RaBbLE-World/world/js/RaBbLE-config.js` (the flip point) auto-points production origins at this URL; a `localhost` origin uses local sCoRE (`harness/local.sh`).
 
 ---
 
@@ -141,6 +178,7 @@ The coordinator runs locally via tmux. They share one repo, two modes.
 |---|---|---|
 | v0.1 | 2026-04-29 | Initial architecture document — Phase A scaffold |
 | v0.2 | 2026-05-07 | Server/coordinator split decision documented; versioning aligned to v0.0.0.0 |
+| v0.3 | 2026-06-15 | Deployment (Live — Render) section added; sCoRE live on Render via `render-ctl.sh` (S106) |
 
 ---
 
@@ -157,9 +195,16 @@ The coordinator runs locally via tmux. They share one repo, two modes.
   (`markm1206/RaBbLE-JS`) that bundled the early NeBuLA renderer and a "BaBbLE command
   shell." That lineage is `RaBbLE-JS` → `RaBbLE-Chat` → merged into `RaBbLE-World`.
   sCoRE absorbed `RaBbLE-Server` as an "Episode 3" subcomponent on 2026-05-06.
-- **sCoRE now deploys to Render** (pivoted from Railway at S58) — `spells/deploy-render.sh`
-  exists; Render deploy is Mark's manual step and remains an open EP1 blocker. The
-  `RaBbLE-Server` origin above was Railway-deployed; that lineage is historical only.
+- **sCoRE is LIVE on Render** (pivoted from Railway at S58; deployed S106) — managed via
+  `spells/render-ctl.sh` (Render REST API). See the **Deployment (Live — Render)** section
+  above for the service, env model, and runbook. The `RaBbLE-Server` origin above was
+  Railway-deployed; that lineage is historical only.
+- **The live service is a plain Web Service, not a Blueprint** — so `render.yaml` is not
+  synced (reference-only). It was created with zero env vars and `disk: null`; all env was
+  set via the API. Lesson: free tier rejects persistent disks — `render.yaml` had a
+  `plan: free` + `disk:` conflict (`render-ctl.sh preflight` catches it).
+- **`server/.venv` carried a pre-rename shebang** (`~/RaBbLE/RaBbLE-Server/...`) → `pip`
+  exit 126; rebuild the venv to fix (same rename-drift class as the S105 audit).
 - The DataCrawler RFC (Scavenger/Organizer/Librarian bot architecture), originally
   ideated in BaBbLE, is preserved here as a future sCoRE RFC — see
   `RaBbLE-sCoRE-DataCrawler-RFC.md`.

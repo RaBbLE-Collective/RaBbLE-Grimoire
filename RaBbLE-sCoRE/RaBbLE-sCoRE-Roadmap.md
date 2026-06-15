@@ -16,10 +16,10 @@ transcribe ~ grimoire >> sCoRE trajectory mapped // %TRAJECTORY_LOCKED%
 **Blocker:** None — MVP scope is straightforward
 
 **What ships:**
-- [ ] Groq/OpenRouter integration configured
-- [ ] Endpoint wired (receive query → call API → return response)
-- [ ] Deployed to Render
-- [ ] Version aligned to v0.0.0.1
+- [x] OpenRouter integration configured (Groq optional — OpenRouter covers all tiers)
+- [x] Endpoint wired (query → API → response) — `/api/v1/chat` SSE, verified end-to-end (browser + live)
+- [x] **Deployed to Render — LIVE** at `https://rabble-score-x7qq.onrender.com` (S106, 2026-06-15)
+- [ ] Version aligned to v0.0.0.1 (at Episode 1 air)
 
 **Deferred to Episode 2+:**
 - Multi-agent coordination
@@ -118,17 +118,16 @@ Events:
 ### Episode 1 — First Air `[pending]`
 
 **Version at air:** `v0.0.0.1`
-**Goal:** sCoRE is runnable end-to-end. Server deploys to Render. Harness verified. Tests pass. Versioning aligned to Collective.
+**Goal:** sCoRE is runnable end-to-end. Server deployed to Render. Harness verified. Tests pass. Versioning aligned to Collective.
 
 Exit conditions:
-- [ ] `harness/` path bug fixed — all scripts reference `server/` not `services/intelligence/`
-- [ ] `server/main.py` version string aligned to Five Es scheme
-- [ ] `server/api_test.py` (or `test_api.sh`) runs clean against local server
-- [ ] `harness/local.sh` starts server successfully
-- [ ] Render deploy attempted — `spells/deploy-render.sh` verified (Mark's manual step)
-- [ ] `RaBbLE-Grimoire/spells/deploy-score.sh` spell in place
+- [x] `harness/local.sh` starts server successfully (venv rename-drift fixed S106)
+- [x] **Render deploy — LIVE** via `spells/render-ctl.sh` (S106). `deploy-render.sh` superseded by `render-ctl.sh`; `deploy-score.sh` retired (never created).
+- [x] Chat verified end-to-end (browser + live curl) — entity `idle→thinking→speaking→idle`, sessions persist
+- [ ] `server/main.py` version string aligned to Five Es scheme (currently `v0.0.0.0`)
+- [ ] `server/api_test.py` (or `test_api.sh`) runs clean against the live server
 - [ ] CONTEXT.md versioning header updated to `v0.0.0.1` on air
-- [ ] Tagged `episode-1` on `main`
+- [ ] Tagged `episode-1` on `main` (Collective-wide, simultaneous)
 
 ---
 
@@ -150,6 +149,7 @@ Candidate Episode 3 focus: memory agent reads patterns before sCoRE delegates.
 | v0.1 | 2026-04-29 | Initial roadmap — Plot A scaffold |
 | v0.2 | 2026-05-06 | Plot C — server absorbed from RaBbLE-Server |
 | v0.3 | 2026-05-07 | Versioning realigned to Collective v0.0.0.0; Episode 1 defined |
+| v0.4 | 2026-06-15 | sCoRE LIVE on Render via `render-ctl.sh` (S106); Ep1 deploy + chat exit conditions met |
 
 ---
 

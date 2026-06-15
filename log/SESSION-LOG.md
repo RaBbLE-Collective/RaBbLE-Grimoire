@@ -9,8 +9,9 @@ Format: date, what was done, where things were left, what's next.
 
 **Phase:** Epoch 0 · Episode 1 in flight.
 **This session (S107):** Debugged the entity visuals. **2D (Canvas2D):** killed bokeh + flicker by giving every particle a crisp core (glow pass now only adds a halo, not the whole dot), shrank max size, tightened blur; strengthened the connection mesh and made portal glow stronger (two-pass bloom). **3D (Three.js):** fixed off-palette colors → palette neons, fixed the over-dense opaque blob (InstancedMesh can't do per-instance opacity → switched to additive blending + smaller/fewer particles), ported Grimoire-Graph layered eye-glow. **Wired the NeBuLA Demo L2 to `NeBuLA.ThreeJsBackend`** — NeBuLA is now the single entity renderer on all surfaces. Verified both via Playwright.
-**Blockers:** Render deploy needs Mark (mint `RENDER_API_KEY` + Blueprint service on new-horizons). CF Pages repoint · OS reboot QA still open. Three.js is a runtime CDN dep for Layer 2 (accepted for now — see NeBuLA Architecture doc).
-**Next:** Mark mints Render key → deploy → flip `config.js` to live URL → roll flip-point to remaining ~10 pages → surfaces (graph-as-docs, summon ceremony, OS sandbox).
+**sCoRE is LIVE (S106):** `https://rabble-score-x7qq.onrender.com` (Render free tier, tracks new-horizons, OpenRouter backend). Managed via `spells/render-ctl.sh`.
+**Blockers:** Live **UI** needs World prod deploy (CF Pages → joinrabble.world) + a guest/invite path for the chat jwt-gate. CF Pages repoint · OS reboot QA still open. Three.js is a runtime CDN dep for Layer 2 (accepted — see NeBuLA Architecture doc).
+**Next:** Deploy World (CF Pages) so the UI is live → guest/invite path for chat → roll flip-point to remaining ~10 pages → surfaces (graph-as-docs, summon ceremony, OS sandbox).
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
@@ -52,10 +53,11 @@ Format: date, what was done, where things were left, what's next.
 - **`render-ctl.sh`** (new canonical spell): Render REST API — setup/link/preflight/deploy(--wait)/status/logs/env-show/env-set/env-sync/open. `env-sync` pushes provider keys from `sCoRE/server/.env`. Superseded + removed `deploy-render.sh` (it stubbed env-set/logs). Resolves AUDITS gap #11. Verified syntax/help/preflight/env-sync --dry-run.
 - **`render.yaml` free-tier fix:** dropped disk block (free tier = no persistent disk), `DATA_DIR=/tmp/rabble-data` (server mkdirs it), added `LLM_FAST_CHAIN=openrouter:google/gemma-4-26b-a4b-it:free`. Preflight clean.
 - **OpenRouter key:** validated (free tier, usage 0); works locally (fast ~1s). Caveats: `:free` models rate-limit under load (medium hung once); `strong` (Claude Sonnet) needs credits.
+- **DEPLOYED LIVE (S106 cont.):** Mark registered the Render API key with `render-ctl`. sCoRE is **live on Render** — service `RaBbLE-sCoRE` (`srv-d8kdmam47okc739pqu90`), `https://rabble-score-x7qq.onrender.com`. Repointed branch `main`→`new-horizons`; pushed sCoRE `0a3fa66`; set full env via API (DEMO_MODE, OPENROUTER_API_KEY, generated JWT_SECRET, FRONTEND_URL, DATA_DIR=/tmp, LLM_FAST_CHAIN, PYTHON_VERSION); deployed + health OK; **first production entity reply logged** (RC1 #003). `config.js` PROD URL set to live. Discovered: the service is a plain Web Service (not Blueprint) so `render.yaml` is reference-only; env set via API. **Updated sCoRE Grimoire docs** (Architecture +Deployment section, Roadmap, Membership-API storage, INDEX).
 
-**Gotchas:** sCoRE `server/.venv` had a pre-rename shebang (`~/RaBbLE/...` → exit 126), rebuilt. `DEMO_MODE` gates auth (guest), not the LLM. CORS defaults to `*` when `FRONTEND_URL` unset. Email validator rejects reserved TLDs (`.test`/`.local`).
+**Gotchas:** sCoRE `server/.venv` had a pre-rename shebang (`~/RaBbLE/...` → exit 126), rebuilt. `DEMO_MODE` gates auth (guest), not the LLM. CORS defaults to `*` when `FRONTEND_URL` unset. Email validator rejects reserved TLDs (`.test`/`.local`). Render free tier: no persistent disk, sleeps after ~15min idle (~30–60s cold start).
 
-**Next:** Mark mints `RENDER_API_KEY` + creates service via Blueprint (branch new-horizons) → agent runs `link/env-sync/deploy --wait/status` → flip `config.js` to live URL → roll flip-point to remaining ~10 pages + make NeBuLA `<script>` config-driven (when subdomains land) → surfaces: graph-as-docs, summon ceremony, OS sandbox.
+**Next:** Live UI needs **World prod deploy** (CF Pages → joinrabble.world; pages already point at live sCoRE via `config.js`) + a **guest/invite path** for the chat page's jwt gate (EP1 invite-only) → roll flip-point to remaining ~10 pages + NeBuLA `<script>` config-driven (when subdomains land) → surfaces: graph-as-docs, summon ceremony, OS sandbox.
 
 ---
 

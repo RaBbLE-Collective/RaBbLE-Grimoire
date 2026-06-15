@@ -84,16 +84,16 @@ focus:
   RaBbLE-World:
     priority: active
     milestone: "joinrabble.world live: landing + chat wired to sCoRE"
-    status: "Active — Aether CDN integrated, NeBuLA entity rendering in NeBuLA, architecture clean"
+    status: "Active — chat→sCoRE→entity verified vs live backend (S106); flip-point config.js points prod→live sCoRE; NeBuLA unified 2D+3D renderer (S107)"
     episode_1_blocker: true
-    blocker_note: "Depends on sCoRE Render deploy + Aether/NeBuLA CDN versioned paths"
+    blocker_note: "Live UI pending: World prod deploy (CF Pages → joinrabble.world) + guest/invite path for chat jwt-gate. sCoRE dependency resolved."
 
   RaBbLE-sCoRE:
     priority: active
     milestone: "LLM endpoint deployed to Render (free tier), callable from World chat"
-    status: "Ready to deploy — render.yaml present, manual deploy via dashboard is Mark's task"
-    episode_1_blocker: true
-    blocker_note: "World chat cannot function without sCoRE endpoint"
+    status: "LIVE on Render (S106) — https://rabble-score-x7qq.onrender.com, tracks new-horizons, OpenRouter backend; managed via spells/render-ctl.sh"
+    episode_1_blocker: false
+    blocker_note: "Resolved S106 — sCoRE deployed and reachable; chat verified end-to-end"
 
   RaBbLE-ScRibLE:
     priority: deferred

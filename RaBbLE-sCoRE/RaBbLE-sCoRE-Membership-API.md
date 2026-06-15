@@ -289,23 +289,15 @@ def build_session_prompt(user: dict, workflow_type: str = "default") -> str:
 
 ---
 
-### `render.yaml`
+### Storage — ephemeral (free tier)
 
-Add persistent disk for data directory:
-
-```yaml
-services:
-  - type: web
-    name: rabble-score
-    # ... existing config ...
-    envVars:
-      # ... existing vars ...
-      DATA_DIR: "/opt/render/project/data"
-    disk:
-      name: rabble-data
-      mountPath: /opt/render/project/data
-      sizeGB: 1
-```
+> **The live service runs on Render's free tier, which has NO persistent disk.**
+> Data lives at `DATA_DIR=/tmp/rabble-data` and resets on restart/cold-sleep. Durable
+> client state lives in the browser (`localStorage`: `rabble_jwt`, `rabble_session_id`).
+> Persistent membership data (users/invites) needs an external store or a paid plan with a
+> disk — deferred. `render.yaml` is **reference-only** (the live service is a plain Web
+> Service, not a Blueprint); env is set via `spells/render-ctl.sh`. See
+> `RaBbLE-sCoRE-Architecture.md → Deployment (Live — Render)`.
 
 ---
 
