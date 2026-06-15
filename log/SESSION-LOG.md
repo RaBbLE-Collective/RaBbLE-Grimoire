@@ -8,9 +8,9 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-06-15 · Session 103 (EP1 readiness audit + 4-stream cleanup)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S103):** Full EP1 audit → `log/EP1-READINESS-AUDIT-S103.md`. Grimoire drift fixed (Railway→Render ×3, token counts, screenshot spell → captures/_inbox/). World given main/new-horizons treatment (main=stub, new-horizons=full 102-commit history rebased on; verified byte-identical to backup; branches pushed). BaBbLE captures inbox + filing + CLEANUP-PLAN. Aether-as-platform-theme plan delivered (Catppuccin Kvantum re-base recommended; jank = leftover Arc grays).
-**Blockers:** Awaiting Mark: Kvantum base confirm · World remote cleanup (delete origin/world, default→main) · OS reboot QA · CF Pages · Render deploy.
-**Next:** Execute Aether theme re-base → World page unification (liminal+grimoire+landing+summon) → harmonize remaining branches (Xperimental `master`) → RCs.
+**This session (S103):** Full EP1 audit → `log/EP1-READINESS-AUDIT-S103.md`. Grimoire drift fixed (Railway→Render ×3, token counts, screenshot spell → captures/_inbox/). World given main/new-horizons treatment (main=stub, new-horizons=full history rebased, byte-identical to backup; pushed; default→main, world deleted, history → Chrysalis `archive/world-history`). BaBbLE captures inbox + filing + CLEANUP-PLAN. **Aether-as-platform-theme executed**: Kvantum re-based on Catppuccin Mocha (MIT), recolored to Aether (QA gate: 0 orphan hexes); VSCodium absorbed into Aether; OS slimmed to selectors. World spine locked (liminal as EP1 front door → shell+grimoire+summon); liminal reframed + verified.
+**Blockers:** Awaiting Mark: **CF Pages prod-branch repoint** (was `world`) · **live theme deploy** (`layerctl apply --tags theming,vscode` on daily driver) · BaBbLE `historical/` move sign-off · OS reboot QA · Render deploy.
+**Next:** World page unification build (shell extraction → door set → grimoire browser graph+reader → summon flow) → harmonize Xperimental `master` → per-member RCs.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
@@ -25,9 +25,13 @@ Format: date, what was done, where things were left, what's next.
 - **Grimoire drift (committed):** Railway→Render in sCoRE-Architecture/Roadmap + Episode1 gist; gist token-count reconciled to ~1,700; `visual-screenshot.sh` default → `captures/_inbox/`; audit doc indexed. Collective root `AGENT.md` `~/RaBbLE/`→`~/RaBbLE-Collective/`.
 - **World branch treatment (committed + pushed):** backup tag `backup/world-pre-rewrite`; `main` rebuilt as stub (README+LICENSE+gitignore); 102-commit history rebased onto it as `new-horizons` (zero conflicts, byte-identical to backup). `main`+`new-horizons` pushed. **`origin/world` + GitHub default branch unchanged — awaiting Mark.**
 - **BaBbLE (committed):** `captures/_inbox/` staging dir (gitignored) + screenshot flow alignment; 11 loose captures filed into taxonomy; `CLEANUP-PLAN.md` for root consolidation (historical/→_archive proposed, awaiting sign-off).
-- **Aether-as-platform-theme (plan only):** confirmed jank = leftover Arc grays/blues in the recolored-KvArcDark SVG. Recommended **Catppuccin-Kvantum (MIT, Whiskers-templated)** as re-base (Sweet GPL fallback). Full migration plan: Aether `themes/{...}` holds all app artifacts incl. migrated VSCodium; OS → selectors only; orphan `OS/config/kvantum/RaBbLE-Aether/` deleted; gtk.css dead palette path fixed. Plan in audit follow-up.
+- **Aether-as-platform-theme (executed):** jank root-caused = leftover Arc grays in the recolored-KvArcDark SVG. Kvantum re-based on **Catppuccin/Kvantum (MIT)** Mocha-Lavender (pinned `71105d2`), recolored via saved `themes/_palette/{aether-kvantum.map,recolor.sh}`; **QA gate independently verified — 10 hexes, all within the 13-color palette, Arc grays gone**. VSCodium theme moved OS → `RaBbLE-Aether/themes/vscodium/`; `vscode.yml` repointed to `aether_repo_root`. OS slimmed to selectors: orphan `config/kvantum/RaBbLE-Aether/` + `config/vscodium/extensions/` deleted, dead dotctl bundle removed, gtk.css palette path fixed. Aether `439d515` · OS `a4e2b38`, both `new-horizons`, `main` untouched, **no live deploy run**.
+- **World unification (design + Phase-2 start):** canonical design `RaBbLE-World/RaBbLE-World-EP1-Unification.md`; spine = liminal as EP1 front door → WM shell + grimoire browser (graph+reader) + summon. Liminal reframed (threshold / episode 1), screenshot-verified. dev-serve + `visual-screenshot.sh --playwright` QA loop confirmed working (captures → `_inbox/`).
 
-**What's next:** Mark decisions (Kvantum base, World remote cleanup, BaBbLE historical move) → execute Aether re-base → World page unification → harmonize Xperimental `master` → per-member RCs.
+**Live deploy commands for Mark (Aether theme — run on daily driver, app-restart not relogin):**
+`RaBbLE-OS/RaBbLE-OS-layerctl.sh apply --tags theming` · `… --tags vscode` · `kvantummanager --set RaBbLE-Aether` (restart Qt apps + fully relaunch VSCodium).
+
+**What's next:** World page unification build (shell extraction → door set → grimoire browser → summon flow, with screenshot QA) → harmonize Xperimental `master` → per-member RCs.
 
 ---
 
