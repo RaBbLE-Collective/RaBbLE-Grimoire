@@ -55,7 +55,18 @@ while IFS= read -r filepath; do
   NODE_DIR["$rel"]="$dir"
   OUTGOING["$rel"]=0
   INCOMING["$rel"]=0
-done < <(find "$GRIMOIRE_ROOT" -name '*.md' -type f ! -path '*/log/grimoire-graph.md' | sort)
+done < <(find "$GRIMOIRE_ROOT" -name '*.md' -type f \
+          ! -path '*/log/grimoire-graph.md' \
+          ! -path '*/gist/*' | sort)
+# gist/ is excluded: those files are generated, standalone summaries — intentionally
+# unlinked, so they would otherwise swamp the orphan/island report with noise.
+
+# Entry-point docs are roots by design (an agent opens them directly, nothing links
+# in). Exempt them from the orphan/island reports so real disconnected docs surface.
+declare -A ENTRY_POINT
+for ep in AGENT.md CLAUDE.md CODEX.md GEMINI.md README.md INDEX.md CONTEXT.md REFERENCES.md SPELLS.md; do
+  ENTRY_POINT["$ep"]=1
+done
 
 EDGES=()
 
@@ -197,12 +208,13 @@ if [[ $total_nodes -gt 0 ]]; then
   printf "  ${CYAN}%-30s${RESET} %s\n" "Avg links per doc" "$avg"
 fi
 
-# Orphans (no incoming links, not INDEX.md)
+# Orphans (no incoming links) — entry-point docs are roots by design, skip them
 echo ""
-echo -e "${YELLOW}Orphan docs (no incoming links):${RESET}"
+echo -e "${YELLOW}Orphan docs (no incoming links — candidates to link from INDEX.md):${RESET}"
 orphan_count=0
 for rel in $(echo "${!NODE_DIR[@]}" | tr ' ' '\n' | sort); do
-  if [[ "${INCOMING[$rel]}" -eq 0 && "$rel" != "INDEX.md" ]]; then
+  base="$(basename "$rel")"
+  if [[ "${INCOMING[$rel]}" -eq 0 && -z "${ENTRY_POINT[$base]:-}" ]]; then
     echo -e "  ${MUTED}$rel${RESET}"
     ((orphan_count++)) || true
   fi
@@ -226,7 +238,8 @@ echo ""
 echo -e "${RED}Islands (no links at all):${RESET}"
 island_count=0
 for rel in $(echo "${!NODE_DIR[@]}" | tr ' ' '\n' | sort); do
-  if [[ "${INCOMING[$rel]}" -eq 0 && "${OUTGOING[$rel]}" -eq 0 ]]; then
+  base="$(basename "$rel")"
+  if [[ "${INCOMING[$rel]}" -eq 0 && "${OUTGOING[$rel]}" -eq 0 && -z "${ENTRY_POINT[$base]:-}" ]]; then
     echo -e "  ${RED}$rel${RESET}"
     ((island_count++)) || true
   fi

@@ -16,6 +16,7 @@ worktree_root: RaBbLE-World
 # Status
 epoch: 0
 status: active
+release_track: episode      # airs in Episode lockstep — tracks epoch active_branch
 
 # Grimoire
 grimoire_sync: true

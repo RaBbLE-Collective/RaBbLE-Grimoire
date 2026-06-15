@@ -7,7 +7,7 @@
 #   ./scripts/new-member.sh --slug RaBbLE-[Name] --role [substrate|server|frontend|tooling]
 #
 # What it does:
-#   1. Creates the project directory under ~/RaBbLE/
+#   1. Creates the project directory under ~/RaBbLE-Collective/
 #   2. Initializes git
 #   3. Scaffolds AGENT.md, CONTEXT.md, REFERENCES.md, workspace CONTEXT.md files
 #   4. Syncs core grimoire from RaBbLE-Collective
@@ -97,7 +97,7 @@ fi
 # 2. Create project directory structure
 # =============================================================================
 pulse "── Scaffolding structure"
-mkdir -p "$PROJECT_DIR"/{planning/specs,planning/decisions,src,grimoire/distilled,ops}
+mkdir -p "$PROJECT_DIR"/{planning/specs,planning/decisions,src,grimoire,ops}
 success "Directory structure created"
 
 # =============================================================================
@@ -108,7 +108,7 @@ cat > "$PROJECT_DIR/AGENT.md" << AGENT_EOF
 
 > This is the owner file. CLAUDE.md and CODEX.md are symlinks to this file.
 > RaBbLE Collective member. Identity, palette, and conventions inherited from:
-> \`~/RaBbLE/RaBbLE-Collective/\`
+> \`~/RaBbLE-Collective/RaBbLE-Grimoire/\` (the source of truth)
 >
 > Read this file first. Load additional context on demand.
 
@@ -171,10 +171,11 @@ ADRs:       planning/decisions/YYYY-MM-DD-[title].md
 
 | Need | Load From |
 |---|---|
-| Color values | \`~/RaBbLE/RaBbLE-Collective/grimoire/distilled/palette.distilled.md\` |
-| Commit format | \`~/RaBbLE/RaBbLE-Collective/grimoire/distilled/conventions.distilled.md\` |
-| Entity identity | \`~/RaBbLE/RaBbLE-Collective/grimoire/RaBbLE.md\` |
-| Phase milestones | \`~/RaBbLE/RaBbLE-Collective/grimoire/RaBbLE-Roadmap.md\` |
+| Quick orientation | \`~/RaBbLE-Collective/RaBbLE-Grimoire/gist/*.md\` (~1,700 tokens, all key docs) |
+| Color values | \`~/RaBbLE-Collective/RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Palette.md\` |
+| Commit format | \`~/RaBbLE-Collective/RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-CommitStyle.md\` |
+| Entity identity | \`~/RaBbLE-Collective/RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Identity.md\` |
+| Phase milestones | \`~/RaBbLE-Collective/RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Roadmap.md\` |
 
 ---
 
@@ -254,9 +255,10 @@ cat > "$PROJECT_DIR/REFERENCES.md" << REF_EOF
 
 ## Collective Reference
 
-- Identity: \`~/RaBbLE/RaBbLE-Collective/grimoire/RaBbLE.md\`
-- Palette: \`~/RaBbLE/RaBbLE-Collective/grimoire/distilled/palette.distilled.md\`
-- Conventions: \`~/RaBbLE/RaBbLE-Collective/grimoire/distilled/conventions.distilled.md\`
+- Orientation: \`~/RaBbLE-Collective/RaBbLE-Grimoire/gist/*.md\`
+- Identity: \`~/RaBbLE-Collective/RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Identity.md\`
+- Palette: \`~/RaBbLE-Collective/RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Palette.md\`
+- Conventions: \`~/RaBbLE-Collective/RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-CommitStyle.md\`
 REF_EOF
 success "REFERENCES.md created"
 
@@ -288,24 +290,12 @@ done
 success "Workspace CONTEXT.md files created"
 
 # =============================================================================
-# 7. Sync core grimoire
+# 7. Sync core grimoire (canonical mechanism — copies RaBbLE-Agent/ → grimoire/)
 # =============================================================================
 pulse "── Syncing core grimoire"
-bash "$GRIMOIRE_ROOT/spells/setup.sh" --project "$SLUG" --pull-only 2>/dev/null || true
-
-COLLECTIVE_GRIMOIRE_DOCS=(
-  "RaBbLE.md" "RaBbLE-Collective.md" "RaBbLE-Palette.md"
-  "RaBbLE-Roadmap.md" "CommitStyle.md" "KnownIssues.md" "DistilledNonZense.md"
-)
-for doc in "${COLLECTIVE_GRIMOIRE_DOCS[@]}"; do
-  src="$GRIMOIRE_ROOT/common/$doc"
-  [[ -f "$src" ]] && cp "$src" "$PROJECT_DIR/grimoire/$doc" && muted "  synced: $doc"
-done
-for doc in "$GRIMOIRE_ROOT/distilled/"*.md; do
-  [[ -f "$doc" ]] && cp "$doc" "$PROJECT_DIR/grimoire/distilled/$(basename "$doc")" \
-    && muted "  synced: distilled/$(basename "$doc")"
-done
-success "Core grimoire synced"
+bash "$GRIMOIRE_ROOT/spells/sync-grimoire.sh" --project "$SLUG" 2>/dev/null \
+  && success "Core grimoire synced via sync-grimoire.sh" \
+  || muted "  (run 'bash spells/sync-grimoire.sh --project $SLUG' once the repo has a remote)"
 
 # =============================================================================
 # 8. Create symlinks: CLAUDE.md → AGENT.md, CODEX.md → AGENT.md
@@ -332,11 +322,12 @@ role: ${ROLE}
 repo: ${REMOTE:-TBD}
 branch: main
 epoch_branch: ${EPOCH_BRANCH}
-worktree_root: ~/RaBbLE/${SLUG}
+worktree_root: ~/RaBbLE-Collective/${SLUG}
 
 phase: ${EPOCH}
 epoch: ${EPOCH}
 status: scaffold
+release_track: episode      # airs in Episode lockstep — tracks epoch active_branch (set 'independent' for sandbox/archive)
 
 grimoire_sync: true
 grimoire_path: grimoire/

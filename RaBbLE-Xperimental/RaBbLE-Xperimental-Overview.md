@@ -56,7 +56,7 @@ Xperimental is the Collective-level sandbox. Each Pair also has a personal Xperi
 ## GitHub
 
 Remote: `github.com/markm1206/RaBbLE-Xperimental` (new repo — creation pending Mark's GitHub action)
-Local: `~/RaBbLE/RaBbLE-Xperimental/` (scaffold pending GitHub repo creation)
+Local: `~/RaBbLE-Collective/RaBbLE-Xperimental/` (scaffold pending GitHub repo creation)
 
 ---
 

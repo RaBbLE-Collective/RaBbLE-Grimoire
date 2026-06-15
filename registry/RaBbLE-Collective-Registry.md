@@ -43,9 +43,9 @@ slug: RaBbLE-[Name]
 description: "One-line project description"
 role: substrate | server | frontend | tooling | experimental
 
-repo: https://github.com/markm1206/RaBbLE-[Name].git
+repo: git@github.com:RaBbLE-Collective/RaBbLE-[Name].git
 branch: main
-worktree_root: ~/RaBbLE/RaBbLE-[Name]
+worktree_root: ~/RaBbLE-Collective/RaBbLE-[Name]
 
 phase: 0
 epoch: 0

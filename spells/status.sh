@@ -16,8 +16,11 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
   echo ""
   echo "Usage: bash spells/status.sh"
   echo ""
-  echo "Shows: epoch, branch, git state, AGENT.md presence, symlink status"
-  echo "for every registered member in registry/manifests/."
+  echo "Shows: epoch, branch, git state, episode alignment (in-step / off-track),"
+  echo "AGENT.md presence, and symlink status for every member in registry/manifests/."
+  echo ""
+  echo "Alignment: members on 'release_track: episode' must sit on the epoch's"
+  echo "active_branch to be 'in-step'; 'release_track: independent' members are exempt."
   exit 0
 fi
 
@@ -48,27 +51,62 @@ get_manifest_field() {
 EPOCH_FILE="$GRIMOIRE_ROOT/registry/epochs/current.epoch.yml"
 EPOCH_NUM=$(grep "^epoch:" "$EPOCH_FILE" 2>/dev/null | awk '{print $2}' || echo "?")
 EPOCH_NAME=$(grep "^name:" "$EPOCH_FILE" 2>/dev/null | sed 's/^name:[[:space:]]*//' | tr -d '"' || echo "Unknown")
+EPISODE_PENDING=$(grep "^episode_pending:" "$EPOCH_FILE" 2>/dev/null | awk '{print $2}' || echo "?")
+ACTIVE_BRANCH=$(grep "^active_branch:" "$EPOCH_FILE" 2>/dev/null | sed 's/^active_branch:[[:space:]]*//' | tr -d '"' || echo "")
+
+# Collect off-track members for an end-of-report summary.
+OFF_TRACK=()
+
+# Resolve a manifest worktree_root to an absolute path.
+#   ~/...      → $HOME/...
+#   relative   → $RABBLE_ROOT/<relative>   (members are nested in the Collective root)
+#   empty / —  → $RABBLE_ROOT/<slug>
+resolve_dir() {
+  local wt="$1" slug="$2" dir
+  dir="${wt/#\~/$HOME}"
+  if [[ -z "$dir" || "$dir" == "—" ]]; then
+    dir="$RABBLE_ROOT/$slug"
+  elif [[ "$dir" != /* ]]; then
+    dir="$RABBLE_ROOT/$dir"
+  fi
+  echo "$dir"
+}
+
+# In-step marker for a member.
+#   release_track=independent → exempt (sandbox/archive)
+#   release_track=episode     → must be on $ACTIVE_BRANCH, else off-track
+align_marker() {
+  local track="$1" actual="$2"
+  if [[ "$track" == "independent" ]]; then
+    echo -e "${MUTED}indep${RESET}"
+  elif [[ -z "$ACTIVE_BRANCH" || "$actual" == "$ACTIVE_BRANCH" ]]; then
+    echo -e "${GREEN}in-step${RESET}"
+  else
+    echo -e "${RED}off-track${RESET}"
+  fi
+}
 
 echo ""
 pulse "RaBbLE-Grimoire — Status"
 pulse "════════════════════════════════════════════════════════"
-info "  Epoch ${EPOCH_NUM}: ${EPOCH_NAME}"
+info "  Epoch ${EPOCH_NUM}: ${EPOCH_NAME}  ·  Episode ${EPISODE_PENDING} pending  ·  active branch: ${ACTIVE_BRANCH:-—}"
 echo ""
 
 # Header row
-printf "${CYAN}  %-22s %-22s %-10s %-8s %-12s${RESET}\n" \
-  "Project" "Branch" "State" "Epoch" "Grimoire"
-printf "${MUTED}  %-22s %-22s %-10s %-8s %-12s${RESET}\n" \
-  "────────────────────" "────────────────────" "────────" "──────" "──────────"
+printf "${CYAN}  %-20s %-16s %-8s %-11s %-12s${RESET}\n" \
+  "Project" "Branch" "State" "Align" "Grimoire"
+printf "${MUTED}  %-20s %-16s %-8s %-11s %-12s${RESET}\n" \
+  "──────────────────" "──────────────" "──────" "─────────" "──────────"
 
-# Grimoire itself
+# Grimoire itself — canonical; tracks the active branch like any lockstep member
 branch=$(git -C "$GRIMOIRE_ROOT" branch --show-current 2>/dev/null || echo "unknown")
 modified=$(git -C "$GRIMOIRE_ROOT" status --porcelain 2>/dev/null | wc -l | tr -d ' ')
 [[ "$modified" == "0" ]] \
   && state="${GREEN}clean${RESET}" \
   || state="${VIOLET}~${modified}${RESET}"
-printf "  %-22s %-22s " "RaBbLE-Grimoire" "$branch"
-echo -e "${state}         ${EPOCH_NUM}       ${CYAN}canonical${RESET}"
+printf "  %-20s %-16s %b      %b   ${CYAN}canonical${RESET}\n" \
+  "RaBbLE-Grimoire" "$branch" "$state" "$(align_marker episode "$branch")"
+[[ -n "$ACTIVE_BRANCH" && "$branch" != "$ACTIVE_BRANCH" ]] && OFF_TRACK+=("RaBbLE-Grimoire ($branch)")
 
 # Project modules from manifests
 if [[ -d "$MANIFESTS_DIR" ]]; then
@@ -77,17 +115,13 @@ if [[ -d "$MANIFESTS_DIR" ]]; then
     [[ "$manifest" == *"_template"* ]] && continue
 
     slug=$(get_manifest_field "$manifest" "slug")
-    status=$(get_manifest_field "$manifest" "status")
-    epoch=$(get_manifest_field "$manifest" "epoch")
+    track=$(get_manifest_field "$manifest" "release_track")
+    track="${track%%#*}"; track="${track// /}"   # strip inline comment + spaces
     worktree_root=$(get_manifest_field "$manifest" "worktree_root")
-    project_dir="${worktree_root/#\~/$HOME}"
-    if [[ -z "$project_dir" || "$project_dir" == "—" ]]; then
-      project_dir="$RABBLE_ROOT/$slug"
-    fi
+    project_dir="$(resolve_dir "$worktree_root" "$slug")"
 
     if [[ ! -d "$project_dir/.git" ]]; then
-      printf "  %-22s %-22s " "$slug" "—"
-      echo -e "${YELLOW}not cloned${RESET}   $epoch       —"
+      printf "  %-20s %-16s ${YELLOW}%-8s${RESET} %-11s —\n" "$slug" "—" "uncloned" ""
       continue
     fi
 
@@ -97,23 +131,25 @@ if [[ -d "$MANIFESTS_DIR" ]]; then
       && state="${GREEN}clean${RESET}" \
       || state="${VIOLET}~${modified}${RESET}"
 
-    # Check if project has AGENT.md (proxy for being wired into Collective)
+    # AGENT.md presence = wired into the Collective
     if [[ -f "$project_dir/AGENT.md" ]]; then
       grimoire_state="${GREEN}wired${RESET}"
     else
-      grimoire_state="${RED}missing AGENT.md${RESET}"
+      grimoire_state="${RED}no AGENT.md${RESET}"
     fi
 
-    # Check symlinks
     symlink_ok=true
     [[ -L "$project_dir/CLAUDE.md" ]] || symlink_ok=false
     [[ -L "$project_dir/CODEX.md" ]]  || symlink_ok=false
 
-    printf "  %-22s %-22s " "$slug" "$branch"
-    echo -e "${state}   $epoch       ${grimoire_state}"
+    printf "  %-20s %-16s %b      %b   %b\n" \
+      "$slug" "$branch" "$state" "$(align_marker "$track" "$branch")" "$grimoire_state"
 
+    if [[ "$track" != "independent" && -n "$ACTIVE_BRANCH" && "$branch" != "$ACTIVE_BRANCH" ]]; then
+      OFF_TRACK+=("$slug ($branch, expected $ACTIVE_BRANCH)")
+    fi
     if [[ "$symlink_ok" == "false" ]]; then
-      echo -e "${YELLOW}    ⚠ Symlinks need setup — run: ./setup.sh --project $slug${RESET}"
+      echo -e "${YELLOW}    ⚠ Symlinks missing — run: bash spells/sync-symlinks.sh${RESET}"
     fi
   done
 fi
@@ -121,18 +157,33 @@ fi
 echo ""
 pulse "────────────────────────────────────────────────────────"
 
-# Open issues count
-if [[ -f "$GRIMOIRE_ROOT/common/RaBbLE-Collective-KnownIssues.md" ]]; then
-  open_issues=$(grep -c "\[OPEN\]" "$GRIMOIRE_ROOT/common/RaBbLE-Collective-KnownIssues.md" 2>/dev/null || echo "0")
-  info "  Open issues:    $open_issues (common/RaBbLE-Collective-KnownIssues.md)"
+# Episode alignment summary — the "moving toward episodes in step" check
+if [[ ${#OFF_TRACK[@]} -eq 0 ]]; then
+  info "  Episode alignment:  ${GREEN}all lockstep members in step on ${ACTIVE_BRANCH}${RESET}"
+else
+  echo -e "${RED}  Episode alignment:  ${#OFF_TRACK[@]} member(s) off-track${RESET}"
+  for m in "${OFF_TRACK[@]}"; do
+    echo -e "${YELLOW}    ⚠ $m${RESET}"
+  done
+fi
+
+# Episode-1 blockers declared in the epoch focus map
+BLOCKERS=$(awk '
+  /^  [A-Za-z][A-Za-z-]*:[[:space:]]*$/ { m=$1; sub(/:$/,"",m); next }
+  /episode_1_blocker:[[:space:]]*true/  { print m }
+' "$EPOCH_FILE" 2>/dev/null | paste -sd, - | sed 's/,/, /g')
+if [[ -n "$BLOCKERS" ]]; then
+  echo -e "${YELLOW}  Episode ${EPISODE_PENDING} blockers:  ${BLOCKERS}${RESET}"
+else
+  info "  Episode ${EPISODE_PENDING} blockers:  none declared"
 fi
 
 # Palette version
 palette_version=$(grep "^palette_version" "$MANIFESTS_DIR"/*.manifest.yml 2>/dev/null \
   | awk -F'"' '{print $2}' | sort -u | tr '\n' ' ' || echo "—")
-info "  Palette ver:    ${palette_version}(check RaBbLE-Palette.md for current)"
+info "  Palette ver:        ${palette_version}(source: RaBbLE-Agent/RaBbLE-Palette.md)"
 
 echo ""
-muted "  Run ./setup.sh to wire any missing symlinks or pull stale projects."
-muted "  Run ./spells/sync-grimoire.sh to push grimoire updates to all projects."
+muted "  Run bash spells/setup.sh to clone/pull members and wire symlinks."
+muted "  Run bash spells/sync-grimoire.sh to push Grimoire updates to members."
 echo ""

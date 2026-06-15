@@ -3,13 +3,14 @@ slug: RaBbLE-OS
 description: "The Ansible-driven Linux OS substrate — the body RaBbLE moves through."
 role: substrate
 
-repo: https://github.com/markm1206/RaBbLE-OS.git
+repo: git@github.com:RaBbLE-Collective/RaBbLE-OS.git
 branch: main
 worktree_root: RaBbLE-OS
 
 phase: 0
 epoch: 0
 status: active
+release_track: episode      # airs in Episode lockstep — tracks epoch active_branch
 
 grimoire_sync: false
 grimoire_path: grimoire/

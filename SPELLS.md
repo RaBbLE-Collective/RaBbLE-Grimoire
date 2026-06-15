@@ -13,27 +13,58 @@ Spells are bash scripts in `spells/` that manage the RaBbLE Collective. Grimoire
 
 ## Quick Reference
 
+**Coordination & setup**
+
 | Spell | Purpose | When to use |
 |---|---|---|
 | `help.sh` | List all spells with descriptions | Orienting — what's available |
-| `status.sh` | Collective health dashboard | Start of session — check member states |
+| `status.sh` | Health dashboard: branch, git state, **episode alignment**, symlinks | Start of session — check member states & in-step status |
 | `setup.sh` | Bootstrap: clone repos, wire symlinks | Fresh machine or new member added |
 | `sync-symlinks.sh` | Create CLAUDE.md/CODEX.md/GEMINI.md → AGENT.md | After adding a repo or fixing broken links |
 | `sync-grimoire.sh` | Push Grimoire docs to member `grimoire/` dirs | After updating shared RaBbLE-Agent/ docs |
-| `init-project.sh` | Scaffold a new Collective member | Creating a new repo |
-| `dev-serve.sh` | Launch local dev environment (Aether+NeBuLA+World on :8080) | Development — always use this, not manual servers |
+| `init-project.sh` | Scaffold a new Collective member + manifest | Creating a new repo |
+| `install-hooks.sh` | Install the post-commit breadcrumb hook in all repos | Once per machine / after cloning a new member |
+
+**Development**
+
+| Spell | Purpose | When to use |
+|---|---|---|
+| `dev-serve.sh` | Launch local dev (Aether+NeBuLA+World on :8080) | Development — always use this, not manual servers |
+| `visual-screenshot.sh` | Capture browser screenshot for agent visual review | Verifying UI changes — agent sees the PNG |
+| `install-theme.sh` | Install RaBbLE theme on OS | RaBbLE-OS theming setup |
+
+> sCoRE runs locally via its own `RaBbLE-sCoRE/spells/local-start.sh` (:8000) — a member
+> spell, not a Grimoire spell. See the Development section below.
+
+**Build, CDN & member deployment**
+
+| Spell | Purpose | When to use |
+|---|---|---|
 | `cast-aether.sh` | Build + stage Aether CSS to World | After Aether CSS changes, before testing in World |
 | `cast-cdn.sh` | Build all + deploy to joinrabble.world via wrangler | Production deploy |
-| `deploy-score.sh` | Deploy sCoRE to Railway | sCoRE deploy |
-| *(sCoRE)* `local-start.sh` | Start sCoRE API server locally on :8000 | Local chat dev — run before opening RaBbLE-Chat |
+| `publish-cdn.sh` | Build + publish Aether & NeBuLA to CDN subdomains (CF Pages, free tier) | Publishing versioned CDN bundles |
+| `member-ctl.sh` | Unified member deploy control (setup/publish/status/monitor) | One entry point for Aether/NeBuLA/World/sCoRE deploys |
+| `publish-rc.sh` | Create RC branch, build, tag, publish to CDN (automated) | Cutting a release candidate for a member |
+| `deploy-member.sh` | Full member RC → CDN pipeline | Lower-level pipeline used by `member-ctl.sh` |
+| `create-member-workflow.sh` | Generate + commit `.github/workflows/deploy.yml` | Wiring CI deploy for a member repo |
+| `cloudflare-ctl.sh` | Unified Cloudflare control (R2, Workers, CDN, secrets) | Any Cloudflare infra operation |
+| `setup-cloudflare-r2.sh` | One-time R2 + CDN setup (autonomous, no dashboard) | Initial Episode-1 CDN infrastructure |
+| `deploy-render.sh` | Deploy **sCoRE** to Render (current cloud target) | sCoRE cloud deploy |
+| `deploy-railway.sh` · `railway-ctl.sh` · `deploy-score.sh` | Railway-era sCoRE deploy (**superseded by Render**) | Legacy — retained from earlier exploration |
+
+**Docs, analytics & episode**
+
+| Spell | Purpose | When to use |
+|---|---|---|
 | `distill-gists.sh` | Regenerate gist/ summaries via Claude CLI | After major doc changes |
-| `install-theme.sh` | Install RaBbLE theme on OS | RaBbLE-OS theming setup |
-| `visual-screenshot.sh` | Capture browser screenshot for agent visual review | Verifying UI changes — agent sees the PNG |
+| `graph-grimoire.sh` | Build doc link graph (JSON + Mermaid); report orphans/hubs/islands | Auditing cross-links, finding disconnected docs |
 | `token-budget.sh` | Calculate token cost of onboarding paths | Auditing doc bloat, optimizing agent context |
-| `graph-grimoire.sh` | Build doc link graph (JSON + Mermaid) | Auditing cross-links, finding orphan docs |
-| `session-tokens.sh` | Parse Claude Code transcripts for usage data | Tracking token spend per session/project |
+| `session-tokens.sh` | Parse agent transcripts for token usage | Tracking token spend per session/project |
 | `end-session.sh` | Record end-of-session feature breadcrumb (agent-agnostic) | Closing a session — tag its token spend |
-| `install-hooks.sh` | Install the post-commit breadcrumb hook in all repos | Once per machine / after cloning a new member |
+| `seal-episode.sh` | Episode signing ceremony (DRAFT — needs Collective account) | Tagging an episode across the Collective |
+
+> Helper scripts (not run directly): `dev-cdn.js`, `playwright-capture.mjs` are invoked by
+> `dev-serve.sh` / `visual-screenshot.sh`.
 
 ---
 
@@ -105,7 +136,7 @@ Installs Python deps and starts the sCoRE FastAPI server with hot-reload. Run th
 
 ```bash
 # Cast from sCoRE root
-cd ~/RaBbLE/RaBbLE-sCoRE && bash spells/local-start.sh
+cd ~/RaBbLE-Collective/RaBbLE-sCoRE && bash spells/local-start.sh
 ```
 
 **Port:** `8000` (or `$PORT` from `server/.env`). Runs on `:8000` — World dev server uses `:8080`, so they coexist.
@@ -129,9 +160,9 @@ sCoRE falls through the chain automatically — if CC isn't running, it tries th
 ```bash
 # Terminal 1 — CC local API (your existing workflow)
 # Terminal 2 — sCoRE
-cd ~/RaBbLE/RaBbLE-sCoRE && bash spells/local-start.sh
+cd ~/RaBbLE-Collective/RaBbLE-sCoRE && bash spells/local-start.sh
 # Terminal 3 — World
-cd ~/RaBbLE/RaBbLE-World && bash ../RaBbLE-Grimoire/spells/dev-serve.sh
+cd ~/RaBbLE-Collective/RaBbLE-World && bash ../RaBbLE-Grimoire/spells/dev-serve.sh
 # Browser
 open http://localhost:8080/world/RaBbLE-Chat.html
 ```
@@ -176,12 +207,14 @@ Builds Aether + NeBuLA, stages into World, deploys to `joinrabble.world` via Wra
 bash spells/cast-cdn.sh
 ```
 
-### `deploy-score.sh` — Deploy sCoRE to Railway
+### sCoRE cloud deploy — `deploy-render.sh` (current)
 
-Wraps `RaBbLE-sCoRE/harness/` with Grimoire-level awareness. Pushes to Railway production.
+sCoRE's Episode-1 cloud target is **Render** (free tier). `deploy-render.sh` manages it
+via CLI — no dashboard. The Railway-era spells (`deploy-railway.sh`, `railway-ctl.sh`,
+`deploy-score.sh`) are **superseded** and kept only as a record of earlier exploration.
 
 ```bash
-bash spells/deploy-score.sh
+bash spells/deploy-render.sh        # see --help for subcommands
 ```
 
 **Note:** For local dev use `RaBbLE-sCoRE/spells/local-start.sh` instead — see Development section above.

@@ -19,6 +19,7 @@ worktree_root: RaBbLE-Chrysalis
 phase: 0
 epoch: 0
 status: genesis-archive
+release_track: independent  # sandbox/archive — not in Episode lockstep, uses own branch
 
 # Grimoire
 grimoire_sync: false

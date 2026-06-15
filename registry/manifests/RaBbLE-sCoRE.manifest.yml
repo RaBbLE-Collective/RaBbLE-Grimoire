@@ -21,6 +21,7 @@ echo: 0
 episode: 0
 episode_name: "First Air (pending)"
 status: active
+release_track: episode      # airs in Episode lockstep — tracks epoch active_branch
 
 # Grimoire
 grimoire_sync: true

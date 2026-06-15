@@ -5,15 +5,45 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-15 · Session 103/104 (World EP1 unification built; commit dates restored)
+## LATEST — 2026-06-15 · Session 105 (Grimoire audit — drift caught, state-tracking hardened)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**Latest (S103 World unification):** **World EP1 site unified** — liminal promoted to the front door (`/`), WM shell → `/world/RaBbLE-Shell.html`, doors rewired to the spine (the summoning → summon · the collective → platform shell · graph↔codex = grimoire browser · OS/NeBuLA organs), all surfaces share threshold nav, paths made absolute. **Aether-first alignment:** shell's divergent palette + Grimoire/chat neon → Aether tokens, `--yellow/--red` aliases added; live surfaces verified stray-free by screenshot. Aether OS theme deployed live & confirmed clean.
-**Earlier (S104):** World commit dates restored losslessly (committer:=author), byte-identical content, both branches force-pushed.
-**Blockers:** Awaiting Mark: **CF Pages prod-branch repoint** (was `world`) · BaBbLE reorg sign-off (`log/S104-BABBLE-CAPTURES-GIT-REORG-PLAN.md`) · OS reboot QA · Render deploy. (Live theme deploy ✓ done.)
-**Next:** grimoire-browser deeper cohesion + shared-shell/CSS consolidation → harmonize Xperimental `master` → committer:=author date fix on other S101-treated repos → per-member RCs.
+**This session (S105):** Grimoire audit + doc-drift sweep. Fixed `status.sh` (was showing every member "not cloned" — relative `worktree_root` resolved wrong) and rebuilt it with an **episode-alignment** view (in-step/off-track/independent + blocker surfacing). Fixed `sync-grimoire.sh` (silent no-op: sourced from dead `common/`/`distilled/` → now `RaBbLE-Agent/` + `gist/`). New alignment mechanism: `active_branch` in the epoch + `release_track` per manifest. Swept stale `~/RaBbLE/`→`~/RaBbLE-Collective/` paths, stale `markm1206` remotes → org. Refreshed `SPELLS.md` (11 missing spells, Railway→Render). `graph-grimoire.sh` now excludes gists/entry-points → real orphans surface. Wired World's missing CLAUDE/CODEX symlinks; renamed Xperimental `master`→`main`.
+**Blockers:** Awaiting Mark: **CF Pages prod-branch repoint** (was `world`) · BaBbLE reorg sign-off (`log/S104-BABBLE-CAPTURES-GIT-REORG-PLAN.md`) · OS reboot QA · Render deploy.
+**Next:** link `RaBbLE-World-EP1-Unification.md` from INDEX (last real orphan) → consider deprecating/condensing the duplicate Railway sCoRE spells → per-member RCs → committer:=author date fix on other S101-treated repos.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-15 (Session 105) — Grimoire audit: doc drift + state-tracking hardening
+
+**Repos touched:** RaBbLE-Grimoire (spells, registry, docs), RaBbLE-World (symlinks via sync), RaBbLE-Xperimental (branch rename).
+
+**Why:** Mark asked for a Grimoire audit — catch doc drift, verify member coherence, surface undocumented areas, make the graph useful, and strengthen member setup + episode-alignment state-tracking.
+
+**Broken machinery found & fixed (these were silently failing):**
+- `spells/status.sh` reported **every member "not cloned"** — relative `worktree_root` (e.g. `RaBbLE-Aether`) was treated as CWD-relative instead of resolved against the Collective root. Added `resolve_dir()`. Rebuilt the dashboard with an **episode-alignment column** (in-step / off-track / independent), an alignment summary, and an Episode-1 blocker readout parsed from the epoch focus map. Removed dead `common/RaBbLE-Collective-KnownIssues.md` reference.
+- `spells/sync-grimoire.sh` was a **no-op** — sourced docs from `$GRIMOIRE_ROOT/common/` and `/distilled/`, neither of which exists post-rename. Repointed to `RaBbLE-Agent/` + `gist/`. (Most `grimoire_sync:true` members have no `grimoire/` dir — they reference the Grimoire directly per the never-duplicate rule; only bundled members like sCoRE receive a copy.)
+- `spells/init-project.sh` scaffolded new members with dead paths (`grimoire/distilled/*.distilled.md`, `common/`) and a doubled `~/RaBbLE-Collective/RaBbLE-Collective/` path. Repointed to current structure + gist orientation; generated manifest now emits `release_track`.
+
+**New alignment mechanism (the "in step" tracker Mark wanted):**
+- `registry/epochs/current.epoch.yml` → added `active_branch: new-horizons` (pre-episode convergence branch).
+- Every manifest → added `release_track: episode|independent`. `status.sh` flags any `episode` member not on `active_branch` as **off-track**; `independent` (Chrysalis archive, Xperimental sandbox) are exempt.
+
+**Doc drift swept:**
+- `~/RaBbLE/` → `~/RaBbLE-Collective/` across docs/configs/spells (Mythos fiction captures left as point-in-time snapshots).
+- Stale `markm1206/*` remotes → `RaBbLE-Collective` org in OS/BaBbLE/Xperimental manifests, `_template`, registry doc, Collective manifest (`repo` + `worktree_root`). Chrysalis left on `markm1206` (manifest matches its actual remote).
+- `SPELLS.md` refreshed: was missing 11 real spells + listed a phantom `local-start.sh`; corrected sCoRE deploy Railway→Render (legacy Railway spells marked superseded).
+- `graph-grimoire.sh` now excludes generated `gist/` and entry-point docs from orphan/island reports → noise dropped from 12 to 2 real disconnected docs.
+
+**Member coherence actions:**
+- Wired World's missing `CLAUDE.md`/`CODEX.md` symlinks (`sync-symlinks.sh`).
+- Renamed Xperimental default branch `master` → `main` (local-only, no remote) to match its manifest + Collective convention.
+
+**Verified:** `status.sh` shows all 7 lockstep members in-step on `new-horizons`, Chrysalis/Xperimental independent, blockers = World + sCoRE. All edited spells pass `bash -n`.
+
+**Remaining (flagged, not done):** `RaBbLE-World-EP1-Unification.md` is a real orphan (link it from INDEX); the duplicate Railway sCoRE spells could be condensed; the "sync docs into member grimoire/ dirs" model vs "reference Grimoire directly" tension is worth a deliberate decision.
 
 ---
 

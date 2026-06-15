@@ -25,7 +25,7 @@ This distinction is load-bearing. The Collective does not produce a product. It 
 Its only jobs:
 1. Declare what RaBbLE is and who the Collective is (identity layer)
 2. Bootstrap the rest of the ecosystem from nothing (entry spell)
-3. Serve as the `~/RaBbLE/` working directory root on any machine
+3. Serve as the `~/RaBbLE-Collective/` working directory root on any machine
 
 It does not hold code, configs, or docs beyond the entry layer. The **Grimoire** is the knowledge layer. The **Collective** is the door.
 
@@ -39,14 +39,14 @@ joinrabble.world/setup.sh          ← public entry point
       ▼
 curl -fsSL joinrabble.world/setup.sh | bash
       │
-      ├── mkdir -p ~/RaBbLE/
-      ├── git clone RaBbLE-Collective  → ~/RaBbLE/     (root becomes the repo)
-      ├── git clone RaBbLE-Grimoire    → ~/RaBbLE/RaBbLE-Grimoire/
+      ├── mkdir -p ~/RaBbLE-Collective/
+      ├── git clone RaBbLE-Collective  → ~/RaBbLE-Collective/     (root becomes the repo)
+      ├── git clone RaBbLE-Grimoire    → ~/RaBbLE-Collective/RaBbLE-Grimoire/
       │
-      └── ~/RaBbLE/RaBbLE-Grimoire/spells/setup.sh
+      └── ~/RaBbLE-Collective/RaBbLE-Grimoire/spells/setup.sh
               │
               ├── reads registry/manifests/*.manifest.yml
-              ├── clones each member repo → ~/RaBbLE/RaBbLE-*/
+              ├── clones each member repo → ~/RaBbLE-Collective/RaBbLE-*/
               ├── sets up CLAUDE.md → AGENT.md symlinks in each
               └── wires grimoire/ symlink in each member
 ```
@@ -61,9 +61,9 @@ curl -fsSL joinrabble.world/setup.sh | bash
 
 ```
 markm1206/RaBbLE-Collective (GitHub)
-maps to: ~/RaBbLE/ (root working directory on any machine)
+maps to: ~/RaBbLE-Collective/ (root working directory on any machine)
 
-~/RaBbLE/
+~/RaBbLE-Collective/
 ├── AGENT.md          — ecosystem entry for agents; what RaBbLE is
 ├── README.md         — human-facing overview and bootstrap instructions
 ├── CONTEXT.md        — current Collective epoch/state (mirrors Grimoire status)

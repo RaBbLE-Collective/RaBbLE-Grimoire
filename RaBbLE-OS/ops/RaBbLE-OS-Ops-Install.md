@@ -19,14 +19,14 @@ Automated VM install via `vmctl cast-ks`. The KS file drives the entire flow.
 The KS `%post` sets up the canonical Collective directory structure, but only clones what the OS needs:
 
 ```
-~/RaBbLE/                  ← Collective root (cloned)
-~/RaBbLE/RaBbLE-Grimoire/  ← knowledge layer (cloned)
-~/RaBbLE/RaBbLE-OS/        ← OS member (cloned, specific branch)
+~/RaBbLE-Collective/                  ← Collective root (cloned)
+~/RaBbLE-Collective/RaBbLE-Grimoire/  ← knowledge layer (cloned)
+~/RaBbLE-Collective/RaBbLE-OS/        ← OS member (cloned, specific branch)
 ```
 
 Other members (World, NeBuLA, sCoRE, etc.) are NOT cloned — they aren't needed for the OS install and would waste time/bandwidth during firstboot. The user can run the full Collective bootstrap later to expand.
 
-**Why not clone just RaBbLE-OS?** The Collective is the canonical entry point. Placing RaBbLE-OS inside `~/RaBbLE/` (not `~/RaBbLE-OS/`) means a later `bootstrap.sh` run won't conflict or create duplicates. The Grimoire is included because Bootstrap roles may reference palette or config docs.
+**Why not clone just RaBbLE-OS?** The Collective is the canonical entry point. Placing RaBbLE-OS inside `~/RaBbLE-Collective/` (not `~/RaBbLE-OS/`) means a later `bootstrap.sh` run won't conflict or create duplicates. The Grimoire is included because Bootstrap roles may reference palette or config docs.
 
 ### KS Delivery Decision (S37)
 
@@ -52,7 +52,7 @@ url --mirrorlist=https://mirrors.fedoraproject.org/mirrorlist?repo=fedora-44&arc
 ### VM Command
 
 ```bash
-cd ~/RaBbLE/RaBbLE-OS
+cd ~/RaBbLE-Collective/RaBbLE-OS
 sudo ./RaBbLE-OS-vmctl.sh cast-ks ISO/Fedora-Everything-netinst-x86_64-44-1.7.iso
 ```
 

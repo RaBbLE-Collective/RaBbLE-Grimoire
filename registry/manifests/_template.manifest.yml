@@ -9,7 +9,7 @@ description: "[One-line project description]"
 role: substrate                    # substrate | server | frontend | tooling | experimental
 
 # Repository
-repo: https://github.com/markm1206/RaBbLE-[Name].git
+repo: git@github.com:RaBbLE-Collective/RaBbLE-[Name].git
 branch: main
 worktree_root: RaBbLE-[Name]
 

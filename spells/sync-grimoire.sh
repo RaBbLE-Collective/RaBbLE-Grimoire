@@ -44,8 +44,11 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# Grimoire common docs — synced to every project that opts in (grimoire_sync: true)
-# These live in $GRIMOIRE_ROOT/common/ and are pushed to $project/grimoire/
+# Shared Grimoire docs — synced to projects that opt in (grimoire_sync: true) AND
+# keep a local grimoire/ dir (e.g. a member that bundles docs for cloud deploy where
+# the Grimoire repo isn't checked out). Most members reference the Grimoire directly
+# at ~/RaBbLE-Collective/RaBbLE-Grimoire/ and need no copy — those are skipped below.
+# Source of truth lives in $GRIMOIRE_ROOT/RaBbLE-Agent/ ; gists in $GRIMOIRE_ROOT/gist/.
 COMMON_DOCS=(
   "RaBbLE-Identity.md"
   "RaBbLE-Palette.md"
@@ -80,7 +83,7 @@ sync_to_project() {
   pulse "── $slug"
 
   for doc in "${COMMON_DOCS[@]}"; do
-    local src="$GRIMOIRE_ROOT/common/$doc"
+    local src="$GRIMOIRE_ROOT/RaBbLE-Agent/$doc"
     local dst="$project_grimoire/$doc"
 
     [[ -f "$src" ]] || { muted "  source missing: $doc"; continue; }
@@ -98,9 +101,9 @@ sync_to_project() {
     fi
   done
 
-  # Sync distilled docs
-  local distilled_src="$GRIMOIRE_ROOT/distilled"
-  local distilled_dst="$project_grimoire/distilled"
+  # Sync gist/ summaries (the low-token distilled docs)
+  local distilled_src="$GRIMOIRE_ROOT/gist"
+  local distilled_dst="$project_grimoire/gist"
   if [[ -d "$distilled_src" ]]; then
     mkdir -p "$distilled_dst"
     for doc in "$distilled_src"/*.md; do
@@ -110,10 +113,10 @@ sync_to_project() {
       local dst_doc="$distilled_dst/$fname"
       if [[ ! -f "$dst_doc" ]] || [[ "$doc" -nt "$dst_doc" ]]; then
         if [[ "$DRY_RUN" == true ]]; then
-          dry "would sync: distilled/$fname"
+          dry "would sync: gist/$fname"
         else
           cp "$doc" "$dst_doc"
-          muted "  synced: distilled/$fname"
+          muted "  synced: gist/$fname"
         fi
         synced=$((synced + 1))
       else

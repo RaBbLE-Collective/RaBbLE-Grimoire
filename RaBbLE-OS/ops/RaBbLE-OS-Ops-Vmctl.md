@@ -93,7 +93,7 @@ If another agent is picking this up: read these first.
 Apply the `virtualization` Ansible role. This installs QEMU/KVM, libvirt, virt-manager, and adds your user to the `libvirt` and `kvm` groups.
 
 ```bash
-cd ~/RaBbLE/RaBbLE-OS
+cd ~/RaBbLE-Collective/RaBbLE-OS
 ansible-playbook -i ansible/inventory/hosts.yml ansible/site.yml -K --tags virtualization
 ```
 
@@ -123,7 +123,7 @@ Download the Fedora Everything netinstall ISO. Tested with Fedora 44.
 Save it to `RaBbLE-OS/ISO/` (gitignored):
 
 ```bash
-mv ~/Downloads/Fedora-Everything-netinst-x86_64-44-*.iso ~/RaBbLE/RaBbLE-OS/ISO/
+mv ~/Downloads/Fedora-Everything-netinst-x86_64-44-*.iso ~/RaBbLE-Collective/RaBbLE-OS/ISO/
 ```
 
 **Why netinstall, not Sway spin?** The KS automation needs `--location` (to extract kernel/initrd and inject the KS file). The netinstall ISO is designed for this. The Sway spin is a live ISO — `cast` (interactive) still supports it, but `cast-ks` (automated) requires the netinstall.
@@ -149,7 +149,7 @@ Two modes: **automated** (KS, recommended) or **interactive** (manual Anaconda).
 ### Automated (cast-ks) — Recommended
 
 ```bash
-cd ~/RaBbLE/RaBbLE-OS
+cd ~/RaBbLE-Collective/RaBbLE-OS
 sudo ./RaBbLE-OS-vmctl.sh cast-ks ISO/Fedora-Everything-netinst-x86_64-44-*.iso
 ```
 
@@ -159,9 +159,9 @@ sudo ./RaBbLE-OS-vmctl.sh cast-ks ISO/Fedora-Everything-netinst-x86_64-44-*.iso
 3. Boots the VM — Anaconda reads the KS and runs unattended
 4. KS downloads ~510 packages from Fedora mirrors (~723 MB)
 5. `%post` clones the canonical Collective structure:
-   - `~/RaBbLE/` (Collective root)
-   - `~/RaBbLE/RaBbLE-Grimoire/` (knowledge layer)
-   - `~/RaBbLE/RaBbLE-OS/` (OS member — working branch)
+   - `~/RaBbLE-Collective/` (Collective root)
+   - `~/RaBbLE-Collective/RaBbLE-Grimoire/` (knowledge layer)
+   - `~/RaBbLE-Collective/RaBbLE-OS/` (OS member — working branch)
 6. Creates `rabble-os-setup.service` (firstboot) → runs Bootstrap with `base,boot`
 7. VM reboots into the installed OS
 8. Opens SPICE display for you to watch (reconnect with `connect` after reboot)
@@ -231,7 +231,7 @@ sudo ./RaBbLE-OS-vmctl.sh connect
 
 Inside the VM:
 ```bash
-cd ~/RaBbLE/RaBbLE-OS
+cd ~/RaBbLE-Collective/RaBbLE-OS
 RABBLE_TAGS=desktop,apps ./RaBbLE-OS-Bootstrap.sh \
     --inventory ansible/inventory/vm.hosts.yml
 ```

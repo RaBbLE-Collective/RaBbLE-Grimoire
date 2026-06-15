@@ -15,6 +15,13 @@ episode_note: >
 version_current: "v0.0.0.0"
 version_next: "v0.0.0.1"
 
+# Pre-episode convergence branch. Every member on `release_track: episode`
+# (see registry/manifests/) works here until Episode 1 airs, then merges to
+# main and tags episode-1-v0.0.0.1 simultaneously. `spells/status.sh` flags any
+# lockstep member NOT on this branch as off-track. Members on
+# `release_track: independent` (sandbox/archive) are exempt.
+active_branch: "new-horizons"
+
 # ── Episode/Plot structure ────────────────────────────────────────────────────
 # During Episode 1: all active projects accumulate Events in Plots (A, B, C...).
 # Plots reference the episode they belong to: "Episode 1, Plot A".

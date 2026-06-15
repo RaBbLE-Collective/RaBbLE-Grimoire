@@ -10,7 +10,7 @@ description: "High-entropy intake workspace — concept art, prototypes, ideatio
 role: experimental
 
 # Repository
-repo: https://github.com/markm1206/RaBbLE-BaBbLE.git
+repo: git@github.com:RaBbLE-Collective/RaBbLE-BaBbLE.git
 branch: main
 worktree_root: RaBbLE-BaBbLE
 surface_type: local
@@ -19,6 +19,7 @@ surface_type: local
 phase: 0
 epoch: 0
 status: active
+release_track: episode      # airs in Episode lockstep — tracks epoch active_branch
 
 # Grimoire
 grimoire_sync: false

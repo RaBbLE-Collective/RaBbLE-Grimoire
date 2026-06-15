@@ -47,7 +47,7 @@ Render agent finished (S58 close). Final facts:
 - Doc drift: KS/vmctl/ISO target **Fedora 44** (`ISO/Fedora-Everything-netinst-x86_64-44-1.7.iso` present); AGENT.md/CONTEXT.md say Fedora 43. Bootstrap.sh mentions Wofi, roles use Fuzzel (cosmetic).
 
 **Manual steps for Mark (VM proof):**
-1. `cd ~/RaBbLE/RaBbLE-OS && ansible-playbook -i ansible/inventory/vm.hosts.yml ansible/site.yml --syntax-check`
+1. `cd ~/RaBbLE-Collective/RaBbLE-OS && ansible-playbook -i ansible/inventory/vm.hosts.yml ansible/site.yml --syntax-check`
 2. `./RaBbLE-OS-vmctl.sh status` / `snapshots` — if `rabble-os-dev` exists, restore snapshot, don't re-cast
 3. Fresh proof: `sudo ./RaBbLE-OS-vmctl.sh recast ISO/Fedora-Everything-netinst-x86_64-44-1.7.iso` (~30–60 min), monitor `vmctl logs`, then run `RaBbLE-Grimoire/RaBbLE-OS/verify/RaBbLE-OS-Verify-Checklist.md`
 4. Snapshot after success: `sudo ./RaBbLE-OS-vmctl.sh snapshot post-firstboot`

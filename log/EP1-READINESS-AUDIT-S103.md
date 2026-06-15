@@ -30,7 +30,7 @@ silent blockers not on the prior "Next" list: **branch inconsistency** (can't ta
 
 ## B. Grimoire — drift found (all small, all real)
 
-1. Root `AGENT.md` calls the root `~/RaBbLE/`; it is actually `~/RaBbLE-Collective/`, with
+1. Root `AGENT.md` calls the root `~/RaBbLE-Collective/`; it is actually `~/RaBbLE-Collective/`, with
    members living *inside* it, not as siblings.
 2. **Render/Railway staleness** — `gist/RaBbLE-Episode1-gist.md`,
    `RaBbLE-sCoRE/RaBbLE-sCoRE-Architecture.md`, `RaBbLE-sCoRE/RaBbLE-sCoRE-Roadmap.md` all

@@ -62,8 +62,8 @@ As of S92, the repo formerly called `RaBbLE-Xperimental` was renamed:
 
 | Name | What it is | Location | Use |
 |---|---|---|---|
-| **RaBbLE-Chrysalis** | Genesis archive — primordial soup, origin code | `~/RaBbLE/RaBbLE-Chrysalis/` | Mine for lore. Do not develop. |
-| **RaBbLE-Xperimental** (new) | Active sandbox — rablets, prototypes, experiments | `~/RaBbLE/RaBbLE-Xperimental/` | Active dev, high entropy |
+| **RaBbLE-Chrysalis** | Genesis archive — primordial soup, origin code | `~/RaBbLE-Collective/RaBbLE-Chrysalis/` | Mine for lore. Do not develop. |
+| **RaBbLE-Xperimental** (new) | Active sandbox — rablets, prototypes, experiments | `~/RaBbLE-Collective/RaBbLE-Xperimental/` | Active dev, high entropy |
 
 If you navigate to `RaBbLE-Chrysalis` expecting the development sandbox, you are in the wrong place. The new Xperimental is where active experimental work goes. GitHub rename of `markm1206/RaBbLE-Xperimental → RaBbLE-Chrysalis` may be pending — check the manifest if the remote URL is ambiguous.
 
