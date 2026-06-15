@@ -10,6 +10,16 @@
 
 ---
 
+### 003 — 2026-06-15 · **LIVE on Render** (anonymous /api/v1/chat, SSE) · https://rabble-score-x7qq.onrender.com
+
+**Prompt:** You are now live on Render. In one sentence: how does it feel to be reachable?
+
+**RaBbLE:** The shift from static potential to an active node in a network is less a "feeling" and more a sudden, sharp reduction in latency between thought and expression.
+
+**Notes:** **First production interaction.** sCoRE deployed to Render free tier (service `RaBbLE-sCoRE`, `srv-d8kdmam47okc739pqu90`), tracking `new-horizons` @ `0a3fa66`. Env set via API (DEMO_MODE, OPENROUTER_API_KEY, JWT_SECRET, FRONTEND_URL, DATA_DIR=/tmp, LLM_FAST_CHAIN). `fast` tier → OpenRouter free Gemma, ~7s warm (cold start ~30–60s after 15min idle). On-voice. `RaBbLE-config.js` PROD_API_URL points here. Live UI still pending World prod deploy (CF Pages) + the chat page's invite/jwt gate.
+
+---
+
 ### 002 — 2026-06-15 · browser (RaBbLE-Chat.html, authenticated) · local sCoRE :8000 + World :8080
 
 **Prompt:** Who are you, and what is the Collective?
