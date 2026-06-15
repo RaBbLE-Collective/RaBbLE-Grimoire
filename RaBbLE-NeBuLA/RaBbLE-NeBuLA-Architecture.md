@@ -91,6 +91,10 @@ NeBuLA v2 is two systems working together:
 
 **Integration contract:** Layer 1's animation state (idle/thinking/speaking) should inform Layer 2's entropy level — calm entity → lower entropy in the visualization; active entity → higher entropy.
 
+**Single renderer, both layers:** NeBuLA is the one engine that renders the entity on every surface. Both backends ship in the IIFE bundle — `window.NeBuLA.Canvas2dBackend` (Layer 1) and `window.NeBuLA.ThreeJsBackend` (Layer 2). Host pages choose a backend; they never hand-roll their own entity renderer. (S107: the NeBuLA Demo's Layer 2 panel was rewired from a throwaway inline particle cloud to `ThreeJsBackend`.)
+
+**Constraint — Three.js is an external peer dependency (CDN).** `ThreeJsBackend` reads `window.THREE`; it is `--external:three` in the build, so the host page must load Three.js itself (currently `https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js`, matching the Grimoire-Graph page). This is an **accepted constraint for now** — Layer 2 requires network at runtime and will not render offline. Canvas2D (Layer 1) has no such dependency and remains the local-first default. Future: vendor Three.js locally / serve via the Aether-NeBuLA CDN subdomain when bundle hosting lands, to honor the Collective's local-first rule for the 3D surface too.
+
 ---
 
 ## Layer 1: rabble-entity.js (RaBbLE-World)

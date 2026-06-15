@@ -5,14 +5,38 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-15 · Session 106 (RC1 spine verified · render-ctl · flip-point)
+## LATEST — 2026-06-15 · Session 107 (entity visuals debug · NeBuLA = single 3D+2D renderer)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S106):** Verified the **chat→sCoRE→entity spine end-to-end in-browser** (real jwt; entity idle→thinking→speaking→idle; on-voice replies via OpenRouter free Gemma; sessions persist). Spine was far more complete than S58 dispatch notes implied. Added **flip point** `RaBbLE-World/world/js/RaBbLE-config.js` — single source for sCoRE+Aether+NeBuLA base URLs, auto-detects local↔prod; wired chat/summon/account + aether.js. Built **`spells/render-ctl.sh`** (unified Render control via REST API — env/deploy/status/logs; keys-via-CLI; resolves AUDITS #11), retired `deploy-render.sh`. Fixed `render.yaml` for free tier (dropped disk, `DATA_DIR=/tmp`, `LLM_FAST_CHAIN`). OpenRouter key validated.
-**Blockers:** Render deploy needs Mark to mint `RENDER_API_KEY` + create service via Blueprint (branch new-horizons), then agent runs `render-ctl.sh setup/env-sync/deploy`. CF Pages repoint · OS reboot QA still open.
+**This session (S107):** Debugged the entity visuals. **2D (Canvas2D):** killed bokeh + flicker by giving every particle a crisp core (glow pass now only adds a halo, not the whole dot), shrank max size, tightened blur; strengthened the connection mesh and made portal glow stronger (two-pass bloom). **3D (Three.js):** fixed off-palette colors → palette neons, fixed the over-dense opaque blob (InstancedMesh can't do per-instance opacity → switched to additive blending + smaller/fewer particles), ported Grimoire-Graph layered eye-glow. **Wired the NeBuLA Demo L2 to `NeBuLA.ThreeJsBackend`** — NeBuLA is now the single entity renderer on all surfaces. Verified both via Playwright.
+**Blockers:** Render deploy needs Mark (mint `RENDER_API_KEY` + Blueprint service on new-horizons). CF Pages repoint · OS reboot QA still open. Three.js is a runtime CDN dep for Layer 2 (accepted for now — see NeBuLA Architecture doc).
 **Next:** Mark mints Render key → deploy → flip `config.js` to live URL → roll flip-point to remaining ~10 pages → surfaces (graph-as-docs, summon ceremony, OS sandbox).
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-15 (Session 107) — Entity visuals debug; NeBuLA unified as 2D+3D renderer
+
+**Repos touched:** RaBbLE-NeBuLA (canvas2d particle/connection/portal systems, element.js, threejs-backend.js, rebuilt dist), RaBbLE-World (RaBbLE-NeBuLA-Demo.html + bundle copy), RaBbLE-Grimoire (NeBuLA Architecture doc, this log).
+
+**Why:** Mark — entity had too much bokeh + flicker, the graph and portal needed work, and the 3D demo had wrong colors / was too dense. Directive: NeBuLA should render the entity on all surfaces (2D + 3D).
+
+**Done:**
+- **2D bokeh/definition/flicker:** glow particles were drawn ONLY on the blurred glow canvas (no crisp core) — half the field was out-of-focus blobs, and they popped between canvases when FrameBudget toggled glow (the flicker). Fix: every particle draws a crisp core; glow pass only adds a halo. `glowFraction` 0.42→0.30, sizeMax 11.8→8.5, CSS blur 8→5px, halo scale/alpha tightened.
+- **2D graph (synapse mesh):** thicker lines (0.4→0.55), higher base alpha, squared distance-fade → crisp short synapses not uniform haze.
+- **2D portal glow:** crisp arc 1.8→2.2px + two-pass bloom (wide soft halo + bright inner band) + larger endpoint flare.
+- **3D colors:** off-palette purple→blue ramp replaced with palette neons (violet core → cyan rim, magenta + white sparks), read from `palette.*`.
+- **3D density:** root cause = `InstancedMesh`+`MeshBasicMaterial` ignores per-instance opacity (dead code), so every sphere was opaque → solid blob. Fix: `AdditiveBlending` + lower opacity + smaller/fewer particles (2000/600 → 650/220) = airy nebula you can see the eyes through.
+- **3D eyes:** ported Grimoire-Graph layered additive glow (corona + inner tint + ring halo, `depthTest:false` + renderOrder so eyes stay on top). Fixed latent boot-fade bug that flattened every layer's opacity to `eyesProgress` (now scales by `material.userData.baseOpacity`).
+- **Unified renderer:** NeBuLA Demo L2 rewired from inline throwaway point cloud → `NeBuLA.ThreeJsBackend` (loads `three.min.js` global). `setEntityState` now maps state→entropy. Added Boot button to L2.
+- **Verified:** Playwright headless Chromium screenshots of both panels — 2D defined dots + glowing portal; 3D airy palette nebula + prominent layered eyes.
+
+**Gotchas:** `InstancedMesh` + `MeshBasicMaterial` can't do per-instance opacity (use additive blending or a custom shader). `dev-serve.sh` watchers die when stdin closes under a background launch — run a standalone routing static server for headless QA. `pkill -f <pattern>` from the Bash tool self-matches and kills the harness shell (exit 144) — use `fuser -k PORT/tcp` instead.
+
+**Constraint logged:** Three.js is a runtime CDN peer-dep for Layer 2 (`window.THREE`, `--external:three`). Accepted for now; documented in `RaBbLE-NeBuLA/RaBbLE-NeBuLA-Architecture.md`. Canvas2D stays local-first.
+
+**Next:** unchanged from S106 — Mark mints Render key → deploy → flip config → roll flip-point to remaining pages → surfaces.
 
 ---
 
