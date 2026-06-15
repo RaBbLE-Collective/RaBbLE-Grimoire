@@ -64,7 +64,6 @@ commit-ef2a5b3	vscodium-aether-theme	Aether CSS theme: 3 conic ring surfaces (ac
 commit-9cef714	vscode-aether-ui-fix	Fixed interactive UI occlusion by removing ::before overlays from popups; kept rings for static panels only
 commit-ed06ee4	theming	Kvantum+GTK3/4 scaffold complete; CSS/gtkrc deployment works but theme not applying to GTK apps; needs GTK3 theme engine debugging
 da255039-f456-40eb-9f7a-20abc076ac23	firefox-aether	S86: Firefox flowing conic outline rings, navy toned, URL-box outline + contrast pass; verified XUL renders @property rings
-8539c8a4-e499-4f3e-947a-9ecca0f652ab	gtk-aether	S87: GTK3/Thunar theming — diagnosis + pipeline complete, visual partial. Apply: layerctl apply apps + hyprctl reload.
 6b669edc-e0e6-4485-9b13-597aa9956a0b	collective	auto: current state S88: rabble-aether boot chain
 ce17e1d4-9c75-41f2-96a9-f7114e11dd5a	boot-aether	S88: Plymouth frame-player + SDDM QML greeter built, committed RaBbLE-OS 9eebbee; reboot QA pending
 commit-50d242e	nebula-mesh	wired orphaned ConnectionSystem + restored prod radius mesh/glow haze; World bundle redeployed
@@ -99,3 +98,8 @@ ad2c81f5-34ed-4c79-9de7-875d8dfcbb5b	collective	June 10 16:03 — 2 min after ta
 98316ba5-0885-40c1-a8cd-27770c5c8cf8	collective	June 10 16:15 — follows tagged collective session (inferred)
 1c067b24-b0f8-4cb8-b6bd-664c847a389c	score-chat-test	June 10 23:00 — same-night as score-chat-test cluster (inferred)
 9403754e-136d-423a-ab99-48b59985ff7d	collective	June 10 23:14 — same time as tagged collective session (inferred)
+commit-c81f5e6	grimoire-audit	S96: orphan sweep + ledger backfill; 45 May 12-22 sessions still need Mark's feature tags
+8539c8a4-e499-4f3e-947a-9ecca0f652ab	aether-theme	GTK+Qt theme foundation rebuild: Catppuccin Mocha base for GTK3, KvArcDark SVG for Kvantum, fixed !important bug + missing kvantum.kvconfig, Qt now dark via QT_STYLE_OVERRIDE
+4b1fec37-b0e5-40b0-8bc2-8dd158b1e08b	collective	auto: new-horizons branch + README agent walkthrough + subdomain CDN plan
+a50a19bd-7836-4017-982e-d9314e7a9159	collective	auto: S98 current state + README polish
+cdae720c-fc43-400e-a42a-fe8dee26ab82	vscodium-theme-fix	S99: editor group ring border-radius 4px→8px to match all other panel rings
