@@ -5,14 +5,29 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-15 · Session 101 (OS Ansible apps layer — copy+become+pipeline fixes)
+## LATEST — 2026-06-15 · Session 102 (NeBuLA perf branch archived; RaBbLE-OS remote moved)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S101):** Fixed 4 Ansible bugs blocking the apps layer: `ya pkg add #git` syntax gone (git clone), `ya` running as root (become:false), Firefox CSS copy+become+pipelining failure (content:lookup), root cause: `ansible_pipelining: false` on localhost. Apps layer applies cleanly.
+**This session (S102):** `feat/nebula-perf` in World was obsolete (bg.js moved to NeBuLA) — archived to Chrysalis as `archive/nebula-world-perf`, deleted from World. Batch-connection fix documented as Issue 5 in Perf Handoff. RaBbLE-OS remote updated to RaBbLE-Collective org.
 **Blockers:** OS reboot QA pending. sCoRE Render deploy is Mark's. CF Pages setup TODO.
 **Next:** OS reboot QA → CF Pages setup → `publish-cdn.sh v0.0.0.1` → Render → `episode-1-v0.0.0.1`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-15 (Session 102) — NeBuLA perf branch archived; RaBbLE-OS remote moved
+
+**Repos touched:** RaBbLE-World, RaBbLE-Grimoire, RaBbLE-OS (remote config only)
+
+**Work done:**
+- **feat/nebula-perf analysis:** Branch was 4 commits ahead of `aa66550` in World, but all patched code (`RaBbLE-bg.js` particle/connection drawing) has since moved into NeBuLA as `AmbientField`. Studio commits superseded by current 1114-line `RaBbLE-Studio.js`. Branch had no integration value.
+- **Archived to Chrysalis:** Pushed as `archive/nebula-world-perf` (matching `archive/nebula-*` convention). Deleted locally and from `origin/RaBbLE-World`.
+- **Grimoire — Perf Handoff:** Added Issue 5 (batch connection strokes) with full code recipe and tradeoff note. `connection-system.js` still issues one `ctx.stroke()` per connection; fix documented for a future agent.
+- **Grimoire — Perf Fix Plan:** Updated "Optimization branch" reference to point to Chrysalis archive.
+- **RaBbLE-OS remote:** Updated from `markm1206/RaBbLE-OS` → `RaBbLE-Collective/RaBbLE-OS`.
+
+**What's next:** OS reboot QA → CF Pages setup → `publish-cdn.sh v0.0.0.1` → Render → `episode-1-v0.0.0.1`.
 
 ---
 
