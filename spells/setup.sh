@@ -98,6 +98,20 @@ setup_symlinks() {
     ln -s AGENT.md "$codex"
     success "CODEX.md → AGENT.md in $(basename $target_dir)"
   fi
+
+  # GEMINI.md → AGENT.md
+  local gemini="$target_dir/GEMINI.md"
+  if [[ -L "$gemini" ]]; then
+    muted "GEMINI.md symlink already exists in $(basename $target_dir)"
+  elif [[ -f "$gemini" ]]; then
+    warn "GEMINI.md is a real file in $(basename $target_dir) — backing up as GEMINI.md.bak"
+    mv "$gemini" "${gemini}.bak"
+    ln -s AGENT.md "$gemini"
+    success "GEMINI.md → AGENT.md (was real file, backed up)"
+  else
+    ln -s AGENT.md "$gemini"
+    success "GEMINI.md → AGENT.md in $(basename $target_dir)"
+  fi
 }
 
 # =============================================================================
@@ -219,7 +233,13 @@ pull_and_wire_project() {
   else
     info "Cloning $slug into $local_path..."
     git clone "$repo" "$local_path"
-    success "$slug cloned"
+    # Checkout new-horizons if it exists — that's the active dev branch
+    if git -C "$local_path" show-ref --verify --quiet refs/remotes/origin/new-horizons; then
+      git -C "$local_path" checkout --track origin/new-horizons --quiet
+      success "$slug cloned (on new-horizons)"
+    else
+      success "$slug cloned (on default branch)"
+    fi
   fi
 
   # Set up project symlinks
@@ -301,6 +321,13 @@ for project_dir in "$RABBLE_ROOT"/RaBbLE-*/; do
 done
 
 echo ""
+
+# Step 4: Sync all agent symlinks (CLAUDE.md, CODEX.md, GEMINI.md → AGENT.md)
+if [[ "$MODE" != "pull" ]]; then
+  pulse "── Agent Symlinks"
+  bash "$SCRIPTS_DIR/sync-symlinks.sh"
+fi
+
 pulse "harmonize ~ bootstrap >> collective substrate wired // %SETUP_COMPLETE%"
 echo ""
 
