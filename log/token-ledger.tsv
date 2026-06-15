@@ -107,3 +107,5 @@ b1df7f34-5ce3-4e2e-bf7c-6d3daf53afb3	collective	auto: pre-EP1 stub: orientation,
 06c3c86e-e0ca-4b11-89b1-905d3fe9891e	collective	auto: S101: branch history restructured, new-horizons on clean main
 ec16d051-b81c-4130-bf44-d5172bd610b6	collective	auto: AGENT.md: correct root path ~/RaBbLE → ~/RaBbLE-Collective
 commit-e246d5e	world-date-restore	S104: World committer-date restoration (rebase only flattened committer dates; committer:=author lossless fix); root backdated; force-with-lease absorbed concurrent session
+commit-4a5b8aa	babble-reorg-plan	S104 planning: BaBbLE/Captures reorg + git linearization handoff doc filed to log/
+653a0f16-c1cc-4340-b3bd-d71946845dcb	ep1-world-unify	World EP1 unification: liminal→front door, doors rewired (summon/platform/grimoire), grimoire browser graph↔codex, Aether-first token alignment; + S103 audit, branch surgery, Aether theme, BaBbLE captures
