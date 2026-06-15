@@ -5,14 +5,27 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-12 · Session 96 (Grimoire orphan sweep + ledger backfill)
+## LATEST — 2026-06-14 · Session 97 (OS windowrules fix + yazi COPR)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S96):** Orphan sweep complete. 8 INDEX entries added (sCoRE-Membership-API, World README/Browser-Plan/Regression-Audit, NeBuLA Perf-Handoff/Canvas2D-Perf, registry/CONTEXT.md, end-session.sh). 25 inferred session backfills tagged (date-adjacent; May 20–June 10). 45 untagged remain: all May 12–22 (171M weighted, 57.8% of cost) — need Mark to assign features.
+**This session (S97):** Fixed windowrules.conf (invalid `stayfocused`/`dimaround` removed; all boolean rules need explicit `true`). Wired yazi COPR (`lihaohong/yazi`) — was incorrectly set to `source: fedora`. KnownIssues updated with both gotchas.
 **Blockers:** OS reboot QA pending. sCoRE Render deploy is Mark's.
-**Next:** OS reboot QA → CF R2 → Render → `episode-1-v0.0.0.1`. Backfill May 12–22 sessions (check SESSION-LOG for those dates).
+**Next:** OS reboot QA → CF R2 → Render → `episode-1-v0.0.0.1`. Backfill May 12–22 sessions.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-14 (Session 97) — OS windowrules fix + yazi COPR
+
+**Repos touched:** RaBbLE-OS, RaBbLE-Grimoire
+
+**Work done:**
+- **windowrules.conf:** Removed invalid `stayfocused` (invalid field type) and `dimaround` (also invalid field type) rules from termfilechooser block. Documented Hyprland gotcha: all boolean windowrules require explicit `true` value — bare rule names fail with "missing value". No focus-retention equivalent currently available.
+- **yazi COPR:** `manifest.yml` source corrected from `fedora` to `copr:lihaohong/yazi` (officially recommended Fedora 43 COPR; bundles `resvg` for image previews). Added `ansible/roles/apps/vars/main.yml` with `yazi_copr` var. Added COPR enable step to `packages.yml` before the dnf install, matching swayosd pattern.
+- **KnownIssues.md:** Documented both windowrule gotchas under Desktop/Hyprland.
+
+**What's next:** OS reboot QA → CF R2 → Render → `episode-1-v0.0.0.1`. Backfill May 12–22 ledger entries.
 
 ---
 

@@ -75,6 +75,13 @@ harmonize ~ grimoire >> surfacing the static // %DRIFT_TRACKING%
 - Matcher syntax is identical — only the directive name changes
 - Status: files need rewriting; desktop functionality reduced until restored
 
+**No focus-retention windowrule available in current Hyprland build**
+- `stayfocused` — invalid field type (does not exist in this build)
+- `dimaround` — invalid field type (does not exist in this build)
+- Note: all boolean windowrules require an explicit value (`true`) — bare rule names fail with "missing value"
+- termfilechooser portal currently relies on `float + center` only; no focus-lock equivalent wired
+- Revisit when Hyprland documents a focus-retention windowrule; track upstream issue
+
 **Hyprland.conf GPU config can break login**
 - GPU env vars must live in `machine.conf` (Ansible-templated), not in the main `hyprland.conf`
 - If login breaks: drop to TTY, edit `~/.config/hypr/machine.conf`, retry
