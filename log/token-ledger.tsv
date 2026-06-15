@@ -109,3 +109,4 @@ ec16d051-b81c-4130-bf44-d5172bd610b6	collective	auto: AGENT.md: correct root pat
 commit-e246d5e	world-date-restore	S104: World committer-date restoration (rebase only flattened committer dates; committer:=author lossless fix); root backdated; force-with-lease absorbed concurrent session
 commit-4a5b8aa	babble-reorg-plan	S104 planning: BaBbLE/Captures reorg + git linearization handoff doc filed to log/
 653a0f16-c1cc-4340-b3bd-d71946845dcb	ep1-world-unify	World EP1 unification: liminal→front door, doors rewired (summon/platform/grimoire), grimoire browser graph↔codex, Aether-first token alignment; + S103 audit, branch surgery, Aether theme, BaBbLE captures
+commit-9c87423	rc1-spine	S106: RC1 chat→sCoRE→entity verified; render-ctl.sh; flip-point; render.yaml free-tier fix; Render deploy

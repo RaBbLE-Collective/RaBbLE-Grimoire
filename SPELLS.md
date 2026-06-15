@@ -48,7 +48,7 @@ Spells are bash scripts in `spells/` that manage the RaBbLE Collective. Grimoire
 | `create-member-workflow.sh` | Generate + commit `.github/workflows/deploy.yml` | Wiring CI deploy for a member repo |
 | `cloudflare-ctl.sh` | Unified Cloudflare control (R2, Workers, CDN, secrets) | Any Cloudflare infra operation |
 | `setup-cloudflare-r2.sh` | One-time R2 + CDN setup (autonomous, no dashboard) | Initial Episode-1 CDN infrastructure |
-| `deploy-render.sh` | Deploy **sCoRE** to Render (current cloud target) | sCoRE cloud deploy |
+| `render-ctl.sh` | Unified **sCoRE** Render control (env/deploy/status/logs via REST API) | sCoRE cloud deploy + key management |
 | `railway-ctl.sh` | **Dormant** — single Railway spell (superseded by Render) | Only if Railway is re-adopted as backend |
 
 **Docs, analytics & episode**
@@ -206,18 +206,26 @@ Builds Aether + NeBuLA, stages into World, deploys to `joinrabble.world` via Wra
 bash spells/cast-cdn.sh
 ```
 
-### sCoRE cloud deploy — `deploy-render.sh` (current)
+### sCoRE cloud deploy — `render-ctl.sh` (current)
 
-sCoRE's Episode-1 cloud target is **Render** (free tier). `deploy-render.sh` manages it
-via CLI — no dashboard.
+sCoRE's Episode-1 cloud target is **Render** (free tier). `render-ctl.sh` is the unified
+control spell — env vars, deploys, status, and logs all run via the Render REST API
+(no dashboard). It supersedes the old `deploy-render.sh` (removed S106; that one stubbed
+`env-set`/`logs` to "use the dashboard"). Mirrors `railway-ctl.sh` in shape.
 
 ```bash
-bash spells/deploy-render.sh        # see --help for subcommands
+bash spells/render-ctl.sh preflight     # validate render.yaml (catches free-tier disk conflict)
+bash spells/render-ctl.sh setup         # save API key, verify auth, link service by name
+bash spells/render-ctl.sh env-sync      # push provider keys from sCoRE/server/.env → Render
+bash spells/render-ctl.sh deploy --wait # trigger + poll to live
+bash spells/render-ctl.sh status        # status, branch, URL, /health probe
+bash spells/render-ctl.sh logs 200      # recent logs
 ```
 
-> **Planned (future session):** consolidate `deploy-render.sh` into a unified
-> `render-ctl.sh`, mirroring `railway-ctl.sh`, so the active backend and the dormant one
-> share one shape. Tracked as AUDITS gap #11.
+One-time manual bootstrap only: mint a Render API key
+(`https://dashboard.render.com/account/api-keys`) and create the service once via Blueprint
+(connects GitHub, reads `render.yaml`). Everything after is CLI. Credentials live in the
+gitignored `.render/`. (Resolves AUDITS gap #11.)
 
 The Railway path is **dormant**: its three former spells were consolidated into the
 single `railway-ctl.sh` (marked dormant in its header), retained intact in case Railway

@@ -5,14 +5,33 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-15 · Session 105 (Grimoire audit — drift caught, state-tracking hardened)
+## LATEST — 2026-06-15 · Session 106 (RC1 spine verified · render-ctl · flip-point)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S105):** Grimoire audit + doc-drift sweep, then 3 follow-ups. **Audit:** fixed `status.sh` (showed every member "not cloned" — relative `worktree_root`) + rebuilt with **episode-alignment** view (in-step/off-track/independent + blocker surfacing); new mechanism = `active_branch` (epoch) + `release_track` (manifests); swept `~/RaBbLE/`→`~/RaBbLE-Collective/` paths + `markm1206`→org remotes; refreshed `SPELLS.md`; `graph-grimoire.sh` now excludes gists/entry-points; wired World symlinks; Xperimental `master`→`main`. **Follow-ups:** indexed both orphans (graph now 0 orphans/islands); consolidated 3 Railway spells → single dormant `railway-ctl.sh` (Render is current; retained for possible re-adoption), removed `deploy-railway.sh`+`deploy-score.sh`; **retired the Grimoire-sync model** — `sync-grimoire.sh` is now a stub, `grimoire_sync`/`grimoire_path` fields stripped from all manifests. Decision: members reference the Grimoire directly; no copied/linked grimoire.
-**Blockers:** Awaiting Mark: **CF Pages prod-branch repoint** (was `world`) · BaBbLE reorg sign-off (`log/S104-BABBLE-CAPTURES-GIT-REORG-PLAN.md`) · OS reboot QA · Render deploy.
-**Next:** **refactor `deploy-render.sh` → unified `render-ctl.sh`** (mirror `railway-ctl.sh`; tracked as AUDITS gap #11) → per-member RCs → committer:=author date fix on other S101-treated repos → stale `deploy-score.sh` checklist items linger in sCoRE-Roadmap + Episode-1-Release-Map (update when those plans are next touched).
+**This session (S106):** Verified the **chat→sCoRE→entity spine end-to-end in-browser** (real jwt; entity idle→thinking→speaking→idle; on-voice replies via OpenRouter free Gemma; sessions persist). Spine was far more complete than S58 dispatch notes implied. Added **flip point** `RaBbLE-World/world/js/RaBbLE-config.js` — single source for sCoRE+Aether+NeBuLA base URLs, auto-detects local↔prod; wired chat/summon/account + aether.js. Built **`spells/render-ctl.sh`** (unified Render control via REST API — env/deploy/status/logs; keys-via-CLI; resolves AUDITS #11), retired `deploy-render.sh`. Fixed `render.yaml` for free tier (dropped disk, `DATA_DIR=/tmp`, `LLM_FAST_CHAIN`). OpenRouter key validated.
+**Blockers:** Render deploy needs Mark to mint `RENDER_API_KEY` + create service via Blueprint (branch new-horizons), then agent runs `render-ctl.sh setup/env-sync/deploy`. CF Pages repoint · OS reboot QA still open.
+**Next:** Mark mints Render key → deploy → flip `config.js` to live URL → roll flip-point to remaining ~10 pages → surfaces (graph-as-docs, summon ceremony, OS sandbox).
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-15 (Session 106) — RC1 chat→sCoRE→entity spine verified; render-ctl; flip-point
+
+**Repos touched:** RaBbLE-World (config.js + chat/summon/account + aether.js), RaBbLE-Grimoire (render-ctl.sh, SPELLS.md, .gitignore, RC1-Entity-Correspondence.md, removed deploy-render.sh), RaBbLE-sCoRE (render.yaml), RaBbLE-Collective (AGENT.md state).
+
+**Why:** Mark — get sCoRE to RC1 on Render and prove the RaBbLE chat experience works. Decisions: first slice = chat→sCoRE→entity spine; Render tracks `new-horizons`; build against local sCoRE, Mark deploys later. Frame work in **episode scope, not epoch**.
+
+**Done:**
+- **Spine verified end-to-end (local).** sCoRE more complete than S58 notes implied — `chat.js` already wired to sCoRE, parses SSE, binds entity state. Playwright browser test: real jwt via `/auth/register`→`/auth/token`, auth gate passed, entity `idle→thinking→speaking→idle`, on-voice replies, sessions persist. Logged in `log/RC1-Entity-Correspondence.md` (001–002).
+- **Flip point** `RaBbLE-World/world/js/RaBbLE-config.js`: single source for `RABBLE_API_URL` + `RABBLE_AETHER_URL` + `RABBLE_NEBULA_URL`, hostname auto-detect, loaded first in `<head>`; `aether.js` reads it; wired chat/summon/account.
+- **`render-ctl.sh`** (new canonical spell): Render REST API — setup/link/preflight/deploy(--wait)/status/logs/env-show/env-set/env-sync/open. `env-sync` pushes provider keys from `sCoRE/server/.env`. Superseded + removed `deploy-render.sh` (it stubbed env-set/logs). Resolves AUDITS gap #11. Verified syntax/help/preflight/env-sync --dry-run.
+- **`render.yaml` free-tier fix:** dropped disk block (free tier = no persistent disk), `DATA_DIR=/tmp/rabble-data` (server mkdirs it), added `LLM_FAST_CHAIN=openrouter:google/gemma-4-26b-a4b-it:free`. Preflight clean.
+- **OpenRouter key:** validated (free tier, usage 0); works locally (fast ~1s). Caveats: `:free` models rate-limit under load (medium hung once); `strong` (Claude Sonnet) needs credits.
+
+**Gotchas:** sCoRE `server/.venv` had a pre-rename shebang (`~/RaBbLE/...` → exit 126), rebuilt. `DEMO_MODE` gates auth (guest), not the LLM. CORS defaults to `*` when `FRONTEND_URL` unset. Email validator rejects reserved TLDs (`.test`/`.local`).
+
+**Next:** Mark mints `RENDER_API_KEY` + creates service via Blueprint (branch new-horizons) → agent runs `link/env-sync/deploy --wait/status` → flip `config.js` to live URL → roll flip-point to remaining ~10 pages + make NeBuLA `<script>` config-driven (when subdomains land) → surfaces: graph-as-docs, summon ceremony, OS sandbox.
 
 ---
 
