@@ -116,7 +116,7 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 - [spells/cast-aether.sh](spells/cast-aether.sh) — publish Aether CSS bundles to CDN (R2 or staging)
 - [spells/cast-cdn.sh](spells/cast-cdn.sh) — build Aether + NeBuLA, stage into World, deploy to joinrabble.world via wrangler
 - [spells/distill-gists.sh](spells/distill-gists.sh) — regenerate gist/ summaries via Claude CLI
-- [spells/deploy-render.sh](spells/deploy-render.sh) — deploy sCoRE to Render (current cloud target)
+- [spells/render-ctl.sh](spells/render-ctl.sh) — unified sCoRE Render control (env/deploy/status/logs via REST API; keys-via-CLI). sCoRE is LIVE: `https://rabble-score-x7qq.onrender.com`
 - [spells/railway-ctl.sh](spells/railway-ctl.sh) — **dormant** Railway control (superseded by Render; retained for possible re-adoption)
 - [spells/end-session.sh](spells/end-session.sh) — tag current session UUID to a feature slug in token-ledger.tsv (breadcrumb)
 - [spells/seal-episode.sh](spells/seal-episode.sh) — **DRAFT** · Episode Signing Ceremony: seal an episode to `main` authored by the Collective (refuses to run until the Collective GitHub account exists)
@@ -178,6 +178,7 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 - [RaBbLE-NeBuLA-Plan](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Plan.md) — agent implementation plan (step-by-step)
 - [RaBbLE-NeBuLA-FlatChaos](RaBbLE-NeBuLA/RaBbLE-NeBuLA-FlatChaos.md) — Flat-Chaos pattern spec
 - [RaBbLE-NeBuLA-Ideas](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Ideas.md) — enhancement proposals (Episodes 3+)
+- [RaBbLE-NeBuLA-Refinement-Backlog](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Refinement-Backlog.md) — near-term entity polish + Studio unification (S107 notes)
 - [RaBbLE-NeBuLA-Perf-Fix-Plan](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Perf-Fix-Plan.md) — performance root-cause analysis (superseded by Rearchitecture)
 - [RaBbLE-NeBuLA-Perf-Handoff](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Perf-Handoff.md) — S54 perf handoff: three targeted fixes, ctx.filter as primary bottleneck (superseded by Rearchitecture)
 - [RaBbLE-NeBuLA-Canvas2D-Perf](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Canvas2D-Perf.md) — S55c measured perf baselines (Fedora 43 / mid-range GPU, historical reference)
