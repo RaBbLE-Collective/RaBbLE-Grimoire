@@ -12,9 +12,6 @@ epoch: 0
 status: active
 release_track: episode      # airs in Episode lockstep — tracks epoch active_branch
 
-grimoire_sync: false
-grimoire_path: grimoire/
-
 palette_version: "1.0"
 entity_embedded: true
 pulse_protocol: true

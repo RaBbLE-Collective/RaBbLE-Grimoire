@@ -290,12 +290,12 @@ done
 success "Workspace CONTEXT.md files created"
 
 # =============================================================================
-# 7. Sync core grimoire (canonical mechanism — copies RaBbLE-Agent/ → grimoire/)
+# 7. Grimoire reference (no sync — members reference the Grimoire directly)
 # =============================================================================
-pulse "── Syncing core grimoire"
-bash "$GRIMOIRE_ROOT/spells/sync-grimoire.sh" --project "$SLUG" 2>/dev/null \
-  && success "Core grimoire synced via sync-grimoire.sh" \
-  || muted "  (run 'bash spells/sync-grimoire.sh --project $SLUG' once the repo has a remote)"
+pulse "── Grimoire reference"
+muted "  This member references the Grimoire directly at ~/RaBbLE-Collective/RaBbLE-Grimoire/."
+muted "  Its documentation lives IN the Grimoire under RaBbLE-Grimoire/$SLUG/ — not here."
+success "No grimoire copied — one source of truth, referenced not duplicated"
 
 # =============================================================================
 # 8. Create symlinks: CLAUDE.md → AGENT.md, CODEX.md → AGENT.md
@@ -328,9 +328,6 @@ phase: ${EPOCH}
 epoch: ${EPOCH}
 status: scaffold
 release_track: episode      # airs in Episode lockstep — tracks epoch active_branch (set 'independent' for sandbox/archive)
-
-grimoire_sync: true
-grimoire_path: grimoire/
 
 palette_version: "1.0"
 entity_embedded: true

@@ -36,7 +36,7 @@ Each pattern describes how one member's output becomes another member's input.
 | **Intent routing** | World → sCoRE | HTTP/REST — World chat UI calls sCoRE API endpoint | Planned (Ep1) |
 | **LLM delegation** | sCoRE → Claude/Groq | Subprocess (Claude Code CLI) or HTTP API (Groq/OpenRouter) | Planned (Ep1) |
 | **System observation** | OS → sCoRE | Ambient data — system state queryable by sCoRE | Post-Ep1 |
-| **Knowledge distribution** | Grimoire → All | Filesystem refs; `spells/sync-grimoire.sh` copies `RaBbLE-Agent/` to member `grimoire/` dirs | Live |
+| **Knowledge distribution** | Grimoire → All | Direct filesystem reference — members read `~/RaBbLE-Collective/RaBbLE-Grimoire/` in place; no copying (sync model retired S105) | Live |
 | **Pattern store** | sCoRE ↔ Memory | Observation → storage → retrieval — the behavioral learning loop | Concept (Echo 1+) |
 | **High-entropy intake** | BaBbLE → target member | Manual triage — prototypes mature and migrate to their target member | Active |
 

@@ -18,10 +18,6 @@ phase: 0                           # current active phase
 epoch: 0                           # current epoch alignment
 status: scaffold                   # active | scaffold | dormant | experimental | deprecated
 
-# Grimoire
-grimoire_sync: false               # true = receives distilled/ from Collective
-grimoire_path: grimoire/
-
 # Collective alignment
 palette_version: "1.0"             # must match current RaBbLE-Palette.md version
 entity_embedded: true              # RaBbLE entity is present in this project

@@ -24,9 +24,8 @@ RaBbLE-Grimoire/           ← the Grimoire IS the registry home
 │       ├── RaBbLE-Frontend.manifest.yml
 │       └── RaBbLE-WEB.manifest.yml
 ├── spells/
-│   ├── status.sh          ← health dashboard for all members
+│   ├── status.sh          ← health dashboard + episode alignment
 │   ├── setup.sh           ← clone + wire all registered members
-│   ├── sync-grimoire.sh   ← propagate RaBbLE-Agent/ docs (mechanism TBD)
 │   └── init-project.sh    ← scaffold a new member
 └── RaBbLE-Agent/                ← canonical docs consumed by all members
 ```
@@ -50,8 +49,7 @@ worktree_root: ~/RaBbLE-Collective/RaBbLE-[Name]
 phase: 0
 epoch: 0
 status: active | scaffold | dormant | experimental | deprecated
-
-grimoire_sync: false   # true = receives RaBbLE-Agent/ docs via sync-grimoire.sh
+release_track: episode | independent   # episode = airs in lockstep on the epoch active_branch; independent = sandbox/archive
 palette_version: "1.0"
 entity_embedded: true
 pulse_protocol: true
@@ -78,14 +76,17 @@ This scaffolds the repo with AGENT.md, CONTEXT.md, and workspace structure, then
 
 ---
 
-## Propagation (TBD)
+## Propagation — decided: reference, don't duplicate (S105)
 
-The mechanism for pushing `RaBbLE-Agent/` docs to member repos is still being determined. Options under consideration:
-- Git submodule (member repos include Grimoire as a submodule)
-- Published package (npm/pip/curl-installable)
-- `sync-grimoire.sh` push (current script, but propagation model not finalized)
+There is **no doc-push mechanism**. The Grimoire holds all knowledge and members
+reference it **directly** — they never carry a copied or linked grimoire. A member's
+`AGENT.md` / `CONTEXT.md` point at Grimoire entries (e.g.
+`~/RaBbLE-Collective/RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Palette.md`) to establish working
+state, and member-specific documentation lives **in** the Grimoire under `RaBbLE-<Member>/`.
 
-Until decided: member repos that need canonical docs should reference them directly in the Grimoire rather than maintaining copies.
+The former `sync-grimoire.sh` and the `grimoire_sync` / `grimoire_path` manifest fields
+are retired. (Submodule / published-package options were considered and rejected: a single
+referenced source of truth keeps entropy lowest.)
 
 ---
 

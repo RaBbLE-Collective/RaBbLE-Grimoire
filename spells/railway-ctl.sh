@@ -2,6 +2,12 @@
 # =============================================================================
 # spells/railway-ctl.sh — Unified Railway Control (sCoRE Deployment)
 #
+# ⚠ DORMANT — NOT THE CURRENT BACKEND.
+#   sCoRE's Episode-1 cloud target is RENDER → use `spells/deploy-render.sh`.
+#   This spell is retained intact in case Railway is re-adopted as the backend
+#   provider later. It is the single canonical Railway spell — the redundant
+#   `deploy-railway.sh` and `deploy-score.sh` wrappers were folded in here (S105).
+#
 # Master controller for Railway cloud infrastructure. Handles setup,
 # deployment, monitoring, and environment management for RaBbLE services.
 #

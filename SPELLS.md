@@ -21,7 +21,6 @@ Spells are bash scripts in `spells/` that manage the RaBbLE Collective. Grimoire
 | `status.sh` | Health dashboard: branch, git state, **episode alignment**, symlinks | Start of session — check member states & in-step status |
 | `setup.sh` | Bootstrap: clone repos, wire symlinks | Fresh machine or new member added |
 | `sync-symlinks.sh` | Create CLAUDE.md/CODEX.md/GEMINI.md → AGENT.md | After adding a repo or fixing broken links |
-| `sync-grimoire.sh` | Push Grimoire docs to member `grimoire/` dirs | After updating shared RaBbLE-Agent/ docs |
 | `init-project.sh` | Scaffold a new Collective member + manifest | Creating a new repo |
 | `install-hooks.sh` | Install the post-commit breadcrumb hook in all repos | Once per machine / after cloning a new member |
 
@@ -50,7 +49,7 @@ Spells are bash scripts in `spells/` that manage the RaBbLE Collective. Grimoire
 | `cloudflare-ctl.sh` | Unified Cloudflare control (R2, Workers, CDN, secrets) | Any Cloudflare infra operation |
 | `setup-cloudflare-r2.sh` | One-time R2 + CDN setup (autonomous, no dashboard) | Initial Episode-1 CDN infrastructure |
 | `deploy-render.sh` | Deploy **sCoRE** to Render (current cloud target) | sCoRE cloud deploy |
-| `deploy-railway.sh` · `railway-ctl.sh` · `deploy-score.sh` | Railway-era sCoRE deploy (**superseded by Render**) | Legacy — retained from earlier exploration |
+| `railway-ctl.sh` | **Dormant** — single Railway spell (superseded by Render) | Only if Railway is re-adopted as backend |
 
 **Docs, analytics & episode**
 
@@ -100,15 +99,15 @@ Creates a new Collective member with standard structure: AGENT.md, CONTEXT.md, R
 bash spells/init-project.sh --slug RaBbLE-[Name] --role [substrate|server|frontend|tooling]
 ```
 
-### `sync-grimoire.sh` — Propagate Common Docs
+### Grimoire propagation — there is none (retired S105)
 
-Copies `RaBbLE-Agent/` docs to member `grimoire/` directories. Members opt in via `grimoire_sync: true` in their manifest.
-
-```bash
-bash spells/sync-grimoire.sh                  # sync all opted-in members
-bash spells/sync-grimoire.sh --project RaBbLE-OS
-bash spells/sync-grimoire.sh --dry-run
-```
+The old "copy `RaBbLE-Agent/` docs into member `grimoire/` dirs" model is **retired**.
+The Grimoire holds all knowledge; **members reference it directly** rather than carrying
+a copy. A member's `AGENT.md` / `CONTEXT.md` point at Grimoire entries (e.g.
+`~/RaBbLE-Collective/RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Palette.md`) to establish working
+state, and member documentation lives **in** the Grimoire under `RaBbLE-<Member>/`.
+`sync-grimoire.sh` is now a stub that says exactly this. One source of truth — referenced,
+never duplicated. See `RaBbLE-Agent/RaBbLE-DocTemplates.md`.
 
 ---
 
@@ -210,12 +209,16 @@ bash spells/cast-cdn.sh
 ### sCoRE cloud deploy — `deploy-render.sh` (current)
 
 sCoRE's Episode-1 cloud target is **Render** (free tier). `deploy-render.sh` manages it
-via CLI — no dashboard. The Railway-era spells (`deploy-railway.sh`, `railway-ctl.sh`,
-`deploy-score.sh`) are **superseded** and kept only as a record of earlier exploration.
+via CLI — no dashboard.
 
 ```bash
 bash spells/deploy-render.sh        # see --help for subcommands
 ```
+
+The Railway path is **dormant**: its three former spells were consolidated into the
+single `railway-ctl.sh` (marked dormant in its header), retained intact in case Railway
+is ever re-adopted as the backend provider. `deploy-railway.sh` and `deploy-score.sh`
+were removed (S105).
 
 **Note:** For local dev use `RaBbLE-sCoRE/spells/local-start.sh` instead — see Development section above.
 

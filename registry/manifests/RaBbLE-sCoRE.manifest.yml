@@ -23,10 +23,6 @@ episode_name: "First Air (pending)"
 status: active
 release_track: episode      # airs in Episode lockstep — tracks epoch active_branch
 
-# Grimoire
-grimoire_sync: true
-grimoire_path: grimoire/
-
 # Collective alignment
 palette_version: "1.0"
 entity_embedded: true

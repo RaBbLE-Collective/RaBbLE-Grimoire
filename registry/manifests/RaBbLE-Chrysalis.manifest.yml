@@ -21,10 +21,6 @@ epoch: 0
 status: genesis-archive
 release_track: independent  # sandbox/archive — not in Episode lockstep, uses own branch
 
-# Grimoire
-grimoire_sync: false
-grimoire_path: ""
-
 # Collective alignment
 palette_version: "1.0"
 entity_embedded: false

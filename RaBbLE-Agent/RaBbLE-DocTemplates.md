@@ -163,6 +163,12 @@ sCoRE is NOT the visual renderer (that's NeBuLA) or the substrate (that's OS).
 
 ## Quick Checklist for New Members
 
+> **Reference, don't duplicate.** Members never carry a copied or linked grimoire.
+> `AGENT.md` / `CONTEXT.md` reference Grimoire entries directly (e.g.
+> `../RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Palette.md`) to establish working state, and a
+> member's own documentation lives **in** the Grimoire under `RaBbLE-<Member>/`. There is
+> no `sync-grimoire` and no `grimoire_sync` manifest field (retired S105).
+
 When creating a new member repo:
 
 - [ ] Create `AGENT.md` following the template above

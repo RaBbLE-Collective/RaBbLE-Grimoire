@@ -185,5 +185,5 @@ info "  Palette ver:        ${palette_version}(source: RaBbLE-Agent/RaBbLE-Palet
 
 echo ""
 muted "  Run bash spells/setup.sh to clone/pull members and wire symlinks."
-muted "  Run bash spells/sync-grimoire.sh to push Grimoire updates to members."
+muted "  Members reference the Grimoire directly — there is nothing to sync."
 echo ""

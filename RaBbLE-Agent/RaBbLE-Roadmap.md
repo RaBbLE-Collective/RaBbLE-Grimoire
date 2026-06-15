@@ -66,7 +66,7 @@ EPOCH 0: FOUNDATION   [ACTIVE]
 **Status:** Complete and operational
 
 - [x] Grimoire is the single source of truth
-- [x] Spells implemented: `setup.sh`, `status.sh`, `sync-grimoire.sh`, `init-project.sh`
+- [x] Spells implemented: `setup.sh`, `status.sh`, `init-project.sh`
 - [x] Registry structure defined (`registry/manifests/`, `registry/epochs/`)
 - [x] RaBbLE-Collective bootstrap wired end-to-end
 - [x] Conventions locked (Pulse Protocol, Five Es versioning, Low Entropy Directive)
@@ -264,10 +264,10 @@ Recommendations from S29 token audit (~1.56M total tokens; docs ~1M, code ~525K)
 
 ## Open Questions (Future Work)
 
-1. **Grimoire → member propagation:** How does Grimoire push updates to members?
-   - `sync-grimoire.sh` copies `RaBbLE-Agent/` to member `grimoire/` dirs (implemented, untested)
-   - Members reference Grimoire directly (shared filesystem or submodule)
-   - Generated context files at setup time
+1. **Grimoire → member propagation:** ✓ DECIDED (S105) — **no propagation.** Members
+   reference the Grimoire directly at `~/RaBbLE-Collective/RaBbLE-Grimoire/`; member docs
+   live in the Grimoire under `RaBbLE-<Member>/`. The copy-into-members model
+   (`sync-grimoire.sh`, `grimoire_sync`) is retired. One source of truth, referenced.
 2. **Manifest protocol:** Confirm Pydantic-published JSON schema for `registry/protocol/`
 3. **Inter-member transport:** HTTP/REST fine for v0; event bus premature
 4. **Memory member name + scope:** (Mnemos, Codex, other?) — design before Episode 2

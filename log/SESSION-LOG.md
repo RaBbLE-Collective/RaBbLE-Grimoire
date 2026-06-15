@@ -8,9 +8,9 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-06-15 · Session 105 (Grimoire audit — drift caught, state-tracking hardened)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S105):** Grimoire audit + doc-drift sweep. Fixed `status.sh` (was showing every member "not cloned" — relative `worktree_root` resolved wrong) and rebuilt it with an **episode-alignment** view (in-step/off-track/independent + blocker surfacing). Fixed `sync-grimoire.sh` (silent no-op: sourced from dead `common/`/`distilled/` → now `RaBbLE-Agent/` + `gist/`). New alignment mechanism: `active_branch` in the epoch + `release_track` per manifest. Swept stale `~/RaBbLE/`→`~/RaBbLE-Collective/` paths, stale `markm1206` remotes → org. Refreshed `SPELLS.md` (11 missing spells, Railway→Render). `graph-grimoire.sh` now excludes gists/entry-points → real orphans surface. Wired World's missing CLAUDE/CODEX symlinks; renamed Xperimental `master`→`main`.
+**This session (S105):** Grimoire audit + doc-drift sweep, then 3 follow-ups. **Audit:** fixed `status.sh` (showed every member "not cloned" — relative `worktree_root`) + rebuilt with **episode-alignment** view (in-step/off-track/independent + blocker surfacing); new mechanism = `active_branch` (epoch) + `release_track` (manifests); swept `~/RaBbLE/`→`~/RaBbLE-Collective/` paths + `markm1206`→org remotes; refreshed `SPELLS.md`; `graph-grimoire.sh` now excludes gists/entry-points; wired World symlinks; Xperimental `master`→`main`. **Follow-ups:** indexed both orphans (graph now 0 orphans/islands); consolidated 3 Railway spells → single dormant `railway-ctl.sh` (Render is current; retained for possible re-adoption), removed `deploy-railway.sh`+`deploy-score.sh`; **retired the Grimoire-sync model** — `sync-grimoire.sh` is now a stub, `grimoire_sync`/`grimoire_path` fields stripped from all manifests. Decision: members reference the Grimoire directly; no copied/linked grimoire.
 **Blockers:** Awaiting Mark: **CF Pages prod-branch repoint** (was `world`) · BaBbLE reorg sign-off (`log/S104-BABBLE-CAPTURES-GIT-REORG-PLAN.md`) · OS reboot QA · Render deploy.
-**Next:** link `RaBbLE-World-EP1-Unification.md` from INDEX (last real orphan) → consider deprecating/condensing the duplicate Railway sCoRE spells → per-member RCs → committer:=author date fix on other S101-treated repos.
+**Next:** per-member RCs → committer:=author date fix on other S101-treated repos → stale `deploy-score.sh` checklist items linger in sCoRE-Roadmap + Episode-1-Release-Map (update when those plans are next touched).
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
@@ -43,7 +43,12 @@ Format: date, what was done, where things were left, what's next.
 
 **Verified:** `status.sh` shows all 7 lockstep members in-step on `new-horizons`, Chrysalis/Xperimental independent, blockers = World + sCoRE. All edited spells pass `bash -n`.
 
-**Remaining (flagged, not done):** `RaBbLE-World-EP1-Unification.md` is a real orphan (link it from INDEX); the duplicate Railway sCoRE spells could be condensed; the "sync docs into member grimoire/ dirs" model vs "reference Grimoire directly" tension is worth a deliberate decision.
+**Follow-ups completed same session (per Mark):**
+- **Indexed all orphans** — `RaBbLE-World-EP1-Unification.md` → World section, `log/S104-BABBLE-CAPTURES-GIT-REORG-PLAN.md` → Log section. `graph-grimoire.sh` now reports 0 orphans / 0 islands.
+- **Railway spells consolidated** — `deploy-railway.sh` + `deploy-score.sh` removed; `railway-ctl.sh` is the single Railway spell, header marked **DORMANT** (Render is current via `deploy-render.sh`) and retained intact in case Railway is re-adopted as backend. SPELLS.md + INDEX updated.
+- **Grimoire-sync model retired (Mark's call: the concept is outdated).** The Grimoire holds all knowledge; members reference it **directly** and carry no copied/linked grimoire. `sync-grimoire.sh` → deprecation stub; `grimoire_sync`/`grimoire_path` stripped from every manifest + `_template`; decision recorded in Registry doc, Roadmap, Integration-Map, DocTemplates, SPELLS.md. Member docs live IN the Grimoire under `RaBbLE-<Member>/`.
+
+**Still flagged (not done):** stale `deploy-score.sh` checklist items in `RaBbLE-sCoRE-Roadmap.md` + `RaBbLE-Episode-1-Release-Map.md` (historical checklists — update when next touched).
 
 ---
 
