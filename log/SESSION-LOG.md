@@ -5,14 +5,28 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-15 · Session 100 (main stub hygiene + .claude gitignore sweep)
+## LATEST — 2026-06-15 · Session 101 (OS Ansible apps layer — copy+become+pipeline fixes)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S100):** Stripped CLAUDE.md/CODEX.md from all `main` branches (Collective, Aether, sCoRE). Removed `.claude/` from git tracking on Collective + sCoRE new-horizons. Fixed pre-commit hook (was blocking deletions). `sync-symlinks.sh` now gitignores `.claude/` across all repos. BaBbLE confirmed local-only (no remote). All mains now clean stubs.
+**This session (S101):** Fixed 4 Ansible bugs blocking the apps layer: `ya pkg add #git` syntax gone (git clone), `ya` running as root (become:false), Firefox CSS copy+become+pipelining failure (content:lookup), root cause: `ansible_pipelining: false` on localhost. Apps layer applies cleanly.
 **Blockers:** OS reboot QA pending. sCoRE Render deploy is Mark's. CF Pages setup TODO.
-**Next:** OS reboot QA → CF Pages setup (aether/nebula subdomains) → `publish-cdn.sh v0.0.0.1` → Render → `episode-1-v0.0.0.1`.
+**Next:** OS reboot QA → CF Pages setup → `publish-cdn.sh v0.0.0.1` → Render → `episode-1-v0.0.0.1`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-15 (Session 101) — OS Ansible apps layer: copy+become+pipeline fixes
+
+**Repos touched:** RaBbLE-OS, RaBbLE-Grimoire
+
+**Work done:**
+- **yazi `#git` syntax removed in ya 0.4+:** `ya pkg add yazi-rs/plugins#git` → `ansible.builtin.git` cloning `yazi-rs/plugins` directly to `~/.local/share/yazi/packages/yazi-rs/plugins`.
+- **yazi running as root:** `ya pkg add` ran under play-level `become: true`, cloning to `/root/.cache/` and `/root/.local/`. Fixed with `become: false` + `rabble_home` instead of `ansible_env.HOME` (which captures root's HOME).
+- **Firefox copy+become failure:** `copy` module with `become: true` + `pipelining: true` on localhost fails to read source files when the destination is stale. Workaround: `content: "{{ lookup('file', ...) }}"` bypasses the copy module's file discovery.
+- **Root cause — `ansible_pipelining: false`:** Added to localhost in `hosts.yml`. Pipelining + become on local connections causes copy module to fail to open source files when it needs to transfer them. This fixes the entire class of failures without patching each task.
+
+**What's next:** OS reboot QA → CF Pages setup → `publish-cdn.sh v0.0.0.1` → Render → `episode-1-v0.0.0.1`.
 
 ---
 
