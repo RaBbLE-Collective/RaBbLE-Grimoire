@@ -215,6 +215,10 @@ via CLI — no dashboard.
 bash spells/deploy-render.sh        # see --help for subcommands
 ```
 
+> **Planned (future session):** consolidate `deploy-render.sh` into a unified
+> `render-ctl.sh`, mirroring `railway-ctl.sh`, so the active backend and the dormant one
+> share one shape. Tracked as AUDITS gap #11.
+
 The Railway path is **dormant**: its three former spells were consolidated into the
 single `railway-ctl.sh` (marked dormant in its header), retained intact in case Railway
 is ever re-adopted as the backend provider. `deploy-railway.sh` and `deploy-score.sh`

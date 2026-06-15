@@ -114,7 +114,7 @@ Completed audits of the Grimoire and Collective. Each entry captures scope, key 
 
 ### Blocking Episode 1
 
-**1. sCoRE Railway deploy unverified** — `harness/deploy.sh` and `harness/railway_ctl.sh` exist. Requires manual run on clean VM + verification that API responds. Write `spells/deploy-score.sh` wrapper when verified. *Status: files exist, testing pending.*
+**1. sCoRE Render deploy unverified** — current cloud target is **Render** via `spells/deploy-render.sh` (Railway path retired/dormant in `railway-ctl.sh`, S105). Requires manual deploy from the Render dashboard (Mark's task) + verification that the API responds and World chat reaches it. *Status: `render.yaml` present, deploy pending.*
 
 **2. bootstrap.sh not verified end-to-end** — Bootstrap script exists at `/home/rabble/RaBbLE-Collective/bootstrap.sh`. Requires run on clean VM; verify all members clone, configure, symlinks wire correctly. *Status: files in place, live test pending.*
 
@@ -135,4 +135,6 @@ Completed audits of the Grimoire and Collective. Each entry captures scope, key 
 **9. Architecture gists for sCoRE and World** — Code members lack agent-facing file maps. ~500-token architecture gists would save agents from reading ~180K (sCoRE) or ~120K (World) raw code to orient. *Status: recommended (S29 audit), not yet created.*
 
 **10. INDEX.md audit-only demotion** — Flat doc index is useful for audits but agents rarely need it during work. Gist system + AGENT.md Workspaces table route better. Consider marking audit-only to reduce noise. *Status: recommended, not yet actioned.*
+
+**11. Render deploy spell → `render-ctl.sh` refactor (FUTURE SESSION TASK)** — mirror the `railway-ctl.sh` consolidation: refactor `spells/deploy-render.sh` (and any residual sCoRE-deploy concerns from the removed `deploy-score.sh`) into a single unified `spells/render-ctl.sh` (setup / deploy / status / logs / env subcommands, `--help`, `--dry-run`). Goal: one canonical Render control spell paralleling `railway-ctl.sh`, so the active backend and the dormant one share a shape. *Status: queued for a future session (S105).*
 
