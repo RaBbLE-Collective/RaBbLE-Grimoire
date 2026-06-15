@@ -5,14 +5,29 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-15 · Session 102 (NeBuLA perf branch archived; RaBbLE-OS remote moved)
+## LATEST — 2026-06-15 · Session 103 (EP1 readiness audit + 4-stream cleanup)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S102):** `feat/nebula-perf` in World was obsolete (bg.js moved to NeBuLA) — archived to Chrysalis as `archive/nebula-world-perf`, deleted from World. Batch-connection fix documented as Issue 5 in Perf Handoff. RaBbLE-OS remote updated to RaBbLE-Collective org.
-**Blockers:** OS reboot QA pending. sCoRE Render deploy is Mark's. CF Pages setup TODO.
-**Next:** OS reboot QA → CF Pages setup → `publish-cdn.sh v0.0.0.1` → Render → `episode-1-v0.0.0.1`.
+**This session (S103):** Full EP1 audit → `log/EP1-READINESS-AUDIT-S103.md`. Grimoire drift fixed (Railway→Render ×3, token counts, screenshot spell → captures/_inbox/). World given main/new-horizons treatment (main=stub, new-horizons=full 102-commit history rebased on; verified byte-identical to backup; branches pushed). BaBbLE captures inbox + filing + CLEANUP-PLAN. Aether-as-platform-theme plan delivered (Catppuccin Kvantum re-base recommended; jank = leftover Arc grays).
+**Blockers:** Awaiting Mark: Kvantum base confirm · World remote cleanup (delete origin/world, default→main) · OS reboot QA · CF Pages · Render deploy.
+**Next:** Execute Aether theme re-base → World page unification (liminal+grimoire+landing+summon) → harmonize remaining branches (Xperimental `master`) → RCs.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-15 (Session 103) — EP1 readiness audit + 4-stream cleanup
+
+**Repos touched:** RaBbLE-Collective, RaBbLE-Grimoire, RaBbLE-World, RaBbLE-BaBbLE (Aether/OS: plan only, no edits yet)
+
+**Work done (3 parallel subagents + foreground git surgery):**
+- **Audit:** Full Collective EP1 readiness pass → canonical `log/EP1-READINESS-AUDIT-S103.md`. Found 3 silent EP1 blockers: branch inconsistency, theme-artifact duplication, World fragmentation (20 CSS/21 JS, no shared shell).
+- **Grimoire drift (committed):** Railway→Render in sCoRE-Architecture/Roadmap + Episode1 gist; gist token-count reconciled to ~1,700; `visual-screenshot.sh` default → `captures/_inbox/`; audit doc indexed. Collective root `AGENT.md` `~/RaBbLE/`→`~/RaBbLE-Collective/`.
+- **World branch treatment (committed + pushed):** backup tag `backup/world-pre-rewrite`; `main` rebuilt as stub (README+LICENSE+gitignore); 102-commit history rebased onto it as `new-horizons` (zero conflicts, byte-identical to backup). `main`+`new-horizons` pushed. **`origin/world` + GitHub default branch unchanged — awaiting Mark.**
+- **BaBbLE (committed):** `captures/_inbox/` staging dir (gitignored) + screenshot flow alignment; 11 loose captures filed into taxonomy; `CLEANUP-PLAN.md` for root consolidation (historical/→_archive proposed, awaiting sign-off).
+- **Aether-as-platform-theme (plan only):** confirmed jank = leftover Arc grays/blues in the recolored-KvArcDark SVG. Recommended **Catppuccin-Kvantum (MIT, Whiskers-templated)** as re-base (Sweet GPL fallback). Full migration plan: Aether `themes/{...}` holds all app artifacts incl. migrated VSCodium; OS → selectors only; orphan `OS/config/kvantum/RaBbLE-Aether/` deleted; gtk.css dead palette path fixed. Plan in audit follow-up.
+
+**What's next:** Mark decisions (Kvantum base, World remote cleanup, BaBbLE historical move) → execute Aether re-base → World page unification → harmonize Xperimental `master` → per-member RCs.
 
 ---
 
