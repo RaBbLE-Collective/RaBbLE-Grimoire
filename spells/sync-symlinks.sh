@@ -38,7 +38,7 @@ MUTED='\033[38;2;107;104;128m'
 RESET='\033[0m'
 
 SYMLINK_NAMES=("CLAUDE.md" "CODEX.md" "GEMINI.md")
-GITIGNORE_ENTRIES=("CLAUDE.md" "CODEX.md" "GEMINI.md")
+GITIGNORE_ENTRIES=("CLAUDE.md" "CODEX.md" "GEMINI.md" ".claude/")
 
 created=0
 skipped=0

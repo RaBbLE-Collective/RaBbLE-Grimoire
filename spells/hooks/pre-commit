@@ -15,7 +15,9 @@ BLOCKED=(CLAUDE.md CODEX.md GEMINI.md)
 FOUND=()
 
 for f in "${BLOCKED[@]}"; do
-  if git diff --cached --name-only | grep -qxF "$f"; then
+  # Only block if the file is being added/modified (not deleted)
+  status=$(git diff --cached --name-status | awk -v f="$f" '$2 == f {print $1}')
+  if [[ "$status" == A || "$status" == M ]]; then
     FOUND+=("$f")
   fi
 done
