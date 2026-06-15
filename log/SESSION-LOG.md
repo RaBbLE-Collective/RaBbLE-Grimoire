@@ -5,14 +5,32 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-14 · Session 97 (Ansible apps layer debug)
+## LATEST — 2026-06-15 · Session 98 (new-horizons branch sweep + bootstrap hardening)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S97):** Ansible apps layer debug: fixed `stayfocused`/`dimaround` (invalid windowrule types, removed); yazi COPR wired (`lihaohong/yazi`, was `source: fedora`); `ya pack` → `ya pkg add` (yazi 0.4+ API). gtk.css failure was a timing fluke — all sources verified present, should pass on next run.
-**Blockers:** OS reboot QA pending. sCoRE Render deploy is Mark's.
-**Next:** Re-run `layerctl apply apps` → confirm clean. Then OS reboot QA → CF R2 → Render → `episode-1-v0.0.0.1`.
+**This session (S98):** Branch sweep: `dev` → `new-horizons` across all members (Collective, Grimoire, sCoRE, NeBuLA, Aether, BaBbLE). OS feature branches rebased onto NH (quickshell-port, proart-nvidia); episode-I archived to `archive/episode-I-substrate`; integrated branches deleted. Bootstrap hardened: GEMINI.md added to symlink creation, setup auto-checks-out new-horizons on clone, sync-symlinks runs at end. `publish-cdn.sh` spell created for Aether+NeBuLA subdomain delivery (no R2). README rewritten as agent walkthrough.
+**Blockers:** OS reboot QA pending. sCoRE Render deploy is Mark's. CF Pages setup TODO (next session).
+**Next:** OS reboot QA → CF Pages setup (aether/nebula subdomains) → `publish-cdn.sh v0.0.0.1` → Render → `episode-1-v0.0.0.1`. GitHub: set new-horizons as default branch in each repo settings.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-15 (Session 98) — new-horizons branch sweep + bootstrap hardening
+
+**Repos touched:** RaBbLE-Collective, RaBbLE-Grimoire, RaBbLE-OS, RaBbLE-Aether, RaBbLE-NeBuLA, RaBbLE-sCoRE, RaBbLE-BaBbLE, RaBbLE-Chrysalis
+
+**Work done:**
+- **Branch rename:** `dev` → `new-horizons` across Collective, Grimoire, sCoRE, NeBuLA, Aether, BaBbLE. Pushed to all remotes. All local repos switched to new-horizons.
+- **RaBbLE-OS branches:** Rebased `feature/quickshell-port` and `fix/proart-nvidia` onto NH (force-pushed). Resolved nvidia.yml conflict — kept suspend hooks + idempotency fix. Archived `RaBbLE/episode-I` → `archive/episode-I-substrate`. Deleted `feature/waybar-llm-status` (NH already contained all its work).
+- **NeBuLA/Aether stale branches:** Deleted local-only `feat/grimoire-entity-spec`, `feat/grimoire-summoning-circle`, `feat/nebula-perf` from NeBuLA and Aether (all fully contained in new-horizons).
+- **Bootstrap hardening:** setup.sh default branch → new-horizons. Grimoire setup_symlinks() now creates GEMINI.md. pull_and_wire_project() auto-checks-out new-horizons on fresh clone. Final setup step calls sync-symlinks.sh.
+- **publish-cdn.sh:** New spell for subdomain CDN delivery — builds Aether/NeBuLA, deploys to aether.joinrabble.world + nebula.joinrabble.world via Cloudflare Pages (no R2 required). Versioned paths: /v{Five-Es}/file.
+- **Aether package.json:** Added build:versioned script.
+- **README.md:** Full rewrite — bootstrap flow, branch table, CDN plan, member table with dev branches.
+- **TODO next session:** CF Pages project setup (rabble-aether, rabble-nebula) + custom domains.
+
+**What's next:** OS reboot QA → CF Pages setup → `publish-cdn.sh v0.0.0.1` → Render → episode-1-v0.0.0.1. GitHub: set new-horizons as default branch in org repo settings.
 
 ---
 
