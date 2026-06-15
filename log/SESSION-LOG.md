@@ -5,14 +5,30 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-15 · Session 99 (VSCodium theme border-radius fix)
+## LATEST — 2026-06-15 · Session 100 (main stub hygiene + .claude gitignore sweep)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S99):** VSCodium Aether theme quick fix — editor group ring `border-radius` was 4px while sidebar, activitybar, and panel all used 8px. Unified to 8px in both the source (`RaBbLE-OS/config/`) and deployed (`~/.vscode-oss/extensions/`) copies.
+**This session (S100):** Stripped CLAUDE.md/CODEX.md from all `main` branches (Collective, Aether, sCoRE). Removed `.claude/` from git tracking on Collective + sCoRE new-horizons. Fixed pre-commit hook (was blocking deletions). `sync-symlinks.sh` now gitignores `.claude/` across all repos. BaBbLE confirmed local-only (no remote). All mains now clean stubs.
 **Blockers:** OS reboot QA pending. sCoRE Render deploy is Mark's. CF Pages setup TODO.
 **Next:** OS reboot QA → CF Pages setup (aether/nebula subdomains) → `publish-cdn.sh v0.0.0.1` → Render → `episode-1-v0.0.0.1`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-15 (Session 100) — main stub hygiene + .claude gitignore sweep
+
+**Repos touched:** All members (Collective, Grimoire, Aether, BaBbLE, Chrysalis, NeBuLA, OS, sCoRE, World, Xperimental)
+
+**Work done:**
+- **main stub cleanup:** `git rm --cached` CLAUDE.md + CODEX.md from Collective, Aether, sCoRE `main` branches. Added AI tooling gitignore entries to each `main`'s `.gitignore`. Committed + pushed.
+- **new-horizons .claude untrack:** Removed `.claude/settings.json` from Collective and `.claude/CONTEXT.md` + `.claude/settings.json` from sCoRE on `new-horizons`. Both now untracked.
+- **pre-commit hook fix:** Hook was blocking deletions of CLAUDE.md/CODEX.md — fixed to only block A (added) and M (modified) statuses, not D (deleted). Committed to Grimoire new-horizons.
+- **sync-symlinks.sh:** Added `.claude/` to `GITIGNORE_ENTRIES` so every repo automatically gitignores it on setup or resync.
+- **gitignore sweep:** Ran `sync-symlinks.sh`; committed `.claude/` gitignore entries to all 8 repos that were missing it.
+- **BaBbLE:** Confirmed local-only (no GitHub remote). Removed false origin that was accidentally added.
+
+**What's next:** OS reboot QA → CF Pages setup → `publish-cdn.sh v0.0.0.1` → Render → episode-1-v0.0.0.1.
 
 ---
 

@@ -13,3 +13,4 @@ log/session-tokens.json
 
 # Local credentials — written by spells/*-ctl.sh setup, never committed
 .cloudflare/
+.claude/
