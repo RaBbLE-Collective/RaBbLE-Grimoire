@@ -95,9 +95,9 @@ See `RaBbLE-Agent/RaBbLE-CommitStyle.md` (Pulse Protocol) for full spec.
 
 ## Getting Started
 
-**New to the Grimoire?** Start with the gist/ for a full picture in ~3,660 tokens:
+**New to the Grimoire?** Start with the gist/ for a full picture in ~1,700 tokens:
 ```bash
-cat gist/*.md                       # complete orientation — all key docs distilled (~3,660 tokens)
+cat gist/*.md                       # complete orientation — all key docs distilled (~1,700 tokens)
 cat RaBbLE-Grimoire-Navigator.md    # reading paths by time budget (5/15/30 min)
 ```
 

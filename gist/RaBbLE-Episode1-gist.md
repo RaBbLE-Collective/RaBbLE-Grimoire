@@ -9,7 +9,7 @@
 - OS: daily-driver substrate (Fedora 43/Hyprland, Plots A+B complete)
 - Aether: CSS bundle versioned, CDN-ready (Cloudflare R2)
 - NeBuLA: Canvas2D Layer 1 at 60 FPS, `<rabble-entity>` component public
-- sCoRE: simple LLM endpoint (Groq/OpenRouter, Railway-deployed)
+- sCoRE: simple LLM endpoint (Groq/OpenRouter, Render-deployed)
 - World: landing page + grimoire browser + chat (loads Aether + NeBuLA from CDN)
 - Grimoire: Navigator active, all docs current, member manifests complete
 - Collective: bootstrap verified end-to-end

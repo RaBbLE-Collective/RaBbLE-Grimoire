@@ -26,7 +26,7 @@ delegated actions. It has no execution surface of its own — delegation is its 
 │  RaBbLE-sCoRE    │   │  server/ (FastAPI)                │
 │  Claude Code     │   │  Groq + OpenRouter direct routing │
 │  score.md id     │   │  Chat · Workflows · Auth          │
-│  No Bash/Web     │   │  Local or Railway-deployed        │
+│  No Bash/Web     │   │  Local or Render-deployed         │
 └────────┬─────────┘   └──────────────────────────────────┘
          │ writes TASK-{ID}-{agent}.md
          ▼
@@ -113,7 +113,7 @@ called remotely.
 | `auth.py` | JWT + API key authentication |
 | `rate_limit.py` | Sliding-window rate limiter |
 
-Deployment: `harness/local.sh` (local) · `harness/deploy.sh` (Railway)
+Deployment: `harness/local.sh` (local) · `spells/deploy-render.sh` (Render)
 
 ---
 
@@ -130,7 +130,7 @@ The sCoRE-as-daemon concept — running the coordinator as a standalone process
 independent of Claude Code CLI — is Evolution 1 territory. When that happens, the
 coordinator and server may naturally separate. Not now.
 
-Railway deploys from `server/` as Root Directory. The harness controls that path.
+Render deploys from `server/` as Root Directory. The harness controls that path.
 The coordinator runs locally via tmux. They share one repo, two modes.
 
 ---
@@ -157,10 +157,9 @@ The coordinator runs locally via tmux. They share one repo, two modes.
   (`markm1206/RaBbLE-JS`) that bundled the early NeBuLA renderer and a "BaBbLE command
   shell." That lineage is `RaBbLE-JS` → `RaBbLE-Chat` → merged into `RaBbLE-World`.
   sCoRE absorbed `RaBbLE-Server` as an "Episode 3" subcomponent on 2026-05-06.
-- **sCoRE's Railway deployment status is unverified** — it has appeared as an open
-  Episode 1 blocker through S44. The `RaBbLE-Server` description above is the *known
-  prior state* (working, deployed); treat it as possibly aspirational/stale relative to
-  what exists post-absorption until you've reverified against the live deployment.
+- **sCoRE now deploys to Render** (pivoted from Railway at S58) — `spells/deploy-render.sh`
+  exists; Render deploy is Mark's manual step and remains an open EP1 blocker. The
+  `RaBbLE-Server` origin above was Railway-deployed; that lineage is historical only.
 - The DataCrawler RFC (Scavenger/Organizer/Librarian bot architecture), originally
   ideated in BaBbLE, is preserved here as a future sCoRE RFC — see
   `RaBbLE-sCoRE-DataCrawler-RFC.md`.

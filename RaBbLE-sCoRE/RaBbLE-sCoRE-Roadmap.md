@@ -11,14 +11,14 @@ transcribe ~ grimoire >> sCoRE trajectory mapped // %TRAJECTORY_LOCKED%
 
 ## Episode 1 Commitment (This Member)
 
-**Ep1 Deliverable:** Simple LLM endpoint (Groq/OpenRouter via Railway/Render)
+**Ep1 Deliverable:** Simple LLM endpoint (Groq/OpenRouter via Render)
 
 **Blocker:** None — MVP scope is straightforward
 
 **What ships:**
 - [ ] Groq/OpenRouter integration configured
 - [ ] Endpoint wired (receive query → call API → return response)
-- [ ] Deployed to Railway or Render
+- [ ] Deployed to Render
 - [ ] Version aligned to v0.0.0.1
 
 **Deferred to Episode 2+:**
@@ -118,14 +118,14 @@ Events:
 ### Episode 1 — First Air `[pending]`
 
 **Version at air:** `v0.0.0.1`
-**Goal:** sCoRE is runnable end-to-end. Server deploys to Railway. Harness verified. Tests pass. Versioning aligned to Collective.
+**Goal:** sCoRE is runnable end-to-end. Server deploys to Render. Harness verified. Tests pass. Versioning aligned to Collective.
 
 Exit conditions:
 - [ ] `harness/` path bug fixed — all scripts reference `server/` not `services/intelligence/`
 - [ ] `server/main.py` version string aligned to Five Es scheme
 - [ ] `server/api_test.py` (or `test_api.sh`) runs clean against local server
 - [ ] `harness/local.sh` starts server successfully
-- [ ] Railway deploy attempted — `harness/deploy.sh` or `harness/railway_ctl.sh` verified
+- [ ] Render deploy attempted — `spells/deploy-render.sh` verified (Mark's manual step)
 - [ ] `RaBbLE-Grimoire/spells/deploy-score.sh` spell in place
 - [ ] CONTEXT.md versioning header updated to `v0.0.0.1` on air
 - [ ] Tagged `episode-1` on `main`
