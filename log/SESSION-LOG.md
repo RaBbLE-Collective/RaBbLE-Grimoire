@@ -5,14 +5,35 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-15 · Session 104 (World commit dates restored)
+## LATEST — 2026-06-15 · Session 103/104 (World EP1 unification built; commit dates restored)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S104):** Recovered World's "lost" commit timeline. The S101/S103 main-rewrite was a plain rebase — it **preserved AUTHOR dates and only flattened COMMITTER dates** to `02:31:00`; nothing was truly lost. Fixed losslessly via a `commit-tree` walk setting committer:=author; synthetic `main stub` root backdated to `2026-05-05 21:42:01` so the graph reads monotonically. **Byte-identical content** (tip tree unchanged, zero diff), timeline May 5→Jun 15 restored. Both `main`+`new-horizons` force-pushed; `--force-with-lease` safely absorbed a concurrent session's in-flight `Shell.html` commit. Collective `main` is a SQUASH (not rebase) → per-commit dates unrecoverable there; granular history kept in `backup/new-horizons-pre-rewrite` + Chrysalis.
-**Blockers:** Awaiting Mark: **CF Pages prod-branch repoint** (was `world`) · **live theme deploy** (`layerctl apply --tags theming,vscode` on daily driver) · BaBbLE reorg sign-off (plan filed: `log/S104-BABBLE-CAPTURES-GIT-REORG-PLAN.md`) · OS reboot QA · Render deploy.
-**Next:** World page unification build (concurrent session in flight: liminal→shell rename) → apply the committer:=author date fix to other member repos given the same S101 treatment → harmonize Xperimental `master` → per-member RCs.
+**Latest (S103 World unification):** **World EP1 site unified** — liminal promoted to the front door (`/`), WM shell → `/world/RaBbLE-Shell.html`, doors rewired to the spine (the summoning → summon · the collective → platform shell · graph↔codex = grimoire browser · OS/NeBuLA organs), all surfaces share threshold nav, paths made absolute. **Aether-first alignment:** shell's divergent palette + Grimoire/chat neon → Aether tokens, `--yellow/--red` aliases added; live surfaces verified stray-free by screenshot. Aether OS theme deployed live & confirmed clean.
+**Earlier (S104):** World commit dates restored losslessly (committer:=author), byte-identical content, both branches force-pushed.
+**Blockers:** Awaiting Mark: **CF Pages prod-branch repoint** (was `world`) · BaBbLE reorg sign-off (`log/S104-BABBLE-CAPTURES-GIT-REORG-PLAN.md`) · OS reboot QA · Render deploy. (Live theme deploy ✓ done.)
+**Next:** grimoire-browser deeper cohesion + shared-shell/CSS consolidation → harmonize Xperimental `master` → committer:=author date fix on other S101-treated repos → per-member RCs.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-15 (Session 103, cont.) — World EP1 unification built + Aether-first alignment
+
+**Repos touched:** RaBbLE-World (build), RaBbLE-Grimoire (design doc + this log). Aether OS theme deployed live by Mark (clean).
+
+**Spine (locked with Mark):** liminal as the EP1 front door → doors → WM shell (platform) + grimoire browser (graph + reader) + summon. Design canon: `RaBbLE-World/RaBbLE-World-EP1-Unification.md`.
+
+**Built (each step screenshot-verified, captures → `RaBbLE-BaBbLE/captures/_inbox/`):**
+- **Entry swap:** liminal HTML promoted to root `index.html` (joinrabble.world front door); old WM-shell `index.html` relocated to `world/RaBbLE-Shell.html`. Both converted to **absolute asset paths** (`/world/…`) so location no longer breaks links.
+- **Doors rewired** (`RaBbLE-liminal.js` PORTALS): *the channel*→*the summoning* (→ summon.html); *the collective*→platform (→ RaBbLE-Shell.html); graph/codex unchanged (grimoire browser); substrate/eyes = OS/NeBuLA organs. All six targets 200.
+- **Refinement — nav cohesion:** every surface returns to the threshold (Shell brandmark + summon wordmark → `/`; Graph/Docs/Collective already `../index.html` = the now-liminal root). **Grimoire browser** made bidirectional: Docs shows "◈ graph", Graph shows "◐ codex".
+- **Aether-first alignment:** `RaBbLE-theme.css` confirmed already an Aether alias layer; added `--yellow/--red`. Shell's divergent `:root` palette (lavender ramp, `#ffbe2e`) remapped to Aether tokens (6 defs → ~106 usages inherit). `RaBbLE-Grimoire.css` 5 raw neon hex + `chat.css` `#fff` → tokens. Live surfaces verified stray-free (excl. intentional iOS flash-guard + archival `landing.css`).
+
+**Findings:** `world/css/RaBbLE-landing.css` (1400-line pre-split monolith) is **dead** — referenced only in comments/docs, loaded nowhere → clean deletion candidate. World runs two token namings (Aether `--rabble-*` + World bare `--*` alias) — standardize later.
+
+**Concurrency note:** committed **only** `log/SESSION-LOG.md` here; left S104's date-restore commits and another session's ~25 in-flight Grimoire edits (registry/spells/docs) untouched. World repo was force-pushed by S104 mid-session — **local `new-horizons` may diverge from origin; reconcile before next World push.**
+
+**What's next:** grimoire-browser deeper cohesion (shared framing) + shared-shell/CSS consolidation (collapse the per-surface CSS toward Aether tokens) → harmonize Xperimental `master` → per-member RCs.
 
 ---
 
@@ -66,7 +87,7 @@ Format: date, what was done, where things were left, what's next.
 
 **Work done (3 parallel subagents + foreground git surgery):**
 - **Audit:** Full Collective EP1 readiness pass → canonical `log/EP1-READINESS-AUDIT-S103.md`. Found 3 silent EP1 blockers: branch inconsistency, theme-artifact duplication, World fragmentation (20 CSS/21 JS, no shared shell).
-- **Grimoire drift (committed):** Railway→Render in sCoRE-Architecture/Roadmap + Episode1 gist; gist token-count reconciled to ~1,700; `visual-screenshot.sh` default → `captures/_inbox/`; audit doc indexed. Collective root `AGENT.md` `~/RaBbLE/`→`~/RaBbLE-Collective/`.
+- **Grimoire drift (committed):** Railway→Render in sCoRE-Architecture/Roadmap + Episode1 gist; gist token-count reconciled to ~1,700; `visual-screenshot.sh` default → `captures/_inbox/`; audit doc indexed. Collective root `AGENT.md` `~/RaBbLE-Collective/`→`~/RaBbLE-Collective/`.
 - **World branch treatment (committed + pushed):** backup tag `backup/world-pre-rewrite`; `main` rebuilt as stub (README+LICENSE+gitignore); 102-commit history rebased onto it as `new-horizons` (zero conflicts, byte-identical to backup). `main`+`new-horizons` pushed. **`origin/world` + GitHub default branch unchanged — awaiting Mark.**
 - **BaBbLE (committed):** `captures/_inbox/` staging dir (gitignored) + screenshot flow alignment; 11 loose captures filed into taxonomy; `CLEANUP-PLAN.md` for root consolidation (historical/→_archive proposed, awaiting sign-off).
 - **Aether-as-platform-theme (executed):** jank root-caused = leftover Arc grays in the recolored-KvArcDark SVG. Kvantum re-based on **Catppuccin/Kvantum (MIT)** Mocha-Lavender (pinned `71105d2`), recolored via saved `themes/_palette/{aether-kvantum.map,recolor.sh}`; **QA gate independently verified — 10 hexes, all within the 13-color palette, Arc grays gone**. VSCodium theme moved OS → `RaBbLE-Aether/themes/vscodium/`; `vscode.yml` repointed to `aether_repo_root`. OS slimmed to selectors: orphan `config/kvantum/RaBbLE-Aether/` + `config/vscodium/extensions/` deleted, dead dotctl bundle removed, gtk.css palette path fixed. Aether `439d515` · OS `a4e2b38`, both `new-horizons`, `main` untouched, **no live deploy run**.
@@ -1605,7 +1626,7 @@ the entry points for pulling concepts forward into those repos.
 
 2. **KS bugs fixed:** Added `reboot` directive (was missing — Anaconda hung on completion screen). Fixed `ExecStartPre`/`ExecStartPost` in firstboot service (needed `+` prefix for root operations). Replaced `@^minimal-environment` with `@core` (Fedora 44 comps). Hardcoded mirrorlist URL (Anaconda doesn't expand `$releasever` during initrd boot).
 
-3. **Clone strategy decision:** KS `%post` now clones canonical Collective structure: `~/RaBbLE/` (Collective) → `~/RaBbLE/RaBbLE-Grimoire/` → `~/RaBbLE/RaBbLE-OS/`. Skips other members — only what OS needs.
+3. **Clone strategy decision:** KS `%post` now clones canonical Collective structure: `~/RaBbLE-Collective/` (Collective) → `~/RaBbLE-Collective/RaBbLE-Grimoire/` → `~/RaBbLE-Collective/RaBbLE-OS/`. Skips other members — only what OS needs.
 
 4. **vmctl improvements:** Removed `--wait -1` blocking (SPICE connects immediately), `cmd_connect` uses `connect_to_vm` helper (works under sudo), removed dead HTTP server cleanup code.
 
@@ -3214,14 +3235,14 @@ All four repos have `main` + `dev` on remote, fully synced, zero dirty:
 - Archived old content: `archive/v0-collective-scaffold`, `archive/reliquary-grimoire-site`
 - Rewrote `main`: `AGENT.md`, `README.md`, `CONTEXT.md`, `bootstrap.sh`, `.gitignore`, `Agent.md`/`CODEX.md` symlinks
 - `.gitignore` explicitly lists all member repos (`RaBbLE-*/`) — fully modular, zero coupling
-- Wired `~/RaBbLE/` as live git clone of `markm1206/RaBbLE` (it IS the Collective root now)
+- Wired `~/RaBbLE-Collective/` as live git clone of `markm1206/RaBbLE` (it IS the Collective root now)
 - Updated `registry/manifests/RaBbLE-Collective.manifest.yml` — repo URL and status corrected
 - Confirmed: `RaBbLE-NeBuLA` renamed locally, on `dev` branch, no remote yet
 - Confirmed: `RaBbLE-Xperimental` live with remote at `markm1206/RaBbLE-NeBuLA-JS` (GitHub repo rename)
 - Answered modularity question: `.gitignore` is the pattern — nested independent git trees
 
 **Left off:**
-- 5 old root files untracked in `~/RaBbLE/`: `GAPS.md`, `RaBbLE-CONTEXT.md`, `RaBbLE-OVERVIEW.md`, `TODO`, `devPlan.md` — legacy, can be deleted or kept
+- 5 old root files untracked in `~/RaBbLE-Collective/`: `GAPS.md`, `RaBbLE-CONTEXT.md`, `RaBbLE-OVERVIEW.md`, `TODO`, `devPlan.md` — legacy, can be deleted or kept
 - `RaBbLE-NeBuLA` has no GitHub remote yet
 - `bootstrap.sh` scaffolded but `joinrabble.world/bootstrap.sh` not wired yet
 - Missing manifests: World, NeBuLA, Aether, Xperimental
@@ -3249,7 +3270,7 @@ All four repos have `main` + `dev` on remote, fully synced, zero dirty:
 
 **Left off:**
 - `RaBbLE-Collective` GitHub repo does not exist yet — plan written, not implemented
-- `RaBbLE-Xperimental` local repo exists at `~/RaBbLE/RaBbLE-Xperimental` but not pushed to GitHub
+- `RaBbLE-Xperimental` local repo exists at `~/RaBbLE-Collective/RaBbLE-Xperimental` but not pushed to GitHub
 - Missing manifests still unresolved: World, NeBuLA, Aether, Xperimental
 - `joinrabble.world/bootstrap.sh` not yet wired in RaBbLE-World
 
