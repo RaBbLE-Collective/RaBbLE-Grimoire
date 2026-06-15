@@ -9,10 +9,30 @@ Format: date, what was done, where things were left, what's next.
 
 **Phase:** Epoch 0 · Episode 1 in flight.
 **This session (S104):** Recovered World's "lost" commit timeline. The S101/S103 main-rewrite was a plain rebase — it **preserved AUTHOR dates and only flattened COMMITTER dates** to `02:31:00`; nothing was truly lost. Fixed losslessly via a `commit-tree` walk setting committer:=author; synthetic `main stub` root backdated to `2026-05-05 21:42:01` so the graph reads monotonically. **Byte-identical content** (tip tree unchanged, zero diff), timeline May 5→Jun 15 restored. Both `main`+`new-horizons` force-pushed; `--force-with-lease` safely absorbed a concurrent session's in-flight `Shell.html` commit. Collective `main` is a SQUASH (not rebase) → per-commit dates unrecoverable there; granular history kept in `backup/new-horizons-pre-rewrite` + Chrysalis.
-**Blockers:** Awaiting Mark: **CF Pages prod-branch repoint** (was `world`) · **live theme deploy** (`layerctl apply --tags theming,vscode` on daily driver) · BaBbLE `historical/` move sign-off · OS reboot QA · Render deploy.
+**Blockers:** Awaiting Mark: **CF Pages prod-branch repoint** (was `world`) · **live theme deploy** (`layerctl apply --tags theming,vscode` on daily driver) · BaBbLE reorg sign-off (plan filed: `log/S104-BABBLE-CAPTURES-GIT-REORG-PLAN.md`) · OS reboot QA · Render deploy.
 **Next:** World page unification build (concurrent session in flight: liminal→shell rename) → apply the committer:=author date fix to other member repos given the same S101 treatment → harmonize Xperimental `master` → per-member RCs.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-15 (Session 104, planning) — BaBbLE/Captures reorg + git linearization plan filed
+
+**Repos touched:** RaBbLE-Grimoire (log only — plan doc). No reorg executed, no history rewritten, no other repos modified.
+
+**Context:** Mark asked for (1) a BaBbLE reorg — capture novel insights, archive outdated docs, group AI stills as "AI concept art"; (2) a Captures reorg + ensure the screenshot system lands in BaBbLE; (3) a *proposed* plan to make `new-horizons` linear atop `main` in Collective/sCoRE/Aether.
+
+**Outcome:** Full plan written to `log/S104-BABBLE-CAPTURES-GIT-REORG-PLAN.md` as a handoff for a separate Sonnet implementation session (Mark's plan/implement split). Decisions locked: concept-art umbrella under `assets/`; captures become ephemeral (gitignored, untracked, kept on disk); git history = written proposal only this round.
+
+**Key findings during exploration:**
+- Screenshot system: the Playwright spell already targets `RaBbLE-BaBbLE/captures/_inbox/`, but the **OS Print-key keybind (`RaBbLE-OS/config/hypr/scripts/screenshot.sh:8`) still points at a dead `~/RaBbLE-Collective/RaBbLE-Captures` path** — that's the real "move into BaBbLE" fix.
+- Captures policy contradiction: Grimoire doc says "ephemeral/gitignored" but 126 files are tracked → Mark chose to honor the doc (make ephemeral).
+- `assets/` = the AI concept art (49 `Diffusion_*`/`Entity_*`/`Study_*` stills, themed, each with `.meta.md`); no graph generator script exists, so the `concept-art/` move needs manual `index.json`/`GRAPH.md`/`INDEX.md` edits.
+- Git: all three repos share one pattern — `new-horizons` diverged from `main` by a single redundant cleanup commit. sCoRE & Aether have **no backup tags** (Collective does), so tagging is mandatory before any rebase.
+
+**Note:** committed only the plan doc + this log entry; left a concurrent session's 24 in-flight Grimoire edits (registry/spells/docs) untouched.
+
+**What's next:** Sonnet session executes Parts 1–2 from the plan doc; git linearization awaits separate sign-off.
 
 ---
 
