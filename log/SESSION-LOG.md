@@ -5,27 +5,28 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-14 · Session 97 (OS windowrules fix + yazi COPR)
+## LATEST — 2026-06-14 · Session 97 (Ansible apps layer debug)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S97):** Fixed windowrules.conf (invalid `stayfocused`/`dimaround` removed; all boolean rules need explicit `true`). Wired yazi COPR (`lihaohong/yazi`) — was incorrectly set to `source: fedora`. KnownIssues updated with both gotchas.
+**This session (S97):** Ansible apps layer debug: fixed `stayfocused`/`dimaround` (invalid windowrule types, removed); yazi COPR wired (`lihaohong/yazi`, was `source: fedora`); `ya pack` → `ya pkg add` (yazi 0.4+ API). gtk.css failure was a timing fluke — all sources verified present, should pass on next run.
 **Blockers:** OS reboot QA pending. sCoRE Render deploy is Mark's.
-**Next:** OS reboot QA → CF R2 → Render → `episode-1-v0.0.0.1`. Backfill May 12–22 sessions.
+**Next:** Re-run `layerctl apply apps` → confirm clean. Then OS reboot QA → CF R2 → Render → `episode-1-v0.0.0.1`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
 ---
 
-## 2026-06-14 (Session 97) — OS windowrules fix + yazi COPR
+## 2026-06-14 (Session 97) — Ansible apps layer debug
 
 **Repos touched:** RaBbLE-OS, RaBbLE-Grimoire
 
 **Work done:**
-- **windowrules.conf:** Removed invalid `stayfocused` (invalid field type) and `dimaround` (also invalid field type) rules from termfilechooser block. Documented Hyprland gotcha: all boolean windowrules require explicit `true` value — bare rule names fail with "missing value". No focus-retention equivalent currently available.
-- **yazi COPR:** `manifest.yml` source corrected from `fedora` to `copr:lihaohong/yazi` (officially recommended Fedora 43 COPR; bundles `resvg` for image previews). Added `ansible/roles/apps/vars/main.yml` with `yazi_copr` var. Added COPR enable step to `packages.yml` before the dnf install, matching swayosd pattern.
-- **KnownIssues.md:** Documented both windowrule gotchas under Desktop/Hyprland.
+- **windowrules.conf:** Removed invalid `stayfocused` and `dimaround` (both "invalid field type" in current Hyprland build). Gotcha: all boolean windowrules need explicit `true` value — bare names fail with "missing value". No focus-retention equivalent available; documented in KnownIssues.
+- **yazi COPR:** `manifest.yml` source corrected from `fedora` → `copr:lihaohong/yazi` (official Fedora 43 COPR; bundles resvg for image previews). Added `ansible/roles/apps/vars/main.yml` with `yazi_copr` var. COPR enable step added to `packages.yml` before the dnf install, matching swayosd pattern exactly.
+- **ya pack → ya pkg add:** yazi 0.4+ renamed the package manager subcommand. Fixed in `file_manager.yml`.
+- **gtk.css timing fluke:** `config/gtk-3.0/gtk.css` failed ("could not find file on controller") despite being tracked and present. All `aether_repo_root` and `dotfiles_repo_root` sources verified present on disk. Should pass on next run.
 
-**What's next:** OS reboot QA → CF R2 → Render → `episode-1-v0.0.0.1`. Backfill May 12–22 ledger entries.
+**What's next:** Re-run `bash RaBbLE-OS-layerctl.sh apply apps` → confirm clean pass. Then OS reboot QA → CF R2 → Render → `episode-1-v0.0.0.1`.
 
 ---
 
