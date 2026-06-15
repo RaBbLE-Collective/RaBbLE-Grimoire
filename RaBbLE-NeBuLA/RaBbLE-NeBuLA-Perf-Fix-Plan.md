@@ -204,4 +204,4 @@ This isolates the eye's interactive responsiveness from particle/connection rend
 If you need to roll back to a state that was visually correct before triage:
 - **World `world` branch:** commit `aa66550` (NeBuLA bundle = 42,676 bytes, starts with `var W=...`)
 - **NeBuLA `dev` branch:** commit `34dee62` (pre-S15 perf triage)
-- **Optimization branch:** `feat/nebula-perf` in both repos (World `d3e246a`, NeBuLA `56908e1`)
+- **Optimization branch (archived):** `feat/nebula-perf` in World (`d3e246a`) is archived as `archive/nebula-world-perf` in RaBbLE-Chrysalis. Branch deleted from World 2026-06-15. NeBuLA never had this branch locally. The batch-connection fix from that branch is documented as Issue 5 in `RaBbLE-NeBuLA-Perf-Handoff.md`.

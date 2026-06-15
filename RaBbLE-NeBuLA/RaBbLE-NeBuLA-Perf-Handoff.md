@@ -149,8 +149,63 @@ When the field draw is skipped, the update is also skipped. Particle positions f
 | 2 | CSS element filter — AmbientField | `effects/ambient-field.js` | ~20 lines | Landing page blur goes off main thread |
 | 3 | CSS element filter — entity (3-canvas) | `element.js`, `canvas2d/index.js`, `particle-system.js` | ~60 lines | Entity blur goes off main thread; main CPU bottleneck eliminated |
 | 4 | Gate `update()` alongside `draw()` | `canvas2d/index.js`, `frame-budget.js` | ~10 lines | Physics never burns eye frames |
+| 5 | Batch connection strokes | `canvas2d/connection-system.js` | ~15 lines | Eliminates N GPU flushes/frame (one per connection → one total) |
 
-Fix 1 first (visual sanity check), then 2+3 together (the real perf fix). Fix 4 is a polish item after the blur path is corrected.
+Fix 1 first (visual sanity check), then 2+3 together (the real perf fix). Fix 4 is a polish item after the blur path is corrected. Fix 5 is lower priority than the CSS filter fixes but is a clean win.
+
+---
+
+## Issue 5 — `connection-system.js` still issues one `ctx.stroke()` per connection
+
+### Symptom
+
+Under high connection density or when `connDist` is widened, CPU usage spikes non-linearly. Each connection adds a GPU flush.
+
+### Root cause
+
+`src/backends/canvas2d/connection-system.js` (both boot and post-boot paths) calls `ctx.beginPath()` / `ctx.stroke()` per connection — the same anti-pattern the old `RaBbLE-bg.js` had before it was fixed.
+
+Post-boot path (currently):
+```js
+for (let a = 0; a < pts.length; a += STEP) {
+  for (let b = a + STEP; b < pts.length; b += STEP) {
+    if (d2 >= connDist2) continue;
+    ctx.beginPath();           // ← per connection
+    ctx.moveTo(...); ctx.lineTo(...);
+    ctx.strokeStyle = pa.color;
+    ctx.globalAlpha = baseAlpha * (1 - dist / connDist);
+    ctx.stroke();              // ← per connection GPU flush
+  }
+}
+```
+
+### Fix — batch into one stroke per frame
+
+Batching requires accepting a fixed color and alpha (per-particle color variation and distance-fade are lost). The visual difference is minimal at low alpha; the perf gain is proportional to connection count.
+
+```js
+ctx.beginPath();
+ctx.strokeStyle = '#3366cc';   // fixed colour
+ctx.globalAlpha = 0.05;        // fixed alpha — replace (1-d/dist)*baseAlpha
+ctx.lineWidth = 0.4;
+for (let a = 0; a < pts.length; a += STEP) {
+  const pa = pts[a];
+  for (let b = a + STEP; b < pts.length; b += STEP) {
+    const pb = pts[b];
+    const dx = pa.rx - pb.rx, dy = pa.ry - pb.ry;
+    if (dx * dx + dy * dy < connDist2) {
+      ctx.moveTo(pa.rx, pa.ry);
+      ctx.lineTo(pb.rx, pb.ry);
+    }
+  }
+}
+ctx.stroke();
+ctx.globalAlpha = 1;
+```
+
+**Tradeoff:** Loses per-particle colour variation and distance-fade alpha. Acceptable when connection density is the primary concern. If per-particle colour is important, group by colour and issue one `stroke()` per colour group.
+
+**Archive reference:** The fix was prototyped in `feat/nebula-perf` (World `d3e246a`, 2026-05-17). That branch is archived at `archive/nebula-world-perf` in RaBbLE-Chrysalis.
 
 ---
 
