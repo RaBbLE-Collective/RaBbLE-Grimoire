@@ -5,14 +5,28 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-15 · Session 98 (new-horizons branch sweep + bootstrap hardening)
+## LATEST — 2026-06-15 · Session 99 (VSCodium theme border-radius fix)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S98):** Branch sweep: `dev` → `new-horizons` across all members (Collective, Grimoire, sCoRE, NeBuLA, Aether, BaBbLE). OS feature branches rebased onto NH (quickshell-port, proart-nvidia); episode-I archived to `archive/episode-I-substrate`; integrated branches deleted. Bootstrap hardened: GEMINI.md added to symlink creation, setup auto-checks-out new-horizons on clone, sync-symlinks runs at end. `publish-cdn.sh` spell created for Aether+NeBuLA subdomain delivery (no R2). README rewritten as agent walkthrough.
-**Blockers:** OS reboot QA pending. sCoRE Render deploy is Mark's. CF Pages setup TODO (next session).
-**Next:** OS reboot QA → CF Pages setup (aether/nebula subdomains) → `publish-cdn.sh v0.0.0.1` → Render → `episode-1-v0.0.0.1`. GitHub: set new-horizons as default branch in each repo settings.
+**This session (S99):** VSCodium Aether theme quick fix — editor group ring `border-radius` was 4px while sidebar, activitybar, and panel all used 8px. Unified to 8px in both the source (`RaBbLE-OS/config/`) and deployed (`~/.vscode-oss/extensions/`) copies.
+**Blockers:** OS reboot QA pending. sCoRE Render deploy is Mark's. CF Pages setup TODO.
+**Next:** OS reboot QA → CF Pages setup (aether/nebula subdomains) → `publish-cdn.sh v0.0.0.1` → Render → `episode-1-v0.0.0.1`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-15 (Session 99) — VSCodium Aether theme border-radius fix
+
+**Repos touched:** RaBbLE-OS, RaBbLE-Grimoire
+
+**Work done:**
+- Identified border-radius mismatch in `custom.css`: editor group `::before` ring was `border-radius: 4px` while sidebar, activitybar, and panel rings all used `8px`.
+- Fixed in source: `config/vscodium/extensions/RaBbLE-Aether-theme/assets/custom.css`
+- Fixed in deployed copy: `~/.vscode-oss/extensions/RaBbLE-Collective.rabble-aether-theme-0.0.1/assets/custom.css`
+- Reload Window in VSCodium to apply (hard restart if theme cache is stale).
+
+**What's next:** OS reboot QA → CF Pages setup → `publish-cdn.sh v0.0.0.1` → Render → episode-1-v0.0.0.1.
 
 ---
 
