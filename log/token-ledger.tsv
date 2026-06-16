@@ -113,3 +113,4 @@ commit-9c87423	rc1-spine	S106: RC1 chat→sCoRE→entity verified; render-ctl.sh
 cffddc13-06e4-430d-99db-7ed4d8fad13d	entity-visuals	Debugged 2D entity (bokeh/flicker/graph/portal); fixed 3D colors+density+eyes; wired demo to NeBuLA.ThreeJsBackend (single renderer)
 7983939f-8923-4343-ba77-2bca989c5be6	rc1-spine	S106: sCoRE LIVE on Render via render-ctl; flip-point; sCoRE Grimoire docs updated; session end
 696411a7-3f97-4b17-b15a-41af2856aab4	os-ep1-preview	S109: RaBbLE-OS = EP1 Developer Preview — Preview Bar + canon + dev-flow; F2 sulogin-force recovery; F5 rough-edges sheet; Preview FLOOR verify runbook
+4c5bf95e-57c4-410d-831d-544b5690d3cc	chat-local-bridge	Local chat bridge (browser→Render proxy, @demo auth, on-disk transcripts) built + verified; FORCE_TIER band-aid pending sCoRE chain fix
