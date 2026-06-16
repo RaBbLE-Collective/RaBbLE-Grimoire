@@ -8,9 +8,9 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-06-16 · Session 114 (CF Workers subdomain deployment infrastructure)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S114):** CF Workers deployment wired for all 4 members: `aether/nebula/grimoire/score.joinrabble.world`. Each gets `wrangler.jsonc`. sCoRE gets `cf-proxy.js` (transparent proxy to Render). `cloudflare-ctl.sh` extended: `deploy <member> [ver]`, `domain <member> [add|verify|list|remove]`, `workers-list`, `status` with subdomain health. Aether/NeBuLA serve versioned CDN paths (`/v0.0.0.X/`); NeBuLA gets `build:versioned` script. Config flip-point updated.
-**Blockers:** OpenRouter $10 credits; CORS allow_origin_regex. wrangler login needed to deploy.
-**Next:** `wrangler login` → `cloudflare-ctl.sh deploy <member>` × 4 → `domain add` × 4 → confirm live.
+**This session (S114):** All 5 CF Worker subdomains LIVE: `aether/nebula/grimoire/score.joinrabble.world` + `joinrabble.world`. RC1 deployed: `aether.joinrabble.world/v0.0.0.1-rc.1/aether.min.css` + same for NeBuLA. `cloudflare-ctl.sh` finalized: `login`/`token-update`, OAuth token preference (`_get_cf_auth_token`), CF API grep fix (whitespace). World `.assetsignore` prevents `.git/` upload. Spell emoji audit: all scripts use only RaBbLE glyphs (wrangler binary emits its own).
+**Blockers:** OpenRouter $10 credits; CORS `allow_origin_regex` (Render `FRONTEND_URL` pin blocks browser localhost).
+**Next:** sCoRE LLM-chain fix (groq-lead + 402 fall-through) + startup seeder → Render deploy; then World CF Pages + guest chat path.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
@@ -36,6 +36,26 @@ Format: date, what was done, where things were left, what's next.
 
 **Branch:** all commits on `main` (each member's own repo).
 **Next:** `wrangler login` → `cloudflare-ctl.sh deploy <member>` × 4 → `domain add` × 4 → confirm live via `status`. After deploy: World deploy to activate updated config.js.
+
+### S114 completion (continued session)
+
+**Repos touched (completion):** RaBbLE-Grimoire (`spells/cloudflare-ctl.sh`), RaBbLE-World (`.assetsignore`).
+
+**What happened:**
+- OAuth `wrangler login` → all 5 Workers deployed via `cloudflare-ctl.sh deploy`:
+  - `rabble-aether` · `rabble-nebula` · `rabble-grimoire` · `rabble-score` · `rabble-collective`
+- Custom domains wired via `domain add` for all 5; confirmed HTTP 200 live.
+- RC1 deployed: `aether.joinrabble.world/v0.0.0.1-rc.1/aether.min.css` (200 ✓) and same for NeBuLA.
+- `cloudflare-ctl.sh` finalized:
+  - `_get_cf_auth_token()`: reads OAuth token from wrangler's TOML; prefers OAuth over API token
+  - `cmd_login` / `cmd_token_update`: new auth management commands
+  - All CF API `"success":true` greps → `grep -qE '"success"[[:space:]]*:[[:space:]]*true'` (CF API includes spaces)
+  - `cmd_domain`: uses `_get_cf_auth_token` (OAuth) instead of bare CLOUDFLARE_API_TOKEN
+- `RaBbLE-World/.assetsignore`: prevents `.git/` directory from being uploaded to Workers Assets.
+- Spell emoji audit: all collective spells use RaBbLE-approved glyphs only (`✓` `✗` `⚠` `—`). Wrangler binary itself emits emoji (⛅️ 🌀 ✨) — cannot be suppressed from within the scripts.
+
+**Branch:** Grimoire `new-horizons`; World `new-horizons`.
+**Next:** sCoRE LLM-chain fix (groq-lead + 402 fall-through) + startup seeder → Render deploy; World CF Pages + guest chat path.
 
 ---
 
