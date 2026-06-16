@@ -28,6 +28,14 @@ harmonize ~ grimoire >> surfacing the static // %DRIFT_TRACKING%
 
 ### Boot Chain
 
+> **Tackle-together work-package (Mark · EP2):** the 4K-font items below (GRUB font
+> microscopic, TTY font shifts size) get fixed in one pass alongside **GRUB theming +
+> "USB boot from GRUB"** — done coherently, not piecemeal (Mark has been down this
+> rabbit hole before). The "USB boot from GRUB" piece also completes part of **F2
+> recovery** (the live-USB recovery path) — one effort, don't duplicate. These are
+> **display-specific (hi-DPI)**: not a generic_x64 FLOOR blocker, but a documented
+> rough edge in the F5 "Known Rough Edges" sheet for anyone on a 4K panel.
+
 **GRUB2 — background image bit depth mismatch**
 - `GRUB_GFXMODE=3840x2400x32` requests 32bpp; GRUB's background renderer requires ≤24bpp
 - Fix: remove background image from `theme.txt` entirely — use color-only theme (`bgcolor = "#0a0010"`)
