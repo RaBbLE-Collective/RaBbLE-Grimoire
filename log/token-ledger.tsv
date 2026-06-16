@@ -110,5 +110,6 @@ commit-e246d5e	world-date-restore	S104: World committer-date restoration (rebase
 commit-4a5b8aa	babble-reorg-plan	S104 planning: BaBbLE/Captures reorg + git linearization handoff doc filed to log/
 653a0f16-c1cc-4340-b3bd-d71946845dcb	ep1-world-unify	World EP1 unification: liminal→front door, doors rewired (summon/platform/grimoire), grimoire browser graph↔codex, Aether-first token alignment; + S103 audit, branch surgery, Aether theme, BaBbLE captures
 commit-9c87423	rc1-spine	S106: RC1 chat→sCoRE→entity verified; render-ctl.sh; flip-point; render.yaml free-tier fix; Render deploy
-7983939f-8923-4343-ba77-2bca989c5be6	collective	auto: S106 state: RC1 spine verified, render-ctl, flip-point
 cffddc13-06e4-430d-99db-7ed4d8fad13d	entity-visuals	Debugged 2D entity (bokeh/flicker/graph/portal); fixed 3D colors+density+eyes; wired demo to NeBuLA.ThreeJsBackend (single renderer)
+7983939f-8923-4343-ba77-2bca989c5be6	rc1-spine	S106: sCoRE LIVE on Render via render-ctl; flip-point; sCoRE Grimoire docs updated; session end
+696411a7-3f97-4b17-b15a-41af2856aab4	os-ep1-preview	S109: RaBbLE-OS = EP1 Developer Preview — Preview Bar + canon + dev-flow; F2 sulogin-force recovery; F5 rough-edges sheet; Preview FLOOR verify runbook
