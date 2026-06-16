@@ -56,6 +56,17 @@ Agent harnesses (Claude Code, Codex) run shell commands wrapped in a `sh -c '<en
 
 **How:** Split kill and start into separate tool calls; in the kill call, ensure the pattern appears nowhere in plain form (e.g. `pkill -f 'status-daemon[.]sh'` with no other mention of the daemon name). A killed wrapper's already-forked children may still complete — verify actual process state afterwards instead of assuming the command failed.
 
+### `find -newermt` silently fails on this machine — use `-mmin` instead
+
+`bfs` (Better Find) is the system `find` on RaBbLE-OS, not GNU find. It does **not** support relative date strings like `find -newermt '-24 hours'`. The error goes to stderr — silently swallowed by `2>/dev/null` — and the command returns zero results with no warning. This looks like "no files found" and produces incorrect behavior (stale cache reads, empty counts, missed quota errors).
+
+**Why:** bfs enforces stricter ISO 8601-like timestamp formats for `-newermt`; relative strings ("24 hours ago") are a GNU find extension.
+
+**How:** Use `-mmin -N` instead of `-newermt`:
+- `-newermt '-24 hours'` → `-mmin -1440`
+- `-newermt '-7 days'` → `-mmin -10080`
+- Very short windows (`-newermt '-8 seconds'`) have no clean `-mmin` equivalent — `-mmin -1` is the closest (60s). These short-window checks are secondary heuristic fallbacks; leaving them broken is acceptable since hook-based primary state is authoritative.
+
 ### RaBbLE-Xperimental is now RaBbLE-Chrysalis — know the difference
 
 As of S92, the repo formerly called `RaBbLE-Xperimental` was renamed:
