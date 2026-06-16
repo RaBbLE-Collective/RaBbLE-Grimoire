@@ -5,15 +5,34 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-15 · Session 109 (RaBbLE-OS = Episode 1 Developer Preview)
+## LATEST — 2026-06-15 · Session 110 (Render backend verified from local client; rate limit fixed; summon ceremony live)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S109):** Decided RaBbLE-OS airs in Episode 1 as a labeled **Developer Preview** — *"enter at your own risk,"* for a Linux/tiling-WM-literate, quirk-tolerant user — so OS stops gating the lockstep and the Collective ships EP1 together; full reliability bakes to **Episode 2 (Exodus)**. Defined the **Preview Bar** (FLOOR F1–F5 / HARDEN / DEFER→Exodus) in `RaBbLE-OS-Roadmap.md` + a **Dev-Flow Hardening Protocol** (capture→triage→bar-check, multisession append-only discipline). Updated epoch canon (`current.epoch.yml`: exit_condition, coherence carve-out, OS focus block). Then began FLOOR work: **implemented F2 recovery** (`SYSTEMD_SULOGIN_FORCE=1` drop-ins, `core/tasks/recovery.yml`, root-pw rejected as legacy), **drafted the F5 "Known Rough Edges" sheet** (RaBbLE-voice, ships with the preview), and a **Preview FLOOR verification runbook** for the handoff. Bar = generic x86_64; Mark's ProArt hardware is a separate track. Fixed stale KnownIssues (recovery, file-manager) + the `ISSUES.md` capture path.
-**sCoRE is LIVE (S106):** `https://rabble-score-x7qq.onrender.com` (Render free tier, tracks new-horizons, OpenRouter backend). Managed via `spells/render-ctl.sh`.
-**Blockers:** Live **UI** needs World prod deploy (CF Pages → joinrabble.world) + a guest/invite path for the chat jwt-gate. OS EP1 = preview bar (no longer a full-polish gate). CF Pages repoint · OS reboot QA still open.
-**Next:** Run the **Preview FLOOR verification pass** on a clean generic_x64 VM (`verify/RaBbLE-OS-Verify-PreviewFloor.md`) — F1 firstboot→SDDM (biggest unknown) · F2 emergency-shell verify · F4 surfaces · F3 dep audit; then a ship-path for the F5 sheet (MOTD/welcome/ISO). Carry-over: deploy World (CF Pages) → guest/invite chat path. Post-EP1: ticket tracking + registry epoch→episode rename.
+**This session (S110):** Drove the real **RaBbLE-Chat UI from a local client against live Render sCoRE** end-to-end. Diagnosed the chronic 429s: the OpenRouter account this key belongs to has **never purchased credits** → `:free` capped ~50/day & ~20/min, paid models hard-blocked (402, confirmed live). **Fixed the fast tier** — pushed Mark's (personal, temp) **Groq key** to Render + `LLM_FAST_CHAIN=groq:llama-3.1-8b-instant,openrouter:…:free`; verified coherent Groq replies on `/chat` and session `auto`. Set **`RABBLE_ADMIN_KEY`** + ran the **summon ceremony** (invite→summon→`@demo`, tier `collective`); confirmed authed local client→Render with the real JWT (entity renders, session resumes, Groq reply) — screenshot in `RaBbLE-BaBbLE/scratch/render-localtest/`. Built **`groq-ctl.sh` + `openrouter-ctl.sh`** spells (key/models/test/chat). Decision: **Web = free demo tier; Local = BYOK or login; CORS resolved per user-type** (allow_origin_regex, planned). Note: Groq blocks proton.me signups (identity tension).
+**sCoRE is LIVE:** `https://rabble-score-x7qq.onrender.com` — fast tier now Groq-backed. Env via `spells/render-ctl.sh`; provider keys testable via `groq-ctl.sh`/`openrouter-ctl.sh`. Demo creds + admin key (gitignored) in `RaBbLE-Grimoire/.render/`.
+**Blockers:** Browser-from-localhost still CORS-blocked by Render (`FRONTEND_URL` pin) — local in-browser chat needs the CORS fix or a local bridge. World prod deploy (CF Pages) + guest chat path still open. OpenRouter unusable until **$10 credits** added to *the account this key belongs to* (then `:free`→1000/day + paid unlocks).
+**Next:** local **chat bridge** (localhost:8000 → Render proxy + on-disk transcript logging) so Mark can talk to RaBbLE in-browser with local logs; **startup seeder** (durable `@demo` across Render's ephemeral disk); **CORS allow_origin_regex**; then carry-over OS Preview FLOOR pass + World CF Pages deploy.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-15 (Session 110) — Render backend verified from local client; rate limit fixed; summon ceremony
+
+**Repos touched:** RaBbLE-Grimoire (`spells/openrouter-ctl.sh` + `spells/groq-ctl.sh` new, this log), RaBbLE-BaBbLE (`scratch/render-localtest/` — Playwright driver + screenshot). Render env changed via `render-ctl` (GROQ_API_KEY, LLM_FAST_CHAIN, RABBLE_ADMIN_KEY). No sCoRE/World code changed.
+
+**Why:** Mark wanted to test the sCoRE + RaBbLE-Chat surfaces against the live Render backend from a local client, and to fix the persistent OpenRouter 429s.
+
+**What happened:**
+- **Local client → Render verified.** Health/status/anonymous chat/sessions all respond. Drove the real `RaBbLE-Chat.html` (served locally) against Render with Playwright. Found: the chat auth gate is a client-side `localStorage.rabble_jwt` check; chat.js sends it as `Authorization: Bearer`, and a non-minted token 401s *before* the demo-guest fallback → there is no guest chat path today.
+- **OpenRouter 429 root cause (diagnosed + demonstrated):** account is `is_free_tier`, `usage:$0` — never purchased credits. `:free` models capped ~50/day & ~20/min (intermittent 200/429/504); paid models return **402 Insufficient credits**. Key is valid. Fix = add **$10 credits to the account this key belongs to** (`/auth/key` creator `user_3Evq…`).
+- **Rate limit fixed on Render:** pushed Mark's (personal, temporary) Groq key + `LLM_FAST_CHAIN=groq:llama-3.1-8b-instant,openrouter:google/gemma-4-26b-a4b-it:free`. Verified coherent Groq replies on `/api/v1/chat` (fast) and session `auto`.
+- **Summon ceremony live:** set `RABBLE_ADMIN_KEY`; `/api/v1/admin/invites` → `/api/v1/users/summon` → `@demo` (tier `collective`) with `api_key` + JWT; `/api/v1/auth/token` login confirmed. Re-ran the local client with the **real JWT** → authed `@demo` session, Groq reply, NeBuLA entity rendered (screenshot). `require_user` trusts JWT claims (no user-record lookup) → JWT survives Render's ephemeral disk; 8h TTL.
+- **Provider spells:** `groq-ctl.sh` + `openrouter-ctl.sh` (key/models/test/chat), tested live.
+
+**Decisions:** Web = fully free demo tier; **Local surface = BYOK or login** (never demo-guest); CORS resolved per user-type via `allow_origin_regex` (planned feature, not yet built). sCoRE prod runs on Mark's *personal* Groq key as a temporary unblock — Collective-owned inference account still owed (Groq blocks proton.me; OpenRouter via $10 credits is the clean path).
+
+**Next:** local **chat bridge** (localhost:8000 → Render proxy + on-disk transcript logging) for in-browser RaBbLE chat with local logs; **startup seeder** for a durable `@demo`; **CORS allow_origin_regex** on Render; document the auth-tier + provider decisions in Grimoire sCoRE docs.
 
 ---
 
