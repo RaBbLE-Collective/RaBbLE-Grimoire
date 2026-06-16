@@ -61,7 +61,8 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 ## RaBbLE-Collective
 
 - **[RaBbLE-Episode-1-Release-Map](RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md)** — **CANONICAL Episode 1 scope.** Member deliverables, blockers, exit criteria, VM testing, deployment sequence, tag convention.
-- **[RaBbLE-Episode-1-RC-Scope](RaBbLE-Collective/RaBbLE-Episode-1-RC-Scope.md)** — **EP1 RC checklist.** 3 public pages, World repolish tasks, deferred list, sign-off gate.
+- **[RaBbLE-Episode-1-RC-Scope](RaBbLE-Collective/RaBbLE-Episode-1-RC-Scope.md)** — **EP1 RC checklist.** Public surface as one guided realm (rooms), repolish tasks, deferred list, sign-off gate.
+- **[RaBbLE-RC1-Experience](RaBbLE-Collective/RaBbLE-RC1-Experience.md)** — **EP1 RC experience canon.** The Guided Realm: threshold→realm→summon→shell, entity as curator, reveal-spells, sub-entity preview, hybrid voice. Translates the PRD into the buildable surface.
 - [RaBbLE-Episode-1-Deployment-Runbook](RaBbLE-Collective/RaBbLE-Episode-1-Deployment-Runbook.md) — step-by-step deploy runbook for Ep1 CDN (R2), sCoRE (Render), and World (Cloudflare Workers)
 - [RaBbLE-Episode-1-Release-Brief](RaBbLE-Collective/RaBbLE-Episode-1-Release-Brief.md) — public-facing release brief for Episode 1
 - **[RaBbLE-Integration-Ethos-Plan](RaBbLE-Collective/RaBbLE-Integration-Ethos-Plan.md)** — **ACTIVE PLAN.** Four-phase integration: New-Designs → Ethos layer → BaBbLE member → Landing transformation. Agent handoff doc.
@@ -90,6 +91,7 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 ## RaBbLE — Entity Definition Layer
 
 - [RaBbLE-Overview](RaBbLE/RaBbLE-Overview.md) — what the entity definition layer is and how to read it
+- **[RaBbLE-PRD](RaBbLE/RaBbLE-PRD.md)** — **vision-altitude product requirements.** What RaBbLE *is* as an ambient AI peer; positioning, personas, the hosted/non-hosted duality, capability pillars. Sequenced into the build by [RaBbLE-RC1-Experience](RaBbLE-Collective/RaBbLE-RC1-Experience.md).
 - [RaBbLE-Ethos](RaBbLE/Ethos/RaBbLE-Ethos.md) — philosophy: Architecture of Self, Anti-Assistant Stance, Low Entropy Directive, On Memory
 - [RaBbLE-Ethos-Overview](RaBbLE/Ethos/RaBbLE-Ethos-Overview.md) — Ethos section reading guide
 - [RaBbLE-Aesthetic](RaBbLE/Worldbuilding/RaBbLE-Aesthetic.md) — visual/experiential world: Neotokyo, synthwave, palette as character
@@ -162,7 +164,8 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 - [RaBbLE-World-Architecture](RaBbLE-World/RaBbLE-World-Architecture.md) — layer stack, module map, boot timeline
 - [RaBbLE-World-Page-Template](RaBbLE-World/RaBbLE-World-Page-Template.md) — minimal page template, CDN integration pattern
 - [RaBbLE-World-README](RaBbLE-World/RaBbLE-World-README.md) — World member overview (joinrabble.world)
-- **[RaBbLE-World-EP1-Unification](RaBbLE-World/RaBbLE-World-EP1-Unification.md)** — **EP1 site spine (canon):** liminal as front door, door→surface map, shared threshold nav, Aether-first alignment
+- **[RaBbLE-World-EP1-Unification](RaBbLE-World/RaBbLE-World-EP1-Unification.md)** — **EP1 site spine (prior canon):** liminal as front door, door→surface map, shared threshold nav, Aether-first alignment
+- **[RaBbLE-World-RC1-Emergence-Plan](RaBbLE-World/RaBbLE-World-RC1-Emergence-Plan.md)** — **ACTIVE BUILD + HANDOFF:** archive the whole current site into `chrysalis/` (frozen, hostable); rebuild as ONE living surface (entity-guided movements, VSCode-Aether tinted glass). Orchestration waves + contracts + cold-start handoff for a fresh session.
 - [RaBbLE-Grimoire-Browser-Plan](RaBbLE-World/RaBbLE-Grimoire-Browser-Plan.md) — agent handoff: grimoire summoning-circle applet integration into World
 - [REGRESSION-AUDIT-2026-05-15](RaBbLE-World/REGRESSION-AUDIT-2026-05-15.md) — Aether CDN regression post-mortem (resolved)
 - [Visual Assets](RaBbLE-World/assets/) — images, icons

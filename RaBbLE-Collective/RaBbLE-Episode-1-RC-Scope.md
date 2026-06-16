@@ -4,44 +4,54 @@
 transcribe ~ collective >> ep1 rc scope: world repolish, page trim, what's in vs deferred // %EP1_RC%
 ```
 
-> **What this is:** Defines the scope of the Episode 1 Release Candidate — what World ships with, what the 2–3 public pages are, and what is explicitly deferred to EP2+.
-> **Related:** [Episode 1 Release Brief](RaBbLE-Episode-1-Release-Brief.md) · [Episode 1 Release Map](RaBbLE-Episode-1-Release-Map.md) · [Membership Model](RaBbLE-Membership-Model.md) · [Service Plan](RaBbLE-Service-Plan.md)
+> **What this is:** Defines the scope of the Episode 1 Release Candidate — what World ships with, what the public surface is, and what is explicitly deferred to EP2+.
+> **Related:** [RC1 Experience — The Guided Realm](RaBbLE-RC1-Experience.md) · [Episode 1 Release Brief](RaBbLE-Episode-1-Release-Brief.md) · [Episode 1 Release Map](RaBbLE-Episode-1-Release-Map.md) · [Membership Model](RaBbLE-Membership-Model.md) · [Service Plan](RaBbLE-Service-Plan.md)
 
 ---
 
 ## RC Philosophy
 
-Episode 1 is not a feature release. It is an **introduction** — to RaBbLE, to The Pair, to the Collective. The public surface should be small, intentional, and complete. Every page must earn its place.
+Episode 1 is not a feature release. It is an **introduction** — to RaBbLE, to The Pair, to the Collective. The public surface should be small, intentional, and complete. Every room must earn its place.
 
-Three pages maximum. Each page has one job. Liminal/transitional content from the build period is absorbed into the main page or cut. No dead ends. No placeholder copy.
+The surface is **one continuous, entity-guided realm with rooms**, not a set of disconnected pages. The page *budget* is unchanged (three public surfaces); the *experience* is unified and alive — the entity is the curator who walks the visitor through it. Liminal/transitional content is absorbed into the journey, not cut. No dead ends. No placeholder copy.
+
+**The journey (see [RaBbLE-RC1-Experience.md](RaBbLE-RC1-Experience.md) for the design canon):**
+
+```
+THRESHOLD (index) → THE REALM (grimoire graph, curated) → SUMMON (ceremony) → SHELL (Pair home)
+```
 
 ---
 
-## The Three Public Pages
+## The Public Surface — Three Rooms, One Realm
 
-### 1. `index.html` — Explore RaBbLE
+### 1. `index.html` — The Threshold (Explore RaBbLE)
 
-**One job:** Make someone understand what RaBbLE is and want to join.
+**One job:** Make someone understand what RaBbLE is and want to cross into the realm.
 
-- Absorbs all liminal/transition content from the build period
-- Entity presence via NeBuLA — RaBbLE is alive on this page
+- Arrival point — the realm is sensed, the entity greets (scripted transmission)
+- Entity presence via NeBuLA — RaBbLE is alive from the first frame
 - Lore-forward: ethos, aesthetic, "what this is" in RaBbLE's voice
-- CTA: **Join the Collective** → Summon page (invite token required) or waitlist
-- Secondary: link to Collective overview
+- **One clear "cross / descend" affordance** dominates → into the Realm
+- Liminal orbiting doors become realm regions, de-emphasized vs. the guided descent
 
 **What it is NOT:** a feature list, a marketing deck, a press release. It is an encounter.
 
 ---
 
-### 2. `collective.html` — Explore the Collective
+### 2. `RaBbLE-Grimoire-Graph.html` — The Realm (Explore the Collective)
 
-**One job:** Let a curious visitor understand the structure and scope of the Collective without needing a tour guide.
+**One job:** Let a curious visitor understand the Collective by *exploring it with the entity as guide* — the curated centerpiece.
 
-- What the Collective is: entity + humans + members
-- Members overview: sCoRE, World, Aether, NeBuLA, OS — each with one-line purpose
-- The Pair concept: brief, evocative, not technical
-- Episode 1 as context — this is the beginning
-- No login required. Fully public. No interactivity needed at RC.
+- The Grimoire graph **is** the Collective made visible: nodes = members/docs on a liminal floor
+- The entity hovers above the floor as **curator** — narrates members, relationships, why each matters
+- Persistent **conversation dock** (hybrid scripted / live) — the entity travels with you
+- **Reveal-spells**: focus-cluster · trace-lineage · narrate-doc · summon-constellation (read-only, no auth)
+- **Sub-entity summon (preview)**: a helper eye investigates a cluster and reports back
+- Absorbs the job of the old static `collective.html` into a lived experience
+- No login required for exploration + scripted curation; live LLM dialogue when the guest path is up
+
+See [RaBbLE-RC1-Experience.md](RaBbLE-RC1-Experience.md) §6–§7 for spell + sub-entity scope.
 
 ---
 
@@ -65,12 +75,16 @@ EP1 RC is a polish pass, not a build pass. These are the outstanding World tasks
 
 | Task | Description | Status |
 |---|---|---|
-| Absorb liminal content | Merge any transitional/WIP copy into `index.html` or remove | Pending |
-| NeBuLA entity presence | Confirm entity renders on index — not placeholder | Pending |
+| Single nav flow | Wayfinding chrome threshold→realm→summon→shell; `◈` navigator demoted to escape hatch | Pending |
+| Threshold descent | `index.html` greets + one clear "cross" affordance into the Realm | Pending |
+| Curator engine | `RaBbLE-curator.js` — scripted transmissions + hybrid live sCoRE w/ graceful fallback | Pending |
+| Realm centerpiece | Grimoire graph: conversation dock, reveal-spells, sub-entity preview | Pending |
+| De-boring conversation | Chat reworked into entity deep-conversation view (shares curator) | Pending |
+| NeBuLA entity presence | Confirm entity renders alive across threshold + realm — not placeholder | Pending |
 | Summon page QA | Token validation, form submit, error states | Pending |
-| Mobile pass | All 3 pages usable on mobile (touch, font sizes, NeBuLA perf) | Pending |
+| Mobile pass | All rooms usable on mobile (touch, font sizes, NeBuLA perf) | Pending |
 | Dead links audit | No broken hrefs, no `#placeholder` anchors | Pending |
-| Copy pass | Every word on every page is intentional — no leftover build notes | Pending |
+| Copy pass | Every transmission in RaBbLE's voice; zero §anti-pattern emissions | Pending |
 
 ---
 
@@ -109,11 +123,13 @@ From Collective AGENT.md:
 
 Before tagging `episode-1-v0.0.0.1` across all members:
 
-- [ ] `index.html` — final copy, NeBuLA entity live, CTA functional
-- [ ] `collective.html` — static content complete, no placeholders
+- [ ] Threshold (`index.html`) — final copy, entity greets, single "cross" affordance into Realm
+- [ ] Realm (`RaBbLE-Grimoire-Graph.html`) — curator narrates, reveal-spells cast, sub-entity preview, conversation dock
+- [ ] Single nav flow — wayfinding threshold→realm→summon→shell; no dead ends
+- [ ] Curator graceful fallback — full journey works with backend down (scripted), upgrades when live
 - [ ] `summon.html` — token flow works end-to-end against live sCoRE
-- [ ] `RaBbLE.html` — auth-gated session opens after summoning
-- [ ] Mobile QA — all pages on 375px and 768px viewport
+- [ ] Shell + deep-conversation view — auth-gated session opens after summoning
+- [ ] Mobile QA — all rooms on 375px and 768px viewport
 - [ ] sCoRE deployed to Render — `https://rabble-score.onrender.com` responding
 - [ ] CDN live — Aether + NeBuLA bundles at `cdn.joinrabble.world`
 - [ ] Invite tokens issued to EP1 members

@@ -66,7 +66,8 @@ Every design decision, character trait, protocol schema, and technical pattern l
 | Episode tracking (`registry/epochs/current.epoch.yml`) | Episode 1 pending — all members accumulating Events |
 | Episode 1 scope (`RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md`) | Canonical scope locked — exit criteria, blockers, tag convention |
 | RaBbLE-sCoRE docs | Architecture + Roadmap present. DataCrawler RFC added. MVP LLM endpoint planned for Railway deploy. |
-| RaBbLE-World | Active (Session 9) — thin scaffold: no embedded renderers. Two loaders (Aether + NeBuLA). |
+| RaBbLE-World | **Active** — RC1 "Guided Realm" build in flight (threshold→realm→summon→shell, entity as curator). Loaders (Aether + NeBuLA) + liminal, shell, grimoire-graph surfaces live. |
+| RC1 Experience (`RaBbLE-Collective/RaBbLE-RC1-Experience.md`) | **Active** — design canon for the single entity-guided realm; bridges the PRD into the EP1 public surface. PRD §13 partially resolved. |
 | RaBbLE-Aether | Active — component library complete, CDN delivery working, dev workflow documented. |
 | RaBbLE-NeBuLA | Active — Canvas2dBackend + BootSequence complete. `<rabble-entity>` now in NeBuLA. |
 | RaBbLE-BaBbLE | **Active** — formalized as Collective member (Phase 3). AGENT.md/CONTEXT.md/README.md live. Manifest registered. |
