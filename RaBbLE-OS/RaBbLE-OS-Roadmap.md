@@ -23,10 +23,10 @@ transcribe ~ grimoire >> roadmap consolidated // %S34%
 
 **FLOOR — all must be TRUE before the preview goes out (a stranger touches this):**
 - [ ] **F1 · Install works (generic x86_64).** KS → Anaconda → reboot → firstboot → SDDM, VM-verified on `generic_x64`. (Phase 5 gate; firstboot currently unverified.)
-- [ ] **F2 · Recovery without a dead-end.** Emergency/rescue reachable *without* unlocking root: `SYSTEMD_SULOGIN_FORCE=1` drop-in on `emergency.service` + `rescue.service` (keeps Fedora's locked-root posture — root password rejected as legacy). Ship a `rd.break` + live-USB recovery doc. Document the physical-access trade-off honestly; LUKS is the real mitigation (EP2).
-- [ ] **F3 · No hard boot dependency can brick.** fstab `nofail` enforced (S41); audit for any other hard deps.
+- [~] **F2 · Recovery without a dead-end.** Emergency/rescue reachable *without* unlocking root: `SYSTEMD_SULOGIN_FORCE=1` drop-in on `emergency.service` + `rescue.service` (keeps Fedora's locked-root posture — root password rejected as legacy). Ship a `rd.break` + live-USB recovery doc. Document the physical-access trade-off honestly; LUKS is the real mitigation (EP2). — **Mechanism implemented S109** (`core/tasks/recovery.yml`, commit `aaf87b9`); recovery doc = the F5 sheet; pending VM verify.
+- [ ] **F3 · No hard boot dependency can brick.** fstab `nofail` enforced (S41, `virtualization/fstab-safety.yml`); audit for any other hard deps.
 - [ ] **F4 · Boots to graphical, core surfaces live.** Verify-Checklist *Session* section passes on generic_x64 (Hyprland · Waybar · Kitty · Fuzzel · Mako · swayOSD).
-- [ ] **F5 · "Known Rough Edges" sheet ships with the OS.** The label is the product — generated from KnownIssues + ISSUES; the "enter at your own risk" honesty contract.
+- [~] **F5 · "Known Rough Edges" sheet ships with the OS.** The label is the product — the "enter at your own risk" honesty contract. — **Drafted S109:** `RaBbLE-OS-KnownRoughEdges.md`; pending a ship-path into the install image (MOTD / welcome doc / ISO bundle).
 
 **HARDEN — daily-driver quirks; fix the cheap ones, document the rest:**
 - [ ] Hyprland `windowrules`/`workspaces` v0.54 migration (mechanical `windowrulev2`→`windowrule` rename)
@@ -47,7 +47,7 @@ Collective-wide effort** (see Episode 2 notes) — do not build it into EP1.
 
 1. **Capture (point-of-pain):** log the moment you hit it — `ISSUES.md` (capture path fixed S109). Append-only, one line, atomic. *(TODO: `rabble-gripe`/`-bug`/`-wish` alias for frictionless capture — empty ISSUES.md after a month of daily-driving was a capture-friction failure, not a quirk-free month.)*
 2. **Triage (weekly sweep):** tag each entry **FLOOR / HARDEN / DEFER** against the Preview Bar; promote actionable items → KnownIssues or a Bar line; DEFER → EP2 backlog. Empty ISSUES.md after.
-3. **Bar-check (gate):** before any "OS EP1 ready" claim, run the Verify-Checklist on a clean `generic_x64` VM. FLOOR all-green = the preview ships.
+3. **Bar-check (gate):** before any "OS EP1 ready" claim, run the **Preview FLOOR gate** — `verify/RaBbLE-OS-Verify-PreviewFloor.md` (the F1/F2/F4 VM runbook + F3 audit) — on a clean `generic_x64` VM. FLOOR all-green + F5 sheet shipped = the preview ships.
 
 **Multisession discipline (known pain):** concurrent agent sessions clobber shared
 logs (SESSION-LOG, ISSUES, KnownIssues) and the git index. Until the post-EP1

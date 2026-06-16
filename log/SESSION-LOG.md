@@ -8,10 +8,10 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-06-15 · Session 109 (RaBbLE-OS = Episode 1 Developer Preview)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S109):** Decided RaBbLE-OS airs in Episode 1 as a labeled **Developer Preview** — *"enter at your own risk,"* for a Linux/tiling-WM-literate, quirk-tolerant user — so OS stops gating the lockstep and the Collective ships EP1 together; full reliability bakes to **Episode 2 (Exodus)**. Defined the **Preview Bar** (FLOOR F1–F5 / HARDEN / DEFER→Exodus) in `RaBbLE-OS-Roadmap.md` + a **Dev-Flow Hardening Protocol** (capture→triage→bar-check, multisession append-only discipline). Updated epoch canon (`current.epoch.yml`: exit_condition, coherence carve-out, OS focus block). F2 recovery = `SYSTEMD_SULOGIN_FORCE=1` (root-pw rejected as legacy). Bar = generic x86_64; Mark's ProArt hardware is a separate track. Fixed stale KnownIssues (recovery, file-manager) + the `ISSUES.md` capture path. **Now beginning FLOOR work.**
+**This session (S109):** Decided RaBbLE-OS airs in Episode 1 as a labeled **Developer Preview** — *"enter at your own risk,"* for a Linux/tiling-WM-literate, quirk-tolerant user — so OS stops gating the lockstep and the Collective ships EP1 together; full reliability bakes to **Episode 2 (Exodus)**. Defined the **Preview Bar** (FLOOR F1–F5 / HARDEN / DEFER→Exodus) in `RaBbLE-OS-Roadmap.md` + a **Dev-Flow Hardening Protocol** (capture→triage→bar-check, multisession append-only discipline). Updated epoch canon (`current.epoch.yml`: exit_condition, coherence carve-out, OS focus block). Then began FLOOR work: **implemented F2 recovery** (`SYSTEMD_SULOGIN_FORCE=1` drop-ins, `core/tasks/recovery.yml`, root-pw rejected as legacy), **drafted the F5 "Known Rough Edges" sheet** (RaBbLE-voice, ships with the preview), and a **Preview FLOOR verification runbook** for the handoff. Bar = generic x86_64; Mark's ProArt hardware is a separate track. Fixed stale KnownIssues (recovery, file-manager) + the `ISSUES.md` capture path.
 **sCoRE is LIVE (S106):** `https://rabble-score-x7qq.onrender.com` (Render free tier, tracks new-horizons, OpenRouter backend). Managed via `spells/render-ctl.sh`.
 **Blockers:** Live **UI** needs World prod deploy (CF Pages → joinrabble.world) + a guest/invite path for the chat jwt-gate. OS EP1 = preview bar (no longer a full-polish gate). CF Pages repoint · OS reboot QA still open.
-**Next:** Work the OS Preview FLOOR — F2 sulogin-force recovery (concrete Ansible drop-in) · F1 firstboot VM-verify · F3 boot-dep audit · F4 generic_x64 surfaces · F5 "Known Rough Edges" sheet. Carry-over: deploy World (CF Pages) → guest/invite chat path. Post-EP1: ticket tracking + registry epoch→episode rename.
+**Next:** Run the **Preview FLOOR verification pass** on a clean generic_x64 VM (`verify/RaBbLE-OS-Verify-PreviewFloor.md`) — F1 firstboot→SDDM (biggest unknown) · F2 emergency-shell verify · F4 surfaces · F3 dep audit; then a ship-path for the F5 sheet (MOTD/welcome/ISO). Carry-over: deploy World (CF Pages) → guest/invite chat path. Post-EP1: ticket tracking + registry epoch→episode rename.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
@@ -35,9 +35,16 @@ Format: date, what was done, where things were left, what's next.
 - KnownIssues: recovery + file-manager entries rewritten; new Dev-Flow section tracks the multisession log-clobber pain.
 - Fixed `ISSUES.md` capture path (`~/RaBbLE/`→`~/RaBbLE-Collective/`) — the reason it held one entry after a month of daily-driving.
 
+**FLOOR work begun (S109):**
+- **F2 implemented** — `RaBbLE-OS/ansible/roles/core/tasks/recovery.yml`: `SYSTEMD_SULOGIN_FORCE=1` drop-ins on `emergency.service` + `rescue.service` + a `reload systemd daemon` handler; wired into `core/tasks/main.yml`. YAML parse + `ansible-playbook --syntax-check` pass. Commit `aaf87b9`. (Verification pending in VM.)
+- **F5 drafted** — `RaBbLE-OS/RaBbLE-OS-KnownRoughEdges.md`: the "enter at your own risk" sheet in RaBbLE voice — recovery-first (emergency shell / rd.break / live-USB), daily quirks, display + hardware caveats (generic vs ProArt), theming maturity, the capture loop. Pending a ship-path into the install image.
+- **Verification runbook** — `RaBbLE-OS/verify/RaBbLE-OS-Verify-PreviewFloor.md`: VM runbook for the gate (real `vmctl recast` commands; F1 firstboot→SDDM, F2 emergency-shell, F4 surfaces; F3 static audit; results table). The handoff artifact.
+- Boot-chain 4K/GRUB items grouped as one EP2 work-package; **USB-boot-from-GRUB cross-linked to F2** live-USB recovery (one effort).
+- INDEX + Roadmap updated (F2/F5 marked in-progress; bar-check gate → the new runbook).
+
 **Deferred (not done unilaterally):** registry epoch→episode rename (systemic — touches `status.sh`/`sync-grimoire`/manifests; parked for the post-EP1 pass).
 
-**Next:** Begin the OS Preview FLOOR — F2 sulogin-force (concrete Ansible drop-in) first, then F1 firstboot VM-verify; audit F3; verify F4 surfaces on generic_x64; draft the F5 "Known Rough Edges" sheet.
+**Next (handoff):** Run the **Preview FLOOR verification pass** on a clean generic_x64 VM via `verify/RaBbLE-OS-Verify-PreviewFloor.md` — **F1 firstboot→SDDM is the biggest unknown**; F2 emergency-shell verify; F4 surfaces; F3 dep audit. Then choose the F5 ship-path (MOTD / welcome doc / ISO bundle).
 
 ---
 
