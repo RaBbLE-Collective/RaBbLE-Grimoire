@@ -14,12 +14,15 @@ harmonize ~ grimoire >> surfacing the static // %DRIFT_TRACKING%
 
 ### System Recovery
 
-**Emergency mode inaccessible — no root password set (Fedora default)**
-- Fedora installs with root locked by default; emergency mode prompts for root password → dead end
-- Any fstab failure (missing partition, wrong label, no `nofail`) drops to emergency with no way in
-- Mitigation: all optional mounts MUST use `nofail` in fstab (enforced by Ansible virtualization role)
-- Long-term fix options: (a) set a root password via Ansible, (b) add `rd.break` recovery instructions to GRUB menu, or (c) keep a live USB recovery kit handy
-- Status: mitigated by nofail enforcement; root password decision deferred
+**Emergency mode inaccessible — root locked (Fedora default)** `[EP1 PREVIEW FLOOR · F2]`
+- Fedora installs with root locked by default (security posture: no default-credential/remote-root surface — this is *why* it's the default, and we keep it)
+- Consequence: emergency/rescue runs `sulogin`, which refuses when root is locked → dead end. Any fstab failure (missing partition, wrong label, no `nofail`) drops here with no way in
+- Mitigation in place: all optional mounts MUST use `nofail` in fstab (enforced by Ansible virtualization role)
+- **Decided fix (S109) — NOT a root password (rejected as legacy):**
+  1. `SYSTEMD_SULOGIN_FORCE=1` drop-in on `emergency.service` + `rescue.service` → spawns a root shell even with root locked (systemd's documented escape hatch). Keeps locked-root posture.
+  2. Ship `rd.break` + live-USB recovery instructions in the "Known Rough Edges" sheet (initramfs root shell for fstab-bricked boots — no password needed).
+  3. Document the trade-off honestly: console/physical access → root with no password. Acceptable for a single-user "enter at your own risk" preview; LUKS full-disk encryption is the real mitigation (deferred to EP2).
+- Status: nofail mitigates; sulogin-force + recovery doc is the EP1 FLOOR target
 
 ---
 
@@ -103,9 +106,10 @@ harmonize ~ grimoire >> surfacing the static // %DRIFT_TRACKING%
 - Fix: wire ASUS key bindings in Hyprland config; install `swayosd` or `wob` for overlay
 - Status: not yet addressed
 
-**File manager — no replacement selected**
-- dolphin and ark removed; no file manager currently installed
-- Candidates: Nautilus, Thunar, nnn/yazi — decision pending
+**File managers — installed, need wiring + theme polish** `[EP1 PREVIEW · HARDEN]`
+- Stale entry corrected (S109): Dolphin **and** Yazi are both installed — earlier "no FM selected" note was out of date (FM work happened but went unlogged; see multisession log-clobber pain below)
+- Remaining: Yazi needs more wiring (keybinds/opener/preview integration); Dolphin has theme-polish issues + could be tied into the desktop better
+- Tier: HARDEN, not FLOOR — a tiling-WM-literate user has working FMs; this is polish
 
 ---
 
@@ -142,6 +146,15 @@ harmonize ~ grimoire >> surfacing the static // %DRIFT_TRACKING%
 **asusd not starting on boot (intermittent)**
 - Fix: `systemctl enable --now asusd`; check `/etc/asusd/` config syntax
 - Monitor: `journalctl -u asusd --since "5 min ago"`
+
+---
+
+### Dev Flow
+
+**Multisession log-clobber — concurrent agents overwrite shared logs** `[OPEN · DEV-FLOW]`
+- Concurrent agent sessions clobber shared files (SESSION-LOG, ISSUES, KnownIssues) and the git index; work gets lost or has to be redone "treading carefully" (e.g. FM work that never got logged)
+- EP1 discipline (until the post-EP1 ticketing rework): **append-only** capture, per-session dated blocks — never edit another session's region; commit with `--force-with-lease`; treat shared-region edits as tread-carefully
+- Real fix: ticket tracking + per-entry files (no shared monolith to clobber) — post-EP1, possibly Collective-wide (see Roadmap → Episode 2 tightening initiative)
 
 ---
 

@@ -34,6 +34,9 @@ active_branch: "new-horizons"
 # The Grimoire tracks Collective episode position and flags divergence.
 episode_coherence_policy: >
   During Episode 1: Collective-wide lockstep. All projects air Episode 1 together.
+  A member may air Episode 1 as a labeled Developer Preview (a reduced, explicit
+  bar) without holding back the lockstep, provided its rough edges are documented
+  and it meets its declared preview floor. (RaBbLE-OS, Episode 1 — decided S109.)
   Episodes 2+: per-project pacing allowed but Grimoire maintains coherence.
   Max divergence: ~1-2 episodes. Echo (~12 episodes) targeted collectively.
 
@@ -46,7 +49,11 @@ intent: >
 exit_condition: >
   joinrabble.world is live — landing page, entity visual, basic chat wired to sCoRE.
   sCoRE is deployed to Render and reachable.
-  RaBbLE-OS bootstraps reproducibly on a fresh Fedora 43 VM.
+  RaBbLE-OS airs as a labeled Developer Preview — "enter at your own risk,
+  unstable vibes." Installs, recovers, and is daily-survivable on a generic
+  x86_64 machine (VM-verified) by a Linux + tiling-WM-literate user willing to
+  tolerate quirks, with known rough edges documented. Full reproducible polish
+  bakes toward Episode 2 (Exodus).
   All active member repos tagged episode-1-v0.0.0.1 simultaneously.
   Collective bootstrap (bootstrap.sh) verified end-to-end.
 
@@ -65,9 +72,11 @@ focus:
 
   RaBbLE-OS:
     priority: active
-    milestone: "Daily-driver substrate (Fedora 43 + Hyprland), VM-verified bootstrap"
-    status: "Active — plots in progress, Hyprland WM scripted, boot chain pending"
+    track: developer-preview
+    milestone: "Episode 1 Developer Preview ('enter at your own risk') — installs + recovers + daily-survivable on generic x86_64 (VM-verified) for a Linux/tiling-WM-literate, quirk-tolerant user; rough edges documented. Full polish → Episode 2 (Exodus)."
+    status: "Active — airs EP1 as a labeled preview (S109 decision). Preview FLOOR = recovery path + reproducible install + known-rough-edges sheet on generic x86_64; deep theming + Mark-hardware (NVIDIA/asusctl/XDNA2) polish deferred to Exodus."
     episode_1_blocker: false
+    blocker_note: "Decoupled from full-polish bar S109 — OS airs as a Developer Preview so the Collective ships EP1 together; OS keeps hardening toward EP2."
 
   RaBbLE-Aether:
     priority: active

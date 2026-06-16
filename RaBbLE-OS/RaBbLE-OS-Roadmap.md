@@ -4,18 +4,64 @@
 transcribe ~ grimoire >> roadmap consolidated // %S34%
 ```
 
-## Episode 1 — Genesis `[IN PROGRESS]`
+## Episode 1 — Genesis · RaBbLE-OS Developer Preview `[IN PROGRESS]`
 
-**Deliverable:** Daily-driver substrate — Fedora 43 + Hyprland, fully themed, reproducible install.
+> **Posture (decided S109):** OS airs in Episode 1 as a labeled **Developer Preview**
+> — *"enter at your own risk, unstable vibes."* It does **not** hold back the Collective
+> lockstep; full reproducible polish bakes toward **Episode 2 (Exodus)**, where the body
+> becomes reliable. Canon: `registry/epochs/current.epoch.yml` (`exit_condition`,
+> `episode_coherence_policy`, OS `focus` block).
+>
+> **Audience:** a Linux + tiling-WM-literate user willing to tolerate quirks.
+> **The bar is the generic x86_64 / VM-verified path.** Mark's ProArt-specific hardware
+> work (NVIDIA / asusctl / XDNA2) is a **separate profile track**, NOT part of the
+> universal preview bar — a cohort member runs OS on their own hardware.
+
 **Branch:** `RaBbLE-OS-New-Horizons` → `RaBbLE/episode-I`
 
-### Plots
+### The Preview Bar — definition of "ready to ship the preview"
+
+**FLOOR — all must be TRUE before the preview goes out (a stranger touches this):**
+- [ ] **F1 · Install works (generic x86_64).** KS → Anaconda → reboot → firstboot → SDDM, VM-verified on `generic_x64`. (Phase 5 gate; firstboot currently unverified.)
+- [ ] **F2 · Recovery without a dead-end.** Emergency/rescue reachable *without* unlocking root: `SYSTEMD_SULOGIN_FORCE=1` drop-in on `emergency.service` + `rescue.service` (keeps Fedora's locked-root posture — root password rejected as legacy). Ship a `rd.break` + live-USB recovery doc. Document the physical-access trade-off honestly; LUKS is the real mitigation (EP2).
+- [ ] **F3 · No hard boot dependency can brick.** fstab `nofail` enforced (S41); audit for any other hard deps.
+- [ ] **F4 · Boots to graphical, core surfaces live.** Verify-Checklist *Session* section passes on generic_x64 (Hyprland · Waybar · Kitty · Fuzzel · Mako · swayOSD).
+- [ ] **F5 · "Known Rough Edges" sheet ships with the OS.** The label is the product — generated from KnownIssues + ISSUES; the "enter at your own risk" honesty contract.
+
+**HARDEN — daily-driver quirks; fix the cheap ones, document the rest:**
+- [ ] Hyprland `windowrules`/`workspaces` v0.54 migration (mechanical `windowrulev2`→`windowrule` rename)
+- [ ] hypridle stability + idle-sign-out-during-video bug (`ISSUES.md`)
+- [ ] File managers: wire Yazi + polish Dolphin theming/integration (both installed — polish, not missing)
+- [ ] Wallpaper Ansible-managed (kill the manual `hyprpaper.conf` step)
+- [ ] ZSH XRT prompt artifact
+- [ ] Confirm all Fn keys wired now that swayOSD landed (S108)
+
+**DEFER → Episode 2 (Exodus) — document as rough, don't fix for the preview:**
+Firefox / GTK / Kvantum / Qt theming parity · boot-chain cosmetic polish (GRUB 4K font, Plymouth palette) · custom live ISO (Tier 2) · Quickshell · hyprbar / master layout · cinematic entity boot · bootable-snapshot rollback (grub-btrfs unavailable on F43) · Mark-hardware profile (NVIDIA / asusctl / XDNA2 — separate track).
+
+### Dev Flow — Hardening Protocol
+
+The loop that turns daily quirks into bounded scope. Lightweight for EP1; the
+heavyweight **ticket tracking + feature-scope breakdown is a post-EP1, possibly
+Collective-wide effort** (see Episode 2 notes) — do not build it into EP1.
+
+1. **Capture (point-of-pain):** log the moment you hit it — `ISSUES.md` (capture path fixed S109). Append-only, one line, atomic. *(TODO: `rabble-gripe`/`-bug`/`-wish` alias for frictionless capture — empty ISSUES.md after a month of daily-driving was a capture-friction failure, not a quirk-free month.)*
+2. **Triage (weekly sweep):** tag each entry **FLOOR / HARDEN / DEFER** against the Preview Bar; promote actionable items → KnownIssues or a Bar line; DEFER → EP2 backlog. Empty ISSUES.md after.
+3. **Bar-check (gate):** before any "OS EP1 ready" claim, run the Verify-Checklist on a clean `generic_x64` VM. FLOOR all-green = the preview ships.
+
+**Multisession discipline (known pain):** concurrent agent sessions clobber shared
+logs (SESSION-LOG, ISSUES, KnownIssues) and the git index. Until the post-EP1
+tracking rework lands: capture is **append-only** (per-session dated blocks — never
+edit another session's region); commit with `--force-with-lease`; treat shared-region
+edits as tread-carefully. Tracked for the post-EP1 ticketing redesign.
+
+### Plots (legacy framing — fold into the Bar above)
 
 **Plot A — Substrate:** Ansible layers 0–4 functional on clean Fedora 43. Control plane operational.
 **Plot B — Theme:** Shell stack, Kitty, Fuzzel, Mako, hypridle/lock, boot chain palette-continuous.
 **Plot C — Installer:** KS on Fedora netinstall (Tier 1), custom live ISO (Tier 2 north star).
 
-### Stub Debt — Phases (boot-critical first)
+### Underlying Work Queue — Phases (the granular tasks that satisfy the Bar)
 
 **Phase 1 — Boot into a DE:**
 - [x] `core/packages` → DNF install all `layer: core` manifest entries (~20 pkgs)
@@ -117,7 +163,18 @@ After Episode 1 lands on main: `git rebase main` on New Horizons.
 ## Episode 2 — Exodus `[PENDING]`
 
 Polished desktop: cinematic entity boot, Kvantum/GTK theming, master layout, hyprbar, UX polish.
-Full item list branches from New Horizons after Episode 1 lands.
+The body becomes reliable — everything the EP1 preview deferred. Full item list branches
+from New Horizons after Episode 1 lands.
+
+**Roadmap-tightening initiative (post-EP1, possibly Collective-wide):**
+- **Ticket tracking + proper feature-scope breakdown** across members — replaces the
+  lightweight ISSUES.md/KnownIssues capture loop. Fixes the multisession log-clobber pain.
+- **Registry reframe: epoch → episode/echo.** `registry/epochs/current.epoch.yml` is, in
+  practice, an *episode* tracker wearing an epoch name (every live field — `episode_pending`,
+  `exit_condition`, per-member `focus`, `version_next` — is episode-grained; Epoch 0 is a
+  static wrapper). Recenter on episode→echo (rename path + `current.episode.yml`); a systemic
+  change touching `spells/status.sh`, `sync-grimoire`, and manifests — do it in one pass with
+  the ticketing work, not piecemeal. (Surfaced S109.)
 
 ## Episode 3 — The Entity Wakes `[FUTURE]`
 

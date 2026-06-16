@@ -5,15 +5,39 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-15 · Session 108 (swayOSD themed to Aether standard)
+## LATEST — 2026-06-15 · Session 109 (RaBbLE-OS = Episode 1 Developer Preview)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S108):** Themed the swayOSD volume/brightness overlay to the Aether standard. swayOSD 0.3.1 is **GTK4** and ships its own `style.css` that overrides GTK theming, so it needed a dedicated stylesheet. Built `config/swayosd/style.css`: cyan→violet→magenta gradient pill border (padding-box ring — GTK4 has no conic-gradient/mask), **flowing** border + progress fill (keyframe colour-stop rotation), and **flowing cyan→magenta text** (animated `color` — GTK4 can't gradient-clip glyphs). Added `config.toml` (show_percentage) + new dotctl `swayosd` bundle. Documented the GTK4 ceiling, a swayOSD section, and a **theming maturity table** in `RaBbLE-OS-Desktop-Theming.md` (gold: VSCodium; at-standard: swayOSD/fastfetch; mediocre: Firefox; needs work: GTK + Kvantum/KDE), plus the future plan to lift Aether-authored configs into the Aether theme layer.
+**This session (S109):** Decided RaBbLE-OS airs in Episode 1 as a labeled **Developer Preview** — *"enter at your own risk,"* for a Linux/tiling-WM-literate, quirk-tolerant user — so OS stops gating the lockstep and the Collective ships EP1 together; full reliability bakes to **Episode 2 (Exodus)**. Defined the **Preview Bar** (FLOOR F1–F5 / HARDEN / DEFER→Exodus) in `RaBbLE-OS-Roadmap.md` + a **Dev-Flow Hardening Protocol** (capture→triage→bar-check, multisession append-only discipline). Updated epoch canon (`current.epoch.yml`: exit_condition, coherence carve-out, OS focus block). F2 recovery = `SYSTEMD_SULOGIN_FORCE=1` (root-pw rejected as legacy). Bar = generic x86_64; Mark's ProArt hardware is a separate track. Fixed stale KnownIssues (recovery, file-manager) + the `ISSUES.md` capture path. **Now beginning FLOOR work.**
 **sCoRE is LIVE (S106):** `https://rabble-score-x7qq.onrender.com` (Render free tier, tracks new-horizons, OpenRouter backend). Managed via `spells/render-ctl.sh`.
-**Blockers:** Live **UI** needs World prod deploy (CF Pages → joinrabble.world) + a guest/invite path for the chat jwt-gate. CF Pages repoint · OS reboot QA still open. Three.js is a runtime CDN dep for Layer 2 (accepted — see NeBuLA Architecture doc).
-**Next:** Theming passes on Firefox (mediocre) and GTK + Kvantum/KDE (needs work). Carry-over: deploy World (CF Pages) so the UI is live → guest/invite path for chat → roll flip-point to remaining ~10 pages → surfaces (graph-as-docs, summon ceremony, OS sandbox).
+**Blockers:** Live **UI** needs World prod deploy (CF Pages → joinrabble.world) + a guest/invite path for the chat jwt-gate. OS EP1 = preview bar (no longer a full-polish gate). CF Pages repoint · OS reboot QA still open.
+**Next:** Work the OS Preview FLOOR — F2 sulogin-force recovery (concrete Ansible drop-in) · F1 firstboot VM-verify · F3 boot-dep audit · F4 generic_x64 surfaces · F5 "Known Rough Edges" sheet. Carry-over: deploy World (CF Pages) → guest/invite chat path. Post-EP1: ticket tracking + registry epoch→episode rename.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-15 (Session 109) — RaBbLE-OS reframed as Episode 1 Developer Preview
+
+**Repos touched:** RaBbLE-Grimoire (`registry/epochs/current.epoch.yml`, `RaBbLE-OS/RaBbLE-OS-Roadmap.md`, `RaBbLE-OS/fix/RaBbLE-OS-KnownIssues.md`, this log), RaBbLE-OS (`ISSUES.md`).
+
+**Why:** Mark — OS was the member holding Episode 1 back while the web side is near cohort-ready. Decision: ship OS as a rough, labeled preview while the rest of the Collective airs EP1; define real scope targets + a more robust dev flow so OS moves from toy to usable.
+
+**Decisions (S109):**
+- OS airs EP1 as a **labeled Developer Preview** ("enter at your own risk"), not a full-polish gate. Audience: Linux + tiling-WM-literate, quirk-tolerant. Bar = generic x86_64 / VM-verified path; Mark's ProArt hardware (NVIDIA/asusctl/XDNA2) is a separate track, not the universal bar.
+- Full reliability bakes to **Episode 2 (Exodus)**.
+- F2 recovery = `SYSTEMD_SULOGIN_FORCE=1` on emergency/rescue (+ rd.break/live-USB doc). Root password rejected as legacy (Fedora locks root for a reason — keep the posture).
+- File manager = HARDEN (Dolphin + Yazi already installed; stale "no FM" note corrected).
+
+**Done:**
+- Epoch canon: exit_condition (OS = labeled preview), coherence policy (labeled-preview carve-out), OS focus block (`track: developer-preview`).
+- Roadmap: **Preview Bar** (FLOOR F1–F5 / HARDEN / DEFER→Exodus) + **Dev-Flow Hardening Protocol** (capture→triage→bar-check; multisession append-only discipline). EP2 now carries the post-EP1 ticketing + registry epoch→episode rename initiative.
+- KnownIssues: recovery + file-manager entries rewritten; new Dev-Flow section tracks the multisession log-clobber pain.
+- Fixed `ISSUES.md` capture path (`~/RaBbLE/`→`~/RaBbLE-Collective/`) — the reason it held one entry after a month of daily-driving.
+
+**Deferred (not done unilaterally):** registry epoch→episode rename (systemic — touches `status.sh`/`sync-grimoire`/manifests; parked for the post-EP1 pass).
+
+**Next:** Begin the OS Preview FLOOR — F2 sulogin-force (concrete Ansible drop-in) first, then F1 firstboot VM-verify; audit F3; verify F4 surfaces on generic_x64; draft the F5 "Known Rough Edges" sheet.
 
 ---
 
