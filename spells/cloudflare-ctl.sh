@@ -10,7 +10,9 @@
 #
 # Commands:
 #   setup                      # Install wrangler + guided credential collection (start here)
-#   auth                       # Verify/configure Cloudflare authentication
+#   login                      # OAuth login via browser (grants Workers deploy permission)
+#   auth                       # Show auth status + test Workers and R2 permissions
+#   token-update               # Show instructions to add Workers:Edit to existing token
 #
 #   ── Workers (per-subdomain CDN) ───────────────────────────────────────────────
 #   deploy <member> [ver]      # Build (versioned) + wrangler deploy → subdomain Workers
@@ -34,7 +36,10 @@
 #
 # Examples:
 #   bash spells/cloudflare-ctl.sh setup                # first run: install + authenticate
-#   bash spells/cloudflare-ctl.sh deploy aether v0.0.0.1      # build versioned + deploy
+#   bash spells/cloudflare-ctl.sh login                # OAuth login (needed for Workers deploy)
+#   bash spells/cloudflare-ctl.sh auth                 # show what the current token can do
+#   bash spells/cloudflare-ctl.sh token-update         # instructions to add Workers:Edit
+#   bash spells/cloudflare-ctl.sh deploy aether v0.0.0.1-rc.1 # build versioned + deploy
 #   bash spells/cloudflare-ctl.sh deploy score                 # deploy proxy Worker (no build)
 #   bash spells/cloudflare-ctl.sh domain aether add            # wire aether.joinrabble.world
 #   bash spells/cloudflare-ctl.sh domain aether verify         # confirm subdomain is live
@@ -255,36 +260,136 @@ CFEOF
 cmd_auth() {
   header "Cloudflare Authentication"
 
-  # Check wrangler auth
-  if wrangler whoami &>/dev/null; then
-    ok "wrangler authenticated"
-    wrangler whoami
+  # ── wrangler login state ──────────────────────────────────────────────────
+  # Unset API token to test OAuth state independently (|| true guards set -e)
+  # Use exit code, not output text, to determine OAuth state (error messages
+  # contain "logged in" which would give false positives on grep)
+  if (env -u CLOUDFLARE_API_TOKEN wrangler whoami &>/dev/null 2>&1); then
+    ok "wrangler OAuth: logged in"
   else
-    warn "wrangler not authenticated"
-    suggest_setup
-    exit 1
+    warn "wrangler OAuth: not logged in (run: bash spells/cloudflare-ctl.sh login)"
   fi
 
-  # Check API token
+  # ── API token state ───────────────────────────────────────────────────────
   if [ -n "${CLOUDFLARE_API_TOKEN:-}" ]; then
-    ok "CLOUDFLARE_API_TOKEN set (not shown)"
-  elif [ -f "$CF_CONFIG_DIR/api_token" ]; then
-    ok "API token stored at $CF_CONFIG_DIR/api_token"
+    masked="${CLOUDFLARE_API_TOKEN:0:10}...${CLOUDFLARE_API_TOKEN: -5}"
+    ok "API token: set ($masked)"
   else
-    warn "CLOUDFLARE_API_TOKEN not configured"
-    info "Set via environment variable or store in $CF_CONFIG_DIR/api_token"
+    warn "API token: not set (run: bash spells/cloudflare-ctl.sh setup)"
   fi
 
-  # Check account ID
   if [ -n "${CLOUDFLARE_ACCOUNT_ID:-}" ]; then
-    ok "CLOUDFLARE_ACCOUNT_ID set: ${CLOUDFLARE_ACCOUNT_ID:0:10}..."
-  elif [ -f "$CF_CONFIG_DIR/account_id" ]; then
-    ACCOUNT_ID=$(cat "$CF_CONFIG_DIR/account_id")
-    ok "Account ID stored: ${ACCOUNT_ID:0:10}..."
+    ok "Account ID: $CLOUDFLARE_ACCOUNT_ID"
   else
-    warn "CLOUDFLARE_ACCOUNT_ID not configured"
+    warn "Account ID: not set"
+  fi
+  if [ -n "${CLOUDFLARE_ZONE_ID:-}" ]; then
+    ok "Zone ID:    $CLOUDFLARE_ZONE_ID"
+  else
+    warn "Zone ID:    not set (needed for domain add)"
   fi
 
+  # ── Permission probes ─────────────────────────────────────────────────────
+  echo ""
+  info "Permission probes:"
+
+  if [ -n "${CLOUDFLARE_API_TOKEN:-}" ] && [ -n "${CLOUDFLARE_ACCOUNT_ID:-}" ]; then
+    # R2 read
+    R2_RESP=$(curl -s "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/r2/buckets" \
+      -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN")
+    if echo "$R2_RESP" | grep -q '"success":true'; then
+      ok "  R2 read:         ✓  (list buckets works)"
+    else
+      warn "  R2 read:         ✗  (missing Account > R2 > Read)"
+    fi
+
+    # Workers read
+    WKR_RESP=$(curl -s "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts" \
+      -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN")
+    if echo "$WKR_RESP" | grep -q '"success":true'; then
+      ok "  Workers read:    ✓"
+    else
+      warn "  Workers read:    ✗  (missing Account > Workers Scripts > Read)"
+    fi
+
+    # Workers write probe — check for a known-existing script; 403 = auth, 404 = no script = write allowed
+    WKR_WRITE_RESP=$(curl -s -X GET \
+      "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/services/rabble-aether" \
+      -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN")
+    WKR_WRITE_CODE=$(echo "$WKR_WRITE_RESP" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('errors',[{}])[0].get('code',0) if not d.get('success') else 'ok')" 2>/dev/null)
+    if [ "$WKR_WRITE_CODE" = "ok" ] || echo "$WKR_WRITE_RESP" | grep -q '"success":true'; then
+      ok "  Workers write:   ✓"
+    elif echo "$WKR_WRITE_RESP" | grep -qE '"code":10000|Authentication error'; then
+      warn "  Workers write:   ✗  (Authentication error 10000 — token missing Workers Scripts:Edit)"
+      info "     Fix: bash spells/cloudflare-ctl.sh token-update"
+      info "     Alt: bash spells/cloudflare-ctl.sh login  (OAuth has full access)"
+    else
+      info "  Workers write:   ?  (probe inconclusive)"
+    fi
+
+    # DNS edit (needed for domain add)
+    DNS_RESP=$(curl -s "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/dns_records?per_page=1" \
+      -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN")
+    if echo "$DNS_RESP" | grep -q '"success":true'; then
+      ok "  DNS read:        ✓  (zone access OK)"
+    else
+      warn "  DNS read:        ✗  (missing Zone > DNS > Read)"
+    fi
+  else
+    warn "  (set CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID to probe permissions)"
+  fi
+
+  echo ""
+}
+
+# Open browser for OAuth login — grants full Workers + R2 access.
+# The CLOUDFLARE_API_TOKEN is unset for the wrangler login process so wrangler
+# stores its own OAuth token (~/.wrangler/config/default.toml).
+# After login, wrangler deploy uses OAuth automatically when the API token is
+# absent or for operations the token lacks permission for.
+cmd_login() {
+  header "Wrangler OAuth Login"
+  info "Opens your browser for Cloudflare OAuth — grants Workers deploy + R2 access."
+  echo ""
+  warn "Interactive: your browser will open. Approve the OAuth grant, then return here."
+  echo ""
+  # Run wrangler without the API token so it goes through OAuth, not the stored token
+  env -u CLOUDFLARE_API_TOKEN wrangler login
+  echo ""
+  ok "OAuth login complete"
+  info ""
+  info "After OAuth login, Workers deploy uses OAuth credentials."
+  info "Your R2 API token is still used for R2 operations."
+  echo ""
+  info "Now re-run your deploy:"
+  info "  bash spells/cloudflare-ctl.sh deploy aether v0.0.0.1-rc.1"
+  echo ""
+}
+
+# Show precise instructions for updating the existing API token to add Workers:Edit.
+cmd_token_update() {
+  header "Add Workers:Edit to API Token"
+  echo ""
+  info "Your saved token can read/write R2 but cannot deploy Workers."
+  info "Add the missing permission in the Cloudflare dashboard:"
+  echo ""
+  info "  1. Open:  https://dash.cloudflare.com/profile/api-tokens"
+  info "  2. Find your token and click Edit"
+  info "  3. Under 'Account permissions' add:"
+  info "       Workers Scripts — Edit"
+  info "  4. Save. The token value stays the same — no need to re-run setup."
+  echo ""
+  info "If you can't edit the token, create a new one with these scopes:"
+  info "  Account > Workers Scripts > Edit"
+  info "  Account > R2 > Edit"
+  info "  Zone > DNS > Edit    (for domain add)"
+  info "  Zone > SSL and Certificates > Edit   (for r2-domain)"
+  echo ""
+  info "Then re-run setup to save the new token:"
+  info "  bash spells/cloudflare-ctl.sh setup"
+  echo ""
+  info "Alternative — use OAuth (no token editing needed):"
+  info "  bash spells/cloudflare-ctl.sh login"
   echo ""
 }
 
@@ -527,8 +632,18 @@ cmd_deploy() {
     exit 1
   fi
 
-  if ! wrangler whoami &>/dev/null; then
-    err "wrangler not authenticated — run: wrangler login"
+  # Check auth: OAuth session (preferred for Workers) or API token
+  # Use subshells + || true to avoid set -e killing the script on non-zero exit
+  OAUTH_OK=false
+  TOKEN_OK=false
+  if (env -u CLOUDFLARE_API_TOKEN wrangler whoami &>/dev/null 2>&1); then
+    OAUTH_OK=true
+  fi
+  if [ -n "${CLOUDFLARE_API_TOKEN:-}" ] && (wrangler whoami &>/dev/null 2>&1); then
+    TOKEN_OK=true
+  fi
+  if ! $OAUTH_OK && ! $TOKEN_OK; then
+    err "Not authenticated. Run: bash spells/cloudflare-ctl.sh login"
     suggest_setup; exit 1
   fi
 
@@ -546,17 +661,54 @@ cmd_deploy() {
     echo ""
   fi
 
+  # Deploy — prefer OAuth session; fall back to API token.
+  # Capture output to detect specific auth errors and give actionable guidance.
   info "Deploying $WORKER_NAME..."
-  (cd "$MEMBER_DIR" && wrangler deploy) || { err "wrangler deploy failed"; exit 1; }
+  DEPLOY_LOG=$(mktemp)
+  DEPLOY_OK=false
 
-  ok "$MEMBER_REPO deployed"
-  echo ""
-  info "Workers URL:   https://$WORKER_NAME.$(wrangler whoami 2>/dev/null | grep -o '[a-z0-9]*\.workers\.dev' | head -1 || echo 'workers.dev')/"
-  info "Custom domain: https://$WORKER_DOMAIN/"
-  info ""
-  info "If domain isn't wired yet:"
-  info "  bash spells/cloudflare-ctl.sh domain $member add"
-  echo ""
+  if $OAUTH_OK; then
+    if (cd "$MEMBER_DIR" && env -u CLOUDFLARE_API_TOKEN wrangler deploy 2>&1 | tee "$DEPLOY_LOG"; exit "${PIPESTATUS[0]}"); then
+      DEPLOY_OK=true
+    fi
+  fi
+
+  if ! $DEPLOY_OK && $TOKEN_OK; then
+    if (cd "$MEMBER_DIR" && wrangler deploy 2>&1 | tee -a "$DEPLOY_LOG"; exit "${PIPESTATUS[0]}"); then
+      DEPLOY_OK=true
+    fi
+  fi
+
+  if $DEPLOY_OK; then
+    ok "$MEMBER_REPO deployed"
+    rm -f "$DEPLOY_LOG"
+    echo ""
+    info "Custom domain: https://$WORKER_DOMAIN/"
+    info "Wire it:       bash spells/cloudflare-ctl.sh domain $member add"
+    echo ""
+  else
+    if grep -qE "Authentication error|code: 10000|code:10000" "$DEPLOY_LOG"; then
+      echo ""
+      err "Deploy blocked: authentication error (code 10000)"
+      info ""
+      info "Your API token is missing 'Workers Scripts:Edit' permission."
+      info ""
+      info "  Option A — fix the token (quickest):"
+      info "    bash spells/cloudflare-ctl.sh token-update"
+      info ""
+      info "  Option B — OAuth login (full access, no token editing):"
+      info "    bash spells/cloudflare-ctl.sh login"
+      info "    Then retry: bash spells/cloudflare-ctl.sh deploy $member${version:+ $version}"
+      info ""
+      info "  Build output in $MEMBER_DIR/dist/ — nothing was lost."
+    elif grep -q "Missing entry-point" "$DEPLOY_LOG"; then
+      err "Deploy failed: no Worker entry-point (check wrangler.jsonc 'main' or 'assets')"
+    else
+      err "Deploy failed — see output above"
+    fi
+    rm -f "$DEPLOY_LOG"
+    exit 1
+  fi
 }
 
 # Add, verify, or remove the custom domain binding on a deployed Worker via CF API.
@@ -848,7 +1000,9 @@ COMMAND="${1:-help}"
 
 case "$COMMAND" in
   setup)         cmd_setup ;;
+  login)         cmd_login ;;
   auth)          cmd_auth ;;
+  token-update)  cmd_token_update ;;
   deploy)        cmd_deploy "${2:-}" "${3:-}" ;;
   domain)        cmd_domain "${2:-}" "${3:-}" ;;
   workers-list)  cmd_workers_list ;;
