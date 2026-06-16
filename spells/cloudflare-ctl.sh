@@ -11,20 +11,34 @@
 # Commands:
 #   setup                      # Install wrangler + guided credential collection (start here)
 #   auth                       # Verify/configure Cloudflare authentication
+#
+#   ── Workers (per-subdomain CDN) ───────────────────────────────────────────────
+#   deploy <member> [ver]      # Build (versioned) + wrangler deploy → subdomain Workers
+#   domain <member> [add|verify|list|remove]  # Manage custom domain on a Worker
+#   workers-list               # List all deployed Worker scripts
+#
+#   ── R2 / Legacy CDN ──────────────────────────────────────────────────────────
 #   r2-setup                   # Create R2 buckets (rabble-cdn-prod)
 #   r2-list                    # List R2 buckets
 #   r2-verify                  # Verify R2 bucket configuration
 #   r2-domain [add|verify|remove]  # Connect cdn.joinrabble.world → bucket (public CDN)
 #   deploy-rc <version>        # Build Aether + upload to R2 at versioned CDN path
+#
+#   ── General ──────────────────────────────────────────────────────────────────
 #   secrets-setup <member>     # Configure GitHub Actions secrets
 #   secrets-show               # Display configured secrets (masked)
-#   status                     # Overall deployment status
+#   status                     # Overall deployment status (Workers + R2)
 #   monitor <member> [ver]     # Monitor CDN deployment for member
 #   open                       # Open Cloudflare dashboard
 #   help                       # Show this help
 #
 # Examples:
 #   bash spells/cloudflare-ctl.sh setup                # first run: install + authenticate
+#   bash spells/cloudflare-ctl.sh deploy aether v0.0.0.1      # build versioned + deploy
+#   bash spells/cloudflare-ctl.sh deploy score                 # deploy proxy Worker (no build)
+#   bash spells/cloudflare-ctl.sh domain aether add            # wire aether.joinrabble.world
+#   bash spells/cloudflare-ctl.sh domain aether verify         # confirm subdomain is live
+#   bash spells/cloudflare-ctl.sh workers-list                 # see all deployed Workers
 #   bash spells/cloudflare-ctl.sh r2-setup --dry-run
 #   bash spells/cloudflare-ctl.sh r2-domain add        # attach cdn.joinrabble.world
 #   bash spells/cloudflare-ctl.sh r2-domain verify     # poll until the TLS cert is active
@@ -474,25 +488,216 @@ cmd_secrets_show() {
   echo ""
 }
 
+# ─ Member config lookup ──────────────────────────────────────────────────────
+# Sets MEMBER_REPO, MEMBER_DIR, MEMBER_BUILD, WORKER_NAME, WORKER_DOMAIN
+_member_config() {
+  local member="$1"
+  case "$member" in
+    aether)   MEMBER_REPO="RaBbLE-Aether";  MEMBER_BUILD="npm run build:versioned"; WORKER_NAME="rabble-aether";    WORKER_DOMAIN="aether.joinrabble.world" ;;
+    nebula)   MEMBER_REPO="RaBbLE-NeBuLA";  MEMBER_BUILD="npm run build:versioned"; WORKER_NAME="rabble-nebula";    WORKER_DOMAIN="nebula.joinrabble.world" ;;
+    grimoire) MEMBER_REPO="RaBbLE-Grimoire"; MEMBER_BUILD="";                        WORKER_NAME="rabble-grimoire";  WORKER_DOMAIN="grimoire.joinrabble.world" ;;
+    score)    MEMBER_REPO="RaBbLE-sCoRE";   MEMBER_BUILD="";                        WORKER_NAME="rabble-score";     WORKER_DOMAIN="score.joinrabble.world" ;;
+    world)    MEMBER_REPO="RaBbLE-World";   MEMBER_BUILD="";                        WORKER_NAME="rabble-collective"; WORKER_DOMAIN="joinrabble.world" ;;
+    *) err "Unknown member: $member  (aether|nebula|grimoire|score|world)"; return 1 ;;
+  esac
+  MEMBER_DIR="$(dirname "$GRIMOIRE_ROOT")/$MEMBER_REPO"
+}
+
+# ─ Workers commands ───────────────────────────────────────────────────────────
+
+# Build (versioned if version given) then wrangler deploy from the member directory.
+# Aether/NeBuLA use build:versioned which puts files in dist/<version>/; the root
+# dist/ files are still updated too, so both pinned and @latest paths are served.
+cmd_deploy() {
+  local member="${1:-}"
+  local version="${2:-}"
+
+  if [ -z "$member" ]; then
+    warn "Usage: cloudflare-ctl.sh deploy <member> [version]"
+    info "Members: aether nebula grimoire score world"
+    exit 1
+  fi
+
+  _member_config "$member" || exit 1
+
+  header "Deploy: $MEMBER_REPO"
+
+  if [ ! -d "$MEMBER_DIR" ]; then
+    err "Member directory not found: $MEMBER_DIR"
+    exit 1
+  fi
+
+  if ! wrangler whoami &>/dev/null; then
+    err "wrangler not authenticated — run: wrangler login"
+    suggest_setup; exit 1
+  fi
+
+  # Build step — versioned if a version was passed, plain build otherwise
+  if [ -n "$MEMBER_BUILD" ]; then
+    if [ -n "$version" ]; then
+      VERSION_CLEAN="${version#v}"
+      info "Building $MEMBER_REPO @ v$VERSION_CLEAN..."
+      (cd "$MEMBER_DIR" && npm_config_version="v$VERSION_CLEAN" $MEMBER_BUILD) || { err "Build failed"; exit 1; }
+    else
+      info "Building $MEMBER_REPO (no version pin)..."
+      (cd "$MEMBER_DIR" && $MEMBER_BUILD) || { err "Build failed"; exit 1; }
+    fi
+    ok "Build complete"
+    echo ""
+  fi
+
+  info "Deploying $WORKER_NAME..."
+  (cd "$MEMBER_DIR" && wrangler deploy) || { err "wrangler deploy failed"; exit 1; }
+
+  ok "$MEMBER_REPO deployed"
+  echo ""
+  info "Workers URL:   https://$WORKER_NAME.$(wrangler whoami 2>/dev/null | grep -o '[a-z0-9]*\.workers\.dev' | head -1 || echo 'workers.dev')/"
+  info "Custom domain: https://$WORKER_DOMAIN/"
+  info ""
+  info "If domain isn't wired yet:"
+  info "  bash spells/cloudflare-ctl.sh domain $member add"
+  echo ""
+}
+
+# Add, verify, or remove the custom domain binding on a deployed Worker via CF API.
+# Requires CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN, and CLOUDFLARE_ZONE_ID for add.
+cmd_domain() {
+  local member="${1:-}"
+  local action="${2:-verify}"
+
+  if [ -z "$member" ]; then
+    warn "Usage: cloudflare-ctl.sh domain <member> [add|verify|list|remove]"
+    info "Members: aether nebula grimoire score world"
+    exit 1
+  fi
+
+  _member_config "$member" || exit 1
+
+  header "Worker Domain: $WORKER_DOMAIN → $WORKER_NAME"
+
+  if [ -z "${CLOUDFLARE_ACCOUNT_ID:-}" ] || [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
+    err "CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN required"
+    suggest_setup; exit 1
+  fi
+
+  local CF_API="https://api.cloudflare.com/client/v4"
+  local CF_AUTH=(-H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: application/json")
+
+  case "$action" in
+    add|attach)
+      if [ -z "${CLOUDFLARE_ZONE_ID:-}" ]; then
+        err "CLOUDFLARE_ZONE_ID required to bind the domain to the zone"
+        suggest_setup; exit 1
+      fi
+      info "Attaching $WORKER_DOMAIN → $WORKER_NAME..."
+      RESULT=$(curl -s -X PUT "$CF_API/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/domains" \
+        "${CF_AUTH[@]}" \
+        -d "{\"environment\":\"production\",\"hostname\":\"$WORKER_DOMAIN\",\"service\":\"$WORKER_NAME\",\"zone_id\":\"$CLOUDFLARE_ZONE_ID\"}")
+      if echo "$RESULT" | grep -q '"success":true'; then
+        ok "Domain attached: https://$WORKER_DOMAIN/"
+      else
+        local msg
+        msg=$(echo "$RESULT" | python3 -c "import sys,json; errs=json.load(sys.stdin).get('errors',[]); print(errs[0].get('message','unknown') if errs else 'unknown')" 2>/dev/null || echo "unknown error")
+        err "Attach failed: $msg"
+        info "Token needs: Account Workers Scripts:Edit + Zone DNS:Edit + SSL:Edit"
+        exit 1
+      fi
+      ;;
+    verify|status|check)
+      info "Checking https://$WORKER_DOMAIN/ ..."
+      HTTP=$(curl -s -o /dev/null -w "%{http_code}" "https://$WORKER_DOMAIN/" 2>/dev/null || echo "000")
+      if [ "$HTTP" = "200" ] || [ "$HTTP" = "204" ] || [ "$HTTP" = "301" ] || [ "$HTTP" = "302" ]; then
+        ok "Live: https://$WORKER_DOMAIN/  (HTTP $HTTP)"
+      else
+        warn "HTTP $HTTP — domain may not be wired yet"
+        info "Wire it: bash spells/cloudflare-ctl.sh domain $member add"
+      fi
+      ;;
+    list)
+      info "All Worker custom domains on this account:"
+      RESULT=$(curl -s "$CF_API/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/domains" "${CF_AUTH[@]}")
+      if echo "$RESULT" | grep -q '"success":true'; then
+        echo "$RESULT" | python3 -c "
+import sys,json
+data=json.load(sys.stdin).get('result',[])
+if not data: print('  (none)')
+for d in data: print(f'  {d[\"hostname\"]:40s} → {d[\"service\"]}')
+" 2>/dev/null || warn "Could not parse response"
+      else
+        err "API request failed"
+      fi
+      ;;
+    remove|detach)
+      info "Looking up domain ID for $WORKER_DOMAIN..."
+      RESULT=$(curl -s "$CF_API/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/domains" "${CF_AUTH[@]}")
+      DOMAIN_ID=$(echo "$RESULT" | python3 -c "
+import sys,json
+data=json.load(sys.stdin).get('result',[])
+for d in data:
+  if d.get('hostname')=='$WORKER_DOMAIN': print(d.get('id','')); break
+" 2>/dev/null)
+      if [ -z "$DOMAIN_ID" ]; then
+        warn "$WORKER_DOMAIN not found in domain list — may already be removed"
+      else
+        curl -s -X DELETE "$CF_API/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/domains/$DOMAIN_ID" "${CF_AUTH[@]}" >/dev/null
+        ok "Domain removed: $WORKER_DOMAIN"
+      fi
+      ;;
+    *)
+      warn "Unknown action: $action  (add|verify|list|remove)"
+      exit 1
+      ;;
+  esac
+  echo ""
+}
+
+# List all Workers scripts deployed to this account.
+cmd_workers_list() {
+  header "Deployed Workers"
+
+  if [ -z "${CLOUDFLARE_ACCOUNT_ID:-}" ] || [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
+    err "CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN required"
+    suggest_setup; exit 1
+  fi
+
+  RESULT=$(curl -s \
+    "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts" \
+    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN")
+
+  if echo "$RESULT" | grep -q '"success":true'; then
+    echo "$RESULT" | python3 -c "
+import sys,json
+scripts=json.load(sys.stdin).get('result',[])
+if not scripts: print('  (none)')
+for s in scripts: print(f'  {s[\"id\"]}')
+" 2>/dev/null || warn "Could not parse response"
+  else
+    err "API request failed — check CLOUDFLARE_API_TOKEN scope"
+  fi
+  echo ""
+}
+
 cmd_status() {
   header "Cloudflare Deployment Status"
 
   cmd_auth || true
-  echo ""
-  cmd_r2_verify || true
-  echo ""
-  cmd_r2_domain verify || true
-  echo ""
 
-  info "Members deployed:"
-  for member in aether nebula world; do
-    CDN_URL="https://cdn.joinrabble.world/$member/v0.0.0.1-rc.1/"
-    if curl -s -o /dev/null -w "%{http_code}" "$CDN_URL" | grep -q "200"; then
-      ok "$member available at CDN"
+  # ── Workers subdomain health ──────────────────────────────────────────────
+  echo ""
+  info "Workers subdomains:"
+  for pair in "aether:aether.joinrabble.world" "nebula:nebula.joinrabble.world" "grimoire:grimoire.joinrabble.world" "score:score.joinrabble.world" "world:joinrabble.world"; do
+    local m="${pair%%:*}" domain="${pair##*:}"
+    HTTP=$(curl -s -o /dev/null -w "%{http_code}" "https://$domain/" 2>/dev/null || echo "000")
+    if [ "$HTTP" = "200" ] || [ "$HTTP" = "204" ] || [ "$HTTP" = "301" ]; then
+      ok "$m  https://$domain/  (HTTP $HTTP)"
     else
-      warn "$member not yet on CDN (in progress or not deployed)"
+      warn "$m  https://$domain/  (HTTP $HTTP — not live)"
     fi
   done
+
+  # ── R2 CDN health ─────────────────────────────────────────────────────────
+  echo ""
+  cmd_r2_domain verify || true
 
   echo ""
 }
@@ -644,6 +849,9 @@ COMMAND="${1:-help}"
 case "$COMMAND" in
   setup)         cmd_setup ;;
   auth)          cmd_auth ;;
+  deploy)        cmd_deploy "${2:-}" "${3:-}" ;;
+  domain)        cmd_domain "${2:-}" "${3:-}" ;;
+  workers-list)  cmd_workers_list ;;
   r2-setup)      cmd_r2_setup "${2:-}" ;;
   r2-list)       cmd_r2_list ;;
   r2-verify)     cmd_r2_verify ;;

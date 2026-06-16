@@ -1,0 +1,10 @@
+{
+  "name": "rabble-grimoire",
+  "compatibility_date": "2026-06-16",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "gist"
+  }
+}

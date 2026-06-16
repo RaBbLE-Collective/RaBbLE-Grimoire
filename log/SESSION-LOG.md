@@ -5,14 +5,37 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-16 · Session 113 (agy Waybar tracker: dual-quota, glyph polish, popup parity)
+## LATEST — 2026-06-16 · Session 114 (CF Workers subdomain deployment infrastructure)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S113):** Built and refined the Antigravity (agy) Waybar pill: RaBbLE-aligned glyphs (`Λ` idle, `⊘` rate-limit), mode-isolated click popup (no Claude agents panel bleed), stale-cache guard in glyph-stream, full-featured Codex popup, Codex 31-day session window. Key fix: agy has TWO independent quota pools (Gemini API + Antigravity service for Sonnet/Opus/GPT), neither shared with Claude Code — distinguished by tracking `model_config_manager.go:157` in logs. Also fixed bfs-incompatible `find -newermt` → `-mmin`.
-**Blockers:** OpenRouter $10 credits; World CF Pages; CORS allow_origin_regex.
-**Next:** Buy OpenRouter credits; World CF Pages deploy; guest chat path.
+**This session (S114):** CF Workers deployment wired for all 4 members: `aether/nebula/grimoire/score.joinrabble.world`. Each gets `wrangler.jsonc`. sCoRE gets `cf-proxy.js` (transparent proxy to Render). `cloudflare-ctl.sh` extended: `deploy <member> [ver]`, `domain <member> [add|verify|list|remove]`, `workers-list`, `status` with subdomain health. Aether/NeBuLA serve versioned CDN paths (`/v0.0.0.X/`); NeBuLA gets `build:versioned` script. Config flip-point updated.
+**Blockers:** OpenRouter $10 credits; CORS allow_origin_regex. wrangler login needed to deploy.
+**Next:** `wrangler login` → `cloudflare-ctl.sh deploy <member>` × 4 → `domain add` × 4 → confirm live.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-16 (Session 114) — CF Workers subdomain deployment infrastructure
+
+**Repos touched:** RaBbLE-Grimoire (`spells/cloudflare-ctl.sh`, `wrangler.jsonc`), RaBbLE-Aether (`wrangler.jsonc`), RaBbLE-NeBuLA (`package.json`, `wrangler.jsonc`), RaBbLE-sCoRE (`cf-proxy.js`, `wrangler.jsonc`), RaBbLE-World (`world/js/RaBbLE-config.js`).
+
+**What happened:**
+- Added `wrangler.jsonc` to Aether, NeBuLA, Grimoire, and sCoRE — each member is now independently deployable via `wrangler deploy` to its own Cloudflare Worker.
+  - Aether/NeBuLA: `assets.directory = "dist"` → versioned CDN at `aether.joinrabble.world/v0.0.0.X/`
+  - Grimoire: `assets.directory = "gist"` → distilled agent orientation docs at `grimoire.joinrabble.world`
+  - sCoRE: `main = "cf-proxy.js"` → transparent reverse proxy Worker (CF → Render)
+- Created `RaBbLE-sCoRE/cf-proxy.js`: minimal CF Worker that rewrites hostname to `rabble-score-x7qq.onrender.com`, preserving method/headers/body. CORS headers flow through from Render unchanged.
+- Added `build:versioned` script to NeBuLA `package.json` (mirrors Aether's existing script; output: `dist/v{VERSION}/`).
+- Extended `cloudflare-ctl.sh` with three new Workers commands:
+  - `deploy <member> [ver]` — runs versioned build (if applicable) then `wrangler deploy` from member dir
+  - `domain <member> [add|verify|list|remove]` — CF API (`PUT /accounts/{id}/workers/domains`) to wire/verify/remove custom domain on a deployed Worker
+  - `workers-list` — CF API listing of all deployed Worker scripts
+  - `status` updated to ping all five subdomains for live health
+- Updated `RaBbLE-World/world/js/RaBbLE-config.js` flip-point: PROD_API_URL → `score.joinrabble.world`; PROD_AETHER_URL/PROD_NEBULA_URL → versioned subdomain paths.
+
+**Branch:** all commits on `main` (each member's own repo).
+**Next:** `wrangler login` → `cloudflare-ctl.sh deploy <member>` × 4 → `domain add` × 4 → confirm live via `status`. After deploy: World deploy to activate updated config.js.
 
 ---
 
