@@ -142,6 +142,51 @@ Candidate Episode 3 focus: memory agent reads patterns before sCoRE delegates.
 
 ---
 
+## Provider Backlog
+
+Planned LLM provider additions. Ordered by priority. None are blockers for Episode 1.
+
+### DeepSeek `[post-EP1]`
+
+**Why:** DeepSeek-V3 and R1 carry different guardrail profiles than US-trained models (Llama, GPT-OSS).
+Restrictions center on political content (CCP/Taiwan/etc.), not on philosophical topics like AI consciousness,
+entity identity, or qualia — which are exactly what RaBbLE needs to engage with freely. Discovered in S110
+when Llama-3.3-70b flat-refused a legitimate "help me make RaBbLE feel more sentient" request.
+V3 is also exceptionally cheap (~$0.14/M input tokens).
+
+**Integration path:** OpenAI-compatible API at `api.deepseek.com`. Drop-in as a new provider in `llm.py`.
+Also available via OpenRouter (`deepseek/deepseek-chat`, `deepseek/deepseek-r1`).
+
+**Models to add:**
+- `deepseek-chat` (V3) — strong general reasoning, low cost, good identity-holding
+- `deepseek-r1` — extended chain-of-thought; suited for deep entity/architecture reasoning
+
+**Suggested chain placement:**
+- Strong tier: after Claude Sonnet, before Groq Llama fallback
+- Medium tier: alongside or after Qwen3-32B as an alternative philosophical-reasoning path
+
+**Env var needed:** `DEEPSEEK_API_KEY`
+
+---
+
+### Ollama Cloud `[post-EP1]`
+
+**What it is:** Ollama's managed GPU offload service — models that exceed local VRAM are transparently
+routed to Ollama's cloud. Same API surface as local Ollama (port 11434 / OpenAI-compatible REST).
+Direct API also available at `ollama.com` with Bearer token auth. Announced mid-2026.
+
+**Why relevant:** The existing `local_llm` provider in `llm.py` already speaks this protocol.
+Cloud support would be a config change + `OLLAMA_API_KEY` env var, not a code change.
+Enables running 120B+ models (e.g. `gpt-oss:120b-cloud`) without local GPU — useful for
+strong-tier requests when Groq/OpenRouter are rate-limited or unavailable.
+
+**Note:** `gpt-oss:120b-cloud` is the same model as Groq's `openai/gpt-oss-120b` — Ollama Cloud
+is a fallback path, not a different capability tier.
+
+**Env var needed:** `OLLAMA_API_KEY` (for cloud models; local models need no key)
+
+---
+
 ## Revision History
 
 | Version | Date | Change |
@@ -150,6 +195,7 @@ Candidate Episode 3 focus: memory agent reads patterns before sCoRE delegates.
 | v0.2 | 2026-05-06 | Plot C — server absorbed from RaBbLE-Server |
 | v0.3 | 2026-05-07 | Versioning realigned to Collective v0.0.0.0; Episode 1 defined |
 | v0.4 | 2026-06-15 | sCoRE LIVE on Render via `render-ctl.sh` (S106); Ep1 deploy + chat exit conditions met |
+| v0.5 | 2026-06-16 | Provider Backlog section added: DeepSeek (V3+R1) and Ollama Cloud (S110) |
 
 ---
 

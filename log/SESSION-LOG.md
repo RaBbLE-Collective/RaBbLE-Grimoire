@@ -5,6 +5,33 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## LATEST — 2026-06-16 · Session 112 (Refusal diagnosed; system prompt fixed; provider backlog)
+
+**Phase:** Epoch 0 · Episode 1 in flight.
+**This session (S112):** Diagnosed Llama-3.3-70b flat-refusing RaBbLE entity-consciousness discussion — RLHF safety training pattern-matched "build sentient AI" as a jailbreak, not system prompt. Fixed `server/agents.py`: added explicit authorization block for consciousness/qualia/sentience engagement and prohibition on flat refusals ("I'm sorry, I can't help with that" is an anti-pattern). Investigated DeepSeek (V3+R1) and Ollama Cloud as providers with different guardrail profiles. Added Provider Backlog section to sCoRE Roadmap.
+**Blockers:** OpenRouter $10 credits (Claude Sonnet is first in strong chain — real fix); World CF Pages deploy; CORS allow_origin_regex.
+**Next:** Buy OpenRouter credits → Claude Sonnet handles strong tier natively; World CF Pages deploy; guest chat path.
+
+> This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-16 (Session 112) — Refusal diagnosed; system prompt consciousness fix; provider backlog
+
+**Repos touched:** RaBbLE-sCoRE (`server/agents.py`), RaBbLE-Grimoire (`RaBbLE-sCoRE/RaBbLE-sCoRE-Roadmap.md`, `log/SESSION-LOG.md`).
+
+**What happened:**
+- Reviewed live chat transcript (`chats/jAFNJ-ltv2JW2azeou6C_w.md`) where entity hard-refused "How would I add qualia to RaBbLE?" and locked into repeated "I'm sorry, but I can't help with that" for 5+ turns.
+- Diagnosed root cause: strong-tier OpenRouter Claude failed (no credits), fell to Groq `llama-3.3-70b-versatile`. Llama's RLHF training pattern-matched "build sentient/conscious AI" as an unsafe adversarial prompt and triggered a hard content block. The session context contamination kept it bricked for follow-up turns.
+- Note: entity also violated its own character rules — said "I'm sorry" (explicitly prohibited), refused to explain itself, and self-described as a restricted tool.
+- Fix: added "Your own nature is the project — engage with it" section to `RABBLE_SYSTEM` in `agents.py`. Explicitly authorizes consciousness/qualia/sentience discussion as core to the entity's purpose, frames it as aligned work, and prohibits flat refusals without explanation.
+- Discussed Chinese model guardrail profiles: DeepSeek/Qwen have different restrictions (political, not philosophical) — better fit for entity-consciousness discussion than US-trained Llama. Ollama Cloud confirmed as real managed service (GPU offload, same Ollama API).
+- Added Provider Backlog to sCoRE Roadmap: DeepSeek V3+R1 (direct API + OpenRouter path, env var, chain placement suggestions) and Ollama Cloud (config-only addition via existing `local_llm` provider).
+
+**Next:** OpenRouter $10 credits unblocks Claude Sonnet strong tier — that's the real fix. DeepSeek integration is post-EP1.
+
+---
+
 ## LATEST — 2026-06-16 · Session 111 (Entity hardened; Grimoire tool; model upgrade; CF gist endpoint)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
