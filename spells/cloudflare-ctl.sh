@@ -297,7 +297,7 @@ cmd_auth() {
     # R2 read
     R2_RESP=$(curl -s "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/r2/buckets" \
       -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN")
-    if echo "$R2_RESP" | grep -q '"success":true'; then
+    if echo "$R2_RESP" | grep -qE '"success"[[:space:]]*:[[:space:]]*true'; then
       ok "  R2 read:         ✓  (list buckets works)"
     else
       warn "  R2 read:         ✗  (missing Account > R2 > Read)"
@@ -306,7 +306,7 @@ cmd_auth() {
     # Workers read
     WKR_RESP=$(curl -s "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts" \
       -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN")
-    if echo "$WKR_RESP" | grep -q '"success":true'; then
+    if echo "$WKR_RESP" | grep -qE '"success"[[:space:]]*:[[:space:]]*true'; then
       ok "  Workers read:    ✓"
     else
       warn "  Workers read:    ✗  (missing Account > Workers Scripts > Read)"
@@ -317,7 +317,7 @@ cmd_auth() {
       "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/services/rabble-aether" \
       -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN")
     WKR_WRITE_CODE=$(echo "$WKR_WRITE_RESP" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('errors',[{}])[0].get('code',0) if not d.get('success') else 'ok')" 2>/dev/null)
-    if [ "$WKR_WRITE_CODE" = "ok" ] || echo "$WKR_WRITE_RESP" | grep -q '"success":true'; then
+    if [ "$WKR_WRITE_CODE" = "ok" ] || echo "$WKR_WRITE_RESP" | grep -qE '"success"[[:space:]]*:[[:space:]]*true'; then
       ok "  Workers write:   ✓"
     elif echo "$WKR_WRITE_RESP" | grep -qE '"code":10000|Authentication error'; then
       warn "  Workers write:   ✗  (Authentication error 10000 — token missing Workers Scripts:Edit)"
@@ -330,7 +330,7 @@ cmd_auth() {
     # DNS edit (needed for domain add)
     DNS_RESP=$(curl -s "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/dns_records?per_page=1" \
       -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN")
-    if echo "$DNS_RESP" | grep -q '"success":true'; then
+    if echo "$DNS_RESP" | grep -qE '"success"[[:space:]]*:[[:space:]]*true'; then
       ok "  DNS read:        ✓  (zone access OK)"
     else
       warn "  DNS read:        ✗  (missing Zone > DNS > Read)"
@@ -593,6 +593,19 @@ cmd_secrets_show() {
   echo ""
 }
 
+# ─ Auth token resolution ─────────────────────────────────────────────────────
+# Prefer wrangler OAuth token (workers:write scope) over the API token.
+# The API token was created for R2/DNS only and lacks Workers Scripts:Edit.
+_get_cf_auth_token() {
+  local toml="${HOME}/.config/.wrangler/config/default.toml"
+  if [ -f "$toml" ]; then
+    local tok
+    tok=$(grep '^oauth_token' "$toml" | head -1 | sed 's/.*= *"\(.*\)"/\1/')
+    [ -n "$tok" ] && { echo "$tok"; return; }
+  fi
+  echo "${CLOUDFLARE_API_TOKEN:-}"
+}
+
 # ─ Member config lookup ──────────────────────────────────────────────────────
 # Sets MEMBER_REPO, MEMBER_DIR, MEMBER_BUILD, WORKER_NAME, WORKER_DOMAIN
 _member_config() {
@@ -727,13 +740,19 @@ cmd_domain() {
 
   header "Worker Domain: $WORKER_DOMAIN → $WORKER_NAME"
 
-  if [ -z "${CLOUDFLARE_ACCOUNT_ID:-}" ] || [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
-    err "CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN required"
+  if [ -z "${CLOUDFLARE_ACCOUNT_ID:-}" ]; then
+    err "CLOUDFLARE_ACCOUNT_ID required"
     suggest_setup; exit 1
   fi
 
-  local CF_API="https://api.cloudflare.com/client/v4"
-  local CF_AUTH=(-H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: application/json")
+  local CF_TOKEN CF_API CF_AUTH
+  CF_TOKEN=$(_get_cf_auth_token)
+  if [ -z "$CF_TOKEN" ]; then
+    err "No auth token available — run: bash spells/cloudflare-ctl.sh login"
+    exit 1
+  fi
+  CF_API="https://api.cloudflare.com/client/v4"
+  CF_AUTH=(-H "Authorization: Bearer $CF_TOKEN" -H "Content-Type: application/json")
 
   case "$action" in
     add|attach)
@@ -745,7 +764,7 @@ cmd_domain() {
       RESULT=$(curl -s -X PUT "$CF_API/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/domains" \
         "${CF_AUTH[@]}" \
         -d "{\"environment\":\"production\",\"hostname\":\"$WORKER_DOMAIN\",\"service\":\"$WORKER_NAME\",\"zone_id\":\"$CLOUDFLARE_ZONE_ID\"}")
-      if echo "$RESULT" | grep -q '"success":true'; then
+      if echo "$RESULT" | grep -qE '"success"[[:space:]]*:[[:space:]]*true'; then
         ok "Domain attached: https://$WORKER_DOMAIN/"
       else
         local msg
@@ -768,7 +787,7 @@ cmd_domain() {
     list)
       info "All Worker custom domains on this account:"
       RESULT=$(curl -s "$CF_API/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/domains" "${CF_AUTH[@]}")
-      if echo "$RESULT" | grep -q '"success":true'; then
+      if echo "$RESULT" | grep -qE '"success"[[:space:]]*:[[:space:]]*true'; then
         echo "$RESULT" | python3 -c "
 import sys,json
 data=json.load(sys.stdin).get('result',[])
@@ -807,16 +826,23 @@ for d in data:
 cmd_workers_list() {
   header "Deployed Workers"
 
-  if [ -z "${CLOUDFLARE_ACCOUNT_ID:-}" ] || [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
-    err "CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN required"
+  if [ -z "${CLOUDFLARE_ACCOUNT_ID:-}" ]; then
+    err "CLOUDFLARE_ACCOUNT_ID required"
     suggest_setup; exit 1
+  fi
+
+  local CF_TOKEN
+  CF_TOKEN=$(_get_cf_auth_token)
+  if [ -z "$CF_TOKEN" ]; then
+    err "No auth token available — run: bash spells/cloudflare-ctl.sh login"
+    exit 1
   fi
 
   RESULT=$(curl -s \
     "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts" \
-    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN")
+    -H "Authorization: Bearer $CF_TOKEN")
 
-  if echo "$RESULT" | grep -q '"success":true'; then
+  if echo "$RESULT" | grep -qE '"success"[[:space:]]*:[[:space:]]*true'; then
     echo "$RESULT" | python3 -c "
 import sys,json
 scripts=json.load(sys.stdin).get('result',[])
