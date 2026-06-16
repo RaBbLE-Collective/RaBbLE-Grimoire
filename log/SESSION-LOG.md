@@ -5,14 +5,33 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-16 · Session 112 (Refusal diagnosed; system prompt fixed; provider backlog)
+## LATEST — 2026-06-16 · Session 113 (agy Waybar tracker: dual-quota, glyph polish, popup parity)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S112):** Diagnosed Llama-3.3-70b flat-refusing RaBbLE entity-consciousness discussion — RLHF safety training pattern-matched "build sentient AI" as a jailbreak, not system prompt. Fixed `server/agents.py`: added explicit authorization block for consciousness/qualia/sentience engagement and prohibition on flat refusals ("I'm sorry, I can't help with that" is an anti-pattern). Investigated DeepSeek (V3+R1) and Ollama Cloud as providers with different guardrail profiles. Added Provider Backlog section to sCoRE Roadmap.
-**Blockers:** OpenRouter $10 credits (Claude Sonnet is first in strong chain — real fix); World CF Pages deploy; CORS allow_origin_regex.
-**Next:** Buy OpenRouter credits → Claude Sonnet handles strong tier natively; World CF Pages deploy; guest chat path.
+**This session (S113):** Built and refined the Antigravity (agy) Waybar pill: RaBbLE-aligned glyphs (`Λ` idle, `⊘` rate-limit), mode-isolated click popup (no Claude agents panel bleed), stale-cache guard in glyph-stream, full-featured Codex popup, Codex 31-day session window. Key fix: agy has TWO independent quota pools (Gemini API + Antigravity service for Sonnet/Opus/GPT), neither shared with Claude Code — distinguished by tracking `model_config_manager.go:157` in logs. Also fixed bfs-incompatible `find -newermt` → `-mmin`.
+**Blockers:** OpenRouter $10 credits; World CF Pages; CORS allow_origin_regex.
+**Next:** Buy OpenRouter credits; World CF Pages deploy; guest chat path.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-16 (Session 113) — agy Waybar tracker: dual-quota, glyph polish, popup parity
+
+**Repos touched:** RaBbLE-OS (`config/waybar/config.jsonc`, `scripts/score-status.sh`, `scripts/score-status-daemon.sh`, `scripts/score-glyph-stream.sh`, `scripts/score-usage-detail.py`, `style.css`), RaBbLE-Grimoire (`RaBbLE-OS/desktop/RaBbLE-OS-Desktop-sCoRE-UsageTracker.md`, `log/SESSION-LOG.md`).
+
+**What happened:**
+- Improved agy pill from initial scaffold: glyph `⏔`→`Λ` (Greek lambda/parabolic arch), rate-limit marker `⛔`→`⊘`, stale-cache safety guard in glyph-stream (>30s → fallback to idle so dead daemon can't lock pill in "busy").
+- Fixed popup click-through: `render_heavy()` had no antigravity branch (fell through to Claude+Codex sections); codex mode also fell through to Claude. Both now mode-isolated in `score-usage-detail.py`.
+- Removed Claude agents panel from Codex and Antigravity popups (was always prepended regardless of mode).
+- Full-featured Codex popup: running count, quota bars, token windows (5h/7d), session list. Fixed 7→31 day session discovery window (Codex has a 30-day quota; sessions were 8 days old and missed).
+- agy rate-limit scan: was checking only the most recent log file; changed to scan all logs from last 7 days (quota resets weekly) using model-context-aware awk.
+- **Key fix:** agy has TWO independent quota pools (Gemini API + Antigravity service for Sonnet/Opus/GPT models) — neither shared with Claude Code. Previous code incorrectly showed "Claude API (shared with Claude Code)" for the second pool. Fix: track `model_config_manager.go:157` label in log order; classify each `RESOURCE_EXHAUSTED` by which model was active at that moment. Each pool gets its own quota row in both the tooltip and popup, with adjusted remaining-time display.
+- **bfs gotcha:** System uses `bfs` (Better Find) not GNU `find`. `find -newermt '-24 hours'` silently fails with bfs. Converted to `-mmin -1440` / `-mmin -10080` throughout the agy sections.
+- Documented: `RaBbLE-OS-Desktop-sCoRE-UsageTracker.md` now covers the agy tracker, dual-quota architecture, bfs compatibility note, and per-mode popup behavior.
+
+**Branch:** `new-horizons-antigravity-tracker` (RaBbLE-OS); Grimoire on `main`.
+**Next:** OpenRouter credits; World CF Pages; guest chat path. agy quotas reset in ~167h.
 
 ---
 

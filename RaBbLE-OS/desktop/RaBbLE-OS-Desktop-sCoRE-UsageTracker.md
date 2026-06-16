@@ -1,20 +1,22 @@
-# sCoRE Usage Tracker — Waybar Claude/Codex pills
+# sCoRE Usage Tracker — Waybar Claude/Codex/Antigravity pills
 
 ```
 spark ~ sCoRE Usage Tracker >> hook becomes ground truth + interrupt-driven push // %S51%
 mend  ~ sCoRE Usage Tracker >> multi-instance session engine + live popup + notifications // %S61%
 mend  ~ sCoRE Usage Tracker >> per-model tracking + estimate calibration from empirical fit // %S62%
+spark ~ sCoRE Usage Tracker >> Antigravity (agy) pill: dual-quota, RaBbLE glyphs, mode-isolated popup // %NEW_HORIZONS%
+mend  ~ sCoRE Usage Tracker >> agy dual-quota fix: Gemini + Service pool split, bfs-compat find // %NEW_HORIZONS%
 ```
 
 > Lives in `RaBbLE-OS/config/waybar/scripts/score-*` and `config/waybar/{config.jsonc,style.css}`.
-> Branch: `RaBbLE-OS-New-Horizons` (merged from `feature/waybar-llm-status`).
+> Branch: `RaBbLE-OS-New-Horizons` (current, merged from earlier `feature/waybar-llm-status`).
 > **First sCoRE applet living in RaBbLE-OS** — built to be portable into RaBbLE-sCoRE directly; every script carries the `score-` prefix for that move.
 
 ---
 
 ## What it is
 
-Two Waybar pills — `Claude ▁ ⚑1 ✦2 ▶1 45% / 31%wk` and `Codex >_×2 12%` — that show, at a glance:
+Three Waybar pills — `Claude ▁ ⚑1 ✦2 ▶1 45% / 31%wk`, `Codex >_×2 12%`, and `Agy Λ` (or `Agy ▶ ⊘⊘` if both quotas hit) — that show, at a glance:
 
 - **Live state**: idle / ready / busy / needs-input, each with its own glyph and color — aggregated across **every running instance** with priority blocked > computing > ready; one blocked agent flashes the pill even while others grind on, and when busy and ready agents coexist (nothing blocked) the pill **cycles cyan↔green every 2s** so both fleets stay visible
 - **Agent census**: per-state counts, zero counts omitted — `⚑N` blocked on you · `✦N` computing · `▶N` ready/waiting; the tooltip lists each agent (state · project · age · session id). The census is a `@CENSUS@` placeholder in the heavy tier's cache, repainted by the glyph-stream from the live aggregate — so a new block's ⚑ count lands on the bar **on the same interrupt as the color flash**, not at the next 5s heavy pass
@@ -31,10 +33,12 @@ It is a **notification surface and agent manager**, not just a meter — the who
 
 | State | Glyph | Color | Meaning |
 |---|---|---|---|
-| idle | `✱` (Claude) / `>_` (Codex) | RaBbLE-Magenta (muted) | No active session |
+| idle | `✱` (Claude) / `>_` (Codex) / `Λ` (agy) | Magenta (Claude) / Muted (Codex) / Violet (agy) | No active session |
 | ready | `▶` | Green | Session open, waiting for your input |
 | busy | traveling block-wave `▁▂▄▆█▆▄▂` | Cyan, pulsing | Actively generating / running tools |
 | needs-input | `⚑` | Magenta, **flashing** (`step-start` strobe) | Blocked on a tool-permission prompt — **it needs you** |
+
+`Λ` (Greek lambda) is the Antigravity idle glyph — a parabolic arch mirroring the Antigravity "A" logo. Rate-limit markers: `⊘` per exhausted quota pool; `⊘⊘` if both are hit simultaneously.
 
 `needs-input` is the state that matters most: it's the one case where the entity is stalled on the user, and the flashing magenta is deliberately the most attention-grabbing state in the scheme (RaBbLE-Magenta is reserved for moments that need you, per `RaBbLE-Palette.md`).
 
@@ -112,7 +116,7 @@ One mechanism serves both "animate smoothly while busy" and "react instantly whe
 | `config/waybar/scripts/score-claude-hook.sh` | Claude Code hook bridge — thin `exec` into `score-sessions.py update` |
 | `config/waybar/scripts/score-codex-notify.sh` | Codex `notify` bridge — thin `exec` into `score-sessions.py codex-notify` |
 | `config/waybar/scripts/score-usage-api-poll.py` | Polls Anthropic's official usage API (~90s) via Firefox session cookie + `curl_cffi` |
-| `config/waybar/scripts/score-usage-detail.py` | Click-through popup — `--live` self-refreshing mode (Agents panel + quota bars every 2s, heavy token sections every 15s, incremental transcript tailing between repaints) with native scrolling (↑↓/jk/PgUp/PgDn/g/G; escape sequences decoded so arrows never quit — the `less` Esc failure mode is gone) |
+| `config/waybar/scripts/score-usage-detail.py` | Click-through popup — `--live` self-refreshing mode (Agents panel + quota bars every 2s, heavy token sections every 15s). Mode-isolated: `claude` mode shows the Agents panel; `codex` and `antigravity` modes skip it entirely and go straight to their own quota + session sections. Native scrolling: ↑↓/jk/PgUp/PgDn/g/G; escape sequences decoded so arrows never quit |
 | `config/waybar/scripts/score-usage-fit.py` | Delta-based regression fitter — isolates web/other usage as residual against local estimates |
 | `RaBbLE-OS-dotctl.sh` → `_post_apply_waybar()` | Merges the hook into `~/.claude/settings.json` AND the notify program into `~/.codex/config.toml` on every `dotctl apply waybar` — idempotent, never clobbers |
 
@@ -146,6 +150,60 @@ One mechanism serves both "animate smoothly while busy" and "react instantly whe
 ### Per-model tracking (added S62)
 
 `count_tokens_since` now writes `~/.cache/rabble/score-model-mix-5h.json` and `score-model-mix-week.json` after each heavy-tier pass. The tooltip shows `Models 5h: sonnet-4-6 85%  opus-4-6 15%` (output share). The click-through popup (`score-usage-detail.py`) now shows a `By model` summary at the bottom of each time window's session list.
+
+---
+
+---
+
+## Antigravity (agy) tracker
+
+`agy` is the [Antigravity CLI](https://antigravity.sh) — a Google-backed coding agent. Its Waybar pill (`custom/llm-antigravity`) is a third tracker in the same two-tier architecture, on branch `new-horizons-antigravity-tracker`.
+
+### agy data locations
+
+| Path | What |
+|---|---|
+| `~/.gemini/antigravity-cli/log/cli-*.log` | Runtime logs — quota errors, model switches, auth events |
+| `~/.gemini/antigravity-cli/conversations/*.db` | Conversation history (binary protobuf — not directly readable) |
+| `~/.gemini/antigravity-cli/settings.json` | Active model and other user settings |
+| `~/.gemini/antigravity-cli/brain/` | Per-conversation memory dirs (mtime = last activity) |
+
+### agy dual quota pools
+
+agy has **two independent quota pools** — neither shared with Claude Code:
+
+| Pool | Trigger | Data source |
+|---|---|---|
+| **Gemini API quota** | `RESOURCE_EXHAUSTED` when a Gemini/Flash model was active | `cli-*.log` — matched by prior `model_config_manager.go:157` label |
+| **Antigravity service quota** | `RESOURCE_EXHAUSTED` when a Claude/GPT model was active | Same log, different model-context |
+
+Both pools show the same `RESOURCE_EXHAUSTED` error format ("Individual quota reached. Resets in Xh"). The tracker **distinguishes them by tracking the `model_config_manager.go:157` label in log order** — whichever model was active when the error fired determines which pool was hit.
+
+The second pool (Sonnet/Opus/GPT models) is served by Antigravity's own cloud service (`daily-cloudcode-pa.googleapis.com`) — it is NOT Anthropic's Claude Code quota. Displaying it as "shared with Claude Code" is **incorrect**.
+
+Reset times are logged in the format `Resets in 167h43m28s` (approximately 7-day window). The popup adjusts for time elapsed since the log was written, so the displayed "resets in" value tracks the actual remaining time.
+
+### Glyph and click-action notes
+
+- **Idle**: `Λ` (Greek lambda, RaBbLE-Violet) — parabolic arch mirroring the Antigravity "A"  
+- **Rate-limit marker**: `⊘` per exhausted pool; `⊘⊘` if both Gemini + Service are hit  
+- **Click**: opens `score-usage-detail.py antigravity --live` — agy-specific popup only (no Claude agents panel or Claude quota bars)  
+- **Stale-cache safety**: if the daemon hasn't refreshed the cache in >30s (likely crashed), glyph-stream falls back to idle so a dead daemon can't lock the pill in "busy"
+
+### agy popup contents (score-usage-detail.py antigravity)
+
+1. Header: running count / not running, configured model, login status
+2. **Gemini API quota** — bar at 100% + reset time when exhausted; "no errors in last 7 days" otherwise
+3. **Service quota (Sonnet/Opus/GPT)** — same, labeled as Antigravity service; model that triggered it shown in parentheses
+4. Sessions: list of recent conversations by DB mtime (up to 5), plus 7-day/today counts
+
+### bfs compatibility gotcha
+
+`RaBbLE-OS` ships `bfs` (Better Find) as the system `find`, which does NOT support `find -newermt '-24 hours'` (relative time strings). Use `-mmin -N` instead:
+
+- `-newermt '-24 hours'` → `-mmin -1440`
+- `-newermt '-7 days'` → `-mmin -10080`
+- Short-window heuristics (`-newermt '-8 seconds'`) silently fail — they are secondary fallbacks, primary hook-based state is still accurate
 
 ---
 
