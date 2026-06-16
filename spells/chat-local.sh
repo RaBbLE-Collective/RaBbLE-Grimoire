@@ -5,7 +5,7 @@
 # Runs two local processes and prints one URL:
 #   1. static server (:8080) — serves the World chat UI + Aether/NeBuLA bundles
 #   2. chat-bridge.py (:8000) — proxies /api/* to Render, injects @demo auth,
-#      adds CORS, and writes every chat turn to disk (~/RaBbLE-chats by default)
+#      adds CORS, and writes every chat turn to disk (sCoRE/chats by default)
 #
 # RaBbLE-config.js auto-targets localhost:8000 for the API, so the app talks to
 # the bridge with no edits. Open the printed dev-login URL, then chat — every
@@ -37,7 +37,7 @@ DEMO_ACCOUNT="$GRIMOIRE_ROOT/.render/demo_account.json"
 WEB_PORT="${WEB_PORT:-8080}"
 BRIDGE_PORT="${BRIDGE_PORT:-8000}"
 RENDER_URL="${RENDER_URL:-https://rabble-score-x7qq.onrender.com}"
-CHAT_LOG_DIR="${CHAT_LOG_DIR:-$HOME/RaBbLE-chats}"
+CHAT_LOG_DIR="${CHAT_LOG_DIR:-$ROOT/RaBbLE-sCoRE/chats}"
 
 header "RaBbLE — Local Chat (live Render backend)"
 

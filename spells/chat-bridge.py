@@ -15,7 +15,7 @@ Env:
   RENDER_URL    upstream backend       (default https://rabble-score-x7qq.onrender.com)
   BRIDGE_PORT   listen port            (default 8000)
   DEMO_ACCOUNT  path to demo_account.json holding {"api_key": ...}
-  CHAT_LOG_DIR  transcript dir         (default ~/RaBbLE-chats)
+  CHAT_LOG_DIR  transcript dir         (default ~/RaBbLE-Collective/RaBbLE-sCoRE/chats)
 """
 import os, sys, json, base64, time, urllib.request, urllib.error
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -24,7 +24,7 @@ from datetime import datetime
 
 RENDER       = os.environ.get("RENDER_URL", "https://rabble-score-x7qq.onrender.com").rstrip("/")
 PORT         = int(os.environ.get("BRIDGE_PORT", "8000"))
-LOG_DIR      = Path(os.environ.get("CHAT_LOG_DIR", str(Path.home() / "RaBbLE-chats")))
+LOG_DIR      = Path(os.environ.get("CHAT_LOG_DIR", str(Path.home() / "RaBbLE-Collective" / "RaBbLE-sCoRE" / "chats")))
 DEMO_ACCOUNT = os.environ.get("DEMO_ACCOUNT", "")
 # Temporary: pin the model tier so chats land on the Groq-backed path. The DEFAULT
 # medium/strong chains lead with OpenRouter (credit-less → 402/429, not retried),

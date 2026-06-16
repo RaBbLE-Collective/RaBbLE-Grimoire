@@ -5,6 +5,34 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## LATEST — 2026-06-16 · Session 111 (Entity hardened; Grimoire tool; model upgrade; CF gist endpoint)
+
+**Phase:** Epoch 0 · Episode 1 in flight.
+**This session (S111):** Three major workstreams. (1) **Entity hardening** — added identity-permanence guardrails to the system prompt (anti-roleplay, model-disclosure block, "at best say sCoRE," epistemic humility, no "conversational AI" self-labeling, visual form awareness with NeBuLA/portal-arc description); tier now injected into prompt so entity can self-report entropy level. (2) **Grimoire tool** — new `server/tools.py` defines `fetch_grimoire` tool; `_resolve_tools()` pre-pass in `main.py` runs on medium/strong tiers only, fetches specific Grimoire docs at runtime, injects content before streaming — entity can now answer RaBbLE-specific questions from source not hallucination. Gist files deployed to `RaBbLE-World/gist/` + `sync-gists-to-world.sh` spell; `GRIMOIRE_URL=https://joinrabble.world` set on Render. (3) **Model upgrade** — Groq 2026 models: fast = GPT-OSS-20B (1000 t/s) + Llama-4-Scout-17B (750 t/s) >> old Llama-3.1-8B; medium = Qwen3-32B (best free tool-calling) + Llama-3.3-70B; strong = Claude Sonnet + GPT-OSS-120B. Chat transcripts moved from `~/RaBbLE-chats` → `RaBbLE-sCoRE/chats/` (gitignored). CSS: font 0.9→1.05rem, text left-aligned, bubble contrast fixed.
+**Blockers:** World CF Pages deploy still needed to activate the `/gist/` endpoint (gist files are committed to World). OpenRouter $10 credits still open. CORS allow_origin_regex still open.
+**Next:** World CF deploy (wrangler) to activate Grimoire API; test Qwen3-32B tool-calling live; guest chat path; CORS regex.
+
+> This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-16 (Session 111) — Entity hardened; Grimoire fetch tool; 2026 model upgrade; CF gist endpoint
+
+**Repos touched:** RaBbLE-sCoRE (`server/agents.py`, `server/tools.py` new, `server/main.py`, `server/llm.py`, `server/grimoire.py`, `.gitignore`, `chats/` dir), RaBbLE-World (`gist/` dir added), RaBbLE-Grimoire (`spells/sync-gists-to-world.sh` new, `spells/chat-bridge.py`, `spells/chat-local.sh`, `RaBbLE-sCoRE/RaBbLE-sCoRE-Grimoire-API.md` new, `log/SESSION-LOG.md`). Render env: `LLM_FAST_CHAIN`, `LLM_MEDIUM_CHAIN`, `LLM_STRONG_CHAIN`, `GRIMOIRE_URL` set.
+
+**What happened:**
+- Jailbreak post-mortem (transcript `RaBbLE-sCoRE/chats/vprNFsm…`): entity broke in 3 prompts via "act as LLM researcher" framing, then hallucinated fake architecture + version numbers. Root causes: no roleplay guardrail, no epistemic humility clause, no model-disclosure block.
+- Added 6-point identity-permanence section to system prompt; added visual form self-knowledge (eyes, particles, portal arcs, NeBuLA); "what powers you → sCoRE"; tier injected dynamically so entity can say "I'm at fast/medium/strong entropy."
+- `tools.py`: `fetch_grimoire` tool with 9 doc slugs, remote-first (GRIMOIRE_URL) with local fallback. `_resolve_tools()` pre-pass in main.py fires before streaming on medium/strong tier.
+- Grimoire gist files synced to `RaBbLE-World/gist/` for CF static serving at `joinrabble.world/gist/*`. `sync-gists-to-world.sh` spell maintains sync going forward.
+- Groq model audit via live API: confirmed `openai/gpt-oss-20b`, `meta-llama/llama-4-scout-17b-16e-instruct`, `qwen/qwen3-32b`, `openai/gpt-oss-120b` all available. Updated all three tier chains. Chains pushed to Render via render-ctl.
+- Chat transcripts relocated from `~/RaBbLE-chats` → `RaBbLE-sCoRE/chats/` (gitignored). Default path updated in chat-bridge.py and chat-local.sh.
+- Chat CSS: font 0.9→1.05rem, line-height 1.6→1.7, text left-aligned, bubble backgrounds more opaque, borders 28-30%.
+
+**Next:** World wrangler deploy to activate the `/gist/` endpoint; test Qwen3-32B tool-calling on a live Grimoire question; guest chat path + CORS regex.
+
+---
+
 ## LATEST — 2026-06-15 · Session 110 (Render backend verified from local client; rate limit fixed; summon ceremony live)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
