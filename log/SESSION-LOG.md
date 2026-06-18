@@ -5,16 +5,26 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-18 · Session 117 (RC1 World emergence: Wave 0 + Wave 1 + Wave 2)
+## LATEST — 2026-06-18 · Session 118 (branch housekeeping + OS merge)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S117):** RC1 living surface live on `new-horizons`. Wave 0: chrysalis archived at `/chrysalis/`, live tree pruned to engine modules, new `index.html` + `RaBbLE-stage.js` + `RaBbLE-unified.css`. Wave 1 (5 parallel agents): floor (Three.js extraction), UI kit, 5 movements, curator dock, ceremony reskin. Wave 2: integration fixes (floor ctx timing, GRIMOIRE_DOCS load, continue button in M3), full M1→M5 journey verified, zero console errors.
-**Blockers:** OpenRouter $10 credits; CORS `allow_origin_regex`. Floor visible in motion (subtle behind glass panels in static screenshots — correct).
+**This session (S118):** Branch cleanup across the Collective: `rc1-guided-realm`, `chrysalis`, `new-horizons-antigravity-waybar` deleted (all stale/superseded). OS `new-horizons-antigravity-tracker` → fast-forward merged into `new-horizons`. Collective root MDs + context zip archived to `BaBbLE/_archive/collective-root-2026-06-18/`. `*.zip`/`*.tar*` added to Collective `.gitignore`. Collective now on `new-horizons`.
+**Blockers:** OpenRouter $10 credits; CORS `allow_origin_regex`.
 **Next:** Deploy World to CF Pages (`new-horizons` → prod); sCoRE LLM-chain fix + startup seeder; guest chat path open.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
 ---
+
+## 2026-06-18 (Session 118) — Branch housekeeping + OS feature merge
+
+- Repos: RaBbLE-Collective, RaBbLE-OS, RaBbLE-BaBbLE, RaBbLE-Grimoire
+- Deleted stale Collective branches: `rc1-guided-realm` (stub, same commit as `new-horizons`), `chrysalis` (pre-S98 ancestor branch, stale paths + old URLs), `new-horizons-antigravity-waybar` (dead stub, real work was in OS)
+- Collective switched to `new-horizons`; branched off from `rc1-guided-realm`
+- OS `new-horizons-antigravity-tracker` → fast-forward merged into `new-horizons` (antigravity mode, waybar scripts, wallpaper — 5 commits, no conflicts)
+- Archived 4 Collective root MDs (`CONTENT-STRATEGY-GTM.md`, `NOVEL-IDEAS-DIFFERENTIATION.md`, `RABBLE-OVERVIEW.md`, `VISION-ROADMAP.md`) + context zip to `BaBbLE/_archive/collective-root-2026-06-18/`
+- Added `*.zip`/`*.tar*` to Collective `.gitignore` (archive artifacts are not commit artifacts)
+- Next: CF Pages deploy; sCoRE LLM-chain fix + startup seeder
 
 ## 2026-06-18 (Session 117) — RC1 World emergence: one living surface
 
