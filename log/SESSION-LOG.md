@@ -5,16 +5,25 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-18 · Session 116 (Grimoire expansion: vision + GTM + differentiation + Cyberdeck)
+## LATEST — 2026-06-18 · Session 117 (RC1 World emergence: Wave 0 + Wave 1 + Wave 2)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S116):** Grimoire canon expanded from 4 Claude-web docs + Cyberdeck intent. Created: `RaBbLE-Agent/RaBbLE-NovelIdeas.md` (differentiation map + 10 ideas + surprises list), `RaBbLE/RaBbLE-Vision-Arc.md` (Epoch/Echo/Episode arc + invariants + open decisions), `RaBbLE/RaBbLE-Stakeholder-Brief.md` (investor pitch + market sizing), `RaBbLE-Collective/RaBbLE-GTM-Content-Strategy.md` (5 content pillars + 5 GTM plays + Instagram + metrics), `RaBbLE-OS/hardware/RaBbLE-OS-Hardware-Cyberdeck.md`. Updated: Roadmap (Episode naming), Membership (Guest/Member/Collaborator/Sovereign tiers), Income Model (rablet tier names), Social-and-Aesthetic (voice synthesis + community seeding), INDEX.md.
-**Blockers:** OpenRouter $10 credits; CORS `allow_origin_regex` (Render `FRONTEND_URL` pin blocks browser localhost).
-**Next:** sCoRE LLM-chain fix (groq-lead + 402 fall-through) + startup seeder → Render deploy; then World CF Pages + guest chat path. Source docs in Collective root (`NOVEL-IDEAS-DIFFERENTIATION.md` etc.) now redundant — can be removed.
+**This session (S117):** RC1 living surface live on `new-horizons`. Wave 0: chrysalis archived at `/chrysalis/`, live tree pruned to engine modules, new `index.html` + `RaBbLE-stage.js` + `RaBbLE-unified.css`. Wave 1 (5 parallel agents): floor (Three.js extraction), UI kit, 5 movements, curator dock, ceremony reskin. Wave 2: integration fixes (floor ctx timing, GRIMOIRE_DOCS load, continue button in M3), full M1→M5 journey verified, zero console errors.
+**Blockers:** OpenRouter $10 credits; CORS `allow_origin_regex`. Floor visible in motion (subtle behind glass panels in static screenshots — correct).
+**Next:** Deploy World to CF Pages (`new-horizons` → prod); sCoRE LLM-chain fix + startup seeder; guest chat path open.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
 ---
+
+## 2026-06-18 (Session 117) — RC1 World emergence: one living surface
+
+- Repos: RaBbLE-World, RaBbLE-BaBbLE, RaBbLE-Grimoire
+- Wave 0: chrysalis archived, live tree pruned, skeleton (`index.html`, `RaBbLE-stage.js`, `RaBbLE-unified.css`) committed
+- Wave 1: 5 parallel agents → `RaBbLE-floor.js`, `RaBbLE-ui.js`, `RaBbLE-movements.js`, `RaBbLE-movements-data.js`, `RaBbLE-dock.js`, `RaBbLE-panels.css`, `RaBbLE-floor.css`, `RaBbLE-dock.css`, summon/account reskin
+- Wave 2: curator ctx sync fix, `GRIMOIRE_DOCS` load order, null guard in `updateNeural`, M3 continue button — all five movements walk clean, zero errors
+- Captures: all 5 movements + mobile 375 + chrysalis in `BaBbLE/captures/World/rc1-emergence/`
+- Next: CF Pages deploy; sCoRE LLM-chain fix + startup seeder
 
 ## 2026-06-18 (Session 116) — Grimoire expansion: vision + GTM + differentiation + Cyberdeck
 
