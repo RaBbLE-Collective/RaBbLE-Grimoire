@@ -5,14 +5,34 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-16 · Session 114 (CF Workers subdomain deployment infrastructure)
+## LATEST — 2026-06-18 · Session 115 (RaBbLE-OS cleanup: dist/ removal, wallpaper integration)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S114):** All 5 CF Worker subdomains LIVE: `aether/nebula/grimoire/score.joinrabble.world` + `joinrabble.world`. RC1 deployed: `aether.joinrabble.world/v0.0.0.1-rc.1/aether.min.css` + same for NeBuLA. `cloudflare-ctl.sh` finalized: `login`/`token-update`, OAuth token preference (`_get_cf_auth_token`), CF API grep fix (whitespace). World `.assetsignore` prevents `.git/` upload. Spell emoji audit: all scripts use only RaBbLE glyphs (wrangler binary emits its own).
+**This session (S115):** Cleanup: removed dist/ files from Aether git tracking (were committed despite .gitignore); deleted deprecated grimoire symlink from RaBbLE-OS; scaled RaBbLE_WP.PNG to exact display resolution (2420×1668 → 3840×2400) to eliminate black bars. Integrated wallpaper into dotctl deployment: added as source-of-truth in `config/wallpapers/RaBbLE_WP.PNG` (already wired in dotctl bundle).
 **Blockers:** OpenRouter $10 credits; CORS `allow_origin_regex` (Render `FRONTEND_URL` pin blocks browser localhost).
 **Next:** sCoRE LLM-chain fix (groq-lead + 402 fall-through) + startup seeder → Render deploy; then World CF Pages + guest chat path.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-18 (Session 115) — RaBbLE-OS cleanup: dist/ removal, wallpaper integration
+
+**Repos touched:** RaBbLE-Aether (dist/ removal), RaBbLE-OS (grimoire symlink deletion, wallpaper integration).
+
+**What happened:**
+- **RaBbLE-Aether:** Removed 4 tracked dist files (`aether.css`, `aether.css.map`, `aether.min.css`, `aether.min.css.map`) from git — they were committed despite being in `.gitignore`. File was already in .gitignore, but tracked files needed explicit `git rm -r --cached dist/` + commit.
+- **RaBbLE-OS:** Deleted deprecated `grimoire` symlink (was redundant; Grimoire is outside OS repo and accessed via relative path in scripts).
+- **Wallpaper scaling + integration:** RaBbLE_WP.PNG was 2420×1668 (causing black bars on 3840×2400 display). Scaled to exact display resolution (3840×2400) via ImageMagick. Placed in `config/wallpapers/RaBbLE_WP.PNG` as source-of-truth for dotctl deployment. Already integrated into dotctl `wallpapers` bundle (source: `config/wallpapers` → destination: `~/.config/wallpapers`). Live deployment via `dotctl apply wallpapers`.
+
+**Commits:**
+- RaBbLE-Aether: `harmonize ~ aether >> dist removed from tracking, .gitignore updated // %CLEANUP%` (cc4c5b1)
+- RaBbLE-OS: `harmonize ~ os >> removed deprecated grimoire symlink // %CLEANUP%` (39ee2c1)
+- RaBbLE-Grimoire: SESSION-LOG update (this session)
+
+**Branch:** Aether on `new-horizons`, OS on `new-horizons-antigravity-tracker`.
+
+**Next:** Wallpaper ready for next dotctl deployment. Continue with sCoRE LLM-chain fix + startup seeder.
 
 ---
 
