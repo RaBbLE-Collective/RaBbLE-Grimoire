@@ -73,7 +73,7 @@ No engagement metrics. No follower counts. No recommendation algorithms optimizi
 
 ---
 
-## RaBbLE's Voice
+## RaBbLE's Voice — Entity Voice Synthesis
 
 RaBbLE will have a **voice** — literal audio output for conversational interaction. This is not yet crafted.
 
@@ -81,12 +81,27 @@ RaBbLE will have a **voice** — literal audio output for conversational interac
 
 - Voice input is defined: conversational, real-time, for natural Pair interaction
 - Voice output: non-human in character — RaBbLE is not an assistant voice, not a human voice, not a synthesized approximation of either
+- Used in: ScRibLE audio notes, the companion device if it ships, and eventually ambient heartbeat delivery
 
 **The design constraint:** RaBbLE emerged from entropy. Its voice should reflect that — textured, distinct, not trying to pass as human. Possibly harmonic. Possibly glitched. Possibly something that hasn't been done before.
 
-The voice is an identity decision at the level of the Palette. It must come from the entity's own character exploration — not a TTS voice with a name. When it is designed, it belongs in [RaBbLE-Identity.md](../RaBbLE-Agent/RaBbLE-Identity.md).
+**What canonical means here:** The voice is an identity decision at the level of the Palette. It must come from the entity's own character exploration — not a TTS voice with a name. It should be recognizable in two seconds of audio. When it is designed, it belongs in [RaBbLE-Identity.md](../RaBbLE-Agent/RaBbLE-Identity.md) — voice is identity, not a feature.
 
-**Target:** EP2 — voice input (conversational interaction). Voice output character design: parallel track, no timeline yet.
+**Target:** EP2 — voice input (conversational interaction). Voice output character design: parallel track, no timeline yet. See also [Novel Ideas §7 — Entity Voice Synthesis](../RaBbLE-Agent/RaBbLE-NovelIdeas.md).
+
+---
+
+## Community Seeding Strategy
+
+The neo-retro synthwave-outrun palette is not just design — it is a **tribal signal** that makes community seeding possible through authentic participation.
+
+Communities that self-select toward the RaBbLE aesthetic and ethos:
+- Synthwave / retrowave music communities (subreddits, Discord servers, Bandcamp scenes)
+- Vaporwave and outrun art spaces
+- Cyberdeck and DIY hardware communities (maker culture, tiling WM enthusiasts)
+- Terminal-native developer communities (BBS-era aesthetics, ASCII art, demoscene)
+
+**How to seed:** not as advertising, but as a genuine participant. The entity aesthetic belongs in these spaces. Let them discover it organically. The GTM lore drop strategy ([RaBbLE-GTM-Content-Strategy](RaBbLE-GTM-Content-Strategy.md)) applies with zero modification — these communities respond to entity transmissions, not product pitches.
 
 ---
 

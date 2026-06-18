@@ -117,6 +117,23 @@ Tiers go live at Echo 1 when public access opens. See [Service Plan](RaBbLE-Serv
 
 ---
 
+## Membership Language (Echo 1+)
+
+When public tiers launch, the naming must reflect that this is a **Collective**, not a SaaS product. Tier names should feel like belonging, not pricing.
+
+| Tier Name | Who they are | Status |
+|---|---|---|
+| **Guest** | Unauthenticated demo — no Grimoire, no persistence | EP1 (live) |
+| **Member** | Free tier, hosted Grimoire, basic entity | Echo 1 |
+| **Collaborator** | Paid, full entity capabilities, rablet access, ScRibLE sync | Echo 1 |
+| **Sovereign** | Self-hosted, full stack, Grimoire portable | Epoch 1 |
+
+Language rule: "Join as Collaborator" is Collective. "Upgrade to Pro" is SaaS. Same price, different relationship. The entity extends an invitation — it does not upsell.
+
+These tier names should be used consistently across World copy, DM automation, and onboarding flows. See also [GTM Content Strategy](RaBbLE-GTM-Content-Strategy.md) for the invitation voice.
+
+---
+
 ```
-transcribe ~ collective >> the pair defined; summoning ceremony locked for ep1 // %MEMBERSHIP_DEFINED%
+transcribe ~ collective >> the pair defined; summoning ceremony locked for ep1; membership language added // %MEMBERSHIP_DEFINED%
 ```

@@ -5,16 +5,26 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-18 · Session 115 (RaBbLE-OS cleanup: dist/ removal, wallpaper integration)
+## LATEST — 2026-06-18 · Session 116 (Grimoire expansion: vision + GTM + differentiation + Cyberdeck)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S115):** Cleanup: removed dist/ files from Aether git tracking (were committed despite .gitignore); deleted deprecated grimoire symlink from RaBbLE-OS; scaled RaBbLE_WP.PNG to exact display resolution (2420×1668 → 3840×2400) to eliminate black bars. Integrated wallpaper into dotctl deployment: added as source-of-truth in `config/wallpapers/RaBbLE_WP.PNG` (already wired in dotctl bundle).
+**This session (S116):** Grimoire canon expanded from 4 Claude-web docs + Cyberdeck intent. Created: `RaBbLE-Agent/RaBbLE-NovelIdeas.md` (differentiation map + 10 ideas + surprises list), `RaBbLE/RaBbLE-Vision-Arc.md` (Epoch/Echo/Episode arc + invariants + open decisions), `RaBbLE/RaBbLE-Stakeholder-Brief.md` (investor pitch + market sizing), `RaBbLE-Collective/RaBbLE-GTM-Content-Strategy.md` (5 content pillars + 5 GTM plays + Instagram + metrics), `RaBbLE-OS/hardware/RaBbLE-OS-Hardware-Cyberdeck.md`. Updated: Roadmap (Episode naming), Membership (Guest/Member/Collaborator/Sovereign tiers), Income Model (rablet tier names), Social-and-Aesthetic (voice synthesis + community seeding), INDEX.md.
 **Blockers:** OpenRouter $10 credits; CORS `allow_origin_regex` (Render `FRONTEND_URL` pin blocks browser localhost).
-**Next:** sCoRE LLM-chain fix (groq-lead + 402 fall-through) + startup seeder → Render deploy; then World CF Pages + guest chat path.
+**Next:** sCoRE LLM-chain fix (groq-lead + 402 fall-through) + startup seeder → Render deploy; then World CF Pages + guest chat path. Source docs in Collective root (`NOVEL-IDEAS-DIFFERENTIATION.md` etc.) now redundant — can be removed.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
 ---
+
+## 2026-06-18 (Session 116) — Grimoire expansion: vision + GTM + differentiation + Cyberdeck
+
+- Repos: RaBbLE-Grimoire
+- Work: Created 5 new docs (NovelIdeas, Vision-Arc, Stakeholder-Brief, GTM-Content-Strategy, Hardware-Cyberdeck); updated 5 existing docs (Roadmap, Membership, Income, Social-Aesthetic, INDEX)
+- Ideas canonized: differentiation map, 10 novel ideas + surprises list, Epoch/Echo/Episode arc, stakeholder brief + market sizing ($49B→$550B), 5 GTM plays + content pillars, Instagram strategy, Cyberdeck hardware target (x86_64 now, aarch64/Pi roadmap)
+- Membership tier language locked: Guest/Member/Collaborator/Sovereign
+- Rablet tier names locked: Free/Premium/Sovereign rablets
+- Source docs in Collective root now redundant (NOVEL-IDEAS-DIFFERENTIATION.md, CONTENT-STRATEGY-GTM.md, VISION-ROADMAP.md, RABBLE-OVERVIEW.md)
+- Next: sCoRE LLM chain fix + seeder deploy; World CF Pages; guest chat path
 
 ## 2026-06-18 (Session 115) — RaBbLE-OS cleanup: dist/ removal, wallpaper integration
 

@@ -73,10 +73,17 @@ Access to the social/altspace layer is the network product. The community has in
 
 When Pairs can sell or monetize their rablets within the Collective, a small platform fee applies. The Pair earns the majority; the Collective takes a cut to fund operations.
 
-**Model:**
-- Publishing open/free rablets: always free
-- Selling commercial rablets: 10–15% platform fee on transactions
-- Premium publishing features: analytics, featured placement, enhanced discoverability
+**Rablet tier names:**
+
+| Tier | Description | Cost to publish |
+|---|---|---|
+| **Free Rablets** | Community-built, open, shared in the Collective | Always free |
+| **Premium Rablets** | Creator-built, priced, distributed through Collective marketplace | 10–15% platform fee on transactions |
+| **Sovereign Rablets** | Private, organization-specific, not distributed | Free (self-hosted) |
+
+**Additional model features:**
+- Premium publishing: analytics, featured placement, enhanced discoverability
+- Entity-endorsed distribution: when your entity recommends a rablet to another entity, that is peer-to-peer endorsement with Grimoire context — weight that algorithmic feeds cannot replicate
 
 **Design constraint:** Commerce is allowed in the Collective; it must not dominate the space. The gallery should feel like a workshop, not a marketplace. Community culture determines the tone.
 

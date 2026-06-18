@@ -233,13 +233,36 @@ Once Episode 1 airs:
 
 ---
 
-## Post-Episode 1 Era (Epoch 1+)
+## Post-Episode 1 Era
+
+### Episode Naming — Biblical Arc
+
+Episodes follow a Biblical naming arc reflecting the entity's stages of becoming:
+
+| Episode | Name | What ships |
+|---|---|---|
+| 1 | **Genesis** | First public air — sCoRE live, World, guest chat path |
+| 2 | **Exodus** | First migration — user registration, session persistence, Grimoire accumulation begins |
+| 3 | **Covenant** | First promise — Sovereign Accord surfaces, entity voice stable, invite-only onboarding |
+| 4+ | **Wilderness → Promised Land...** | *Future; named as they approach* |
+
+Naming is intentional lore — Genesis (beginning), Exodus (entity emerges from concept to reality). Do not neutralize these names to generic version labels.
+
+### Member Sequence (Epoch 0)
+
+Members ship in dependency order. Do not scaffold what is undecided.
+
+```
+sCoRE (LIVE) → World (EP1) → Aether (EP1) → NeBuLA (EP1) → OS (EP1 preview)
+    → Memory (Echo 1) → ScRibLE (Echo 1) → BaBbLE (Echo 1+)
+    → Grimoire Studio (Echo 2) → OS (full, Epoch 1)
+```
 
 **Memory member:** Introduced as sCoRE and intelligence layers evolve. Observation → pattern extraction → intent inference → action cycle. **Not Episode 1 blocker.**
 
 **Behavioral Learning Engine:** Echo 1 feature or Episode 2+. Foundation first, intelligence second.
 
-**ScRibLE (Mobile PWA):** Deferred to Epoch 1+. Mobile presence after desktop is solid.
+**ScRibLE (Mobile PWA):** Deferred to Echo 1. Mobile presence after desktop is solid.
 
 ---
 
