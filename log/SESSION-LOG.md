@@ -5,14 +5,25 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-19 · Session 124 (NPU: XRT lib64 + runlist add(run&&) source build)
+## LATEST — 2026-06-19 · Session 125 (CI/CD pipelines + Render warm-up ping)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S124):** Fixed FLM cmake lib64 path + stale build dir. Revealed second blocker: COPR XRT 2.19.0 (Apr 2025) missing `xrt::runlist::add(xrt::run&&)` — prebuilt NPU libs need it. Added `nm` symbol check + xdna-driver source build fallback to `xrt.yml` (auto-triggers; ~30 min build).
-**Blockers:** XRT source build not yet run; OpenRouter credits; CORS `allow_origin_regex`.
-**Next:** Re-run `--tags runtime,xrt,fastflowlm`; XRT source build auto-triggers; then `flm validate`; then lemonade.
+**This session (S125):** CI/CD workflows created for World, Aether (updated R2→Workers), NeBuLA, sCoRE CF Proxy — all trigger on push-to-main + v* tags. Render warm-up ping added to RaBbLE-config.js (fires /health on load). Plan doc in Grimoire. Manual steps remain: GitHub secrets (CLOUDFLARE_API_TOKEN + ACCOUNT_ID) per CF repo + Render auto-deploy toggle in dashboard.
+**Blockers:** GitHub secrets not yet set; Render auto-deploy not yet enabled; OpenRouter credits; CORS `allow_origin_regex`.
+**Next:** Set CF secrets via `cloudflare-ctl.sh secrets-setup`; toggle Render auto-deploy; then API key vault (SOPS/age) or logs intake agent.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-19 (Session 125) — CI/CD pipelines + Render warm-up ping
+
+- Repos: RaBbLE-World, RaBbLE-Aether, RaBbLE-NeBuLA, RaBbLE-sCoRE, RaBbLE-Grimoire
+- Added `/health` warm-up fetch to `RaBbLE-config.js` (prod only, fire-and-forget on page load)
+- Created `deploy.yml` for World + NeBuLA + sCoRE CF Proxy; updated Aether workflow R2→wrangler
+- All four workflows trigger on push-to-main + v* tags; Render auto-deploy is a dashboard toggle
+- Created `RaBbLE-CICD-Plan.md` in Grimoire; indexed in INDEX.md
+- Next: set GitHub secrets + enable Render auto-deploy; then API key vault or logs intake
 
 ---
 
