@@ -34,6 +34,9 @@ historical/     Stale docs — KDE-spin era installs, branch diffs, implementati
 | Work on theming | `desktop/RaBbLE-OS-Desktop-Theming.md` |
 | Work on the Waybar Claude/Codex usage pills | `desktop/RaBbLE-OS-Desktop-sCoRE-UsageTracker.md` |
 | Work on the fastfetch logo / fx layers | `desktop/RaBbLE-OS-Desktop-Fastfetch.md` |
+| Work on AI harnesses / local inference | `layers/RaBbLE-OS-Layers.md` + `../RaBbLE-sCoRE/sCoRE-Local-AI-Layer.md` |
+| Manage free-claude-code proxy | `bash RaBbLE-Grimoire/spells/fcc-ctl.sh {start\|stop\|status\|keys\|model}` |
+| Rebuild llama.cpp with CUDA | `ansible-playbook site.yml -K --tags llama-cpp` |
 | Understand config flow | `ops/RaBbLE-OS-Ops-ConfigFlow.md` |
 | Install on a machine | `ops/RaBbLE-OS-Ops-Install.md` |
 | Test in a VM | `ops/RaBbLE-OS-Ops-Vmctl.md` |

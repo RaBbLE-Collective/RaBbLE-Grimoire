@@ -5,14 +5,57 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-18 · Session 118 (branch housekeeping + OS merge)
+## LATEST — 2026-06-18 · Session 119 (sCoRE provider expansion + OS AI layer)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S118):** Branch cleanup across the Collective: `rc1-guided-realm`, `chrysalis`, `new-horizons-antigravity-waybar` deleted (all stale/superseded). OS `new-horizons-antigravity-tracker` → fast-forward merged into `new-horizons`. Collective root MDs + context zip archived to `BaBbLE/_archive/collective-root-2026-06-18/`. `*.zip`/`*.tar*` added to Collective `.gitignore`. Collective now on `new-horizons`.
-**Blockers:** OpenRouter $10 credits; CORS `allow_origin_regex`.
-**Next:** Deploy World to CF Pages (`new-horizons` → prod); sCoRE LLM-chain fix + startup seeder; guest chat path open.
+**This session (S119):** sCoRE: 13 new providers (Cerebras, DeepSeek, NIM, Mistral, Together, xAI, Zhipu, LM Studio, llamafile, opencode, aider, gemini-cli, claude_code_proxy/fcc). OS `ai-harnesses` role: claude-code, codex, opencode, aider, gemini-cli, ollama, vLLM, free-claude-code (systemd service + fcc-ctl spell), BuilderIO/skills. Runtime: llama.cpp CUDA source build. Grimoire: `sCoRE-Local-AI-Layer.md`, layers doc rewrite, agent guide + OS manifest updated.
+**Blockers:** OpenRouter $10 credits; CORS `allow_origin_regex`; World CF Pages.
+**Next:** Deploy sCoRE to Render (LLM-chain fix + startup seeder); guest chat; World CF Pages.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-18 (Session 119) — sCoRE provider expansion + OS AI layer
+
+- Repos: RaBbLE-sCoRE, RaBbLE-OS, RaBbLE-Grimoire, RaBbLE-Collective
+
+### sCoRE `server/llm.py`
+- 7 new cloud providers: Cerebras (700+ t/s free), DeepSeek (V3/R1 near-zero cost), Nvidia NIM (100+ models free), Mistral (GDPR-friendly), Together AI, xAI/Grok, Zhipu/Z.ai (GLM-4)
+- 2 new local inference servers: LM Studio (`:1234`) and llamafile (`:8080`) — both OpenAI-compat
+- 3 new subprocess harnesses: opencode (TUI code agent), aider (AI pair programming), gemini-cli
+- `claude_code_proxy` provider: CC subprocess with `ANTHROPIC_BASE_URL=:8082` + `ANTHROPIC_AUTH_TOKEN` injected via `subprocess_env` — routes Claude Code through free-claude-code proxy
+- `_subprocess_argv()`: per-CLI argv builder keyed on `cli_style` (claude_code/codex/opencode/aider/gemini_cli)
+- `_stream_subprocess()`: merges `subprocess_env` from provider config into process environment
+- BYO key providers: `deepseek_byo`, `mistral_byo`
+- `DEFAULT_MODEL_CHAINS` updated: Cerebras leads cloud-fast; DeepSeek-V3 leads medium; DeepSeek-R1 + NIM Nemotron in strong; `claude_code_proxy` added to fast chain
+- `resolve_user_chain` expanded: 6 hosted, 2 local, 4 BYO backends
+
+### RaBbLE-OS — `ai-harnesses` Ansible role (new)
+- `ansible/roles/ai-harnesses/` — 9 task files: claude-code, codex, opencode, aider, gemini-cli, ollama, vllm, free-claude-code, builder-skills
+- `defaults/main.yml`: toggles for each harness; vLLM disabled by default (heavy); fcc + builder-skills enabled
+- `site.yml`: new play `AI Harnesses — sCoRE local AI layer`, `become: false`, `--tags ai-harnesses`
+- `free-claude-code.yml`: clones to `~/.local/share/rabble/free-claude-code`, `uv sync`, systemd user service, seeds `~/.config/rabble/fcc.env`, drops `fcc-ctl` wrapper to `~/.local/bin/`
+- `builder-skills.yml`: non-interactive `npx @agent-native/skills@latest add` for visual-plan, visual-recap, quick-recap
+- `vllm.yml`: pip venv at `~/.venv/vllm`, wrapper script at `~/.local/bin/vllm`, opt-in
+
+### RaBbLE-OS — `runtime` role (llama.cpp)
+- `ansible/roles/runtime/tasks/llama-cpp.yml`: full source build from GitHub — cmake `-DGGML_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=native`, Ninja, async 20-min cap, idempotent (skips if version matches)
+- `ansible/roles/runtime/vars/main.yml`: `llama_cpp.*` vars — version, repo, src/build dirs, prefix, cuda_architectures
+- `ansible/roles/runtime/tasks/main.yml`: wired under `--tags runtime,llama-cpp`
+- `ansible/packages/manifest.yml`: `runtime.llama-cpp` section (cmake, gcc-c++, ninja-build, cuda-devel)
+- Site.yml tag comments updated: `--tags runtime` and `--tags llama-cpp` documented
+
+### RaBbLE-OS — config
+- `config/rabble/fcc.env.example`: template with all provider key slots + model routing vars
+
+### Grimoire
+- `RaBbLE-sCoRE/sCoRE-Local-AI-Layer.md` (new): provider registry table, all 3 chain configs, user backend resolution table, free-claude-code section, BuilderIO/skills section, OS install matrix, RaBbLE TUI EP2 vision
+- `spells/fcc-ctl.sh` (new): start/stop/restart/status/logs/admin/update/keys/key/model subcommands
+- `RaBbLE-OS/layers/RaBbLE-OS-Layers.md`: full rewrite — numbered layers table + cross-cutting plays table + AI harnesses detail + runtime layer detail + run commands
+- `RaBbLE-OS/RaBbLE-OS-AgentGuide.md`: added navigation rows for AI harnesses, fcc-ctl, llama.cpp rebuild
+
+- Next: deploy sCoRE to Render; LLM-chain fix + startup seeder; World CF Pages
 
 ---
 
