@@ -9,8 +9,8 @@ Format: date, what was done, where things were left, what's next.
 
 **Phase:** Epoch 0 · Episode 1 in flight.
 **This session (S120):** Diagnosed World/Aether/NeBuLA CF deploy failures. Root causes: PROD CDN URLs pointed to `v0.0.0.0/` (directory never built; only `v0.0.0.1-rc.1/` exists), stale Aether bundle copy (`world/css/aether.css`) in World, 2 unpushed World commits serving pre-Chrysalis on CF. Patched `config.js` prod URLs to `v0.0.0.1-rc.1`, deleted stale artifact.
-**Blockers:** OpenRouter $10 credits; CORS `allow_origin_regex`. World deploy pending Mark's `cloudflare-ctl.sh deploy` run.
-**Next:** `bash spells/cloudflare-ctl.sh deploy aether/nebula/world v0.0.0.1-rc.1`; git push World; guest chat path.
+**Blockers:** OpenRouter $10 credits; CORS `allow_origin_regex`; Aether + NeBuLA CDN Workers deploy.
+**Next:** `cloudflare-ctl.sh deploy aether/nebula v0.0.0.1-rc.1`; deploy sCoRE to Render; guest chat path.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
