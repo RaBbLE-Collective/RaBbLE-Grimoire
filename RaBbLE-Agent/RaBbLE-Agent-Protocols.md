@@ -314,6 +314,14 @@ After `dotctl apply vscodium-theme`, VSCodium keeps serving the cached theme. **
 
 **How (headless visual QA on Hyprland, verified S78):** relaunch with `hyprctl dispatch exec "codium <dir>"`; combine `hyprctl dispatch workspace <N>` + `grim` in one shell command (focus flips back between separate calls); the display is HiDPI 3840×2400 — crop regions (Python/PIL) before viewing or detail is illegible. Popups without a keyboard: `hyprctl dispatch sendshortcut "CTRL SHIFT, P, class:codium"` (command palette), `"ALT, F, class:codium"` (File menu), `", Escape, class:codium"` to dismiss.
 
+### KDE-app text color comes from kdeglobals, not Kvantum
+
+KDE apps (Dolphin, Kate, System Settings) take their **view/window/palette TEXT color from `~/.config/kdeglobals` `[Colors:*]`** — Kvantum only styles widget *frames/interiors*, it does not own palette text for KDE apps. With **no `kdeglobals` present, KDE forces the default Breeze grey (~#959595)** over the whole view, so Dolphin text looks flat grey no matter what the Kvantum kvconfig says. The fix is a `kdeglobals` dotctl bundle built from the Aether palette (added S126, `config/kdeglobals/`).
+
+**Why:** For weeks Dolphin read grey while the kvconfig `ItemView`/`GeneralColors` text was correctly `#f8f4ff` — because those Kvantum values never reached KDE-app view labels. Two decisive green-tests (set the role to `#00ff00`, restart, screenshot) proved kdeglobals `[Colors:View].ForegroundNormal` and Kvantum `[GeneralColors].disabled.text.color` do **not** drive Dolphin icon labels — so don't assume which layer owns a color; test it.
+
+**How:** Edit `RaBbLE-OS/config/kdeglobals/kdeglobals` (palette source: `RaBbLE-Agent/RaBbLE-Palette.md`), deploy via `dotctl apply kdeglobals`. **KDE caches the resolved color scheme aggressively** — a running session and even freshly-launched apps can read a stale palette; a full **logout/login** is the reliable flush before re-judging. Dolphin theme QA loop: launch with `hyprctl dispatch exec dolphin` (never `dolphin &` — dies with the shell), `grim -g "$(live dolphin geometry from hyprctl clients)"`, then crop+sample colors from the **saved PNG** — don't re-grim fixed coords, the tiling session shifts windows under you.
+
 ### Boot-chain themes: QA without rebooting, deploy without restarting
 
 SDDM QML themes are verifiable headlessly and live (S88): `QT_QPA_PLATFORM=offscreen timeout 6 sddm-greeter-qt6 --test-mode --theme <dir>` — exit 124 (outlived the timeout) with silent output means the QML parsed and ran; then `QT_QPA_PLATFORM=wayland sddm-greeter-qt6 --test-mode --theme <dir>` + `grim` after ~1.5s for a visual screenshot (the test window closes on its own — capture early). Never let Ansible restart sddm on theme deploy: it kills the active session; the theme lands at next greeter start. Plymouth has no user-space dry run — the script plugin isn't even installed until `layerctl apply boot`; treat reboot QA as part of the task.

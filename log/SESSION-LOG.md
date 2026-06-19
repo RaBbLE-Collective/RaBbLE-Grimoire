@@ -5,14 +5,28 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-19 · Session 125 (CI/CD pipelines + Render warm-up ping)
+## LATEST — 2026-06-19 · Session 126 (Dolphin grey-text root cause + kdeglobals)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S125):** CI/CD workflows created for World, Aether (updated R2→Workers), NeBuLA, sCoRE CF Proxy — all trigger on push-to-main + v* tags. Render warm-up ping added to RaBbLE-config.js (fires /health on load). Plan doc in Grimoire. Manual steps remain: GitHub secrets (CLOUDFLARE_API_TOKEN + ACCOUNT_ID) per CF repo + Render auto-deploy toggle in dashboard.
-**Blockers:** GitHub secrets not yet set; Render auto-deploy not yet enabled; OpenRouter credits; CORS `allow_origin_regex`.
-**Next:** Set CF secrets via `cloudflare-ctl.sh secrets-setup`; toggle Render auto-deploy; then API key vault (SOPS/age) or logs intake agent.
+**This session (S126):** Resumed the S116 theme thread. Root-caused Dolphin's grey text — KDE apps read view/palette text color from `~/.config/kdeglobals`, NOT Kvantum; with no kdeglobals, KDE forces Breeze grey (#959595). Fix: new `kdeglobals` dotctl bundle from the Aether palette + chrome roles `[Tab]/[HeaderSection]/[TitleBar] → #f8f4ff`. Sub-agent wired the multi-agent session-logging protocol into AGENT.md/SPELLS.md. Committed S116 SVG focus-gradient leftover.
+**Blockers:** Residual Dolphin dim-label subset (non-hidden folders) still #8860aa — needs logout/login to re-judge (cached KColorScheme). Carryover: GitHub CF secrets, Render auto-deploy, OpenRouter credits, CORS.
+**Next:** Logout/login + re-check Dolphin; if dim persists → Kvantum inactive-text / `dolphinrc` / KColorSchemeEditor.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-19 (Session 126) — Dolphin grey-text root cause + kdeglobals bundle
+
+- Repos: RaBbLE-OS, RaBbLE-Grimoire
+- Resumed the S116 theme handoff (`log/HANDOFF-S116-Theme-and-Logging.md` → S126 UPDATE block)
+- **Root cause of "Dolphin text grey":** KDE apps (Dolphin/Kate) take view/palette TEXT color from `~/.config/kdeglobals`, NOT Kvantum (Kvantum styles frames only). No kdeglobals → KDE forces Breeze grey `#959595`. Fix: new `config/kdeglobals/kdeglobals` from Aether palette + `kdeglobals` dotctl bundle (commit `b3cd052`)
+- Brightened kvconfig chrome roles `[Tab]/[HeaderSection]/[TitleBar]` `#8860aa → #f8f4ff`
+- Sub-agent: integrated multi-agent session-logging protocol into `AGENT.md` + `SPELLS.md` (commit `ea9ab1f`)
+- Added KDE-text-color gotcha to `RaBbLE-Agent-Protocols.md`; saved memory `project-kde-kdeglobals-text`
+- Committed leftover S116 Dolphin focus-gradient arc work in `RaBbLE-Aether.svg`
+- **OPEN:** residual dim-label subset (non-hidden folders, custom icons) still `#8860aa` — green-tests ruled out kdeglobals-View + Kvantum-disabled; suspect cached KColorScheme → needs logout/login
+- Next: relogin + re-check; if persists → Kvantum inactive WindowText / `dolphinrc` / KColorSchemeEditor
 
 ---
 

@@ -99,7 +99,6 @@ ad2c81f5-34ed-4c79-9de7-875d8dfcbb5b	collective	June 10 16:03 — 2 min after ta
 1c067b24-b0f8-4cb8-b6bd-664c847a389c	score-chat-test	June 10 23:00 — same-night as score-chat-test cluster (inferred)
 9403754e-136d-423a-ab99-48b59985ff7d	collective	June 10 23:14 — same time as tagged collective session (inferred)
 commit-c81f5e6	grimoire-audit	S96: orphan sweep + ledger backfill; 45 May 12-22 sessions still need Mark's feature tags
-8539c8a4-e499-4f3e-947a-9ecca0f652ab	aether-theme	GTK+Qt theme foundation rebuild: Catppuccin Mocha base for GTK3, KvArcDark SVG for Kvantum, fixed !important bug + missing kvantum.kvconfig, Qt now dark via QT_STYLE_OVERRIDE
 4b1fec37-b0e5-40b0-8bc2-8dd158b1e08b	collective	auto: new-horizons branch + README agent walkthrough + subdomain CDN plan
 a50a19bd-7836-4017-982e-d9314e7a9159	collective	auto: S98 current state + README polish
 cdae720c-fc43-400e-a42a-fe8dee26ab82	vscodium-theme-fix	S99: editor group ring border-radius 4px→8px to match all other panel rings
@@ -120,3 +119,7 @@ commit-2ce99b7	cf-workers-subdomain-rc1	CF Workers × 5 live: aether/nebula/grim
 ef77117f-782c-461f-ab10-6691a0dde976	collective	auto: gitignore archive formats (*.zip, *.tar*); stale branches pruned
 commit-e066a7c	branch-housekeeping	S118: stale branches pruned, OS antigravity merged, BaBbLE archive, gitignore zip/tar
 1bda1bfa-4dda-4845-aec2-9e28039e1ecc	Collective	auto: S119 state: sCoRE AI layer + OS ai-harnesses + fcc proxy
+fb280ab6-4cfe-4a12-bff5-f04256bd6d81	score-ai-layer	S119: 13 new sCoRE providers (Cerebras/DeepSeek/NIM/Mistral/Together/xAI/Zhipu/LM Studio/llamafile/opencode/aider/gemini-cli/fcc-proxy), OS ai-harnesses role (9 tasks inc. free-claude-code+BuilderIO/skills), runtime llama.cpp CUDA build, fcc-ctl spell, layers doc rewrite, roadmap API key TODO
+8539c8a4-e499-4f3e-947a-9ecca0f652ab	npu-xdna2-stack	NPU research + XRT/FastFlowLM/Lemonade Ansible roles; Grimoire doc; kernel 7.0 XDNA2 state captured
+commit-3fb9c87	npu-xrt-source-build	XRT 2.19.0 missing add(run&&); xdna-driver source build fallback added to xrt.yml
+commit-ea9ab1f	dolphin-text-theme	kdeglobals dotctl bundle + chrome roles f8f4ff; root-caused Breeze grey fallback; residual dim-label subset open (needs relogin)

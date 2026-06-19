@@ -8,7 +8,7 @@ polish is partially done and needs one more focused pass. Read this before resum
 
 ---
 
-## 🔄 S121 UPDATE (2026-06-19) — Dolphin grey-text root cause + kdeglobals bundle
+## 🔄 S126 UPDATE (2026-06-19) — Dolphin grey-text root cause + kdeglobals bundle
 
 Resumed the theme thread. Committed: `b3cd052 mend ~ os >> kdeglobals scheme themes KDE-app text…`
 
