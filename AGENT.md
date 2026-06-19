@@ -109,6 +109,13 @@ bash spells/status.sh         # live health of all registered member repos
 # cat INDEX.md                # only if you need to find a specific doc
 ```
 
+**Multi-agent sessions only** (optional — skip for solo work). When running parallel agents, coordinate scope and read durable lessons first:
+```bash
+bash spells/promote-insight.sh ls                       # durable lessons from prior stumbles/insights
+bash spells/agent-register.sh claim "<glob>" --task "…" # claim file-scope before editing
+bash spells/agent-register.sh check <path>              # verify a path isn't claimed by a live agent
+```
+
 **End of session — do this before stopping:**
 ```bash
 # 1. Update ## LATEST in log/SESSION-LOG.md (75 words max — current state, blockers, next)
@@ -117,6 +124,9 @@ bash spells/status.sh         # live health of all registered member repos
 # 4. git commit -m "[impulse] ~ [organ] >> [revelation] // %STATE%"
 # 5. Breadcrumb — tag this session's token spend by feature (agent-agnostic):
 #    bash spells/end-session.sh <feature-slug> "<note>"
+# 6. Multi-agent sessions only (optional — skip for solo work):
+#    bash spells/promote-insight.sh auto    # crystallize this session's insights/stumbles into Lessons
+#    bash spells/agent-register.sh release   # free this agent's claimed scope
 # See RaBbLE-Agent/RaBbLE-CommitStyle.md (or gist/RaBbLE-CommitStyle-gist.md) for impulse vocab
 ```
 

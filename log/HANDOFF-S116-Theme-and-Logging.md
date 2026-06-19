@@ -8,6 +8,52 @@ polish is partially done and needs one more focused pass. Read this before resum
 
 ---
 
+## 🔄 S121 UPDATE (2026-06-19) — Dolphin grey-text root cause + kdeglobals bundle
+
+Resumed the theme thread. Committed: `b3cd052 mend ~ os >> kdeglobals scheme themes KDE-app text…`
+
+**✅ Done & committed (RaBbLE-OS / new-horizons):**
+- **Cause-2 chrome roles brightened** — `[Tab]`/`[HeaderSection]`/`[TitleBar]` `text.normal.color`
+  `#8860aa → #f8f4ff` in the kvconfig. Chrome (tabs, breadcrumb, column headers, titlebar) now reads bright.
+- **NEW: `kdeglobals` dotctl bundle** (`config/kdeglobals/kdeglobals` + wired into RaBbLE-OS-dotctl.sh
+  SRC/DEST/DESC/ORDER, deploys to `~/.config/kdeglobals`). Built from the Aether palette.
+  **Root-cause finding the S116 handoff missed:** KDE apps (Dolphin/Kate) take view/window/palette
+  text color from **kdeglobals, NOT Kvantum** — Kvantum only styles widget *frames*. With no
+  kdeglobals present, KDE forced the default **Breeze grey (#959595)** over the whole view → that
+  was the "grey text." Adding kdeglobals flipped most labels from flat grey to themed/readable.
+  Verified with grim pixel sampling (#959595 → themed) + visual screenshots.
+
+**⚠️ STILL OPEN — residual dim labels (user-reported "still grey"):**
+A *subset* of Dolphin icon-view labels still renders dim purple `~#8860aa` — correlates with
+**non-hidden folders that have bright/custom icons** (RaBbLE-Collective, Downloads, Jobotron3000,
+Dropbox, FreelanceWebDev, GCS); hidden dotfiles (.config/.cache/.railway…) read bright `#f8f4ff`.
+Controlled green-tests (decisive, screenshot-confirmed) **ruled out**:
+- kdeglobals `[Colors:View] ForegroundNormal` → set to `#00ff00`, **no label turned green**.
+- Kvantum `[GeneralColors] disabled.text.color` → set to `#00ff00`, **no dim label turned green**.
+The dim color did not shift across 5 captures regardless of palette edits → strongly suggests a
+**cached/resolved Qt KColorScheme palette** (KDE caches heavily; running session + freshly-launched
+apps can read a stale palette until full logout/login). Also note: the **live tiling session was
+shifting windows** between captures, making fine pixel-iteration unreliable.
+- **Kept** `kdeglobals [Colors:*] ForegroundInactive #8860aa → #bf5fff` (Soft Violet, palette-sanctioned)
+  as a readability improvement for genuinely-inactive text — *unverified* (no visible delta on the dim
+  subset, harmless otherwise).
+- **NEXT STEP (do first):** full **logout/login** to flush the KColorScheme/plasma palette cache,
+  then re-check Dolphin. If dim labels persist, the role is neither kdeglobals-View nor Kvantum-disabled —
+  next diagnostics: Kvantum *inactive* WindowText derivation, `dolphinrc` per-view settings, or
+  identify the exact QPalette role via KColorSchemeEditor. Folder filesystem props (symlink/perms/device)
+  were checked and do **not** distinguish dim vs bright — it is not a symlink/hidden-file effect.
+
+**Untouched uncommitted work seen in RaBbLE-OS tree (left for their owners):**
+`ansible/.../xrt.yml`, `fastflowlm.yml` (S119 AI-layer/runtime), the `RaBbLE-Aether.svg`
+focus-gradient arc edits (S116 corner-radius item-2 work, partially done in the SVG already),
+and `assets/RaBbLE_WP.PNG` (untracked).
+
+**Spell to repro the QA loop:** launch via `hyprctl dispatch exec dolphin` (NOT `dolphin &` — dies
+with the shell); capture with `grim -g "$(hyprctl clients -j | …active dolphin geometry…)"`; crop
++ sample colors from the saved PNG (don't re-grim fixed coords — windows move under you).
+
+---
+
 ## ✅ Done & committed
 
 ### RaBbLE-OS (branch `new-horizons`)

@@ -60,7 +60,16 @@ Spells are bash scripts in `spells/` that manage the RaBbLE Collective. Grimoire
 | `token-budget.sh` | Calculate token cost of onboarding paths | Auditing doc bloat, optimizing agent context |
 | `session-tokens.sh` | Parse agent transcripts for token usage | Tracking token spend per session/project |
 | `end-session.sh` | Record end-of-session feature breadcrumb (agent-agnostic) | Closing a session — tag its token spend |
+| `distill-hypr-docs.sh` | Fetch + distill a Hyprland wiki page to a Grimoire note (LLM fast chain) | Capturing upstream Hyprland config knowledge |
 | `seal-episode.sh` | Episode signing ceremony (DRAFT — needs Collective account) | Tagging an episode across the Collective |
+
+**Multi-agent coordination & session logging**
+
+| Spell | Purpose | When to use |
+|---|---|---|
+| `agent-register.sh` | Claim file-scope globs so parallel agents don't stomp each other | Running multiple agents — claim before editing |
+| `decision-log.sh` | Append structured decision/insight/stumble/scope entries (per-agent JSONL) | Recording why a choice was made, mid-session |
+| `promote-insight.sh` | Crystallize logged insights/stumbles into durable Lessons | Read lessons at start (`ls`); promote at end (`auto`) |
 
 > Helper scripts (not run directly): `dev-cdn.js`, `playwright-capture.mjs` are invoked by
 > `dev-serve.sh` / `visual-screenshot.sh`.
@@ -259,6 +268,20 @@ bash spells/distill-gists.sh identity         # one gist (by slug)
 
 **Requires:** `claude` CLI in PATH.
 
+### `distill-hypr-docs.sh` — Distill Hyprland Wiki Pages
+
+Fetches a Hyprland wiki page and distills it to a Grimoire markdown note via the LLM fast chain (Groq). Falls back to the raw GitHub wiki source when the live wiki is unreachable.
+
+```bash
+bash spells/distill-hypr-docs.sh <page> [output-file]
+bash spells/distill-hypr-docs.sh window-rules                 # → stdout (+ appends to Grimoire note)
+bash spells/distill-hypr-docs.sh window-rules /tmp/wr.md      # → file
+```
+
+**Page slugs:** window-rules, dispatchers, variables, binds, animations, workspace-rules, keybinds, monitors, env — or any path appended as-is to the wiki base.
+
+**Requires:** `curl`, `jq`, `GROQ_API_KEY` (or `RaBbLE-sCoRE/server/.env` with one). Optional: `pandoc` (HTML→text; falls back to `lynx`, then raw curl).
+
 ---
 
 ## Analytics
@@ -336,6 +359,64 @@ bash spells/install-hooks.sh    # once per machine, and after cloning a new memb
 
 Git hooks live in `.git/` and are not cloned — re-run after cloning. The end-of-session
 ritual in every member's AGENT.md calls `end-session.sh`; the hook is the safety net.
+
+---
+
+## Multi-Agent Coordination & Session Logging
+
+These spells are **optional for solo sessions** and become valuable when running parallel
+agents. Each writes one file per agent (keyed by session id), so concurrent agents never
+produce git merge conflicts. Session id resolves from `RABBLE_SESSION_ID`, then the active
+Claude transcript, then a git-commit fallback — agent-agnostic, like `end-session.sh`.
+
+### `agent-register.sh` — Parallel Agent Scope Coordination
+
+Agents claim file-scope globs before working. Overlapping claims from a live agent produce
+a loud warning and a non-zero exit, so parallel agents never silently stomp each other.
+Claims live in `log/agents/<session-id>.json` (one file per agent); heartbeats mark agents
+stale after 5 min and dead after 15 min (slot auto-released).
+
+```bash
+bash spells/agent-register.sh claim "<glob>"... --task "desc" [--agent kind]  # claim scope
+bash spells/agent-register.sh heartbeat                                       # keep claim alive
+bash spells/agent-register.sh check <path>                                    # is this path claimed?
+bash spells/agent-register.sh status                                          # all live agents + claims
+bash spells/agent-register.sh release                                         # free this agent's slot
+```
+
+### `decision-log.sh` — Structured Decision / Insight Stream
+
+Appends JSONL lines to `log/decisions/<session-id>.jsonl` — a machine-friendly parallel
+stream that feeds `promote-insight.sh`. Human-curated `DECISIONS.md` / `AUDITS.md` are left
+untouched.
+
+```bash
+bash spells/decision-log.sh log <type> <message...>   # type: decision|insight|stumble|scope
+bash spells/decision-log.sh show [session-id]         # full log for a session
+bash spells/decision-log.sh tail [session-id]         # last 10 entries
+bash spells/decision-log.sh list                      # all sessions with logs
+```
+
+**Types:** `decision` (choice made) · `insight` (something future agents should know) ·
+`stumble` (mistake / failed approach — most valuable for learning) · `scope` (what this
+agent is / isn't doing).
+
+### `promote-insight.sh` — Crystallize Stumbles into Lessons
+
+Scans `log/decisions/*.jsonl` for `insight` and `stumble` entries and writes durable Lessons
+to `log/lessons/<slug>.md`, so future agents benefit automatically. Read lessons at session
+start; promote your own at session end.
+
+```bash
+bash spells/promote-insight.sh ls                          # list all durable lessons
+bash spells/promote-insight.sh list [session-id]           # promotable entries for a session
+bash spells/promote-insight.sh promote <session-id> [idx...] # promote selected entries
+bash spells/promote-insight.sh auto [session-id]           # promote all from a session
+bash spells/promote-insight.sh show <lesson-slug>          # read one lesson
+```
+
+> Note: `ls` lists existing Lessons; `list` lists the not-yet-promoted entries in a session's
+> decision log. Lesson frontmatter carries title, date, agent, session, tags, and source.
 
 ---
 
