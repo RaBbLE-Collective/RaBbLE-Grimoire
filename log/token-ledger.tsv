@@ -115,3 +115,8 @@ cffddc13-06e4-430d-99db-7ed4d8fad13d	entity-visuals	Debugged 2D entity (bokeh/fl
 696411a7-3f97-4b17-b15a-41af2856aab4	os-ep1-preview	S109: RaBbLE-OS = EP1 Developer Preview — Preview Bar + canon + dev-flow; F2 sulogin-force recovery; F5 rough-edges sheet; Preview FLOOR verify runbook
 4c5bf95e-57c4-410d-831d-544b5690d3cc	chat-local-bridge	Local chat bridge (browser→Render proxy, @demo auth, on-disk transcripts) built + verified; FORCE_TIER band-aid pending sCoRE chain fix
 commit-e382767	entity-hardening-grimoire-tool-model-upgrade	S111: identity guardrails, fetch_grimoire tool, 2026 Groq models (GPT-OSS-20B/Qwen3-32B), gist CF endpoint, chat CSS readability
+commit-7351f06	antigravity-tracker	agy dual-quota split, bfs-compat find, mode-isolated popups, Codex 31d window, glyph polish
+commit-2ce99b7	cf-workers-subdomain-rc1	CF Workers × 5 live: aether/nebula/grimoire/score/world; RC1 versioned CDN; cloudflare-ctl OAuth + grep fixes; .assetsignore; emoji audit
+ef77117f-782c-461f-ab10-6691a0dde976	collective	auto: gitignore archive formats (*.zip, *.tar*); stale branches pruned
+commit-e066a7c	branch-housekeeping	S118: stale branches pruned, OS antigravity merged, BaBbLE archive, gitignore zip/tar
+1bda1bfa-4dda-4845-aec2-9e28039e1ecc	Collective	auto: S119 state: sCoRE AI layer + OS ai-harnesses + fcc proxy
