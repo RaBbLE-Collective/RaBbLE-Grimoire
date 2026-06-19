@@ -124,6 +124,8 @@ Exit conditions:
 - [x] `harness/local.sh` starts server successfully (venv rename-drift fixed S106)
 - [x] **Render deploy — LIVE** via `spells/render-ctl.sh` (S106). `deploy-render.sh` superseded by `render-ctl.sh`; `deploy-score.sh` retired (never created).
 - [x] Chat verified end-to-end (browser + live curl) — entity `idle→thinking→speaking→idle`, sessions persist
+- [x] Provider registry expanded — 13 new providers in `server/llm.py` (S119)
+- [ ] **Register provider API keys in Render** — `render-ctl.sh env-set <KEY> <val>` for each provider to activate. Priority order: `DEEPSEEK_API_KEY` (V3 leads medium chain), `CEREBRAS_API_KEY` (leads cloud-fast), `NVIDIA_API_KEY` (NIM free tier), then Mistral/Together/xAI/Zhipu as desired. Until keys are set, chains fall through to Groq/OpenRouter.
 - [ ] `server/main.py` version string aligned to Five Es scheme (currently `v0.0.0.0`)
 - [ ] `server/api_test.py` (or `test_api.sh`) runs clean against the live server
 - [ ] CONTEXT.md versioning header updated to `v0.0.0.1` on air
@@ -146,7 +148,7 @@ Candidate Episode 3 focus: memory agent reads patterns before sCoRE delegates.
 
 Planned LLM provider additions. Ordered by priority. None are blockers for Episode 1.
 
-### DeepSeek `[post-EP1]`
+### DeepSeek `[done — S119]`
 
 **Why:** DeepSeek-V3 and R1 carry different guardrail profiles than US-trained models (Llama, GPT-OSS).
 Restrictions center on political content (CCP/Taiwan/etc.), not on philosophical topics like AI consciousness,
@@ -195,6 +197,7 @@ is a fallback path, not a different capability tier.
 | v0.2 | 2026-05-06 | Plot C — server absorbed from RaBbLE-Server |
 | v0.3 | 2026-05-07 | Versioning realigned to Collective v0.0.0.0; Episode 1 defined |
 | v0.4 | 2026-06-15 | sCoRE LIVE on Render via `render-ctl.sh` (S106); Ep1 deploy + chat exit conditions met |
+| v0.5 | 2026-06-18 | S119: 13 new providers in `llm.py` (Cerebras, DeepSeek, NIM, Mistral, Together, xAI, Zhipu, LM Studio, llamafile, opencode, aider, gemini-cli, claude_code_proxy). Provider backlog: DeepSeek done. TODO: register API keys in Render. |
 | v0.5 | 2026-06-16 | Provider Backlog section added: DeepSeek (V3+R1) and Ollama Cloud (S110) |
 
 ---
