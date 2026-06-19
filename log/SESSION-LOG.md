@@ -5,14 +5,38 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-19 · Session 121+122 (NPU XDNA2 research + Ansible fixes)
+## LATEST — 2026-06-19 · Session 121–123 (NPU XDNA2 research + Ansible debug loop)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S121+122):** NPU Ansible runtime stack built and debugged live. Two bugs fixed: recursive Jinja2 template in `vars/main.yml` (moved all defaults to `defaults/main.yml`); missing `/etc/systemd/system.conf.d` directory before writing memlock drop-in. XRT COPR install ran 59 tasks, 6 changed — stack progressing.
-**Blockers:** OpenRouter $10 credits; CORS `allow_origin_regex`; `flm validate` not yet run post-install.
-**Next:** Reboot, run `flm validate`; if firmware incompatibility → source build; then `--tags fastflowlm`, then lemonade.
+**This session (S121–123):** NPU runtime Ansible stack built and debugged across 3 iterations. XRT COPR installed. FastFlowLM source build reached cmake configure; failed on missing `libcurl-devel`. Fixed. FLM 0.9.43 + NPU firmware `32.0.203.304` confirmed in cmake output. Boost 1.83 found fine.
+**Blockers:** OpenRouter $10 credits; CORS `allow_origin_regex`; FLM build not yet complete.
+**Next:** Re-run `--tags runtime,fastflowlm`; if build succeeds run `flm validate`; then lemonade.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-19 (Session 123) — FastFlowLM missing libcurl-devel
+
+- Repos: RaBbLE-OS
+
+### Bug
+- cmake configure failed: `Could NOT find CURL (missing: CURL_LIBRARY CURL_INCLUDE_DIR)`
+- `libcurl-devel` was missing from FastFlowLM build deps in `fastflowlm.yml`
+
+### Fix
+- Added `libcurl-devel` to dnf build dep list in `runtime/tasks/fastflowlm.yml`
+
+### Notes from cmake output
+- FLM version: **0.9.43** (newer than 0.9.35 from research docs)
+- NPU firmware detected: **32.0.203.304** (new encoding; previously called `255.0.x`)
+- Boost 1.83.0 found correctly — COPR Boost concern was a non-issue on Fedora 43
+- GCC 15.2.1 present
+
+### Next
+- Re-run `--tags runtime,fastflowlm` → build should proceed past cmake configure
+- Run `flm validate` on success
+- Enable lemonade in group_vars and run `--tags runtime,lemonade`
 
 ---
 
