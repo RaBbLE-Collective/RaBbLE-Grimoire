@@ -54,6 +54,44 @@ with the shell); capture with `grim -g "$(hyprctl clients -j | …active dolphin
 
 ---
 
+## ⚠️ S126 — Session-logging system is BUILT but NOT ADOPTED (enforcement gap)
+
+The multi-agent session-logging spells (`agent-register.sh` claim/heartbeat/release/check,
+`decision-log.sh`, `promote-insight.sh`) work and are documented in AGENT.md + SPELLS.md — but
+**nothing makes agents use them, and empirically they don't.**
+
+**Evidence (S126):** `agent-register.sh status` → "no agent claim files found" while **two sessions
+ran concurrently today** (this theme session + the S125 CI/CD session). Neither registered. The exact
+collisions that caused churn this session — files vanishing from `git status`, shared-index commits
+sweeping each other — are what the system is designed to prevent, and it sat unused.
+
+**Why it's not self-adopting:**
+1. AGENT.md frames it *"Multi-agent sessions only (optional — skip for solo work)"* → agents skip by default.
+2. **No trigger.** The only git hooks are `pre-commit` (blocks AI symlinks) and `post-commit`
+   (token-ledger breadcrumb). Nothing fires claim/heartbeat/release. No cron, no SessionStart hook
+   (and a Claude-only SessionStart hook would violate the agent-agnostic rule anyway).
+3. **Heartbeat maintenance burden.** A claim goes stale in 5 min (`HEARTBEAT_STALE_SECS=300`),
+   dead in 15. Without a loop calling `heartbeat`, even an agent that claims loses it mid-session.
+
+**Proposed fix (deferred — NOT a quick win, needs design + testing):**
+Wire enforcement into the **`pre-commit` hook** (`spells/hooks/pre-commit`, symlinked into every
+repo by `install-hooks.sh`) so it bites for any agent, agent-agnostically:
+- run `agent-register.sh check <staged paths>` and warn/block if a *live* agent claimed them;
+- **auto-register on first commit** (claim the touched scope) — without this, `check` always passes
+  because nobody claims (chicken-and-egg).
+
+**Why it's not 5 minutes:** (a) claims live in Grimoire but the hook fires in member repos →
+cross-repo path resolution (the post-commit ledger hook does this, copy that pattern);
+(b) staged paths are repo-relative, claim scopes are globs → need a mapping/namespace decision;
+(c) a buggy pre-commit blocks commits for **every** agent/session → must be best-effort + well-tested
+(warn-by-default, block only on a confirmed live overlap), mirroring post-commit's `|| true` safety;
+(d) heartbeat still needs a maintenance story or claims expire mid-session.
+
+**Recommendation:** either build the pre-commit enforcement above, OR drop the system to "manual,
+use when you remember" and stop expecting natural adoption. As-is it's documented-and-ignored.
+
+---
+
 ## ✅ Done & committed
 
 ### RaBbLE-OS (branch `new-horizons`)
