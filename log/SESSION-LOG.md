@@ -5,14 +5,44 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-19 · Session 121–123 (NPU XDNA2 research + Ansible debug loop)
+## LATEST — 2026-06-19 · Session 124 (NPU: XRT lib64 + runlist add(run&&) source build)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S121–123):** NPU runtime Ansible stack built and debugged across 3 iterations. XRT COPR installed. FastFlowLM source build reached cmake configure; failed on missing `libcurl-devel`. Fixed. FLM 0.9.43 + NPU firmware `32.0.203.304` confirmed in cmake output. Boost 1.83 found fine.
-**Blockers:** OpenRouter $10 credits; CORS `allow_origin_regex`; FLM build not yet complete.
-**Next:** Re-run `--tags runtime,fastflowlm`; if build succeeds run `flm validate`; then lemonade.
+**This session (S124):** Fixed FLM cmake lib64 path + stale build dir. Revealed second blocker: COPR XRT 2.19.0 (Apr 2025) missing `xrt::runlist::add(xrt::run&&)` — prebuilt NPU libs need it. Added `nm` symbol check + xdna-driver source build fallback to `xrt.yml` (auto-triggers; ~30 min build).
+**Blockers:** XRT source build not yet run; OpenRouter credits; CORS `allow_origin_regex`.
+**Next:** Re-run `--tags runtime,xrt,fastflowlm`; XRT source build auto-triggers; then `flm validate`; then lemonade.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-19 (Session 124) — XRT runlist add(run&&) missing symbol + source build fallback
+
+- Repos: RaBbLE-OS, RaBbLE-Grimoire
+
+### Bugs fixed
+
+**Bug 1 — FLM cmake linker: `cannot find -lxrt_coreutil`**
+- Root cause: `linux-default` cmake preset sets `XRT_LIB_DIR` to `${XILINX_XRT}/lib` → `/usr/xrt/lib` (real dir, only has XDNA plugin). Core libs are in `/usr/xrt/lib64/`. Also: stale `CMakeCache.txt` from prior failed run baked in the wrong path.
+- Fix: Delete build dir before configure; pass `-DXRT_LIB_DIR=/opt/xilinx/xrt/lib64` to cmake in `fastflowlm.yml`.
+
+**Bug 2 — FLM link: `undefined reference to xrt::runlist::add(xrt::run&&)`**
+- Root cause: COPR XRT 2.19.0 (April 2025) only has `add(xrt::run const&)`. FastFlowLM prebuilt NPU libs (`src/lib/libllama_npu.so` etc.) need the rvalue `&&` overload added to XRT post-April 2025. COPR hasn't updated.
+- Detection: `nm -D /usr/xrt/lib64/libxrt_coreutil.so | grep '_ZN3xrt7runlist3addEONS_3runE'` — no output = symbol missing.
+- Fix: Added `nm` symbol check + xdna-driver source build pipeline to `xrt.yml`. Triggers automatically when symbol missing: clones xdna-driver, runs `xrt/build/build.sh -npu -opt -noctest`, installs resulting RPM over COPR.
+
+### Commits
+- RaBbLE-OS `583e772` — `mend ~ os/runtime/xrt+fastflowlm >> XRT 2.19.0 missing runlist add(run&&); auto-trigger xdna-driver source build // %NPU_BUILD_FIX%`
+- RaBbLE-Grimoire `20103b0` — `transcribe ~ grimoire/RaBbLE-OS >> NPU XDNA2: add(run&&) missing symbol cause + nm detection recipe // %NPU_BUILD_FIX%`
+
+### Status
+- XRT source build NOT yet run — will auto-trigger on next Ansible run (`--tags runtime,xrt,fastflowlm`)
+- Build time: ~20-30 min on ProArt P16 (24 vcpus)
+
+### Next
+- Re-run `--tags runtime,xrt` (XRT source build triggers) then `--tags runtime,fastflowlm`
+- `flm validate` after successful install
+- If firmware ok → `--tags runtime,lemonade`
 
 ---
 
