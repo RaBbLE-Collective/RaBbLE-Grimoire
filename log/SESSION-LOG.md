@@ -5,14 +5,39 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-19 · Session 121 (NPU XDNA2 research + Ansible)
+## LATEST — 2026-06-19 · Session 121+122 (NPU XDNA2 research + Ansible fixes)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S121):** Researched AMD XDNA2/XRT state for kernel 7.0 on Fedora 43. Verified: amdxdna 0.6.0 in-tree, `/dev/accel/accel0` live, firmware 1.1.2.64 present. Implemented runtime Ansible stack: xrt.yml (COPR+config), fastflowlm.yml (COPR→source fallback), lemonade.yml (systemd override). Grimoire doc: `RaBbLE-OS/hardware/RaBbLE-OS-Hardware-NPU-XDNA2.md`.
-**Blockers:** OpenRouter $10 credits; CORS `allow_origin_regex`; XRT COPR untested on this machine.
-**Next:** Run `--tags runtime,xrt` to test COPR path; validate with `flm validate`; enable lemonade when XRT confirmed.
+**This session (S121+122):** NPU Ansible runtime stack built and debugged live. Two bugs fixed: recursive Jinja2 template in `vars/main.yml` (moved all defaults to `defaults/main.yml`); missing `/etc/systemd/system.conf.d` directory before writing memlock drop-in. XRT COPR install ran 59 tasks, 6 changed — stack progressing.
+**Blockers:** OpenRouter $10 credits; CORS `allow_origin_regex`; `flm validate` not yet run post-install.
+**Next:** Reboot, run `flm validate`; if firmware incompatibility → source build; then `--tags fastflowlm`, then lemonade.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-19 (Session 122) — NPU Ansible bug fixes (live run)
+
+- Repos: RaBbLE-OS
+
+### Bugs fixed during live ansible run
+1. **Recursive Jinja2 template loop** — `runtime/vars/main.yml` defined `npu.enabled: "{{ npu.enabled | default(false) }}"`, causing infinite recursion. Root cause: `vars/` has higher precedence than `group_vars/`, so the concrete hardware values were also being shadowed. Fix: moved all defaults to new `defaults/main.yml` (concrete plain values, no templates), cleared `vars/main.yml`.
+2. **Missing `/etc/systemd/system.conf.d`** — `copy` module failed writing memlock drop-in because the directory didn't exist. Fix: added `file` task to create the directory before writing.
+
+### RaBbLE-OS commits
+- `f2204a4` — mend: fix recursive npu template loop (defaults/main.yml + clear vars/)
+- `9a2dbc7` — mend: create /etc/systemd/system.conf.d before memlock drop-in
+
+### Status after run
+- 59 tasks OK, 6 changed — COPR enabled, XRT packages installed, memlock configured, udev rule deployed
+- Reboot required for group membership (render/video) and PAM limits
+- `flm validate` not yet run
+
+### Next
+- Reboot → `flm validate`
+- If firmware incompatibility → XRT source build (see Grimoire NPU-XDNA2.md)
+- `--tags runtime,fastflowlm` → `--tags runtime,lemonade` (after enabling in group_vars)
+- Add `local_npu` provider to sCoRE chain
 
 ---
 
