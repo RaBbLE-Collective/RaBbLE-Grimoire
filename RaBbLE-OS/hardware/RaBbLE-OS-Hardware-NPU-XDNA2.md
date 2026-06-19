@@ -4,7 +4,7 @@
 spark ~ grimoire/RaBbLE-OS/hardware >> NPU research captured; XRT+FLM+Lemonade ansible live // %NPU_RESEARCH%
 ```
 
-**Researched:** 2026-06-18  
+**Researched:** 2026-06-18 · **Updated:** 2026-06-19 (COPR XRT 2.19.0 missing runlist add(run&&) — source build path added)  
 **Kernel verified on:** `7.0.12-100.fc43.x86_64`  
 **Hardware:** AMD Ryzen AI 9 HX 370 (Strix Point, XDNA2) — ASUS ProArt P16
 
@@ -149,7 +149,10 @@ sudo dnf install --allowerasing xrt xdna-driver
 # Symlink fix — XRT lands in /usr/xrt, FastFlowLM expects /opt/xilinx
 sudo mkdir -p /opt/xilinx
 sudo ln -sf /usr/xrt /opt/xilinx/xrt
-sudo ln -sf /usr/xrt/lib64 /usr/xrt/lib   # lib64 → lib alias
+# /usr/xrt/lib is a real dir (only xdna plugin) — symlink individual core libs into it
+for f in /usr/xrt/lib64/libxrt*.so* /usr/xrt/lib64/libxilinx*.so*; do
+  [ -e "$f" ] && sudo ln -sf "$f" "/usr/xrt/lib/$(basename $f)"
+done
 
 # FastFlowLM (may be in COPR or needs source build — see below)
 sudo dnf install fastflowlm   # try COPR first
@@ -159,7 +162,17 @@ sudo dnf install fastflowlm   # try COPR first
 
 ## Installation: Source Build Path (Fallback)
 
-If the COPR XRT version is outdated (e.g., 2.19.0 from April 2025) and `flm validate` reports firmware incompatibility, build from source.
+Two triggers for XRT source build:
+1. **`flm validate` reports firmware incompatibility** — COPR XRT version too old
+2. **FastFlowLM link fails with `undefined reference to xrt::runlist::add(xrt::run&&)`** — COPR XRT 2.19.0 (April 2025) lacks this symbol; prebuilt NPU libs need it
+
+Detect trigger 2 directly:
+```bash
+nm -D /usr/xrt/lib64/libxrt_coreutil.so | grep '_ZN3xrt7runlist3addEONS_3runE'
+# No output = symbol missing = source build required
+```
+
+Ansible `xrt.yml` runs this check automatically and triggers the source build if needed.
 
 ### XRT from source
 
@@ -196,7 +209,8 @@ sudo dnf install ninja-build ffmpeg-free-devel fftw-devel rust cargo
 
 git clone --recursive https://github.com/FastFlowLM/FastFlowLM.git
 cd FastFlowLM/src
-cmake --preset linux-default
+# -DXRT_LIB_DIR override required: COPR XRT puts core libs in lib64, not lib
+cmake --preset linux-default -DXRT_LIB_DIR=/opt/xilinx/xrt/lib64
 cmake --build --preset linux-default -j$(nproc)
 sudo cmake --install --preset linux-default
 ```
@@ -348,7 +362,9 @@ Lemonade serves an OpenAI-compatible API, so sCoRE's existing LLM chain mechanis
 
 | Issue | Status | Workaround |
 |-------|--------|------------|
-| xanderlent COPR XRT may be 2.19.0 (Apr 2025) — outdated | Active | Source build if `flm validate` fails firmware check |
+| COPR XRT puts core libs in `lib64/`, not `lib/` — cmake `XRT_LIB_DIR` defaults to `lib` and fails to link | Active | Pass `-DXRT_LIB_DIR=/opt/xilinx/xrt/lib64` to cmake; Ansible role does this automatically |
+| COPR XRT 2.19.0 (April 2025) missing `xrt::runlist::add(xrt::run&&)` — prebuilt FLM NPU libs (in `src/lib/*.so`) need this rvalue overload, added post-April 2025 | Active | Ansible `xrt.yml` auto-detects via `nm` check and triggers XRT source build from `xdna-driver`; or build manually — see Source Build section |
+| xanderlent COPR XRT frozen at 2.19.0 (Apr 2025) — no update since | Active | Source build from `xdna-driver` HEAD; symbol detection in Ansible triggers this automatically |
 | F43 → F44 Boost library mismatch in COPR RPMs | Active | Source build on F44 |
 | OpenCL ICD conflict (`OpenCL-ICD-Loader` vs `ocl-icd`) | Active | `dnf install --allowerasing` |
 | `lemonade-server recipes` shows "Requires Windows" for NPU | Known bug | Ignore — NPU inference works despite this label |
