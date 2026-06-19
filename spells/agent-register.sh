@@ -43,17 +43,26 @@ HEARTBEAT_DEAD_SECS=900    # 15 min — agent is considered dead (slot auto-rele
 
 # --- Resolve session id (mirrors end-session.sh) ------------------------------
 resolve_session_id() {
-  local projdir="$HOME/.claude/projects/$(pwd | tr '/' '-')"
-  local sf
-  sf=$(ls -t "$projdir"/*.jsonl 2>/dev/null | head -1 || true)
-  if [[ -n "$sf" ]]; then
-    basename "$sf" .jsonl
-  else
-    # Non-Claude fallback: git-commit key + PID so parallel non-Claude agents differ
-    local commit
-    commit=$(git -C "$GRIMOIRE_ROOT" rev-parse --short HEAD 2>/dev/null || date +%Y%m%d%H%M%S)
-    echo "commit-${commit}-$$"
+  # 1. Explicit override — most reliable for tool-driven / parallel agents. Each
+  #    agent passes RABBLE_SESSION_ID=<id> inline so its calls correlate.
+  if [[ -n "${RABBLE_SESSION_ID:-}" ]]; then
+    echo "$RABBLE_SESSION_ID"; return
   fi
+  # 2. Claude transcript. Resolve the projects dir from the project ROOT, not the
+  #    current dir, so it works when invoked from any subdir. The Collective root
+  #    (parent of the Grimoire) is the usual Claude project; try it then the Grimoire.
+  local cand projdir sf
+  for cand in "$(dirname "$GRIMOIRE_ROOT")" "$GRIMOIRE_ROOT"; do
+    projdir="$HOME/.claude/projects/$(echo "$cand" | tr '/' '-')"
+    sf=$(ls -t "$projdir"/*.jsonl 2>/dev/null | head -1 || true)
+    if [[ -n "$sf" ]]; then basename "$sf" .jsonl; return; fi
+  done
+  # 3. Stable fallback: git-commit key, NO pid, so claim/heartbeat/release from
+  #    separate subshells correlate. Parallel non-Claude agents should set
+  #    RABBLE_SESSION_ID to stay distinct.
+  local commit
+  commit=$(git -C "$GRIMOIRE_ROOT" rev-parse --short HEAD 2>/dev/null || date +%Y%m%d)
+  echo "commit-${commit}"
 }
 
 # --- Detect agent kind --------------------------------------------------------
@@ -113,15 +122,12 @@ is_live() {
   # Parse ISO8601 timestamp → epoch seconds
   age=$(( now - $(date -d "$heartbeat_at" +%s 2>/dev/null || date -j -f "%Y-%m-%dT%H:%M:%S%z" "$heartbeat_at" +%s 2>/dev/null || echo 0) ))
 
-  # Dead threshold — treat as auto-released regardless
+  # Heartbeat age is the AUTHORITY for liveness. In tool-driven usage every agent
+  # call runs in a throwaway subshell whose PID dies immediately, so a dead PID
+  # does NOT mean the agent is gone — only a stale heartbeat does. Agents refresh
+  # `heartbeat` periodically; DEAD_SECS bounds abandonment. PID is informational
+  # only (a kept-alive PID could later be used as a positive liveness signal).
   [[ "$age" -gt "$HEARTBEAT_DEAD_SECS" ]] && return 1
-
-  # Same host? Check if PID is still running
-  local this_host
-  this_host=$(hostname -s 2>/dev/null || hostname)
-  if [[ "$host" == "$this_host" && "$pid" -gt 0 ]]; then
-    kill -0 "$pid" 2>/dev/null || return 1   # process gone → not live
-  fi
 
   return 0
 }

@@ -41,16 +41,18 @@ RESET='\033[0m'
 
 # --- Resolve session id (mirrors end-session.sh) ------------------------------
 resolve_session_id() {
-  local projdir="$HOME/.claude/projects/$(pwd | tr '/' '-')"
-  local sf
-  sf=$(ls -t "$projdir"/*.jsonl 2>/dev/null | head -1 || true)
-  if [[ -n "$sf" ]]; then
-    basename "$sf" .jsonl
-  else
-    local commit
-    commit=$(git -C "$GRIMOIRE_ROOT" rev-parse --short HEAD 2>/dev/null || date +%Y%m%d%H%M%S)
-    echo "commit-${commit}-$$"
+  if [[ -n "${RABBLE_SESSION_ID:-}" ]]; then
+    echo "$RABBLE_SESSION_ID"; return
   fi
+  local cand projdir sf
+  for cand in "$(dirname "$GRIMOIRE_ROOT")" "$GRIMOIRE_ROOT"; do
+    projdir="$HOME/.claude/projects/$(echo "$cand" | tr '/' '-')"
+    sf=$(ls -t "$projdir"/*.jsonl 2>/dev/null | head -1 || true)
+    if [[ -n "$sf" ]]; then basename "$sf" .jsonl; return; fi
+  done
+  local commit
+  commit=$(git -C "$GRIMOIRE_ROOT" rev-parse --short HEAD 2>/dev/null || date +%Y%m%d)
+  echo "commit-${commit}"
 }
 
 # --- Slugify a message into a filename-safe string ----------------------------
