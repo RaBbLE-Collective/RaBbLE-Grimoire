@@ -5,14 +5,36 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-18 · Session 119 (sCoRE provider expansion + OS AI layer)
+## LATEST — 2026-06-18 · Session 120 (World CF deploy fix)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S119):** sCoRE: 13 new providers (Cerebras, DeepSeek, NIM, Mistral, Together, xAI, Zhipu, LM Studio, llamafile, opencode, aider, gemini-cli, claude_code_proxy/fcc). OS `ai-harnesses` role: claude-code, codex, opencode, aider, gemini-cli, ollama, vLLM, free-claude-code (systemd service + fcc-ctl spell), BuilderIO/skills. Runtime: llama.cpp CUDA source build. Grimoire: `sCoRE-Local-AI-Layer.md`, layers doc rewrite, agent guide + OS manifest updated.
-**Blockers:** OpenRouter $10 credits; CORS `allow_origin_regex`; World CF Pages.
-**Next:** Deploy sCoRE to Render (LLM-chain fix + startup seeder); guest chat; World CF Pages.
+**This session (S120):** Diagnosed World/Aether/NeBuLA CF deploy failures. Root causes: PROD CDN URLs pointed to `v0.0.0.0/` (directory never built; only `v0.0.0.1-rc.1/` exists), stale Aether bundle copy (`world/css/aether.css`) in World, 2 unpushed World commits serving pre-Chrysalis on CF. Patched `config.js` prod URLs to `v0.0.0.1-rc.1`, deleted stale artifact.
+**Blockers:** OpenRouter $10 credits; CORS `allow_origin_regex`. World deploy pending Mark's `cloudflare-ctl.sh deploy` run.
+**Next:** `bash spells/cloudflare-ctl.sh deploy aether/nebula/world v0.0.0.1-rc.1`; git push World; guest chat path.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-18 (Session 120) — World CF deploy fix
+
+- Repos: RaBbLE-World
+
+### Diagnosis
+- CF at joinrabble.world serving pre-Chrysalis World (2 RC1 commits not pushed to origin)
+- Aether + NeBuLA CDN failing: `config.js` PROD URLs pointed to `v0.0.0.0/` but both members built `v0.0.0.1-rc.1/` — no `v0.0.0.0/` directory ever existed in dist
+- `world/css/aether.css` (1957 lines) — full Aether bundle copy sitting in World, unreferenced by any HTML/JS; other World CSS files (`unified`, `floor`, `panels`) were clean (Aether token vars only)
+- Local dev unaffected: `dev-cdn.js` strips the version prefix via regex before looking in `dist/`, version string in LOCAL_* URLs is irrelevant
+
+### Changes (RaBbLE-World)
+- `world/js/RaBbLE-config.js`: PROD_AETHER_URL + PROD_NEBULA_URL → `v0.0.0.1-rc.1` (matches built dist)
+- `world/css/aether.css`: deleted (stale artifact, never linked)
+
+### Pending (Mark's terminal)
+- `bash spells/cloudflare-ctl.sh deploy aether v0.0.0.1-rc.1`
+- `bash spells/cloudflare-ctl.sh deploy nebula v0.0.0.1-rc.1`
+- `bash spells/cloudflare-ctl.sh deploy world` (picks up 2 pending RC1 commits + this patch)
+- `git push` in RaBbLE-World
 
 ---
 
