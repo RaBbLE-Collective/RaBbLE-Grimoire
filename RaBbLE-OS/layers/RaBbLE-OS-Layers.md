@@ -63,8 +63,22 @@ ai_harnesses_fcc_enabled: false          # disable proxy on machines with paid C
 
 | Tag | What | Condition |
 |-----|------|-----------|
-| `xrt` | XRT + XDNA2 userspace for AMD NPU | `npu.enabled: true` |
+| `xrt` | XRT userspace (COPR: xanderlent/amd-npu-driver) — memlock, udev, symlinks | `npu.enabled: true` + `npu.family: xdna2` |
+| `fastflowlm` | FastFlowLM LLM inference engine (COPR or cmake source build) | `npu.enabled + fastflowlm.enabled` (default: true) |
+| `lemonade` | Lemonade Server — OpenAI-compat API on :8000 + systemd override | `npu.enabled + lemonade.enabled` (default: **false** — opt-in) |
 | `llama-cpp` | llama.cpp source build with CUDA (RTX 4060/Ada, `cmake -DGGML_CUDA=ON`) | `llama_cpp.enabled: true` (default) |
+
+NPU stack (XDNA2, Strix Point):
+```
+amdxdna (kernel, in-tree 7.0+) → XRT (COPR) → FastFlowLM → Lemonade (:8000)
+```
+
+Enable Lemonade (off by default) in `group_vars/asus_proart_p16.yml`:
+```yaml
+lemonade:
+  enabled: true
+  port: 8000
+```
 
 Override llama.cpp version or CUDA arch in `group_vars`:
 ```yaml
@@ -72,6 +86,8 @@ llama_cpp:
   version: "b4600"              # pin a release tag
   cuda_architectures: "native"  # auto-detect, or "89" for RTX 4060, "86" for RTX 30xx
 ```
+
+→ `hardware/RaBbLE-OS-Hardware-NPU-XDNA2.md` — full NPU research doc (2026-06-18): COPR vs source, known issues, firmware notes, sCoRE integration
 
 ---
 

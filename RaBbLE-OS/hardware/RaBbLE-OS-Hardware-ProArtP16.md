@@ -57,14 +57,31 @@ supergfxctl --mode Compute      # NVIDIA compute only, no display — ideal for 
 
 | Field | Value |
 |---|---|
+| PCI device | `66:00.1` — AMD Strix/Krackan NPU, device `17f0:10` rev `10` |
 | Device node | `/dev/accel/accel0` |
-| Kernel driver | `amdxdna 0.6.0` (upstream, loaded at init) |
-| Userspace | XRT + ONNX Runtime (VitisAI EP) |
-| PCI address | `66:00.1` |
-| Status | ✅ Confirmed operational |
+| Kernel driver | `amdxdna 0.6.0` — **in-tree since Linux 7.0**, no DKMS needed |
+| Firmware | `amdnpu/17f0_10/npu.sbin.1.1.2.64.xz` (meets FLM ≥1.1.0.0 req) |
+| Userspace | XRT + FastFlowLM + Lemonade Server (Ansible: `--tags runtime`) |
+| Status | ✅ Driver loaded · ✅ `/dev/accel/accel0` present · ⬜ XRT/FLM not yet installed |
+| Last verified | 2026-06-18 on kernel `7.0.12-100.fc43.x86_64` |
 
-> XRT package availability for Fedora 43 may require checking `repo.radeon.com`.
-> ONNX Runtime VitisAI EP falls back to CPU if XRT is unavailable.
+> **What actually works (not the official AMD Vitis AI SDK path):**
+> XRT (from xanderlent COPR) → FastFlowLM → Lemonade Server (OpenAI-compat on :8000).
+> See `hardware/RaBbLE-OS-Hardware-NPU-XDNA2.md` for the full research doc, install paths, and known issues.
+
+```bash
+# Install the NPU inference stack
+ansible-playbook -i ansible/inventory/hosts.yml ansible/site.yml -K --tags runtime,xrt
+ansible-playbook -i ansible/inventory/hosts.yml ansible/site.yml -K --tags runtime,fastflowlm
+# Enable lemonade in vars first (lemonade.enabled: true), then:
+ansible-playbook -i ansible/inventory/hosts.yml ansible/site.yml -K --tags runtime,lemonade
+
+# Verify
+lsmod | grep amdxdna          # amdxdna 217088 0
+ls /dev/accel/                # accel0
+xrt-smi examine               # NPU info + firmware version
+flm validate                  # full stack check
+```
 
 ---
 

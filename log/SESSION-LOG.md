@@ -5,14 +5,52 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-18 · Session 120 (World CF deploy fix)
+## LATEST — 2026-06-19 · Session 121 (NPU XDNA2 research + Ansible)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S120):** Diagnosed World/Aether/NeBuLA CF deploy failures. Root causes: PROD CDN URLs pointed to `v0.0.0.0/` (directory never built; only `v0.0.0.1-rc.1/` exists), stale Aether bundle copy (`world/css/aether.css`) in World, 2 unpushed World commits serving pre-Chrysalis on CF. Patched `config.js` prod URLs to `v0.0.0.1-rc.1`, deleted stale artifact.
-**Blockers:** OpenRouter $10 credits; CORS `allow_origin_regex`; Aether + NeBuLA CDN Workers deploy.
-**Next:** `cloudflare-ctl.sh deploy aether/nebula v0.0.0.1-rc.1`; deploy sCoRE to Render; guest chat path.
+**This session (S121):** Researched AMD XDNA2/XRT state for kernel 7.0 on Fedora 43. Verified: amdxdna 0.6.0 in-tree, `/dev/accel/accel0` live, firmware 1.1.2.64 present. Implemented runtime Ansible stack: xrt.yml (COPR+config), fastflowlm.yml (COPR→source fallback), lemonade.yml (systemd override). Grimoire doc: `RaBbLE-OS/hardware/RaBbLE-OS-Hardware-NPU-XDNA2.md`.
+**Blockers:** OpenRouter $10 credits; CORS `allow_origin_regex`; XRT COPR untested on this machine.
+**Next:** Run `--tags runtime,xrt` to test COPR path; validate with `flm validate`; enable lemonade when XRT confirmed.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-19 (Session 121) — NPU XDNA2 research + Ansible runtime stack
+
+- Repos: RaBbLE-Grimoire, RaBbLE-OS
+
+### Research
+- Verified live system: `amdxdna 0.6.0` in-tree on kernel `7.0.12-100.fc43.x86_64`
+- `/dev/accel/accel0` present, firmware `1.1.2.64/65` at `/usr/lib/firmware/amdnpu/`
+- XRT userspace + FastFlowLM + Lemonade NOT yet installed — driver layer complete
+- AMD's official Vitis AI / ONNX Runtime path does not work on Linux; XRT + FastFlowLM is the working path
+- FastFlowLM v0.9.35+ (March 2026): ~18 tok/s 20B model on XDNA2; NPU=prompt, iGPU=tokens
+- xanderlent/amd-npu-driver COPR: provides xrt, xdna-driver, fastflowlm for Fedora (experimental)
+- Known: COPR XRT may be 2.19.0 (April 2025) — outdated; source build is reliable fallback
+- Linux 7.1 expanding XDNA further; 7.0 is sufficient for current stack
+
+### Grimoire (RaBbLE-Grimoire)
+- New: `RaBbLE-OS/hardware/RaBbLE-OS-Hardware-NPU-XDNA2.md` — comprehensive research doc
+- Updated: `RaBbLE-OS/hardware/RaBbLE-OS-Hardware-ProArtP16.md` — NPU section current state
+- Updated: `RaBbLE-OS/layers/RaBbLE-OS-Layers.md` — runtime layer table + FastFlowLM/Lemonade
+- Updated: `INDEX.md` — Hardware-NPU-XDNA2 entry added
+
+### RaBbLE-OS (Ansible)
+- `runtime/tasks/xrt.yml` — implemented (was all commented out): COPR enable, pkg install, symlinks, memlock, udev, user groups, verification
+- `runtime/tasks/fastflowlm.yml` — new: COPR→source build fallback, flm wrapper, flm validate
+- `runtime/tasks/lemonade.yml` — new: COPR install, systemd LimitMEMLOCK override, API verify
+- `runtime/tasks/main.yml` — updated: FastFlowLM + Lemonade includes with NPU gating
+- `runtime/vars/main.yml` — added: fastflowlm{} and lemonade{} defaults (lemonade.enabled: false by default)
+- `runtime/handlers/main.yml` — added: `run ldconfig` + `reload systemd daemon` handlers
+- `hardware/x64/asus_proart_p16/tasks/npu.yml` — filled stub: driver check, device check, firmware check
+
+### Next
+- Run `ansible-playbook ... --tags runtime,xrt` on live machine, test COPR path
+- Validate: `flm validate` — if firmware incompatibility → source build path
+- Pull a model, run inference: `flm pull <model> && flm run <model>`
+- When XRT confirmed: set `lemonade.enabled: true`, re-run `--tags runtime,lemonade`
+- Add `local_npu: http://localhost:8000/v1/chat/completions` to sCoRE provider chain
 
 ---
 
