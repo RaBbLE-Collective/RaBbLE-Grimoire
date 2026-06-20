@@ -5,16 +5,28 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-20 · Session 137 (aider scipy/system-site-packages fix)
+## LATEST — 2026-06-20 · Session 138 (OS audit: aider, llama-cpp, layerctl)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S137):** aider pipx chain: gfortran fixed → found openblas missing → root cause is no cp314 wheel for scipy<1.16. Fix: install `python3-scipy` (Fedora 43 ships 1.16.2 for Python 3.14) + `pipx install --system-site-packages`. Committed RaBbLE-OS. **Pending next session:** llama.cpp latest-version rebuild guard audit; lemonade install status; playbook order (core after runtime is wrong); layerctl config deploy via dotctl. See `RaBbLE-OS/fix/` handoff doc.
+**This session (S138):** OS audit backlog cleared. aider fixed: `uv tool install --overrides scipy>=1.16.0 --with audioop-lts` (scipy exact-pin + removed audioop in py3.14); all ai-harnesses `ignore_errors: true`. llama-cpp: stamp-file version guard (version scheme changed b9739+); ldconfig wired. layerctl: runtime/monitoring/virtualization added as named layers; dotctl wired into `layerctl dotfiles`. **Live machine needs:** `sudo ansible-playbook ... --tags runtime,llama-cpp` to write stamp + ldconfig.
 **Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — 5 open, 4 ep1-gate.
-**Next:** Re-run `--tags ai-harnesses` to verify aider clean install; then OS audit session.
+**Next:** Run `--tags ai-harnesses` to confirm clean pass; then Aether+NeBuLA CDN deploy.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 > **Blockers + EP1 air no longer live in this box** — they're durable in `log/BLOCKERS.md`
 > and `log/EP1-AIR-CHECKLIST.md` so the per-session rewrite can't clobber them.
+
+---
+
+## 2026-06-20 (Session 138) — OS audit: aider final fix, llama-cpp guard, layerctl gaps
+
+- Repos: RaBbLE-OS, RaBbLE-Grimoire
+- **aider fix (final, correct):** S137's `--system-site-packages` approach failed — aider pins `scipy==1.15.3` exactly; system scipy 1.16.2 doesn't satisfy the pin. Real fix: `uv tool install aider-chat --overrides scipy>=1.16.0 --with audioop-lts`. scipy resolves to 1.17.1 (prebuilt cp314 wheel, ~40s). audioop-lts provides `audioop` module removed in Python 3.13+. All ai-harnesses now `ignore_errors: true` so one harness failure doesn't abort the play.
+- **llama-cpp version guard:** newer llama.cpp (>=b9739) changed version output from `version: NNNN` (sequential build number) to `version: 1 (commithash)`. The old guard's `replace('b','')` check always failed → always rebuilt. Fixed: stamp file at `/usr/local/share/llama-cpp/version` written after each install; guard compares stamp vs resolved GitHub tag. Also: `/etc/ld.so.conf.d/usr-local-lib64.conf` + `meta: flush_handlers` so ldconfig runs before verify.
+- **layerctl gaps fixed:** `runtime`, `monitoring`, `virtualization` were absent from `LAYER_NAMES`, `LAYER_VERIFY`, `LAYER_ORDER` — `layerctl apply runtime` failed with "Unknown layer". Added in correct site.yml-mirror order (hardware → runtime → monitoring → virtualization → boot). `layerctl dotfiles` now calls `dotctl apply all` after Ansible symlinks pass.
+- **dotctl safety:** `_apply_file` now skips copy when dest resolves to same path as src (Ansible-managed symlink collision — was silently copying a file to itself).
+- **Live machine still needs:** `sudo ansible-playbook -i ansible/inventory/hosts.yml ansible/site.yml --tags runtime,llama-cpp -K` to write the stamp file and fix ldconfig on the current install.
+- **Commits:** RaBbLE-OS `5444e10` (aider), `e934652` (llama-cpp + layerctl).
 
 ---
 
