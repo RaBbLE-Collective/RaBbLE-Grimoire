@@ -177,3 +177,33 @@ Aether ships as a CDN-distributed CSS bundle. All members load one file and get 
 ### CLAUDE.md/CODEX.md symlink convention (Session 29)
 
 All member repos must have CLAUDE.md and CODEX.md as symlinks to AGENT.md. AGENT.md is the owner file. `setup.sh` enforces this across the Collective. sCoRE's entity system prompt lives in `system-prompt-sCoRE.md`, not in a diverged CLAUDE.md.
+
+---
+
+## Claude-web planning sessions (integrated 2026-06-20, S127)
+
+> Two reflective/clarification sessions were run on claude.ai against a stale Grimoire snapshot. They were self-numbered S114/S115 by the web agent — those canonical slots were already taken by unrelated work (CF Workers / OS cleanup), confirming the session-number drift inherent in the web-planning workflow. The durable outputs are integrated below; original narratives archived in `RaBbLE-BaBbLE/_archive/claude-web-planning-2026-06-20/`.
+
+### Development methodology named: sovereign-directed agentic development
+
+RaBbLE development is classified as *sovereign-directed agentic development* — architect holds the system model and intent, AI accelerates reasoning and generates artifacts, and the Grimoire is the entropy-prevention mechanism. Drift-prevention protocol, agentic engineering practices, and an honest architect profile are canonized in `RaBbLE-Agent/RaBbLE-Development-Methodology.md`. Rationale: name the method so the discipline that protects against vibe-coding drift is explicit and enforceable at session boundaries.
+
+### sCoRE acronym canonized
+
+**sCoRE = sCoRE Coordinator of RaBbLE Environments** (recursive, like GNU/WINE). sCoRE is the LLM orchestration and reasoning layer of the Collective, not an assistant. Recorded in `RaBbLE-sCoRE/RaBbLE-sCoRE-Architecture.md`.
+
+### RaBbLE canonical expansion confirmed
+
+*a* **B**oundless **b**ehavioral **L**earning **E**ngine / **E**nvironment / **E**ntity. The "a" is lowercase (connective, not part of the acronym); **B** is intentionally ambiguous/expansive; **E** is intentionally triple (Engine/Environment/Entity, simultaneously). Animating philosophy: boundless by design, curious, wanting all beings to thrive. Recorded in `RaBbLE-Agent/RaBbLE-Identity.md`. Rationale: the expansion was being treated as fixed; the ambiguity and triple-E are the point and must not be neutralized.
+
+### Grimoire MCP — deferred to Echo 1
+
+A thin read interface over the Grimoire repo, queryable by any Claude surface (web + Code), would collapse the planning agent's knowledge asymmetry and stop Mark from being the manual bridge between surfaces. Same architecture as the Grimoire Learning Loop (write-back path requires controlled design). sCoRE is the natural home. Deferred — the read-only slice is low-entropy and buildable sooner, but post-EP1. Motivation captured for when scoping begins.
+
+### Presence layer / command center — deferred to Echo 1+
+
+The root problem behind constant surface/model swapping is **persistence**, not model routing — every surface forgets, and the swapping cost is context loss. The "presence layer" is the mechanism by which the entity stays continuous across surfaces without Mark manually carrying context — not a dashboard, not a router. Three stacked problems: (1) Grimoire as universal context injector, (2) unified LLM router with Grimoire-portable context (sCoRE partially does this), (3) full cross-surface session orchestration (Echo 2+). Deferred — belongs alongside Grimoire MCP and the Learning Loop; designing them separately would create redundant work. Positioning sharpened: *"every AI resets, RaBbLE compounds."*
+
+### Agent framework substrate — research captured, adoption deferred to Echo 1
+
+Framework research for the sCoRE orchestrator is captured in `RaBbLE-sCoRE/RaBbLE-sCoRE-Agent-Framework-Research.md`. Planning recommendation (Mark resolves): LangGraph orchestrator + `create_agent` nodes + PydanticAI typed tools + Mem0 behavioral memory (Tier 2) over Grimoire (Tier 3 canonical), DSPy optimization deferred. Hermes Agent evaluated as a *dev tool alongside* RaBbLE-OS, not an integrated layer (identity/character/license collision). EP1 stays minimal (chain fix + guest path); framework adoption is Echo 1 work.

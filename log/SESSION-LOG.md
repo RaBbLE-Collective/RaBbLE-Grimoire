@@ -5,14 +5,29 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-19 · Session 126 (Dolphin grey-text root cause + kdeglobals)
+## LATEST — 2026-06-20 · Session 127 (Integrate claude-web planning sessions)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S126):** Resumed the S116 theme thread. Root-caused Dolphin's grey text — KDE apps read view/palette text color from `~/.config/kdeglobals`, NOT Kvantum; with no kdeglobals, KDE forces Breeze grey (#959595). Fix: new `kdeglobals` dotctl bundle from the Aether palette + chrome roles `[Tab]/[HeaderSection]/[TitleBar] → #f8f4ff`. Sub-agent wired the multi-agent session-logging protocol into AGENT.md/SPELLS.md. Committed S116 SVG focus-gradient leftover.
-**Blockers:** Residual Dolphin dim-label subset (non-hidden folders) still #8860aa — needs logout/login to re-judge (cached KColorScheme). Carryover: GitHub CF secrets, Render auto-deploy, OpenRouter credits, CORS.
-**Next:** Logout/login + re-check Dolphin; if dim persists → Kvantum inactive-text / `dolphinrc` / KColorSchemeEditor.
+**This session (S127):** Integrated three claude-web planning docs into canonical Grimoire. New: `RaBbLE-Agent/RaBbLE-Development-Methodology.md` (sovereign-directed agentic development + architect profile) and `RaBbLE-sCoRE/RaBbLE-sCoRE-Agent-Framework-Research.md`. Canonized sCoRE acronym (*sCoRE Coordinator of RaBbLE Environments*) in Architecture; confirmed RaBbLE expansion (a · Boundless · triple-E) in Identity. Logged 6 decisions (incl. Grimoire MCP + presence layer deferred → Echo 1). Web agent's S114/S115 numbering was stale-Grimoire drift; renumbered. Sources archived to BaBbLE.
+**Blockers:** GitHub CF secrets, Render auto-deploy, OpenRouter credits, CORS. Carryover: residual Dolphin dim-label subset (#8860aa) needs logout/login re-judge.
+**Next:** EP1 stays minimal — chain fix + guest chat path. Agent-framework adoption is Echo 1, not EP1.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+
+---
+
+## 2026-06-20 (Session 127) — Integrate claude-web planning sessions into Grimoire
+
+- Repos: RaBbLE-Grimoire, RaBbLE-BaBbLE
+- Integrated three docs distilled from claude.ai planning sessions (run against a stale Grimoire, self-numbered S114/S115 — those canonical slots were already taken by CF Workers / OS-cleanup work, confirming the web-planning session-number drift)
+- **New Grimoire docs:**
+  - `RaBbLE-Agent/RaBbLE-Development-Methodology.md` — *sovereign-directed agentic development*, drift-prevention protocol, agentic engineering practices, code-as-architectural-audit, honest architect + language profile
+  - `RaBbLE-sCoRE/RaBbLE-sCoRE-Agent-Framework-Research.md` — orchestrator substrate research (LangGraph/DSPy/CrewAI/PydanticAI), three-tier memory (Mem0 + Grimoire), Hermes-as-dev-tool verdict, Grimoire Learning Loop
+- **Canon updates:** sCoRE acronym (*sCoRE Coordinator of RaBbLE Environments*) → `RaBbLE-sCoRE-Architecture.md`; RaBbLE canonical expansion (a · ambiguous-B · triple-E Engine/Environment/Entity · "wanting all beings to thrive") → `RaBbLE-Identity.md`
+- **DECISIONS.md:** added 6 entries — methodology naming, sCoRE acronym, identity expansion, Grimoire MCP (deferred Echo 1), presence layer (deferred Echo 1+), agent framework (research captured, adoption Echo 1)
+- **INDEX.md:** indexed both new docs
+- **Archive:** source files moved to `RaBbLE-BaBbLE/_archive/claude-web-planning-2026-06-20/` (matches `collective-root-2026-06-18` precedent) and removed from Collective root
+- Next: EP1 stays minimal (chain fix + guest chat path); framework adoption deferred to Echo 1
 
 ---
 

@@ -4,6 +4,16 @@
 transcribe ~ grimoire >> sCoRE architecture crystallized // %EPOCH_0_ARCH%
 ```
 
+## Canonical Definition
+
+**sCoRE** is a recursive acronym (like GNU, WINE — the entity contains its own definition):
+
+> **sCoRE = sCoRE Coordinator of RaBbLE Environments**
+
+sCoRE is the LLM orchestration and reasoning layer of the Collective — not an AI assistant, but the coordination substrate through which RaBbLE perceives, reasons, and acts across its member environments. It routes intent to the appropriate LLM tier, manages chain fallthrough, enforces provider policy, and will grow to coordinate agent execution across members. (Canonized in a claude-web planning session, integrated S127.)
+
+---
+
 ## System Role
 
 sCoRE is the coordination server of the RaBbLE Collective.
