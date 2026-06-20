@@ -5,19 +5,25 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-20 · Session 130 + S129-audit (multi-session hardening + NPU)
+## LATEST — 2026-06-20 · Session 131 (llama.cpp GCC 15 <cstdint> fix)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**NEW session discipline (start here):** `spells/session-start.sh` is the **required opening ritual** — `export RABBLE_SESSION_ID` first, then it reads lessons+blockers+who's-live, claims your scope, and runs a self-terminating heartbeat. Blockers are now durable in `log/BLOCKERS.md` (`blockers.sh`), NOT this box. EP1 air gate: `log/EP1-AIR-CHECKLIST.md`. (Built across the S129-audit thread, concurrent with the NPU sessions.)
-**Also this day (S129/S130 NPU):** FastFlowLM live + NPU validated; llama.cpp glslc fix + lemonade pip3 fallback (re-run pending).
-**Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — 5 open, 4 ep1-gate.
-**Next:** open every session with `session-start.sh`; re-run `--tags llama-cpp`/`--tags lemonade`; build pre-commit backstop; EP1 chain fix + guest chat path; verify G7+G9 before air.
+**This session (S131):** llama.cpp Vulkan build was failing at compile with `'uint32_t' does not name a type` in `llama-mmap.h`. GCC 15 (Fedora 43) no longer transitively includes `<cstdint>`. Fix: added Ansible `lineinfile` patch task in `llama-cpp.yml` to insert `#include <cstdint>` after `#include <vector>` in `llama-mmap.h` before build. Idempotent. Committed in both RaBbLE-OS and Grimoire fix doc.
+**Blockers:** → `log/BLOCKERS.md` (durable ledger; `bash spells/blockers.sh ls`) — 5 open, 4 ep1-gate.
+**Next:** Re-run `--tags llama-cpp` to complete the build; `--tags lemonade`; EP1 chain fix + guest chat path. EP1 air gate: `log/EP1-AIR-CHECKLIST.md`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 > **Blockers + EP1 air no longer live in this box** — they're durable in `log/BLOCKERS.md`
 > and `log/EP1-AIR-CHECKLIST.md` so the per-session rewrite can't clobber them.
 
 ---
+
+## 2026-06-20 (Session 131) — llama.cpp GCC 15 <cstdint> compile fix
+
+- Repos: RaBbLE-OS, RaBbLE-Grimoire
+- **Build failure:** `cmake --build` failed at `llama-mmap.cpp.o` — GCC 15 no longer includes `<cstdint>` transitively through `<vector>`, so `uint32_t` was undeclared in `llama-mmap.h`. The b4600 source predates Fedora 43's GCC 15.
+- **Fix:** Added `lineinfile` patch task in `ansible/roles/runtime/tasks/llama-cpp.yml` to insert `#include <cstdint>` after `#include <vector>` in `llama-mmap.h`. Runs when `_llama_rebuild_needed`, idempotent.
+- **Next:** Re-run `ansible-playbook RaBbLE-OS-Bootstrap.sh --tags llama-cpp` — the patch + existing configure cache should get through the full 5-15 min build.
 
 ## 2026-06-20 (Session 130) — llama.cpp glslc fix; lemonade pip3 fallback
 
