@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-20 · Session 136 (OS session log + aider gfortran fix)
+## LATEST — 2026-06-20 · Session 137 (aider scipy/system-site-packages fix)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S136):** Logged OS sessions S132–S135 into Grimoire. Fixed aider pipx failure: scipy 1.15.3 has no cp314 wheel (Python 3.14), falls back to source build which requires gfortran; added `gcc-gfortran` to ai-harnesses deps in aider.yml.
-**Blockers:** → `log/BLOCKERS.md` (durable ledger; `bash spells/blockers.sh ls`) — 5 open, 4 ep1-gate.
-**Next:** Aether + NeBuLA CDN Workers pending deploy; guest chat path; re-run `--tags ai-harnesses` to verify aider installs clean. EP1 air gate: `log/EP1-AIR-CHECKLIST.md`.
+**This session (S137):** aider pipx chain: gfortran fixed → found openblas missing → root cause is no cp314 wheel for scipy<1.16. Fix: install `python3-scipy` (Fedora 43 ships 1.16.2 for Python 3.14) + `pipx install --system-site-packages`. Committed RaBbLE-OS. **Pending next session:** llama.cpp latest-version rebuild guard audit; lemonade install status; playbook order (core after runtime is wrong); layerctl config deploy via dotctl. See `RaBbLE-OS/fix/` handoff doc.
+**Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — 5 open, 4 ep1-gate.
+**Next:** Re-run `--tags ai-harnesses` to verify aider clean install; then OS audit session.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 > **Blockers + EP1 air no longer live in this box** — they're durable in `log/BLOCKERS.md`
