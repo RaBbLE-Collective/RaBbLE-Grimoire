@@ -12,6 +12,8 @@
 #   fcc-ctl keys           Print current key status (which keys are set)
 #   fcc-ctl key <KEYNAME> <VALUE>   Set an API key in ~/.config/rabble/fcc.env
 #   fcc-ctl model haiku|sonnet|opus <provider:model>   Set model routing
+#   fcc-ctl sync           Re-apply model routing from RaBbLE-OS/config/rabble/fcc.env.example
+#                          Edit the example to change providers, then run sync to apply.
 
 set -euo pipefail
 
@@ -19,6 +21,10 @@ FCC_DIR="${HOME}/.local/share/rabble/free-claude-code"
 FCC_ENV="${HOME}/.config/rabble/fcc.env"
 FCC_URL="http://127.0.0.1:8082"
 SERVICE="free-claude-code"
+FCC_EXAMPLE="${HOME}/RaBbLE-Collective/RaBbLE-OS/config/rabble/fcc.env.example"
+
+# Keys that sync reads from the example (routing only — never API keys)
+SYNC_KEYS=(MODEL_HAIKU MODEL_SONNET MODEL_OPUS ANTHROPIC_AUTH_TOKEN FCC_PORT FCC_HOST)
 
 _require_service() {
   if ! systemctl --user is-active --quiet "${SERVICE}" 2>/dev/null; then
@@ -125,8 +131,41 @@ case "${cmd}" in
     echo "  Example: set ANTHROPIC_BASE_URL=http://127.0.0.1:8082 in Claude Code env"
     ;;
 
+  sync)
+    [[ ! -f "${FCC_EXAMPLE}" ]] && {
+      echo "✗ Example not found: ${FCC_EXAMPLE}" >&2
+      echo "  Expected: RaBbLE-OS/config/rabble/fcc.env.example" >&2
+      exit 1
+    }
+    echo "Syncing routing from $(basename "${FCC_EXAMPLE}")..."
+    local changed=0
+    for key in "${SYNC_KEYS[@]}"; do
+      local val
+      # Only pick up lines that are uncommented and non-empty values
+      val=$(grep -E "^${key}=.+" "${FCC_EXAMPLE}" 2>/dev/null | cut -d= -f2- || true)
+      if [[ -n "${val}" ]]; then
+        local current
+        current=$(_env_get "${key}")
+        if [[ "${current}" != "${val}" ]]; then
+          _env_set "${key}" "${val}"
+          changed=1
+        fi
+      fi
+    done
+    if [[ ${changed} -eq 1 ]]; then
+      systemctl --user restart "${SERVICE}" 2>/dev/null || true
+      echo "✓ Routing synced and service restarted"
+    else
+      echo "✓ Already up to date — no changes"
+    fi
+    echo ""
+    echo "  Edit routing: ${FCC_EXAMPLE}"
+    echo "  Re-apply:     fcc-ctl sync"
+    echo "  Set keys:     fcc-ctl key NVIDIA_API_KEY <value>"
+    ;;
+
   *)
-    echo "Usage: fcc-ctl {start|stop|restart|status|logs|admin|update|keys|key|model}" >&2
+    echo "Usage: fcc-ctl {start|stop|restart|status|logs|admin|update|keys|key|model|sync}" >&2
     exit 1
     ;;
 
