@@ -18,6 +18,13 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-06-20 (Sessions 136–137, OS stream) — aider scipy fix; OS audit backlog captured
+
+- Repos: RaBbLE-OS, RaBbLE-Grimoire
+- **S136 — aider attempt 1:** Added `gcc-gfortran` to pipx deps. scipy got further (gfortran found) but hit `OpenBLAS not found` — another missing source build dep. Root cause identified: `scipy 1.15.3` has no cp314 wheel (predates Python 3.14 final release). Source build is a deep rabbit hole.
+- **S137 — aider fix (final):** `python3-scipy 1.16.2` ships in Fedora 43 repo (compiled for Python 3.14). Solution: install via dnf + `pipx install aider-chat --system-site-packages`. No source build needed. Session log updated, both repos committed.
+- **Backlog captured for next OS audit session:** llama.cpp rebuild guard verification; lemonade server status; skip-behavior audit; playbook order (core roles after runtime is inverted); layerctl config deploy via dotctl.
+
 ## 2026-06-20 (Session 132) — World surface polish: member reveal panes + conversation + iOS
 
 - Repos: RaBbLE-World
