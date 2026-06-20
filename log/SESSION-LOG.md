@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-20 · Session 128 (AI Harnesses: fcc + NIM + layerctl)
+## LATEST — 2026-06-20 · Session 128 (AI Harnesses: fcc + NIM + layerctl + naming)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S128):** free-claude-code installed and wired to NVIDIA NIM. Fixed ai-harnesses Ansible role: include_tasks apply:always (tag propagation), lookup('env','HOME') replacing ansible_env (unavailable on local connection), uv python install step for Python 3.14.0. layerctl expanded with ai-harnesses + all 9 sub-layers. opencode hardened to state:latest. Post-EP1 system-wide migration plan documented in Grimoire.
-**Blockers:** Same as S127 + fcc NVIDIA key not yet set in ~/.config/rabble/fcc.env; NIM routing not configured.
-**Next:** fcc-ctl key NVIDIA_API_KEY + model routing; then EP1 chain fix + guest chat path.
+**This session (S128):** free-claude-code installed and wired to NVIDIA NIM. Ansible role fixed (include_tasks apply:always, lookup('env','HOME'), uv python install). layerctl expanded with all 9 harness sub-layers. opencode hardened to state:latest. fcc routing automated: fcc.env.example is versioned source-of-truth, fcc-ctl sync applies it. RaBbLE casing corrected: config/rabble → config/RaBbLE throughout. Post-EP1 system-wide migration plan in Grimoire.
+**Blockers:** Same as S127 + fcc NVIDIA key not yet set in ~/.config/RaBbLE/fcc.env.
+**Next:** fcc-ctl key NVIDIA_API_KEY; then EP1 chain fix + guest chat path.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
@@ -24,7 +24,9 @@ Format: date, what was done, where things were left, what's next.
 - **layerctl expanded:** added `ai-harnesses` to LAYER_ORDER/NAMES/VERIFY; added all 9 individual harnesses as standalone targetable layers (claude-code, free-claude-code, codex, opencode, aider, gemini-cli, ollama, vllm, builder-skills)
 - **opencode hardened:** `state: latest` (reinstalls if missing) + explicit fail if binary absent after install; `layerctl apply opencode` is now the fix for opencode disappearing after Node upgrades
 - **Post-EP1 plan documented:** `RaBbLE-OS/layers/RaBbLE-OS-Layer-AI-Harnesses.md` — current EP1 state, fragility notes, full system-wide migration plan (system paths, split become, rabble-fcc system user, /opt/rabble services)
-- Next: fcc-ctl key NVIDIA_API_KEY + NIM model routing; EP1 chain fix + guest chat path
+- **fcc routing automated:** `fcc.env.example` is now the versioned source-of-truth for model routing (NIM defaults pre-configured, Groq/DeepSeek/OpenRouter/Cerebras as commented alternatives); `fcc-ctl sync` merges MODEL_* into live config without touching API keys; Ansible calls sync on install so first deploy is fully routed
+- **RaBbLE casing fix:** `config/rabble/` → `config/RaBbLE/` (git mv); `~/.config/RaBbLE/` and `~/.local/share/RaBbLE/` are now canonical throughout ansible tasks, systemd unit, fcc-ctl spell, and example comments
+- Next: fcc-ctl key NVIDIA_API_KEY; EP1 chain fix + guest chat path
 
 ## 2026-06-20 (Session 127) — Integrate claude-web planning sessions into Grimoire
 
