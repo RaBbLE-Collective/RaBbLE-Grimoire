@@ -5,18 +5,30 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-20 · Session 131 (llama.cpp GCC 15 <cstdint> fix)
+## LATEST — 2026-06-20 · Session 132 (World surface polish)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S131):** llama.cpp Vulkan build was failing at compile with `'uint32_t' does not name a type` in `llama-mmap.h`. GCC 15 (Fedora 43) no longer transitively includes `<cstdint>`. Fix: added Ansible `lineinfile` patch task in `llama-cpp.yml` to insert `#include <cstdint>` after `#include <vector>` in `llama-mmap.h` before build. Idempotent. Committed in both RaBbLE-OS and Grimoire fix doc.
+**This session (S132):** World UX polish. Collective movement rebuilt: two-column layout with compact card list + dynamic member reveal pane (name, role badge, tagline, staggered narration lines). Converse movement auto-expands dock. Dock text xs→sm, expanded height 50→65vh. iOS safe-area-inset-top/bottom wired in. Committed to RaBbLE-World.
 **Blockers:** → `log/BLOCKERS.md` (durable ledger; `bash spells/blockers.sh ls`) — 5 open, 4 ep1-gate.
-**Next:** Re-run `--tags llama-cpp` to complete the build; `--tags lemonade`; EP1 chain fix + guest chat path. EP1 air gate: `log/EP1-AIR-CHECKLIST.md`.
+**Next:** Deploy World update to joinrabble.world (Cloudflare); Aether + NeBuLA CDN Workers pending; guest chat path. EP1 air gate: `log/EP1-AIR-CHECKLIST.md`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 > **Blockers + EP1 air no longer live in this box** — they're durable in `log/BLOCKERS.md`
 > and `log/EP1-AIR-CHECKLIST.md` so the per-session rewrite can't clobber them.
 
 ---
+
+## 2026-06-20 (Session 132) — World surface polish: member reveal panes + conversation + iOS
+
+- Repos: RaBbLE-World
+- **Collective movement redesigned:** two-column layout — left is a compact scrollable card list (name + role only), right is a dynamic reveal pane. Clicking a member animates in: large name in accent color, role pill badge, italic tagline, horizontal divider, all three narration lines with staggered `memberLineIn` animation (140ms delay per line). Placeholder state shows dashed "select a member" hint.
+- **Card active state:** selected card gets accent border + tinted background + full-opacity stripe. `--card-accent` and `--reveal-accent` CSS custom properties drive per-member theming.
+- **Converse movement:** dock auto-expands on entry; panel shows a channel status card (intro text + context) instead of the hollow "dock below is live" placeholder. "skip to join ›" secondary button replaces primary continue.
+- **Dock sizing:** expanded `max-height` 50 → 65vh desktop, 60 → 72vh mobile. History line text `xs` (11px) → `sm` (13px). Input and bar transmission text same bump.
+- **iOS safe area:** `env(safe-area-inset-top)` on `#entity-stage` padding + mobile `grid-template-rows` calc; `env(safe-area-inset-bottom)` on `#dock-host` — entity no longer clips under notch/dynamic island.
+- **CSS added:** `rc-collective-wrap`, `rc-collective-list`, `rc-collective-card`, `rc-collective-detail`, `rc-collective-placeholder`, `rc-member-reveal` component classes in `RaBbLE-panels.css`. `memberDetailIn` + `memberLineIn` keyframes in `RaBbLE-unified.css`. Mobile: cards wrap horizontally, detail stacks below.
+- **Commit:** `e7e5b51` mend ~ world >> member detail panes, bigger conversation, iOS safe area // %WORLD_POLISH%
+- **Next:** `cloudflare-ctl.sh deploy world` (or Cloudflare Pages push); also Aether + NeBuLA CDN Workers deploy pending from S120.
 
 ## 2026-06-20 (Session 131) — llama.cpp GCC 15 <cstdint> compile fix
 
