@@ -231,34 +231,34 @@ nm -D /usr/xrt/lib64/libxrt_coreutil.so | grep '_ZN3xrt7runlist3addEONS_3runE'
 
 ### The shim
 
-The fix is a tiny C++ shared library that provides the missing symbol by forwarding to the existing const-lvalue overload:
+The fix is a plain C shared library that provides the missing symbol by redirecting to the existing const-lvalue overload at the raw symbol level. **A C++ member function definition cannot be used** — C++ only allows out-of-line definitions for members already declared in the class, and XRT 2.19.0 headers don't declare `add(run&&)`. The compiler would reject it silently (with `failed_when: false`, this caused silent failure in early attempts).
 
-```cpp
-// xrt_runlist_shim.cpp
-#include "xrt/xrt_kernel.h"
-namespace xrt {
-  void runlist::add(run&& r) { add(static_cast<const run&>(r)); }
+```c
+/* xrt_runlist_shim.c — no headers needed, raw mangled symbol names */
+/* x86-64 ABI: both add(run const&) and add(run&&) pass this=rdi, run*=rsi */
+void _ZN3xrt7runlist3addERKNS_3runE(void*, void*);  /* add(run const&) — in libxrt_coreutil */
+
+void _ZN3xrt7runlist3addEONS_3runE(void* self, void* run_ref) {  /* add(run&&) — MISSING */
+    _ZN3xrt7runlist3addERKNS_3runE(self, run_ref);
 }
 ```
 
-**Why this is safe:** `xrt::run` is a ref-counted pimpl handle (a smart pointer to an opaque implementation object). Copying and moving a handle are semantically equivalent — both result in a handle pointing to the same underlying run object with an incremented refcount. There is no "destructive move" at the handle level that would leave the original in an invalid state.
+**Why this works:** On x86-64 System V ABI, references and rvalue references are both passed as pointers — both `add(run const&)` and `add(run&&)` receive `this` in `rdi` and a pointer to the run object in `rsi`. The binary calling convention is identical, so the redirect is correct. `xrt::run` is a ref-counted pimpl handle; copy and move semantics are equivalent at the handle level.
 
 ### Compile and use the shim manually
 
 ```bash
-# Compile the shim (links against existing libxrt_coreutil)
+# Compile the shim (plain gcc, no XRT headers needed)
 sudo mkdir -p /opt/src/xrt_shim
-sudo tee /opt/src/xrt_shim/xrt_runlist_shim.cpp <<'EOF'
-#include "xrt/xrt_kernel.h"
-namespace xrt {
-  void runlist::add(run&& r) { add(static_cast<const run&>(r)); }
+sudo tee /opt/src/xrt_shim/xrt_runlist_shim.c <<'EOF'
+void _ZN3xrt7runlist3addERKNS_3runE(void*, void*);
+void _ZN3xrt7runlist3addEONS_3runE(void* self, void* run_ref) {
+    _ZN3xrt7runlist3addERKNS_3runE(self, run_ref);
 }
 EOF
-sudo g++ -shared -fPIC -O2 \
-    -I/opt/xilinx/xrt/include \
+sudo gcc -shared -fPIC -O2 \
     -o /opt/src/xrt_shim/libxrt_runlist_shim.so \
-    /opt/src/xrt_shim/xrt_runlist_shim.cpp \
-    -L/opt/xilinx/xrt/lib64 -lxrt_coreutil
+    /opt/src/xrt_shim/xrt_runlist_shim.c
 
 # Copy shim into FastFlowLM's lib dir (already in linker search path)
 sudo cp /opt/src/xrt_shim/libxrt_runlist_shim.so /opt/src/FastFlowLM/src/lib/

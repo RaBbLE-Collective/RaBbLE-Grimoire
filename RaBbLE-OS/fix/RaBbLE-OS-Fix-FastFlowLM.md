@@ -135,26 +135,35 @@ nm -D /usr/xrt/lib64/libxrt_coreutil.so | grep '_ZN3xrt7runlist3addEONS_3runE'
 
 Since we cannot easily get a newer XRT (COPR is frozen, xdna-driver is also frozen, upstream XRT is a large repo to build independently), the correct fix is to provide the missing symbol ourselves.
 
-**The shim:**
+**The shim — first attempt (C++, silently failed):**
+
+The initial approach was a C++ member function definition:
 ```cpp
-// xrt_runlist_shim.cpp
 #include "xrt/xrt_kernel.h"
 namespace xrt {
   void runlist::add(run&& r) { add(static_cast<const run&>(r)); }
 }
 ```
+This compiled with `g++` and XRT includes. It was correct in reasoning but failed in practice: C++ requires an out-of-line member function definition to match an existing declaration in the class. XRT 2.19.0 headers don't declare `add(run&&)`, so the compiler rejects the definition. With `failed_when: false`, this failed silently — the `.so` was never created, the copy task silently failed, the cmake conditional was never triggered, and the link failed identically.
 
-Compiled as a shared library:
-```bash
-g++ -shared -fPIC -O2 \
-    -I/opt/xilinx/xrt/include \
-    -o libxrt_runlist_shim.so \
-    xrt_runlist_shim.cpp \
-    -L/opt/xilinx/xrt/lib64 -lxrt_coreutil
+**The shim — correct approach (C, raw symbols):**
+
+```c
+/* xrt_runlist_shim.c — no headers, raw mangled symbol names */
+void _ZN3xrt7runlist3addERKNS_3runE(void*, void*);  /* add(run const&) — exists in 2.19.0 */
+void _ZN3xrt7runlist3addEONS_3runE(void* self, void* run_ref) {  /* add(run&&) — MISSING */
+    _ZN3xrt7runlist3addERKNS_3runE(self, run_ref);
+}
 ```
 
-**Why this is correct:**  
-`xrt::run` is a pimpl (pointer-to-implementation) handle — it wraps a `std::shared_ptr` to an opaque `run_impl` object. Copying a handle (`const&`) and moving a handle (`&&`) both result in a handle pointing to the same run object. The rvalue overload was added to `xrt::runlist::add` as a performance optimization (avoiding a refcount increment/decrement cycle), but the observable behavior is identical to the const-lvalue overload. The shim is semantically safe.
+Compiled as a shared library (plain `gcc`, no XRT headers needed):
+```bash
+gcc -shared -fPIC -O2 \
+    -o libxrt_runlist_shim.so \
+    xrt_runlist_shim.c
+```
+
+**Why this works:** On x86-64 System V ABI, both `add(run const&)` and `add(run&&)` have identical binary calling convention — `this` in `rdi`, a pointer to `run` in `rsi`. The C shim provides the missing mangled symbol and redirects to the existing one. No class declaration required, no XRT headers needed. `xrt::run` is a ref-counted pimpl handle; copy and move are semantically equivalent at the handle level.
 
 **Injection into the FLM build:**
 
