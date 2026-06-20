@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-20 · Session 132 (World surface polish)
+## LATEST — 2026-06-20 · Session 136 (OS session log + aider gfortran fix)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S132):** World UX polish. Collective movement rebuilt: two-column layout with compact card list + dynamic member reveal pane (name, role badge, tagline, staggered narration lines). Converse movement auto-expands dock. Dock text xs→sm, expanded height 50→65vh. iOS safe-area-inset-top/bottom wired in. Committed to RaBbLE-World.
+**This session (S136):** Logged OS sessions S132–S135 into Grimoire. Fixed aider pipx failure: scipy 1.15.3 has no cp314 wheel (Python 3.14), falls back to source build which requires gfortran; added `gcc-gfortran` to ai-harnesses deps in aider.yml.
 **Blockers:** → `log/BLOCKERS.md` (durable ledger; `bash spells/blockers.sh ls`) — 5 open, 4 ep1-gate.
-**Next:** Aether + NeBuLA CDN Workers pending deploy (`cloudflare-ctl.sh deploy aether/nebula v0.0.0.1-rc.1`); guest chat path. EP1 air gate: `log/EP1-AIR-CHECKLIST.md`.
+**Next:** Aether + NeBuLA CDN Workers pending deploy; guest chat path; re-run `--tags ai-harnesses` to verify aider installs clean. EP1 air gate: `log/EP1-AIR-CHECKLIST.md`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 > **Blockers + EP1 air no longer live in this box** — they're durable in `log/BLOCKERS.md`
@@ -30,6 +30,14 @@ Format: date, what was done, where things were left, what's next.
 - **Commit:** `e7e5b51` mend ~ world >> member detail panes, bigger conversation, iOS safe area // %WORLD_POLISH%
 - **Deploy:** `cloudflare-ctl.sh deploy world` — 7 assets uploaded, live at joinrabble.world. Version `85a4a5c0`.
 - **Next:** Aether + NeBuLA CDN Workers pending (`cloudflare-ctl.sh deploy aether/nebula v0.0.0.1-rc.1`); guest chat path.
+
+## 2026-06-20 (Sessions 132–135, OS stream) — llama.cpp role rewrite; layerctl upgrade; dep fixes
+
+- Repos: RaBbLE-OS (concurrent with World stream; session numbers overlap)
+- **S132 — llama.cpp role rewrite:** Dual install paths (`install_method: source|prebuilt`). `version: latest` default resolves current GitHub release tag via API at provision time (was stale pin `b4600`). GCC 15 `<cstdint>` patch retained (idempotent). claude-code EEXIST idempotency fixed: pre-check `claude --version` before npm install.
+- **S133 — git force fix:** `force: false` on git clone blocked version updates (lineinfile patch left tracked-file modification). Changed to `force: true` — correct for pure-upstream source we always patch-then-build.
+- **S134 — SPIRV deps:** Newer llama.cpp added `find_package(SPIRV-Headers)` not in b4600. Added `spirv-headers-devel` + `spirv-tools-devel` to Vulkan build deps.
+- **S135 — layerctl upgrade:** New `layerctl upgrade` command: `sudo dnf upgrade -y` → `fwupdmgr refresh + update` (firmware; critical for ProArt EC/NPU/USB-C via LVFS) → `layerctl apply all`. `--no-packages/--no-firmware/--no-apply` flags for partial runs.
 
 ## 2026-06-20 (Session 131) — llama.cpp GCC 15 <cstdint> compile fix
 
