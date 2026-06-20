@@ -10,7 +10,7 @@ Format: date, what was done, where things were left, what's next.
 **Phase:** Epoch 0 · Episode 1 in flight.
 **This session (S132):** World UX polish. Collective movement rebuilt: two-column layout with compact card list + dynamic member reveal pane (name, role badge, tagline, staggered narration lines). Converse movement auto-expands dock. Dock text xs→sm, expanded height 50→65vh. iOS safe-area-inset-top/bottom wired in. Committed to RaBbLE-World.
 **Blockers:** → `log/BLOCKERS.md` (durable ledger; `bash spells/blockers.sh ls`) — 5 open, 4 ep1-gate.
-**Next:** Deploy World update to joinrabble.world (Cloudflare); Aether + NeBuLA CDN Workers pending; guest chat path. EP1 air gate: `log/EP1-AIR-CHECKLIST.md`.
+**Next:** Aether + NeBuLA CDN Workers pending deploy (`cloudflare-ctl.sh deploy aether/nebula v0.0.0.1-rc.1`); guest chat path. EP1 air gate: `log/EP1-AIR-CHECKLIST.md`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 > **Blockers + EP1 air no longer live in this box** — they're durable in `log/BLOCKERS.md`
@@ -28,7 +28,8 @@ Format: date, what was done, where things were left, what's next.
 - **iOS safe area:** `env(safe-area-inset-top)` on `#entity-stage` padding + mobile `grid-template-rows` calc; `env(safe-area-inset-bottom)` on `#dock-host` — entity no longer clips under notch/dynamic island.
 - **CSS added:** `rc-collective-wrap`, `rc-collective-list`, `rc-collective-card`, `rc-collective-detail`, `rc-collective-placeholder`, `rc-member-reveal` component classes in `RaBbLE-panels.css`. `memberDetailIn` + `memberLineIn` keyframes in `RaBbLE-unified.css`. Mobile: cards wrap horizontally, detail stacks below.
 - **Commit:** `e7e5b51` mend ~ world >> member detail panes, bigger conversation, iOS safe area // %WORLD_POLISH%
-- **Next:** `cloudflare-ctl.sh deploy world` (or Cloudflare Pages push); also Aether + NeBuLA CDN Workers deploy pending from S120.
+- **Deploy:** `cloudflare-ctl.sh deploy world` — 7 assets uploaded, live at joinrabble.world. Version `85a4a5c0`.
+- **Next:** Aether + NeBuLA CDN Workers pending (`cloudflare-ctl.sh deploy aether/nebula v0.0.0.1-rc.1`); guest chat path.
 
 ## 2026-06-20 (Session 131) — llama.cpp GCC 15 <cstdint> compile fix
 
