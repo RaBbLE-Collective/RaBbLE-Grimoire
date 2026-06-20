@@ -5,18 +5,26 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-20 · Session 129 (NPU: FastFlowLM live; llama.cpp Vulkan; lemonade)
+## LATEST — 2026-06-20 · Session 130 (llama.cpp glslc fix; lemonade pip3 fallback)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S129):** FastFlowLM source build fully unblocked and validated (NPU 8 cols, FW 1.1.2.64). Four cascading XRT shim fixes: (1) C not C++, (2) -L path for cmake test, (3) shim linked against libxrt_coreutil, (4) cmake install uses build dir not preset name. llama.cpp CUDA→Vulkan (AMD iGPU; RTX 3060 also Vulkan-capable). Lemonade enabled in ProArt P16 group_vars; not yet in COPR. Ansible dict replace-not-merge gotcha documented.
+**This session (S130):** Two Ansible role fixes. (1) llama.cpp cmake configure was failing "missing: glslc" — Fedora package is `glslc` not `shaderc`; fix committed, build not yet re-run. (2) Lemonade not in COPR — role rewritten with pip3 fallback, flexible binary detection (/usr/bin + /usr/local/bin), auto-creates systemd service for pip path. Handoff doc created: `RaBbLE-OS/fix/RaBbLE-OS-Fix-LlamaCpp.md`.
 **Blockers:** → `log/BLOCKERS.md` (durable ledger; `bash spells/blockers.sh ls`) — 5 open, 4 ep1-gate. Do NOT inline the list here; this line only points.
-**Next:** lemonade from GitHub release; check RTX 3060 Vulkan visibility; llama.cpp build; EP1 chain fix + guest chat path. EP1 air gate: `log/EP1-AIR-CHECKLIST.md`.
+**Next:** Re-run `--tags llama-cpp` (glslc now correct); re-run `--tags lemonade` (pip fallback); EP1 chain fix + guest chat path. EP1 air gate: `log/EP1-AIR-CHECKLIST.md`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 > **Blockers + EP1 air no longer live in this box** — they're durable in `log/BLOCKERS.md`
 > and `log/EP1-AIR-CHECKLIST.md` so the per-session rewrite can't clobber them.
 
 ---
+
+## 2026-06-20 (Session 130) — llama.cpp glslc fix; lemonade pip3 fallback
+
+- Repos: RaBbLE-OS, RaBbLE-Grimoire
+- **llama.cpp cmake configure fix:** Vulkan build was failing `Could NOT find Vulkan (missing: glslc)`. Fedora 43 package for the SPIR-V compiler is `glslc` (from the shaderc project), not `shaderc`. The latter doesn't exist in Fedora repos; `glslc-2026.1-1.fc43.x86_64` is in the updates repo. Fix: changed package name in `ansible/roles/runtime/tasks/llama-cpp.yml`. Build not yet re-run — cmake configure should now pass.
+- **lemonade pip3 fallback:** lemonade-server not in COPR. Role rewritten: tries COPR first, falls back to `pip3 install lemonade-server`; checks both `/usr/bin` and `/usr/local/bin`; auto-creates systemd service file when installed via pip (COPR package bundles its own .service, pip path doesn't). Memlock override applies in both cases.
+- **Handoff doc:** `RaBbLE-OS/fix/RaBbLE-OS-Fix-LlamaCpp.md` — full multi-session debug history, current state, resume instructions, GPU context table.
+- **Next:** `ansible-playbook RaBbLE-OS-Bootstrap.sh --tags llama-cpp` (glslc now correct); `--tags lemonade` (pip fallback); EP1 chain fix + guest chat path.
 
 ## 2026-06-20 (Session 129, audit thread) — Multi-session hardening + EP1 air-prep
 
