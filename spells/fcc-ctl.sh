@@ -138,13 +138,13 @@ case "${cmd}" in
       exit 1
     }
     echo "Syncing routing from $(basename "${FCC_EXAMPLE}")..."
-    local changed=0
+    changed=0
     for key in "${SYNC_KEYS[@]}"; do
-      local val
+      val=""
       # Only pick up lines that are uncommented and non-empty values
       val=$(grep -E "^${key}=.+" "${FCC_EXAMPLE}" 2>/dev/null | cut -d= -f2- || true)
       if [[ -n "${val}" ]]; then
-        local current
+        current=""
         current=$(_env_get "${key}")
         if [[ "${current}" != "${val}" ]]; then
           _env_set "${key}" "${val}"
