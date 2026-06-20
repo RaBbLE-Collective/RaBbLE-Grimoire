@@ -5,14 +5,32 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-20 · Session 128 (AI Harnesses: fcc + NIM + layerctl + naming)
+## LATEST — 2026-06-20 · Session 129 (NPU: FastFlowLM live; llama.cpp Vulkan; lemonade)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S128):** free-claude-code installed and wired to NVIDIA NIM. Ansible role fixed (include_tasks apply:always, lookup('env','HOME'), uv python install). layerctl expanded with all 9 harness sub-layers. opencode hardened to state:latest. fcc routing automated: fcc.env.example is versioned source-of-truth, fcc-ctl sync applies it. RaBbLE casing corrected: config/rabble → config/RaBbLE throughout. Post-EP1 system-wide migration plan in Grimoire.
-**Blockers:** Same as S127 + fcc NVIDIA key not yet set in ~/.config/RaBbLE/fcc.env.
-**Next:** fcc-ctl key NVIDIA_API_KEY; then EP1 chain fix + guest chat path.
+**This session (S129):** FastFlowLM source build fully unblocked and validated (NPU 8 cols, FW 1.1.2.64). Four cascading XRT shim fixes: (1) C not C++, (2) -L path for cmake test, (3) shim linked against libxrt_coreutil, (4) cmake install uses build dir not preset name. llama.cpp CUDA→Vulkan (AMD iGPU; RTX 3060 also Vulkan-capable). Lemonade enabled in ProArt P16 group_vars; not yet in COPR. Ansible dict replace-not-merge gotcha documented.
+**Blockers:** → `log/BLOCKERS.md` (durable ledger; `bash spells/blockers.sh ls`) — 5 open, 4 ep1-gate. Do NOT inline the list here; this line only points.
+**Next:** lemonade from GitHub release; check RTX 3060 Vulkan visibility; llama.cpp build; EP1 chain fix + guest chat path. EP1 air gate: `log/EP1-AIR-CHECKLIST.md`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
+> **Blockers + EP1 air no longer live in this box** — they're durable in `log/BLOCKERS.md`
+> and `log/EP1-AIR-CHECKLIST.md` so the per-session rewrite can't clobber them.
+
+---
+
+## 2026-06-20 (Session 129) — NPU stack: FastFlowLM live, llama.cpp Vulkan, lemonade
+
+- Repos: RaBbLE-OS, RaBbLE-Grimoire
+- **FastFlowLM fully validated:** NPU detected (8 columns), FW 1.1.2.64, memlock infinity. Source build unblocked after four cascading fixes — each run revealed a new layer:
+  1. **C not C++ shim:** C++ out-of-line member rule rejects `add(run&&)` because XRT 2.19.0 headers never declared it; plain C with raw mangled symbols bypasses class rules entirely
+  2. **-L path for cmake compiler test:** `CMAKE_EXE_LINKER_FLAGS` is applied to cmake's own compiler detection test (runs before CMakeLists.txt); test got `-lxrt_runlist_shim` but no `-L` path → added `-L.../src/lib`
+  3. **Shim linked against libxrt_coreutil:** shim `.so` declared `add(run const&)` without linking it; linker rejected shim when cmake test tried to use it → added `-L/opt/xilinx/xrt/lib64 -lxrt_coreutil` to both shim compile and `CMAKE_EXE_LINKER_FLAGS`
+  4. **cmake install build dir:** `cmake --install --preset linux-default` is invalid syntax; `--preset` only works for configure+build; fixed to `find CMakeCache.txt | xargs dirname` → `cmake --install <dir>`
+- **Grimoire fix doc updated:** `RaBbLE-OS/fix/RaBbLE-OS-Fix-FastFlowLM.md` — full cascade documented
+- **llama.cpp:** CUDA packages don't exist in standard Fedora repos; role was written for NVIDIA-only machine; switched to Vulkan backend (works with AMD iGPU, also covers RTX 3060 if Vulkan-capable); CUDA path preserved behind `llama_cpp.backend: "cuda"` for when RTX is active
+- **Lemonade:** enabled in ProArt P16 group_vars (FLM validated = gate met); not yet in COPR → note fires, tasks skip; install from GitHub releases when available
+- **Ansible dict gotcha documented:** partial `llama_cpp` dict in group_vars replaced entire defaults dict (wiped `repo`, `src_dir`, etc.); removed override since defaults were already correct; NOTE in group_vars for future CUDA switch requires repeating ALL keys
+- **Next:** check RTX 3060 Vulkan visibility (`vulkaninfo --summary`); lemonade from GitHub release; llama.cpp build; EP1 chain fix + guest chat path
 
 ---
 
