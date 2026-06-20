@@ -11,6 +11,9 @@ GEMINI.md
 # Volatile per-run token snapshot (regenerate: spells/session-tokens.sh --json)
 log/session-tokens.json
 
+# Machine-local heartbeat PIDs from spells/session-start.sh (transient, host-specific)
+log/agents/*.heartbeat.pid
+
 # Local credentials — written by spells/*-ctl.sh setup, never committed
 .cloudflare/
 .claude/

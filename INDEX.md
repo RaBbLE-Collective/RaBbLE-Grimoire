@@ -136,6 +136,7 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 - [spells/graph-grimoire.sh](spells/graph-grimoire.sh) — build documentation link graph (JSON + Mermaid), report orphans and hubs
 - [spells/session-tokens.sh](spells/session-tokens.sh) — parse Claude Code transcripts for token usage per session
 - [spells/blockers.sh](spells/blockers.sh) — durable append-only blocker ledger; generates `log/BLOCKERS.md`; feeds `status.sh` open-count
+- [spells/session-start.sh](spells/session-start.sh) — **opening ritual**: pin session id, read lessons+blockers+who's-live, claim scope, start auto-heartbeat (run first under concurrency)
 - [spells/agent-register.sh](spells/agent-register.sh) — multi-agent scope claims (claim/heartbeat/check/status/release) so parallel sessions don't stomp each other
 - [spells/decision-log.sh](spells/decision-log.sh) — per-agent JSONL decision/insight/stumble/scope stream (conflict-free parallel merges)
 - [spells/promote-insight.sh](spells/promote-insight.sh) — crystallize logged insights/stumbles into durable `log/lessons/*.md`

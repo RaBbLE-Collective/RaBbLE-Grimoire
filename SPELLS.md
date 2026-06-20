@@ -67,7 +67,8 @@ Spells are bash scripts in `spells/` that manage the RaBbLE Collective. Grimoire
 
 | Spell | Purpose | When to use |
 |---|---|---|
-| `agent-register.sh` | Claim file-scope globs so parallel agents don't stomp each other | Running multiple agents — claim before editing |
+| `session-start.sh` | **Opening ritual** — pin session id, read lessons+blockers+who's-live, claim scope, start auto-heartbeat | **First thing every session** when another may be live |
+| `agent-register.sh` | Claim file-scope globs so parallel agents don't stomp each other | Lower-level: claim/check/status/release (session-start wraps it) |
 | `decision-log.sh` | Append structured decision/insight/stumble/scope entries (per-agent JSONL) | Recording why a choice was made, mid-session |
 | `promote-insight.sh` | Crystallize logged insights/stumbles into durable Lessons | Read lessons at start (`ls`); promote at end (`auto`) |
 | `blockers.sh` | Durable append-only blocker ledger → generates `log/BLOCKERS.md` | Any blocker — so it survives the SESSION-LOG `## LATEST` rewrite |
@@ -365,10 +366,32 @@ ritual in every member's AGENT.md calls `end-session.sh`; the hook is the safety
 
 ## Multi-Agent Coordination & Session Logging
 
-These spells are **optional for solo sessions** and become valuable when running parallel
-agents. Each writes one file per agent (keyed by session id), so concurrent agents never
-produce git merge conflicts. Session id resolves from `RABBLE_SESSION_ID`, then the active
-Claude transcript, then a git-commit fallback — agent-agnostic, like `end-session.sh`.
+**Required whenever another session may be live** (solo sessions may skip). Each spell writes one
+file per agent (keyed by session id), so concurrent agents never produce git merge conflicts.
+Session id resolves from `RABBLE_SESSION_ID`, then the active Claude transcript, then a git-commit
+fallback — agent-agnostic, like `end-session.sh`. **Under concurrency, always `export
+RABBLE_SESSION_ID` yourself** — the transcript auto-resolver picks the newest transcript for the
+cwd, which is a coin-flip between two live sessions.
+
+### `session-start.sh` — Opening Ritual (run this first)
+
+The front line of anti-clobber: clobbering happens *during editing*, so coordinate at the **start**,
+not at commit. One call: surfaces durable lessons + open blockers + who else is live, claims your
+file-scope (loud conflict + non-zero exit on overlap), and starts a **self-terminating background
+heartbeat** so your claim doesn't die mid-session (the maintenance burden that previously made the
+system go unused). The heartbeat stops within one cycle of `agent-register.sh release`.
+
+```bash
+export RABBLE_SESSION_ID="S<NN>-<topic>"                    # FIRST — pin a stable id
+bash spells/session-start.sh "<glob>"... --task "desc"     # context + claim + auto-heartbeat
+bash spells/session-start.sh                               # context-only (no scope = no claim)
+bash spells/session-start.sh "<glob>" --no-heartbeat       # claim but don't spawn the daemon
+# Env: HEARTBEAT_INTERVAL (default 240s, under the 300s stale threshold)
+```
+
+> Pairs with the End-of-session ritual (`blockers.sh`, `end-session.sh`, `promote-insight.sh auto`,
+> `agent-register.sh release`). The pre-commit auto-register (`log/HANDOFF-PreCommit-AntiClobber.md`,
+> not yet built) is only a *backstop* for when this ritual is skipped.
 
 ### `agent-register.sh` — Parallel Agent Scope Coordination
 

@@ -111,14 +111,20 @@ bash spells/status.sh         # live health + open-blocker count
 ```
 
 **Coordinate scope — REQUIRED whenever another session may be live** (Mark runs concurrent
-sessions; skip only if you are certain you are the sole agent). Until the pre-commit
-auto-register lands (see `log/HANDOFF-PreCommit-AntiClobber.md`), do this by hand:
+sessions; skip only if you are certain you are the sole agent). Clobbering happens *during
+editing*, so claim scope at the **start**, before you touch a file — the one ritual:
 ```bash
-bash spells/promote-insight.sh ls                       # durable lessons from prior stumbles/insights
-bash spells/agent-register.sh claim "<glob>" --task "…" # claim file-scope BEFORE editing
-bash spells/agent-register.sh check <path>              # verify a path isn't claimed by a live agent
-bash spells/agent-register.sh status                    # who else is live right now
+export RABBLE_SESSION_ID="S<NN>-<topic>"     # FIRST — pins a stable id (auto-resolve is a coin-flip
+                                             # under concurrency); all your spell calls then correlate.
+bash spells/session-start.sh "<glob>"... --task "…"   # reads lessons + blockers + who's live, claims
+                                             # your scope (loud conflict if overlap), and starts a
+                                             # self-terminating background heartbeat so the claim survives.
+# no scope yet? `bash spells/session-start.sh` alone prints context only.
 ```
+The pre-commit auto-register (`log/HANDOFF-PreCommit-AntiClobber.md`, not yet built) is only a
+*backstop* for when this ritual is skipped — it warns at commit, after the damage. The ritual is
+the front line. Underlying spells if you need them à la carte: `agent-register.sh
+claim/check/status/release`, `promote-insight.sh ls`, `blockers.sh ls`.
 
 **End of session — do this before stopping:**
 ```bash
@@ -132,9 +138,9 @@ bash spells/agent-register.sh status                    # who else is live right
 # 5. git commit -m "[impulse] ~ [organ] >> [revelation] // %STATE%"
 # 6. Breadcrumb — tag this session's token spend by feature (agent-agnostic):
 #    bash spells/end-session.sh <feature-slug> "<note>"
-# 7. If another session was live this session (see "Coordinate scope" above):
+# 7. If you ran session-start.sh (claimed scope this session):
 #    bash spells/promote-insight.sh auto    # crystallize this session's insights/stumbles into Lessons
-#    bash spells/agent-register.sh release   # free this agent's claimed scope
+#    bash spells/agent-register.sh release   # free your scope — ALSO stops the background heartbeat
 # See RaBbLE-Agent/RaBbLE-CommitStyle.md (or gist/RaBbLE-CommitStyle-gist.md) for impulse vocab
 ```
 

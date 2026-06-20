@@ -12,10 +12,20 @@ happened anyway. Nothing triggers it. This handoff turns the S116/S126 analysis 
 
 ---
 
+## Where this fits (updated S129-audit)
+
+The **front line** now exists: `spells/session-start.sh` claims scope at session START (before
+editing — which is when clobbering actually happens) and runs a self-terminating background
+heartbeat so claims survive. AGENT.md makes it the required opening ritual.
+
+**This pre-commit hook is the BACKSTOP** — it catches the case where someone *skipped* the start
+ritual, and warns at commit time (after the damage, but better than silence). It is not the primary
+mechanism. Build it so it complements `session-start.sh`, not duplicates it.
+
 ## Goal
 
-Make the logging system **self-adopting, agent-agnostically**, by wiring it into the one thing
-every agent already does: `git commit`. No `.claude` SessionStart hook (that would violate the
+Make the backstop **self-adopting, agent-agnostically**, by wiring it into the one thing every
+agent already does: `git commit`. No `.claude` SessionStart hook (that would violate the
 agent-agnostic rule). The hook must be **best-effort and never block a commit on the clobber
 check** — a buggy hook that blocks commits for every session is worse than the problem.
 
@@ -54,19 +64,19 @@ the commit. Pattern to copy: the `post-commit` hook already does cross-repo Grim
   claims by member, e.g. `World:world/js/*` or `<repo-basename>/<path>`. Recommend prefixing each
   staged path with the member repo's basename so claims from different repos can't false-overlap.
   `agent-register.sh check` and `claim` glob-matching must agree on this prefix.
-- **(c) Heartbeat / claim lifetime.** Claims go stale at `HEARTBEAT_STALE_SECS=300`, dead at
-  `HEARTBEAT_DEAD_SECS=900`. A commit-time claim with no heartbeat loop dies ~15 min later — which
-  is actually **fine for warn-only**: a dead claim simply stops generating warnings, and the next
-  commit re-registers. Document this explicitly: auto-claims are *advisory and self-expiring*, not a
-  lock. (If a stronger guarantee is ever wanted, that's the separate "hard-block" variant Mark
-  declined in S129 — revisit only with a heartbeat story.)
+- **(c) Heartbeat / claim lifetime.** ✅ **Solved S129-audit** by `session-start.sh` — it spawns a
+  self-terminating background heartbeat that refreshes every 240s (under the 300s stale threshold)
+  and stops within one cycle of `release`. For *this hook's* commit-time auto-claims (when the start
+  ritual was skipped), no heartbeat is needed: a dead claim simply stops generating warnings and the
+  next commit re-registers. Document that hook auto-claims are *advisory and self-expiring*, not a
+  lock. (A stronger guarantee = the "hard-block" variant Mark declined in S129.)
 
 ## Companion doc change (cheap, do alongside)
 
-`RaBbLE-Grimoire/AGENT.md` was reframed in S129 from "optional — skip for solo work" to "required
-whenever another session may be live", and `blockers.sh ls` was added to Session Start. Once the
-hook lands, update the AGENT.md note to say registration is now **automatic on commit** (agents only
-need to `claim` manually when they want to reserve scope *before* editing, not after).
+`RaBbLE-Grimoire/AGENT.md` already (S129-audit): non-optional coordination; `session-start.sh` is the
+required opening ritual (claims scope + auto-heartbeat); `blockers.sh ls` folded in. Once this hook
+lands, add a line to the AGENT.md ritual noting that commit also **auto-registers as a backstop**, so
+a forgotten `session-start.sh` still produces a warning — but `session-start.sh` remains the front line.
 
 ## Test recipe (must pass before install)
 

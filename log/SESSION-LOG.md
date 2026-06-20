@@ -48,10 +48,18 @@ Format: date, what was done, where things were left, what's next.
 - **Logging made non-optional** — Grimoire AGENT.md reframed "optional — skip for solo" →
   "required whenever another session may be live"; blocker spell wired into session start/end.
   SPELLS.md + INDEX.md + AUDITS.md updated.
-- **Handoff (not built):** `log/HANDOFF-PreCommit-AntiClobber.md` — full spec for pre-commit
-  auto-register+warn enforcement (makes the multi-agent logging self-adopting) + test recipe.
+- **Handoff (spec only):** `log/HANDOFF-PreCommit-AntiClobber.md` — pre-commit auto-register+warn
+  enforcement as the *backstop* (front line is now session-start.sh, below) + test recipe.
 - **Audit close-out:** branch harmonization (S103's #1 unlisted blocker) confirmed DONE.
-- Next: build the pre-commit enforcement; verify G7 (OS FLOOR) + G9 (bootstrap end-to-end) before air.
+- **Follow-up (same thread, after the concurrent S129/S130 sessions landed) — the start ritual:**
+  new `spells/session-start.sh` — pins session id (the #1 concurrency fix), surfaces
+  lessons+blockers+who's-live, claims scope, and starts a **self-terminating background heartbeat**
+  (refreshes <300s, stops within one cycle of `release`) — closes the heartbeat-lifetime gap that
+  made the logging system go unused. Verified end-to-end (heartbeat advances ✓, self-terminates on
+  release ✓, pidfile+claim cleaned ✓). AGENT.md makes it the required opening ritual; the
+  pre-commit hook is reframed as the backstop. SPELLS.md + INDEX.md updated. Dogfooded: claimed
+  scope via agent-register before editing this batch.
+- Next: build the pre-commit backstop; verify G7 (OS FLOOR) + G9 (bootstrap end-to-end) before air.
 
 ## 2026-06-20 (Session 129) — NPU stack: FastFlowLM live, llama.cpp Vulkan, lemonade
 
