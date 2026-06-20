@@ -71,11 +71,37 @@ must-repeat-ALL-keys constraint.
 
 ---
 
-## Current state (end of S130)
+## Fix 3 — GCC 15 missing `<cstdint>` in llama-mmap.h (S131)
 
-- `glslc` package fix committed
-- cmake configure has NOT been re-run since the fix
-- Expected next run outcome: configure passes → ~5-15 min Ninja build → install
+**Error:**
+```
+/opt/llama.cpp/src/llama-mmap.h:26:5: error: 'uint32_t' does not name a type
+note: 'uint32_t' is defined in header '<cstdint>'; fixable by adding '#include <cstdint>'
+```
+
+**Root cause:** GCC 15 (ships with Fedora 43) removed the transitive inclusion of `<cstdint>` through `<vector>`. The llama.cpp b4600 source doesn't explicitly include it in `llama-mmap.h`. This was fixed upstream in later versions.
+
+**Fix:** Added an Ansible `lineinfile` patch task in `llama-cpp.yml` (after "Clone llama.cpp source", before CMake configure) that inserts `#include <cstdint>` after `#include <vector>` in `llama-mmap.h`:
+
+```yaml
+- name: Patch llama-mmap.h for GCC 15 (missing <cstdint> include)
+  ansible.builtin.lineinfile:
+    path: "{{ llama_cpp.src_dir }}/src/llama-mmap.h"
+    insertafter: '#include <vector>'
+    line: '#include <cstdint>'
+    state: present
+  when: _llama_rebuild_needed
+```
+
+Idempotent — `lineinfile` skips if the line is already present. No version bump needed.
+
+---
+
+## Current state (end of S131)
+
+- S130: `glslc` package fix committed (cmake configure now passes)
+- S131: GCC 15 `<cstdint>` patch committed (`lineinfile` in llama-cpp.yml)
+- Build not yet re-run since S131 patch
 
 **To continue:**
 ```bash
@@ -83,10 +109,12 @@ cd ~/RaBbLE-Collective/RaBbLE-OS
 ansible-playbook RaBbLE-OS-Bootstrap.sh --tags llama-cpp
 ```
 
-If configure passes but build fails, look for:
-- Missing headers at compile time (check `cmake -LA` output for detected features)
-- Linker errors for Vulkan symbols (check `vulkan-loader-devel` is present)
-- Build runs async (poll: 30s, timeout: 1200s) — watch for the "Build llama.cpp" task
+Expected flow: clone no-op (b4600 already checked out) → patch llama-mmap.h → configure no-op (cache valid) → build (~5-15 min) → install → verify.
+
+If build still fails, check for other files missing `<cstdint>`:
+```bash
+grep -rn 'uint[0-9]*_t' /opt/llama.cpp/src/*.h | grep -v cstdint | grep -v stdint
+```
 
 **Verify after success:**
 ```bash
