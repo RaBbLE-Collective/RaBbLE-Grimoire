@@ -104,27 +104,35 @@ cat RaBbLE-Grimoire-Navigator.md    # reading paths by time budget (5/15/30 min)
 **Returning agent (picking up a session)?**
 ```bash
 head -20 log/SESSION-LOG.md   # ## LATEST box — current state, last session, next steps
+cat log/BLOCKERS.md           # durable open blockers (the LATEST box only POINTS here)
 cat CONTEXT.md                # active tracks and structure
-bash spells/status.sh         # live health of all registered member repos
+bash spells/status.sh         # live health + open-blocker count
 # cat INDEX.md                # only if you need to find a specific doc
 ```
 
-**Multi-agent sessions only** (optional — skip for solo work). When running parallel agents, coordinate scope and read durable lessons first:
+**Coordinate scope — REQUIRED whenever another session may be live** (Mark runs concurrent
+sessions; skip only if you are certain you are the sole agent). Until the pre-commit
+auto-register lands (see `log/HANDOFF-PreCommit-AntiClobber.md`), do this by hand:
 ```bash
 bash spells/promote-insight.sh ls                       # durable lessons from prior stumbles/insights
-bash spells/agent-register.sh claim "<glob>" --task "…" # claim file-scope before editing
+bash spells/agent-register.sh claim "<glob>" --task "…" # claim file-scope BEFORE editing
 bash spells/agent-register.sh check <path>              # verify a path isn't claimed by a live agent
+bash spells/agent-register.sh status                    # who else is live right now
 ```
 
 **End of session — do this before stopping:**
 ```bash
-# 1. Update ## LATEST in log/SESSION-LOG.md (75 words max — current state, blockers, next)
-# 2. Add session entry below LATEST (date, repos touched, work done, what's next)
-# 3. git add <changed files>
-# 4. git commit -m "[impulse] ~ [organ] >> [revelation] // %STATE%"
-# 5. Breadcrumb — tag this session's token spend by feature (agent-agnostic):
+# 1. Blockers FIRST — keep the durable ledger current (it outlives the LATEST box):
+#    bash spells/blockers.sh add "<what's blocked>" --owner Mark --tag ep1-gate   # new blocker
+#    bash spells/blockers.sh resolve B-NN "<how it cleared>"                       # cleared one
+# 2. Update ## LATEST in log/SESSION-LOG.md (75 words max). The `Blockers:` line is a
+#    ONE-LINE POINTER to log/BLOCKERS.md — do NOT inline the list (that's what gets clobbered).
+# 3. Add session entry below LATEST (date, repos touched, work done, what's next)
+# 4. git add <changed files>
+# 5. git commit -m "[impulse] ~ [organ] >> [revelation] // %STATE%"
+# 6. Breadcrumb — tag this session's token spend by feature (agent-agnostic):
 #    bash spells/end-session.sh <feature-slug> "<note>"
-# 6. Multi-agent sessions only (optional — skip for solo work):
+# 7. If another session was live this session (see "Coordinate scope" above):
 #    bash spells/promote-insight.sh auto    # crystallize this session's insights/stumbles into Lessons
 #    bash spells/agent-register.sh release   # free this agent's claimed scope
 # See RaBbLE-Agent/RaBbLE-CommitStyle.md (or gist/RaBbLE-CommitStyle-gist.md) for impulse vocab

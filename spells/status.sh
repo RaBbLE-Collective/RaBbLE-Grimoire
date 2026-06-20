@@ -178,6 +178,20 @@ else
   info "  Episode ${EPISODE_PENDING} blockers:  none declared"
 fi
 
+# Durable blocker ledger (log/BLOCKERS.md, via blockers.sh) — survives the
+# SESSION-LOG ## LATEST rewrite. The epoch focus-map line above is per-member
+# coarse-grain; this is the live open count across the whole Collective.
+BLOCKERS_SH="$GRIMOIRE_ROOT/spells/blockers.sh"
+if [[ -x "$BLOCKERS_SH" ]]; then
+  open_total=$(bash "$BLOCKERS_SH" open-count 2>/dev/null || echo "?")
+  open_ep1=$(bash "$BLOCKERS_SH" open-count --tag ep1-gate 2>/dev/null || echo "?")
+  if [[ "$open_total" == "0" ]]; then
+    info "  Open blockers:      none — see log/BLOCKERS.md"
+  else
+    echo -e "${YELLOW}  Open blockers:      ${open_total} (${open_ep1} ep1-gate) — see log/BLOCKERS.md${RESET}"
+  fi
+fi
+
 # Palette version
 palette_version=$(grep "^palette_version" "$MANIFESTS_DIR"/*.manifest.yml 2>/dev/null \
   | awk -F'"' '{print $2}' | sort -u | tr '\n' ' ' || echo "—")

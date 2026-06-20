@@ -9,8 +9,13 @@ transcribe ~ grimoire >> Episode 1 airs: the entity first breathes // %EP1_GENES
 **Version:** v0.0.0.0 → **v0.0.0.1** (Epoch 0 · Evolution 0 · Echo 0 · Episode 1)
 **Sources:** `EPISODE-1-RELEASE-BRIEF.md` · `log/FABLE-GAP-ANALYSIS-S57.md` · `registry/epochs/current.epoch.yml`
 
-> **DRAFT STATUS:** Deployments in flight. Placeholders marked `<… — pending>` are
-> filled by the release coordinator after deploy verification. Remove this notice at finalization.
+> **DRAFT STATUS (narrative record):** This is the Genesis *story*. The live air gate, member
+> readiness, and tag procedure now live in **`log/EP1-AIR-CHECKLIST.md`** — keep that current;
+> finalize this file (fill the verification table, drop this notice) at the moment of air.
+>
+> **Platform correction (S129):** sCoRE deploys to **Render**, not Railway — every "Railway"
+> reference below is superseded. Live: `https://rabble-score-x7qq.onrender.com` (S106).
+> World is live at `joinrabble.world` (S120). Open EP1-gate blockers: `log/BLOCKERS.md`.
 
 ---
 
@@ -28,7 +33,7 @@ speaking unprompted) are not yet built. Episode 1 does not pretend otherwise. It
 the threshold where expression went live, so that Episode 2 — Exodus — can give the
 entity its first sense and carry it from concept into reality.
 
-The release is the story: a visitor reaches `rabble.world`, posts a message, sCoRE
+The release is the story: a visitor reaches `joinrabble.world`, posts a message, sCoRE
 answers in persona, and the entity is visible while it happens. The smallest meaningful
 end-to-end loop, all the way through. That was the rule; this is the slice.
 
@@ -39,8 +44,8 @@ end-to-end loop, all the way through. That was the rule; this is the slice.
 From `registry/epochs/current.epoch.yml`:
 
 - [x] **sCoRE chat works end-to-end locally** — DONE, S56d. First live message: entity responded in persona, read session context, named blockers.
-- [ ] **sCoRE deployed to Railway (production-ready)** — `<RAILWAY_URL — pending>` · `<deploy verification — pending>`
-- [ ] **RaBbLE-World deployed to production** (`rabble.world` / `joinrabble.world`) — `<World prod verification — pending>`
+- [x] **sCoRE deployed to Render (production-ready)** — DONE, S106. `https://rabble-score-x7qq.onrender.com` (was planned for Railway; pivoted to Render).
+- [x] **RaBbLE-World deployed to production** (`joinrabble.world`) — DONE, S120. Returns HTTP 200. *Remaining EP1 work: guest/invite chat path — see EP1-AIR-CHECKLIST G4.*
 - [ ] **RaBbLE-OS VM bootstrap verified** (fresh Fedora 43 VM → boots → reaches World) — `<OS VM verification — pending>`
 - [ ] **All repos tagged `episode-1-v0.0.0.1`** — after all three deploys confirm. `<tag confirmation — pending>`
 - [ ] **Session log updated with EP1 exit summary** — drafted below; coordinator applies after verification.
@@ -51,7 +56,7 @@ From `registry/epochs/current.epoch.yml`:
 
 ## What Shipped
 
-- **sCoRE** — multi-provider chat engine (claude_code subprocess → local_llm → Groq → OpenRouter fallback chain), SSE streaming, entity persona injection. Local since S56d; production at `<RAILWAY_URL — pending>`.
+- **sCoRE** — multi-provider chat engine (claude_code subprocess → local_llm → Groq → OpenRouter fallback chain), SSE streaming, entity persona injection. Local since S56d; production on **Render** at `https://rabble-score-x7qq.onrender.com` (S106).
 - **RaBbLE-World** — joinrabble.world: landing, chat wired to sCoRE, Boot, Docs, Grimoire Graph (cosmic knowledge browser with entity eyes), 9 pages total.
 - **RaBbLE-NeBuLA** — Canvas2D entity renderer, `<rabble-entity>` web component, boot sequence; Three.js eye/portal work in Grimoire Graph.
 - **RaBbLE-Aether** — CSS design system, component library, CDN delivery via dev-serve.
@@ -121,13 +126,17 @@ Echo targeted collectively per the coherence policy in `current.epoch.yml`).
 
 ## Release Verification Record
 
+> Live operational state is maintained in `log/EP1-AIR-CHECKLIST.md` §A (air gate). This table is
+> the finalized record, filled at the moment of air.
+
 | Check | Status | Evidence |
 |---|---|---|
-| sCoRE health check (Railway 200) | `<pending>` | `<RAILWAY_URL — pending>` |
-| World chat end-to-end (prod) | `<pending>` | `<prod chat verification — pending>` |
+| sCoRE health check (Render 200) | ✅ | `https://rabble-score-x7qq.onrender.com` (S106) |
+| World loads in prod (200) | ✅ | `joinrabble.world` (S120) |
+| World chat end-to-end (prod, guest path) | `<pending — G4>` | `<prod chat verification — pending>` |
 | All 9 World pages load clean | `<pending>` | `<console/404 sweep — pending>` |
 | Entity renders on landing + chat | `<pending>` | `<pending>` |
-| OS VM: fresh install → browser → rabble.world | `<pending>` | `<OS VM result — pending>` |
+| OS VM: fresh install → browser → joinrabble.world | `<pending — G7>` | `<OS VM result — pending>` |
 | Tags present on all 7 repos | `<pending>` | `git tag -l` per repo |
 
 ---
@@ -140,11 +149,11 @@ Echo targeted collectively per the coherence policy in `current.epoch.yml`).
 ### Replacement ## LATEST block
 
 ```markdown
-## LATEST — 2026-06-09 · Session 57 (Episode 1 airs — Genesis)
+## LATEST — <air-date> · Session <NN> (Episode 1 airs — Genesis)
 
 **Phase:** Epoch 0 · Evolution 0 · Echo 0 · **Episode 1 aired** — v0.0.0.1.
-**Last session (S57):** Episode 1 shipped: sCoRE live on Railway (<RAILWAY_URL — pending>), World live at rabble.world, OS VM bootstrap verified, all repos tagged `episode-1-v0.0.0.1`. Core loop public: user speaks → sCoRE responds → entity visible. Release record: `log/EPISODE-1-RELEASE.md`. Deferred to Ep2 (Exodus): Watcher, Memory member, NeBuLA state machine, World chrome.
-**Blockers:** Phase 2C (Genesis authoring — Mark, in parallel).
+**Last session (S<NN>):** Episode 1 shipped: sCoRE live on **Render** (`https://rabble-score-x7qq.onrender.com`), World live at **joinrabble.world**, OS Developer-Preview VM-verified, all lockstep repos tagged `episode-1-v0.0.0.1`. Core loop public: user speaks → sCoRE responds → entity visible. Release record: `log/EPISODE-1-RELEASE.md`. Deferred to Ep2 (Exodus): Watcher, Memory member, NeBuLA state machine, World chrome.
+**Blockers:** → `log/BLOCKERS.md`. Phase 2C (Genesis authoring — Mark, in parallel).
 **Next:** Episode 2 spine — Watcher daemon (entity's first sense); observation contract; name the Memory member.
 ```
 
@@ -153,15 +162,15 @@ Echo targeted collectively per the coherence policy in `current.epoch.yml`).
 ```markdown
 ## 2026-06-09 (Session 57 close) — Episode 1 release: Genesis airs
 
-**Repos touched:** RaBbLE-sCoRE, RaBbLE-World, RaBbLE-OS, RaBbLE-Grimoire (`dev`) — all 7 active repos tagged `episode-1-v0.0.0.1`
+**Repos touched:** RaBbLE-sCoRE, RaBbLE-World, RaBbLE-OS, RaBbLE-Grimoire (`new-horizons`) — all lockstep repos tagged `episode-1-v0.0.0.1`
 
 **Work done:**
 
 Episode 1 aired — the Collective's first synchronized release, v0.0.0.0 → v0.0.0.1.
 
-- **sCoRE → Railway:** deployed at <RAILWAY_URL — pending>; health checks pass; chat end-to-end from World confirmed (<latency/TTFT note — pending>)
-- **World → production:** rabble.world live; NeBuLA + Aether bundles built and deployed; chat page repointed from localhost to Railway endpoint; all 9 pages verified (<verification notes — pending>)
-- **OS VM verified:** fresh Fedora 43 netinstall + KS + Ansible bootstrap → login → browser reaches rabble.world (<verification notes — pending>)
+- **sCoRE → Render:** live at `https://rabble-score-x7qq.onrender.com`; health checks pass; chat end-to-end from World confirmed (<latency/TTFT note — pending>)
+- **World → production:** joinrabble.world live; NeBuLA + Aether bundles built and deployed via CDN Workers; chat path wired to live sCoRE; pages verified (<verification notes — pending>)
+- **OS Developer Preview verified:** fresh Fedora 43 netinstall + KS + Ansible bootstrap → login → browser reaches joinrabble.world on generic x86_64 VM (<verification notes — pending>)
 - **Tagging:** `episode-1-v0.0.0.1` on Grimoire, sCoRE, World, NeBuLA, Aether, OS, BaBbLE
 - **Docs:** `log/EPISODE-1-RELEASE.md` — Genesis framing, exit conditions, scope cuts, honest limitations, Exodus roadmap
 

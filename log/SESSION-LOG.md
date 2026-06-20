@@ -18,6 +18,33 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-06-20 (Session 129, audit thread) — Multi-session hardening + EP1 air-prep
+
+> Ran **concurrently** with the S129 NPU/FastFlowLM session — a real session-number collision, and
+> a live demo of the clobbering this work addresses. The LATEST box was left to the NPU session by
+> design (don't clobber). Blocker-ledger session id: `S129-audit`. Note the NPU session's LATEST box
+> already references `log/BLOCKERS.md` + `log/EP1-AIR-CHECKLIST.md` — the pointer convention propagated.
+
+- Repos: RaBbLE-Grimoire, RaBbLE-Collective
+- **Durable blocker tracking** — new `spells/blockers.sh` (append-only JSONL → generates
+  `log/BLOCKERS.md`; `add`/`resolve`/`ls`/`sync`/`open-count`, decision-log.sh pattern). `status.sh`
+  now prints the open count. Seeded 5 open (4 ep1-gate) + 3 resolved. The SESSION-LOG `## LATEST`
+  `Blockers:` line + both AGENT.md Current-State blocks are now **pointers**, not the source.
+- **EP1 air checklist** — new `log/EP1-AIR-CHECKLIST.md`: 9 gate rows (G1–G9) linked to `B-NN` ids,
+  member readiness, OS Developer-Preview FLOOR, tag procedure. Air gate un-pulled (Mark's call).
+  G1/G2/G8 ✅; G3/G4/G5/G6 gating (CDN Workers, guest chat, OpenRouter credits, CORS).
+- **De-staled EP1 canon** — `EPISODE-1-RELEASE.md` Railway→Render + joinrabble.world + fixed the
+  air-time SESSION-LOG template; `registry/epochs/current.epoch.yml` World block (prod deploy done).
+- **Post-EP1 roadmap** — new `RaBbLE-Agent/RaBbLE-Post-EP1-Roadmap.md` consolidating Exodus spine +
+  Echo-1 substrate (Grimoire MCP, presence layer, agent framework) + backlog (pointers, no dup).
+- **Logging made non-optional** — Grimoire AGENT.md reframed "optional — skip for solo" →
+  "required whenever another session may be live"; blocker spell wired into session start/end.
+  SPELLS.md + INDEX.md + AUDITS.md updated.
+- **Handoff (not built):** `log/HANDOFF-PreCommit-AntiClobber.md` — full spec for pre-commit
+  auto-register+warn enforcement (makes the multi-agent logging self-adopting) + test recipe.
+- **Audit close-out:** branch harmonization (S103's #1 unlisted blocker) confirmed DONE.
+- Next: build the pre-commit enforcement; verify G7 (OS FLOOR) + G9 (bootstrap end-to-end) before air.
+
 ## 2026-06-20 (Session 129) — NPU stack: FastFlowLM live, llama.cpp Vulkan, lemonade
 
 - Repos: RaBbLE-OS, RaBbLE-Grimoire

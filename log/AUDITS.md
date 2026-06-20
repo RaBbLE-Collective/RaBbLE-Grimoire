@@ -4,6 +4,34 @@ Completed audits of the Grimoire and Collective. Each entry captures scope, key 
 
 ---
 
+## 2026-06-20 — Multi-session hardening & EP1 air-prep audit (Session 129)
+
+**Scope:** Mark now runs concurrent sessions. Audit of (1) session-logging adoption, (2) blocker
+durability, (3) EP1 air readiness, (4) post-EP1 vision consolidation.
+
+**Findings:**
+- **Blockers were clobbered** — they lived ONLY in the 75-word SESSION-LOG `## LATEST` box (rewritten
+  each session); grep found just 3 `Blockers:` lines in a 320 KB log. No durable ledger.
+- **Logging system built but unadopted** — `agent-register.sh`/`decision-log.sh`/`promote-insight.sh`
+  work + are in SPELLS.md, but AGENT.md framed them "optional — skip for solo" and nothing triggers
+  them (S116/S126 caught two concurrent unregistered sessions).
+- **EP1 docs stale** — `EPISODE-1-RELEASE.md` was an S57 DRAFT (Railway, `<pending>` placeholders);
+  epoch yml still flagged World `episode_1_blocker` though `joinrabble.world` returns 200 (deploy done).
+- **Branch harmonization DONE** — the S103 audit's #1 unlisted blocker: `status.sh` shows all lockstep
+  members in-step on `new-horizons`; Chrysalis/Xperimental correctly `independent`. **Closed.**
+
+**Work done:**
+- **New `spells/blockers.sh`** + generated `log/BLOCKERS.md` (append-only JSONL, decision-log pattern);
+  `status.sh` now surfaces open-count; seeded 5 open (4 ep1-gate) + 3 resolved.
+- **New `log/EP1-AIR-CHECKLIST.md`** — live member-by-member air gate, blocker-linked rows, OS
+  Developer-Preview FLOOR, tag procedure. De-staled `EPISODE-1-RELEASE.md` (Railway→Render) + epoch yml.
+- **New `RaBbLE-Agent/RaBbLE-Post-EP1-Roadmap.md`** — consolidated Exodus + Echo-1 + backlog (pointers).
+- **Logging made non-optional** in AGENT.md; blocker spell wired into session start/end; LATEST box
+  `Blockers:` reduced to a pointer (root + Grimoire AGENT.md + SESSION-LOG). SPELLS.md + INDEX.md updated.
+- **New `log/HANDOFF-PreCommit-AntiClobber.md`** — spec for pre-commit auto-register+warn (not built).
+
+---
+
 ## 2026-05-21 — Coherency & Path Audit (Session 29)
 
 **Scope:** Post-restructure verification of path references, documentation indexing, decision capture, symlink setup, and open gap status.
@@ -112,11 +140,16 @@ Completed audits of the Grimoire and Collective. Each entry captures scope, key 
 
 ## Open Gaps — Current (Session 29 Status)
 
+> **S129 reconciliation:** Live EP1-gate blockers now live durably in `log/BLOCKERS.md`
+> (`bash spells/blockers.sh ls`) and the air gate in `log/EP1-AIR-CHECKLIST.md`. Gap #1 below is
+> **RESOLVED** (sCoRE LIVE on Render S106, B-06). Gap #11 is **RESOLVED** (`render-ctl.sh` shipped).
+> Gap #2 (bootstrap end-to-end) remains — it's air gate **G9**.
+
 ### Blocking Episode 1
 
-**1. sCoRE Render deploy unverified** — current cloud target is **Render** via `spells/deploy-render.sh` (Railway path retired/dormant in `railway-ctl.sh`, S105). Requires manual deploy from the Render dashboard (Mark's task) + verification that the API responds and World chat reaches it. *Status: `render.yaml` present, deploy pending.*
+**1. ✅ RESOLVED (S106) — sCoRE Render deploy** — LIVE at `https://rabble-score-x7qq.onrender.com`, managed via `spells/render-ctl.sh`. Blocker B-06 resolved.
 
-**2. bootstrap.sh not verified end-to-end** — Bootstrap script exists at `/home/rabble/RaBbLE-Collective/bootstrap.sh`. Requires run on clean VM; verify all members clone, configure, symlinks wire correctly. *Status: files in place, live test pending.*
+**2. bootstrap.sh not verified end-to-end** — Bootstrap script exists at `/home/rabble/RaBbLE-Collective/bootstrap.sh`. Requires run on clean VM; verify all members clone, configure, symlinks wire correctly. *Status: files in place, live test pending — EP1 air gate G9.*
 
 ### Non-blocking
 

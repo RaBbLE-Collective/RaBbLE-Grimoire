@@ -70,6 +70,7 @@ Spells are bash scripts in `spells/` that manage the RaBbLE Collective. Grimoire
 | `agent-register.sh` | Claim file-scope globs so parallel agents don't stomp each other | Running multiple agents — claim before editing |
 | `decision-log.sh` | Append structured decision/insight/stumble/scope entries (per-agent JSONL) | Recording why a choice was made, mid-session |
 | `promote-insight.sh` | Crystallize logged insights/stumbles into durable Lessons | Read lessons at start (`ls`); promote at end (`auto`) |
+| `blockers.sh` | Durable append-only blocker ledger → generates `log/BLOCKERS.md` | Any blocker — so it survives the SESSION-LOG `## LATEST` rewrite |
 
 > Helper scripts (not run directly): `dev-cdn.js`, `playwright-capture.mjs` are invoked by
 > `dev-serve.sh` / `visual-screenshot.sh`.
@@ -417,6 +418,25 @@ bash spells/promote-insight.sh show <lesson-slug>          # read one lesson
 
 > Note: `ls` lists existing Lessons; `list` lists the not-yet-promoted entries in a session's
 > decision log. Lesson frontmatter carries title, date, agent, session, tags, and source.
+
+### `blockers.sh` — Durable Blocker Ledger
+
+Blockers used to live ONLY in the 75-word `## LATEST` box of `SESSION-LOG.md`, which is
+rewritten every session — so open/resolved state got **clobbered** and lost between sessions.
+`blockers.sh` is the durable home: an append-only event stream (`log/blockers/blockers.jsonl`,
+events `open`/`resolve`) that **generates** `log/BLOCKERS.md`. The LATEST box now only *points*
+to it. `status.sh` surfaces the open count; `EP1-AIR-CHECKLIST.md` references `tag:ep1-gate` ids.
+
+```bash
+bash spells/blockers.sh add "<summary>" --owner Mark --tag ep1-gate [--since SNNN]  # open (prints B-NN)
+bash spells/blockers.sh resolve B-NN "<how it cleared>"                             # close
+bash spells/blockers.sh ls [--all]                                                 # OPEN (--all adds RESOLVED)
+bash spells/blockers.sh sync                                                        # regenerate log/BLOCKERS.md
+bash spells/blockers.sh open-count [--tag ep1-gate]                                 # bare integer (status.sh)
+```
+
+> Source of truth is the JSONL (conflict-friendly across parallel sessions, like `decision-log.sh`).
+> Never hand-edit `log/BLOCKERS.md` — it's regenerated. Same agent-agnostic session-id resolution.
 
 ---
 
