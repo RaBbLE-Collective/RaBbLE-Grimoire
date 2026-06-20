@@ -4,7 +4,7 @@
 spark ~ grimoire/RaBbLE-OS/hardware >> NPU research captured; XRT+FLM+Lemonade ansible live // %NPU_RESEARCH%
 ```
 
-**Researched:** 2026-06-18 · **Updated:** 2026-06-19 (COPR XRT 2.19.0 missing runlist add(run&&) — source build path added)  
+**Researched:** 2026-06-18 · **Updated:** 2026-06-20 (xdna-driver XRT pin is same version — shim replaces source build as fix for add(run&&))  
 **Kernel verified on:** `7.0.12-100.fc43.x86_64`  
 **Hardware:** AMD Ryzen AI 9 HX 370 (Strix Point, XDNA2) — ASUS ProArt P16
 
@@ -162,19 +162,9 @@ sudo dnf install fastflowlm   # try COPR first
 
 ## Installation: Source Build Path (Fallback)
 
-Two triggers for XRT source build:
-1. **`flm validate` reports firmware incompatibility** — COPR XRT version too old
-2. **FastFlowLM link fails with `undefined reference to xrt::runlist::add(xrt::run&&)`** — COPR XRT 2.19.0 (April 2025) lacks this symbol; prebuilt NPU libs need it
-
-Detect trigger 2 directly:
-```bash
-nm -D /usr/xrt/lib64/libxrt_coreutil.so | grep '_ZN3xrt7runlist3addEONS_3runE'
-# No output = symbol missing = source build required
-```
-
-Ansible `xrt.yml` runs this check automatically and triggers the source build if needed.
-
 ### XRT from source
+
+Use this when `flm validate` reports firmware incompatibility (XRT version too old for the installed firmware). **Not needed for the `add(xrt::run&&)` linker error — see Shim section below.**
 
 ```bash
 # Dependencies
@@ -182,7 +172,7 @@ sudo dnf install cmake cmake-extra-modules ninja-build boost-devel \
   ocl-icd-devel python3-devel libdrm-devel elfutils-devel \
   libffi-devel rapidjson-devel git tcsh
 
-# Clone
+# Clone (xdna-driver bundles XRT as a submodule)
 git clone --recursive https://github.com/amd/xdna-driver.git
 cd xdna-driver
 
@@ -198,6 +188,103 @@ sudo dnf install --allowerasing \
   build/Release/xrt_plugin*.rpm
 ```
 
+> **Note:** As of June 2026, `xdna-driver`'s XRT submodule is pinned to the same April 2025 build as COPR (version 2.19.0). Building from `xdna-driver` source produces the same XRT and does **not** resolve the missing `add(xrt::run&&)` symbol. That requires the shim below, not a source rebuild.
+
+To trigger source build from Ansible (only for firmware mismatch, not symbol issues):
+```bash
+ansible-playbook -i ansible/inventory/hosts.yml ansible/site.yml -K \
+  --tags runtime,xrt -e xrt_force_rebuild=true
+```
+
+---
+
+## XRT Compatibility Shim — `runlist::add(xrt::run&&)`
+
+### The problem
+
+COPR XRT 2.19.0 (built April 2025) is missing one C++ overload:
+
+```
+xrt::runlist::add(xrt::run&&)   ← rvalue/move overload — MISSING from 2.19.0
+xrt::runlist::add(xrt::run const&)  ← const-lvalue overload — present
+```
+
+FastFlowLM's prebuilt closed-source NPU libraries (`src/lib/libllama_npu.so`, etc.) were compiled against a newer XRT that has both overloads. The final `flm` link step fails:
+
+```
+ld: /opt/src/FastFlowLM/src/lib/libllama_npu.so: undefined reference to 'xrt::runlist::add(xrt::run&&)'
+```
+
+C++ name mangling:
+- `_ZN3xrt7runlist3addEONS_3runE` = `add(xrt::run&&)` — the `O` = rvalue reference qualifier
+- `_ZN3xrt7runlist3addERKNS_3runE` = `add(xrt::run const&)` — the `RK` = const lvalue reference
+
+Check whether the symbol is present in your installed XRT:
+```bash
+nm -D /usr/xrt/lib64/libxrt_coreutil.so | grep '_ZN3xrt7runlist3addEONS_3runE'
+# No output = symbol missing = shim required
+```
+
+### Why `xdna-driver` source build doesn't help
+
+`xdna-driver` pins its XRT submodule to the same April 2025 commit. Building from source produces the same `libxrt_coreutil.so` with the same missing overload. The shim is the only practical fix until COPR or xdna-driver updates their XRT pin to a post-April 2025 release.
+
+### The shim
+
+The fix is a tiny C++ shared library that provides the missing symbol by forwarding to the existing const-lvalue overload:
+
+```cpp
+// xrt_runlist_shim.cpp
+#include "xrt/xrt_kernel.h"
+namespace xrt {
+  void runlist::add(run&& r) { add(static_cast<const run&>(r)); }
+}
+```
+
+**Why this is safe:** `xrt::run` is a ref-counted pimpl handle (a smart pointer to an opaque implementation object). Copying and moving a handle are semantically equivalent — both result in a handle pointing to the same underlying run object with an incremented refcount. There is no "destructive move" at the handle level that would leave the original in an invalid state.
+
+### Compile and use the shim manually
+
+```bash
+# Compile the shim (links against existing libxrt_coreutil)
+sudo mkdir -p /opt/src/xrt_shim
+sudo tee /opt/src/xrt_shim/xrt_runlist_shim.cpp <<'EOF'
+#include "xrt/xrt_kernel.h"
+namespace xrt {
+  void runlist::add(run&& r) { add(static_cast<const run&>(r)); }
+}
+EOF
+sudo g++ -shared -fPIC -O2 \
+    -I/opt/xilinx/xrt/include \
+    -o /opt/src/xrt_shim/libxrt_runlist_shim.so \
+    /opt/src/xrt_shim/xrt_runlist_shim.cpp \
+    -L/opt/xilinx/xrt/lib64 -lxrt_coreutil
+
+# Copy shim into FastFlowLM's lib dir (already in linker search path)
+sudo cp /opt/src/xrt_shim/libxrt_runlist_shim.so /opt/src/FastFlowLM/src/lib/
+
+# Configure FLM with the shim flag injected
+cd /opt/src/FastFlowLM/src
+rm -rf build   # remove any stale CMakeCache.txt
+cmake --preset linux-default \
+  -DXRT_LIB_DIR=/opt/xilinx/xrt/lib64 \
+  -DCMAKE_EXE_LINKER_FLAGS=-lxrt_runlist_shim
+cmake --build --preset linux-default -j$(nproc)
+sudo cmake --install --preset linux-default
+
+# Deploy shim to runtime lib path
+sudo cp /opt/src/xrt_shim/libxrt_runlist_shim.so /opt/fastflowlm/lib/
+sudo ldconfig
+```
+
+### Ansible automation
+
+`xrt.yml` runs the nm check and compiles the shim automatically:
+- `nm` check detects missing symbol → writes shim source → compiles `libxrt_runlist_shim.so`
+- `fastflowlm.yml` copies shim to `src/lib/`, passes `-DCMAKE_EXE_LINKER_FLAGS=-lxrt_runlist_shim` to cmake, copies shim to `/opt/fastflowlm/lib/` post-install
+
+When COPR or xdna-driver eventually updates XRT to include the rvalue overload, the nm check will return success and the shim path is skipped automatically.
+
 ### FastFlowLM from source
 
 ```bash
@@ -209,8 +296,11 @@ sudo dnf install ninja-build ffmpeg-free-devel fftw-devel rust cargo
 
 git clone --recursive https://github.com/FastFlowLM/FastFlowLM.git
 cd FastFlowLM/src
-# -DXRT_LIB_DIR override required: COPR XRT puts core libs in lib64, not lib
-cmake --preset linux-default -DXRT_LIB_DIR=/opt/xilinx/xrt/lib64
+
+# Build shim first (see above), copy to src/lib/, then configure + build
+cmake --preset linux-default \
+  -DXRT_LIB_DIR=/opt/xilinx/xrt/lib64 \
+  -DCMAKE_EXE_LINKER_FLAGS=-lxrt_runlist_shim
 cmake --build --preset linux-default -j$(nproc)
 sudo cmake --install --preset linux-default
 ```
@@ -362,9 +452,10 @@ Lemonade serves an OpenAI-compatible API, so sCoRE's existing LLM chain mechanis
 
 | Issue | Status | Workaround |
 |-------|--------|------------|
-| COPR XRT puts core libs in `lib64/`, not `lib/` — cmake `XRT_LIB_DIR` defaults to `lib` and fails to link | Active | Pass `-DXRT_LIB_DIR=/opt/xilinx/xrt/lib64` to cmake; Ansible role does this automatically |
-| COPR XRT 2.19.0 (April 2025) missing `xrt::runlist::add(xrt::run&&)` — prebuilt FLM NPU libs (in `src/lib/*.so`) need this rvalue overload, added post-April 2025 | Active | Ansible `xrt.yml` auto-detects via `nm` check and triggers XRT source build from `xdna-driver`; or build manually — see Source Build section |
-| xanderlent COPR XRT frozen at 2.19.0 (Apr 2025) — no update since | Active | Source build from `xdna-driver` HEAD; symbol detection in Ansible triggers this automatically |
+| COPR XRT puts core libs in `lib64/`, not `lib/` — cmake `XRT_LIB_DIR` defaults to `lib` and fails to link `libxrt_coreutil` | Active | Pass `-DXRT_LIB_DIR=/opt/xilinx/xrt/lib64` to cmake; also delete stale `CMakeCache.txt` from any prior failed configure. Ansible role does both automatically |
+| Stale `CMakeCache.txt` from a failed cmake configure bakes the wrong `XRT_LIB_DIR` path, persisting across re-runs even with the correct flag | Active | Delete `src/build/` before re-configuring. Ansible role does this automatically |
+| COPR XRT 2.19.0 (April 2025) missing `xrt::runlist::add(xrt::run&&)` — prebuilt FLM NPU libs need this rvalue overload | Active | Compile C++ compatibility shim (`libxrt_runlist_shim.so`) and inject at link time via `-DCMAKE_EXE_LINKER_FLAGS=-lxrt_runlist_shim`. Ansible does this automatically. See XRT Compatibility Shim section. Source build from `xdna-driver` does NOT fix this — same XRT version |
+| `xdna-driver` XRT submodule pinned to same April 2025 build as COPR — source build produces identical XRT | Active | Shim approach is the correct fix. Monitor xdna-driver for XRT submodule update |
 | F43 → F44 Boost library mismatch in COPR RPMs | Active | Source build on F44 |
 | OpenCL ICD conflict (`OpenCL-ICD-Loader` vs `ocl-icd`) | Active | `dnf install --allowerasing` |
 | `lemonade-server recipes` shows "Requires Windows" for NPU | Known bug | Ignore — NPU inference works despite this label |
