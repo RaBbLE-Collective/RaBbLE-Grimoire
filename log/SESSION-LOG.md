@@ -5,16 +5,26 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-20 · Session 127 (Integrate claude-web planning sessions)
+## LATEST — 2026-06-20 · Session 128 (AI Harnesses: fcc + NIM + layerctl)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S127):** Integrated three claude-web planning docs into canonical Grimoire. New: `RaBbLE-Agent/RaBbLE-Development-Methodology.md` (sovereign-directed agentic development + architect profile) and `RaBbLE-sCoRE/RaBbLE-sCoRE-Agent-Framework-Research.md`. Canonized sCoRE acronym (*sCoRE Coordinator of RaBbLE Environments*) in Architecture; confirmed RaBbLE expansion (a · Boundless · triple-E) in Identity. Logged 6 decisions (incl. Grimoire MCP + presence layer deferred → Echo 1). Web agent's S114/S115 numbering was stale-Grimoire drift; renumbered. Sources archived to BaBbLE.
-**Blockers:** GitHub CF secrets, Render auto-deploy, OpenRouter credits, CORS. Carryover: residual Dolphin dim-label subset (#8860aa) needs logout/login re-judge.
-**Next:** EP1 stays minimal — chain fix + guest chat path. Agent-framework adoption is Echo 1, not EP1.
+**This session (S128):** free-claude-code installed and wired to NVIDIA NIM. Fixed ai-harnesses Ansible role: include_tasks apply:always (tag propagation), lookup('env','HOME') replacing ansible_env (unavailable on local connection), uv python install step for Python 3.14.0. layerctl expanded with ai-harnesses + all 9 sub-layers. opencode hardened to state:latest. Post-EP1 system-wide migration plan documented in Grimoire.
+**Blockers:** Same as S127 + fcc NVIDIA key not yet set in ~/.config/rabble/fcc.env; NIM routing not configured.
+**Next:** fcc-ctl key NVIDIA_API_KEY + model routing; then EP1 chain fix + guest chat path.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 
 ---
+
+## 2026-06-20 (Session 128) — AI Harnesses: fcc + NIM setup, layerctl expansion
+
+- Repos: RaBbLE-OS, RaBbLE-Grimoire
+- **free-claude-code installed:** fixed three-layered Ansible issue — (1) include_tasks `apply: {tags: always}` so `--tags free-claude-code` reaches internal tasks; (2) `lookup('env', 'HOME')` replacing `ansible_env.HOME` throughout (ansible_env unavailable on `ansible_connection: local` + `become: false`); (3) added `uv python install` step before `uv sync` (fcc requires Python 3.14.0, uv was in manual-download mode)
+- **NIM integration:** NVIDIA_API_KEY added to sCoRE server .env; fcc.env.example has NVIDIA_API_KEY slot + example model routing (`nvidia_nim:` prefix); post-install step = `fcc-ctl key` + `fcc-ctl model`
+- **layerctl expanded:** added `ai-harnesses` to LAYER_ORDER/NAMES/VERIFY; added all 9 individual harnesses as standalone targetable layers (claude-code, free-claude-code, codex, opencode, aider, gemini-cli, ollama, vllm, builder-skills)
+- **opencode hardened:** `state: latest` (reinstalls if missing) + explicit fail if binary absent after install; `layerctl apply opencode` is now the fix for opencode disappearing after Node upgrades
+- **Post-EP1 plan documented:** `RaBbLE-OS/layers/RaBbLE-OS-Layer-AI-Harnesses.md` — current EP1 state, fragility notes, full system-wide migration plan (system paths, split become, rabble-fcc system user, /opt/rabble services)
+- Next: fcc-ctl key NVIDIA_API_KEY + NIM model routing; EP1 chain fix + guest chat path
 
 ## 2026-06-20 (Session 127) — Integrate claude-web planning sessions into Grimoire
 
