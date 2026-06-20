@@ -123,3 +123,7 @@ fb280ab6-4cfe-4a12-bff5-f04256bd6d81	score-ai-layer	S119: 13 new sCoRE providers
 8539c8a4-e499-4f3e-947a-9ecca0f652ab	npu-xdna2-stack	NPU research + XRT/FastFlowLM/Lemonade Ansible roles; Grimoire doc; kernel 7.0 XDNA2 state captured
 commit-3fb9c87	npu-xrt-source-build	XRT 2.19.0 missing add(run&&); xdna-driver source build fallback added to xrt.yml
 commit-ea9ab1f	dolphin-text-theme	kdeglobals dotctl bundle + chrome roles f8f4ff; root-caused Breeze grey fallback; residual dim-label subset open (needs relogin)
+commit-62acf3a	web-integration	S127: integrated 3 claude-web planning docs into Grimoire (methodology, sCoRE framework research, identity/acronym canon); sources archived to BaBbLE
+commit-61c8d50	npu-flm-shim-docs	FastFlowLM build debug: lib64 split + CMakeCache + add(run&&) shim documented; xdna-driver XRT pin = same version discovery
+eabb1d24-52bc-4583-9dda-de10509b1f9b	blocker-ledger-ep1-prep	S129 audit thread: blockers.sh + BLOCKERS.md, EP1-AIR-CHECKLIST, Post-EP1-Roadmap, logging non-optional, pre-commit handoff
+commit-2f431de	session-start-ritual	session-start.sh + heartbeat daemon; AGENT.md/SPELLS/INDEX/handoff updated; dogfooded claim/release

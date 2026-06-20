@@ -5,12 +5,13 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-20 · Session 130 (llama.cpp glslc fix; lemonade pip3 fallback)
+## LATEST — 2026-06-20 · Session 130 + S129-audit (multi-session hardening + NPU)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S130):** Two Ansible role fixes. (1) llama.cpp cmake configure was failing "missing: glslc" — Fedora package is `glslc` not `shaderc`; fix committed, build not yet re-run. (2) Lemonade not in COPR — role rewritten with pip3 fallback, flexible binary detection (/usr/bin + /usr/local/bin), auto-creates systemd service for pip path. Handoff doc created: `RaBbLE-OS/fix/RaBbLE-OS-Fix-LlamaCpp.md`.
-**Blockers:** → `log/BLOCKERS.md` (durable ledger; `bash spells/blockers.sh ls`) — 5 open, 4 ep1-gate. Do NOT inline the list here; this line only points.
-**Next:** Re-run `--tags llama-cpp` (glslc now correct); re-run `--tags lemonade` (pip fallback); EP1 chain fix + guest chat path. EP1 air gate: `log/EP1-AIR-CHECKLIST.md`.
+**NEW session discipline (start here):** `spells/session-start.sh` is the **required opening ritual** — `export RABBLE_SESSION_ID` first, then it reads lessons+blockers+who's-live, claims your scope, and runs a self-terminating heartbeat. Blockers are now durable in `log/BLOCKERS.md` (`blockers.sh`), NOT this box. EP1 air gate: `log/EP1-AIR-CHECKLIST.md`. (Built across the S129-audit thread, concurrent with the NPU sessions.)
+**Also this day (S129/S130 NPU):** FastFlowLM live + NPU validated; llama.cpp glslc fix + lemonade pip3 fallback (re-run pending).
+**Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — 5 open, 4 ep1-gate.
+**Next:** open every session with `session-start.sh`; re-run `--tags llama-cpp`/`--tags lemonade`; build pre-commit backstop; EP1 chain fix + guest chat path; verify G7+G9 before air.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 > **Blockers + EP1 air no longer live in this box** — they're durable in `log/BLOCKERS.md`
