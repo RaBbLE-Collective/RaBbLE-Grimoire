@@ -10,18 +10,18 @@
 #   fcc-ctl admin          Open Admin UI in browser
 #   fcc-ctl update         Pull latest free-claude-code and restart
 #   fcc-ctl keys           Print current key status (which keys are set)
-#   fcc-ctl key <KEYNAME> <VALUE>   Set an API key in ~/.config/rabble/fcc.env
+#   fcc-ctl key <KEYNAME> <VALUE>   Set an API key in ~/.config/RaBbLE/fcc.env
 #   fcc-ctl model haiku|sonnet|opus <provider:model>   Set model routing
-#   fcc-ctl sync           Re-apply model routing from RaBbLE-OS/config/rabble/fcc.env.example
+#   fcc-ctl sync           Re-apply model routing from RaBbLE-OS/config/RaBbLE/fcc.env.example
 #                          Edit the example to change providers, then run sync to apply.
 
 set -euo pipefail
 
-FCC_DIR="${HOME}/.local/share/rabble/free-claude-code"
-FCC_ENV="${HOME}/.config/rabble/fcc.env"
+FCC_DIR="${HOME}/.local/share/RaBbLE/free-claude-code"
+FCC_ENV="${HOME}/.config/RaBbLE/fcc.env"
 FCC_URL="http://127.0.0.1:8082"
 SERVICE="free-claude-code"
-FCC_EXAMPLE="${HOME}/RaBbLE-Collective/RaBbLE-OS/config/rabble/fcc.env.example"
+FCC_EXAMPLE="${HOME}/RaBbLE-Collective/RaBbLE-OS/config/RaBbLE/fcc.env.example"
 
 # Keys that sync reads from the example (routing only — never API keys)
 SYNC_KEYS=(MODEL_HAIKU MODEL_SONNET MODEL_OPUS ANTHROPIC_AUTH_TOKEN FCC_PORT FCC_HOST)
@@ -134,7 +134,7 @@ case "${cmd}" in
   sync)
     [[ ! -f "${FCC_EXAMPLE}" ]] && {
       echo "✗ Example not found: ${FCC_EXAMPLE}" >&2
-      echo "  Expected: RaBbLE-OS/config/rabble/fcc.env.example" >&2
+      echo "  Expected: RaBbLE-OS/config/RaBbLE/fcc.env.example" >&2
       exit 1
     }
     echo "Syncing routing from $(basename "${FCC_EXAMPLE}")..."
