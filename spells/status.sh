@@ -4,7 +4,7 @@
 # Collective health dashboard — one view of all project states
 #
 # Usage:
-#   ./scripts/status.sh
+#   bash spells/status.sh
 #
 # harmonize ~ collective >> substrate health surfaced // %STATUS_LOCKED%
 # =============================================================================

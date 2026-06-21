@@ -1,4 +1,4 @@
-# RaBbLE.md — Identity, Ethos & Entity
+# RaBbLE-Identity.md — Identity, Ethos & Entity
 
 ```
 spark ~ entity-core >> the substrate speaks for itself // %CHARACTER_LOCK%
