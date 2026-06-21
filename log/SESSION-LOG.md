@@ -5,16 +5,27 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-21 · Session 144 (FCC / claude-free tuning research)
+## LATEST — 2026-06-21 · Session 145 (S138 EP2 local arch ingested into Grimoire)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S144):** Diagnosed the FCC Opus 400 — S142's `MODEL_OPUS = mistral-large-3-675b` is a Mistral-tokenizer model NIM rejects (`chat_template` unsupported). Established FCC = LiteLLM proxy: 4 routing slots / unlimited swappable targets across 17 providers, Admin-UI hot-swap (no restart), no built-in retry but LiteLLM `fallbacks`/`num_retries`/`cooldown_time` available. NIM = 40 RPM rolling, credits-only visibility. Research + improvement backlog → `log/HANDOFF-FCC-Free-Claude-Code.md`.
+**This session (S145):** Ingested S138 claude-web planning session into Grimoire: 5 canonical EP2 sCoRE docs (Local-Architecture, Quota-Router, Agent-State, Entropy-Tracker, Local-Tickets), session crystallization log. Patched fcc correction into sCoRE-Local-AI-Layer.md. Added EP2 Local Harness as item 1 in Post-EP1-Roadmap. Updated sCoRE manifest with EP2 scope. Wrote 6-wave implementation session plan.
 **Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — 4 open (all ep1-gate).
-**Next:** Repoint `MODEL_OPUS` off mistral-large-3 (Ansible `ai-harnesses` source); wire LiteLLM backoff/failover + 429 logging. Carryover: Mark runs `layerctl apply ai-harnesses`; decide on sCoRE `fd0ad9c` push.
+**Next:** B-02 (Mark: buy OpenRouter credits), B-04 (Mark: `cloudflare-ctl.sh deploy aether/nebula v0.0.0.1-rc.1`), then B-01/B-03 agent sessions → EP1 air → EP2 Wave 1.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 > **Blockers + EP1 air no longer live in this box** — they're durable in `log/BLOCKERS.md`
 > and `log/EP1-AIR-CHECKLIST.md` so the per-session rewrite can't clobber them.
+
+---
+
+## 2026-06-21 (Session 145) — S138 EP2 local arch ingested; roadmap + manifest updated
+
+- Repos: RaBbLE-Grimoire
+- **Intake:** 6 files from BaBbLE `intake/` promoted to Grimoire — 5 sCoRE EP2 architecture docs + S138 session crystallization log. All authored in a prior claude-web planning session (S138, 2026-06-21).
+- **New Grimoire docs:** `RaBbLE-sCoRE/RaBbLE-sCoRE-Local-Architecture.md` (master), `RaBbLE-sCoRE-Quota-Router.md`, `RaBbLE-sCoRE-Agent-State.md`, `RaBbLE-sCoRE-Entropy-Tracker.md`, `RaBbLE-sCoRE-Local-Tickets.md` (14 EP2 tickets).
+- **Updated:** `sCoRE-Local-AI-Layer.md` (fcc ≠ Anthropic client correction); `INDEX.md` (5 new doc entries); `Post-EP1-Roadmap.md` (EP2 item 1 = Local Harness + `rabble` CLI); `RaBbLE-sCoRE.manifest.yml` (EP2 local harness notes). Session plan written in conversation.
+- **Commits:** `4acf763` (file copies + INDEX + fcc correction), `[this commit]` (roadmap + manifest + session log).
+- **Next:** B-02 (Mark: buy OpenRouter credits), B-04 (Mark: deploy Aether/NeBuLA CDN) → B-01 + B-03 agent sessions → EP1 air → EP2 Wave 1.
 
 ---
 

@@ -52,3 +52,11 @@ notes: >
   Cold-start on free tier: ~30–60s after 15 min idle — documented known limitation.
   Episode 1 airs with the Collective at v0.0.0.1.
   Server/coordinator split deferred — same repo, two surfaces. See Architecture doc.
+
+  Episode 2 local harness plot (S138, 2026-06-21): sCoRE runs as systemd user service on :8083
+  alongside fcc on :8082. New modules: server/quota.py (usage-aware routing, reads Waybar cache),
+  server/agent_state.py (shared context across harnesses, handoff prompts), server/entropy.py
+  (session entropy tracking, self-healing protocol). New CLI: cli/rabble.py (streaming Python,
+  Aether ANSI, entity ASCII header, quota/entropy display). 14 tickets in 5 parallel tracks.
+  Implementation gated behind EP1 air. Canonical docs in RaBbLE-sCoRE/ (Local-Architecture,
+  Quota-Router, Agent-State, Entropy-Tracker, Local-Tickets).

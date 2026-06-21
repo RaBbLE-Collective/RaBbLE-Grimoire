@@ -33,13 +33,13 @@ Spine, per `log/EPISODE-1-RELEASE.md` ("What Episode 2 Enables") and `log/FABLE-
    (session duration, command repetition, focus) → sCoRE reads them → the entity makes **one**
    unprompted observation in chat. Backbone: BaBbLE `behavior/crawler-bots.md` (Scavenger →
    Organizer → Librarian), to be promoted to RFC. → `EPISODE-1-RELEASE.md`, BaBbLE `_ROUTING.md`.
-2. **Behavioral memory — name the Memory member.** Create the repo (even skeletal — naming is
+3. **Behavioral memory — name the Memory member.** Create the repo (even skeletal — naming is
    generative here). Define the **observation contract first** (what's captured, where stored,
    local vs cloud, what the entity may act on). Local-first is stated; the contract isn't.
-3. **NeBuLA entity state machine.** `entity.setState('%RESONANT%' | '%THINKING%' | '%SPEAKING%')`
+4. **NeBuLA entity state machine.** `entity.setState('%RESONANT%' | '%THINKING%' | '%SPEAKING%')`
    → eyes/particles/blink respond; wire sCoRE streaming to it. Spec exists in BaBbLE `assets/states/`
    + `_ROUTING.md`; zero implementation today.
-4. **De-dup + chrome unification.** Grimoire Graph consumes NeBuLA's canonical eye (kills the
+5. **De-dup + chrome unification.** Grimoire Graph consumes NeBuLA's canonical eye (kills the
    ~734-line copy); `<rabble-entity-mini>` state-driven on every World page — one continuous entity.
 
 ### OS hardening toward Exodus (deferred from EP1 Developer Preview, S109)
@@ -76,11 +76,13 @@ stays minimal (chat chain fix + guest path).
    layer. → `RaBbLE-sCoRE/RaBbLE-sCoRE-Agent-Framework-Research.md`.
 4. **Grimoire Learning Loop.** sCoRE writes discovered patterns back to the Grimoire — the Grimoire
    becomes the behavioral learning journal (its post-EP1 job per Grimoire AGENT.md "FOR").
-5. **Sovereign Work Tracker.** File-based Kanban on sCoRE's existing `tasks/` store — adds backlog/
-   blocked dirs, `/api/v1/tasks` + `/api/v1/board` API, BaBbLE conversational intake, World board
-   surface (vanilla JS, Aether tokens). Unifies visual + agent-aligned tracking in one system. **Open
-   questions gate Phase 1:** identity (member? rablet? embedded?), page naming, visibility.
+5. **TaskViSoR — Visual State Observer of RaBbLE.** Named Collective member (scaffold only, Echo 1).
+   Layers: (1) `/visor` World page — sCoRE `/api/v1/board`, five-column Kanban, BaBbLE intake bar,
+   Aether + NeBuLA entity-mini; (2) native OS app (Echo 1/2); (3) rablet (Echo 2+). Remaining open
+   questions: board visibility (private vs public read-only), agent visualization spec for Layer 2.
    → **Concept filed (S141):** `RaBbLE-Collective/RaBbLE-Work-Tracker-Concept.md`
+   → **Identity:** `RaBbLE-Collective/RaBbLE-TaskViSoR-Identity.md`
+   → **Member manifest:** `registry/manifests/RaBbLE-TaskViSoR.manifest.yml`
 
 ---
 
