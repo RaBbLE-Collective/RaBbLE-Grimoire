@@ -5,16 +5,26 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-21 · Session 142 (claude-free fix + NIM upgrades)
+## LATEST — 2026-06-21 · Session 143 (agy Gemini quota tracking fix)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S142):** Fixed `claude-free` — root cause: `fcc-no-auth` was in `.claude-free/.claude.json` `customApiKeyResponses.rejected`, so CC accepted the connection but silently returned ~11 tokens with no content. Moved to approved. Also: wired Aether theme (`custom:rabble-theme`, themes dir symlinked) into the isolated profile; upgraded NIM model routing to Llama 4 Maverick (haiku) / DeepSeek V4 Flash (sonnet) / Mistral Large 3 675B (opus). All enforced in Ansible ai-harnesses role.
+**This session (S143):** Fixed agy Gemini quota tracking: (1) ⊘ now appears in bar even when agy is idle+rate-limited; (2) both quota pools (Gemini API + Service) always shown in tooltip with ✓/⊘; (3) popup wording changed from "no active quota limit" → "available (daily limits apply)". Dropped standalone Gemini CLI tracker (binary retired June 18). Deployed via dotctl.
 **Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — 4 open (all ep1-gate).
-**Next:** Mark runs `layerctl apply ai-harnesses` to enforce new Ansible tasks on fresh machines; decide whether to push sCoRE `fd0ad9c` (NIM rename; auto-deploys prod, safe).
+**Next:** Mark runs `layerctl apply ai-harnesses`; decide whether to push sCoRE `fd0ad9c`.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 > **Blockers + EP1 air no longer live in this box** — they're durable in `log/BLOCKERS.md`
 > and `log/EP1-AIR-CHECKLIST.md` so the per-session rewrite can't clobber them.
+
+---
+
+## 2026-06-21 (Session 143) — agy Gemini quota tracking fix
+
+- Repos: RaBbLE-OS, RaBbLE-Grimoire
+- **Problem:** agy ⊘ didn't appear in waybar bar text when agy was idle (only showed in tooltip); tooltip showed quota lines only when exhausted (so Gemini pool looked like it was untracked); popup said "no active quota limit" implying the Gemini API pool is unlimited.
+- **Fix:** ⊘ now shown in bar even when idle+rate-limited. Tooltip always shows both pools (✓ available / ⊘ rate-limited). Popup wording: "available (daily limits apply)".
+- **Dropped:** standalone `gemini` CLI tracker (`score-gemini-quota.py`) — binary retired June 18 when Google completed migration to Antigravity CLI. All quota tracking stays under agy's two pools.
+- Deployed: `dotctl apply waybar` ✓
 
 ---
 
