@@ -28,7 +28,9 @@ The canonical list of what lives where. All on the Cloudflare-managed `joinrabbl
 
 ## Three Environments
 
-### Local (Dev)
+> Three tiers, one name each: **Local** (your machine) → **dev.joinrabble.world** (hosted shared dev/preview) → **joinrabble.world** (prod). "dev" refers only to the hosted subdomain — local is just "Local."
+
+### Local
 
 **Purpose:** Development, testing, integration  
 **Aether serving:** http://localhost:8000/aether/v0.0.0.0/  
