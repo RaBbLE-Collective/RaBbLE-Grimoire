@@ -356,14 +356,16 @@ Or wait for TTL to expire (check cache headers with `curl -I`).
 
 ---
 
-## Future: Staging Environment
+## Staging Environment — dev.joinrabble.world
+
+> Canonical staging subdomain is **`dev.joinrabble.world`** (not `staging.`). Full definition: `RaBbLE-Deployment-Architecture.md` → *Staging / Preview*.
 
 When ready to test before production:
 
-1. Create staging R2 buckets: `cdn-rabble-staging`, `world-rabble-staging`
-2. Add `staging` environment block to `wrangler.jsonc`
-3. Deploy to staging route: `wrangler deploy --env staging`
-4. Test at `https://staging.joinrabble.world/`
+1. Add a `dev` (preview) environment block to the World `wrangler.jsonc` with route `dev.joinrabble.world/*`
+2. (Optional) staging R2 prefix only if staging needs its own bundles — otherwise reuse versioned `cdn.joinrabble.world` paths (RCs are isolated by version)
+3. Deploy to the staging route: `wrangler deploy --env dev`
+4. Test at `https://dev.joinrabble.world/` (recommend Cloudflare Access gating + `noindex`)
 5. Promote to production when validated
 
 ---

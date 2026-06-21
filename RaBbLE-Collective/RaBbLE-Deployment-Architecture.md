@@ -8,9 +8,27 @@ transcribe ~ collective >> deployment strategy, CDN distribution, local dev envi
 
 ---
 
+## Subdomain Map (joinrabble.world)
+
+The canonical list of what lives where. All on the Cloudflare-managed `joinrabble.world` zone.
+
+| Subdomain | Surface | Status |
+|---|---|---|
+| `joinrabble.world` | **World** — prod public surface (CF Worker) | Live |
+| `aether.joinrabble.world` | **Aether** — versioned CSS bundle, served straight from a CF Worker (`/v{ver}/aether.min.css`) | Live (RC) |
+| `nebula.joinrabble.world` | **NeBuLA** — versioned JS bundle, served straight from a CF Worker (`/v{ver}/nebula.iife.js`) | Live (RC) |
+| `score.joinrabble.world` | **sCoRE** entity API (CF Worker → Render) | Live |
+| `dev.joinrabble.world` | **Staging / Preview** — pre-release experiments (see below) | Concept (S139) |
+| `grimoire.joinrabble.world` | **Grimoire MCP** — live read interface for agents | Concept (S139) → `RaBbLE-Grimoire-MCP.md` |
+| `shop.joinrabble.world` | **Shop** — merch / sticker drops | Concept (S139) → `RaBbLE-Shop.md` |
+
+> **EP1 storage reality:** no R2, no persistent storage. Each member's assets are **bundled into its own Worker** and served per-subdomain; versioning is by path (`/v0.0.0.1-rc.1/…`), bumped on deploy. A dedicated `cdn.joinrabble.world` on R2 is a **roadmap target** (Phase 2, post-EP1) — the R2/`cdn.` references elsewhere in this doc describe that target, not the current EP1 setup.
+
+---
+
 ## Three Environments
 
-### Local (Dev + Staging)
+### Local (Dev)
 
 **Purpose:** Development, testing, integration  
 **Aether serving:** http://localhost:8000/aether/v0.0.0.0/  
@@ -32,6 +50,34 @@ transcribe ~ collective >> deployment strategy, CDN distribution, local dev envi
 - Feature development in any member
 - Integration testing across layers
 - Debugging with sourcemaps
+
+---
+
+### Staging / Preview (dev.joinrabble.world) — *concept, S139*
+
+**Purpose:** A real hosted surface for pre-release experiments — see a change live, on the network, before it touches `joinrabble.world`. Closes the gap between "works on localhost" and "shipped to the public." Also the home for **experiments** that aren't on the EP1 critical path (new NeBuLA surfaces, page prototypes, RC builds) without polluting prod.
+
+> Canonizes a name already used in member docs (`RaBbLE-Aether-Build-CDN.md`, `RaBbLE-World-Architecture.md`) and supersedes the older `staging.joinrabble.world` placeholder in `RaBbLE-Cloudflare-Integration.md`. **`dev.` is the canonical staging subdomain.**
+
+**Serving:**
+- `World:` https://dev.joinrabble.world/ — World deployed to a `world-dev` Worker (Cloudflare environment / preview), separate from the prod Worker.
+- `Aether/NeBuLA:` from their existing per-member subdomains (`aether.joinrabble.world`, `nebula.joinrabble.world`). Bundles are versioned by path, so staging can pin a release-candidate version (e.g. `aether.joinrabble.world/v0.0.0.1-rc.1/aether.min.css`) while prod stays on the shipped version — no separate staging bundle host needed.
+
+**Mechanism:** a `dev` (preview) environment block in the World `wrangler.jsonc` with route `dev.joinrabble.world/*`, deployed via `wrangler deploy --env dev`. No R2 / persistent storage required — staging is just another Worker (consistent with the EP1 no-R2 setup above).
+
+**Configuration:**
+- Not minified / sourcemaps on; analytics off or flagged as non-prod.
+- May be access-gated (Cloudflare Access / token) since it's pre-release and can show unfinished work.
+- `noindex` — never indexed by search engines.
+
+**When to use:**
+- Validate a release candidate end-to-end before the episode air.
+- Host an experiment or prototype for review without a prod deploy.
+- Share a work-in-progress link without exposing it on the front door.
+
+**Open decisions (Mark):**
+1. Access-gated vs. public-but-noindex. *Recommendation: Cloudflare Access (email-gated) — pre-release work shouldn't be publicly readable.*
+2. Shared `cdn.` bundles (recommended — versioning already isolates RCs) vs. dedicated staging CDN prefix.
 
 ---
 
