@@ -5,18 +5,30 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-20 · Session 139 (Grimoire KB export + 3 subdomain concepts)
+## LATEST — 2026-06-20 · Session 140 (OS easy-wins + backlog triage)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S139):** Built a flat 16-doc Grimoire KB for Claude-web upload (`~/grimoire-kb/`, regen via `_build.py`). Seeded 3 subdomain concepts: **Grimoire MCP** (`grimoire.joinrabble.world`, read-first CF Worker, supersedes "Home: sCoRE"); **dev.joinrabble.world** staging/preview (canonized over `staging.`); **shop.joinrabble.world** EP1-air semi-exclusive Genesis drop. Corrected subdomain map to EP1 reality — no R2, per-member Worker subdomains (`aether.`/`nebula.`).
-**Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — unchanged.
-**Next:** Mark resolves the open decisions in each concept doc (MCP §7 hosting/timing · staging access · drop POD/exclusivity).
+**This session (S140):** Swept Mark's OS issue/idea dump into the roadmap ("Backlog Triage — S140": hardware-reliability cluster, boot-chain, Dolphin-needs-a-plan, F44, Gnome=R&D). Landed wins: wallpaper→`RaBbLE_WP.PNG` (live); audio Waybar popup (swayOSD scroll + floating mixer, live-tested); **fcc working** — renamed layer to `NVIDIA_NIM_API_KEY` (upstream var), registered NIM key from sCoRE `.env`, smoke 200; `claude-free` logout fix (isolated `CLAUDE_CONFIG_DIR` + symlinked memories). B-05 resolved. New `ops/RaBbLE-OS-Fedora44-Upgrade.md`.
+**Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — 4 open (all ep1-gate); B-05 cleared.
+**Next:** Mark runs `layerctl apply ai-harnesses` (deploys `claude-free` isolation) + a login-safe test; then set fcc keys per provider as desired.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 > **Blockers + EP1 air no longer live in this box** — they're durable in `log/BLOCKERS.md`
 > and `log/EP1-AIR-CHECKLIST.md` so the per-session rewrite can't clobber them.
 
 ---
+
+## 2026-06-20 (Session 140) — OS easy-wins + Mark's backlog triaged into the roadmap
+
+- Repos: RaBbLE-OS, RaBbLE-Grimoire
+- **Backlog triage:** Mark dumped ~20 daily-driving issues/ideas; bucketed into `RaBbLE-OS-Roadmap.md` § "Backlog Triage — S140" — Landed / Bounded-wins / **Hardware-Reliability cluster** (iGPU-only Hyprland + dGPU-on-demand + battery dGPU-suspend + NVIDIA HDMI + idle/suspend loop — ProArt-profile track, NOT the generic preview bar) / Boot-chain / **Dolphin "needs a deterministic kdeglobals plan, not trial-and-error"** / Strategic. Expanded the fix/* table goals to match.
+- **Wallpaper (landed, live):** `hyprpaper.conf` still pointed at stale `wallpaper.png`; repointed → `RaBbLE_WP.PNG`, deployed via dotctl, hyprpaper restarted, verified active. *(HARDEN "wallpaper Ansible-managed" still stands — it's still a hand-edited conf.)*
+- **Audio Waybar popup (landed, live):** `pulseaudio` left-click was `pavucontrol` (full tile). Now: scroll + right-click → `swayosd-client --output-volume` (themed OSD "linear feel"); left-click → `scripts/audio-popup.sh` toggles a floating mixer (480×600, anchored top-right imperatively — Hyprland auto-centers this GTK float and ignores a `move` windowrule; verified `at=[1424,40]`, toggles closed). float/size/opacity via hypr windowrules.
+- **fcc fixed (landed, live):** proxy was healthy but every provider key blank → `claude-free` API errors. Root-caused a var-name mismatch: `fcc.env.example`/`fcc-ctl` used `NVIDIA_API_KEY` but upstream free-claude-code reads `NVIDIA_NIM_API_KEY`. **Renamed the fcc layer to `NVIDIA_NIM_API_KEY`** (example + fcc-ctl readiness-map/keys-list/hint + AI-Harnesses layer doc); registered the NIM key from `RaBbLE-sCoRE/server/.env`; cleaned the stray var from live env; smoke-tested **HTTP 200** streaming from `nvidia/llama-3.1-nemotron-nano-8b-v1`. Added a routing-readiness verdict to `fcc-ctl status`. B-05 resolved. *(sCoRE keeps `NVIDIA_API_KEY` — `llm.py:44`; renaming it is a separate live-Render change, offered not done.)*
+- **`claude-free` logout fix (source; needs apply):** launcher set `ANTHROPIC_API_KEY` against shared `~/.claude` → flipped to api-key auth, logged the paid OAuth session out. Fixed in `free-claude-code.yml`: isolated `CLAUDE_CONFIG_DIR=~/.claude-free` (+ `force:true` redeploy + `claude-paid` unsets all three), with `CLAUDE.md`/`commands`/`projects` symlinked in so the free profile keeps memories+history but never touches auth. **Pending `layerctl apply ai-harnesses` + login-safe test.**
+- **Fedora 44 (decided near-term):** new `ops/RaBbLE-OS-Fedora44-Upgrade.md` — backup-first checklist; real risk = unversioned state (`~/.config/RaBbLE/fcc.env` keys, `~/.claude`); F44 risks (NVIDIA akmods, llama-cpp stamp, Python rev, Hyprland, COPR). Indexed.
+- **Gnome DE (decided):** exploratory R&D, not a committed track — logged in roadmap § Strategic E.
+- Next: Mark runs `layerctl apply ai-harnesses` + login-safe `claude-free` test; Dolphin deterministic-theming plan; free-models/fcc Waybar meter (needs fcc usage data).
 
 ## 2026-06-20 (Session 139) — Grimoire KB export + 3 subdomain concepts (MCP / dev / shop)
 

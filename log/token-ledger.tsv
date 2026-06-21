@@ -131,3 +131,5 @@ commit-7c9c1fa	llamacpp-rewrite	source+prebuilt dual paths; version:latest defau
 ccea913f-36b6-4122-8d0f-b5f6395c12bd	world-surface-polish	member reveal panes, bigger conversation dock, iOS safe area
 commit-7a8082b	os-runtime-fixes	S131-S135: llama.cpp rewrite+deps, layerctl upgrade, aider gfortran fix
 commit-d7115be	aider-scipy-fix	scipy chain: gfortran→openblas→root cause=no cp314 wheel; fix=python3-scipy+system-site-packages
+commit-1668bbb	grimoire-kb-and-subdomain-concepts	S139: flat Grimoire KB export + MCP/dev/shop subdomain concepts
+f7bf0ff3-cfb4-4640-b400-0fdad14d2f29	os-easy-wins	S140: wallpaper, audio popup, fcc NIM rename+key, claude-free isolation, backlog triage, F44 doc

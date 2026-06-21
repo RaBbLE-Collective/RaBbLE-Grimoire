@@ -9,3 +9,4 @@
 {"event":"resolve","id":"B-06","note":"LIVE on Render S106 — rabble-score-x7qq.onrender.com","timestamp":"2026-06-20T08:18:17Z","session":"S129-audit","agent":"claude"}
 {"event":"resolve","id":"B-07","note":"live S120 — joinrabble.world returns 200","timestamp":"2026-06-20T08:18:17Z","session":"S129-audit","agent":"claude"}
 {"event":"resolve","id":"B-08","note":"done — status.sh shows all lockstep in-step on new-horizons (S103 audit item closed)","timestamp":"2026-06-20T08:18:17Z","session":"S129-audit","agent":"claude"}
+{"event":"resolve","id":"B-05","note":"NIM key registered from sCoRE .env via fcc-ctl; renamed fcc layer to NVIDIA_NIM_API_KEY (upstream var); proxy smoke-tested 200 (S139)","timestamp":"2026-06-21T01:37:00Z","session":"b267b9d1-32e9-4e0a-a72a-b885705ab164","agent":"claude"}

@@ -77,6 +77,43 @@ case "${cmd}" in
     else
       echo "✗ API not reachable at ${FCC_URL}"
     fi
+    echo ""
+    # ── Readiness: the proxy being up means nothing if the provider it routes to
+    #    has no key. This is the #1 reason `claude-free` throws API errors —
+    #    surface it here instead of leaving it to a cryptic 401 at runtime.
+    echo "=== Routing readiness (will claude-free work?) ==="
+    declare -A _prov_key=(
+      [nvidia_nim]=NVIDIA_NIM_API_KEY [groq]=GROQ_API_KEY [cerebras]=CEREBRAS_API_KEY
+      [deepseek]=DEEPSEEK_API_KEY [open_router]=OPENROUTER_API_KEY [gemini]=GEMINI_API_KEY
+      [mistral]=MISTRAL_API_KEY [together]=TOGETHER_API_KEY [xai]=XAI_API_KEY [zhipu]=ZHIPU_API_KEY
+    )
+    _ready=1
+    for tier in HAIKU SONNET OPUS; do
+      route="$(_env_get "MODEL_${tier}")"
+      [[ -z "${route}" ]] && continue
+      prov="${route%%/*}"                      # provider = first path segment
+      keyname="${_prov_key[$prov]:-}"
+      if [[ -z "${keyname}" ]]; then
+        echo "  ${tier} → ${prov}: ? unknown provider (no key mapping)"
+        continue
+      fi
+      keyval="$(_env_get "${keyname}")"
+      if [[ -n "${keyval}" && "${keyval}" != "fcc-no-auth" ]]; then
+        echo "  ${tier} → ${prov}: ✓ ${keyname} set"
+      else
+        echo "  ${tier} → ${prov}: ✗ ${keyname} NOT set"
+        _ready=0
+      fi
+    done
+    echo ""
+    if [[ ${_ready} -eq 1 ]]; then
+      echo "✓ Ready — claude-free should work."
+    else
+      echo "⚠ Proxy is up but the routed provider(s) have no API key →"
+      echo "  claude-free WILL get API errors. Set a key for the routed provider, e.g.:"
+      echo "    fcc-ctl key GROQ_API_KEY <value>      # then: fcc-ctl status"
+      echo "  Or switch routing to a provider you have a key for (edit ${FCC_EXAMPLE}; fcc-ctl sync)."
+    fi
     ;;
 
   logs)
@@ -98,7 +135,7 @@ case "${cmd}" in
 
   keys)
     echo "=== free-claude-code API keys (${FCC_ENV}) ==="
-    for key in GROQ_API_KEY CEREBRAS_API_KEY DEEPSEEK_API_KEY NVIDIA_API_KEY \
+    for key in GROQ_API_KEY CEREBRAS_API_KEY DEEPSEEK_API_KEY NVIDIA_NIM_API_KEY \
                GEMINI_API_KEY OPENROUTER_API_KEY MISTRAL_API_KEY TOGETHER_API_KEY \
                XAI_API_KEY ZHIPU_API_KEY ANTHROPIC_AUTH_TOKEN; do
       val="$(_env_get "${key}")"
@@ -161,7 +198,7 @@ case "${cmd}" in
     echo ""
     echo "  Edit routing: ${FCC_EXAMPLE}"
     echo "  Re-apply:     fcc-ctl sync"
-    echo "  Set keys:     fcc-ctl key NVIDIA_API_KEY <value>"
+    echo "  Set keys:     fcc-ctl key NVIDIA_NIM_API_KEY <value>"
     ;;
 
   *)

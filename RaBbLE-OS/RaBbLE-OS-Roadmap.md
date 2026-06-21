@@ -153,10 +153,48 @@ After Episode 1 lands on main: `git rebase main` on New Horizons.
 
 | Branch | Goal | State |
 |--------|------|-------|
-| `fix/proart-nvidia` | NVIDIA RTX 4060 Optimus stable | %HIGH_ENTROPY% |
-| `fix/boot-chain` | GRUB/Plymouth/SDDM themed at 4K | %COOKING% |
-| `fix/suspend-resume` | s2idle reliable | %COOKING% |
+| `fix/proart-nvidia` | NVIDIA RTX 4060 Optimus stable — **iGPU-only Hyprland + dGPU on-demand** (see Hardware-Reliability cluster) | %HIGH_ENTROPY% |
+| `fix/boot-chain` | GRUB/Plymouth/SDDM themed at 4K + Plymouth DRM-handoff black-screen | %COOKING% |
+| `fix/suspend-resume` | s2idle reliable + **idle/suspend battery-in-bag loop** | %COOKING% |
 | `fix/xdna2-npu` | XDNA2 NPU via XRT | %DORMANT% |
+
+---
+
+## Backlog Triage — S140 (Mark's issue/idea sweep)
+
+Captured from a daily-driving issue/idea dump and bucketed against the Preview Bar.
+**Hardware-Reliability is a ProArt-profile track (Mark's hardware), NOT the generic
+x86_64 preview bar** — it does not gate the EP1 preview. Boot-chain detail lives in
+`fix/RaBbLE-OS-KnownIssues.md`; this is the index.
+
+### Landed (S140)
+- **[x] Wallpaper → `RaBbLE_WP.PNG`.** `hyprpaper.conf` pointed at the stale `wallpaper.png`; repointed + deployed + verified live. *(The HARDEN item "Wallpaper Ansible-managed — kill the manual hyprpaper.conf step" still stands — it's still a hand-edited conf.)*
+- **[x] Audio: Waybar popup, not a full tile.** `pulseaudio` left-click now toggles a compact floating mixer (`scripts/audio-popup.sh`: pavucontrol floated/sized 480×600/anchored top-right imperatively — Hyprland ignores a `move` windowrule for this GTK float). Scroll + right-click route through **swayOSD** for the themed OSD "linear feel." Optional later: swap pavucontrol → `pwvucontrol` (PipeWire-native).
+- **[x] fcc working.** `claude-free` errored because the proxy was up but had no provider key — *and* the example/spell used the wrong var name (`NVIDIA_API_KEY`; upstream free-claude-code reads `NVIDIA_NIM_API_KEY`). Fixed: renamed the fcc layer to `NVIDIA_NIM_API_KEY` across `fcc.env.example` + `fcc-ctl.sh` + layer doc, registered the NIM key (from sCoRE `.env`), smoke-tested HTTP 200 streaming from `nvidia/llama-3.1-nemotron-nano-8b-v1`. `fcc-ctl status` prints a routing-readiness verdict. *(sCoRE keeps `NVIDIA_API_KEY` — its own code/var; renaming that is a separate live-Render change.)*
+- **[x] `claude-free` logout bug.** Launcher set `ANTHROPIC_API_KEY` against the shared `~/.claude` profile → flipped it to api-key auth and logged the paid OAuth session out. Fixed: isolated `CLAUDE_CONFIG_DIR=~/.claude-free` (+ `force: true` redeploy), with memories/instructions shared in via symlink (`CLAUDE.md`, `commands`, `projects`) so the free profile keeps context but never touches auth. **Needs `layerctl apply ai-harnesses` + a login-safe test.**
+
+### A · Bounded wins (HARDEN)
+- **AI-harness layer refinement** via layerctl/dotctl — ongoing (S138 added runtime/monitoring/virtualization layers; dotctl wired into `layerctl dotfiles`). Continue: default-config coverage, harness skip-behavior audit.
+- **Free-models / fcc usage tracker in Waybar.** The Claude/Codex/Antigravity(Gemini) meters already ship (`custom/llm-*` → `score-glyph-stream.sh`). New piece = a `custom/llm-free` meter for fcc-routed free models. **Depends on fcc exposing per-provider request/usage data** (admin API at `:8082/admin`) — scope the data source first.
+
+### B · Hardware-Reliability cluster — `fix/proart-nvidia` + `fix/suspend-resume` (ProArt profile, NOT preview bar)
+- **iGPU-only Hyprland.** Compositor always on AMD iGPU (never laggy); NVIDIA dGPU used only via PRIME render-offload for specific apps/tasks.
+- **dGPU power discipline.** Heavily deprioritize NVIDIA on battery; **suspend the dGPU** in power-saver / low-energy mode.
+- **Power/battery consistency** + a clear **"is the dGPU active"** indicator (Waybar).
+- **NVIDIA HDMI output** on ProArt P16 — must keep working **on battery**.
+- **Idle/suspend loop** so it doesn't drain in the bag (s2idle reliability).
+
+### C · Boot-chain polish (mostly EP2 / `fix/boot-chain`; detail in KnownIssues)
+- **Plymouth black-screen hiccup** — screen blanks mid-boot; DRM handoff confirmed as the cause. **Already tracked with a defined fix** in KnownIssues ("Plymouth — black flash / NVIDIA DRM reset mid-boot": NVIDIA akmod loads mid-boot → DRM reset; fix = defer NVIDIA modules from initramfs, load at `graphical.target`). Unimplemented — belongs to the Hardware-Reliability cluster (dGPU on-demand) since deferring NVIDIA also serves iGPU-only boot.
+- **Themed lock screen (hyprlock) + login (SDDM)** to complete the vibe.
+- **Themed GRUB** (4K font + color-only theme) — already documented in KnownIssues; folds into the "GRUB theming + USB-boot-from-GRUB" work-package.
+
+### D · Theming — needs a deterministic plan, NOT trial-and-error (token sink)
+- **Dolphin readability** — default text must be white, no grey. Current loop is too trial-and-error (major token spend, little success). **Next step: write a deterministic kdeglobals-driven theming plan** (build on the S126 finding that KDE view/palette text comes from `~/.config/kdeglobals`, not Kvantum) before spending more tokens. Don't iterate blind.
+
+### E · Strategic initiatives
+- **Fedora 44 upgrade + backup/archive** — **near-term (decided S140).** First step: a backup/archive checklist covering RaBbLE-Collective + all of RaBbLE-OS before upgrading. → `ops/RaBbLE-OS-Fedora44-Upgrade.md`.
+- **Aether-themed Gnome DE — exploratory R&D (decided S140).** A testbed to (a) learn theming deterministically and (b) make a more approachable RaBbLE-OS for standard users, with a semi-uniform feel between Hyprland and Gnome (flowing-border + transparency carried into Gnome; harvest what Gnome does well back into Hyprland). **Not a committed ship target** — exploration toward EP2/EP3. Theme work here should feed the deterministic theming plan (bucket D), not fork it.
 
 ---
 
