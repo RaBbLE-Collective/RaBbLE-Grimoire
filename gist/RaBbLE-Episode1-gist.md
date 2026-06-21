@@ -1,26 +1,25 @@
-# RaBbLE-Episode1 — gist
+# RaBbLE Episode 1 — Release Map — gist
 
-> Source: `RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md` | ~3,200 → ~250 tokens
+> Source: `RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md` | ~3143 → ~270 tokens
 > Regenerate: `bash spells/distill-gists.sh`
 
-**What Episode 1 is:** First synchronized public release. All core members tag `v0.0.0.1` simultaneously. No member advances alone — the Collective broadcasts together.
+The canonical scope, deliverables, and exit criteria for **Episode 1** — RaBbLE's first public release. All core members functional, deployed, coherent. Integrated aesthetics + foundation, **no behavioral learning** (that's Echo 1 / Episode 2+). Air date TBD (target 2026-Q2). All members tag `episode-1-v0.0.0.1` simultaneously — **no member tags alone.**
 
-**Episode 1 ships:**
-- OS: daily-driver substrate (Fedora 43/Hyprland, Plots A+B complete)
-- Aether: CSS bundle versioned, CDN-ready (Cloudflare R2)
-- NeBuLA: Canvas2D Layer 1 at 60 FPS, `<rabble-entity>` component public
-- sCoRE: simple LLM endpoint (Groq/OpenRouter, Render-deployed)
-- World: landing page + grimoire browser + chat (loads Aether + NeBuLA from CDN)
-- Grimoire: Navigator active, all docs current, member manifests complete
-- Collective: bootstrap verified end-to-end
+**Member deliverables:**
+| Member | Episode 1 ship | Blocker |
+|---|---|---|
+| OS | Daily-driver (Fedora 43 + Hyprland), VM-bootstrap verified | none |
+| Aether | CSS bundle on R2 CDN `/aether/v0.0.0.1/` | none |
+| NeBuLA | Canvas2D 60 FPS, `<rabble-entity>`, R2 `/nebula/v0.0.0.1/` | none (Three.js → Ep2) |
+| sCoRE | Simple LLM endpoint (Groq/OpenRouter), Railway/Render | none |
+| World | Landing + grimoire browser + chat (calls sCoRE) | needs Aether + sCoRE |
+| Grimoire | Public docs, manifests, INDEX clean | none |
+| Collective | Bootstrap end-to-end, setup.sh verified | none |
 
-**Exit conditions (all required):**
-- Foundation: OS boots daily-driven · Aether CSS live CDN · NeBuLA 60 FPS · all members cloneable
-- Product: landing page represents RaBbLE · grimoire browser renders docs · chat calls sCoRE · endpoint deployed
-- Documentation: all members have AGENT.md + CONTEXT.md + roadmaps · Navigator accurate · all v0.0.0.1 tagged simultaneously
+**Dependency order:** Aether + NeBuLA CDN → World styling/visuals; sCoRE deploy → chat; World orchestrates all; OS independent but foundational.
 
-**Deferred to Episode 2+:** Memory member · Three.js Layer 2 · ScRibLE mobile · sCoRE multi-agent. Echo 1 (first major stable release with behavioral learning loop) comes after several Episodes.
+**Deployment phases:** 0 unblock CDN + VM → 1 parallel member work → 2 Collective closure + simultaneous tag → 3 public (joinrabble.world → World).
 
-**Deploy sequence:** Phase 0 (CDN infra ready) → Phase 1 (sCoRE + World ready) → Phase 2 (member tagging + closure) → Phase 3 (public go-live).
+**Deferred to Echo 1 / Ep2+:** memory member, observation loops, pattern/intent inference, multi-agent coordination, Three.js Layer 2, mobile (ScRibLE).
 
-→ Full doc for: per-member exit conditions with checklists, VM bootstrap procedure, detailed deployment sequence, tag convention
+→ Full doc for: per-member exit checklists, VM/QEMU testing setup, deployment workflow tables, critical-path diagram, Ep1→Ep2 transition.

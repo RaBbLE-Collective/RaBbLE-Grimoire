@@ -221,6 +221,14 @@ sCoRE's web API is **live on Render** (free tier) as of S106 (2026-06-15).
 
 ---
 
+## Related Runtime Docs
+
+- [sCoRE-Local-AI-Layer](sCoRE-Local-AI-Layer.md) — LLM provider layer (Groq / OpenRouter / NVIDIA NIM), fast-chain config, `NVIDIA_NIM_API_KEY`
+- [RaBbLE-sCoRE-Grimoire-API](RaBbLE-sCoRE-Grimoire-API.md) — the hosted `fetch_grimoire` tool (read canon at runtime); generalized by the [Grimoire MCP](../RaBbLE-Collective/RaBbLE-Grimoire-MCP.md)
+- [RaBbLE-sCoRE-Roadmap](RaBbLE-sCoRE-Roadmap.md) — Episode 1 commitment + forward plan
+
+---
+
 ```
 transcribe ~ grimoire >> architecture mapped // %EPOCH_0_EPISODE_1%
 ```

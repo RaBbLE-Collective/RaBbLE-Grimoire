@@ -14,21 +14,26 @@
 set -euo pipefail
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-  echo "graph-grimoire.sh — build a documentation link graph of the Grimoire"
+  echo "graph-grimoire.sh — build a token-weighted documentation link graph"
   echo ""
-  echo "Usage: bash spells/graph-grimoire.sh [--json-only]"
-  echo "  --json-only   Write JSON graph only, skip Mermaid diagram"
+  echo "Usage: bash spells/graph-grimoire.sh [--json-only | --walk <doc>]"
+  echo "  --json-only     Write JSON graph only, skip Mermaid diagram"
+  echo "  --walk <doc>    Agent low-token traversal: print <doc>'s outgoing links"
+  echo "                  (and what links to it), each with its token cost, cheapest"
+  echo "                  first — so you can pick the next doc to read on a budget."
   echo ""
   echo "Outputs:"
-  echo "  log/grimoire-graph.json   — adjacency list (nodes + edges)"
-  echo "  log/grimoire-graph.md     — Mermaid diagram (renderable in GitHub/Obsidian)"
+  echo "  log/grimoire-graph.json   — adjacency list; nodes & edges carry \"tokens\""
+  echo "  log/grimoire-graph.md     — Mermaid diagram (token cost in each node label)"
   echo ""
-  echo "Reports: orphan docs, hub docs, islands, link density."
+  echo "Reports: orphan docs, hub docs, islands, heaviest docs, link density."
   exit 0
 fi
 
 GRIMOIRE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 JSON_ONLY="${1:-}"
+WALK_DOC=""
+if [[ "${1:-}" == "--walk" ]]; then WALK_DOC="${2:-}"; JSON_ONLY="--json-only-skip"; fi
 
 MAGENTA='\033[38;2;255;45;120m'
 CYAN='\033[38;2;0;245;255m'
@@ -46,6 +51,14 @@ GRAPH_MD="$GRIMOIRE_ROOT/log/grimoire-graph.md"
 declare -A NODE_DIR
 declare -A OUTGOING
 declare -A INCOMING
+declare -A TOKENS
+declare -A EDGE_SEEN
+
+# Token estimate: words × 1.33 (same heuristic as spells/token-budget.sh).
+# Embedded per-node and per-edge so an agent can plan a LOW-TOKEN reading walk
+# — every edge carries the cost (in tokens) of reading the doc it points to.
+tok_est() { local w; w=$(wc -w < "$1" 2>/dev/null | tr -d ' '); echo $(( (${w:-0} * 133 + 50) / 100 )); }
+fmt_tok() { local t="${1:-0}"; if (( t >= 1000 )); then printf '%d.%01dk' $((t/1000)) $(((t%1000)/100)); else printf '%d' "$t"; fi; }
 
 # Collect all .md files as nodes
 while IFS= read -r filepath; do
@@ -55,6 +68,7 @@ while IFS= read -r filepath; do
   NODE_DIR["$rel"]="$dir"
   OUTGOING["$rel"]=0
   INCOMING["$rel"]=0
+  TOKENS["$rel"]=$(tok_est "$filepath")
 done < <(find "$GRIMOIRE_ROOT" -name '*.md' -type f \
           ! -path '*/log/grimoire-graph.md' \
           ! -path '*/gist/*' | sort)
@@ -95,17 +109,55 @@ for rel in "${!NODE_DIR[@]}"; do
     fi
     [[ -z "$resolved" ]] && continue
 
-    # Only count links to files that exist in our node set
-    if [[ -n "${NODE_DIR[$resolved]:-}" ]]; then
-      EDGES+=("$rel|$resolved")
-      OUTGOING["$rel"]=$(( ${OUTGOING["$rel"]} + 1 ))
-      INCOMING["$resolved"]=$(( ${INCOMING["$resolved"]} + 1 ))
+    # Only count links to files that exist in our node set; dedup (a doc may
+    # reference the same target via both a markdown link and a backtick path)
+    if [[ -n "${NODE_DIR[$resolved]:-}" && "$resolved" != "$rel" ]]; then
+      key="$rel|$resolved"
+      if [[ -z "${EDGE_SEEN[$key]:-}" ]]; then
+        EDGE_SEEN["$key"]=1
+        EDGES+=("$key")
+        OUTGOING["$rel"]=$(( ${OUTGOING["$rel"]} + 1 ))
+        INCOMING["$resolved"]=$(( ${INCOMING["$resolved"]} + 1 ))
+      fi
     fi
-  done < <(grep -oP '\]\(\K[^)]+' "$filepath" 2>/dev/null || true)
+    # Two link forms are captured below: markdown [text](path) AND backtick
+    # `path.md` code spans — the Grimoire's nav docs (AGENT.md, AgentGuide)
+    # cite docs in backticks, so without this the graph misses navigation.
+  done < <( { grep -oP '\]\(\K[^)]+' "$filepath"; grep -oP '`\K[^`]+\.md(?=`)' "$filepath"; } 2>/dev/null || true)
 done
 
 total_nodes=${#NODE_DIR[@]}
 total_edges=${#EDGES[@]}
+
+# --- Agent walk mode: low-token neighborhood preview ---
+if [[ -n "$WALK_DOC" ]]; then
+  # Resolve a partial name to a full node id (exact, then substring)
+  target=""
+  [[ -n "${NODE_DIR[$WALK_DOC]:-}" ]] && target="$WALK_DOC"
+  if [[ -z "$target" ]]; then
+    for rel in $(echo "${!NODE_DIR[@]}" | tr ' ' '\n' | sort); do
+      [[ "$rel" == *"$WALK_DOC"* ]] && { target="$rel"; break; }
+    done
+  fi
+  if [[ -z "$target" ]]; then
+    echo -e "${RED}No doc matches:${RESET} $WALK_DOC" >&2
+    exit 1
+  fi
+  echo -e "${MAGENTA}Walk from:${RESET} ${CYAN}$target${RESET}  ${MUTED}(~$(fmt_tok "${TOKENS[$target]:-0}") tokens to read this doc)${RESET}"
+  echo ""
+  echo -e "${GREEN}→ Reads next (outgoing links, cheapest first):${RESET}"
+  for edge in "${EDGES[@]}"; do
+    [[ "${edge%%|*}" == "$target" ]] && printf '%d\t%s\n' "${TOKENS[${edge#*|}]:-0}" "${edge#*|}"
+  done | sort -n | awk -F'\t' '{printf "  ~%-7s %s\n", $1, $2}' | sed "s/~\([0-9]*\) /~\1t /" || true
+  echo ""
+  echo -e "${CYAN}← Linked from (incoming, cheapest first):${RESET}"
+  for edge in "${EDGES[@]}"; do
+    [[ "${edge#*|}" == "$target" ]] && printf '%d\t%s\n' "${TOKENS[${edge%%|*}]:-0}" "${edge%%|*}"
+  done | sort -n | awk -F'\t' '{printf "  ~%-7s %s\n", $1, $2}' | sed "s/~\([0-9]*\) /~\1t /" || true
+  echo ""
+  echo -e "${MUTED}Tip: prefer a gist/ summary over a heavy doc when one exists.${RESET}"
+  exit 0
+fi
 
 # --- Write JSON ---
 {
@@ -122,7 +174,7 @@ total_edges=${#EDGES[@]}
     out="${OUTGOING[$rel]}"
     inc="${INCOMING[$rel]}"
     $first || echo ','
-    printf '    {"id": "%s", "dir": "%s", "outgoing": %d, "incoming": %d}' "$rel" "$dir" "$out" "$inc"
+    printf '    {"id": "%s", "dir": "%s", "outgoing": %d, "incoming": %d, "tokens": %d}' "$rel" "$dir" "$out" "$inc" "${TOKENS[$rel]:-0}"
     first=false
   done
   echo ''
@@ -135,7 +187,7 @@ total_edges=${#EDGES[@]}
     from="${edge%%|*}"
     to="${edge#*|}"
     $first || echo ','
-    printf '    {"from": "%s", "to": "%s"}' "$from" "$to"
+    printf '    {"from": "%s", "to": "%s", "tokens": %d}' "$from" "$to" "${TOKENS[$to]:-0}"
     first=false
   done
   echo ''
@@ -177,7 +229,7 @@ if [[ "$JSON_ONLY" != "--json-only" ]]; then
       echo "  subgraph ${dir}"
       for rel in $(echo "${!NODE_DIR[@]}" | tr ' ' '\n' | sort); do
         [[ "${NODE_DIR[$rel]}" == "$dir" ]] || continue
-        echo "    $(abbrev "$rel")[\"$(label "$rel")\"]"
+        echo "    $(abbrev "$rel")[\"$(label "$rel")<br/>~$(fmt_tok "${TOKENS[$rel]:-0}")\"]"
       done
       echo "  end"
     done
@@ -214,6 +266,8 @@ echo -e "${YELLOW}Orphan docs (no incoming links — candidates to link from IND
 orphan_count=0
 for rel in $(echo "${!NODE_DIR[@]}" | tr ' ' '\n' | sort); do
   base="$(basename "$rel")"
+  # log/lessons/* are generated by promote-insight.sh — standalone by design, skip noise
+  [[ "$rel" == log/lessons/* ]] && continue
   if [[ "${INCOMING[$rel]}" -eq 0 && -z "${ENTRY_POINT[$base]:-}" ]]; then
     echo -e "  ${MUTED}$rel${RESET}"
     ((orphan_count++)) || true
@@ -233,12 +287,19 @@ for rel in $(echo "${!NODE_DIR[@]}" | tr ' ' '\n' | sort); do
 done
 [[ $hub_count -eq 0 ]] && echo -e "  ${MUTED}None${RESET}"
 
+# Heaviest docs (highest token cost to read) — prefer a gist if one exists
+echo ""
+echo -e "${YELLOW}Heaviest docs (top token cost — read a gist/ summary first if available):${RESET}"
+for rel in "${!TOKENS[@]}"; do printf '%d\t%s\n' "${TOKENS[$rel]}" "$rel"; done \
+  | sort -rn | head -8 | awk -F'\t' '{printf "  ~%-8s %s\n", $1"t", $2}'
+
 # Islands (no incoming AND no outgoing)
 echo ""
 echo -e "${RED}Islands (no links at all):${RESET}"
 island_count=0
 for rel in $(echo "${!NODE_DIR[@]}" | tr ' ' '\n' | sort); do
   base="$(basename "$rel")"
+  [[ "$rel" == log/lessons/* ]] && continue
   if [[ "${INCOMING[$rel]}" -eq 0 && "${OUTGOING[$rel]}" -eq 0 && -z "${ENTRY_POINT[$base]:-}" ]]; then
     echo -e "  ${RED}$rel${RESET}"
     ((island_count++)) || true

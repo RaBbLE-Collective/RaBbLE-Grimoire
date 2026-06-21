@@ -1,52 +1,29 @@
-# RaBbLE-Palette Gist
+# RaBbLE-Palette.md — gist
 
-**Source:** `/RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Palette.md`  
-**Token estimate:** ~1,673 tokens  
-**Regenerate:** `bash spells/distill-gists.sh`
+> Source: `RaBbLE-Agent/RaBbLE-Palette.md` | ~1170 → ~250 tokens
+> Regenerate: `bash spells/distill-gists.sh`
 
----
+The single source of truth for all RaBbLE color values — a **synthwave outrun** palette. Change here first, propagate everywhere second.
 
-**Single source of truth.** Change values here first, propagate everywhere second.
+**Philosophy:** void-dark backgrounds (deep space, not grey), neons glow/lit-from-within, text bright off-white (never pure white), hierarchy via luminosity. No pastels, earth tones, or grey-on-grey.
 
-## Design Philosophy
+**Core Neons**
 
-**Synthwave outrun aesthetic:** Void-dark backgrounds + saturated neons + bright off-white text. Hierarchy via luminosity. No pastels, earth tones, or grey-on-grey.
-
-## Core Neons (Primary Identity)
-
-| Role | Hex | Description |
+| Role | Var | Hex |
 |---|---|---|
-| **Hot Magenta** | `#ff2d78` | Primary neon — borders, highlights, active elements, prompt accent |
-| **Electric Cyan** | `#00f5ff` | Secondary neon — links, git status, info, secondary highlights |
-| **Soft Violet** | `#bf5fff` | Tertiary neon — taglines, decorative elements, mild accents |
-| **Outrun Pink** | `#ff79c6` | Grid/horizon color — untracked files, warnings, soft highlights |
+| Hot Magenta | `magenta` | `#ff2d78` |
+| Electric Cyan | `cyan` | `#00f5ff` |
+| Soft Violet | `violet` | `#bf5fff` |
+| Outrun Pink | `pink` | `#ff79c6` |
 
-## Backgrounds (The Void)
+**Backgrounds (Void)** — `bg #0a0010` · `surface #12132a` · `raised #1a1b2e` · `border #2a2840`
 
-| Role | Hex | Description |
-|---|---|---|
-| **Deep Void** | `#0a0010` | Primary background — near-black with deep purple tint |
-| **Surface** | `#12132a` | Slightly elevated — panels, sidebars, inactive areas |
-| **Raised** | `#1a1b2e` | Input fields, cards, popups — distinctly above bg |
-| **Border** | `#2a2840` | Inactive borders, dividers |
+**Text** — `text #e8e6f0` · `muted #6b6880`
 
-## Text (The Signal)
+**Semantic** — `red #e05c6f` (error) · `green #50fa7b` (success) · `yellow #f1fa8c` (warning)
 
-| Role | Hex | Description |
-|---|---|---|
-| **Primary Text** | `#e8e6f0` | Main readable text — bright off-white, cool tint |
-| **Muted Text** | `#6b6880` | Secondary, dimmed, comments — readable but recedes |
+- **Magenta** = signature: borders, active elements, prompt, Hyprland active border, GRUB, Starship.
+- **Glow** is config-level, not a hex change — e.g. Hyprland gradient `#ff2d78 → #bf5fff`, Waybar `text-shadow: 0 0 8px #ff2d78`.
+- Deployment source: Ansible `rabble_palette` block in `ansible/inventory/group_vars/all.yml`.
 
-## Semantic
-
-| Role | Hex | Description |
-|---|---|---|
-| **Error/Urgent** | `#e05c6f` | Errors, destructive actions, critical alerts |
-| **Success** | `#50fa7b` | Success states, clean diff, OK status |
-| **Warning** | `#f1fa8c` | Warnings, staged changes, caution |
-
-**Glow effect:** Applied at application layer via CSS text-shadow/outline/DropShadow — not by changing hex values.
-
----
-
-→ Full doc for: Ansible variable deployment block, glow effect implementation per layer, detailed component mapping, cross-reference links
+→ Full doc for: per-layer glow methods (SDDM, Plymouth, GRUB), full component→variable mapping, the complete Ansible YAML block, and cross-reference theming docs.

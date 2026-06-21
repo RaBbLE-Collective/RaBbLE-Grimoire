@@ -55,8 +55,9 @@ Spells are bash scripts in `spells/` that manage the RaBbLE Collective. Grimoire
 
 | Spell | Purpose | When to use |
 |---|---|---|
-| `distill-gists.sh` | Regenerate gist/ summaries via Claude CLI | After major doc changes |
-| `graph-grimoire.sh` | Build doc link graph (JSON + Mermaid); report orphans/hubs/islands | Auditing cross-links, finding disconnected docs |
+| `grimoire-doctor.sh` | **Self-healing drift scan**: broken nav links, unindexed docs, stale gists, stale door | Every commit (pre-commit hook); before/after restructures |
+| `distill-gists.sh` | Regenerate gist/ summaries via Claude CLI (validates output) | After major doc changes; when `grimoire-doctor` flags a stale gist |
+| `graph-grimoire.sh` | Token-weighted doc graph; orphans/hubs/islands/heaviest; `--walk <doc>` low-token traversal | Auditing cross-links; planning a low-token reading path |
 | `token-budget.sh` | Calculate token cost of onboarding paths | Auditing doc bloat, optimizing agent context |
 | `session-tokens.sh` | Parse agent transcripts for token usage | Tracking token spend per session/project |
 | `end-session.sh` | Record end-of-session feature breadcrumb (agent-agnostic) | Closing a session — tag its token spend |
@@ -297,16 +298,29 @@ bash spells/token-budget.sh                   # full per-file breakdown
 bash spells/token-budget.sh --summary         # totals only
 ```
 
-### `graph-grimoire.sh` — Documentation Link Graph
+### `graph-grimoire.sh` — Token-Weighted Documentation Graph
 
-Scans all `.md` files, extracts markdown links, builds an adjacency graph. Reports orphan docs (no incoming links), hub docs, and islands (completely disconnected).
+Scans all `.md` files, extracts **both** markdown `[](links)` **and** backtick `` `path.md` `` nav refs (the Grimoire's nav docs cite docs in backticks), builds an adjacency graph. Every node and edge carries a `tokens` estimate (words × 1.33) — each edge is the **cost of reading the doc it points to**, so agents can plan a low-token reading walk. Reports orphans, hubs, islands, and the heaviest docs.
 
 ```bash
-bash spells/graph-grimoire.sh                 # graph + summary
+bash spells/graph-grimoire.sh                 # graph + summary (orphans/hubs/islands/heaviest)
 bash spells/graph-grimoire.sh --json-only     # JSON only, skip Mermaid
+bash spells/graph-grimoire.sh --walk AGENT.md # low-token traversal: neighbors by token cost, cheapest first
 ```
 
-**Outputs:** `log/grimoire-graph.json` (adjacency list), `log/grimoire-graph.md` (Mermaid diagram — renderable in GitHub/Obsidian).
+**Outputs:** `log/grimoire-graph.json` (nodes & edges with `tokens`), `log/grimoire-graph.md` (Mermaid; token cost in each label).
+
+### `grimoire-doctor.sh` — Self-Healing Drift Scan
+
+One command that catches the ways the Grimoire rots. Full protocol + forward plan: `RaBbLE-Agent/RaBbLE-Grimoire-SelfHealing.md`.
+
+```bash
+bash spells/grimoire-doctor.sh                # full report (always exit 0)
+bash spells/grimoire-doctor.sh --strict       # exit 1 on any ERROR (hooks/CI)
+bash spells/grimoire-doctor.sh --quiet        # problems + summary only
+```
+
+**Checks:** C1 broken links in nav docs · C2 docs not reachable from `INDEX.md` · C3 gists whose source is newer · C4 the Collective-root "door" falling behind `SESSION-LOG`. Wired into the **pre-commit hook** (warn-only) so drift surfaces the moment it's committed.
 
 ### `session-tokens.sh` — Claude Code Token Telemetry
 

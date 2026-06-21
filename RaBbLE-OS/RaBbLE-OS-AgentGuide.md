@@ -30,7 +30,7 @@ historical/     Stale docs — KDE-spin era installs, branch diffs, implementati
 | Work on a specific layer | `layers/RaBbLE-OS-Layer-<name>.md` |
 | Work on boot chain | `layers/RaBbLE-OS-Layer-Boot.md` → `fix/RaBbLE-OS-Fix-BootChain.md` |
 | Work on NVIDIA / GPU | `fix/RaBbLE-OS-Fix-Nvidia.md` |
-| Work on Hyprland config | `desktop/RaBbLE-OS-Desktop-Hyprland.md` |
+| Work on Hyprland config | `desktop/RaBbLE-OS-Desktop-Hyprland.md` (API ref: `Hyprland-0.55-Reference.md`) |
 | Work on theming | `desktop/RaBbLE-OS-Desktop-Theming.md` |
 | Work on the Waybar Claude/Codex usage pills | `desktop/RaBbLE-OS-Desktop-sCoRE-UsageTracker.md` |
 | Work on the fastfetch logo / fx layers | `desktop/RaBbLE-OS-Desktop-Fastfetch.md` |

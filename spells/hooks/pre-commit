@@ -35,4 +35,15 @@ if [[ ${#FOUND[@]} -gt 0 ]]; then
   exit 1
 fi
 
+# ── Grimoire drift check (self-healing front line) ───────────────────────────
+# Warn-only. Runs ONLY in the Grimoire repo (where grimoire-doctor.sh exists),
+# and only when docs/gists are staged. Surfaces broken nav links, unindexed
+# docs, stale gists, and a stale "door" the moment they're committed — without
+# blocking the commit. Make it blocking with `--strict` here if desired.
+ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"
+if [[ -x "$ROOT/spells/grimoire-doctor.sh" ]] \
+   && git diff --cached --name-only | grep -qE '\.md$|^gist/'; then
+  "$ROOT/spells/grimoire-doctor.sh" --quiet || true
+fi
+
 exit 0

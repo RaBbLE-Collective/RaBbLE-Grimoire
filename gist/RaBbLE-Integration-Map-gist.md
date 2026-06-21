@@ -1,31 +1,32 @@
-# RaBbLE Integration Map — gist
+# RaBbLE-Integration-Map — gist
 
-> Source: `RaBbLE-Agent/RaBbLE-Integration-Map.md` | ~1,200 → ~300 tokens
+> Source: `RaBbLE-Agent/RaBbLE-Integration-Map.md` | ~1200 → ~250 tokens
 > Regenerate: `bash spells/distill-gists.sh`
 
-**What it is:** The wiring diagram of the Collective — how members exchange data, assets, and intent.
+The wiring diagram of the Collective — how members exchange data, assets, and intent.
 
-**Data flow:**
-```
-User → World (web UI) → sCoRE (intent routing) → Claude/LLM (delegation)
-                ↑                    ↑
-            Aether (CSS)        OS (system state)
-            NeBuLA (renderer)   Memory (future — observation store)
-```
+**Data flow:** `User → World (UI) → sCoRE (intent routing) → Agent/LLM`. Aether (CSS) + NeBuLA (renderer) feed World via CDN; OS feeds ambient state to sCoRE; Memory (future) closes the observation loop.
 
 **Integration patterns:**
-| Pattern | From → To | Mechanism | Status |
-|---|---|---|---|
-| Visual theming | Aether → World, NeBuLA | CDN CSS bundle | Live |
-| Entity rendering | NeBuLA → World | CDN IIFE, `<rabble-entity>` | Live |
-| Intent routing | World → sCoRE | HTTP/REST | Planned (Ep1) |
-| LLM delegation | sCoRE → Claude/Groq | Subprocess or API | Planned (Ep1) |
-| System observation | OS → sCoRE | Ambient state | Post-Ep1 |
-| Knowledge | Grimoire → All | Filesystem + sync spell | Live |
-| Pattern store | sCoRE ↔ Memory | Observation loop | Concept (Echo 1+) |
 
-**CDN chain:** `Aether src/ → esbuild → R2 → World <link>` · `NeBuLA src/ → esbuild → R2 → World <script>`. Local dev: `dev-serve.sh` mocks CDN.
+| From → To | Mechanism | Status |
+|---|---|---|
+| Aether → World/NeBuLA | CDN CSS (`aether.min.css`) | Live |
+| NeBuLA → World | CDN IIFE (`nebula.iife.js`), `<rabble-entity>` | Live |
+| World → sCoRE | HTTP/REST | Planned (Ep1) |
+| sCoRE → Claude/Groq | Subprocess CLI / HTTP API | Planned (Ep1) |
+| OS → sCoRE | Ambient state | Post-Ep1 |
+| Grimoire → All | Direct filesystem ref (no copying, S105) | Live |
+| sCoRE ↔ Memory | Observation store/retrieve | Concept (Echo 1+) |
+| BaBbLE → member | Manual triage | Active |
 
-**Key boundaries:** World never imports source (CDN only) · sCoRE is the only external API caller · Grimoire never runs · OS is read-only substrate · NeBuLA owns rendering · Aether owns CSS.
+**CDN chain:** `src/ → esbuild → bundle → Cloudflare R2 → World`. Versioned bundles; version bumps at Episode boundaries. World links `aether.css` (unminified) locally via `dev-serve.sh`.
 
-→ Full doc for: dependency graph, post-Ep1 integration points, local dev workflow, boundary rationale
+**Load-bearing boundaries:**
+- World never imports source — CDN bundles only; thin scaffold.
+- sCoRE is the only member calling external APIs.
+- Grimoire never runs (docs/spells/registry only).
+- OS provides ambient state, receives no writes.
+- NeBuLA owns all rendering; Aether owns all CSS/tokens.
+
+→ Full doc for: dependency graph, local-dev build commands, member architecture doc links, post-Ep1 integration points (real-time entity state, observation loop, intent suggestion, ScRibLE sync).

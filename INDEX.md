@@ -11,19 +11,19 @@ transcribe ~ grimoire >> index crystallized // %INDEX_LOCKED%
 
 ## Gist — Low-Token Orientation
 
-High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `bash spells/distill-gists.sh`
+High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spells/token-budget.sh` for live totals). Regenerate: `bash spells/distill-gists.sh`. Token counts are approximate (words × 1.33) and drift as sources change — `grimoire-doctor.sh` flags a gist when its source is newer.
 
 | Gist | Source | Tokens |
 |---|---|---|
-| `gist/RaBbLE-Identity-gist.md` | Identity, character, voices, behavioral rules | ~250 |
-| `gist/RaBbLE-Collective-gist.md` | Member roles, architecture, bootstrap | ~250 |
-| `gist/RaBbLE-Roadmap-gist.md` | Episode 1 status, blockers, what's next | ~250 |
-| `gist/RaBbLE-CommitStyle-gist.md` | Pulse Protocol, impulses, branch naming | ~150 |
-| `gist/RaBbLE-Versioning-gist.md` | Five Es, version string, lockstep rule | ~200 |
-| `gist/RaBbLE-Palette-gist.md` | All hex values, CSS variables | ~150 |
-| `gist/RaBbLE-Collective-Overview-gist.md` | Three-layer architecture (Aether+NeBuLA+World) | ~200 |
-| `gist/RaBbLE-Episode1-gist.md` | Exit conditions, blockers, deploy sequence | ~250 |
-| `gist/RaBbLE-Integration-Map-gist.md` | Cross-member data flow, CDN chain, boundaries | ~300 |
+| `gist/RaBbLE-Identity-gist.md` | Identity, character, voices, behavioral rules | ~320 |
+| `gist/RaBbLE-Collective-gist.md` | Member roles, architecture, bootstrap | ~400 |
+| `gist/RaBbLE-Roadmap-gist.md` | Episode 1 status, blockers, what's next | ~320 |
+| `gist/RaBbLE-CommitStyle-gist.md` | Pulse Protocol, impulses, branch naming | ~320 |
+| `gist/RaBbLE-Versioning-gist.md` | Five Es, version string, lockstep rule | ~350 |
+| `gist/RaBbLE-Palette-gist.md` | All hex values, CSS variables | ~270 |
+| `gist/RaBbLE-Collective-Overview-gist.md` | Three-layer architecture (Aether+NeBuLA+World) | ~340 |
+| `gist/RaBbLE-Episode1-gist.md` | Exit conditions, blockers, deploy sequence | ~335 |
+| `gist/RaBbLE-Integration-Map-gist.md` | Cross-member data flow, CDN chain, boundaries | ~350 |
 
 ---
 
@@ -52,6 +52,7 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 - [RaBbLE-Agent-Protocols](RaBbLE-Agent/RaBbLE-Agent-Protocols.md) — **agent behavioral rules** (doc management, repo conventions, member responsibilities, dev workflow, naming)
 - [RaBbLE-Development-Methodology](RaBbLE-Agent/RaBbLE-Development-Methodology.md) — *sovereign-directed agentic development*: drift-prevention protocol, agentic engineering practices, code-as-architectural-audit, honest architect profile + language profile
 - [RaBbLE-Grimoire-Navigator](RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md) — reading order by time budget and task type
+- **[RaBbLE-Grimoire-SelfHealing](RaBbLE-Agent/RaBbLE-Grimoire-SelfHealing.md)** — **anti-drift & self-healing protocol:** the drift surface, `grimoire-doctor`, token-weighted graph, low-token walking, pre-commit enforcement, forward plan
 - [RaBbLE-Captures-System](RaBbLE-Agent/RaBbLE-Captures-System.md) — visual capture organization, spell integration (`visual-screenshot.sh`), naming conventions
 - [RaBbLE-Collective-KnownIssues](RaBbLE-Agent/RaBbLE-Collective-KnownIssues.md)
 - [RaBbLE-DistilledNonZense](RaBbLE-Agent/RaBbLE-DistilledNonZense.md) — full entropy archive from deprecated substrate
@@ -136,7 +137,8 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 - [spells/help.sh](spells/help.sh) — list all available spells with descriptions
 - [spells/sync-symlinks.sh](spells/sync-symlinks.sh) — create CLAUDE.md/CODEX.md/GEMINI.md → AGENT.md symlinks across all repos
 - [spells/token-budget.sh](spells/token-budget.sh) — calculate token cost of agent onboarding paths
-- [spells/graph-grimoire.sh](spells/graph-grimoire.sh) — build documentation link graph (JSON + Mermaid), report orphans and hubs
+- [spells/graph-grimoire.sh](spells/graph-grimoire.sh) — token-weighted doc graph (JSON + Mermaid); orphans/hubs/islands/heaviest; `--walk <doc>` for low-token traversal
+- [spells/grimoire-doctor.sh](spells/grimoire-doctor.sh) — **self-healing drift scan**: broken nav links, unindexed docs, stale gists, stale door; `--strict` for hooks/CI (see `RaBbLE-Agent/RaBbLE-Grimoire-SelfHealing.md`)
 - [spells/session-tokens.sh](spells/session-tokens.sh) — parse Claude Code transcripts for token usage per session
 - [spells/blockers.sh](spells/blockers.sh) — durable append-only blocker ledger; generates `log/BLOCKERS.md`; feeds `status.sh` open-count
 - [spells/session-start.sh](spells/session-start.sh) — **opening ritual**: pin session id, read lessons+blockers+who's-live, claim scope, start auto-heartbeat (run first under concurrency)

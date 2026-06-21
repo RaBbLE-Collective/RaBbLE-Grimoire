@@ -70,7 +70,7 @@ See `RaBbLE-Agent/RaBbLE-CommitStyle.md` (Pulse Protocol) for full spec.
 
 ## Workspaces
 
-**For quick reference, read `gist/*.md` first (~1,700 tokens total). Only load the full doc from the table below when you need implementation detail.**
+**For quick reference, read `gist/*.md` first (~3,000 tokens total). Only load the full doc from the table below when you need implementation detail.**
 
 | Task | Go to | Read first |
 |---|---|---|
@@ -95,9 +95,9 @@ See `RaBbLE-Agent/RaBbLE-CommitStyle.md` (Pulse Protocol) for full spec.
 
 ## Getting Started
 
-**New to the Grimoire?** Start with the gist/ for a full picture in ~1,700 tokens:
+**New to the Grimoire?** Start with the gist/ for a full picture in ~3,000 tokens:
 ```bash
-cat gist/*.md                       # complete orientation — all key docs distilled (~1,700 tokens)
+cat gist/*.md                       # complete orientation — all key docs distilled (~3,000 tokens)
 cat RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md    # reading paths by time budget (5/15/30 min)
 ```
 

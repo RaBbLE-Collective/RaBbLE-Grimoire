@@ -32,8 +32,11 @@ if ! command -v claude &>/dev/null; then
   exit 1
 fi
 
-# Distillation prompt — injected before each doc
-read -r -d '' DISTILL_PROMPT << 'EOF'
+# Distillation prompt — injected before each doc.
+# NOTE: `read -d ''` returns non-zero at EOF by design; the trailing `|| true`
+# stops `set -e` from aborting the whole script here. Without it, gist
+# regeneration silently no-ops and the gists drift stale (audit finding S142).
+read -r -d '' DISTILL_PROMPT << 'EOF' || true
 You are distilling a Grimoire document into a gist — a high-density, low-token summary.
 
 Rules:
@@ -92,7 +95,19 @@ Source file: $source (approx $tokens tokens)
 
 $(cat "$source_path")"
 
-  claude --print "$full_prompt" > "$output_path"
+  # Write to a temp first and validate: a real gist starts with a "# … — gist"
+  # title. Nested claude occasionally emits a meta/permission message instead of
+  # content (it did to the versioning gist, S142); without this guard that text
+  # silently overwrites a good gist. On bad output, keep the previous file.
+  local tmp; tmp="$(mktemp)"
+  claude --print "$full_prompt" > "$tmp" || true
+  if ! head -1 "$tmp" | grep -q '^# '; then
+    echo "  WARN $slug — output is not a gist (no '# ' title); kept previous file."
+    echo "       (nested claude likely returned a meta/permission message — re-run: distill-gists.sh $slug)"
+    rm -f "$tmp"
+    return
+  fi
+  mv "$tmp" "$output_path"
   local words
   words=$(wc -w < "$output_path")
   echo "  OK   $output ($words words)"
