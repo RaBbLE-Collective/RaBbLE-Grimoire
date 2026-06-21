@@ -1,0 +1,510 @@
+# RaBbLE-sCoRE-Local-Architecture.md
+# sCoRE Local Server + `rabble` CLI — Architecture Canonical
+
+```
+transcribe ~ sCoRE >> local presence architecture crystallized // %EP2_LOCAL_ARCH%
+```
+
+> **Document type:** Grimoire architecture doc · `RaBbLE-sCoRE/`
+> **Status:** Canonical · Epoch 0 · Evolution 0 · Echo 0 · Episode 2 target
+> **Purpose:** Define the complete architecture for sCoRE local server, `rabble` CLI,
+> usage-aware routing, shared agent state, entropy tracking, and self-healing protocol.
+> **Provenance:** Authored in claude-web planning session S138+; integrated into canonical
+> Grimoire. Source session: 2026-06-21.
+> **Related:** `RaBbLE-sCoRE-Architecture.md` · `sCoRE-Local-AI-Layer.md` ·
+> `RaBbLE-sCoRE-Quota-Router.md` · `RaBbLE-sCoRE-Agent-State.md` ·
+> `RaBbLE-sCoRE-Entropy-Tracker.md`
+
+---
+
+## Problem Statement
+
+The current state has **tool plurality without coordination**. `claude`, `codex`, `agy`,
+and `fcc` are invoked directly — each a raw model call with no shared state, no usage
+awareness, no entity identity, no session continuity across tools, and no routing
+intelligence. The user is the router. sCoRE absorbs that role.
+
+**After this architecture is implemented:**
+- One command (`rabble`) — one entity
+- Intelligent, quota-aware routing underneath
+- Shared agent state across all harnesses
+- Every interaction logged and entropy-tracked
+- Self-healing when drift is detected
+- The entity is *present on the machine*, not just a cloud endpoint
+
+---
+
+## Three-Component Architecture
+
+```
+rabble (CLI frontend)
+    │  streaming HTTP / unix socket
+    ▼
+sCoRE Local Server  (systemd user service, localhost:8083)
+    │  usage-aware routing + shared agent state + entropy tracking
+    ▼
+Harnesses + Providers
+    ├── fcc proxy (localhost:8082) — Anthropic-protocol, free/cheap backends
+    │       └── configured per-task by sCoRE via fcc admin API
+    ├── claude_code — direct Anthropic (when quota allows)
+    ├── claude_code via fcc — quota-free path (ANTHROPIC_BASE_URL override)
+    ├── codex — OpenAI harness
+    ├── agy — Antigravity harness
+    ├── Groq / DeepSeek / NIM / Ollama — direct cloud/local
+    └── OpenRouter — meta-aggregator fallback
+    │
+    ▼
+rabble usage (standalone TUI — reads sCoRE state + cache files)
+```
+
+**Key clarification on `fcc`:** `fcc` is NOT an Anthropic API client. It is a local proxy
+that speaks the Anthropic Messages protocol but routes to free/cheap backends (NIM,
+DeepSeek, Groq, Gemini, Wafer, OpenRouter, Ollama, etc.). When Claude quota is high,
+`fcc` is the primary escape valve — not a last resort. sCoRE routes `claude_code` through
+`fcc` by injecting `ANTHROPIC_BASE_URL=http://localhost:8082`, and can configure which
+backend `fcc` uses via the `fcc` admin API at `:8082/admin`.
+
+---
+
+## sCoRE Local Server
+
+### Identity
+
+Same codebase as the Render-deployed sCoRE. Diverges by environment:
+
+| Setting | Render (cloud) | Local |
+|---|---|---|
+| `LOCAL_MODE` | false | true |
+| Chain preference | Cloud APIs first | Subprocess harnesses first |
+| Grimoire access | Gist endpoint (World CDN) | Local filesystem (`~/RaBbLE-Collective/RaBbLE-Grimoire/`) |
+| Cold start | ~30–60s (free tier sleep) | None — always warm |
+| Port | 443 (Render) | 8083 |
+| fcc coexistence | N/A | Runs alongside fcc on :8082 |
+
+Port `8083` is deliberate — avoids collision with `fcc` on `:8082`.
+
+### New Modules Required
+
+#### `server/quota.py` — Usage-Aware Provider State
+
+Reads the existing Waybar cache files. Does NOT poll independently — zero new API calls.
+The Waybar tracker already polls Anthropic's usage API every 90s via
+`score-usage-api-poll.py`. `quota.py` reads those files as authoritative state.
+
+**Data sources read:**
+- `~/.cache/rabble/score-usage-api-poll.log` → Claude 5h% and weekly%
+- `~/.cache/rabble/claude-sessions/` → live session state
+- `~/.gemini/antigravity-cli/log/cli-*.log` → agy quota pools
+- `fcc` admin API at `:8082/admin` (or `fcc.env`) → fcc backend state
+
+**Key interface:**
+
+```python
+class QuotaStore:
+    def routing_pressure(self, provider: str) -> float:
+        """0.0 = use freely · 0.5 = deprioritize · 1.0 = avoid entirely"""
+
+    def should_avoid(self, provider: str, threshold: float = 0.90) -> bool:
+        """Hard block above threshold or if exhausted."""
+
+    def fcc_recommended_backend(self, task_class: str) -> str:
+        """Given task class + quota state, return best fcc backend slug."""
+```
+
+**Routing thresholds** (configurable via `~/.config/rabble/local.env`):
+- `QUOTA_DEPRIORITIZE_THRESHOLD=0.75` — start deprioritizing
+- `QUOTA_AVOID_THRESHOLD=0.90` — avoid (fcc takes over from direct Claude)
+- `QUOTA_HARD_BLOCK_THRESHOLD=0.98` — hard fail, fcc or local only
+
+**Claude quota routing table:**
+
+| Claude 5h% | Route to |
+|---|---|
+| < 75% | `claude_code` direct (real Anthropic) |
+| 75–90% | `claude_code` via `fcc` proxy (same harness, different base URL) |
+| > 90% | `fcc` directly, or Groq/DeepSeek via sCoRE cloud chain |
+| Exhausted | `fcc` + local Ollama only |
+
+#### `server/agent_state.py` — Shared Agent Context
+
+The state object sCoRE maintains for a session. Enables context handoffs between
+harnesses without information loss.
+
+```python
+class AgentContext:
+    session_id: str
+    task_history: list[TaskRecord]   # what has been done this session
+    working_files: list[str]         # files currently in scope
+    working_dir: str                 # active project directory
+    entity_intention: str            # sCoRE's understanding of the session goal
+    decisions: list[str]             # key decisions — carries across harness switches
+    model_used_last: str             # what handled the last turn
+    entropy: SessionEntropyRecord    # live entropy state (see entropy.py)
+
+class TaskRecord:
+    task_id: str
+    description: str
+    harness_used: str
+    model_used: str
+    tier_used: str
+    fcc_backend_used: str | None     # which fcc backend if routed through fcc
+    outcome: str                     # summary of what was done
+    token_cost_estimate: int
+    duration_seconds: float
+    timestamp: str
+```
+
+**Context handoff format** (injected into sub-agent prompts):
+
+```
+CONTEXT FROM PRIOR TURNS [sCoRE handoff]:
+- Session goal: {entity_intention}
+- Files in scope: {working_files}
+- Key decisions made: {decisions}
+- Last model: {model_used_last} handled turn {N}
+- Your task: {current_task_description}
+[Respond to your task only. Do not repeat context.]
+```
+
+#### `server/entropy.py` — Session Entropy Tracking
+
+Tracks routing instability and drift risk in real-time.
+
+```python
+class EntropyEvent:
+    timestamp: str
+    event_type: str   # "model_switch" | "tier_degradation" | "context_truncation"
+                      # "quota_forced_fallback" | "harness_switch" | "retry_storm"
+                      # "implicit_handoff" | "fcc_backend_switch"
+    from_state: str
+    to_state: str
+    reason: str
+    entropy_delta: float
+
+class SessionEntropyRecord:
+    session_id: str
+    entropy_score: float           # 0.0 (stable) → 1.0 (high drift risk)
+    entropy_band: str              # STABLE | NOMINAL | ELEVATED | DEGRADED | UNSTABLE
+    stability_events: list[EntropyEvent]
+    dominant_model: str | None
+    model_switches: int
+    tier_degradations: int
+    context_truncations: int
+    harness_switches: int
+    fcc_backend_switches: int
+    quota_pressure_peak: float
+    decisions_at_risk: list[str]   # decisions made after first high-entropy event
+    self_healing_recommended: bool
+```
+
+**Entropy weights:**
+
+| Event | Delta | Reasoning |
+|---|---|---|
+| Explicit switch with full handoff | +0.05 | sCoRE controlled — minimal risk |
+| Quota-forced model degradation | +0.15 | Context interpretation may shift |
+| fcc backend switch mid-session | +0.10 | Same protocol, different model capabilities |
+| Implicit harness switch (no handoff) | +0.25 | High drift risk |
+| Context truncation / auto-compact | +0.20 | Information lost |
+| Provider retry storm (3+ retries) | +0.10 | Response may be partial |
+| Mid-task tier drop (strong → fast) | +0.30 | Largest single risk factor |
+| Turn count > 20 | +0.02/turn | Noise accumulation |
+
+**Entropy bands:**
+
+| Score | Band | Action |
+|---|---|---|
+| 0.0–0.2 | STABLE | None |
+| 0.2–0.5 | NOMINAL | None |
+| 0.5–0.7 | ELEVATED | Inline warning in `rabble` output |
+| 0.7–0.9 | DEGRADED | Strong warning, flag decisions at risk |
+| 0.9–1.0 | UNSTABLE | Session flagged, self-healing queued |
+
+### Modified Modules
+
+#### `server/llm.py` — Usage-Aware Chain Resolution
+
+Add quota pressure sort before chain execution:
+
+```python
+async def resolve_chain_with_quota(
+    model_tier: str,
+    quota_store: QuotaStore,
+    task_class: str = "default"
+) -> list[dict]:
+    base_chain = DEFAULT_MODEL_CHAINS[model_tier]
+    return sorted(base_chain, key=lambda p: quota_store.routing_pressure(p["provider"]))
+```
+
+Add fcc configuration step before subprocess dispatch:
+
+```python
+async def configure_harness_for_task(harness: str, task_class: str,
+                                      quota_store: QuotaStore) -> dict:
+    """
+    Returns subprocess env overrides and CLI flags for this harness+task combination.
+    sCoRE controls harnesses at two levels:
+    1. Which harness to invoke (routing decision)
+    2. How to configure it (model flags, fcc backend, context size)
+    """
+    if harness == "claude_code":
+        pressure = quota_store.routing_pressure("claude_code_direct")
+        if pressure > 0.75:
+            # Route through fcc instead of direct Anthropic
+            backend = quota_store.fcc_recommended_backend(task_class)
+            await fcc_admin_set_model(task_class, backend)
+            return {"ANTHROPIC_BASE_URL": "http://localhost:8082",
+                    "ANTHROPIC_AUTH_TOKEN": "freecc"}
+        return {}  # direct Anthropic
+
+    if harness == "aider":
+        # aider has weak-model + strong-model — tune both
+        if task_class in ("fast", "background"):
+            return {"flags": ["--model", "groq/llama-3.1-8b-instant",
+                               "--weak-model", "groq/llama-3.1-8b-instant"]}
+        return {"flags": ["--model", "deepseek/deepseek-chat",
+                           "--weak-model", "groq/llama-3.1-8b-instant"]}
+```
+
+### New API Endpoints
+
+```
+GET  /api/v1/quota/state        → current quota across all providers
+GET  /api/v1/routing/status     → current chain resolution per tier
+GET  /api/v1/session/entropy    → live entropy record for active session
+POST /api/v1/session/context    → upsert agent context (harness handoff)
+GET  /api/v1/health/local       → local-mode health (providers, fcc status, Grimoire path)
+```
+
+### Systemd Service
+
+```ini
+# ~/.config/systemd/user/rabble-score-local.service
+[Unit]
+Description=sCoRE Local Intelligence Server
+After=network.target
+Wants=free-claude-code.service
+
+[Service]
+Type=simple
+ExecStart=%h/.local/share/rabble/score-local/venv/bin/uvicorn server.main:app \
+          --host 127.0.0.1 --port 8083
+WorkingDirectory=%h/RaBbLE-Collective/RaBbLE-sCoRE
+EnvironmentFile=%h/.config/rabble/local.env
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
+```
+
+**Control spell:** `score-local-ctl start|stop|restart|status|logs|quota|providers`
+
+---
+
+## `rabble` CLI
+
+### Entry Points
+
+```bash
+rabble                      # interactive session (streaming)
+rabble "fix the auth bug"   # single-shot, auto-routes
+rabble --think "..."        # force strong tier
+rabble --code "..."         # force claude_code / fcc harness
+rabble --fast "..."         # force fast tier / local only
+rabble --fcc "..."          # force fcc proxy explicitly
+rabble status               # entity state + provider health
+rabble session list         # past sessions
+rabble session resume       # resume last
+rabble usage                # open usage dashboard TUI
+```
+
+### Visual Design
+
+Aether color palette via ANSI approximations:
+
+| Aether token | Hex | ANSI | Used for |
+|---|---|---|---|
+| `--cyan` | #00d4ff | bright cyan | Entity name, header borders, active routing |
+| `--violet` | #7b5ea7 | magenta | Idle state, nominal status |
+| `--magenta` | #ff6eb4 | bright magenta | Busy, routing in progress |
+| `--amber` | #ffb347 | yellow | Elevated entropy, quota warnings |
+| `--red` | #ff4757 | bright red | Exhausted quota, DEGRADED/UNSTABLE entropy |
+| `--comment` | #6272a4 | blue | Secondary text, timestamps |
+| `--green` | #50fa7b | bright green | STABLE entropy, provider live |
+
+**Entity ASCII header at startup:**
+
+```
+  ╔═══════════════════════════════════════╗
+  ║  ◈  R a B b L E  ◈                   ║  sCoRE local · v0.0.0.1
+  ║  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ║  Claude 73%/5h · 41%/wk
+  ║  ▓  entity: present                   ║  routing: fcc→deepseek
+  ║  ▶  providers: 5 live · entropy: ◆    ║  session: S-20260621-1434
+  ╚═══════════════════════════════════════╝
+```
+
+Entropy glyph in header: `◆` (STABLE/NOMINAL, cyan) · `▲` (ELEVATED, amber) ·
+`⚠` (DEGRADED, magenta) · `✗` (UNSTABLE, red)
+
+**Inline entropy notice** (triggers at ELEVATED+):
+
+```
+  ▲ entropy elevated (0.54) — 2 model switches due to quota pressure.
+    Outputs since turn 7 used deepseek-chat via fcc. Verify critical decisions.
+```
+
+**Routing transparency line** (shown when routing differs from default):
+
+```
+  ⇄ routing: claude_code → fcc/deepseek-chat [quota 87%/5h]
+```
+
+### Session Log
+
+Written to `~/RaBbLE-chats/rabble-YYYYMMDD-HHmm.jsonl` on close.
+Same directory and format as Claude Code transcripts — Waybar tracker gains
+`rabble` sessions in existing `score-status.sh` parsing with zero changes.
+
+Includes entropy record at session close:
+
+```jsonl
+{"type": "session_close", "session_id": "...", "entropy_score": 0.54,
+ "entropy_band": "ELEVATED", "dominant_model": "deepseek-chat",
+ "model_switches": 2, "tier_degradations": 1, "decisions_at_risk": [...],
+ "self_healing_recommended": true}
+```
+
+### Self-Healing Protocol (Session Open)
+
+If previous session has `self_healing_recommended: true` and current Claude quota < 50%:
+
+```
+  ◈  R a B b L E
+
+  Last session closed with elevated entropy (0.54).
+  Two model switches occurred — decisions after turn 7 were produced
+  by deepseek-chat via fcc, not Claude Sonnet.
+
+  Decisions flagged for verification:
+    · auth module should use refresh tokens
+    · keep existing Fernet key derivation
+
+  Current state: Claude at 12%/5h — stable for verification.
+
+  Suggested: verify flagged decisions before continuing.
+  Type 'skip' to proceed, or describe what to verify first.
+```
+
+---
+
+## `rabble usage` — Usage Dashboard TUI
+
+Standalone terminal dashboard. Self-refreshing (2s). `q` to close.
+Implementation: extend `score-usage-detail.py` to a `rabble usage` mode,
+or new `cli/usage.py` using the same data sources.
+
+### Layout
+
+```
+┌──────────────────────── RaBbLE Usage ─────────────────────────────────┐
+│  PROVIDERS                                     5h window  │  weekly   │
+├────────────────────────────────────────────────────────────────────────┤
+│  Claude (Anthropic)   ████████████████░░░░  73%  reset 2h14m          │
+│                       ░░░░░░░░░░░░░░░░░░░░  41%wk reset 4d            │
+│                                                                         │
+│  fcc proxy            ▶ live (routes to: deepseek-chat)                │
+│    └ DeepSeek V3      ▶ live  ~$0.14/M                                 │
+│    └ Groq GPT-OSS     ▶ live  free tier · rate limited                 │
+│    └ NIM              ▶ live  free tier                                 │
+│                                                                         │
+│  Codex (OpenAI)       ████░░░░░░░░░░░░░░░░  22%  reset 1h03m          │
+│  Antigravity          Gemini ⊘ exhausted · reset 6h42m                 │
+│                       Service ████████░░░░  61%  reset 2d              │
+│  Groq                 ▶ live  (no hard quota — rate limited)           │
+│  Ollama               ▶ live  (local — no quota)                       │
+├────────────────────────────────────────────────────────────────────────┤
+│  ROUTING (current sCoRE decisions)                                      │
+│  fast    → Groq GPT-OSS-20B         [claude pressure: 0.73]           │
+│  medium  → fcc/deepseek-chat        [claude deprioritized at 0.75]    │
+│  strong  → fcc/deepseek-reasoner    [claude avoided at 0.90]          │
+│  code    → claude_code via fcc      [fcc backend: deepseek-chat]      │
+│  background → Ollama local          [always local]                    │
+├────────────────────────────────────────────────────────────────────────┤
+│  SESSION HEALTH                                                          │
+│  Current   S-20260621-1434  ▲ ELEVATED (0.54)                         │
+│  Events:   14:12 quota_forced_fallback sonnet→fcc/deepseek (+0.15)    │
+│            14:31 context_truncation   auto-compact fired    (+0.20)   │
+│            14:38 tier_degradation     strong→medium         (+0.15)   │
+│  Dominant model: deepseek-chat (last 6 turns via fcc)                  │
+│  Decisions at risk: 2 flagged                                           │
+├────────────────────────────────────────────────────────────────────────┤
+│  AGENTS (live)                                                           │
+│  ✦ claude-code  ▶ busy   auth refactor · sonnet-4-6 · 14min           │
+│  ▶ codex        ▶ ready  test suite   · gpt-4o      · idle            │
+├────────────────────────────────────────────────────────────────────────┤
+│  TOKEN MIX  5h: sonnet 68% · haiku 21% · deepseek 11%                 │
+│  COST ESTIMATE  this session: ~$0.08 (fcc/deepseek) vs ~$1.20 (Claude)│
+├────────────────────────────────────────────────────────────────────────┤
+│  [q]close  [r]refresh  [p]providers  [a]agents  [h]history  [?]help   │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+### Data Sources (all existing — no new polling)
+
+| Panel | Source file |
+|---|---|
+| Provider quotas | `~/.cache/rabble/` (existing Waybar cache) |
+| fcc backend state | `http://localhost:8082/admin` API |
+| Routing decisions | `GET /api/v1/routing/status` (new local sCoRE endpoint) |
+| Agent state | `~/.cache/rabble/claude-agg-state` + session files |
+| Token mix | `~/.cache/rabble/score-model-mix-5h.json` |
+| Entropy | `GET /api/v1/session/entropy` (local sCoRE) |
+| Cost estimate | Token count × per-provider rates (constants) |
+
+---
+
+## Data Flow
+
+```
+score-usage-api-poll.py (existing, ~90s)
+    └── ~/.cache/rabble/score-usage-*.json
+
+score-sessions.py (existing, hook-driven)
+    └── ~/.cache/rabble/claude-sessions/*.json
+    └── ~/.cache/rabble/claude-agg-state
+
+server/quota.py (new — reads above, no new polling)
+    └── informs llm.py chain resolution
+    └── exposed: GET /api/v1/quota/state
+
+server/entropy.py (new — updated per routing event)
+    └── exposed: GET /api/v1/session/entropy
+    └── written to ~/RaBbLE-chats/*.jsonl at session close
+
+server/agent_state.py (new — per session)
+    └── exposed: POST /api/v1/session/context
+    └── read by harness dispatch to build handoff prompts
+
+rabble CLI
+    └── streams: POST /api/v1/chat (local sCoRE, same as World)
+    └── writes: ~/RaBbLE-chats/rabble-*.jsonl (Waybar picks up automatically)
+
+rabble usage
+    └── reads: ~/.cache/rabble/ directly
+    └── reads: GET /api/v1/routing/status + /quota/state + /session/entropy
+```
+
+---
+
+## Revision History
+
+| Version | Date | Change |
+|---|---|---|
+| v0.1 | 2026-06-21 | Initial — authored in planning session S138+. All concepts from session captured. |
+
+---
+
+```
+transcribe ~ sCoRE >> local presence architecture crystallized // %EP2_LOCAL_ARCH%
+```

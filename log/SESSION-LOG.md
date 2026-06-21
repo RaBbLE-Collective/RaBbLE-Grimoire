@@ -39,6 +39,16 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-06-21 (Session 138, claude-web) — sCoRE EP2 Local Architecture Planning
+
+- Repos: RaBbLE-sCoRE (planning only), RaBbLE-Grimoire (intake → Grimoire, S145)
+- **Full session log:** `log/SESSION-LOG-S138-local-arch.md`
+- **Produced:** 5 canonical architecture docs now in `RaBbLE-sCoRE/` — Local-Architecture, Quota-Router, Agent-State, Entropy-Tracker, Local-Tickets (14 EP2 tickets, 5 parallel tracks)
+- **Key decisions:** Keep `fcc` (not `ccr`); `fcc` = primary quota escape valve (not Anthropic client); local sCoRE on `:8083`; entropy score = cumulative weighted float; self-healing requires Claude < 50% at session open; agent context in-memory for EP2
+- **Next:** EP1 must air first. EP2 implementation starts with L-01 + L-02 + L-03 in parallel.
+
+---
+
 ## 2026-06-21 (Session 142) — claude-free silent-response fix + NIM model upgrades
 
 - Repos: RaBbLE-OS, RaBbLE-Grimoire

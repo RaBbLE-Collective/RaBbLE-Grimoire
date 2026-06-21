@@ -2,6 +2,26 @@
 
 > Canonical doc for sCoRE's multi-provider LLM architecture and the long-term RaBbLE TUI goal.
 > Implementation lives in `RaBbLE-sCoRE/server/llm.py`.
+> **EP2 extension:** quota-aware routing, `rabble` CLI, shared agent state, entropy tracking — see `RaBbLE-sCoRE-Local-Architecture.md`.
+
+---
+
+## Critical: `fcc` Correction (S138)
+
+`fcc` (`free-claude-code`) is **NOT** an Anthropic API client. It is a **local proxy** that
+speaks the Anthropic Messages protocol but routes to free/cheap backends: NVIDIA NIM, DeepSeek,
+Groq, Gemini, Wafer, OpenRouter, Ollama, LM Studio, etc. (LiteLLM-backed, 4 routing slots).
+
+**Consequence:** `fcc` has no Anthropic quota. When Claude quota is high, `fcc` is the
+**primary escape valve** — not a last resort.
+
+```
+claude_code → ANTHROPIC_BASE_URL=https://api.anthropic.com  # burns Claude quota
+claude_code → ANTHROPIC_BASE_URL=http://localhost:8082 (fcc)  # zero Claude quota
+```
+
+sCoRE routes `claude_code` through `fcc` by injecting `ANTHROPIC_BASE_URL` before spawning
+the subprocess. See `RaBbLE-sCoRE-Quota-Router.md` for the full routing table.
 
 ---
 

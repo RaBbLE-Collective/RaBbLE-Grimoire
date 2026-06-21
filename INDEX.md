@@ -175,6 +175,11 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-sCoRE-DataCrawler-RFC](RaBbLE-sCoRE/RaBbLE-sCoRE-DataCrawler-RFC.md) — future RFC: Scavenger/Organizer/Librarian crawler bot architecture (post-Episode-1)
 - [RaBbLE-sCoRE-Grimoire-API](RaBbLE-sCoRE/RaBbLE-sCoRE-Grimoire-API.md) — hosted `fetch_grimoire` HTTP tool (gist endpoint); the precursor the Grimoire MCP generalizes
 - [sCoRE-Local-AI-Layer](RaBbLE-sCoRE/sCoRE-Local-AI-Layer.md) — local LLM provider layer (Groq / OpenRouter / NVIDIA NIM), fast-chain config, `NVIDIA_NIM_API_KEY`
+- **[RaBbLE-sCoRE-Local-Architecture](RaBbLE-sCoRE/RaBbLE-sCoRE-Local-Architecture.md)** — **EP2 master doc:** sCoRE local server (`:8083`), `rabble` CLI, usage-aware routing, shared agent state, entropy tracking, self-healing protocol; three-component architecture diagram
+- [RaBbLE-sCoRE-Quota-Router](RaBbLE-sCoRE/RaBbLE-sCoRE-Quota-Router.md) — EP2: quota-aware routing; fcc correction (fcc ≠ Anthropic client); pressure model + thresholds; Claude routing table; fcc backend selection by task class
+- [RaBbLE-sCoRE-Agent-State](RaBbLE-sCoRE/RaBbLE-sCoRE-Agent-State.md) — EP2: shared agent context across harnesses; `AgentContext` + `TaskRecord` data model; context handoff format; decision extraction heuristic
+- [RaBbLE-sCoRE-Entropy-Tracker](RaBbLE-sCoRE/RaBbLE-sCoRE-Entropy-Tracker.md) — EP2: session entropy tracking; weighted event table; STABLE→UNSTABLE bands; `decisions_at_risk`; self-healing protocol; Grimoire Learning Loop integration
+- [RaBbLE-sCoRE-Local-Tickets](RaBbLE-sCoRE/RaBbLE-sCoRE-Local-Tickets.md) — EP2 work tickets: 14 tickets across 5 parallel tracks (L-01–L-14); dependency graph; 6-week implementation order; Claude Code handoff notes per ticket
 - **Internal:** [sCoRE System Prompt](../RaBbLE-sCoRE/system-prompt-sCoRE.md) — loaded only when running as sCoRE entity
 
 ---
