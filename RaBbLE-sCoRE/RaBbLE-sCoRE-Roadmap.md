@@ -125,7 +125,7 @@ Exit conditions:
 - [x] **Render deploy — LIVE** via `spells/render-ctl.sh` (S106). `deploy-render.sh` superseded by `render-ctl.sh`; `deploy-score.sh` retired (never created).
 - [x] Chat verified end-to-end (browser + live curl) — entity `idle→thinking→speaking→idle`, sessions persist
 - [x] Provider registry expanded — 13 new providers in `server/llm.py` (S119)
-- [ ] **Register provider API keys in Render** — `render-ctl.sh env-set <KEY> <val>` for each provider to activate. Priority order: `DEEPSEEK_API_KEY` (V3 leads medium chain), `CEREBRAS_API_KEY` (leads cloud-fast), `NVIDIA_API_KEY` (NIM free tier), then Mistral/Together/xAI/Zhipu as desired. Until keys are set, chains fall through to Groq/OpenRouter.
+- [ ] **Register provider API keys in Render** — `render-ctl.sh env-set <KEY> <val>` for each provider to activate. Priority order: `DEEPSEEK_API_KEY` (V3 leads medium chain), `CEREBRAS_API_KEY` (leads cloud-fast), `NVIDIA_NIM_API_KEY` (NIM free tier), then Mistral/Together/xAI/Zhipu as desired. Until keys are set, chains fall through to Groq/OpenRouter.
 - [ ] `server/main.py` version string aligned to Five Es scheme (currently `v0.0.0.0`)
 - [ ] `server/api_test.py` (or `test_api.sh`) runs clean against the live server
 - [ ] CONTEXT.md versioning header updated to `v0.0.0.1` on air

@@ -32,7 +32,7 @@ All providers live in `BUILTIN_PROVIDERS` in `server/llm.py`. The registry has t
 | `openai` | openai.com | `OPENAI_API_KEY` | GPT-4o, o1 |
 | `cerebras` | cerebras.ai | `CEREBRAS_API_KEY` | 700+ t/s, free tier. Best for fast tier. |
 | `deepseek` | deepseek.com | `DEEPSEEK_API_KEY` | V3 = near-frontier coding, ~$0.14/M. R1 = strong reasoning. |
-| `nvidia_nim` | integrate.api.nvidia.com | `NVIDIA_API_KEY` | Free tier, 100+ models (Nemotron, Llama, Mistral) |
+| `nvidia_nim` | integrate.api.nvidia.com | `NVIDIA_NIM_API_KEY` | Free tier, 100+ models (Nemotron, Llama, Mistral) |
 | `mistral` | api.mistral.ai | `MISTRAL_API_KEY` | GDPR-friendly, Codestral for code |
 | `together` | api.together.xyz | `TOGETHER_API_KEY` | Cheap Llama/Qwen hosting |
 | `xai` | api.x.ai | `XAI_API_KEY` | Grok-2/3 |

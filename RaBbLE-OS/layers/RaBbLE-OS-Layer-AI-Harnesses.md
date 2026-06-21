@@ -107,7 +107,7 @@ bash RaBbLE-OS-layerctl.sh verify free-claude-code
 
 # fcc management
 fcc-ctl status
-fcc-ctl key NVIDIA_NIM_API_KEY <value>   # nvidia_nim provider (upstream var; sCoRE uses NVIDIA_API_KEY)
+fcc-ctl key NVIDIA_NIM_API_KEY <value>   # nvidia_nim provider (same var name as sCoRE + upstream fcc)
 fcc-ctl model sonnet nvidia_nim:qwen/qwen2.5-coder-32b-instruct
 fcc-ctl logs
 ```
