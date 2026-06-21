@@ -5,16 +5,29 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-20 · Session 138 (OS audit: aider, llama-cpp, layerctl)
+## LATEST — 2026-06-20 · Session 139 (Grimoire KB export + 3 subdomain concepts)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S138):** OS audit backlog cleared. aider fixed: `uv tool install --overrides scipy>=1.16.0 --with audioop-lts` (scipy exact-pin + removed audioop in py3.14); all ai-harnesses `ignore_errors: true`. llama-cpp: stamp-file version guard (version scheme changed b9739+); ldconfig wired. layerctl: runtime/monitoring/virtualization added as named layers; dotctl wired into `layerctl dotfiles`. **Live machine needs:** `sudo ansible-playbook ... --tags runtime,llama-cpp` to write stamp + ldconfig.
-**Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — 5 open, 4 ep1-gate.
-**Next:** Run `--tags ai-harnesses` to confirm clean pass; then Aether+NeBuLA CDN deploy.
+**This session (S139):** Built a flat 16-doc Grimoire KB for Claude-web upload (`~/grimoire-kb/`, regen via `_build.py`). Seeded 3 subdomain concepts: **Grimoire MCP** (`grimoire.joinrabble.world`, read-first CF Worker, supersedes "Home: sCoRE"); **dev.joinrabble.world** staging/preview (canonized over `staging.`); **shop.joinrabble.world** EP1-air semi-exclusive Genesis drop. Corrected subdomain map to EP1 reality — no R2, per-member Worker subdomains (`aether.`/`nebula.`).
+**Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — unchanged.
+**Next:** Mark resolves the open decisions in each concept doc (MCP §7 hosting/timing · staging access · drop POD/exclusivity).
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 > **Blockers + EP1 air no longer live in this box** — they're durable in `log/BLOCKERS.md`
 > and `log/EP1-AIR-CHECKLIST.md` so the per-session rewrite can't clobber them.
+
+---
+
+## 2026-06-20 (Session 139) — Grimoire KB export + 3 subdomain concepts (MCP / dev / shop)
+
+- Repos: RaBbLE-Grimoire (+ export artifact at `~/grimoire-kb/`, outside the repo)
+- **Flat Grimoire KB for Claude web:** built `~/grimoire-kb/` — 16 thematic MD bundles consolidating 159 canonical docs (~1.26 MB), each with a TOC + per-source `═══ SOURCE: path ═══` provenance. Reproducible via `_build.py`; excludes the raw Summoned transcript, full SESSION-LOG, and ephemeral/superseded docs. For upload to a Claude.ai project KB. Lives outside the repo — not committed.
+- **Grimoire MCP concept** — `RaBbLE-Collective/RaBbLE-Grimoire-MCP.md` (new). Read-first remote MCP at `grimoire.joinrabble.world` (dedicated CF Worker) exposing the Grimoire as live tools/resources to any agent; retires Mark-as-bridge between surfaces. Evolves Post-EP1 Echo-1 item #1; **proposes dedicated-Worker hosting superseding the earlier "Home: sCoRE"** (pending Mark's confirm). P0 needs no R2 (corpus bundled in Worker). Cross-linked: INDEX, CONTEXT, Post-EP1-Roadmap, sCoRE-Grimoire-API. → commit `57dd519`.
+- **dev.joinrabble.world (staging/preview)** — added as a real environment in `RaBbLE-Deployment-Architecture.md` (the doc previously lumped staging into local). Canonized `dev.` over the conflicting `staging.joinrabble.world` placeholder in `RaBbLE-Cloudflare-Integration.md` (already used by `RaBbLE-Aether-Build-CDN.md` + `RaBbLE-World-Architecture.md`). → commit `8d032cc`.
+- **shop.joinrabble.world EP1 Air Drop** — `RaBbLE-Shop.md`: semi-exclusive, time-boxed, Genesis-edition first-party sticker/merch drop pulled forward to the EP1 air; framed broadcast-not-storefront; must trail the air gate, never block it. → commit `92051bf`.
+- **Storage-reality correction (Mark):** no R2 / no persistent storage for EP1. Subdomain map in Deployment-Architecture now reflects per-member Worker subdomains (`aether.`/`nebula.` serving versioned assets directly); `cdn.joinrabble.world`/R2 marked as a Phase-2 roadmap target. (Folded into commit `8d032cc`.)
+- **Open decisions** captured in each concept doc for Mark to resolve when scoping opens.
+- Note: unrelated OS in-flight changes (OS-Roadmap, fcc-ctl, Fedora44-Upgrade doc + its INDEX link) left untouched/unstaged — concurrent session.
 
 ---
 
