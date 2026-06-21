@@ -264,6 +264,8 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [EPISODE-1-RELEASE](log/EPISODE-1-RELEASE.md) — Episode 1 narrative release record (Genesis framing; de-staled S129 — Render not Railway; live state → EP1-AIR-CHECKLIST.md)
 - [HANDOFF-PreCommit-AntiClobber](log/HANDOFF-PreCommit-AntiClobber.md) — spec for pre-commit auto-register+warn enforcement (makes the multi-agent logging self-adopting; not yet built)
 - [HANDOFF-S116-Theme-and-Logging](log/HANDOFF-S116-Theme-and-Logging.md) — S116 handoff: theme polish, Hyprland fixes, multi-agent logging
+- [HANDOFF-FCC-Free-Claude-Code](log/HANDOFF-FCC-Free-Claude-Code.md) — free-claude-code (FCC) tuning for agentic output
+- [HANDOFF-FCC-Free-Claude-Code](log/HANDOFF-FCC-Free-Claude-Code.md) — dev tooling: tuning free-claude-code (NIM Mistral 400 fix, 40 RPM, 4-routes/unlimited-targets, LiteLLM retry+backoff+failover backlog)
 - [RC1-Entity-Correspondence](log/RC1-Entity-Correspondence.md) — RC1 live entity correspondence notes
 - **lessons/** — durable lessons crystallized by `promote-insight.sh` (e.g. agent-register liveness, background sub-agent write limits, Hyprland 0.55 workspacerule)
 - [FABLE-GAP-ANALYSIS-S57](log/FABLE-GAP-ANALYSIS-S57.md) — S57 gap analysis: "90% visual, 0% sensory"; defer Watcher to Ep2
