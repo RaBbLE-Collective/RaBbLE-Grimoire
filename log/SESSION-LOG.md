@@ -5,16 +5,27 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-21 · Session 143 (agy Gemini quota tracking fix)
+## LATEST — 2026-06-21 · Session 144 (FCC / claude-free tuning research)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S143):** Fixed agy Gemini quota tracking: (1) ⊘ now appears in bar even when agy is idle+rate-limited; (2) both quota pools (Gemini API + Service) always shown in tooltip with ✓/⊘; (3) popup wording changed from "no active quota limit" → "available (daily limits apply)". Dropped standalone Gemini CLI tracker (binary retired June 18). Deployed via dotctl.
+**This session (S144):** Diagnosed the FCC Opus 400 — S142's `MODEL_OPUS = mistral-large-3-675b` is a Mistral-tokenizer model NIM rejects (`chat_template` unsupported). Established FCC = LiteLLM proxy: 4 routing slots / unlimited swappable targets across 17 providers, Admin-UI hot-swap (no restart), no built-in retry but LiteLLM `fallbacks`/`num_retries`/`cooldown_time` available. NIM = 40 RPM rolling, credits-only visibility. Research + improvement backlog → `log/HANDOFF-FCC-Free-Claude-Code.md`.
 **Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — 4 open (all ep1-gate).
-**Next:** Mark runs `layerctl apply ai-harnesses`; decide whether to push sCoRE `fd0ad9c`.
+**Next:** Repoint `MODEL_OPUS` off mistral-large-3 (Ansible `ai-harnesses` source); wire LiteLLM backoff/failover + 429 logging. Carryover: Mark runs `layerctl apply ai-harnesses`; decide on sCoRE `fd0ad9c` push.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 > **Blockers + EP1 air no longer live in this box** — they're durable in `log/BLOCKERS.md`
 > and `log/EP1-AIR-CHECKLIST.md` so the per-session rewrite can't clobber them.
+
+---
+
+## 2026-06-21 (Session 144) — FCC / claude-free tuning research
+
+- Repos: RaBbLE-Grimoire (research only — no FCC config changed this session)
+- **Trigger:** Claude-free Opus tier threw `NIM HTTP 400 — chat_template is not supported for Mistral tokenizers`; Sonnet worked. Also hitting NIM rate limits.
+- **Root cause:** S142 set `MODEL_OPUS = mistralai/mistral-large-3-675b-instruct-2512` — a Mistral-tokenizer model NIM serves via `mistral-common` (no Jinja chat template) → `/v1/chat/completions` rejected. Sonnet's `deepseek-v4-flash` is non-Mistral, so it worked.
+- **Established:** FCC is LiteLLM-backed. 4 routing slots (`MODEL`/`_OPUS`/`_SONNET`/`_HAIKU`) ≠ model cap — unlimited swappable targets across 17 providers, hot-swap via Admin UI (no restart). No built-in retry/failover, but LiteLLM `num_retries`/`fallbacks`/`cooldown_time` are available underneath. NIM free tier = 40 RPM per-model rolling 60s window, credits-only visibility (no live meter), `Retry-After` on 429 is the only authoritative reset signal.
+- **Logged:** `log/HANDOFF-FCC-Free-Claude-Code.md` (cold-start handoff: root cause, facts, starter per-tier config, improvement backlog, TODO) + `INDEX.md` entry.
+- **Next session:** repoint Opus off Mistral; add LiteLLM backoff+failover+429 logging; move Haiku tier local. Edit RaBbLE-OS `ai-harnesses` source, not `~/.claude-free/` live.
 
 ---
 
