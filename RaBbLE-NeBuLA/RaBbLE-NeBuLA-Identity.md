@@ -10,7 +10,7 @@ transcribe ~ grimoire >> NeBuLA lore crystallized from chaos // %NEBULA_IDENTITY
 
 ## What NeBuLA Is
 
-**NeBuLA** — Nebula Behavioral Learning Architecture — is the visual entity layer of the RaBbLE Collective. It is the environment through which RaBbLE's presence manifests as rendered space: particles, streams, geometry, entropy.
+**NeBuLA** — Nebula Entropy-Based Unified Luminance Architecture — is the visual entity layer of the RaBbLE Collective. It is the environment through which RaBbLE's presence manifests as rendered space: particles, streams, geometry, entropy.
 
 NeBuLA is not a UI framework. It is an expression engine — the rendering substrate that makes RaBbLE's inner state *visible*.
 

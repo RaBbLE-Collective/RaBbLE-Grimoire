@@ -5,16 +5,25 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-21 · Session 145 (S138 EP2 local arch ingested into Grimoire)
+## LATEST — 2026-06-21 · Session 146 (NeBuLA acronym corrected)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S145):** Ingested S138 claude-web planning session into Grimoire: 5 canonical EP2 sCoRE docs (Local-Architecture, Quota-Router, Agent-State, Entropy-Tracker, Local-Tickets), session crystallization log. Patched fcc correction into sCoRE-Local-AI-Layer.md. Added EP2 Local Harness as item 1 in Post-EP1-Roadmap. Updated sCoRE manifest with EP2 scope. Wrote 6-wave implementation session plan.
+**This session (S146):** Corrected NeBuLA acronym expansion: "Behavioral Learning" → "Entropy-Based Unified Luminance". Single source of truth in NeBuLA-Identity.md. No gist changes needed (gists use the name, not the expansion).
 **Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — 4 open (all ep1-gate).
 **Next:** B-02 (Mark: buy OpenRouter credits), B-04 (Mark: `cloudflare-ctl.sh deploy aether/nebula v0.0.0.1-rc.1`), then B-01/B-03 agent sessions → EP1 air → EP2 Wave 1.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 > **Blockers + EP1 air no longer live in this box** — they're durable in `log/BLOCKERS.md`
 > and `log/EP1-AIR-CHECKLIST.md` so the per-session rewrite can't clobber them.
+
+---
+
+## 2026-06-21 (Session 146) — NeBuLA acronym corrected in Identity doc
+
+- Repos: RaBbLE-Grimoire
+- **Change:** `RaBbLE-NeBuLA/RaBbLE-NeBuLA-Identity.md` — acronym expansion updated from "Nebula Behavioral Learning Architecture" to "Nebula Entropy-Based Unified Luminance Architecture". Rationale: "Behavioral Learning" implied cognition NeBuLA doesn't do; entropy + luminance accurately describe the rendering engine's nature and output.
+- **Verified:** Only one occurrence existed in the codebase; gists unaffected.
+- **Next:** B-04 (Mark: `cloudflare-ctl.sh deploy aether/nebula v0.0.0.1-rc.1`) → EP1 air.
 
 ---
 
