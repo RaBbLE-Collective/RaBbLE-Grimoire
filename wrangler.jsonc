@@ -6,5 +6,11 @@
   },
   "assets": {
     "directory": "gist"
-  }
+  },
+  // Read-first Grimoire surface (P0 of the Grimoire MCP plan). Serves gist/ as
+  // static assets at grimoire.joinrabble.world. wrangler provisions the custom
+  // domain (DNS + cert) on deploy via the OAuth session.
+  "routes": [
+    { "pattern": "grimoire.joinrabble.world", "custom_domain": true }
+  ]
 }

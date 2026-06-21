@@ -863,13 +863,21 @@ cmd_status() {
   # ── Workers subdomain health ──────────────────────────────────────────────
   echo ""
   info "Workers subdomains:"
-  for pair in "aether:aether.joinrabble.world" "nebula:nebula.joinrabble.world" "grimoire:grimoire.joinrabble.world" "score:score.joinrabble.world" "world:joinrabble.world"; do
-    local m="${pair%%:*}" domain="${pair##*:}"
-    HTTP=$(curl -s -o /dev/null -w "%{http_code}" "https://$domain/" 2>/dev/null || echo "000")
+  # Format: member:domain:healthpath — grimoire is an assets-only Worker with no
+  # root index (bare / is intentionally 404), so probe a known gist asset instead.
+  for pair in \
+      "aether:aether.joinrabble.world:/" \
+      "nebula:nebula.joinrabble.world:/" \
+      "grimoire:grimoire.joinrabble.world:/RaBbLE-Identity-gist.md" \
+      "score:score.joinrabble.world:/" \
+      "world:joinrabble.world:/"; do
+    local m="${pair%%:*}" rest="${pair#*:}"
+    local domain="${rest%%:*}" path="${rest#*:}"
+    HTTP=$(curl -s -o /dev/null -w "%{http_code}" "https://$domain$path" 2>/dev/null || echo "000")
     if [ "$HTTP" = "200" ] || [ "$HTTP" = "204" ] || [ "$HTTP" = "301" ]; then
-      ok "$m  https://$domain/  (HTTP $HTTP)"
+      ok "$m  https://$domain$path  (HTTP $HTTP)"
     else
-      warn "$m  https://$domain/  (HTTP $HTTP — not live)"
+      warn "$m  https://$domain$path  (HTTP $HTTP — not live)"
     fi
   done
 
