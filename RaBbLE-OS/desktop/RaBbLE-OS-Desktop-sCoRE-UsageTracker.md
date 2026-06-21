@@ -6,6 +6,7 @@ mend  ~ sCoRE Usage Tracker >> multi-instance session engine + live popup + noti
 mend  ~ sCoRE Usage Tracker >> per-model tracking + estimate calibration from empirical fit // %S62%
 spark ~ sCoRE Usage Tracker >> Antigravity (agy) pill: dual-quota, RaBbLE glyphs, mode-isolated popup // %NEW_HORIZONS%
 mend  ~ sCoRE Usage Tracker >> agy dual-quota fix: Gemini + Service pool split, bfs-compat find // %NEW_HORIZONS%
+mend  ~ sCoRE Usage Tracker >> agy live quota: send-outcome reset detection clears ⊘ the instant a request goes through again (score-agy-quota.py) // %NEW_HORIZONS%
 ```
 
 > Lives in `RaBbLE-OS/config/waybar/scripts/score-*` and `config/waybar/{config.jsonc,style.css}`.
@@ -116,6 +117,7 @@ One mechanism serves both "animate smoothly while busy" and "react instantly whe
 | `config/waybar/scripts/score-claude-hook.sh` | Claude Code hook bridge — thin `exec` into `score-sessions.py update` |
 | `config/waybar/scripts/score-codex-notify.sh` | Codex `notify` bridge — thin `exec` into `score-sessions.py codex-notify` |
 | `config/waybar/scripts/score-usage-api-poll.py` | Polls Anthropic's official usage API (~90s) via Firefox session cookie + `curl_cffi` |
+| `config/waybar/scripts/score-agy-quota.py` | **Live agy quota engine** — send-outcome reset detection for both Antigravity pools. Shared by the bar (`status.sh` evals `--shell`) and popup (`detail.py` imports `compute()`). Stdlib only |
 | `config/waybar/scripts/score-usage-detail.py` | Click-through popup — `--live` self-refreshing mode (Agents panel + quota bars every 2s, heavy token sections every 15s). Mode-isolated: `claude` mode shows the Agents panel; `codex` and `antigravity` modes skip it entirely and go straight to their own quota + session sections. Native scrolling: ↑↓/jk/PgUp/PgDn/g/G; escape sequences decoded so arrows never quit |
 | `config/waybar/scripts/score-usage-fit.py` | Delta-based regression fitter — isolates web/other usage as residual against local estimates |
 | `RaBbLE-OS-dotctl.sh` → `_post_apply_waybar()` | Merges the hook into `~/.claude/settings.json` AND the notify program into `~/.codex/config.toml` on every `dotctl apply waybar` — idempotent, never clobbers |
@@ -181,7 +183,19 @@ Both pools show the same `RESOURCE_EXHAUSTED` error format ("Individual quota re
 
 The second pool (Sonnet/Opus/GPT models) is served by Antigravity's own cloud service (`daily-cloudcode-pa.googleapis.com`) — it is NOT Anthropic's Claude Code quota. Displaying it as "shared with Claude Code" is **incorrect**.
 
-Reset times are logged in the format `Resets in 167h43m28s` (approximately 7-day window). The popup adjusts for time elapsed since the log was written, so the displayed "resets in" value tracks the actual remaining time.
+### Live reset detection — `score-agy-quota.py` (single source for bar + popup)
+
+The earlier readers flagged a pool exhausted whenever *any* `RESOURCE_EXHAUSTED` line existed in the last 7 days, so the `⊘` stuck around for a full week — **a reset was invisible** (the original bug report). The popup tried to subtract elapsed time but anchored to the log **file's** mtime (last write, not the event) and never actually cleared the pool even when the countdown went negative.
+
+`score-agy-quota.py` replaces both with one helper (`compute()` → JSON, `--shell` → bash env-assignments; stdlib only, run by the bar daemon every ~5s and imported by the popup). It reads the **outcome of the most recent request per pool** straight from the glog lines:
+
+- A request is `server.go:1058] Sending user message to conversation`. Its pool is fixed by the last `model_config_manager.go:157` `label="…"` seen **before** it.
+- A `RESOURCE_EXHAUSTED` after that send (before the next send) means it **failed**; otherwise it **succeeded**.
+- **Watching the bare model-selection line does NOT work** — agy re-emits one *right after* an exhaustion (the quota-refresh loop re-propagates the model), so it is not proof the pool recovered. Only a *send with no error after it* is. This was a real false-clear: a startup Claude-model selection made a genuinely-exhausted service pool read as available.
+
+A pool is reported exhausted **IFF** its most recent outcome was a failure (`last_exhausted >= last_success`) **AND** the reset epoch is still in the future. So the `⊘` clears the instant a request goes through again — even while the stale "Resets in" countdown still shows days.
+
+Reset times are logged as e.g. `Resets in 52h31m43s` (the window varies — seen at ~52h and ~167h). The countdown is anchored to **each event's own glog timestamp** (`Emmdd HH:MM:SS`, year taken from the `cli-YYYYMMDD_HHMMSS.log` filename, bumped across a Dec→Jan rollover) plus the duration → an absolute reset epoch, then displayed as `reset_epoch − now`. The "Resets in" estimate is treated only as a secondary cap, never the primary signal — Google has reset a pool (Gemini, observed) well before its stated time, which is exactly why the send-outcome check, not the countdown, decides whether `⊘` shows.
 
 ### Glyph and click-action notes
 
@@ -193,7 +207,7 @@ Reset times are logged in the format `Resets in 167h43m28s` (approximately 7-day
 ### agy popup contents (score-usage-detail.py antigravity)
 
 1. Header: running count / not running, configured model, login status
-2. **Gemini API quota** — bar at 100% + reset time when exhausted; "no errors in last 7 days" otherwise
+2. **Gemini API quota** — bar at 100% + live "resets in" countdown when exhausted; `available` otherwise
 3. **Service quota (Sonnet/Opus/GPT)** — same, labeled as Antigravity service; model that triggered it shown in parentheses
 4. Sessions: list of recent conversations by DB mtime (up to 5), plus 7-day/today counts
 

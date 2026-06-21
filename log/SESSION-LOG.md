@@ -5,16 +5,27 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-20 · Session 140 (OS easy-wins + backlog triage)
+## LATEST — 2026-06-20 · Session 141 (agy live quota tracker)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S140):** Swept Mark's OS issue/idea dump into the roadmap ("Backlog Triage — S140": hardware-reliability cluster, boot-chain, Dolphin-needs-a-plan, F44, Gnome=R&D). Landed wins: wallpaper→`RaBbLE_WP.PNG` (live); audio Waybar popup (swayOSD scroll + floating mixer, live-tested); **fcc working** — renamed layer to `NVIDIA_NIM_API_KEY` (upstream var), registered NIM key from sCoRE `.env`, smoke 200; `claude-free` logout fix (isolated `CLAUDE_CONFIG_DIR` + symlinked memories). B-05 resolved. New `ops/RaBbLE-OS-Fedora44-Upgrade.md`.
-**Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — 4 open (all ep1-gate); B-05 cleared.
-**Next:** Mark runs `layerctl apply ai-harnesses` (deploys `claude-free` isolation) + a login-safe test; decide whether to push sCoRE `fd0ad9c` (NIM rename; auto-deploys prod, safe — `nvidia_nim` dormant there); set fcc keys per provider as desired.
+**This session (S141):** Fixed the sCoRE Antigravity (agy) Waybar tracker — it showed `⊘` for a week after any rate-limit and never reflected a reset. New `score-agy-quota.py` reads per-pool *request outcomes* from the agy glog (a `Sending user message` is success unless a `RESOURCE_EXHAUSTED` follows it), shared by bar + popup. Live-correct now: Gemini=available, Service=⊘ 52h (GPT-OSS hit mid-session). Deployed via `dotctl apply waybar`.
+**Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — 4 open (all ep1-gate).
+**Next:** (carried from S140) Mark runs `layerctl apply ai-harnesses` (deploys `claude-free` isolation) + a login-safe test; decide whether to push sCoRE `fd0ad9c` (NIM rename; auto-deploys prod, safe — `nvidia_nim` dormant there); set fcc keys per provider as desired.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 > **Blockers + EP1 air no longer live in this box** — they're durable in `log/BLOCKERS.md`
 > and `log/EP1-AIR-CHECKLIST.md` so the per-session rewrite can't clobber them.
+
+---
+
+## 2026-06-20 (Session 141) — agy live quota tracker (send-outcome reset detection)
+
+- Repos: RaBbLE-OS, RaBbLE-Grimoire
+- **Problem (Mark's report):** "my agy limit reset, and the tracker doesn't show it." The Antigravity pill flagged a pool exhausted on *any* `RESOURCE_EXHAUSTED` line in the last 7 days and never cleared — the `⊘` lingered for the whole window. The popup's elapsed-time adjust anchored to the log **file** mtime (not the event) and never cleared the pool either.
+- **Fix — new `config/waybar/scripts/score-agy-quota.py`** (stdlib; single source shared by the bar via `score-status.sh` `eval … --shell` and the popup via `score-usage-detail.py` `compute()` import). Reads the **outcome of the most recent request per pool** from the glog: a request is `server.go:1058] Sending user message to conversation` (pool fixed by the last `model_config_manager.go:157` label before it); a `RESOURCE_EXHAUSTED` after it before the next send = **failure**, else **success**. A pool shows `⊘` only if its latest outcome was a failure AND the reset epoch (event's own glog timestamp + "Resets in") is still future — so it clears the instant a request goes through again.
+- **Key gotcha Mark surfaced mid-session** ("non-gemini may be used up"): agy re-emits a `model_config_manager` model-selection line *right after* an exhaustion (the `quota_manager` refresh loop re-propagates the model), so an earlier draft that watched model-selection false-cleared a genuinely-dead pool. Only a real *send* counts as recovery now.
+- **Live-verified:** Gemini=available (Flash in active use; its stale "167h" estimate was rolling/over-pessimistic — proves the countdown can't be the primary signal), Service=⊘ resets in 52h27m (GPT-OSS 120B, hit 21:49 mid-session). Deployed via `dotctl apply waybar`; the bar daemon re-execs `status.sh` each ~5s tick so it went live immediately. Doc updated: `RaBbLE-OS/desktop/RaBbLE-OS-Desktop-sCoRE-UsageTracker.md` (new "Live reset detection" section + Key-files row).
+- Commits: OS `a3ce9fc`, Grimoire (this commit).
 
 ---
 
