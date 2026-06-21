@@ -82,6 +82,8 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 - [RaBbLE-Social-and-Aesthetic](RaBbLE-Collective/RaBbLE-Social-and-Aesthetic.md) — Neon Cafe aesthetic manifesto, social/altspace layer, RaBbLE voice design, Sovereign Accord license (Echo 1+)
 - [RaBbLE-Income-Model](RaBbLE-Collective/RaBbLE-Income-Model.md) — 8 revenue streams: Cosmos hosting, compute, community, rablet economy, Shop, hardware, attachments, enterprise
 - [RaBbLE-Shop](RaBbLE-Collective/RaBbLE-Shop.md) — physical product storefront: first-party + third-party designs, POD infrastructure, aesthetic requirements
+- **[RaBbLE-Membership-Model](RaBbLE-Collective/RaBbLE-Membership-Model.md)** — **The Pair and the Summoning.** Membership model, summoning ceremony, invite tiers, BYO-key (heavily-referenced hub).
+- **[RaBbLE-Service-Plan](RaBbLE-Collective/RaBbLE-Service-Plan.md)** — **Service Roadmap & Business Model.** Service/tier progression across episodes (heavily-referenced hub).
 
 ---
 
@@ -154,7 +156,8 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 **layers/** [Layers](RaBbLE-OS/layers/RaBbLE-OS-Layers.md) · [Layer-Core](RaBbLE-OS/layers/RaBbLE-OS-Layer-Core.md) · [Layer-Hardware](RaBbLE-OS/layers/RaBbLE-OS-Layer-Hardware.md) · [Layer-Boot](RaBbLE-OS/layers/RaBbLE-OS-Layer-Boot.md) · [Layer-Boot-Plymouth-EP1](RaBbLE-OS/layers/RaBbLE-OS-Layer-Boot-Plymouth-EP1.md) · [Layer-Desktop](RaBbLE-OS/layers/RaBbLE-OS-Layer-Desktop.md) · [Layer-Apps](RaBbLE-OS/layers/RaBbLE-OS-Layer-Apps.md) · **[Layer-AI-Harnesses](RaBbLE-OS/layers/RaBbLE-OS-Layer-AI-Harnesses.md)** — AI coding agents + LLM CLIs; EP1 state + post-EP1 system-wide migration plan
 **hardware/** [Hardware-ProArtP16](RaBbLE-OS/hardware/RaBbLE-OS-Hardware-ProArtP16.md) · [Hardware-GenericX64](RaBbLE-OS/hardware/RaBbLE-OS-Hardware-GenericX64.md) · [Hardware-AddingTargets](RaBbLE-OS/hardware/RaBbLE-OS-Hardware-AddingTargets.md) · [Hardware-Partitions](RaBbLE-OS/hardware/RaBbLE-OS-Hardware-Partitions.md) · **[Hardware-Cyberdeck](RaBbLE-OS/hardware/RaBbLE-OS-Hardware-Cyberdeck.md)** — DIY/handheld target: x86_64 (works now) + aarch64/Pi roadmap; ambient entity in physical form · **[Hardware-NPU-XDNA2](RaBbLE-OS/hardware/RaBbLE-OS-Hardware-NPU-XDNA2.md)** — AMD NPU local inference research (2026-06-18, kernel 7.0): XRT COPR + FastFlowLM + Lemonade stack; known issues; sCoRE integration
 **ops/** [Ops-Layerctl](RaBbLE-OS/ops/RaBbLE-OS-Ops-Layerctl.md) · [Ops-Dotctl](RaBbLE-OS/ops/RaBbLE-OS-Ops-Dotctl.md) · [Ops-Bootstrap](RaBbLE-OS/ops/RaBbLE-OS-Ops-Bootstrap.md) · [Ops-Vmctl](RaBbLE-OS/ops/RaBbLE-OS-Ops-Vmctl.md) · [Ops-ConfigFlow](RaBbLE-OS/ops/RaBbLE-OS-Ops-ConfigFlow.md) · [Ops-Install](RaBbLE-OS/ops/RaBbLE-OS-Ops-Install.md) · [Fedora44-Upgrade](RaBbLE-OS/ops/RaBbLE-OS-Fedora44-Upgrade.md)
-**fix/** [KnownIssues](RaBbLE-OS/fix/RaBbLE-OS-KnownIssues.md) · [Fix-Nvidia](RaBbLE-OS/fix/RaBbLE-OS-Fix-Nvidia.md) · [Fix-BootChain](RaBbLE-OS/fix/RaBbLE-OS-Fix-BootChain.md) · [Fix-Suspend](RaBbLE-OS/fix/RaBbLE-OS-Fix-Suspend.md) · **[Fix-FastFlowLM](RaBbLE-OS/fix/RaBbLE-OS-Fix-FastFlowLM.md)** — S122–S125 debug: lib64/lib split, stale CMakeCache, add(run&&) shim (xdna-driver XRT pin = same version as COPR)
+**fix/** [KnownIssues](RaBbLE-OS/fix/RaBbLE-OS-KnownIssues.md) · [Fix-Nvidia](RaBbLE-OS/fix/RaBbLE-OS-Fix-Nvidia.md) · [Fix-BootChain](RaBbLE-OS/fix/RaBbLE-OS-Fix-BootChain.md) · [Fix-Suspend](RaBbLE-OS/fix/RaBbLE-OS-Fix-Suspend.md) · **[Fix-FastFlowLM](RaBbLE-OS/fix/RaBbLE-OS-Fix-FastFlowLM.md)** — S122–S125 debug: lib64/lib split, stale CMakeCache, add(run&&) shim (xdna-driver XRT pin = same version as COPR) · [Fix-LlamaCpp](RaBbLE-OS/fix/RaBbLE-OS-Fix-LlamaCpp.md) — llama.cpp build debug
+**reference/** [Hyprland-0.55-Reference](RaBbLE-OS/Hyprland-0.55-Reference.md) — Hyprland 0.55 config reference for RaBbLE-OS
 **verify/** [Verify-PreviewFloor](RaBbLE-OS/verify/RaBbLE-OS-Verify-PreviewFloor.md) — **EP1 preview FLOOR gate (F1/F2/F4 VM runbook + F3 audit)** · [Verify-Checklist](RaBbLE-OS/verify/RaBbLE-OS-Verify-Checklist.md) · [Verify-PowerTesting](RaBbLE-OS/verify/RaBbLE-OS-Verify-PowerTesting.md) · [Verify-LayerState](RaBbLE-OS/verify/RaBbLE-OS-Verify-LayerState.md)
 **desktop/** [Desktop-Hyprland](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Hyprland.md) · [Desktop-Shell](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Shell.md) · [Desktop-Theming](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Theming.md) *(includes VSCodium Aether theme — CSS design, Ansible install, maintenance)* · [Desktop-BootFlow](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-BootFlow.md) · [Desktop-sCoRE-UsageTracker](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-sCoRE-UsageTracker.md) · [Desktop-Fastfetch](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Fastfetch.md)
 **historical/** [ManualInstall](RaBbLE-OS/historical/RaBbLE-OS-ManualInstall.md) · [Epoch-I-Diff](RaBbLE-OS/historical/RaBbLE-OS-Epoch-I-Diff.md) · [Implementation-Plan](RaBbLE-OS/historical/RaBbLE-OS-Implementation-Plan.md)
@@ -168,6 +171,8 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 - [RaBbLE-sCoRE-Agent-Framework-Research](RaBbLE-sCoRE/RaBbLE-sCoRE-Agent-Framework-Research.md) — orchestrator substrate research (LangGraph/DSPy/CrewAI/PydanticAI), three-tier memory (Mem0+Grimoire), Hermes-as-dev-tool verdict, Grimoire Learning Loop; framework adoption = Echo 1
 - [RaBbLE-sCoRE-Membership-API](RaBbLE-sCoRE/RaBbLE-sCoRE-Membership-API.md) — invite tokens, summoning ceremony, persistent session model
 - [RaBbLE-sCoRE-DataCrawler-RFC](RaBbLE-sCoRE/RaBbLE-sCoRE-DataCrawler-RFC.md) — future RFC: Scavenger/Organizer/Librarian crawler bot architecture (post-Episode-1)
+- [RaBbLE-sCoRE-Grimoire-API](RaBbLE-sCoRE/RaBbLE-sCoRE-Grimoire-API.md) — hosted `fetch_grimoire` HTTP tool (gist endpoint); the precursor the Grimoire MCP generalizes
+- [sCoRE-Local-AI-Layer](RaBbLE-sCoRE/sCoRE-Local-AI-Layer.md) — local LLM provider layer (Groq / OpenRouter / NVIDIA NIM), fast-chain config, `NVIDIA_NIM_API_KEY`
 - **Internal:** [sCoRE System Prompt](../RaBbLE-sCoRE/system-prompt-sCoRE.md) — loaded only when running as sCoRE entity
 
 ---
@@ -181,6 +186,7 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 - **[RaBbLE-World-EP1-Unification](RaBbLE-World/RaBbLE-World-EP1-Unification.md)** — **EP1 site spine (prior canon):** liminal as front door, door→surface map, shared threshold nav, Aether-first alignment
 - **[RaBbLE-World-RC1-Emergence-Plan](RaBbLE-World/RaBbLE-World-RC1-Emergence-Plan.md)** — **ACTIVE BUILD + HANDOFF:** archive the whole current site into `chrysalis/` (frozen, hostable); rebuild as ONE living surface (entity-guided movements, VSCode-Aether tinted glass). Orchestration waves + contracts + cold-start handoff for a fresh session.
 - [RaBbLE-Grimoire-Browser-Plan](RaBbLE-World/RaBbLE-Grimoire-Browser-Plan.md) — agent handoff: grimoire summoning-circle applet integration into World
+- [RaBbLE-World-MAINTAINING](RaBbLE-World/RaBbLE-World-MAINTAINING.md) — RaBbLE-Chat maintenance map: where the chat surface lives and how to keep it running
 - [REGRESSION-AUDIT-2026-05-15](RaBbLE-World/REGRESSION-AUDIT-2026-05-15.md) — Aether CDN regression post-mortem (resolved)
 - [Visual Assets](RaBbLE-World/assets/) — images, icons
 
@@ -255,6 +261,9 @@ High-density distilled summaries. Full picture in ~2,000 tokens. Regenerate: `ba
 - [S104-BABBLE-CAPTURES-GIT-REORG-PLAN](log/S104-BABBLE-CAPTURES-GIT-REORG-PLAN.md) — proposed BaBbLE `captures/` git reorg (awaiting Mark's sign-off)
 - [EPISODE-1-RELEASE](log/EPISODE-1-RELEASE.md) — Episode 1 narrative release record (Genesis framing; de-staled S129 — Render not Railway; live state → EP1-AIR-CHECKLIST.md)
 - [HANDOFF-PreCommit-AntiClobber](log/HANDOFF-PreCommit-AntiClobber.md) — spec for pre-commit auto-register+warn enforcement (makes the multi-agent logging self-adopting; not yet built)
+- [HANDOFF-S116-Theme-and-Logging](log/HANDOFF-S116-Theme-and-Logging.md) — S116 handoff: theme polish, Hyprland fixes, multi-agent logging
+- [RC1-Entity-Correspondence](log/RC1-Entity-Correspondence.md) — RC1 live entity correspondence notes
+- **lessons/** — durable lessons crystallized by `promote-insight.sh` (e.g. agent-register liveness, background sub-agent write limits, Hyprland 0.55 workspacerule)
 - [FABLE-GAP-ANALYSIS-S57](log/FABLE-GAP-ANALYSIS-S57.md) — S57 gap analysis: "90% visual, 0% sensory"; defer Watcher to Ep2
 - [grimoire-graph.json](log/grimoire-graph.json) — documentation link graph (generated by `graph-grimoire.sh`)
 - [grimoire-graph.md](log/grimoire-graph.md) — Mermaid diagram of doc connections

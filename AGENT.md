@@ -84,7 +84,7 @@ See `RaBbLE-Agent/RaBbLE-CommitStyle.md` (Pulse Protocol) for full spec.
 | Member registry / epoch status | `registry/` | `registry/epochs/current.epoch.yml` |
 | Member manifests | `registry/manifests/` | `registry/manifests/_template.manifest.yml` |
 | Coordination scripts | `spells/` | each script's header |
-| OS documentation | `RaBbLE-OS/` | `RaBbLE-OS/RaBbLE-OS-Architecture.md` |
+| OS documentation | `RaBbLE-OS/` | `RaBbLE-OS/RaBbLE-OS-AgentGuide.md` |
 | sCoRE documentation | `RaBbLE-sCoRE/` | `RaBbLE-sCoRE/RaBbLE-sCoRE-Architecture.md` |
 | NeBuLA lore + roadmap | `RaBbLE-NeBuLA/` | `RaBbLE-NeBuLA/RaBbLE-NeBuLA-Roadmap.md` |
 | Collective ecosystem map | `RaBbLE-Agent/RaBbLE-Collective.md` | — |
@@ -98,7 +98,7 @@ See `RaBbLE-Agent/RaBbLE-CommitStyle.md` (Pulse Protocol) for full spec.
 **New to the Grimoire?** Start with the gist/ for a full picture in ~1,700 tokens:
 ```bash
 cat gist/*.md                       # complete orientation — all key docs distilled (~1,700 tokens)
-cat RaBbLE-Grimoire-Navigator.md    # reading paths by time budget (5/15/30 min)
+cat RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md    # reading paths by time budget (5/15/30 min)
 ```
 
 **Returning agent (picking up a session)?**

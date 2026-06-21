@@ -61,11 +61,11 @@ Every design decision, character trait, protocol schema, and technical pattern l
 | Palette (`RaBbLE-Agent/RaBbLE-Palette.md`) | Stable |
 | Roadmap (`RaBbLE-Agent/RaBbLE-Roadmap.md`) | Current — Episode 1 streams visible, open questions documented |
 | Registry (`registry/`) | 9 manifests live (Collective, OS, sCoRE, Aether, NeBuLA, World, BaBbLE, Chrysalis, Xperimental) |
-| Spells (`spells/`) | 6 spells live; `validate-links.sh` planned (non-blocking) |
+| Spells (`spells/`) | ~41 spells live (coordination, deploy, sessions, multi-agent); see `SPELLS.md` / `bash spells/help.sh` for the authoritative list |
 | Versioning spec (`RaBbLE-Versioning.md`) | Stable — Five Es locked |
 | Episode tracking (`registry/epochs/current.epoch.yml`) | Episode 1 pending — all members accumulating Events |
 | Episode 1 scope (`RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md`) | Canonical scope locked — exit criteria, blockers, tag convention |
-| RaBbLE-sCoRE docs | Architecture + Roadmap present. DataCrawler RFC added. MVP LLM endpoint planned for Railway deploy. |
+| RaBbLE-sCoRE docs | Architecture + Roadmap present. DataCrawler RFC added. **LLM endpoint LIVE on Render** (`rabble-score-x7qq.onrender.com`, S106); local AI layer (Groq/OpenRouter/NVIDIA NIM) documented. Railway superseded. |
 | Grimoire MCP (`RaBbLE-Collective/RaBbLE-Grimoire-MCP.md`) | **Concept (S139)** — read-first remote MCP at `grimoire.joinrabble.world` (CF Worker); awaiting Mark on hosting/timing decisions (§7). Post-EP1. |
 | RaBbLE-World | **Active** — RC1 "Guided Realm" build in flight (threshold→realm→summon→shell, entity as curator). Loaders (Aether + NeBuLA) + liminal, shell, grimoire-graph surfaces live. |
 | RC1 Experience (`RaBbLE-Collective/RaBbLE-RC1-Experience.md`) | **Active** — design canon for the single entity-guided realm; bridges the PRD into the EP1 public surface. PRD §13 partially resolved. |
