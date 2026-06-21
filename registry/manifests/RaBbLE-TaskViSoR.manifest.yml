@@ -1,0 +1,34 @@
+# manifests/RaBbLE-TaskViSoR.manifest.yml
+# Visual State Observer of RaBbLE — Collective work-state HUD.
+# Observes and renders live task/agent/blocker state from sCoRE's file pipeline.
+# Ships in layers: World page (Echo 1) → OS app (Echo 1/2) → rablet (Echo 2+).
+
+# Identity
+name: RaBbLE-TaskViSoR
+slug: RaBbLE-TaskViSoR
+description: "Visual State Observer of RaBbLE — sovereign Kanban HUD over sCoRE's task pipeline"
+role: frontend
+
+# Repository
+repo: git@github.com:RaBbLE-Collective/RaBbLE-TaskViSoR.git
+branch: main
+worktree_root: RaBbLE-TaskViSoR
+
+# Status
+phase: 0
+epoch: 0
+status: scaffold                   # scaffold — no repo yet; Layer 1 ships as a World page
+release_track: independent         # no EP1 deliverable; Echo 1 target for Layer 1
+
+# Collective alignment
+palette_version: "1.0"
+entity_embedded: true              # NeBuLA entity-mini present on ViSoR surface
+pulse_protocol: true
+
+# Notes
+notes: >
+  Scaffolded S141. No repo yet — Layer 1 lives inside RaBbLE-World as /visor page.
+  Own repo created when Layer 2 (OS native app) is scoped. Docs:
+  RaBbLE-Collective/RaBbLE-TaskViSoR-Identity.md (identity + surface layers) +
+  RaBbLE-Collective/RaBbLE-Work-Tracker-Concept.md (implementation plan).
+  Open questions before Layer 1 build: board visibility, agent visualization (Layer 2).

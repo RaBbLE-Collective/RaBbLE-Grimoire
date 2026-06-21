@@ -1,4 +1,4 @@
-# RaBbLE-Work-Tracker-Concept.md — Sovereign Kanban Implementation Plan
+# RaBbLE-TaskViSoR — Sovereign Kanban Implementation Plan (Work Tracker Concept)
 
 ```
 spark ~ grimoire >> collective work tracker scoped: kanban + babble intake + score coordination // %TRACKER_SCOPED%
@@ -13,6 +13,7 @@ spark ~ grimoire >> collective work tracker scoped: kanban + babble intake + sco
 >
 > **Echo 1 feature.** Do not build before EP1 airs and CI/CD is stable.
 >
+> **Member:** [TaskViSoR Identity](RaBbLE-TaskViSoR-Identity.md) — name, surface layers, member framing.
 > **Related:** [sCoRE Architecture](../RaBbLE-sCoRE/RaBbLE-sCoRE-Architecture.md) ·
 > [BaBbLE Overview](../RaBbLE-BaBbLE/RaBbLE-BaBbLE-Overview.md) ·
 > [Dependency Policy](../RaBbLE-Agent/RaBbLE-Dependency-Policy.md) ·
@@ -26,14 +27,13 @@ spark ~ grimoire >> collective work tracker scoped: kanban + babble intake + sco
 > actively brainstorming scope in a separate session. Do not begin Phase 1 implementation
 > until these are locked.
 
-1. **Identity — member, rablet, or embedded?** Is the Work Tracker a new Collective
-   member? A rablet (per-user sandbox)? Or functionality embedded inside sCoRE + World
-   without a separate repo? Mark is exploring whether this wants to be a visual tracker
-   and agent-aligned tracker unified in one system. This decision gates everything below.
+1. ~~**Identity — member, rablet, or embedded?**~~ **RESOLVED:** Named **RaBbLE-TaskViSoR**
+   (*Visual State Observer of RaBbLE*). Ships in layers: World `/visor` page (Echo 1) →
+   OS native app (Echo 1/2) → rablet (Echo 2+). Layer 1 lives inside World, no separate
+   repo yet. See [`RaBbLE-TaskViSoR-Identity.md`](RaBbLE-TaskViSoR-Identity.md).
 
-2. **Board page naming:** Name TBD. The doc originally proposed `/board` or `/mission`
-   but this is blocked pending the identity question above. The name should feel like
-   RaBbLE, not a corporate PM tool. Low entropy — decide once, do not revisit.
+2. ~~**Board page naming:**~~ **RESOLVED:** URL is `/visor`. The name is *TaskViSoR*. Page
+   header: `TaskViSoR`. All mockups below use this name.
 
 3. **Priority model:** Is `high/medium/low/note` sufficient, or does the Collective need
    a more expressive model (e.g., epoch-blocking vs. nice-to-have)? Suggest keeping it
@@ -172,7 +172,7 @@ command parser. The LLM handles language variation; sCoRE structures the output.
 
 ### Layer 4 — World Kanban Surface
 
-A new page in World (URL TBD — see Open Questions above).
+A new page in World: `/visor` — the TaskViSoR surface.
 
 **Technical constraints (mandatory):**
 
@@ -187,7 +187,7 @@ A new page in World (URL TBD — see Open Questions above).
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  [entity-mini]   COLLECTIVE BOARD        [summary: N active]   │
+│  [entity-mini]       TaskViSoR           [summary: N active]   │
 ├──────────┬──────────┬──────────┬──────────┬────────────────────┤
 │ BACKLOG  │ PENDING  │  ACTIVE  │ BLOCKED  │       DONE         │
 │          │          │          │          │                    │
@@ -304,14 +304,14 @@ all Open Questions above are resolved.
 
 ### Phase 3 — World board surface (World, 1-2 sessions)
 
-- Create board page in World (URL resolved from Open Questions)
+- Create `visor.html` in World
 - Vanilla JS fetch from sCoRE `/api/v1/board`
 - Render five-column layout with Aether tokens
 - Card component: id, title, member tag, epoch target, priority
 - BaBbLE intake bar wired to sCoRE `/api/v1/chat`
 - `<rabble-entity-mini>` embedded — entity present on board page
 - Offline-first: cache last board state in memory, show stale indicator on fetch error
-- Commit: `spark ~ world >> collective board page live // %BOARD_LIVE%`
+- Commit: `spark ~ world >> taskvisor /visor page live // %VISOR_LIVE%`
 
 ### Phase 4 — Grimoire integration (Grimoire, 1 session)
 
