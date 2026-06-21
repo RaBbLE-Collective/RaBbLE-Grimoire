@@ -5,16 +5,27 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-20 · Session 141 (agy live quota tracker)
+## LATEST — 2026-06-21 · Session 142 (claude-free fix + NIM upgrades)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S141):** Fixed the sCoRE Antigravity (agy) Waybar tracker — it showed `⊘` for a week after any rate-limit and never reflected a reset. New `score-agy-quota.py` reads per-pool *request outcomes* from the agy glog (a `Sending user message` is success unless a `RESOURCE_EXHAUSTED` follows it), shared by bar + popup. Live-correct now: Gemini=available, Service=⊘ 52h (GPT-OSS hit mid-session). Deployed via `dotctl apply waybar`.
+**This session (S142):** Fixed `claude-free` — root cause: `fcc-no-auth` was in `.claude-free/.claude.json` `customApiKeyResponses.rejected`, so CC accepted the connection but silently returned ~11 tokens with no content. Moved to approved. Also: wired Aether theme (`custom:rabble-theme`, themes dir symlinked) into the isolated profile; upgraded NIM model routing to Llama 4 Maverick (haiku) / DeepSeek V4 Flash (sonnet) / Mistral Large 3 675B (opus). All enforced in Ansible ai-harnesses role.
 **Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — 4 open (all ep1-gate).
-**Next:** (carried from S140) Mark runs `layerctl apply ai-harnesses` (deploys `claude-free` isolation) + a login-safe test; decide whether to push sCoRE `fd0ad9c` (NIM rename; auto-deploys prod, safe — `nvidia_nim` dormant there); set fcc keys per provider as desired.
+**Next:** Mark runs `layerctl apply ai-harnesses` to enforce new Ansible tasks on fresh machines; decide whether to push sCoRE `fd0ad9c` (NIM rename; auto-deploys prod, safe).
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 > **Blockers + EP1 air no longer live in this box** — they're durable in `log/BLOCKERS.md`
 > and `log/EP1-AIR-CHECKLIST.md` so the per-session rewrite can't clobber them.
+
+---
+
+## 2026-06-21 (Session 142) — claude-free silent-response fix + NIM model upgrades
+
+- Repos: RaBbLE-OS, RaBbLE-Grimoire
+- **Root cause:** `~/.claude-free/.claude.json` had `fcc-no-auth` in `customApiKeyResponses.rejected` — CC accepted the proxy connection but silently returned ~11 tokens with no visible response (auth check only, no message sent). The key got rejected the first time the prompt appeared and was persisted as a refusal.
+- **Fix (live + Ansible-enforced):** Moved `fcc-no-auth` to `approved` in `.claude.json`. Added Ansible task (`ai-harnesses/tasks/free-claude-code.yml`) that idempotently patches `.claude.json` so future `layerctl apply ai-harnesses` runs prevent regression. Also added `settings.json` deployment (`theme: custom:rabble-theme`) and `themes` to the shared-symlink list.
+- **Aether theme wired:** `~/.claude-free/settings.json` now sets `custom:rabble-theme`; `~/.claude-free/themes` symlinks to `~/.claude/themes` (where `rabble-theme.json` already lives). Ansible enforces both on fresh installs.
+- **NIM models upgraded (all three tiers):** Haiku → `meta/llama-4-maverick-17b-128e-instruct` (newest Llama 4 MoE); Sonnet → `deepseek-ai/deepseek-v4-flash` (fast + strong coder); Opus → `mistralai/mistral-large-3-675b-instruct-2512` (675B MoE, state-of-the-art). Updated both live `fcc.env` and `fcc.env.example` (source). Service restarted + smoke-tested (Maverick routed correctly).
+- Commits: OS (this session), Grimoire (this commit).
 
 ---
 
