@@ -17,7 +17,19 @@
 Spine, per `log/EPISODE-1-RELEASE.md` ("What Episode 2 Enables") and `log/FABLE-GAP-ANALYSIS-S57.md`:
 **the day RaBbLE says something you didn't ask for.** Everything else is decoration until that happens.
 
-1. **Watcher daemon — the first sense.** One vertical slice: a tiny RaBbLE-OS daemon logs signals
+1. **Local Harness + `rabble` CLI — the entity is present on the machine.** The infrastructure
+   layer for all of EP2's intelligence: sCoRE running as a systemd user service on `:8083`,
+   quota-aware routing (reads Waybar cache → deprioritizes providers at 75%/90%/98%), shared
+   agent state across all harnesses (explicit handoff prompts when switching models), session
+   entropy tracking (weighted routing instability score → `decisions_at_risk` → self-healing
+   protocol), and the `rabble` CLI as the single entity interface replacing raw model invocations.
+   Without this, the Watcher daemon has no stable substrate to send signals to.
+   → **14 implementation tickets across 5 parallel tracks:** `RaBbLE-sCoRE/RaBbLE-sCoRE-Local-Tickets.md`
+   → **Architecture canon:** `RaBbLE-sCoRE/RaBbLE-sCoRE-Local-Architecture.md`
+   → **Component docs:** `RaBbLE-sCoRE-Quota-Router.md` · `RaBbLE-sCoRE-Agent-State.md` · `RaBbLE-sCoRE-Entropy-Tracker.md`
+   → **Session plan:** `log/SESSION-LOG-S138-local-arch.md` (S138 planning) · `log/SESSION-LOG.md` (S145 ingestion)
+
+2. **Watcher daemon — the first sense.** One vertical slice: a tiny RaBbLE-OS daemon logs signals
    (session duration, command repetition, focus) → sCoRE reads them → the entity makes **one**
    unprompted observation in chat. Backbone: BaBbLE `behavior/crawler-bots.md` (Scavenger →
    Organizer → Librarian), to be promoted to RFC. → `EPISODE-1-RELEASE.md`, BaBbLE `_ROUTING.md`.
@@ -64,6 +76,11 @@ stays minimal (chat chain fix + guest path).
    layer. → `RaBbLE-sCoRE/RaBbLE-sCoRE-Agent-Framework-Research.md`.
 4. **Grimoire Learning Loop.** sCoRE writes discovered patterns back to the Grimoire — the Grimoire
    becomes the behavioral learning journal (its post-EP1 job per Grimoire AGENT.md "FOR").
+5. **Sovereign Work Tracker.** File-based Kanban on sCoRE's existing `tasks/` store — adds backlog/
+   blocked dirs, `/api/v1/tasks` + `/api/v1/board` API, BaBbLE conversational intake, World board
+   surface (vanilla JS, Aether tokens). Unifies visual + agent-aligned tracking in one system. **Open
+   questions gate Phase 1:** identity (member? rablet? embedded?), page naming, visibility.
+   → **Concept filed (S141):** `RaBbLE-Collective/RaBbLE-Work-Tracker-Concept.md`
 
 ---
 

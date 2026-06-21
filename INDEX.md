@@ -50,6 +50,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-Collective](RaBbLE-Agent/RaBbLE-Collective.md) — ecosystem map, all members, architecture diagram
 - [RaBbLE-Integration-Map](RaBbLE-Agent/RaBbLE-Integration-Map.md) — cross-member data flow, CDN chain, integration patterns, key boundaries
 - [RaBbLE-Agent-Protocols](RaBbLE-Agent/RaBbLE-Agent-Protocols.md) — **agent behavioral rules** (doc management, repo conventions, member responsibilities, dev workflow, naming)
+- **[RaBbLE-Dependency-Policy](RaBbLE-Agent/RaBbLE-Dependency-Policy.md)** — **license governance for all agents.** Tier 1–4 classification, adapter pattern, NOTICES.md convention, clean room spec, agent rules. Read before adding any external dependency.
 - [RaBbLE-Development-Methodology](RaBbLE-Agent/RaBbLE-Development-Methodology.md) — *sovereign-directed agentic development*: drift-prevention protocol, agentic engineering practices, code-as-architectural-audit, honest architect profile + language profile
 - [RaBbLE-Grimoire-Navigator](RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md) — reading order by time budget and task type
 - **[RaBbLE-Grimoire-SelfHealing](RaBbLE-Agent/RaBbLE-Grimoire-SelfHealing.md)** — **anti-drift & self-healing protocol:** the drift surface, `grimoire-doctor`, token-weighted graph, low-token walking, pre-commit enforcement, forward plan
@@ -76,6 +77,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-Deployment-Architecture](RaBbLE-Collective/RaBbLE-Deployment-Architecture.md) — environments (local/staging/prod), CDN distribution, versioning, build pipeline
 - [RaBbLE-Cloudflare-Integration](RaBbLE-Collective/RaBbLE-Cloudflare-Integration.md) — Cloudflare setup, R2 buckets, Wrangler configuration, deployment workflow
 - **[RaBbLE-Grimoire-MCP](RaBbLE-Collective/RaBbLE-Grimoire-MCP.md)** — **CONCEPT.** Read-first remote MCP server at `grimoire.joinrabble.world` (Cloudflare Worker) exposing the Grimoire as live tools/resources to any agent — retires Mark-as-bridge between surfaces. Evolves the Post-EP1 "Grimoire MCP" item; proposes dedicated-Worker hosting over the earlier "Home: sCoRE."
+- **[RaBbLE-Work-Tracker-Concept](RaBbLE-Collective/RaBbLE-Work-Tracker-Concept.md)** — **CONCEPT (Echo 1, open questions blocking Phase 1).** Sovereign file-based Kanban: sCoRE task store (backlog/blocked dirs) + API + BaBbLE conversational intake + World board surface. Identity question open (member? rablet? embedded?). Do not build until resolved.
 - [RaBbLE-CICD-Plan](RaBbLE-Collective/RaBbLE-CICD-Plan.md) — CI/CD pipeline plan: CF Workers (GitHub Actions + wrangler), Render auto-deploy, API key vault, logs intake agent
 - [RaBbLE-Secrets-and-Identity](RaBbLE-Collective/RaBbLE-Secrets-and-Identity.md) — how the Collective owns its own accounts/keys (proton root identity, two-tier secrets, GitHub org + role account, repo transfer, episode signing ceremony)
 - [RaBbLE-Personal-Cosmos](RaBbLE-Collective/RaBbLE-Personal-Cosmos.md) — per-user namespace: Personal Grimoire, BaBbLE intake, Xperimental sandbox, Rablet publishing (EP2+)

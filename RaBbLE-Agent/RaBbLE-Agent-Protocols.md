@@ -7,6 +7,8 @@ transcribe ~ grimoire >> agent protocols distilled from session memory // %PROTO
 > Hard-won rules from sessions with this codebase. Each rule has caused at least one debugging session when broken. Read before touching anything.
 >
 > Source: distilled from `.claude` session memory across Sessions 13–24.
+>
+> **See also:** [RaBbLE-Dependency-Policy](RaBbLE-Dependency-Policy.md) — license governance for external dependencies (Tier 1–4 classification, adapter pattern, NOTICES.md convention). Read before adding any library, tool, or external API.
 
 ---
 
