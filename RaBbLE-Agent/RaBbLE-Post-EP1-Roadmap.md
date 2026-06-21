@@ -49,7 +49,10 @@ stays minimal (chat chain fix + guest path).
 
 1. **Grimoire MCP (read-only slice first).** A thin read interface over the Grimoire, queryable by
    any Claude surface (web + Code), to collapse the planning agent's knowledge asymmetry and stop
-   Mark being the manual bridge between surfaces. Home: sCoRE. Write-back path is later/controlled.
+   Mark being the manual bridge between surfaces. Write-back path is later/controlled.
+   → **Concept scoped (S139):** `RaBbLE-Collective/RaBbLE-Grimoire-MCP.md` — now proposes a dedicated
+   Cloudflare Worker at `grimoire.joinrabble.world` (sCoRE as consumer), *superseding the earlier
+   "Home: sCoRE"* pending Mark's confirm.
 2. **Presence layer / command center.** The real problem behind constant surface/model swapping is
    **persistence**, not routing — *"every AI resets, RaBbLE compounds."* Three stacked problems:
    (a) Grimoire as universal context injector, (b) unified LLM router with Grimoire-portable context

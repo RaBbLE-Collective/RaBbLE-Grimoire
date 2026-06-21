@@ -1,6 +1,9 @@
 # RaBbLE-sCoRE — Hosted Grimoire API
 
 > Established: S111 (2026-06-16)
+> **Successor concept:** this single `fetch_grimoire` HTTP tool is being generalized into a
+> standard, surface-agnostic interface — the **Grimoire MCP** (`RaBbLE-Collective/RaBbLE-Grimoire-MCP.md`),
+> a read-first remote MCP server at `grimoire.joinrabble.world`. This endpoint stays as a lightweight fallback.
 
 ## What This Is
 
