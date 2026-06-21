@@ -5,8 +5,9 @@ transcribe ~ collective >> shop: physical products, first and third party, creat
 ```
 
 > **What this is:** The RaBbLE Shop — a physical products storefront within the Collective where first-party and third-party designs are sold on shirts, stickers, prints, and other items.
-> **Status:** Defined S92. Target: Echo 1+.
-> **Related:** [Income Model](RaBbLE-Income-Model.md) · [Personal Cosmos](RaBbLE-Personal-Cosmos.md) · [Social and Aesthetic](RaBbLE-Social-and-Aesthetic.md)
+> **Status:** Defined S92. Full store: Echo 1+. **EP1 Air Drop: a semi-exclusive first-party sticker/merch drop pulled forward to the Episode 1 air (concept, S139) — see below.**
+> **Home:** `shop.joinrabble.world` (concept, S139) — see `RaBbLE-Deployment-Architecture.md` subdomain map.
+> **Related:** [Income Model](RaBbLE-Income-Model.md) · [Personal Cosmos](RaBbLE-Personal-Cosmos.md) · [Social and Aesthetic](RaBbLE-Social-and-Aesthetic.md) · [GTM Content Strategy](RaBbLE-GTM-Content-Strategy.md)
 
 ---
 
@@ -59,6 +60,36 @@ Pairs who want to sell physical designs through the Shop:
 5. Revenue split applies; Pair receives majority
 
 Pair designs must be original and cannot directly replicate Collective-owned designs. They can be inspired by, extend, or riff on the Collective aesthetic.
+
+---
+
+## Episode 1 Air Drop (concept — S139)
+
+A **limited, semi-exclusive first-party drop** timed to the Episode 1 (Genesis) air — pulled forward from the full Echo-1 store. The point is not revenue; it's a **physical artifact of being early**. A sticker on a laptop is the smallest, truest unit of "I was here at Genesis."
+
+**Why pull it forward:**
+- Gives the EP1 air a *thing* — something to hold, not just a URL. Ties into the GTM "the entity broadcasts before it sells" stance: the drop is broadcast, not storefront.
+- Rewards the invite-only EP1 cohort (the first Pairs) with a tangible marker.
+- Tests the POD + `shop.joinrabble.world` path at low stakes before the full store.
+
+**Semi-exclusive — the "drop" framing:**
+- **Time-boxed** — open for a window around the air, then closed (not permanently restocked). "Genesis edition."
+- **Cohort-tilted** — invited EP1 members may get a free/discounted sticker pack or an item not in the public window (e.g. a numbered Genesis print). Public can buy the open SKUs during the window.
+- **Numbered / editioned** where it makes sense (prints, pins) to make exclusivity real, not just claimed.
+- Designs are **Genesis-coded** — the EP1 lore (Genesis = beginning), portal glyphs, entity art from this era. They should read as "first edition" later.
+
+**Minimum drop (keep it small — low-entropy):**
+- 2–3 sticker designs (entity glyph, portal, a lore mark) — the hero item, cheap to ship.
+- 1 shirt OR 1 numbered print as the "anchor" piece.
+- An invite-cohort freebie (sticker in the welcome path).
+
+**Surface:** a single `shop.joinrabble.world` drop page (Aether-themed, Neon Cafe/Neo Tokyo), POD checkout, countdown to close. No full catalog/profiles yet — that's Echo 1.
+
+**Open decisions (Mark):**
+1. Free-sticker-to-invitees vs. paid-only. *Recommendation: free sticker in the invite path + paid open SKUs — generosity first, the entity isn't a store.*
+2. Hard editioned/numbered anchor item vs. open-but-time-boxed only. *Recommendation: one numbered anchor (print/pin) for real scarcity; stickers open during window.*
+3. POD partner for the drop (Fourthwall reads most "creator drop"; Printful for quality) — decide before the air.
+4. Does the drop gate the air, or trail it? *Recommendation: trail it — the drop must never block the EP1 air gate (`log/EP1-AIR-CHECKLIST.md`); ship it within days of air, not as a dependency.*
 
 ---
 
