@@ -135,3 +135,12 @@ commit-1668bbb	grimoire-kb-and-subdomain-concepts	S139: flat Grimoire KB export 
 f7bf0ff3-cfb4-4640-b400-0fdad14d2f29	os-easy-wins	S140: wallpaper, audio popup, fcc NIM rename+key, claude-free isolation, backlog triage, F44 doc
 commit-b1881da	agy-quota-tracker	agy live quota: send-outcome reset detection (score-agy-quota.py), shared bar+popup
 commit-cc10870	fcc-fix	claude-free silent response root cause found and fixed; NIM upgraded; Aether theme wired
+86cde79e-27e8-4d7d-a24e-97801833523b	collective	auto: audit fix: root CONTEXT.md Xperimental/Chrysalis member-map mismatch
+20bc75f2-450a-40c5-820d-4a085ff9948d	fcc-tuning-research	S144: diagnosed FCC Opus 400 (mistral-large-3 tokenizer); logged tuning research + LiteLLM backoff/failover backlog handoff
+df6a3820-dd0d-421f-b3a9-b9b234bef499	collective	auto: root CONTEXT.md: add Chrysalis to member entry-point table
+8be92585-6f30-4fc4-88d5-75383a0e3631	grimoire	auto: S147 session log: TaskViSoR named, dep policy + intake integrated
+ef613802-d3da-48fb-90c2-32574f4efeff	grimoire	auto: regenerate Identity gist; drift cleared
+41b35576-4d14-40c2-9052-77923f29699c	collective	auto: current state S145: EP2 local arch ingested
+commit-68cdf70	plymouth-layout	Plymouth script layout overhauled to match target image; test spell added with DRM detection
+c9acd1e6-3249-4340-b0f6-6b6f0b9f640f	sddm-aether-greeter	SDDM theme: Orbitron font, entity animation, gradient border, footer buttons, font triage (corrupt TTFs replaced)
+commit-fea183e	boot-chain-stabilization	S153: fixed OpenCode S152 drift — nvidia-load.service, prebaked plymouth lore, SDDM mockup, boot profiler

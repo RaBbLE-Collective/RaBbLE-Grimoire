@@ -5,14 +5,53 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-21 · Session 151 (SDDM Aether greeter — Orbitron + entity animation)
+## LATEST — 2026-06-22 · Session 153 (Boot-chain stabilization — fixed OpenCode S152 drift)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S151):** SDDM greeter fully themed: retrowave BG, 48-frame entity idle animation, Orbitron clock + username (color-cycles cyan→magenta→violet), Aether flowing gradient border on password pill, footer (power/reboot/suspend/switch-user/swap-DE). Fixed corrupt Orbitron-Bold.ttf (was HTML); deployed Orbitron-Variable + Exo2-Variable; ndiscover-exo-2-fonts added to manifest; Plymouth fc-cache handler hardened.
+**This session (S153):** Reviewed + stabilized OpenCode's uncommitted S152 pass. Built nvidia-load.service (the phantom service S152's cmdline referenced). Reverted Plymouth live-log→prebaked lore (16 lines), wordmark back to 0.20h. SDDM toward login mockup: entity 460px, bolder/lower clock, decorative top "waybar" strip, contrast pill + brighter power buttons. Downgraded premature [FIXED]→unverified. Added spells/boot-profile.sh (flagged NM-wait-online 5.2s gating). Verification + visual-debug recipes written.
 **Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — 4 open (all ep1-gate).
-**Next:** B-02 (Mark: buy OpenRouter credits), B-04 (Mark: `cloudflare-ctl.sh deploy aether/nebula v0.0.0.1-rc.1`) → B-01 + B-03 agent sessions → EP1 air → EP2 Wave 1.
+**Next:** Reboot to QA whole chain (recipe in Fix-BootChain). Disable NM-wait-online. Clean entity loop (NeBuLA closed-cycle frames). Catch GRUB→Plymouth black-pane in VM.
 
 ---
+
+## 2026-06-22 · Session 153 (Stabilize OpenCode's S152 boot-chain pass)
+
+- Repos: RaBbLE-OS, RaBbLE-Grimoire (KnownIssues, Fix-BootChain, this log). Branch: new-horizons.
+- Context: OpenCode attempted the 6/21 boot/login theming list; good ideas but drift, all uncommitted. This session reviewed, fixed, committed.
+- **NVIDIA (the drift):** S152 added `rd.driver.blacklist=nvidia` + removed `nvidia-drm.modeset=1`, citing a `nvidia-load.service` that **never existed**. Built it (`hardware/x64/asus_proart_p16/tasks/nvidia.yml`): oneshot, After=sddm, WantedBy=graphical.target, modprobe nvidia_drm+nvidia_uvm. `systemd-analyze verify` clean. Corrected the group_vars comment.
+- **Plymouth log — REVERTED to prebaked lore (Mark's call):** removed the live-systemd ring buffer (read as noise); restored prebaked behavioral lore (16 lines, color-coded tags) mirroring Boot.html. Wordmark `0.32h`→back to `0.20h`; log baseline `0.70h`. `message_callback` now only feeds the separate system-message line.
+- **SDDM toward login mockup** (`captures/Entity-UI/Boot`): entity 320→460px; clock re-anchored above entity, Font.Black, ~0.085·w; **top "waybar" strip** (Aether, decorative — greeter has no live battery/net, flagged follow-up); power buttons cMuted→cText, 22→26px, on a contrast backing pill. Loads clean in offscreen `sddm-greeter-qt6 --test-mode`.
+- **Doc honesty:** KnownIssues `[FIXED S152]`→`[IMPLEMENTED · NEEDS REBOOT VERIFY]`; removed false `ter-32.pf2 "RaBbLE UI Mono"` claim (no task builds it); GRUB deploy no longer ships `build-grub-bg.py` into `/boot`.
+- **Boot profiler:** new `spells/boot-profile.sh` (systemd-analyze time/blame/critical-chain + landmarks + hiccups). Baseline 29.95s; flagged `NetworkManager-wait-online` 5.2s on critical path, `powertop` 5.8s parallel/non-gating. Findings + recommended Ansible fixes in Fix-BootChain.
+- **Recipes:** full reboot verification recipe + non-VM visual-debug methods documented in Fix-BootChain.
+- **Unverified:** all boot-chain changes need a real reboot. SDDM validated only in offscreen test-mode.
+- **Next:** reboot QA; disable NM-wait-online; clean entity loop; catch GRUB→Plymouth black-pane in a VM.
+
+---
+
+## 2026-06-21 · Session 152 (Boot-chain theming — unified liminal canvas + fixes)
+
+- Repos: RaBbLE-OS, RaBbLE-Grimoire (affected: KnownIssues, Fix-BootChain), RaBbLE-BaBbLE (reference)
+- **GRUB theme** (`boot/grub2/`):
+  - `build-grub-bg.py` now composites entity + floor grid + wordmark onto Liminal_BG at 24bpp RGB
+  - Ansible task generates background at deploy time (references Plymouth assets)
+  - Terminus 32pt font via `grub2-mkfont -s 32 -n "RaBbLE UI Mono"` for 4K readability
+  - `theme.txt` uses `desktop-image: "grub-bg.png"` with color fallback
+- **Plymouth** (`boot/plymouth/`):
+  - Replaced hardcoded fake boot logs with ring buffer (MAX_LOG=20); `message_callback` pushes real systemd messages into the buffer; lore seeds initial display
+  - `bg-liminal.png` as background layer (z=1) behind floor grid for unified boot-chain canvas
+  - Wordmark y-position moved from `screen_h*0.20` to `screen_h*0.32` for better alignment
+  - Log baseline at `screen_h*0.60`, ring buffer display scrolls upward from baseline
+- **SDDM** (`boot/session_manager/`):
+  - Entity idle animation changed from forward-only `(idx+1)%48` to ping-pong (dir flips at 0 and 47) — smooth infinite loop
+  - Username transforms `"rabble"` → `"RaBbLE"` case-correctly; any other user gets title-case
+  - `bg.png` sourced from Liminal_BG (matches GRUB + Plymouth)
+- **GRUB cmdline** (`group_vars/asus_proart_p16.yml`):
+  - `plymouth.use-simpledrm=1` removed (amdgpu in initramfs, causes flash)
+  - `fbcon=font:TER16x32` added for early TTY font
+  - `rd.driver.blacklist=nvidia` added (defer NVIDIA from initramfs)
+- **KnownIssues + Fix-BootChain** updated to reflect S152 fixes
+- **Next:** `layerctl apply boot` to deploy. Reboot to QA. `nvidia-load.service` (post-SDDM NVIDIA load).
 
 ## 2026-06-21 · Session 151 (SDDM Aether greeter — Orbitron font + entity animation)
 

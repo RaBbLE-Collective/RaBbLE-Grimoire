@@ -28,53 +28,47 @@ harmonize ~ grimoire >> surfacing the static // %DRIFT_TRACKING%
 
 ### Boot Chain
 
-> **Tackle-together work-package (Mark · EP2):** the 4K-font items below (GRUB font
-> microscopic, TTY font shifts size) get fixed in one pass alongside **GRUB theming +
-> "USB boot from GRUB"** — done coherently, not piecemeal (Mark has been down this
-> rabbit hole before). The "USB boot from GRUB" piece also completes part of **F2
-> recovery** (the live-USB recovery path) — one effort, don't duplicate. These are
-> **display-specific (hi-DPI)**: not a generic_x64 FLOOR blocker, but a documented
-> rough edge in the F5 "Known Rough Edges" sheet for anyone on a 4K panel.
+> **S152 (2026-06-21):** Major boot-chain theming pass landed — see `fix/RaBbLE-OS-Fix-BootChain.md` for full status.
+> **S153 (2026-06-22):** OpenCode's S152 pass reviewed + stabilized. Items below are **IMPLEMENTED but UNVERIFIED on real hardware** — none of them are `[FIXED]` until the boot-chain verification recipe passes on a real reboot (`fix/RaBbLE-OS-Fix-BootChain.md` → Verification). They sit under Active Issues deliberately.
+>
+> **Unified liminal canvas:** `RaBbLE_boot_Liminal_BG.png` (BaBbLE) is now the shared background across GRUB (24bpp RGB), Plymouth (RGBA composited), and SDDM (RGB). The boot chain *should* read as one continuous performance — confirm visually.
+>
+> **Remaining rough edge:** TTY font `ter-v32b` in `vconsole.conf` may not apply on all TTYs after KMS handoff. `fbcon=font:TER16x32` in cmdline handles early TTY; `systemd-vconsole-setup` handles post-pivot. If TTYs still show small font, verify `setfont ter-v32b` works and fbcon is active.
 
-**GRUB2 — background image bit depth mismatch**
-- `GRUB_GFXMODE=3840x2400x32` requests 32bpp; GRUB's background renderer requires ≤24bpp
-- Fix: remove background image from `theme.txt` entirely — use color-only theme (`bgcolor = "#0a0010"`)
-- Pure neon-on-void is more on-brand than a texture; no image handoff needed
-- Role: `boot/grub2` — `theme.txt` background entry to be removed
+**GRUB2 — background image bit depth mismatch** `[IMPLEMENTED S152 · NEEDS REBOOT VERIFY]`
+- `grub-bg.png` generated at 24bpp RGB (no alpha) from Liminal_BG via `build-grub-bg.py`
+- GRUB background renderer requires ≤24bpp which 24bpp RGB satisfies
+- Theme uses `desktop-image: "grub-bg.png"` with `desktop-color: "#0a0010"` fallback
 
-**GRUB2 — font microscopic at 4K**
-- Default GRUB font renders at ~6px at 3840x2400; `grub2-mkfont` task not yet implemented in role
-- Fix: compile `ter-v32b` via `grub2-mkfont -s 32 /usr/share/fonts/terminus/ter-v32b.pcf.gz -o /boot/grub2/fonts/ter-v32b.pf2`; set `GRUB_FONT=/boot/grub2/fonts/ter-v32b.pf2`
-- Handler must run `grub2-mkfont` before `grub2-mkconfig`
-- Role: `boot/grub2`
+**GRUB2 — font microscopic at 4K** `[IMPLEMENTED S152 · NEEDS REBOOT VERIFY]`
+- Noto Sans variants generated at 12/16/18/36pt and named "RaBbLE UI Regular"; theme uses `RaBbLE UI Regular 36` for titles
+- NOTE: the S152 doc claimed a `ter-32.pf2 "RaBbLE UI Mono"` font — **no Ansible task generates it and no theme directive uses it** (corrected S153). Only Noto Sans is built.
+- Handlers run in correct order: mkfont before mkconfig
 
-**TTY font — shifts size during boot**
-- Initial kernel framebuffer uses built-in console font; `vconsole.conf` kicks in later after initramfs pivot
-- Fix: add `fbcon=font:TER16x32` to `GRUB_CMDLINE_LINUX` to front-load a readable font before systemd
-- Role: `boot/grub2` — cmdline addition
+**TTY font — shifts size during boot** `[IMPLEMENTED S152 · NEEDS REBOOT VERIFY]`
+- `fbcon=font:TER16x32` added to `GRUB_CMDLINE_LINUX` for early framebuffer font
+- `vconsole.conf` sets `FONT=ter-v32b` for post-initramfs font via systemd-vconsole-setup
+- OPEN: Mark reports the larger TTY font is seen *applying* before Plymouth but may **not persist on the actual TTY**. Verify `setfont ter-v32b` works and fbcon is active post-pivot.
 
-**Plymouth — DejaVu font / wrong palette colors**
-- Plymouth `.script` file hardcodes `DejaVu` font; color values are stale pre-palette-lock
-- Fix: update hex values to canonical palette (`#ff2d78`, `#bf5fff`, `#0a0010`); replace font reference
-- Role: `boot/plymouth` — `rabble.script` requires edit
+**Plymouth — DejaVu font / wrong palette colors** `[IMPLEMENTED S87–S152 · NEEDS REBOOT VERIFY]`
+- JetBrains Mono for boot logs, Orbitron for wordmark (pre-rendered PNGs, no font discovery in initrd)
+- Palette locked to canonical hex values: `#ff2d78`, `#bf5fff`, `#0a0010`, `#00f5ff`, `#e8e6f0`, `#6b6880`
 
-**Plymouth — black flash / NVIDIA DRM reset mid-boot**
-- Root cause: NVIDIA akmod loads mid-boot, triggers DRM subsystem reset, Plymouth reinitializes — visible as black flash before SDDM
-- Fix: defer NVIDIA modules from initramfs; load at `graphical.target` after SDDM starts
-  1. Blacklist `nvidia`, `nvidia_drm`, `nvidia_modeset`, `nvidia_uvm` via `/etc/modprobe.d/rabble-nvidia-defer.conf`
-  2. Rebuild initramfs: `dracut -f --regenerate-all`
-  3. Add `rd.driver.blacklist=nvidia` to `GRUB_CMDLINE_LINUX`
-  4. Enable `nvidia-load.service` ordered `After=sddm.service`
-- Side effect: `nvidia-smi` unavailable before login — acceptable
-- Roles: `hardware/x64/asus_proart_p16` — new subtask `nvidia_defer.yml`; `boot/grub2` — cmdline update
+**Plymouth — black flash / NVIDIA DRM reset mid-boot** `[IMPLEMENTED S152–S153 · NEEDS REBOOT VERIFY]`
+- `plymouth.use-simpledrm=1` removed from GRUB cmdline (was the simpledrm→KMS handoff flash)
+- `rd.driver.blacklist=nvidia` added to cmdline — NVIDIA modules deferred from initramfs
+- `add_drivers+=" amdgpu "` in dracut conf ensures AMD iGPU KMS is available from frame one
+- **S153: `nvidia-load.service` now implemented** (`roles/hardware/x64/asus_proart_p16/tasks/nvidia.yml`) — loads `nvidia_drm`/`nvidia_uvm` after `sddm.service`, off the boot critical path, so the deferred dGPU is ready for PRIME offload/CUDA.
+- RISK: this is a real kernel-cmdline change. If the splash still flashes black OR if `nvidia-smi`/`DRI_PRIME=1` fails after login, this is the prime suspect — see verification recipe.
 
-**Plymouth — void background continuity (verify)**
-- Plymouth background `#0a0010` confirmed correct in script
-- Must verify GRUB `bgcolor` in `theme.txt` and SDDM background QML also match `#0a0010`
+**Plymouth — void background continuity** `[IMPLEMENTED S152 · NEEDS REBOOT VERIFY]`
+- Unified liminal background (`bg-liminal.png`) across GRUB, Plymouth, SDDM — all derive from `RaBbLE_boot_Liminal_BG.png`
 
-**SDDM theme — Main.qml needs Qt6 API validation**
-- Custom `themes/sddm/rabble/Main.qml` untested against Qt6 SDDM API; Breeze active as fallback
-- Test path: `sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/rabble`
+**SDDM theme — Main.qml Qt6 API validation**
+- `Main.qml` uses Qt6 API (Theme-API=2.0, QtVersion=6)
+- Test path: `sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/rabble-aether`
+- Username case transformation, gradient border implemented
+- Entity idle loop is currently **ping-pong (forward→back→forward)** — a STOPGAP. Mark finds the direction reversal too obvious; a genuinely seamless loop is a **planned future pass** (see `fix/RaBbLE-OS-Fix-BootChain.md` → "Future: clean entity loop").
 
 ---
 
