@@ -5,12 +5,26 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-21 · Session 149 (Plymouth layout fix + test spell)
+## LATEST — 2026-06-21 · Session 150 (GRUB Aether theme + TTY HiDPI font + palette)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S149):** RaBbLE-OS Plymouth boot screen overhauled to match target design — wordmark/bar/log repositioned into right section, 13 visible log lines, tag brackets, full subtitle text, leading-zero %, freeze-on-complete (no fade-to-black). `spells/test-plymouth.sh` added: syncs theme, detects DRM contention, guides to bare-VT or reboot path.
+**This session (S150):** RaBbLE-OS boot-to-shutdown Aether theming: GRUB theme (deep void bg, hot magenta title, violet subtitle, magenta countdown bar); TTY Terminus font (ter-v32b on ProArt 4K, ter-v22b generic); Aether 16-color VT palette via profile.d; grub2 role fully wired (packages, vconsole deploy, font generation from Noto Sans).
 **Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — 4 open (all ep1-gate).
 **Next:** B-02 (Mark: buy OpenRouter credits), B-04 (Mark: `cloudflare-ctl.sh deploy aether/nebula v0.0.0.1-rc.1`) → B-01 + B-03 agent sessions → EP1 air → EP2 Wave 1.
+
+---
+
+## 2026-06-21 · Session 150 (GRUB Aether theme + TTY HiDPI font + Aether palette)
+
+- Repos: RaBbLE-OS
+- **GRUB theme created** (`ansible/roles/boot/grub2/files/theme/theme.txt`): deep void `#0a0010` background, hot magenta `#ff2d78` "RaBbLE-OS" title, soft violet `#bf5fff` episode subtitle, off-white menu entries, muted key hint, magenta countdown progress bar. Fonts generated from Noto Sans via `grub2-mkfont` at deploy time (12/16/18/36pt, name "RaBbLE UI Regular").
+- **ProArt P16**: `rabble_gfx_mode: 1920x1200x32` (readable logical res for 4K), `rabble_console_font: ter-v32b`
+- **generic_x64**: `rabble_console_font: ter-v22b`
+- **vconsole.conf deploy task** added to `grub2/tasks/config.yml`; `reload vconsole font` handler added
+- **Aether TTY palette** (`rabble-tty-palette.sh.j2` → `/etc/profile.d/`): maps 16 ANSI VT slots to Aether — void black, magenta, cyan, violet, pink, error/success/warning; fires only when `$TERM=linux`
+- **`terminus-fonts`** added to packages manifest; `grub2/tasks/packages.yml` de-stubbed
+- **`grub.j2`**: `GRUB_BACKGROUND` removed (theme owns it), `GRUB_FONT` added
+- **Next:** apply via `layerctl apply --tags boot,grub` on live machine; QA GRUB visual + TTY font + palette
 
 ---
 
