@@ -5,16 +5,31 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-21 · Session 146 (NeBuLA acronym corrected)
+## LATEST — 2026-06-21 · Session 147 (TaskViSoR named; dep policy + intake docs to Grimoire)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S146):** Corrected NeBuLA acronym expansion: "Behavioral Learning" → "Entropy-Based Unified Luminance". Single source of truth in NeBuLA-Identity.md. No gist changes needed (gists use the name, not the expansion).
+**This session (S147):** 3 BaBbLE intake docs integrated into Grimoire: Dependency Policy (agent governance, Tier 1–4 licenses), Work Tracker Concept (renamed TaskViSoR), TaskViSoR Identity (member declaration, `/visor` URL, 3-layer surface). Member registered; Post-EP1 Roadmap + INDEX updated. Intake originals → pointers → archived.
 **Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — 4 open (all ep1-gate).
 **Next:** B-02 (Mark: buy OpenRouter credits), B-04 (Mark: `cloudflare-ctl.sh deploy aether/nebula v0.0.0.1-rc.1`), then B-01/B-03 agent sessions → EP1 air → EP2 Wave 1.
 
 > This box is updated each session. Read this; skip the rest unless you need history.
 > **Blockers + EP1 air no longer live in this box** — they're durable in `log/BLOCKERS.md`
 > and `log/EP1-AIR-CHECKLIST.md` so the per-session rewrite can't clobber them.
+
+---
+
+## 2026-06-21 (Session 147) — TaskViSoR named; dependency policy + intake docs integrated
+
+- Repos: RaBbLE-Grimoire, RaBbLE-BaBbLE
+- **Intake → Grimoire (3 docs):**
+  - `RaBbLE-Agent/RaBbLE-Dependency-Policy.md` — license governance for all agents (Tier 1–4 classification, adapter pattern, clean room spec, NOTICES.md convention). Referenced from Agent-Protocols.md.
+  - `RaBbLE-Collective/RaBbLE-TaskViSoR-Identity.md` — named member declaration: *Visual State Observer of RaBbLE*. 3-layer surface: `/visor` World page (Echo 1) → OS app (Echo 1/2) → rablet (Echo 2+).
+  - `RaBbLE-Collective/RaBbLE-Work-Tracker-Concept.md` — Layer 1 implementation plan: sCoRE task store extensions (backlog/blocked dirs), `/api/v1/tasks` + `/api/v1/board` API, BaBbLE intake bar, `/visor` World page. Updated with resolved naming throughout.
+- **Registry:** `registry/manifests/RaBbLE-TaskViSoR.manifest.yml` created (scaffold, release_track: independent).
+- **Index/roadmap:** INDEX.md (3 new entries + TaskViSoR identity entry); Post-EP1-Roadmap Echo 1 item 5 updated with TaskViSoR name + layer map.
+- **BaBbLE:** Intake originals converted to pointer files → moved to `_archive/`.
+- **Open before Layer 1 build:** board visibility (private vs. public read-only), agent visualization spec for Layer 2 (OS app).
+- **Next:** B-02 (Mark: buy OpenRouter credits), B-04 (Mark: CDN deploy) → EP1 air.
 
 ---
 
