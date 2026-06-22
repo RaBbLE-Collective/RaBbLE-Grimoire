@@ -5,7 +5,16 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-21 · Session 147 (TaskViSoR named; dep policy + intake docs to Grimoire)
+## LATEST — 2026-06-21 · Session 148 (S138 EP2 arch wrapped: gist regen, drift fix, BaBbLE archive)
+
+**Phase:** Epoch 0 · Episode 1 in flight.
+**This session (S148):** Completed S145 intake work — identity gist regenerated (only stale one; 8/9 kept previous due to nested-Claude harness block). Collective AGENT.md advanced S120→S145. BaBbLE intake cleared: 6 sCoRE EP2 docs moved to `_archive/` as pointer stubs (canonical in Grimoire). EP2 local harness now fully documented and indexed; gated behind EP1 air.
+**Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — 4 open (all ep1-gate).
+**Next:** B-02 (Mark: buy OpenRouter credits), B-04 (Mark: `cloudflare-ctl.sh deploy aether/nebula v0.0.0.1-rc.1`) → B-01 + B-03 agent sessions → EP1 air → EP2 Wave 1.
+
+---
+
+## 2026-06-21 · Session 147 (TaskViSoR named; dep policy + intake docs to Grimoire)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
 **This session (S147):** 3 BaBbLE intake docs integrated into Grimoire: Dependency Policy (agent governance, Tier 1–4 licenses), Work Tracker Concept (renamed TaskViSoR), TaskViSoR Identity (member declaration, `/visor` URL, 3-layer surface). Member registered; Post-EP1 Roadmap + INDEX updated. Intake originals → pointers → archived.
@@ -71,6 +80,17 @@ Format: date, what was done, where things were left, what's next.
 - **Fix:** ⊘ now shown in bar even when idle+rate-limited. Tooltip always shows both pools (✓ available / ⊘ rate-limited). Popup wording: "available (daily limits apply)".
 - **Dropped:** standalone `gemini` CLI tracker (`score-gemini-quota.py`) — binary retired June 18 when Google completed migration to Antigravity CLI. All quota tracking stays under agy's two pools.
 - Deployed: `dotctl apply waybar` ✓
+
+---
+
+## 2026-06-21 (Session 148) — S138 EP2 arch wrap: gist regen, drift fix, BaBbLE archive
+
+- Repos: RaBbLE-Grimoire, RaBbLE-BaBbLE, RaBbLE-Collective
+- **Gist regen:** `distill-gists.sh` run from inside harness — identity gist regenerated (OK, 230 words); 8/9 kept previous due to nested-Claude permission block. Identity was the only gist flagged stale by pre-commit hook. To regen the rest: run `distill-gists.sh` outside the harness.
+- **Drift fix:** Collective `AGENT.md` current-state advanced from S120 → S145 → S148.
+- **BaBbLE archive:** 6 S138 intake files promoted to Grimoire (S145) → replaced with pointer stubs in `_archive/`. `intake/` now empty. Pointer stubs: sCoRE-Local-Architecture, Quota-Router, Agent-State, Entropy-Tracker, Local-Tickets, SESSION-LOG-S138-local-arch.
+- **Commits:** Grimoire `d964f92` (identity gist), `[S148 commit]` (session log); BaBbLE `[archive commit]`; Collective `[AGENT.md commit]`.
+- **Next:** B-02 (Mark: credits), B-04 (Mark: CDN deploy) → B-01/B-03 → EP1 air → EP2 Wave 1 (L-01+L-02+L-03 parallel).
 
 ---
 
