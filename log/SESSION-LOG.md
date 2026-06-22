@@ -5,14 +5,23 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-21 · Session 150 (GRUB Aether theme + TTY HiDPI font + palette)
+## LATEST — 2026-06-21 · Session 151 (SDDM Aether greeter — Orbitron + entity animation)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S150):** RaBbLE-OS boot-to-shutdown Aether theming: GRUB theme (deep void bg, hot magenta title, violet subtitle, magenta countdown bar); TTY Terminus font (ter-v32b on ProArt 4K, ter-v22b generic); Aether 16-color VT palette via profile.d; grub2 role fully wired (packages, vconsole deploy, font generation from Noto Sans).
+**This session (S151):** SDDM greeter fully themed: retrowave BG, 48-frame entity idle animation, Orbitron clock + username (color-cycles cyan→magenta→violet), Aether flowing gradient border on password pill, footer (power/reboot/suspend/switch-user/swap-DE). Fixed corrupt Orbitron-Bold.ttf (was HTML); deployed Orbitron-Variable + Exo2-Variable; ndiscover-exo-2-fonts added to manifest; Plymouth fc-cache handler hardened.
 **Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — 4 open (all ep1-gate).
 **Next:** B-02 (Mark: buy OpenRouter credits), B-04 (Mark: `cloudflare-ctl.sh deploy aether/nebula v0.0.0.1-rc.1`) → B-01 + B-03 agent sessions → EP1 air → EP2 Wave 1.
 
 ---
+
+## 2026-06-21 · Session 151 (SDDM Aether greeter — Orbitron font + entity animation)
+
+- Repos: RaBbLE-OS, RaBbLE-BaBbLE
+- **SDDM theme** (`boot/session_manager/files/sddm-theme/`): retrowave `bg.png`, 48-frame entity idle PNG animation (sourced from Plymouth frames 49–96), Orbitron clock + username (Aether neon color cycle via `SequentialAnimation`), Aether flowing gradient border (GradientStop color animation) on password pill, 5-button footer (power/reboot/suspend/⇌user/⊞DE)
+- **Font triage:** `Orbitron-Bold.ttf` everywhere on system was corrupt HTML redirect — replaced with `Orbitron-Variable.ttf` (proper Google Fonts GitHub raw TTF). `Exo2-Variable.ttf` same fix. Both bundled in SDDM theme `assets/fonts/`
+- **Plymouth fix:** `Orbitron-Bold.ttf` → `Orbitron-Variable.ttf` in Ansible copy task + dracut font injection path; `fc-cache` handler upgraded to `fc-cache -fv` (global rebuild, not subdirectory-scoped)
+- **manifest.yml:** `ndiscover-exo-2-fonts` added to fonts layer (Fedora package, Aether `--font-ui`)
+- **Next:** `sudo dnf install ndiscover-exo-2-fonts && sudo fc-cache -fv` + `layerctl apply boot` to deploy fonts live; per-letter gradient text needs SPIR-V `.qsb` shader (deferred)
 
 ## 2026-06-21 · Session 150 (GRUB Aether theme + TTY HiDPI font + Aether palette)
 
