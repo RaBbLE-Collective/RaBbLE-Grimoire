@@ -5,10 +5,10 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-21 · Session 148 (S138 EP2 arch wrapped: gist regen, drift fix, BaBbLE archive)
+## LATEST — 2026-06-21 · Session 149 (Plymouth layout fix + test spell)
 
 **Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S148):** Completed S145 intake work — identity gist regenerated (only stale one; 8/9 kept previous due to nested-Claude harness block). Collective AGENT.md advanced S120→S145. BaBbLE intake cleared: 6 sCoRE EP2 docs moved to `_archive/` as pointer stubs (canonical in Grimoire). EP2 local harness now fully documented and indexed; gated behind EP1 air.
+**This session (S149):** RaBbLE-OS Plymouth boot screen overhauled to match target design — wordmark/bar/log repositioned into right section, 13 visible log lines, tag brackets, full subtitle text, leading-zero %, freeze-on-complete (no fade-to-black). `spells/test-plymouth.sh` added: syncs theme, detects DRM contention, guides to bare-VT or reboot path.
 **Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — 4 open (all ep1-gate).
 **Next:** B-02 (Mark: buy OpenRouter credits), B-04 (Mark: `cloudflare-ctl.sh deploy aether/nebula v0.0.0.1-rc.1`) → B-01 + B-03 agent sessions → EP1 air → EP2 Wave 1.
 
@@ -24,6 +24,29 @@ Format: date, what was done, where things were left, what's next.
 > This box is updated each session. Read this; skip the rest unless you need history.
 > **Blockers + EP1 air no longer live in this box** — they're durable in `log/BLOCKERS.md`
 > and `log/EP1-AIR-CHECKLIST.md` so the per-session rewrite can't clobber them.
+
+---
+
+## 2026-06-21 (Session 149) — Plymouth boot screen layout + test spell
+
+- Repos: RaBbLE-OS
+- **`rabble-aether.script` overhauled to match target boot image:**
+  - Wordmark Y: 42% → 20% (top of right section, stacked layout)
+  - Progress bar: global screen bottom (88%) → right section, dynamic Y below tagline
+  - Progress bar X: global center → centered in right section via `right_cx`
+  - Log baseline: 80% → 62%; `line_h` 22→20; exit fade threshold 5→12 (all 14 lines visible)
+  - Tag format: `INFO  ` → `[INFO]  ` with brackets matching target image
+  - Tagline: letter-spaced stub → full `"RaBbLE  ·  a Boundless behavioral Learning Engine"`
+  - % label: `4%` right of bar → `04%` centered below bar (leading zero, dynamic position)
+  - Fade-to-black removed: `fade_master` decrement replaced with `fade = 1` (freeze last frame)
+- **`spells/test-plymouth.sh` added:** syncs Ansible source → deployed theme, detects DRM
+  contention via TTY device check (`/dev/ttyN` vs `/dev/pts/X`), simulates progress, prints
+  diagnostic when graphical Plymouth is blocked by compositor DRM ownership.
+- **DRM lesson:** `plymouthd --no-daemon` from within Hyprland always falls back to text
+  dots — Hyprland holds DRM master even on VT switch on NVIDIA. Real test requires bare VT
+  login (Hyprland releases DRM when VT-switched) or `dracut -f && reboot`.
+- **Next for Plymouth:** `sudo dracut -f && reboot` to validate layout; consider live
+  `message_callback` scrolling buffer for real systemd messages as a future enhancement.
 
 ---
 
