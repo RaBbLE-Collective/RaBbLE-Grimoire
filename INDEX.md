@@ -265,7 +265,8 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [Development History](log/RaBbLE-Development-History.md) — 5-minute narrative of the Collective's eras, pivots, and corrected-canon notes (distilled from SESSION-LOG + memory)
 - [DECISIONS](log/DECISIONS.md) — architectural decisions: member roles, versioning, onboarding, gist system
 - [AUDITS](log/AUDITS.md) — completed audits + open gaps: registry, onboarding, token reduction, Episode 1 blockers
-- [EP1-AIR-CHECKLIST](log/EP1-AIR-CHECKLIST.md) — **live EP1 air gate**: member-by-member readiness, blocker-linked gate rows, OS Developer-Preview FLOOR, tag procedure (reconciled S129)
+- [EP1-AIR-CHECKLIST](log/EP1-AIR-CHECKLIST.md) — **live EP1 air gate**: member-by-member readiness, blocker-linked gate rows, OS Developer-Preview FLOOR + World EP1 FLOOR (G10), tag procedure (reconciled S153 — chat spine verified live)
+- [HANDOFF-S153-EP1-Coherence](log/HANDOFF-S153-EP1-Coherence.md) — **S153 handoff:** EP1 chat spine verified LIVE (B-01/03/04 resolved, G3–G6 green); EP1 gated only on G7/G9 VM verifies + G10; World↔Chrysalis prod/dev split (Track A move-first + Track B dev archive); focus-fence (S152 boot-chain = EP2)
 - [EP1-Dispatch-State](log/EP1-Dispatch-State.md) — handoff doc from S58: sCoRE Render pivot decision, manual deploy runbook, OS VM partial verification
 - [EP1-READINESS-AUDIT-S103](log/EP1-READINESS-AUDIT-S103.md) — S103 full Collective audit: Grimoire drift, OS theming root cause, World unification plan, BaBbLE cleanup, cross-cutting EP1 blockers
 - [S104-BABBLE-CAPTURES-GIT-REORG-PLAN](log/S104-BABBLE-CAPTURES-GIT-REORG-PLAN.md) — proposed BaBbLE `captures/` git reorg (awaiting Mark's sign-off)

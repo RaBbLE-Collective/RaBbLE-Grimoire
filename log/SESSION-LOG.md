@@ -5,12 +5,25 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-22 · Session 153 (Boot-chain stabilization — fixed OpenCode S152 drift)
+## LATEST — 2026-06-22 · Session 153 (EP1 coherence reconciliation — chat spine verified LIVE)
 
-**Phase:** Epoch 0 · Episode 1 in flight.
-**This session (S153):** Reviewed + stabilized OpenCode's uncommitted S152 pass. Built nvidia-load.service (the phantom service S152's cmdline referenced). Reverted Plymouth live-log→prebaked lore (16 lines), wordmark back to 0.20h. SDDM toward login mockup: entity 460px, bolder/lower clock, decorative top "waybar" strip, contrast pill + brighter power buttons. Downgraded premature [FIXED]→unverified. Added spells/boot-profile.sh (flagged NM-wait-online 5.2s gating). Verification + visual-debug recipes written.
-**Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — 4 open (all ep1-gate).
-**Next:** Reboot to QA whole chain (recipe in Fix-BootChain). Disable NM-wait-online. Clean entity loop (NeBuLA closed-cycle frames). Catch GRUB→Plymouth black-pane in VM.
+**Phase:** Epoch 0 · Episode 1 in flight — packaging/verification, not building.
+**This session (S153, EP1 track):** Hit prod directly — EP1 chat spine is already LIVE. Resolved B-01 (guest chat streams SSE), B-03 (web CORS), B-04 (Aether/NeBuLA CDN 200): G3/G4/G5/G6 green. B-02 reframed resilience (Groq fast-chain override covers G5), non-gating. Designed World↔Chrysalis prod/dev split → new **G10 World FLOOR**. EP1 now gated only on G7 + G9 VM verifies + G10.
+**Blockers:** → `log/BLOCKERS.md` (`bash spells/blockers.sh ls`) — B-02 open (now resilience, non-gating).
+**Next:** Track A (move World `chrysalis/` → Chrysalis repo → clean prod = G10) · G7/G9 VM verify · Mark: B-02 retag + `dev.joinrabble.world` routing. Handoff: `log/HANDOFF-S153-EP1-Coherence.md`. (Concurrent S153 boot-chain track logged below.)
+
+---
+
+## 2026-06-22 · Session 153 (EP1 coherence reconciliation + World/Chrysalis split — parallel to boot-chain track)
+
+- Repos: RaBbLE-Grimoire (`log/`), RaBbLE-Collective root (`AGENT.md`). No code — verification + planning + ledger. Ran parallel to a concurrent S153 boot-chain session (its entry is below this one).
+- **Verified prod LIVE** (curl, `Origin: joinrabble.world`): aether/nebula CDN bundles HTTP 200 (30 KB / 69 KB) at the exact URLs `RaBbLE-config.js` loads; `sCoRE /api/v1/chat` streams a real RaBbLE SSE response at tier `fast`; CORS `ACAO=joinrabble.world` on preflight + POST.
+- **Resolved** B-01, B-03, B-04 in the blocker ledger; flipped **G3/G4/G5/G6 → green** in `EP1-AIR-CHECKLIST.md` + member table.
+- **B-02 reframed:** OpenRouter $10 = resilience/fallback-depth, **NOT air-gating** (Groq override satisfies G5). Still open, owner Mark. Open decision: retag off `ep1-gate`.
+- **World/Chrysalis split designed with Mark:** `joinrabble.world` = unified EP1 only; `dev.joinrabble.world/chrysalis` = independent, self-contained, `/chrysalis`-scoped Chrysalis Worker (no knowledge of dev siblings). World's `chrysalis/` is the ONLY copy (untracked in Chrysalis) → **Track A is move-first, not delete.** Added **G10 World EP1 FLOOR** gate row.
+- **Drift named:** S152 boot-chain theming = Episode 2 scope per OS FLOOR §C. EP1 work remaining = verification / packaging / presentation, not building.
+- Handoff: `log/HANDOFF-S153-EP1-Coherence.md`. Cites `RaBbLE-World/RaBbLE-World-RC1-Emergence-Plan.md` (prior art — the plan that put `chrysalis/` in World).
+- **Next:** Track A relocate + clean prod (→ G10) · G7/G9 VM verify · Mark decisions (B-02 retag, dev routing).
 
 ---
 

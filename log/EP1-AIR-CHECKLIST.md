@@ -13,7 +13,7 @@
 
 **Target tag:** `episode-1-v0.0.0.1` — applied to all lockstep members **simultaneously**.
 **Version:** v0.0.0.0 → v0.0.0.1 (Epoch 0 · Evolution 0 · Echo 0 · Episode 1).
-**Last reconciled:** 2026-06-20 (S129 audit).
+**Last reconciled:** 2026-06-22 (S153 — chat spine verified live: G3/G4/G5/G6 green; G10 World FLOOR added). See `log/HANDOFF-S153-EP1-Coherence.md`.
 
 ---
 
@@ -23,13 +23,14 @@
 |---|------|-------|---------|
 | G1 | `joinrabble.world` loads in prod (landing + entity visible) | ✅ live (HTTP 200, S120) | — |
 | G2 | sCoRE deployed to Render and reachable | ✅ live (S106) | B-06 ✓ |
-| G3 | Aether + NeBuLA CDN Workers deployed so theme/entity bundles load on World | ⛔ pending | **B-04** |
-| G4 | A visitor can talk to RaBbLE end-to-end on prod (guest/invite chat path) | ⛔ pending | **B-01** |
-| G5 | Chat chain not capped by free-tier 429s (OpenRouter credits or chain override) | ⛔ pending | **B-02** |
-| G6 | CORS resolves for the web demo user-type (`allow_origin_regex`) | ⛔ pending | **B-03** |
+| G3 | Aether + NeBuLA CDN Workers deployed so theme/entity bundles load on World | ✅ live (bundles HTTP 200, S153) | B-04 ✓ |
+| G4 | A visitor can talk to RaBbLE end-to-end on prod (guest/invite chat path) | ✅ live (SSE streams, S153) | B-01 ✓ |
+| G5 | Chat chain not capped by free-tier 429s (OpenRouter credits or chain override) | ✅ met via Groq fast-chain override (S153) | B-02 = resilience, non-gating |
+| G6 | CORS resolves for the web demo user-type (`allow_origin_regex`) | ✅ ACAO=joinrabble.world (S153) | B-03 ✓ |
 | G7 | RaBbLE-OS meets its **Developer-Preview FLOOR** (see §C) on a generic x86_64 VM | ⏳ verify | — |
 | G8 | All lockstep members on `new-horizons`, clean, ready to tag | ✅ in-step (status.sh) | B-08 ✓ |
 | G9 | Collective bootstrap (`setup.sh`) verified end-to-end on a fresh machine/VM | ⏳ verify | — |
+| G10 | World prod is a coherent unified EP1 experience (learns Collective + RaBbLE, frames EP1, episodic roadmap) — **no `/chrysalis` or `/xperimental` on prod** | ⏳ World EP1 FLOOR | World/Chrysalis split (Track A) |
 
 **Decision rule (set by Mark, S129):** the air call is Mark's once these rows are green.
 G4+G5+G6 are the "smallest end-to-end loop" — they are the spine of Genesis. G3 gates the
@@ -45,10 +46,10 @@ Lockstep members (`release_track: episode`) tag together; independent members ar
 | Member | EP1 role | State | Remaining for air |
 |---|---|---|---|
 | **Grimoire** | source of truth | ✅ canonical, in-step | none — tag with the set |
-| **sCoRE** | LLM endpoint | ✅ LIVE on Render | chain fix + guest path feed G4/G5 |
-| **World** | public site | ✅ deployed; ⛔ chat | G3, G4, G5, G6 |
-| **Aether** | platform theme | ✅ bundle built | G3 (CDN Worker deploy) |
-| **NeBuLA** | entity renderer | ✅ renderer done | G3 (CDN Worker deploy) |
+| **sCoRE** | LLM endpoint | ✅ LIVE on Render; chat verified | none — guest path streams (S153) |
+| **World** | public site | ✅ deployed; ✅ chat live (Groq) | none — G4/G5/G6 ✓ |
+| **Aether** | platform theme | ✅ bundle live on CDN | none — G3 ✓ |
+| **NeBuLA** | entity renderer | ✅ bundle live on CDN | none — G3 ✓ |
 | **OS** | substrate (Dev Preview) | ⏳ FLOOR verify | G7 (see §C) |
 | **BaBbLE** | intake/captures | reference — tagged, not changed | none |
 | **Chrysalis** | genesis archive | `independent` — not tagged in lockstep | none |

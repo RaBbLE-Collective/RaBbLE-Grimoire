@@ -4,17 +4,17 @@
 > Do not hand-edit — use `blockers.sh add` / `resolve`. This is the durable
 > home for blockers so they survive the rewrite of the SESSION-LOG `## LATEST` box.
 >
-> Last synced: 2026-06-21  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
+> Last synced: 2026-06-22  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
 
 ## OPEN
 
-- **B-01** — World guest/invite chat path — visitor can't yet talk to RaBbLE end-to-end on prod  ·  owner:Mark  ·  since:S118  ·  [ep1-gate]
 - **B-02** — OpenRouter $10 credits not purchased — free tier 429 caps the chat chain  ·  owner:Mark  ·  since:S106  ·  [ep1-gate]
-- **B-03** — CORS allow_origin_regex per user-type not implemented (web demo vs local BYOK)  ·  owner:Mark  ·  since:S106  ·  [ep1-gate]
-- **B-04** — Aether + NeBuLA CDN Workers not deployed — theme/entity bundles can't load on World  ·  owner:Mark  ·  since:S120  ·  [ep1-gate]
 
 ## RESOLVED
 
+- **B-01** — resolved: verified S153 LIVE: POST score.joinrabble.world/api/v1/chat (Origin joinrabble.world, tier fast) streams real RaBbLE SSE response end-to-end; guest chat path works in prod
+- **B-03** — resolved: verified S153: web-demo CORS resolves — OPTIONS preflight + POST both return access-control-allow-origin: https://joinrabble.world. Per-user-type allow_origin_regex (web vs local BYOK) deferred until the local BYOK surface needs cross-origin — EP2 concern, not air-gating
+- **B-04** — resolved: verified S153: aether.joinrabble.world + nebula.joinrabble.world serve v0.0.0.1-rc.1 bundles HTTP 200 (aether.min.css 30KB, nebula.iife.js 69KB) at exact URLs World RaBbLE-config.js loads; G3 green
 - **B-05** — resolved: NIM key registered from sCoRE .env via fcc-ctl; renamed fcc layer to NVIDIA_NIM_API_KEY (upstream var); proxy smoke-tested 200 (S139)
 - **B-06** — resolved: LIVE on Render S106 — rabble-score-x7qq.onrender.com
 - **B-07** — resolved: live S120 — joinrabble.world returns 200
