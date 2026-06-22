@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-22 · Session 154 (Track A: World/Chrysalis prod split, G10 staging)
+## LATEST — 2026-06-22 · Session 154 (Track A done; G7/G9 guide ready; awaiting deployment)
 
-**Phase:** Epoch 0 · Episode 1 in flight — packaging/verification. **Track A gating G10 → committed.**
-**This session (S154, EP1 track):** **Track A complete:** Copied `RaBbLE-World/chrysalis/` → `RaBbLE-Chrysalis/chrysalis/` (commit 245f466 on main); deleted from World (commit 233aeb9 on new-horizons); both pushed. Verification pending deployment (Render still on prior branch; `/chrysalis/` HTTP 200 until new-horizons deployed). **Parked for Mark:** deploy new-horizons → verify G10 green · decide B-02 retag off ep1-gate · confirm dev.joinrabble.world routing + Chrysalis repo artifact structure.
-**Blockers:** → `log/BLOCKERS.md` — B-02 open (now resilience, non-gating).
-**Next:** G7/G9 VM verify (fresh x86_64 RaBbLE-OS install + bootstrap) · await Mark's deployment/routing decisions. (Concurrent S153 boot-chain track still live.)
+**Phase:** Epoch 0 · Episode 1 in flight — packaging/verification. **Track A gating G10 → committed and ready to deploy.**
+**This session (S154, EP1 track):** **Track A complete:** Moved `RaBbLE-World/chrysalis/` → `RaBbLE-Chrysalis/chrysalis/` (safe commit to main 245f466); deleted from World (commit 233aeb9 on new-horizons). Created comprehensive **G7/G9 verification guide** (`log/G7-G9-Verification-Guide.md`) — step-by-step for mark or a developer to verify RaBbLE-OS generic VM install/boot/recover + setup.sh bootstrap end-to-end. Verification pending: new-horizons deployment to prod (will flip `/chrysalis/ → 404` = G10 green).
+**Blockers:** → `log/BLOCKERS.md` — B-02 open (resilience, non-gating).
+**Next:** Await Mark: (1) deploy new-horizons → G10 green; (2) B-02 retag + dev routing; (3) execute G7/G9 guide or delegate. All three gates can green in parallel once deployment + dev decisions land. (Concurrent S153 boot-chain track still live.)
 
 ---
 
@@ -21,14 +21,15 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## 2026-06-22 · Session 154 (Track A: World/Chrysalis relocation, G10 gate staging)
+## 2026-06-22 · Session 154 (Track A: World/Chrysalis relocation complete; G7/G9 guide created)
 
-- Repos: RaBbLE-World (new-horizons), RaBbLE-Chrysalis (main). Gate: G10 World EP1 FLOOR.
-- **Track A steps 1–2:** Copied `RaBbLE-World/chrysalis/` → `RaBbLE-Chrysalis/chrysalis/` (68 files, 19.6 KB), committed to main (245f466). Deleted from World (git rm -r), committed to new-horizons (233aeb9). Both branches pushed to GitHub.
-- **Verification (step 3) pending:** `joinrabble.world/chrysalis/` still HTTP 200 (prod deployment hasn't switched to new-horizons yet). Will 404 once Mark deploys.
-- **No drift:** Stayed focused on Track A (move-first, not delete-first). Did not touch Track B (dev.joinrabble.world entropy garden) or S152 boot-chain work (EP2 scope).
-- **Parked for Mark:** (1) deploy new-horizons to prod + verify `/chrysalis/ → 404`; (2) decide B-02 retag off ep1-gate (resilience, non-gating); (3) confirm dev.joinrabble.world routing to independent Chrysalis Worker; (4) confirm artifact structure in Chrysalis repo (proposed: `chrysalis/` mapping route).
-- **Next:** Agent can start G7/G9 VM verification track (spin generic x86_64 VM, verify OS Developer-Preview FLOOR install + recover + setup.sh bootstrap). Or wait for Mark's routing decisions if needed for Track B sequencing.
+- Repos: RaBbLE-World (new-horizons), RaBbLE-Chrysalis (main), RaBbLE-Grimoire (new-horizons). Gates: G10 (awaiting deployment), G7/G9 (guide ready).
+- **Track A complete:** Copied `RaBbLE-World/chrysalis/` → `RaBbLE-Chrysalis/chrysalis/` (68 files, 19.6 KB), committed to main (245f466); deleted from World (git rm -r), committed to new-horizons (233aeb9); both pushed to GitHub.
+- **Verification (G10) pending:** `joinrabble.world/chrysalis/` still HTTP 200 (Render hasn't deployed new-horizons yet). Will 404 once deployed.
+- **G7/G9 guide created:** Comprehensive walkthrough in `log/G7-G9-Verification-Guide.md` — step-by-step for RaBbLE-OS generic x86_64 VM verification (automated install via vmctl.sh + Kickstart, boot to Hyprland, run verification checklist, test recovery path F2→emergency mode, create clean snapshot). Then bootstrap test: fresh clone + setup.sh curl bootstrap → verify Collective clones + bootstraps + boots + reboots cleanly. Ready for Mark or a developer with display access to execute.
+- **No drift:** Stayed focused on Track A + documentation. Did not touch Track B (dev.joinrabble.world entropy garden) or S152 boot-chain work (EP2 scope).
+- **Parked for Mark:** (1) deploy new-horizons to prod + verify G10 green (expected: `/chrysalis/ → 404`); (2) decide B-02 retag off ep1-gate (current: `ep1-gate`; should be non-gating resilience); (3) confirm dev.joinrabble.world routing mechanism to independent Chrysalis Worker; (4) execute G7/G9 guide (can delegate to a developer with display server).
+- **Next:** Await Mark's deployment + routing decisions. G7/G9 guide is ready for execution. All three gates (G10, G7, G9) can flip green in parallel once deployment + decisions land.
 
 ---
 
