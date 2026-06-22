@@ -42,6 +42,29 @@
 - [ ] Wayland session conf + `hyprland.desktop` entry
 - [ ] Follow-up: live waybar widgets (battery/network) in the greeter — needs a backend feeding QML
 
+## Boot asset masters — regenerate at 4K+ `[OPEN · S153]`
+
+**The Plymouth script is now resolution-independent** (S153): a `scale = screen_w / 1920`
+factor scales the fixed sprites (entity, wordmark, dot), text point sizes, and inter-element
+gaps; the full-screen layers (bg-liminal, floor-grid, scanlines) already `Scale()` to fit. So
+**one** asset set renders at the same proportions from 720p to 4K, and new higher-res masters
+**drop in with no script change** (sizing is fraction-of-screen, not tied to master pixels).
+
+**BUT the current masters are 1920-class** and get *upscaled* on the 4K ProArt panel
+(`scale ≈ 2.0`) → expect interpolation softness on the entity + wordmark until masters are
+regenerated. TODO, owner Mark/NeBuLA:
+
+| Asset | Current | Regenerate at | Source |
+|---|---|---|---|
+| `frames/entity-*.png` | 512² (from 1920×1080 capture, `CROP=640 OUT_SIZE=512`) | ≥1024² (bump `OUT_SIZE`/capture viewport in `build-assets.sh`) | NeBuLA canvas capture |
+| `assets/wm-step-*.png` | 352×84 | ~2× (render Orbitron page at 2× device-scale) | Aether wordmark capture |
+| `assets/floor-grid.png`, `scanlines.png` | 1920×1080 | 3840×2400 (native panel) | build-assets ffmpeg/node — bump `s=WxH` |
+| `bg-liminal.png` + GRUB/SDDM bg | 1920×1200 (resized from `RaBbLE_boot_Liminal_BG.png`) | 3840×2400 | BaBbLE Liminal_BG master (already high-res) |
+
+- `build-assets.sh` viewport/sizes are hardcoded `1920×1080` / `512` — bump those and re-run.
+- Backgrounds downscale cleanly, so 4K masters are strictly better everywhere; no downside.
+- Until regenerated: 720p/1080p look correct; 4K is correct-proportioned but slightly soft.
+
 ## Future: clean entity loop (NOT this pass — planned)
 
 Mark's call (S153): **ping-pong reads as too obvious** — the eye catches the direction
@@ -69,7 +92,24 @@ You can iterate most of the chain without full reboots:
 | **Full chain + GRUB** | boot a VM via `RaBbLE-OS-vmctl.sh` — screenshot the framebuffer at any moment | scriptable, repeatable |
 
 - `test-plymouth.sh` starts Plymouth *after* the GRUB→Plymouth handoff, so it **cannot reproduce the handoff transition itself** — for the "black pane covering 75% with BG still visible" glitch, the VM (or a photographed real boot) is the way to catch that exact moment.
-- That black-pane symptom appears during the GRUB→Plymouth/KMS transition — a prime suspect is the S152 `plymouth.use-simpledrm=1` removal (we now rely on amdgpu-in-initramfs). If it persists, the fallback is to restore `plymouth.use-simpledrm=1` and re-test. Capture it in a VM first.
+
+### "Black pane over 75%" — ROOT CAUSE CONFIRMED (S153) + FIX
+
+Diagnosed live via `dmesg`/DRM state on the P16 (not speculation):
+- Panel native = **3840×2400** (`card1-eDP-1`).
+- GRUB had `GFXMODE=1920x1200x32` + `GFXPAYLOAD_LINUX=keep`, so the kernel inherited the **1920×1200** mode. dmesg: `Console: switching to colour frame buffer device 240x75` = simpledrm @ 1920×1200, then `480x150` = amdgpu @ 3840×2400 ~3s later.
+- **1920×1200 is exactly ¼ the area of 3840×2400.** simpledrm paints that buffer 1:1 in the top-LEFT quarter of the 4K panel → 75% black, bg-liminal visible in the quarter — until amdgpu KMS switches to native.
+
+**Fix applied (UNVERIFIED — reboot-test):** decouple the kernel framebuffer from the GRUB menu mode — keep the menu at 1920×1200 (readable) but hand the kernel a **native** payload:
+```yaml
+# group_vars/asus_proart_p16.yml
+rabble_gfx_mode: "1920x1200x32"        # GRUB menu — readable
+rabble_grub_gfxpayload: "3840x2400x32" # kernel/simpledrm/Plymouth — native, fills the panel
+```
+This makes simpledrm fill the 4K panel AND removes the mid-boot resolution switch (simpledrm 4K → amdgpu 4K, no change → also kills any residual flash). Verify after reboot: `dmesg | grep "frame buffer device"` should show the FIRST fb at `480x150` (4K), not `240x75`.
+
+- Side effect: Plymouth now renders at native 4K, so the entity/wordmark PNGs look small until their capture resolution is bumped in `build-assets.sh` (visual-polish follow-up — layout holds because it's ratio-based).
+- Alternative if you'd rather not go 4K in boot: `video=eDP-1:1920x1200` to pin amdgpu to 1920 — but that does NOT fix the simpledrm-quarter window (GOP is still 1920), so the native-payload fix above is the correct one.
 
 ## Verification — RUN THIS ON A REAL REBOOT before promoting `[~]` → `[x]`
 

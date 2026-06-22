@@ -142,5 +142,7 @@ df6a3820-dd0d-421f-b3a9-b9b234bef499	collective	auto: root CONTEXT.md: add Chrys
 ef613802-d3da-48fb-90c2-32574f4efeff	grimoire	auto: regenerate Identity gist; drift cleared
 41b35576-4d14-40c2-9052-77923f29699c	collective	auto: current state S145: EP2 local arch ingested
 commit-68cdf70	plymouth-layout	Plymouth script layout overhauled to match target image; test spell added with DRM detection
-c9acd1e6-3249-4340-b0f6-6b6f0b9f640f	sddm-aether-greeter	SDDM theme: Orbitron font, entity animation, gradient border, footer buttons, font triage (corrupt TTFs replaced)
 commit-fea183e	boot-chain-stabilization	S153: fixed OpenCode S152 drift — nvidia-load.service, prebaked plymouth lore, SDDM mockup, boot profiler
+0053a20b-8aff-401f-a952-efa9bec2a216	collective	auto: root AGENT.md current state: S153 EP1 spine live, gated on G7/G9/G10
+c9acd1e6-3249-4340-b0f6-6b6f0b9f640f	ep1-coherence	S153 EP1 chat spine verified live; B-01/03/04 resolved, G3-G6 green; World/Chrysalis split + G10 FLOOR; handoff doc
+commit-b4317a4	boot-chain-stabilization	S153 cont: GFXPAYLOAD black-pane fix + Plymouth resolution-independence (scale=screen_w/1920) + 4K-master regen logged

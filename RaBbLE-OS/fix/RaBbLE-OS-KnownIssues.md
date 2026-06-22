@@ -70,6 +70,10 @@ harmonize ~ grimoire >> surfacing the static // %DRIFT_TRACKING%
 - Username case transformation, gradient border implemented
 - Entity idle loop is currently **ping-pong (forward→back→forward)** — a STOPGAP. Mark finds the direction reversal too obvious; a genuinely seamless loop is a **planned future pass** (see `fix/RaBbLE-OS-Fix-BootChain.md` → "Future: clean entity loop").
 
+**Boot asset masters are 1920-class — regenerate at 4K+** `[OPEN · S153]`
+- Plymouth script is now resolution-independent (`scale = screen_w/1920` scales entity/wordmark/dot/text; bg/grid/scanlines already fit). One asset set spans 720p→4K; new masters drop in with no script change.
+- Current masters upscale on the 4K panel (`scale≈2.0`) → entity + wordmark slightly soft until regenerated. Full table + `build-assets.sh` knobs in `fix/RaBbLE-OS-Fix-BootChain.md` → "Boot asset masters". 720p/1080p already correct.
+
 ---
 
 ### Desktop / Hyprland

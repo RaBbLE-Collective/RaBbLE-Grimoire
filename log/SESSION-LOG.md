@@ -37,8 +37,11 @@ Format: date, what was done, where things were left, what's next.
 - **Doc honesty:** KnownIssues `[FIXED S152]`→`[IMPLEMENTED · NEEDS REBOOT VERIFY]`; removed false `ter-32.pf2 "RaBbLE UI Mono"` claim (no task builds it); GRUB deploy no longer ships `build-grub-bg.py` into `/boot`.
 - **Boot profiler:** new `spells/boot-profile.sh` (systemd-analyze time/blame/critical-chain + landmarks + hiccups). Baseline 29.95s; flagged `NetworkManager-wait-online` 5.2s on critical path, `powertop` 5.8s parallel/non-gating. Findings + recommended Ansible fixes in Fix-BootChain.
 - **Recipes:** full reboot verification recipe + non-VM visual-debug methods documented in Fix-BootChain.
-- **Unverified:** all boot-chain changes need a real reboot. SDDM validated only in offscreen test-mode.
-- **Next:** reboot QA; disable NM-wait-online; clean entity loop; catch GRUB→Plymouth black-pane in a VM.
+- **Black-pane root cause FOUND (live dmesg/DRM):** GRUB→Plymouth "black pane over 75%" = panel native 3840×2400 but `GFXPAYLOAD_LINUX=keep` handed the kernel GRUB's 1920×1200 → simpledrm painted it 1:1 in the top-left QUARTER (1920×1200 = ¼ the area), 75% black, until amdgpu KMS switched to native ~3s later. **Fix:** `rabble_grub_gfxpayload: "3840x2400x32"` (decoupled from the 1920 menu mode) → simpledrm fills the panel, no mid-boot res switch.
+- **Plymouth resolution-independence:** added `scale = screen_w/1920` — scales entity/wordmark frames (at load), dot, bar_h, line_h, all inter-element gaps + dialog, and font point sizes (clamped). bg/grid/scanlines already fit. Sizing is fraction-of-screen so future 4K masters drop in with no script change. Brace/paren-balanced; NOT VT/VM-tested.
+- **4K masters logged:** current masters are 1920-class (entity 512², wm 352×84) → soft on 4K (`scale≈2.0`). Regen table + `build-assets.sh` knobs in Fix-BootChain → "Boot asset masters"; KnownIssues `[OPEN · S153]`.
+- **Unverified:** all boot-chain changes need a real reboot (GFXPAYLOAD especially). SDDM validated only in offscreen test-mode; Plymouth scale untested on a real VT.
+- **Next:** reboot QA (confirm first fb = 480x150 not 240x75); disable NM-wait-online; regen 4K masters; clean entity loop; catch any residual black-pane in a VM.
 
 ---
 
