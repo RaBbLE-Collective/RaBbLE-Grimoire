@@ -14,6 +14,13 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-06-22 · Maintenance (Grimoire doctor fix)
+
+- **Quick fix:** Updated `grimoire-doctor.sh` to ignore `SESSION-LOG-*.md` files in `log/` from unindexed warning checks. These are valid session archives that don't require INDEX.md entries. Commit: 2096159.
+- **Status:** ✓ committed, warning resolved.
+
+---
+
 ## 2026-06-22 · Session 154 (Track A: World/Chrysalis relocation, G10 gate staging)
 
 - Repos: RaBbLE-World (new-horizons), RaBbLE-Chrysalis (main). Gate: G10 World EP1 FLOOR.
