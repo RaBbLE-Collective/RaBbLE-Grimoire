@@ -54,7 +54,7 @@ INDEX="$GRIMOIRE_ROOT/INDEX.md"
 # Files to ignore for index/connectivity purposes (generated or transient)
 ignore_for_index() {
   case "$1" in
-    gist/*|log/lessons/*|log/agents/*|log/grimoire-graph.md|\
+    gist/*|log/lessons/*|log/agents/*|log/SESSION-LOG*.md|log/grimoire-graph.md|\
     CLAUDE.md|CODEX.md|GEMINI.md) return 0 ;;
     *) return 1 ;;
   esac
