@@ -5,14 +5,21 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-23 · Session 158 (Insights integration → Agent-Protocols + Claude agent tooling)
+## LATEST — 2026-06-23 · Session 159 (KDE Dolphin text reset → Catppuccin Mocha Mauve baseline)
 
-**Phase:** Epoch 0 · Episode 1 · agent protocol hardening.
-**This session (S158):** Ran `/insights` (240 sessions, 412h, 458 commits). Integrated 6 new rules into Agent-Protocols.md: foreground-only sub-agents, validate CLIs before building, front-load blockers, incremental commits, Ansible/Fedora pkg verification, doc fidelity. Added `yamllint`+`ShellCheck` to OS core role. Created `/endsession` skill + post-edit lint hook in `~/.claude`.
+**Phase:** Epoch 0 · Episode 1 · desktop theming stabilization.
+**This session (S159):** Gave up debugging RaBbLE-Aether kdeglobals readability (multi-session sinkhole). Root cause: `color-schemes` dotctl bundle never pushed → `~/.local/share/color-schemes/` was empty → KDE read stale `/usr/share/` copy. Installed Catppuccin Mocha Mauve (MIT) as baseline. Mark relogs to flush KColorScheme cache.
 **Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending; B-02 open.
-**Next:** (1) `layerctl apply core` → installs yamllint+ShellCheck; (2) verify plan server (`systemctl --user status rabble-plans`); (3) reboot → `boot-profile.sh`; (4) EP1 gates G10/G7/G9.
+**Next:** (1) Verify Dolphin text readable post-relog; (2) `layerctl apply core` → yamllint+ShellCheck; (3) reboot → `boot-profile.sh`; (4) EP1 gates G10/G7/G9; (5) overlay Aether colors onto Catppuccin baseline methodically.
 
 ---
+
+## 2026-06-23 · Session 159 (KDE Dolphin text reset → Catppuccin Mocha Mauve baseline)
+
+- Repos: RaBbLE-OS (new-horizons).
+- **Problem:** Dolphin text unreadable across multiple sessions. Root cause: `color-schemes` dotctl bundle had never been pushed, so `~/.local/share/color-schemes/` was empty. KDE was reading stale `/usr/share/color-schemes/RaBbLE-Aether.colors` from an old Ansible run, causing palette drift.
+- **Fix:** Created `config/color-schemes/CatppuccinMochaMauve.colors` (MIT license, the same upstream as the Kvantum theme). Updated `config/kdeglobals/kdeglobals` to point at it. Deployed both via `dotctl apply color-schemes kdeglobals`. Committed `444b44d` to RaBbLE-OS.
+- **Next:** Mark relogs → verify Dolphin text readable → overlay Aether colors methodically on top of Catppuccin baseline. Then `layerctl apply core` + reboot → EP1 gates.
 
 ## 2026-06-23 · Session 158 (Insights integration → Agent-Protocols + Claude agent tooling)
 
