@@ -280,6 +280,36 @@ RaBbLE-BaBbLE/captures/
 
 ---
 
+## Visual Planning Workflow
+
+### Use the self-hosted plan server — never plan.agent-native.com
+
+When `/visual-plan` is invoked, it must route to the local self-hosted plan server, not the upstream hosted service. No plan content ever leaves the machine.
+
+**Local server:** `http://localhost:3000` (nginx proxy → `rabble-plans` systemd service on port 3001)  
+**MCP endpoint:** `http://localhost:3000/_rabble/mcp` (registered in `~/.claude/claude_code_config.json` as `rabble-plans`)  
+**Full protocol:** `RaBbLE-Agent/RaBbLE-VisualPlan-Protocol.md`
+
+**Check before using:**
+```bash
+systemctl --user status rabble-plans
+```
+
+**If not running:** apply the Ansible role — `ansible-playbook ansible/site.yml --tags plans` from `RaBbLE-Collective/RaBbLE-OS/`.
+
+### Export approved plans to Grimoire
+
+After a plan is approved, export the MDX and commit it:
+```
+export-visual-plan → log/plans/<impulse>-<organ>-<topic>-S<session>/
+git add log/plans/<slug>/ && git commit -m "transcribe ~ grimoire >> visual plan: <slug>"
+```
+Add one line to `log/SESSION-LOG.md`: `Plan: log/plans/<slug>/ — <description>`
+
+**Why:** The plan MCP connector in `agent-native-skill.json` defaults to `plan.agent-native.com` (the upstream hosted URL). RaBbLE overrides this via `claude_code_config.json`'s local MCP registration. If the local service is down, the tools will attempt to reach the hosted service — always verify the service is running before `/visual-plan`.
+
+---
+
 ## RaBbLE-OS Config Workflow
 
 ### Repo → System, never the reverse
