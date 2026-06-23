@@ -21,3 +21,6 @@ log/agents/*.heartbeat.pid
 
 # Wrangler local build/state cache (Grimoire MCP / gist Worker)
 .wrangler/
+
+# Agent-Native local bridge URL tokens (machine-specific, written by plan local serve)
+log/plans/**/.plan-url

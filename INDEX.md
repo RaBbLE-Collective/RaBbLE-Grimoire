@@ -55,6 +55,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-Grimoire-Navigator](RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md) — reading order by time budget and task type
 - **[RaBbLE-Grimoire-SelfHealing](RaBbLE-Agent/RaBbLE-Grimoire-SelfHealing.md)** — **anti-drift & self-healing protocol:** the drift surface, `grimoire-doctor`, token-weighted graph, low-token walking, pre-commit enforcement, forward plan
 - [RaBbLE-Captures-System](RaBbLE-Agent/RaBbLE-Captures-System.md) — visual capture organization, spell integration (`visual-screenshot.sh`), naming conventions
+- [RaBbLE-VisualPlan-Protocol](RaBbLE-Agent/RaBbLE-VisualPlan-Protocol.md) — self-hosted local plan server (no cloud), `/visual-plan` skill setup, export → Grimoire archive convention
 - [RaBbLE-Collective-KnownIssues](RaBbLE-Agent/RaBbLE-Collective-KnownIssues.md)
 - [RaBbLE-DistilledNonZense](RaBbLE-Agent/RaBbLE-DistilledNonZense.md) — full entropy archive from deprecated substrate
 - [RaBbLE-Overview](RaBbLE-Agent/RaBbLE-Overview.md) — orientation map: ecosystem summary and quick-start pointers
