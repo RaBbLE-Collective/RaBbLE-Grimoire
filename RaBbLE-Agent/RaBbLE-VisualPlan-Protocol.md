@@ -1,217 +1,131 @@
 # RaBbLE-VisualPlan-Protocol.md — Visual Planning for RaBbLE Agents
 
 ```
-transcribe ~ grimoire >> visual-plan protocol established // %VISUALPLAN_PROTOCOL%
+transcribe ~ grimoire >> visual plan protocol: RaBbLE-native direction // %VISUALPLAN_PROTOCOL%
 ```
 
-> How RaBbLE agents create, save, and log Agent-Native Visual Plans.
-> Self-hosted local server — no cloud dependency, no agent-native.com.
-> See also: [RaBbLE-Agent-Protocols](RaBbLE-Agent-Protocols.md) — agent behavioral rules
-> Plan archive: `log/plans/` — exported MDX artifacts from completed plans
+> Plans are structured markdown in `log/plans/`. The visual render surface is
+> RaBbLE's own — NeBuLA/Aether in World. No third-party plan server.
+> See: `RaBbLE-Collective/RaBbLE-Plan-Surface.md` for the forward vision.
 
 ---
 
-## What This Is
+## What a Plan Is
 
-The `/visual-plan` skill creates structured planning artifacts — scannable documents
-with inline diagrams, wireframes, annotated code, open questions, and an optional
-top visual canvas. Use it for any work where direction needs review before code is
-written, and a reviewable artifact beats a chat paragraph.
+A plan is a structured markdown file in `RaBbLE-Grimoire/log/plans/`.
+Any agent can write one. Any agent can read and continue from one.
+The Grimoire is the source of truth — no external service involved.
 
-**Skip it for:** one-line fixes, typo corrections, single well-specified functions,
-anything whose diff fits in one sentence.
-
----
-
-## Infrastructure — Self-Hosted Local Server
-
-RaBbLE runs its own plan server. No data ever leaves the machine.
-
-```
-App:  /opt/rabble/plans (Next.js + SQLite)
-      ├── data/plans.db     ← all plan storage (local only)
-      └── build/            ← compiled server
-
-Service:  rabble-plans (systemd user unit)
-          Node.js on port 3001 (internal)
-
-Proxy:    nginx on port 3000 (public face)
-          /_rabble/  →  proxies to /_agent-native/ on app
-          (no "_agent-native" ever appears in agent config or URLs)
-
-MCP:      http://localhost:3000/_rabble/mcp
-          Registered as "rabble-plans" in ~/.claude/claude_code_config.json
-
-Plan UI:  http://localhost:3000
-Theme:    Aether palette injected into app CSS (ansible managed)
-```
-
-Deployed via: `RaBbLE-OS/ansible/roles/apps/plans/`
-Config source: `RaBbLE-OS/ansible/roles/apps/plans/defaults/main.yml`
+Use `/visual-plan` to generate plan structure and thinking. The output is
+saved as markdown. The *visual render* of that markdown is RaBbLE's job —
+NeBuLA/Aether in World (EP2 target, see below).
 
 ---
 
-## Installation Status Check
+## When to Write a Plan
+
+Write a plan when:
+- The work spans multiple files or sessions and needs a review gate before code
+- Direction needs alignment before implementation (UI layout, data shape, auth model)
+- The task has hard-to-reverse decisions (wire format, public IDs, schema)
+- A UI flow needs mockups or state diagrams to reason about
+
+Skip it for: one-line fixes, single well-specified functions, anything whose
+diff fits in one sentence.
+
+---
+
+## Plan Format — Structured Markdown
+
+Plans live at `log/plans/<slug>.md`. One file per plan. Plain markdown with
+structured sections — no special tooling required to read or continue from one.
+
+```markdown
+# Plan: <title>
+
+> Status: draft | approved | in-progress | done
+> Session: S<N> | Date: YYYY-MM-DD
+> Repos: RaBbLE-OS, RaBbLE-NeBuLA, ...
+
+## Goal
+One sentence.
+
+## Context
+What informed this plan. Files read, patterns observed.
+
+## Approach
+The chosen direction with rationale. What's deferred and why.
+
+## Steps
+- [ ] Step 1 — file(s) touched
+- [ ] Step 2 — file(s) touched
+
+## Hard Decisions
+Decisions that are expensive to reverse. State the choice and reason.
+
+## Diagrams / Mockups
+Mermaid diagrams, ASCII wireframes, or links to RaBbLE-Captures screenshots.
+
+## Open Questions
+Questions that would change the design if answered differently.
+```
+
+---
+
+## Slug Naming
+
+`<impulse>-<organ>-<topic>-S<session>`
+
+```
+spark-nebula-plan-surface-S157       ← new feature/concept
+harmonize-world-rc1-polish-S142      ← cleanup plan
+mend-score-auth-flow-S138            ← bug fix plan
+```
+
+---
+
+## Workflow
 
 ```bash
-# Is the service installed and running?
-systemctl --user status rabble-plans
+# 1. Write the plan (agent or hand-written)
+#    → log/plans/<slug>.md
 
-# Is the MCP registered with Claude Code?
-cat ~/.claude/claude_code_config.json | python3 -m json.tool
+# 2. Commit
+git add log/plans/<slug>.md
+git commit -m "transcribe ~ grimoire >> plan: <slug> // %PLAN_DRAFT%"
 
-# Is the plan UI reachable?
-curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/
+# 3. Log in SESSION-LOG.md
+# Plan: log/plans/<slug>.md — <one-sentence description>
 
-# Is /opt/rabble/plans scaffolded?
-ls /opt/rabble/plans/package.json 2>/dev/null && echo "installed" || echo "not installed"
-```
-
-**If not installed:** run the Ansible role (from `RaBbLE-Collective/RaBbLE-OS/`):
-```bash
-ansible-playbook ansible/site.yml --tags plans
-```
-Then restart Claude Code and run `/mcp` → Reconnect to pick up the `rabble-plans` server.
-
----
-
-## Skill Installation
-
-The `/visual-plan` skill is installed via the `builder-skills.yml` Ansible task:
-```
-~/.claude/skills/visual-plan/agent-native-skill.json
-  → mcpUrl: "https://plan.agent-native.com/_agent-native/mcp"  (default, overridden by local)
-```
-
-When the local server is running and `claude_code_config.json` registers `rabble-plans`,
-Claude Code routes `mcp__plan__*` tool calls to `http://localhost:3000/_rabble/mcp`.
-The hosted URL in `agent-native-skill.json` is the upstream default; the local MCP
-registration takes precedence.
-
-**Do not reconnect to `plan.agent-native.com`.** If `/mcp` shows the plan server
-needing auth, ensure `rabble-plans` is running and registered in `claude_code_config.json`.
-
----
-
-## Creating a Plan
-
-### 1. Verify service is up
-```bash
-systemctl --user status rabble-plans
-```
-
-### 2. Invoke the skill in Claude Code
-```
-/visual-plan
-```
-The skill:
-- Researches the codebase (reads files, explores patterns)
-- Chooses the plan type: `create-visual-plan` (architecture/backend/data),
-  `create-ui-plan` (product UI), `create-prototype-plan` (interactive flows)
-- Sends plan to the local server via `mcp__plan__*` tools
-- Returns a link: `http://localhost:3000/<plan-id>`
-
-### 3. Review and approve
-Open the link in the browser. Comment, mark as approved. The plan is the gate —
-implementation begins only after approval.
-
----
-
-## Plan Types
-
-| Type | When |
-|---|---|
-| `create-visual-plan` | Architecture, backend, data, refactor — no UI canvas needed |
-| `create-ui-plan` | Primarily product UI — canvas with wireframe artboards first |
-| `create-prototype-plan` | Multi-step flows where reviewer needs to click through |
-
-Architecture-only plans get no canvas — only inline `diagram`, `data-model`,
-`api-endpoint`, or `code` blocks in the document body.
-
----
-
-## Exporting and Logging Plans (Grimoire Archive)
-
-Plans live in the local SQLite DB. Export approved plans to `log/plans/` for
-version control and session traceability.
-
-### Export after approval
-```
-export-visual-plan   ← MCP tool (available after /visual-plan)
-```
-This returns MDX files. Save them to `log/plans/<slug>/`.
-
-### Slug naming
-Format: `<impulse>-<organ>-<topic>-S<session>`
-```
-spark-os-boot-chain-S156
-harmonize-world-rc1-polish-S142
-mend-score-auth-flow-S138
-```
-
-### Commit to Grimoire
-```bash
-git add RaBbLE-Grimoire/log/plans/<slug>/
-git commit -m "transcribe ~ grimoire >> visual plan: <slug> // %PLANS_ARCHIVE%"
-```
-
-### Log in SESSION-LOG
-Add one line under the current session block in `log/SESSION-LOG.md`:
-```
-Plan: log/plans/<slug>/ — <one-sentence description>
+# 4. After approval, update status header → approved
+# 5. During implementation, check off steps as done
+# 6. On completion, update status → done
 ```
 
 ---
 
-## Service Management
+## The Visual Surface — EP2 Target
 
-```bash
-systemctl --user start rabble-plans      # start
-systemctl --user stop rabble-plans       # stop
-systemctl --user restart rabble-plans    # restart
-systemctl --user status rabble-plans     # check
-journalctl --user -u rabble-plans -f     # live logs
-```
+The plan markdown format is designed to be rendered by NeBuLA/Aether in World.
+The vision: open a plan URL in World (`/plan/:slug`) and the document comes alive —
+entity presence, animated diagrams, interactive mockup wireframes, live status.
 
-Data lives at `/opt/rabble/plans/data/plans.db` — do not delete without exporting.
+This is an EP2 feature. The Grimoire doc for it:
+`RaBbLE-Collective/RaBbLE-Plan-Surface.md`
 
----
-
-## Re-Deploying / Updating
-
-```bash
-# From RaBbLE-Collective/RaBbLE-OS/
-ansible-playbook ansible/site.yml --tags plans
-```
-
-Tag subsets:
-```bash
---tags plans,install    # scaffold + build only
---tags plans,theme      # re-inject Aether CSS + rebuild
---tags plans,service    # reinstall systemd unit
---tags plans,proxy      # nginx config only
---tags plans,mcp        # re-register MCP in claude_code_config.json
-```
-
-After MCP re-registration, restart Claude Code and run `/mcp` → Reconnect.
+Until then: plans are read in any markdown viewer or by any agent directly.
+The structure is the feature, not the renderer.
 
 ---
 
-## Quick Reference
+## What Was Archived
 
-```bash
-# Check
-systemctl --user status rabble-plans
-curl http://localhost:3000/
+A self-hosted Agent-Native plan server (agent-native/BuilderIO, MIT-licensed)
+was built in S155 as an interim visual renderer. It was archived in S157 because:
+- Vendor code running as a systemd service for a third-party planning UI
+- The `/visual-plan` skill still instructed agents to reconnect to `plan.agent-native.com`
+- Parallel drift — NeBuLA/World is the right renderer, not someone else's app
+- Significant installation friction (three Ansible bugs, pnpm lockfile issues)
 
-# Deploy (first time or updates)
-cd RaBbLE-Collective/RaBbLE-OS/
-ansible-playbook ansible/site.yml --tags plans
-
-# Use
-/visual-plan  (in Claude Code — routes to local server)
-
-# Export + log
-export-visual-plan → save to log/plans/<slug>/
-git add + commit → "transcribe ~ grimoire >> visual plan: <slug>"
-```
+The Ansible role (`RaBbLE-OS/ansible/roles/apps/plans/`) is preserved as
+reference but the play in `site.yml` is disabled. Remove post-EP2.
