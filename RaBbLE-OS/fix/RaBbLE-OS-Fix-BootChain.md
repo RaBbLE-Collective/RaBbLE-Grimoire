@@ -176,6 +176,120 @@ Actionable (NOT yet applied — these are live-machine changes, do via Ansible +
 → Re-run `boot-profile.sh` after each change; promote `[~]` items only once the
   Verification reboot is clean.
 
+---
+
+## S155 Boot-Chain Pass — Void Zone Layout + Entity Slide + GRUB Gfxterm Fix
+
+**Visual plan:** `plan-96f8c3ef7a0e4f5e` (Agent-Native plan, approved)
+**State:** `[~]` — implemented, UNVERIFIED on hardware. Run verification recipe above before promoting.
+
+### Track A — GRUB gfxterm black box fix
+
+The black box that occluded `grub-bg.png` during GRUB→Plymouth was caused by the `gfxterm`
+module rendering a visible text window (default background = black) over the themed background
+while executing the `linux`/`initrd`/`boot` commands.
+
+**Changes in `ansible/roles/boot/grub2/templates/grub.j2`:**
+- `GRUB_COLOR_NORMAL="black/black"` — terminal fg+bg both black: output invisible against void
+- `GRUB_COLOR_HIGHLIGHT="light-magenta/black"` — selected entry highlight readable
+- `GRUB_GFXMODE` default changed from `auto` to `1920x1080,1920x1200,1280x720,auto` — explicit
+  fallback list prevents GOP auto-negotiation mismatch that causes transition flicker
+- `GRUB_TIMEOUT_STYLE` now Jinja-templated: `{{ rabble_grub_timeout_style | default('menu') }}`
+  — EP1 locks to `menu` (Recovery Mode without Shift); post-EP1 flip to `hidden` in
+  `group_vars/asus_proart_p16.yml` for seamless GRUB→Plymouth (no template edit required)
+
+### Track B — Plymouth void zone y-anchors + entity slide-to-center
+
+**Changes in `ansible/roles/boot/plymouth/files/rabble-aether/rabble-aether.script`:**
+
+| Constant | Was | Now | Reason |
+|---|---|---|---|
+| `wm_y` | `screen_h * 0.20` | `screen_h * 0.28` | wordmark was 2% inside the ceiling grid |
+| `log_baseline_y` | `screen_h * 0.70` | `screen_h * 0.63` | log baseline was 4% above floor grid (tight) |
+| `ready_sprite y` | `screen_h * 0.67` | `screen_h * 0.58` | ready message too close to floor grid |
+
+> **Measure first:** `measure-void-zone.py` (new file, same directory) samples the actual
+> `bg-liminal.png` pixel rows and outputs confirmed void-zone boundaries + recommended constants.
+> The values above are estimates from the NeBuLA floor-grid VP at `H×0.74`. Run the script
+> and adjust if the measured values differ by >3% from these estimates.
+
+**Entity slide-to-center (committed):** When `boot_progress >= 0.97`, the entity slides from
+its boot position (`screen_w×0.25`) to `screen_w×0.50` over 40 ticks (~2.4s) via a smooth-step
+ease. The right section (wordmark, tagline, logs, bar, ready line) fades out in sync. Plymouth
+holds the centered entity until `plymouth-quit.service` fires — SDDM takes over with the entity
+already in the SDDM hand-off position. The handoff reads as a continuation, not a cut.
+
+New files added:
+- `ansible/roles/boot/plymouth/files/rabble-aether/measure-void-zone.py` — void zone measurement pre-step
+
+### Track C — Plymouth→SDDM gap fix + SDDM layout
+
+**Plymouth→SDDM gap:** Plymouth releases DRM when `plymouth-quit.service` fires; SDDM takes
+~200–400ms to paint its first frame, causing a black flash.
+
+**Two-pronged fix:**
+
+1. **`ansible/roles/boot/session_manager/files/plymouth-quit-sddm.conf`** (new) — systemd drop-in
+   for `plymouth-quit.service`. `ExecStartPre=/bin/sleep 0.3` gives SDDM time to render before
+   Plymouth releases DRM. Tune with `boot-profile.sh` on real hardware; reduce to 0.1s if gap
+   disappears, increase to 0.5s if still visible.
+   Deployed to `/etc/systemd/system/plymouth-quit.service.d/sddm-first-frame.conf` via Ansible.
+
+2. **`ansible/roles/boot/session_manager/files/sddm-theme/Main.qml`** — entity fade-in:
+   `entityArea.opacity: 0` + `Behavior on opacity { NumberAnimation { duration: 500 } }` +
+   `Component.onCompleted: entityArea.opacity = 1`. Entity fades in over 500ms, masking any
+   residual gap between Plymouth and SDDM.
+
+**SDDM column raised (form items too low):** The entity at 460px is confirmed in-bounds on live
+hardware. The username text and password field were extending into the floor grid zone.
+
+- `anchors.verticalCenterOffset` changed from `+parent.height * 0.03` to `-parent.height * 0.08`
+  — raises the entire column 11% above center. At 1080p, passField bottom ≈ 69% screen height
+  (3% margin above the floor grid at ~72%). Entity glow top reaches ~15% — transparent, blends.
+- Entity size **unchanged** at 460×460px.
+
+### Track D — Boot profiling (read-only, no changes)
+
+Use `bash spells/boot-profile.sh` after the next reboot. Expected wins from this pass:
+- GRUB→Plymouth: no black box (gfxterm fix)
+- Plymouth→SDDM: 300ms pre-sleep + fade-in eliminates the black flash
+- Boot timing: should be same or better; re-baseline `plymouth-quit-wait` after applying
+
+Known bottleneck from S153: `NetworkManager-wait-online.service` (~5.2s, gating). Disable it
+via Ansible — `systemctl disable NetworkManager-wait-online.service` in the relevant role.
+This is the single largest safe boot-time win.
+
+### Track E — BaBbLE boot captures
+
+New script: `RaBbLE-BaBbLE/captures/Boot/capture-boot-sequence.sh`
+
+Captures: GRUB theme PNG → Plymouth key frames + animated GIF → SDDM idle screenshot.
+Run manually after boot changes to commit visual state to BaBbLE capture archive.
+Output: `RaBbLE-BaBbLE/captures/Boot/YYYYMMDD/`
+
+### Fork: RaBbLE Plans self-hosted server (aa474e4)
+
+The Agent-Native Plans tool used to design this pass is now self-hosted in RaBbLE-OS.
+Committed in parallel at `aa474e4` (`spark ~ os/apps >> RaBbLE Plans: self-hosted visual plan
+server with Aether theme + /_rabble/mcp`). New Ansible role `ansible/roles/apps/plans/`:
+- Scaffolds at `/opt/rabble/plans/` via `npx @agent-native/core@latest create . --standalone`
+- Aether theme injected via `blockinfile` into `global.css`
+- User systemd service on port 3001; nginx proxies at port 3000 with `/_rabble/` prefix
+- MCP config injected into `~/.claude/claude_code_config.json` so Claude Code picks it up
+- Tag: `ansible-playbook site.yml --tags plans`
+
+### Verification additions for S155
+
+Add to the Verification reboot checklist:
+
+- [ ] **GRUB**: no black/white text box appears over `grub-bg.png` during menu countdown
+- [ ] **GRUB→Plymouth**: screen dims cleanly (no text artifacts) → entity emergence begins
+- [ ] **Plymouth y-anchors**: wordmark sits visibly below ceiling grid (no clipping); log lines and ready message sit above floor grid
+- [ ] **Plymouth completion**: at ~97% progress, entity slides from left quarter to center; wordmark/logs/bar fade out in sync (~2.4s animation)
+- [ ] **Plymouth→SDDM**: no black flash (or < 100ms if still barely visible); entity fades in smoothly
+- [ ] **SDDM**: password field sits visibly above floor grid (clock + entity + username + passField all in void zone)
+- [ ] Boot profile: run `bash spells/boot-profile.sh` and record `plymouth-quit-wait` time; compare to S153 baseline (13.5s monotonic)
+
 → `layers/RaBbLE-OS-Layer-Boot.md` — boot layer role structure
 → `layers/RaBbLE-OS-Layer-Boot-Plymouth-EP1.md` — Plymouth EP1 refinement spec
 → `desktop/RaBbLE-OS-Desktop-BootFlow.md` — per-stage config detail

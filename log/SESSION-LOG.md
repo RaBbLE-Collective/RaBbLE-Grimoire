@@ -5,12 +5,27 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-22 · Session 154 (Track A done; G7/G9 guide ready; awaiting deployment)
+## LATEST — 2026-06-22 · Session 155 (Boot-chain void zone pass: GRUB gfxterm fix, Plymouth y-anchors + entity slide, SDDM gap fix)
 
-**Phase:** Epoch 0 · Episode 1 in flight — packaging/verification. **Track A gating G10 → committed and ready to deploy.**
-**This session (S154, EP1 track):** **Track A complete:** Moved `RaBbLE-World/chrysalis/` → `RaBbLE-Chrysalis/chrysalis/` (safe commit to main 245f466); deleted from World (commit 233aeb9 on new-horizons). Created comprehensive **G7/G9 verification guide** (`log/G7-G9-Verification-Guide.md`) — step-by-step for mark or a developer to verify RaBbLE-OS generic VM install/boot/recover + setup.sh bootstrap end-to-end. Verification pending: new-horizons deployment to prod (will flip `/chrysalis/ → 404` = G10 green).
-**Blockers:** → `log/BLOCKERS.md` — B-02 open (resilience, non-gating).
-**Next:** Await Mark: (1) deploy new-horizons → G10 green; (2) B-02 retag + dev routing; (3) execute G7/G9 guide or delegate. All three gates can green in parallel once deployment + dev decisions land. (Concurrent S153 boot-chain track still live.)
+**Phase:** Epoch 0 · Episode 1 · boot-chain visual polish (concurrent with EP1 packaging).
+**This session (S155):** Implemented 5-track boot-chain plan (plan-96f8c3ef7a0e4f5e). Track A: GRUB gfxterm black box fixed + GRUB_TIMEOUT_STYLE Jinja var (EP1=menu). Track B: Plymouth y-anchors pulled into void zone + entity slide-to-center at boot complete (~40 ticks). Track C: SDDM 300ms drop-in + entityArea fade-in + column offset −0.08. Track E: BaBbLE capture script. Fork (aa474e4): Plans server self-hosted. All `[~]` — needs reboot verify.
+**Blockers:** → `log/BLOCKERS.md` — B-02 open (non-gating). EP1 gates G7/G9/G10 still pending.
+**Next:** Mark: (1) reboot to verify S155 boot chain + run measure-void-zone.py on bg-liminal.png; (2) deploy new-horizons → G10; (3) execute G7/G9 guide. Full S155 detail: `RaBbLE-OS/fix/RaBbLE-OS-Fix-BootChain.md` S155 section.
+
+---
+
+## 2026-06-22 · Session 155 (Boot-chain void zone pass — visual plan implementation)
+
+- Repos: RaBbLE-OS (RaBbLE-OS-New-Horizons), RaBbLE-BaBbLE, RaBbLE-Grimoire.
+- **Visual plan** `plan-96f8c3ef7a0e4f5e` designed + approved across prior sessions; this session implemented all tracks.
+- **Track A (GRUB gfxterm):** `grub.j2` — added `GRUB_COLOR_NORMAL="black/black"` + `GRUB_COLOR_HIGHLIGHT` to hide text window over grub-bg.png; explicit `GRUB_GFXMODE` fallback list; `GRUB_TIMEOUT_STYLE` Jinja-templated (EP1=menu, post-EP1 flip to hidden in group_vars).
+- **Track B (Plymouth void zone):** `rabble-aether.script` — `wm_y` 0.20→0.28, `log_baseline_y` 0.70→0.63, `ready_sprite y` 0.67→0.58 (all estimates — run `measure-void-zone.py` to confirm). Entity slide-to-center animation (~30 lines) committed: smooth-step at `boot_progress>=0.97`, right section fades out in sync. New file: `measure-void-zone.py` pre-step measurement script.
+- **Track C (SDDM + gap):** `Main.qml` — `verticalCenterOffset` +0.03→−0.08 (passField ~69%), `entityArea.opacity:0` + 500ms fade-in. New systemd drop-in `plymouth-quit-sddm.conf` (300ms pre-sleep). `session_manager/tasks/config.yml` + handlers updated.
+- **Track E (BaBbLE captures):** `captures/Boot/capture-boot-sequence.sh` — GRUB + Plymouth frames + GIF + SDDM idle.
+- **Fork (aa474e4, concurrent):** RaBbLE Plans self-hosted server — Ansible role `apps/plans/`, Aether theme, nginx proxy, MCP config injection.
+- **Grimoire:** `RaBbLE-OS/fix/RaBbLE-OS-Fix-BootChain.md` updated with full S155 section including change table, verification checklist additions.
+- **All `[~]` — UNVERIFIED.** Needs reboot. Key next step: run `measure-void-zone.py` on `bg-liminal.png` before calling y-values final.
+- **EP1 gates unaffected** — this is boot-polish concurrent work, not EP1 gate track.
 
 ---
 
