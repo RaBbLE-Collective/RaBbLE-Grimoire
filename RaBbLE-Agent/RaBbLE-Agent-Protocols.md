@@ -12,7 +12,55 @@ transcribe ~ grimoire >> agent protocols distilled from session memory // %PROTO
 
 ---
 
+## Session Resilience
+
+### Front-load external and manual blockers
+
+At the start of any task that touches deployment, boot chain, or live system config: identify every external or manual step required to close the loop, and name it explicitly before starting implementation. Don't discover these at the end.
+
+**Why:** Many sessions reached "done" with final verification blocked — Render branch switch hadn't been made, reboot hadn't happened, relog was needed to flush Qt cache. These were discoverable at the start but only surfaced at the end, leaving work marked `[~]` instead of verified.
+
+**How:** Before beginning: list every manual or external action the task requires (deploy branch switch, reboot, relog, provider credential rotation, manual dashboard step). Surface these to Mark up front so they can happen in parallel or the task can be scoped to what's verifiable in-session. Flag OS theme changes that require relog/reboot as `[~] pending reboot verification` rather than claiming success.
+
+### Commit incrementally — don't batch at session end
+
+During long sessions (especially Ansible/provisioning work or multi-repo integration), commit each logical unit of work as it completes rather than batching all commits at the end.
+
+**Why:** Provider 429/400 errors (rate limits, tokenizer failures) have blocked final commits multiple times — completed, correct work was lost because it hadn't been committed when the session was interrupted. The longer the uncommitted window, the more is at risk.
+
+**How:** Commit after each meaningful self-contained change (per-role fix, per-member file change, per-concept doc update). On a provider error mid-session: immediately write current progress and a resume checklist to `RaBbLE-BaBbLE/` before stopping, so the next session picks up without re-deriving context.
+
+---
+
+## RaBbLE-OS / Ansible Conventions
+
+### Verify Fedora package names before landing in YAML
+
+Before adding a package to an Ansible role or `ansible/packages/manifest.yml`, verify the package name exists in current Fedora repos. Wrong names silently produce a failed task with no useful output — the playbook looks like it worked.
+
+**Why:** `shaderc` was used instead of `glslc` (the correct Fedora package name); the build failed mid-run and required a second correction round. Fedora package names frequently differ from upstream tool names or Ubuntu equivalents.
+
+**How:** Run `dnf search <name>` or check `packages.fedoraproject.org` before committing. Common gotchas: `glslc` (not `shaderc`), `python3-pip` (not `pip3`), `nodejs` version availability (may need nodesource). When uncertain, add a `dnf search` verification step inside the Ansible task debug line.
+
+### `import_tasks` vs `include_tasks` — know the difference
+
+In Ansible roles, `import_tasks` is static (parsed at playbook load time) and `include_tasks` is dynamic (evaluated at runtime). Mixing them incorrectly causes either silent skips or undefined variable errors that only surface during live runs.
+
+**Why:** Multiple Ansible sessions hit avoidable failures because `include_tasks` was used where `import_tasks` was needed (or vice versa), only caught after a live `ansible-playbook` run.
+
+**How:** Use `import_tasks` when the task file path is static and known at parse time (most roles). Use `include_tasks` only when looping or when the task file name depends on a runtime variable. When in doubt, `import_tasks` is the safer default.
+
+---
+
 ## Doc Management
+
+### Document and transcript fidelity — never over-summarize source material
+
+When integrating interviews, transcripts, intake docs, or any raw source material into the Grimoire or BaBbLE: preserve the full content verbatim unless explicitly instructed to distill. Never silently reduce, summarize, or omit — do that only when Mark asks for it.
+
+**Why:** Interview transcripts were over-summarized during intake, losing raw content that Mark wanted faithfully captured. Recovering the original required redoing the work from audio. The general principle: Grimoire integration = move to canonical home with full fidelity; distillation = a separate explicit step only when requested.
+
+**How:** Two-phase approach: (1) integrate raw → archive original, copy to BaBbLE/Grimoire verbatim; (2) only then, if asked, produce a distilled/summary version alongside the raw. Never replace the raw.
 
 ### Condense, never delete
 
@@ -41,6 +89,22 @@ The Grimoire does not need a `_template.manifest.yml` entry for itself. It is en
 ---
 
 ## Tooling & Automation
+
+### Sub-agents must run in foreground — never background
+
+When dispatching a sub-agent that needs to write files, run bash commands, or read the filesystem, dispatch it as a **foreground** agent. Background sub-agents have `Write`/`Bash`/`Edit` auto-denied — they cannot surface permission prompts to the user, so every tool call they need silently fails.
+
+**Why:** The Claude Code permission model only surfaces prompts to the interactive session. Background processes have no channel to the user, so tool use requiring confirmation is blocked rather than queued. Hit S116: background agents dispatched to handle theme/OS changes completed with zero actual work done.
+
+**How:** Dispatch without `run_in_background: true` for any sub-agent that edits files or runs shell commands. For genuine parallel execution, dispatch multiple foreground agents in the same response (they run concurrently). Background agents are fine for pure read-only research with no write/bash calls.
+
+### Validate external CLIs and APIs before building around them
+
+Before scaffolding any integration, quota tracker, or workflow around an external CLI tool or API, verify the tool still exists and the specific flags/commands you need are current.
+
+**Why:** A complete Gemini CLI quota-tracking integration was built and committed, then required a full revert when a web search revealed the CLI had been deprecated. The wasted session could have been avoided with a 2-minute pre-check.
+
+**How:** Before writing the first line of integration code: confirm the tool is still maintained, the specific flags/subcommands you'll use still exist, and the auth model matches. Applies equally to fast-moving AI tooling (NPU drivers, LLM runtimes, provider CLIs) where deprecation is common.
 
 ### Agent-agnostic mechanisms only
 
