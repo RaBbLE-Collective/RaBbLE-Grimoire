@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-22 · Session 156 (Void zone measurement + boot speed profiling + SDDM/Plymouth fixes)
+## LATEST — 2026-06-23 · Session 157 (visual-plan skill audit + local plan server doc + scaffold fix)
 
-**Phase:** Epoch 0 · Episode 1 · boot-chain visual polish.
-**This session (S156):** First reboot of S155 revealed: Plymouth animation not visible (likely dracut didn't rebuild initramfs pre-reboot); GRUB black box persisted (gfxterm canvas still opaque, accepted for EP1). Ran `measure-void-zone.py` — ceiling at 35.8%, floor at 68–70%; Plymouth `wm_y` was still in ceiling grid (0.28 < 0.36). Profiled boot: `NM-wait-online` was gating `remote-fs.target` via `iscsi.service After=network-online.target` chain (+4s). Fixed: SDDM entity −0.02 (was −0.08); Plymouth `wm_y` 0.28→0.42, dialog `panel_y` 0.70→0.58; masked `NM-wait-online` + `var-lib-machines.mount` in core/config.yml. All `[~]`.
+**Phase:** Epoch 0 · Episode 1 · tooling + EP1 gate work.
+**This session (S157):** Audited `/visual-plan` skill — confirmed self-hosted Ansible role (`apps/plans/`) exists but was never applied. Documented the full local-server architecture in Grimoire (`RaBbLE-VisualPlan-Protocol.md`, `log/plans/`). Fixed `create .` scaffold bug in `install.yml` → `create plans` from parent dir. Ansible now running (`layerctl`).
 **Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending.
-**Next:** (1) `layerctl apply boot` + `layerctl apply core` → verify SDDM with `--test-mode`; (2) reboot → run `boot-profile.sh` (expect −4s); (3) EP1 gate work G10/G7/G9.
+**Next:** (1) Verify layerctl/plans role completes, `systemctl --user status rabble-plans`; (2) restart Claude Code → `/mcp` Reconnect for `rabble-plans`; (3) reboot → `boot-profile.sh`; (4) EP1 gates G10/G7/G9.
 
 ---
 
@@ -38,6 +38,18 @@ Format: date, what was done, where things were left, what's next.
 - **Grimoire:** `RaBbLE-OS/fix/RaBbLE-OS-Fix-BootChain.md` updated with full S155 section including change table, verification checklist additions.
 - **All `[~]` — UNVERIFIED.** Needs reboot. Key next step: run `measure-void-zone.py` on `bg-liminal.png` before calling y-values final.
 - **EP1 gates unaffected** — this is boot-polish concurrent work, not EP1 gate track.
+
+---
+
+## 2026-06-23 · Session 157 (visual-plan skill audit, local plan server documentation, scaffold fix)
+
+- Repos: RaBbLE-Grimoire, RaBbLE-OS (RaBbLE-OS-New-Horizons).
+- **visual-plan audit:** Skill installed at `~/.claude/skills/visual-plan/` with `planMode: "hosted"` default. Confirmed `npx @agent-native/core@latest` v0.66.9 installed. Ansible role `RaBbLE-OS/ansible/roles/apps/plans/` exists (written S155 fork) but was never applied — no service, no `/opt/rabble/plans`, no `claude_code_config.json`.
+- **Grimoire docs created:** `RaBbLE-Agent/RaBbLE-VisualPlan-Protocol.md` (full protocol: self-hosted architecture, install check, create/export/log workflow, service management). `log/plans/README.md` (plan archive convention). `log/plans/` directory established.
+- **INDEX.md + .gitignore + Agent-Protocols updated:** Visual planning rule added — local server only, never `plan.agent-native.com`; export approved plans to `log/plans/<slug>/` as Grimoire-loggable artifacts.
+- **Scaffold bug fixed:** `install.yml` `create .` → `create {{ plans_install_dir | basename }}` from parent dir. The agent-native CLI rejects `.` as an invalid package name; running `create plans` from `/opt/rabble/` creates `/opt/rabble/plans/` correctly.
+- **layerctl running** at end of session — plans role applying.
+- **Next:** Verify `systemctl --user status rabble-plans`; restart Claude Code → `/mcp` Reconnect; reboot for boot-profile.sh.
 
 ---
 
