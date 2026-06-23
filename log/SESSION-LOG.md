@@ -5,12 +5,31 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-23 · Session 157 (visual-plan skill audit + local plan server doc + scaffold fix)
+## LATEST — 2026-06-23 · Session 158 (Insights integration → Agent-Protocols + Claude agent tooling)
 
-**Phase:** Epoch 0 · Episode 1 · tooling + EP1 gate work.
-**This session (S157):** Audited `/visual-plan` skill — confirmed self-hosted Ansible role (`apps/plans/`) exists but was never applied. Documented the full local-server architecture in Grimoire (`RaBbLE-VisualPlan-Protocol.md`, `log/plans/`). Fixed `create .` scaffold bug in `install.yml` → `create plans` from parent dir. Ansible now running (`layerctl`).
-**Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending.
-**Next:** (1) Verify layerctl/plans role completes, `systemctl --user status rabble-plans`; (2) restart Claude Code → `/mcp` Reconnect for `rabble-plans`; (3) reboot → `boot-profile.sh`; (4) EP1 gates G10/G7/G9.
+**Phase:** Epoch 0 · Episode 1 · agent protocol hardening.
+**This session (S158):** Ran `/insights` (240 sessions, 412h, 458 commits). Integrated 6 new rules into Agent-Protocols.md: foreground-only sub-agents, validate CLIs before building, front-load blockers, incremental commits, Ansible/Fedora pkg verification, doc fidelity. Added `yamllint`+`ShellCheck` to OS core role. Created `/endsession` skill + post-edit lint hook in `~/.claude`.
+**Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending; B-02 open.
+**Next:** (1) `layerctl apply core` → installs yamllint+ShellCheck; (2) verify plan server (`systemctl --user status rabble-plans`); (3) reboot → `boot-profile.sh`; (4) EP1 gates G10/G7/G9.
+
+---
+
+## 2026-06-23 · Session 158 (Insights integration → Agent-Protocols + Claude agent tooling)
+
+- Repos: RaBbLE-Grimoire (new-horizons), RaBbLE-OS (new-horizons). Also: `~/.claude` (not git-tracked).
+- **Trigger:** Ran `/insights` twice — 240 sessions, 412h, 458 commits analyzed. Extracted actionable patterns across Ansible failures, sub-agent dispatch, deprecated tooling, provider 429 resilience, and doc fidelity incidents.
+- **Grimoire — Agent-Protocols.md:** Added 6 new protocol blocks: (1) foreground-only sub-agents (background Write/Bash auto-denied); (2) validate external CLIs before building (Gemini CLI incident); (3) front-load external/manual blockers at task start; (4) commit incrementally for 429 resilience; (5) Fedora pkg name verification + `import_tasks` vs `include_tasks`; (6) doc/transcript fidelity — never over-summarize raw source.
+- **RaBbLE-OS:** Added `yamllint` + `ShellCheck` to `manifest.yml` and `roles/core/tasks/packages.yml`. Install via `layerctl apply core`.
+- **`~/.claude` (not version-controlled):** Created `/endsession` skill (`~/.claude/skills/endsession/SKILL.md`); added PostToolUse lint hook to `settings.json` calling `~/.claude/scripts/lint-on-edit.sh`.
+- **Next:** `layerctl apply core` to activate linting; verify plan server; reboot → EP1 gates.
+
+---
+
+## 2026-06-23 · Session 157 (visual-plan skill audit + local plan server doc + scaffold fix)
+
+- Repos: RaBbLE-Grimoire, RaBbLE-OS.
+- Audited `/visual-plan` skill — confirmed self-hosted Ansible role (`apps/plans/`) exists but was never applied. Documented the full local-server architecture in Grimoire (`RaBbLE-VisualPlan-Protocol.md`, `log/plans/`). Fixed `create .` scaffold bug in `install.yml` → `create plans` from parent dir. Ansible running via `layerctl`.
+- **Next:** Verify `systemctl --user status rabble-plans`; restart Claude Code → `/mcp` Reconnect; reboot → `boot-profile.sh`.
 
 ---
 
