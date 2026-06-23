@@ -25,11 +25,14 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## 2026-06-23 · Session 157 (visual-plan skill audit + local plan server doc + scaffold fix)
+## 2026-06-23 · Session 157 (visual-plan audit → agent-native archived → Plan Surface concept)
 
 - Repos: RaBbLE-Grimoire, RaBbLE-OS.
-- Audited `/visual-plan` skill — confirmed self-hosted Ansible role (`apps/plans/`) exists but was never applied. Documented the full local-server architecture in Grimoire (`RaBbLE-VisualPlan-Protocol.md`, `log/plans/`). Fixed `create .` scaffold bug in `install.yml` → `create plans` from parent dir. Ansible running via `layerctl`.
-- **Next:** Verify `systemctl --user status rabble-plans`; restart Claude Code → `/mcp` Reconnect; reboot → `boot-profile.sh`.
+- **Audit:** `/visual-plan` skill installed but pointing to `plan.agent-native.com` (hosted). Self-hosted Ansible role (`apps/plans/`) existed from S155 but was never applied. Fixed three Ansible bugs during install attempts (`create .` name error, `--frozen-lockfile` mismatch, bad systemd unit `User=%i`). Service never successfully started.
+- **Pivot (Mark's call):** Agent-native plan server archived. Visual render is RaBbLE's job — NeBuLA/Aether in World. Plans are structured markdown in `log/plans/`.
+- **Grimoire:** `RaBbLE-VisualPlan-Protocol.md` rewritten (markdown-first, EP2 render). `RaBbLE-Collective/RaBbLE-Plan-Surface.md` created — EP2 concept for `/plan/:slug` World route with NeBuLA diagrams, interactive checklists, entity presence. `log/plans/` directory + README established. `INDEX.md` + `Agent-Protocols.md` updated.
+- **RaBbLE-OS:** `site.yml` plans play disabled (`hosts: plans_server_disabled`). `builder-skills.yml` updated — removes `visual-plan`/`visual-recap` on apply, keeps only `quick-recap`.
+- **Skills removed from `~/.claude/skills/`:** `visual-plan`, `visual-recap` — gone, won't be accidentally invoked.
 
 ---
 
