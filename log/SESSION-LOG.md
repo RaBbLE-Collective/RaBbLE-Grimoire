@@ -5,12 +5,24 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-22 · Session 155 (Boot-chain void zone pass: GRUB gfxterm fix, Plymouth y-anchors + entity slide, SDDM gap fix)
+## LATEST — 2026-06-22 · Session 156 (Void zone measurement + boot speed profiling + SDDM/Plymouth fixes)
 
-**Phase:** Epoch 0 · Episode 1 · boot-chain visual polish (concurrent with EP1 packaging).
-**This session (S155):** Implemented 5-track boot-chain plan (plan-96f8c3ef7a0e4f5e). Track A: GRUB gfxterm black box fixed + GRUB_TIMEOUT_STYLE Jinja var (EP1=menu). Track B: Plymouth y-anchors pulled into void zone + entity slide-to-center at boot complete (~40 ticks). Track C: SDDM 300ms drop-in + entityArea fade-in + column offset −0.08. Track E: BaBbLE capture script. Fork (aa474e4): Plans server self-hosted. All `[~]` — needs reboot verify.
-**Blockers:** → `log/BLOCKERS.md` — B-02 open (non-gating). EP1 gates G7/G9/G10 still pending.
-**Next:** Mark: (1) reboot to verify S155 boot chain + run measure-void-zone.py on bg-liminal.png; (2) deploy new-horizons → G10; (3) execute G7/G9 guide. Full S155 detail: `RaBbLE-OS/fix/RaBbLE-OS-Fix-BootChain.md` S155 section.
+**Phase:** Epoch 0 · Episode 1 · boot-chain visual polish.
+**This session (S156):** First reboot of S155 revealed: Plymouth animation not visible (likely dracut didn't rebuild initramfs pre-reboot); GRUB black box persisted (gfxterm canvas still opaque, accepted for EP1). Ran `measure-void-zone.py` — ceiling at 35.8%, floor at 68–70%; Plymouth `wm_y` was still in ceiling grid (0.28 < 0.36). Profiled boot: `NM-wait-online` was gating `remote-fs.target` via `iscsi.service After=network-online.target` chain (+4s). Fixed: SDDM entity −0.02 (was −0.08); Plymouth `wm_y` 0.28→0.42, dialog `panel_y` 0.70→0.58; masked `NM-wait-online` + `var-lib-machines.mount` in core/config.yml. All `[~]`.
+**Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending.
+**Next:** (1) `layerctl apply boot` + `layerctl apply core` → verify SDDM with `--test-mode`; (2) reboot → run `boot-profile.sh` (expect −4s); (3) EP1 gate work G10/G7/G9.
+
+---
+
+## 2026-06-22 · Session 156 (Void zone measurement, boot profiling, SDDM/Plymouth corrections, boot speed)
+
+- Repos: RaBbLE-OS (RaBbLE-OS-New-Horizons), RaBbLE-Grimoire, RaBbLE-Collective.
+- **Reboot findings from S155:** Plymouth animation not visible (dracut handler likely didn't run before reboot — always run `layerctl apply boot` then reboot). GRUB black box persisted: Track A fix was incomplete — `GRUB_COLOR_NORMAL="black/black"` makes text invisible but gfxterm canvas still renders opaque black rectangle over the liminal background. Accepted for EP1; post-EP1 fix = `GRUB_TIMEOUT_STYLE=hidden`.
+- **Void zone measured:** `measure-void-zone.py` run on `bg-liminal.png` (1920×1200). Ceiling ends at y=438 (35.8%); floor grid starts at y=830 (68%). S155's estimated values were off: `wm_y=0.28` was still IN the ceiling grid. Updated to 0.42 in `rabble-aether.script`. Dialog `panel_y` 0.70 → 0.58 (above floor).
+- **SDDM entity position:** Changed `verticalCenterOffset` from −0.08 to −0.02 (entity down 6%); entity face now falls in void zone (36–68%).
+- **Boot speed profiled:** `boot-profile.sh` revealed `remote-fs.target` had 4.15s gap caused by `NM-wait-online` (4.22s) gating `iscsi.service After=network-online.target` which `remote-fs.target After=iscsi.service` was waiting on, even though iscsi is conditioned-out. Fixed: masked `NetworkManager-wait-online.service` + `var-lib-machines.mount` in `roles/core/tasks/config.yml`.
+- **Boot log note:** GRUB black box timing — the bg DOES have a void-black center (same source as Plymouth/SDDM); the flash is only in the ceiling/floor grid areas where bright grid lines go sudden black. Not visible in the void zone. For EP1 this is accepted; post-EP1 the `hidden` timeout style eliminates it entirely.
+- All changes `[~]` — apply and reboot to verify.
 
 ---
 

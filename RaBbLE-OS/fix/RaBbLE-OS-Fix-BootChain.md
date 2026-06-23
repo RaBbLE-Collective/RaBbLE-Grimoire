@@ -178,10 +178,77 @@ Actionable (NOT yet applied — these are live-machine changes, do via Ansible +
 
 ---
 
+## S156 Boot-Chain Pass — Void Zone Corrections + Boot Speed
+
+**State:** `[~]` — implemented, reboot required to verify.
+
+### S156 Findings from first reboot (after S155)
+
+**Plymouth animation not visible** — likely cause: `dracut --force` did not run before the S155
+reboot, so the initramfs still had the old theme. Apply `layerctl apply boot` and reboot again.
+
+**GRUB black box persisted** — Root cause revised: `GRUB_COLOR_NORMAL="black/black"` makes
+text invisible BUT the gfxterm canvas itself is still opaque black (`#000000`) over the liminal
+background. When GRUB loads the kernel, gfxterm fills the terminal area (potentially full-screen)
+with solid black, which is visible as a sudden flash even though text is invisible. Mark confirmed
+the grub-bg.png does have a void-black center — the flash is only visible in the ceiling/floor grid
+areas where bright grid lines contrast against the sudden black.
+**Real fix is `GRUB_TIMEOUT_STYLE=hidden` (post-EP1)** — this skips the menu entirely and GRUB
+→ Plymouth with no gfxterm terminal activation. For EP1: the brief black flash during kernel
+loading is accepted as-is (the background center is already void-matching).
+
+**Boot slow (~4s in remote-fs.target)** — profiled via `boot-profile.sh`. Root cause confirmed:
+`remote-fs.target After=iscsi.service`, and `iscsi.service After=network-online.target`. Even
+though `iscsi.service` is conditioned out (ConditionResult=no), systemd waits for its full
+`After=` chain before scheduling it. `NetworkManager-wait-online.service` provides
+`network-online.target` and took 4.22s — holding `remote-fs.target` → `sddm` → `graphical.target`
+the same amount of time. Fix: mask `NetworkManager-wait-online.service` + `var-lib-machines.mount`.
+Both added to `roles/core/tasks/config.yml`.
+
+**Void zone measured** — `measure-void-zone.py` run on `assets/bg-liminal.png` (1920×1200):
+- Ceiling grid ends: y=438 → **35.8%** of screen height
+- Floor grid starts: y=830–840 → **~68–70%** of screen height
+- Void zone: **36% to 68%** — only 32% of screen height available
+- Entity (460px = 42.6% at 1080p) is TALLER than the void zone — can't fully fit; glow bleeds
+  into grid areas (acceptable, transparent). Key: entity FACE should be in void zone.
+
+**SDDM entity position** — was centered at 42% (with -0.08 offset), entity frame spanning 19–65%.
+Top 19–36% was in ceiling grid zone. Changed to -0.02 offset (center at 48%); entity now
+spans 25–71%, face at ~39–55% — cleanly in the void zone.
+
+**Plymouth wm_y** — was 0.28, which IS in the ceiling grid (ends at 35.8%). Changed to 0.42
+(7% below ceiling). Dialog panel_y changed from 0.70 to 0.58 (floor starts at 68%).
+
+### S156 Changes
+
+- `roles/boot/session_manager/files/sddm-theme/Main.qml`: `verticalCenterOffset` -0.08 → -0.02
+- `roles/boot/plymouth/files/rabble-aether/rabble-aether.script`: `wm_y` 0.28 → 0.42; dialog `panel_y` 0.70 → 0.58
+- `roles/core/tasks/config.yml`: mask `NetworkManager-wait-online.service` + `var-lib-machines.mount`
+
+### S156 Verification
+
+```bash
+# Apply changes:
+cd ~/RaBbLE-Collective/RaBbLE-OS
+bash RaBbLE-OS-layerctl.sh apply boot     # deploys SDDM/Plymouth, triggers dracut --force
+bash RaBbLE-OS-layerctl.sh apply core     # masks NM-wait-online + var-lib-machines
+
+# Pre-reboot SDDM test:
+sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/rabble-aether
+# → entity should be lower, face visibly in the dark void zone
+
+# After reboot:
+bash spells/boot-profile.sh              # expect remote-fs.target gap to collapse from ~4s to <0.5s
+# → Plymouth animation should play (initramfs now rebuilt)
+# → GRUB black flash brief but present (accepted for EP1; post-EP1 fix: GRUB_TIMEOUT_STYLE=hidden)
+```
+
+---
+
 ## S155 Boot-Chain Pass — Void Zone Layout + Entity Slide + GRUB Gfxterm Fix
 
 **Visual plan:** `plan-96f8c3ef7a0e4f5e` (Agent-Native plan, approved)
-**State:** `[~]` — implemented, UNVERIFIED on hardware. Run verification recipe above before promoting.
+**State:** `[~]` — partially verified (reboot confirmed system works; animation visibility TBD after S156 apply)
 
 ### Track A — GRUB gfxterm black box fix
 
@@ -197,6 +264,9 @@ while executing the `linux`/`initrd`/`boot` commands.
 - `GRUB_TIMEOUT_STYLE` now Jinja-templated: `{{ rabble_grub_timeout_style | default('menu') }}`
   — EP1 locks to `menu` (Recovery Mode without Shift); post-EP1 flip to `hidden` in
   `group_vars/asus_proart_p16.yml` for seamless GRUB→Plymouth (no template edit required)
+
+**S156 note:** text invisible, but gfxterm canvas is still opaque black — the flash in grid areas
+is unavoidable until `GRUB_TIMEOUT_STYLE=hidden` is set post-EP1.
 
 ### Track B — Plymouth void zone y-anchors + entity slide-to-center
 
