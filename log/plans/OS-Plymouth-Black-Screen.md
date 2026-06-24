@@ -1,7 +1,7 @@
 # Plan: Plymouth Boot Splash Black Screen
 
-**Status:** `layerctl apply boot && reboot` run — Plymouth STILL BLACK. Deeper investigation needed.
-**Repo:** RaBbLE-OS `new-horizons` · **Last touched:** S160 (2026-06-23)
+**Status:** Root cause diagnosed S162. Ansible fix committed. Pending: `layerctl apply boot && reboot` to verify.
+**Repo:** RaBbLE-OS `new-horizons` · **Last touched:** S162 (2026-06-23)
 
 ---
 
@@ -23,49 +23,29 @@ rd.driver.blacklist=nvidia
 ```
 Committed: `d8f3314`
 
-## Applied — Still Black
+## Applied — Still Black (S160)
 
 `sudo layerctl apply boot && reboot` was run (S160, 2026-06-23). Plymouth still black.
-`plymouth.use-simpledrm=1` alone is NOT sufficient on this hardware/kernel combination.
+`plymouth.use-simpledrm=1` alone is NOT sufficient — that was never the problem.
 
-## Investigation for Next Session
+## True Root Cause (Diagnosed S162)
 
-Start here — compare what the running kernel actually got vs what was committed:
+Live diagnostics confirmed two compounding bugs:
 
-```bash
-# 1. Verify cmdline was applied
-cat /proc/cmdline | grep -o "plymouth[^ ]*"
-# Expected: plymouth.use-simpledrm=1
+**Bug 1 — Initramfs never rebuilt after dracut conf deployed:**
+The initramfs timestamp (22:03) predates the dracut conf write (22:54). The Ansible "rebuild initrd" handler is conditional — it only fires when a task reports `changed`. On idempotent re-runs (all files already present, theme already active), zero tasks report `changed`, so `dracut --force` never runs. The stale initramfs contains no fonts, no PNG frames, no amdgpu — confirmed via `lsinitrd`.
 
-# 2. Verify initrd was rebuilt after grub change
-ls -la /boot/initramfs-$(uname -r).img
-ls -la /boot/grub2/grub.cfg
-# Check timestamps — initrd should be newer than grub.cfg
+**Bug 2 — PNG frames not in `install_items`:**
+The dracut conf source in `config.yml` listed fonts but not the theme directory (`/usr/share/plymouth/themes/rabble-aether/`). Plymouth's `95plymouth` dracut module does not reliably auto-include script-module themes with large PNG frame arrays.
 
-# 3. Check the live boot journal for DRM/Plymouth events
-journalctl -b | grep -E "drm|plymouth|simpledrm|amdgpu|fb0|framebuffer" | head -50
+## Fix Applied (S162) — Pending Verify
 
-# 4. Check if Plymouth is actually starting at all
-journalctl -b | grep "plymouthd"
+Two changes to `ansible/roles/boot/plymouth/tasks/config.yml`:
 
-# 5. Check if the Plymouth theme frames exist in initrd
-lsinitrd /boot/initramfs-$(uname -r).img | grep -E "rabble|png|aether" | head -20
+1. Added `install_items+=" /usr/share/plymouth/themes/rabble-aether/ "` to inline dracut conf content
+2. Added unconditional `dracut --force` task at end of play (`changed_when: true`)
 
-# 6. Check Plymouth theme is installed
-ls /usr/share/plymouth/themes/rabble-aether/
-```
-
-## Hypotheses for Next Session
-
-**H1: Theme frames not in initrd** — Plymouth starts but shows black because frame PNGs aren't packed into initrd. dracut needs `install_items` for the PNG frames.
-
-**H2: Plymouth crashes silently** — Check `journalctl -b | grep -i "plymouth"` for crash/error messages. If the script errors (missing image, font not found), it falls back to black.
-
-**H3: simpledrm=1 not honored** — Kernel version change may affect behavior. Check if `plymouth.use-simpledrm=1` is in `/proc/cmdline` after reboot.
-
-**H4: Wrong Plymouth theme active** — `/etc/plymouth/plymouthd.conf` might point to a different theme. `plymouth-set-default-theme` may need to be called.
-
-**H5: amdgpu still in initrd and taking over anyway** — `plymouth.use-simpledrm=1` should prevent this but verify with DRM boot journal.
+**Verify:** `sudo layerctl apply boot` → `lsinitrd ... | grep -E "entity|aether|amdgpu"` → reboot
 
 ## Key Files
 

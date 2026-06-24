@@ -5,12 +5,22 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-23 · Session 161 (llama.cpp Ansible: prebuilt default + stamp dir bug fix)
+## LATEST — 2026-06-23 · Session 162 (Plymouth black screen — true root cause diagnosed + Ansible fix)
 
-**Phase:** Epoch 0 · Episode 1 · runtime hardening.
-**This session (S161):** Fixed llama.cpp Ansible: switched default `install_method` source→prebuilt (eliminates 5–15 min build). Root-cause bug: stamp dir only created in source path → prebuilt stamp write silently failed → version check always missed → reinstalled every run. Hoisted stamp dir before both paths. Logged lemonade debug as B-09.
+**Phase:** Epoch 0 · Episode 1 · boot chain stabilization.
+**This session (S162):** Plymouth black screen fully diagnosed. Two bugs: (1) initramfs never rebuilt — Ansible "rebuild initrd" handler conditional, fires only on `changed`; idempotent runs skip it leaving stale initramfs. (2) dracut conf missing `install_items` for PNG frame dir. Fix: added explicit `install_items` for theme dir + unconditional `dracut --force` task. Committed to RaBbLE-OS.
 **Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending; B-02, B-09 open.
-**Next:** (1) `sudo layerctl apply boot && reboot` → verify Plymouth; (2) fresh Dolphin → verify labels; (3) `layerctl apply runtime` → verify prebuilt llama.cpp; (4) debug lemonade (B-09); (5) EP1 gates G10/G7/G9.
+**Next:** (1) `sudo layerctl apply boot` → `lsinitrd` verify → reboot → confirm Plymouth animates; (2) fresh Dolphin → verify labels; (3) `layerctl apply runtime` → verify prebuilt llama.cpp; (4) EP1 gates G10/G7/G9.
+
+---
+
+## 2026-06-23 · Session 162 (Plymouth black screen — true root cause + Ansible fix)
+
+- Repos: RaBbLE-OS (new-horizons), RaBbLE-Grimoire (new-horizons).
+- **Diagnosis:** Live initramfs contained no PNG frames, fonts, or amdgpu — confirmed via `lsinitrd`. Initramfs timestamp (22:03) predated dracut conf write (22:54), proving dracut never ran after conf was deployed. Conditional handler (`notify: rebuild initrd`) silently skips on idempotent re-runs.
+- **Fix 1:** Added `install_items+=" /usr/share/plymouth/themes/rabble-aether/ "` to inline dracut conf in `ansible/roles/boot/plymouth/tasks/config.yml`. Plymouth's `95plymouth` dracut module does not reliably auto-include script-module themes with large PNG arrays.
+- **Fix 2:** Added unconditional `dracut --force` task (`changed_when: true`) at end of Plymouth config play. Ensures initramfs is always current after `layerctl apply boot` regardless of idempotency state.
+- **Pending:** `sudo layerctl apply boot` → `lsinitrd` verify → reboot.
 
 ---
 
