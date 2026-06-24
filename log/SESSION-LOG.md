@@ -5,12 +5,36 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-24 · Session 164 (Dolphin grey text — deep investigation, partial progress)
+## LATEST — 2026-06-24 · Session 166 (Plymouth: arm the debug flag + capture unlogged S165)
 
 **Phase:** Epoch 0 · Episode 1 · EP1 gates pending.
-**This session (S164):** Deep Dolphin text investigation. Pixel-sampled screenshots to identify actual colors. Two fixes applied: (1) Kvantum kvconfig was stale/out-of-sync with source (deployed file missing `text.normal.color` in `[ItemView]`), re-applied via `dotctl apply kvantum`; (2) kdeglobals `ForegroundInactive` overriding .colors file (changed 147,153,178 → 205,214,244, commit `8d8561a`). User reports text still not fixed. Kvantum reload may require logout/login. See plan `log/plans/OS-Dolphin-Grey-Text.md`.
+**This session (S166):** Plymouth still black after S165's pin removal. Re-ran `boot-diagnose.sh` → its "stale log" warning is correct: plymouthd writes NOTHING without `plymouth:debug` on the cmdline, and no boot has ever had it — including S165's verify reboot. **Key finding: both pin-on (S160–164) and pin-off (S165) are BLACK → simpledrm pin is not the variable.** Armed `plymouth:debug` via `boot-debug-toggle.sh --on`. Captured the unlogged S165 (pin-reversal + 2 new spells, all uncommitted) and rewrote the Grimoire plan doc with the full disproven-hypotheses table. New leading lever: `force_drivers` amdgpu (vs `add_drivers`).
 **Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending; B-02, B-09 open.
-**Next:** (1) logout/login → fresh Dolphin → verify if Kvantum + kdeglobals fixes land; (2) red-test `disabled.text.color` → #00ff00 in Kvantum kvconfig to identify which color role drives sidebar; (3) strace (install first: `sudo dnf install strace`) → confirm which .colors file KColorScheme opens.
+**Next:** (1) `sudo ./RaBbLE-OS-layerctl.sh apply boot` → reboot → `boot-diagnose.sh` for the FIRST real-boot Plymouth log; (2) read log → branch on decision tree in `log/plans/OS-Plymouth-Black-Screen.md`; (3) if `Could not initialize heads`: try `force_drivers+=" amdgpu "`.
+
+---
+
+## 2026-06-24 · Session 166 (Plymouth debug instrumentation + S165 capture)
+
+- Repos: RaBbLE-OS (new-horizons), RaBbLE-Grimoire (new-horizons).
+- **Diagnosed Mark's `boot-diagnose.sh` "stale log" question:** `/var/log/plymouth-debug.log` is only written when `plymouth:debug` is on the kernel cmdline. Current boot has none → log is a 2-day-old leftover. Confirmed via `journalctl -b 0 -t plymouthd` → empty.
+- **Critical synthesis:** S165 removed `plymouth.use-simpledrm=1` (its "leading fix"), Mark rebooted, STILL black. With pin-on also black (S160–164), **the simpledrm pin is disproven as the determining variable.** Real cause never captured — no boot ever ran with debug on.
+- **Found S165 was entirely uncommitted:** pin removal + explanatory comment in `group_vars`, plus 2 new spells (`boot-diagnose.sh`, `boot-debug-toggle.sh`). Session died at the limit before committing/logging. Reconstructed from transcript `8799f786`.
+- **Action:** `boot-debug-toggle.sh --on --no-apply` → `plymouth:debug` now in `group_vars` (not yet applied — needs `layerctl apply boot` + reboot).
+- **Rewrote** `log/plans/OS-Plymouth-Black-Screen.md` — was stale (still framed pin as the fix); now carries the disproven table, the hard evidence rule, and the `force_drivers` lead.
+- **Committed S165's orphaned work + S166's debug arming together** (Pulse Protocol).
+
+---
+
+## 2026-06-24 · Session 165 (Plymouth simpledrm-pin reversal — UNLOGGED, reconstructed S166)
+
+- Repos: RaBbLE-OS (new-horizons). Reconstructed from transcript `8799f786` (session hit limit before logging/committing).
+- **Trigger:** Mark frustrated — "the fix to Plymouth did not work, screen black, no anim, S162 was supposed to fix this." 7th black-screen session.
+- **Reframe:** the disease is methodology — 6 prior sessions, 6 different "root causes," every one "reboot-verify pending," all fixed blind from an agent shell that can't see the splash. Two diagnostics that would partition the problem (real-boot debug log, stock-theme probe) had never been run.
+- **Leading hypothesis:** on this dual-GPU ProArt (panel on AMD `card1-eDP-1`), `plymouth.use-simpledrm=1` is the CAUSE not the cure — it pins Plymouth to simpledrm, which goes dark when amdgpu takes the CRTC. S160's "REQUIRED" conclusion was confounded by the stale initramfs (only fixed S162).
+- **Did (all uncommitted):** reversed the pin in `group_vars` with an honest history-preserving comment; wrote `spells/boot-diagnose.sh` (evidence capture) + `spells/boot-debug-toggle.sh` (diagnostic cmdline on/off), shellcheck-clean + round-trip tested. Plan at `~/.claude/plans/shiny-enchanting-owl.md`.
+- **Hard rule introduced:** no Plymouth fix marked done without a pasted real-boot log or a photo of the splash.
+- **Gap:** never ran `boot-debug-toggle.sh --on` before the verify reboot → S166's boot still had no debug log. Fixed S166.
 
 ---
 

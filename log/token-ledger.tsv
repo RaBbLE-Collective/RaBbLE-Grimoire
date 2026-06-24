@@ -144,5 +144,12 @@ ef613802-d3da-48fb-90c2-32574f4efeff	grimoire	auto: regenerate Identity gist; dr
 commit-68cdf70	plymouth-layout	Plymouth script layout overhauled to match target image; test spell added with DRM detection
 commit-fea183e	boot-chain-stabilization	S153: fixed OpenCode S152 drift — nvidia-load.service, prebaked plymouth lore, SDDM mockup, boot profiler
 0053a20b-8aff-401f-a952-efa9bec2a216	collective	auto: root AGENT.md current state: S153 EP1 spine live, gated on G7/G9/G10
-c9acd1e6-3249-4340-b0f6-6b6f0b9f640f	ep1-coherence	S153 EP1 chat spine verified live; B-01/03/04 resolved, G3-G6 green; World/Chrysalis split + G10 FLOOR; handoff doc
 commit-b4317a4	boot-chain-stabilization	S153 cont: GFXPAYLOAD black-pane fix + Plymouth resolution-independence (scale=screen_w/1920) + 4K-master regen logged
+4146a0ca-e05d-49dc-ae46-bec70f6a33d2	collective	auto: update current state: S154 Track A complete
+4889d83d-dd71-4580-8b9f-b6c519a1c910	collective	auto: current state S155: boot-chain void zone pass complete, reboot-verify pending
+4b3092d1-12a5-478f-9d0d-9b7cd90be94f	collective	auto: current state S156: void zone + boot speed fixes applied
+c7e1101c-4297-4be9-bd7d-f39710a9d52c	collective	auto: current state S158: agent protocol hardening, insights integrated
+f12a1a5c-670f-4634-8623-de3ef88b61ac	collective	auto: current state S163: sCoRE arch lesson + HAOS integration
+39931ba4-f061-4203-9f25-1ded30c76679	collective	auto: current state S164: Dolphin investigation, handoff plan written
+c9acd1e6-3249-4340-b0f6-6b6f0b9f640f	plymouth-boot	S166: arm plymouth:debug, capture/commit unlogged S165, rewrite black-screen plan doc
+8484eb27-04d1-49f8-a105-4c34f14a6578	collective	auto: current state S166: Plymouth debug armed, simpledrm pin disproven
