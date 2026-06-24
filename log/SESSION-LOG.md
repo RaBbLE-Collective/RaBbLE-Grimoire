@@ -5,12 +5,33 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## LATEST — 2026-06-24 · Session 164 (Dolphin grey text — deep investigation, partial progress)
+
+**Phase:** Epoch 0 · Episode 1 · EP1 gates pending.
+**This session (S164):** Deep Dolphin text investigation. Pixel-sampled screenshots to identify actual colors. Two fixes applied: (1) Kvantum kvconfig was stale/out-of-sync with source (deployed file missing `text.normal.color` in `[ItemView]`), re-applied via `dotctl apply kvantum`; (2) kdeglobals `ForegroundInactive` overriding .colors file (changed 147,153,178 → 205,214,244, commit `8d8561a`). User reports text still not fixed. Kvantum reload may require logout/login. See plan `log/plans/OS-Dolphin-Grey-Text.md`.
+**Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending; B-02, B-09 open.
+**Next:** (1) logout/login → fresh Dolphin → verify if Kvantum + kdeglobals fixes land; (2) red-test `disabled.text.color` → #00ff00 in Kvantum kvconfig to identify which color role drives sidebar; (3) strace (install first: `sudo dnf install strace`) → confirm which .colors file KColorScheme opens.
+
+---
+
 ## LATEST — 2026-06-23 · Session 163 (sCoRE arch lesson + HAOS integration)
 
 **Phase:** Epoch 0 · Episode 1 · EP1 gates pending.
 **This session (S163):** Full sCoRE FastAPI architecture lesson for Mark (module map, request path, LLM chain fallback model, FastAPI concepts). Integrated `RaBbLE-BaBbLE/rabble-haos-session-architecture.md` into `RaBbLE-sCoRE-Local-Architecture.md` (v0.2): hardware tier layer (NPU/dGPU/iGPU), container policy, dev slice architecture. All HAOS open questions answered.
 **Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending; B-02, B-09 open.
 **Next:** (1) `sudo layerctl apply boot` → `lsinitrd` verify → reboot → confirm Plymouth animates; (2) fresh Dolphin → verify labels; (3) `layerctl apply runtime` → verify prebuilt llama.cpp; (4) EP1 gates G10/G7/G9.
+
+---
+
+## 2026-06-24 · Session 164 (Dolphin grey text — deep investigation)
+
+- Repos: RaBbLE-OS (new-horizons), RaBbLE-Grimoire (new-horizons).
+- **Deep analysis:** Pixel-sampled grim screenshots (full-screen → crop at 2× HiDPI scale = physical x,y × 2). Discovered KColorScheme changes (ForegroundNormal red-test) have NO visible effect on icon labels — labels use **Qt QPalette via Kvantum** not KColorScheme.
+- **Fix 1 (Kvantum sync):** Deployed Kvantum kvconfig was stale vs source — missing `text.normal.color=#f8f4ff` in `[ItemView]` and had old Catppuccin palette. `dotctl apply kvantum` re-synced. Pixel analysis showed 69k bright pixels post-fix (icon view area), suggesting partial improvement.
+- **Fix 2 (kdeglobals):** `[Colors:View/Button/Tooltip/Window] ForegroundInactive=147,153,178` in kdeglobals OVERRIDES .colors file value via KConfig cascade. Changed → `205,214,244`. Commit `8d8561a`.
+- **Sidebar still broken:** Places Panel item text ("Home", "Desktop", etc.) renders invisible (near-background color). Section headers (#747679) and selected item (#ff2d78) visible. Sidebar delegate bypasses Kvantum [ItemView] styling.
+- **User confirms:** Text still not fixed on live display. Kvantum may need logout/login to fully reload.
+- **Next:** logout/login first; then red-test disabled.text.color; then strace (needs `dnf install strace`).
 
 ---
 
