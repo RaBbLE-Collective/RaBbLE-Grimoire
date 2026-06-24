@@ -5,12 +5,21 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-23 · Session 162 (Plymouth black screen — true root cause diagnosed + Ansible fix)
+## LATEST — 2026-06-23 · Session 163 (sCoRE arch lesson + HAOS integration)
 
-**Phase:** Epoch 0 · Episode 1 · boot chain stabilization.
-**This session (S162):** Plymouth black screen fully diagnosed. Two bugs: (1) initramfs never rebuilt — Ansible "rebuild initrd" handler conditional, fires only on `changed`; idempotent runs skip it leaving stale initramfs. (2) dracut conf missing `install_items` for PNG frame dir. Fix: added explicit `install_items` for theme dir + unconditional `dracut --force` task. Committed to RaBbLE-OS.
+**Phase:** Epoch 0 · Episode 1 · EP1 gates pending.
+**This session (S163):** Full sCoRE FastAPI architecture lesson for Mark (module map, request path, LLM chain fallback model, FastAPI concepts). Integrated `RaBbLE-BaBbLE/rabble-haos-session-architecture.md` into `RaBbLE-sCoRE-Local-Architecture.md` (v0.2): hardware tier layer (NPU/dGPU/iGPU), container policy, dev slice architecture. All HAOS open questions answered.
 **Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending; B-02, B-09 open.
 **Next:** (1) `sudo layerctl apply boot` → `lsinitrd` verify → reboot → confirm Plymouth animates; (2) fresh Dolphin → verify labels; (3) `layerctl apply runtime` → verify prebuilt llama.cpp; (4) EP1 gates G10/G7/G9.
+
+---
+
+## 2026-06-23 · Session 163 (sCoRE arch lesson + HAOS integration)
+
+- Repos: RaBbLE-Grimoire (new-horizons). Read: RaBbLE-sCoRE/server/*.py, RaBbLE-BaBbLE/rabble-haos-session-architecture.md.
+- **Lesson:** Full FastAPI architecture walkthrough for Mark — module map, Depends() injection model, Pydantic validation, StreamingResponse/SSE pattern, LLM chain fallback loop, session/workflow storage, classifier logic. Goal: Mark moves from vibe-coder to active contributor.
+- **Integration:** Added three sections to `RaBbLE-sCoRE-Local-Architecture.md` (v0.2): Hardware Tier Layer (NPU/dGPU/iGPU with llama.cpp flags, GTT kernel arg, Lemonade server for Tier 1, provider registry entries), Container Policy (native vs containerized rule + table), Dev Slice Architecture (port 8084, grimoire-dev shard, promotion path).
+- **Next:** Mark implements `agents.py:classify_request()` upgrade with token-count + intent signals (natural first contribution).
 
 ---
 

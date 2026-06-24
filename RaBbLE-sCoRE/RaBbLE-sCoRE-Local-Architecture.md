@@ -497,11 +497,167 @@ rabble usage
 
 ---
 
+## Hardware Tier Layer (HAOS Architecture)
+
+> Source: `RaBbLE-BaBbLE/rabble-haos-session-architecture.md` (June 2026 design session)
+> Status: Planned — EP2+ target. Current local mode uses cloud APIs + subprocess harnesses.
+> Integration: These tiers slot into `llm.py`'s provider registry as local inference endpoints.
+
+### Three-Tier Hardware Model
+
+| Tier | Name | Hardware | Model class | Context | Role |
+|------|------|----------|-------------|---------|------|
+| 1 | Ambient sub-conscious | AMD XDNA 2 NPU | <4B params (Gemma 3 4B / Llama 3.2 3B) | 8k | Always-on perception, low-power |
+| 2 | Executive reflex | Nvidia RTX 4060 dGPU | 8–12B (Qwen 3.5 9B / Gemma 4 12B QAT) | 16–32k | Daily driver, 40+ TPS |
+| 3 | Strategic cortex | Radeon 890M iGPU + 32GB DDR5 (24GB GTT) | 35B MoE (Qwen 3.6 35B MoE) | 128k+ | Long context, deep reasoning |
+
+**Kernel prerequisite for Tier 3 (Fedora 43):**
+```bash
+sudo grubby --update-kernel=ALL --args="amdgpu.gttsize=24576"
+sudo reboot
+```
+This unlocks the 24GB GTT buffer. Without it the 890M is limited to ~50% of system RAM.
+
+**llama.cpp server flags:**
+```bash
+# Tier 2 — RTX 4060 daily driver:
+llama-server -m qwen3.5-9b-instruct-Q4_K_M.gguf -c 32000 --flash-attn --draft 2 --ngl 33
+# --ngl 33 offloads 33 of 40 layers; try 40 and watch VRAM (Q4_K_M ~5.5–6GB)
+
+# Tier 3 — 890M iGPU + GTT:
+llama-server -m qwen3.6-35b-moe-Q4_K_M.gguf -c 131072 --flash-attn --ngl 99 --gpu-layers-draft 0
+```
+
+### Hardware-Aware Routing
+
+Extends `agents.classify_request()` beyond keyword scanning. Tier routing checks structured metadata first, keywords as fallback:
+
+```python
+def determine_cognitive_path(payload) -> str:
+    if payload.token_count > 24000 or payload.intent_profile == "META_ARCHITECTURE":
+        return "tier3_igpu"        # Qwen 3.6 35B MoE — long context / reasoning
+
+    if payload.requires_tool_execution or "code" in payload.tags:
+        return "tier2_gpu"         # Qwen 3.5 9B — fast, daily driver
+
+    return "tier1_npu"             # Gemma 3 4B — ambient, always-on
+```
+
+**Integration point in `llm.py`:** The three hardware tiers map to three new provider entries:
+
+```python
+# In BUILTIN_PROVIDERS:
+"tier1_npu": {
+    "url": os.getenv("LEMONADE_URL", "http://localhost:8100") + "/v1/chat/completions",
+    "api_key_required": False, "extra_headers": {},
+},
+"tier2_gpu": {
+    "url": os.getenv("TIER2_LLAMA_URL", "http://localhost:8101") + "/v1/chat/completions",
+    "api_key_required": False, "extra_headers": {},
+},
+"tier3_igpu": {
+    "url": os.getenv("TIER3_LLAMA_URL", "http://localhost:8102") + "/v1/chat/completions",
+    "api_key_required": False, "extra_headers": {},
+},
+```
+
+Tier 1 uses **Lemonade server** (AMD's OpenAI-compatible NPU inference layer) as an intermediate between FastFlowLM and sCoRE. Lemonade speaks OpenAI protocol so it plugs in as a standard provider.
+
+### Systemd Unit Tree (Hardware Services)
+
+```
+~/.config/systemd/user/
+  rabble-npu.service        # lemonade-server — Tier 1 NPU (Gemma 3 4B)
+  rabble-gpu.service        # llama-server — RTX 4060 Vulkan — Tier 2
+  rabble-igpu.service       # llama-server — 890M + GTT — Tier 3
+  rabble-score-local.service  # FastAPI /dispatch — After= all three
+```
+
+`rabble-score-local.service` should declare `After=rabble-npu.service rabble-gpu.service rabble-igpu.service` so sCoRE starts after inference servers. All three tier services run as systemd user services (`--user`) — not system-level, because the inference hardware is user-space (no `/dev` passthrough needed for usermode drivers).
+
+### Local Chain Priority with Hardware Tiers
+
+When `LOCAL_MODE=true`, model chain priority shifts:
+
+| When available | Preferred path |
+|---|---|
+| Tier 2 GPU up | Tier 2 for fast/medium, Tier 3 for strong/long-context |
+| Tier 3 GTT unlocked | Tier 3 for >24k context, META_ARCHITECTURE tasks |
+| All tiers down | Fall through to fcc proxy → cloud APIs |
+| Claude quota <75% | claude_code direct (existing behavior) |
+
+---
+
+## Container Policy
+
+> Rule: **RaBbLE acts natively. Its side-effects run in containers.**
+
+| Layer | Mode | Reason |
+|---|---|---|
+| RaBbLE entity (perception, memory, reasoning) | Native / systemd | Needs host hardware, inotify, clipboard |
+| Tier 1/2/3 inference servers | Native / systemd | Hardware passthrough — GPU/NPU drivers are host-level |
+| Grimoire local shard | Native | inotify-watched; must be on host filesystem |
+| Code execution sandbox | **Containerized** | Blast radius isolation |
+| Tool plugins (scrapers, pipelines, API clients) | **Containerized** | Dependency isolation |
+| Grimoire sync agent (local ↔ cloud) | **Containerized** | Stateless, portable, well-defined I/O surface |
+| sCoRE cloud API (Render) | **Containerized** | No hardware deps, portable deployment |
+
+**Container runtime:** Podman rootless preferred (Fedora-native, no daemon, rootless by default). Docker is acceptable fallback.
+
+**Grimoire as task bus:** RaBbLE writes task specs into the Grimoire. Containerized tool executors pick up tasks, do work, write results back. The container only needs a bind mount of `~/RaBbLE-Collective/RaBbLE-Grimoire/` — no host access required beyond that.
+
+---
+
+## Dev Slice Architecture
+
+> Problem: RaBbLE's perception loop will observe its own development. Scratch files,
+> agent edits, and test artifacts all become ambient context noise if sCoRE is live.
+
+### Separate Dev Units
+
+```
+~/.config/systemd/user/
+  rabble-dev-npu.service       # dev configs, dev model paths
+  rabble-dev-gpu.service
+  rabble-dev-sidecar.service   # sCoRE dev instance on :8084 (not :8083)
+```
+
+Dev sidecar runs on port **8084** to avoid colliding with live sCoRE on **8083**.
+
+Dev instance uses `~/RaBbLE-Collective/RaBbLE-sCoRE/` directly as working directory. Live instance uses a stable copy. Claude Code (this tool) works against the dev slice.
+
+### Dev Grimoire Shard
+
+```
+~/RaBbLE-Collective/
+  RaBbLE-sCoRE/                  # Claude Code edits here
+    server/
+  RaBbLE-Grimoire/               # live shard (production KB)
+  grimoire-dev/                  # isolated dev KB (symlink or copy of Grimoire for testing)
+```
+
+Set `GRIMOIRE_PATH=~/RaBbLE-Collective/grimoire-dev` in the dev sidecar's env to prevent test prompts from touching the live Grimoire.
+
+### Promotion Path
+
+```
+develop + test on dev slice → deliberate `git commit` → push → live slice restarts
+```
+
+No hot-swapping. The promotion is explicit. Live service is managed via `score-local-ctl restart`.
+
+### Dev Workflow (Claude Code)
+
+Claude Code (terminal) points at `~/RaBbLE-Collective/RaBbLE-sCoRE/` — edits files, restarts dev units via `systemctl --user restart rabble-dev-sidecar`, checks `journalctl --user -u rabble-dev-* -f`, iterates. Live system is untouched until explicit promotion.
+
+---
+
 ## Revision History
 
 | Version | Date | Change |
 |---|---|---|
 | v0.1 | 2026-06-21 | Initial — authored in planning session S138+. All concepts from session captured. |
+| v0.2 | 2026-06-23 | Added Hardware Tier Layer (HAOS), Container Policy, Dev Slice Architecture from BaBbLE HAOS design session. Answers all open arch questions from HAOS doc. |
 
 ---
 
