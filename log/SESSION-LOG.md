@@ -5,12 +5,24 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-24 · Session 166 (Plymouth ROOT CAUSE FOUND — unsupported ternary in theme script)
+## LATEST — 2026-06-24 · Session 168 (SDDM greeter layout polish + boot-chain layout doc)
 
 **Phase:** Epoch 0 · Episode 1 · EP1 gates pending.
-**This session (S166):** Armed `plymouth:debug`; Mark rebooted; the first-ever real-boot log named the exact bug: **`rabble-aether.script` L460 used a ternary `(x)?a:b` — Plymouth's script language has no ternary, so the WHOLE script failed to compile → black on every boot, regardless of GPU/simpledrm config.** 7 sessions of DRM theorizing chased a symptom. Replaced with `if`-clamp (only `?` in the file; braces balance). Captured + committed unlogged S165 earlier. **Fix applied to source — awaiting visual verify.**
-**Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending; B-02, B-09 open.
-**Next:** (1) `sudo ./RaBbLE-OS-layerctl.sh apply boot` → reboot → **watch the splash animate**; (2) `boot-diagnose.sh` → confirm zero parser errors; (3) once confirmed: `boot-debug-toggle.sh --off` + apply to drop the debug flag; (4) add a plymouth-script parse-check to the theme build.
+**This session (S168):** SDDM greeter layout overhaul — entity + form separated into independent QML items; void zone pixel-measured (bg.png 1920×1200, void = 40–68 % screen); entity (520 px) centered at 50 %, form at 57 % (PW box bottom lands exactly at floor grid). Clock moved down/enlarged. Username enlarged (54 px). DE/user-switcher now shows toast when no alternatives exist. Boot-chain layout doc created covering SDDM, Plymouth, and GRUB.
+**Blockers:** → `log/BLOCKERS.md`. Plymouth visual verify still pending (awaits `layerctl apply boot` + reboot). EP1 gates G7/G9/G10 pending; B-02, B-09 open.
+**Next:** (1) `sudo ./RaBbLE-OS-layerctl.sh apply boot` → reboot → watch Plymouth splash; (2) fine-tune SDDM further if needed (see `RaBbLE-OS/desktop/RaBbLE-OS-Desktop-SDDM-Layout.md`); (3) Plymouth visual verify.
+
+---
+
+## 2026-06-24 · Session 168 (SDDM layout polish + boot-chain layout doc)
+
+- Repos: RaBbLE-OS (new-horizons), RaBbLE-Grimoire (new-horizons).
+- Pixel-measured void zone in bg.png (1920×1200): ceiling ends ~40 %, floor starts ~68 %.
+- Separated entity and form into independent QML items (was a single Column); entity at screen center (50 %), form at 57 % so PW box bottom sits right on the floor grid.
+- Entity enlarged 460→520 px; username 32→54 px; clock font enlarged + moved to topBar anchor.
+- Added DE/user-switcher toast (`notifyLine` + `notifyAnim`) for no-alternative feedback.
+- Created `RaBbLE-OS/desktop/RaBbLE-OS-Desktop-SDDM-Layout.md` covering SDDM, Plymouth, and GRUB positioning — void zone math, all key line numbers, screenshot spell, deploy flow.
+- Next: `layerctl apply boot` + reboot for Plymouth verify; further SDDM micro-tweaks if needed.
 
 ---
 
