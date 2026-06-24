@@ -67,16 +67,40 @@ At render size 520 px, a 50 %-centered entity has its glow at **screen 40 %–61
 | Username size | `font.pixelSize` | ~261 | `54` | increase pushes PW box down |
 | PW box height | `height` | ~279 | `48` | `radius` must stay `height/2` |
 
+### Entity vertical offset — directional reference
+
+`anchors.verticalCenterOffset` shifts the entity **relative to screen center**.
+Two forms work — use whichever feels clearer:
+
+```qml
+// Percentage form (recommended — adapts to any resolution)
+anchors.verticalCenterOffset: -parent.height * 0.05   // UP   5% of screen
+anchors.verticalCenterOffset:  parent.height * 0.05   // DOWN 5% of screen
+
+// Raw pixel form (fixed distance, resolution-dependent)
+anchors.verticalCenterOffset: -54    // UP   54 px
+anchors.verticalCenterOffset:  54    // DOWN 54 px
+```
+
+**Direction rule: negative = UP, positive = DOWN**
+
+| offset | entity glow on screen (1080p) | notes |
+|---|---|---|
+| `-parent.height * 0.08` | glow ~34-55% | ceiling edge — risky |
+| `-parent.height * 0.04` | glow ~36-57% | upper void |
+| `-parent.height * 0.02` | glow ~38-59% | upper-mid void |
+| `0` | glow ~40-61% | void center — baseline |
+| `+parent.height * 0.02` | glow ~42-63% | lower-mid void |
+| `+parent.height * 0.04` | glow ~44-65% | lower void / approaching floor |
+| `+parent.height * 0.06` | glow ~46-67% | floor edge — risky |
+
+Each `0.01` step = ~11 px on 1080p, ~16 px on 1600p (ProArt P16).
+
 ### Layout math
 
 ```
-form bottom ≈ topMargin + (usernameSize + spacing(10) + spacer(6) + passBox(48)) / screenHeight
-# At 1080p, username=54: 0.57 + (54+64)/1080 ≈ 0.68 → PW box bottom right on floor ✓
-
-entity verticalOffset ranges:
-  -0.04 → glow top at 36 % (clips into ceiling grid — avoid)
-   0    → glow 40 %–61 %  (sits in void — current)
-  +0.04 → glow 44 %–65 %  (near floor — use for dramatic drop effect)
+form bottom = topMargin + (usernameSize + spacing(10) + spacer(6) + passBox(48)) / screenHeight
+# At 1080p, username=54: 0.57 + (54+64)/1080 = 0.68  PW box bottom right on floor
 ```
 
 ### Screenshot spell (no deploy needed)
