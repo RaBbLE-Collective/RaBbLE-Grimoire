@@ -82,6 +82,28 @@ before `plymouth-start` — change `add_drivers+=" amdgpu "` → **`force_driver
 Then amdgpu owns the panel from frame one and Plymouth never touches simpledrm. (Do NOT re-add the simpledrm
 pin — that's the opposite approach and is already disproven for this hardware.)
 
+### "Can we defer the amdgpu handoff to the SDDM transition to hide it?" (Mark, S166)
+
+Goal is right (the only visible switch should be the Plymouth→SDDM transition), but you get there by moving
+amdgpu **earlier**, not later — amdgpu **cannot** be deferred to SDDM:
+
+- **amdgpu IS the display GPU** (`card1-eDP-1` panel). SDDM's greeter + Hyprland both need a rendering GPU.
+  Defer amdgpu's modeset to the SDDM transition and SDDM must come up on simpledrm/llvmpipe (software), and
+  amdgpu still has to modeset before Hyprland → you relocate the flash to SDDM→Hyprland, not hide it.
+- The **nvidia** deferred-load trick (`nvidia-load.service` after SDDM, see `roles/hardware/.../nvidia.yml`)
+  works only because nvidia drives **no display** (offload/compute). amdgpu is the opposite — it's the panel.
+- amdgpu modesets **when it initializes**, not when Plymouth quits; you can't decouple modeset from load
+  without deferring the load (which breaks SDDM). Decoupling is what the disproven `use-simpledrm` pin faked.
+
+**Three levers that actually deliver "no noticeable switch" — only the Plymouth→SDDM transition is seen:**
+1. **amdgpu first** — `force_drivers+=" amdgpu "`: KMS live before `plymouth-start`; no simpledrm→amdgpu switch during the splash.
+2. **Identical mode end-to-end** — `GFXPAYLOAD=3840x2400x32` (already set) makes GRUB/simpledrm/amdgpu all native 4K, so the firmware→amdgpu modeset is a visual no-op. Biggest single factor.
+3. **Plymouth→SDDM already seamless** — `roles/boot/session_manager/files/plymouth-quit-sddm.conf` (`sddm-first-frame.conf`) holds the DRM framebuffer 300ms until SDDM paints its first frame.
+
+**Sequencing:** verify the *script fix* first. If the splash already animates cleanly, the handoff is graceful
+— do NOT add `force_drivers` (don't optimize a flash that isn't there). Apply lever 1 only if the verify
+reboot shows a black at ~3s. Levers 2+3 are already in place.
+
 ---
 
 ---
