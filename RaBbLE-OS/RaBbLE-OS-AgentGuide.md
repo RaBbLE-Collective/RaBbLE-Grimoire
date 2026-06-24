@@ -23,6 +23,7 @@ historical/     Stale docs — KDE-spin era installs, branch diffs, implementati
 
 | I need to... | Read |
 |---|---|
+| Understand what RaBbLE-OS *is* (identity, platform model, installer arc) | `RaBbLE-OS-Platform-Identity.md` |
 | Understand the layer model | `layers/RaBbLE-OS-Layers.md` |
 | Know what's broken right now | `fix/RaBbLE-OS-KnownIssues.md` |
 | See current Phase 1 blockers | `RaBbLE-OS-Roadmap.md` |

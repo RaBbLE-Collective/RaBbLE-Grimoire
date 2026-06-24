@@ -156,6 +156,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 ## RaBbLE-OS
 
 - [RaBbLE-OS-AgentGuide](RaBbLE-OS/RaBbLE-OS-AgentGuide.md) — **start here** — directory map + navigation table
+- **[RaBbLE-OS-Platform-Identity](RaBbLE-OS/RaBbLE-OS-Platform-Identity.md)** — **identity canon.** Native platforms (OS + Web), installer arc (KS→live ISO→conversational), sidecar model (EP2+), dev toolbox posture, agentic OS reframe
 - [RaBbLE-OS-Roadmap](RaBbLE-OS/RaBbLE-OS-Roadmap.md) — current episode, the **EP1 Developer Preview Bar** (FLOOR/HARDEN/DEFER), dev-flow hardening protocol, fix branches, assembly
 - [RaBbLE-OS-KnownRoughEdges](RaBbLE-OS/RaBbLE-OS-KnownRoughEdges.md) — the **F5 "enter at your own risk" sheet** shipped with the EP1 preview (recovery, quirks, hardware/display caveats)
 - [RaBbLE-OS-DevHistory](RaBbLE-OS/RaBbLE-OS-DevHistory.md) — pre-Collective genesis (2026-04-09 → 04-29): KDE→Sway pivots, palette/hardware corrections, SDDM/greetd arc — fills the founding-era gap with no local session transcripts
