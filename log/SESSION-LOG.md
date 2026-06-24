@@ -24,6 +24,7 @@ Format: date, what was done, where things were left, what's next.
 - **Rewrote** `log/plans/OS-Plymouth-Black-Screen.md` — was stale (still framed pin as the fix); now carries the disproven table, the hard evidence rule, and the `force_drivers` lead.
 - **Committed S165's orphaned work + S166's debug arming together** (Pulse Protocol).
 - **THEN Mark deployed + rebooted → fresh debug log = ROOT CAUSE.** `rabble-aether.script` L460 `t = (t_raw > 1.0) ? 1.0 : t_raw;` — Plymouth script has no ternary operator. Single compile failure black-screened the whole splash on every boot since the slide-animation was added (~S15x), which is why neither pin state ever mattered. Replaced with `t = t_raw; if (t > 1.0) t = 1.0;`. Confirmed only `?` in file; brace/paren balance intact; `i++` for-loops are supported. Fix committed; **deploy + visual verify pending** (the hard rule — not DONE until the splash is seen).
+- **DRM handoff analysis (Mark's Q):** the script fix may not be sufficient. Current config (pin off, amdgpu via `add_drivers` = probed late) still goes simpledrm→amdgpu handoff ~3s in; the S166 log shows it disrupting Plymouth (`GEM ... No such device` → `Could not initialize heads` post-takeover). Those errors fired after the script was already dead, so inconclusive for a live splash. If the verify reboot shows splash-then-black-at-3s, remedy = `force_drivers+=" amdgpu "` (own the panel from frame one, no handoff). Full table in plan doc.
 
 ---
 

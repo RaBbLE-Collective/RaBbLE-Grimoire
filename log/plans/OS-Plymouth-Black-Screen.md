@@ -20,8 +20,9 @@ Parser error ".../rabble-aether.script" L:460 C:22 : Unparsed characters at end 
 
 **Plymouth's script language has no ternary `?:` operator.** The parser reads `t = (t_raw > 1.0)`,
 expects a `;`, hits `?`, errors, and — because plymouth compiles the script as a single unit —
-**the entire script fails to load and nothing renders → black screen.** The cascade `}` errors and the
-`Could not initialize heads` DRM line are downstream/teardown noise, not the cause.
+**the entire script fails to load and nothing renders → black screen.** The cascade `}` errors are pure
+fallout from the same line. (The `Could not initialize heads` DRM line is a *separate* second-order risk —
+see the DRM handoff section below; it did not cause the black screen but may surface once the script compiles.)
 
 **Why every prior session was black regardless of GPU config:** the script never compiled on ANY boot, so
 the simpledrm pin (on or off), the initramfs contents, GFXPAYLOAD, etc. were all irrelevant — Plymouth had
@@ -47,6 +48,39 @@ sudo bash spells/boot-debug-toggle.sh --off && sudo ./RaBbLE-OS-layerctl.sh appl
 **LESSON:** plymouth `.script` is NOT JavaScript — no ternary, no compound-assign. A syntax error anywhere
 silently black-screens the whole splash. Add a parse-check to the theme build before shipping. Mirror to
 the `add_drivers`/`force_drivers` note below only if a DRM issue surfaces AFTER the script compiles.
+
+---
+
+## DRM handoff — does amdgpu hold Plymouth the whole time? (S166 — open second-order risk)
+
+**No, not in the current config.** With the simpledrm pin removed and amdgpu loaded via `add_drivers`
+(present in initramfs but *probed late*), the boot still goes through a **simpledrm → amdgpu handoff**, and
+the S166 debug log captured the handoff disrupting Plymouth's device. Wall-clock reconstruction (plymouthd
+`00:00:00` ≈ 09:03:02):
+
+| time | event |
+|---|---|
+| 09:03:03 | simpledrm registers from EFI GOP → `minor 0`, `fb0` |
+| 09:03:04 | `plymouth-start.service` runs → plymouthd binds the only DRM device present = **simpledrm** |
+| 09:03:05–06 | **amdgpu** finishes KMS modeset, takes over `fb0` |
+| `00:00:05.787` (~09:03:07) | `Could not deallocate GEM object 1: No such device` ← simpledrm buffer invalidated by the takeover |
+| `00:00:07.599` (~09:03:09) | `Could not initialize heads` → `could not find suitable rendering plugin` ← Plymouth tried to rebind post-handoff and **failed** |
+
+So amdgpu only "holds" Plymouth from the moment it grabs `fb0` (~3s in) — **not from frame one.** simpledrm
+always registers first (kernel-init EFI framebuffer, before any module), and `add_drivers` amdgpu is probed
+~3s later by udev coldplug, so it displaces simpledrm mid-splash.
+
+**Crucial caveat:** every one of those DRM errors fired *after* the script had already failed to compile, so
+Plymouth wasn't holding the device the way a live splash would. We genuinely don't know yet whether a WORKING
+splash survives the handoff. The verify reboot decides:
+- **Splash animates cleanly start→finish** → handoff is graceful, Plymouth rebinds amdgpu fine. DONE.
+- **Splash plays ~3s then goes black** (at the amdgpu takeover) → the handoff is a real second bug.
+
+**Remedy if outcome #2:** eliminate the handoff by force-loading amdgpu in the initqueue so its KMS is up
+before `plymouth-start` — change `add_drivers+=" amdgpu "` → **`force_drivers+=" amdgpu "`** in
+`/etc/dracut.conf.d/90-rabble-plymouth-fonts.conf` (sourced from `roles/boot/plymouth/tasks/config.yml`).
+Then amdgpu owns the panel from frame one and Plymouth never touches simpledrm. (Do NOT re-add the simpledrm
+pin — that's the opposite approach and is already disproven for this hardware.)
 
 ---
 
