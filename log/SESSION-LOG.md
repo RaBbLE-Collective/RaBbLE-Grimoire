@@ -5,7 +5,27 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-23 · Session 160 (Plymouth + Dolphin stubborn bugs — deep diagnosis, partial fixes committed)
+## LATEST — 2026-06-23 · Session 161 (llama.cpp Ansible: prebuilt default + stamp dir bug fix)
+
+**Phase:** Epoch 0 · Episode 1 · runtime hardening.
+**This session (S161):** Fixed llama.cpp Ansible: switched default `install_method` source→prebuilt (eliminates 5–15 min build). Root-cause bug: stamp dir only created in source path → prebuilt stamp write silently failed → version check always missed → reinstalled every run. Hoisted stamp dir before both paths. Logged lemonade debug as B-09.
+**Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending; B-02, B-09 open.
+**Next:** (1) `sudo layerctl apply boot && reboot` → verify Plymouth; (2) fresh Dolphin → verify labels; (3) `layerctl apply runtime` → verify prebuilt llama.cpp; (4) debug lemonade (B-09); (5) EP1 gates G10/G7/G9.
+
+---
+
+## 2026-06-23 · Session 161 (llama.cpp Ansible: prebuilt default + stamp dir bug fix)
+
+- Repos: RaBbLE-OS (new-horizons), RaBbLE-Grimoire (new-horizons).
+- **Problem:** `layerctl apply all` too slow; llama.cpp rebuilt from source every run.
+- **Root cause (stamp dir bug):** `install_method` defaulted to `"source"`. The stamp dir (`/usr/local/share/llama-cpp/`) was only created inside the source build path. On prebuilt runs: stamp write silently failed → next run found no stamp → `_llama_rebuild_needed=true` → downloaded again. Infinite reinstall loop regardless of method.
+- **Fix:** `defaults/main.yml` — `install_method: "source"` → `"prebuilt"`. `llama-cpp.yml` — moved stamp dir creation before both paths, gated on `_llama_rebuild_needed` only. Header comment updated (prebuilt listed first).
+- **Lemonade:** Not confirmed working post-NPU validation. Logged as B-09 (owner Mark, tag runtime).
+- **Next:** `layerctl apply runtime` to verify prebuilt path installs cleanly and stays idempotent.
+
+---
+
+## 2026-06-23 · Session 160 (Plymouth + Dolphin stubborn bugs — deep diagnosis, partial fixes committed)
 
 **Phase:** Epoch 0 · Episode 1 · desktop theming + boot chain stabilization.
 **This session (S160):** Plymouth black = `plymouth.use-simpledrm=1` missing (restored, needs `layerctl apply boot && reboot`). Dolphin grey text: two-layer problem — qt6ct palette fixed, .colors [General] section fixed + ForegroundInactive bumped to match Normal. KColorScheme read path under KF6/no-Plasma unverified; labels still unconfirmed readable. Both fixes committed, neither verified live.

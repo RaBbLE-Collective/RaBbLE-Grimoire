@@ -4,11 +4,12 @@
 > Do not hand-edit — use `blockers.sh add` / `resolve`. This is the durable
 > home for blockers so they survive the rewrite of the SESSION-LOG `## LATEST` box.
 >
-> Last synced: 2026-06-22  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
+> Last synced: 2026-06-24  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
 
 ## OPEN
 
 - **B-02** — OpenRouter $10 credits not purchased — free tier 429 caps the chat chain  ·  owner:Mark  ·  since:S106  ·  [ep1-gate]
+- **B-09** — Lemonade Server needs debug — not confirmed working after NPU validation in S160  ·  owner:Mark  ·  since:S161  ·  [runtime]
 
 ## RESOLVED
 
