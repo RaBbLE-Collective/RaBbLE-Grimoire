@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-24 · Session 166 (Plymouth: arm the debug flag + capture unlogged S165)
+## LATEST — 2026-06-24 · Session 166 (Plymouth ROOT CAUSE FOUND — unsupported ternary in theme script)
 
 **Phase:** Epoch 0 · Episode 1 · EP1 gates pending.
-**This session (S166):** Plymouth still black after S165's pin removal. Re-ran `boot-diagnose.sh` → its "stale log" warning is correct: plymouthd writes NOTHING without `plymouth:debug` on the cmdline, and no boot has ever had it — including S165's verify reboot. **Key finding: both pin-on (S160–164) and pin-off (S165) are BLACK → simpledrm pin is not the variable.** Armed `plymouth:debug` via `boot-debug-toggle.sh --on`. Captured the unlogged S165 (pin-reversal + 2 new spells, all uncommitted) and rewrote the Grimoire plan doc with the full disproven-hypotheses table. New leading lever: `force_drivers` amdgpu (vs `add_drivers`).
+**This session (S166):** Armed `plymouth:debug`; Mark rebooted; the first-ever real-boot log named the exact bug: **`rabble-aether.script` L460 used a ternary `(x)?a:b` — Plymouth's script language has no ternary, so the WHOLE script failed to compile → black on every boot, regardless of GPU/simpledrm config.** 7 sessions of DRM theorizing chased a symptom. Replaced with `if`-clamp (only `?` in the file; braces balance). Captured + committed unlogged S165 earlier. **Fix applied to source — awaiting visual verify.**
 **Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending; B-02, B-09 open.
-**Next:** (1) `sudo ./RaBbLE-OS-layerctl.sh apply boot` → reboot → `boot-diagnose.sh` for the FIRST real-boot Plymouth log; (2) read log → branch on decision tree in `log/plans/OS-Plymouth-Black-Screen.md`; (3) if `Could not initialize heads`: try `force_drivers+=" amdgpu "`.
+**Next:** (1) `sudo ./RaBbLE-OS-layerctl.sh apply boot` → reboot → **watch the splash animate**; (2) `boot-diagnose.sh` → confirm zero parser errors; (3) once confirmed: `boot-debug-toggle.sh --off` + apply to drop the debug flag; (4) add a plymouth-script parse-check to the theme build.
 
 ---
 
@@ -23,6 +23,7 @@ Format: date, what was done, where things were left, what's next.
 - **Action:** `boot-debug-toggle.sh --on --no-apply` → `plymouth:debug` now in `group_vars` (not yet applied — needs `layerctl apply boot` + reboot).
 - **Rewrote** `log/plans/OS-Plymouth-Black-Screen.md` — was stale (still framed pin as the fix); now carries the disproven table, the hard evidence rule, and the `force_drivers` lead.
 - **Committed S165's orphaned work + S166's debug arming together** (Pulse Protocol).
+- **THEN Mark deployed + rebooted → fresh debug log = ROOT CAUSE.** `rabble-aether.script` L460 `t = (t_raw > 1.0) ? 1.0 : t_raw;` — Plymouth script has no ternary operator. Single compile failure black-screened the whole splash on every boot since the slide-animation was added (~S15x), which is why neither pin state ever mattered. Replaced with `t = t_raw; if (t > 1.0) t = 1.0;`. Confirmed only `?` in file; brace/paren balance intact; `i++` for-loops are supported. Fix committed; **deploy + visual verify pending** (the hard rule — not DONE until the splash is seen).
 
 ---
 

@@ -1,8 +1,54 @@
 # Plan: Plymouth Boot Splash Black Screen
 
-**Status:** UNRESOLVED — both simpledrm-pin states (on & off) verified BLACK on real hardware. Root cause not yet captured. `plymouth:debug` now armed; awaiting first instrumented reboot.
+**Status:** 🎯 ROOT CAUSE FOUND (S166) — theme script had an unsupported ternary operator at L460, failing to compile → nothing rendered. Fix applied to source. **AWAITING visual verify** (deploy + reboot + see the splash) before marking DONE.
 **Repo:** RaBbLE-OS `new-horizons` · **Last touched:** S166 (2026-06-24)
 **Hardware:** ASUS ProArt P16 — dual-GPU. `card0`=NVIDIA RTX 4060 (blacklisted in initramfs), `card1`=AMD 890M. **Laptop panel `card1-eDP-1` is on the AMD GPU.**
+
+---
+
+## 🎯 ROOT CAUSE (S166, first real-boot debug log)
+
+The first-ever boot with `plymouth:debug` set produced a fresh log naming the exact failure:
+
+```
+Parser error ".../rabble-aether.script" L:460 C:22 : Expected ';' after an expression
+Parser error ".../rabble-aether.script" L:460 C:22 : Expected a '}' to terminate the operation block
+Parser error ".../rabble-aether.script" L:460 C:22 : Unparsed characters at end of file
+```
+
+**Line 460 was:** `t = (t_raw > 1.0) ? 1.0 : t_raw;`
+
+**Plymouth's script language has no ternary `?:` operator.** The parser reads `t = (t_raw > 1.0)`,
+expects a `;`, hits `?`, errors, and — because plymouth compiles the script as a single unit —
+**the entire script fails to load and nothing renders → black screen.** The cascade `}` errors and the
+`Could not initialize heads` DRM line are downstream/teardown noise, not the cause.
+
+**Why every prior session was black regardless of GPU config:** the script never compiled on ANY boot, so
+the simpledrm pin (on or off), the initramfs contents, GFXPAYLOAD, etc. were all irrelevant — Plymouth had
+no program to run. Five sessions of DRM theorizing chased a symptom; the bug was one unsupported operator.
+
+**Fix (applied to source `rabble-aether.script`):**
+```
+t = t_raw;
+if (t > 1.0) t = 1.0;
+```
+Verified: it was the ONLY `?` in the 492-line file; braces/parens balance (32/32, 305/305); all `i++`
+are standard for-loop increments (supported). No other unsupported constructs.
+
+### Deploy + verify (Mark)
+```bash
+cd ~/RaBbLE-OS && sudo ./RaBbLE-OS-layerctl.sh apply boot   # redeploy script + rebuild initramfs
+sudo reboot                                                  # WATCH — splash should now animate
+sudo bash spells/boot-diagnose.sh                            # confirm: no parser errors in the log
+# once the splash is confirmed rendering:
+sudo bash spells/boot-debug-toggle.sh --off && sudo ./RaBbLE-OS-layerctl.sh apply boot   # drop debug flag
+```
+
+**LESSON:** plymouth `.script` is NOT JavaScript — no ternary, no compound-assign. A syntax error anywhere
+silently black-screens the whole splash. Add a parse-check to the theme build before shipping. Mirror to
+the `add_drivers`/`force_drivers` note below only if a DRM issue surfaces AFTER the script compiles.
+
+---
 
 ---
 
