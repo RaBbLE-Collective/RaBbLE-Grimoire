@@ -5,14 +5,26 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-23 · Session 159 (KDE Dolphin text reset → Catppuccin Mocha Mauve baseline)
+## LATEST — 2026-06-23 · Session 160 (Plymouth + Dolphin stubborn bugs — deep diagnosis, partial fixes committed)
 
-**Phase:** Epoch 0 · Episode 1 · desktop theming stabilization.
-**This session (S159):** Gave up debugging RaBbLE-Aether kdeglobals readability (multi-session sinkhole). Root cause: `color-schemes` dotctl bundle never pushed → `~/.local/share/color-schemes/` was empty → KDE read stale `/usr/share/` copy. Installed Catppuccin Mocha Mauve (MIT) as baseline. Mark relogs to flush KColorScheme cache.
+**Phase:** Epoch 0 · Episode 1 · desktop theming + boot chain stabilization.
+**This session (S160):** Plymouth black = `plymouth.use-simpledrm=1` missing (restored, needs `layerctl apply boot && reboot`). Dolphin grey text: two-layer problem — qt6ct palette fixed, .colors [General] section fixed + ForegroundInactive bumped to match Normal. KColorScheme read path under KF6/no-Plasma unverified; labels still unconfirmed readable. Both fixes committed, neither verified live.
 **Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending; B-02 open.
-**Next:** (1) Verify Dolphin text readable post-relog; (2) `layerctl apply core` → yamllint+ShellCheck; (3) reboot → `boot-profile.sh`; (4) EP1 gates G10/G7/G9; (5) overlay Aether colors onto Catppuccin baseline methodically.
+**Next:** (1) `sudo layerctl apply boot && reboot` → verify Plymouth splash visible; (2) fresh Dolphin session → verify labels readable; (3) if still grey, isolate KF6 KColorScheme read path (plan→implement pattern); (4) EP1 gates G10/G7/G9.
 
 ---
+
+## 2026-06-23 · Session 160 (Plymouth black + Dolphin grey text — deep diagnosis)
+
+- Repos: RaBbLE-OS (new-horizons), RaBbLE-Grimoire (new-horizons).
+- **Plymouth black screen:** Boot journal confirmed root cause — simpledrm (DRM minor 0, EFI fb) starts first, Plymouth attaches to it, then amdgpu (DRM minor 1) takes over fb0 ~2s later displacing simpledrm → Plymouth device goes dead → black. Fix: restored `plymouth.use-simpledrm=1` to `ansible/inventory/group_vars/asus_proart_p16.yml`. Apply: `sudo layerctl apply boot && reboot`. Also: GRUB theme missing from live system — will deploy automatically on `layerctl apply boot`. CPUID "RDSEED32 broken" warning is AMD hardware erratum, cosmetic, not suppressable.
+- **Dolphin grey text — two-layer diagnosis:**
+  - Layer 1 (qt6ct QPalette): `QT_QPA_PLATFORMTHEME=qt6ct` with empty `color_scheme_path` → Qt light palette. Fix: created `config/qt6ct/colors/CatppuccinMochaMauve.conf` + `config/qt5ct/` equivalents, set `color_scheme_path` in both qt6ct.conf/qt5ct.conf. Deployed. Other Qt surfaces now correct.
+  - Layer 2 (KColorScheme icon labels): `.colors` file was missing `[General]` entirely → KF6 KColorScheme fell back to Breeze grey. Also had duplicate `[General]` at line 135 (kdeglobals contamination) where KConfig last-value-wins would override correct `ColorScheme=`. Fixed both in `config/color-schemes/CatppuccinMochaMauve.colors`. Also bumped `ForegroundInactive` → `205,214,244` (matches ForegroundNormal) so labels stay readable when Dolphin is unfocused (no Plasma session = always inactive palette).
+  - kdeglobals `ColorScheme=CatppuccinMochaMauve` (no spaces) → `ColorScheme=Catppuccin Mocha Mauve` (spaces) to match `Name=` key as required.
+- **Still unverified:** Whether KF6 KColorScheme without plasma-integration reads from kdeglobals [Colors:*] directly or from some other path. Red-test on ForegroundNormal showed no effect — inactive-window hypothesis likely explains this (labels use ForegroundInactive). ForegroundInactive bump is the key remaining fix.
+- **Commits:** d8f3314 (Plymouth + qt6ct baseline), f1ebf19 (.colors cleanup + ForegroundInactive fix).
+- **Next:** Reboot → verify Plymouth. Fresh Dolphin → verify labels. If still grey: new plan session to isolate KF6 KColorScheme read path.
 
 ## 2026-06-23 · Session 159 (KDE Dolphin text reset → Catppuccin Mocha Mauve baseline)
 
