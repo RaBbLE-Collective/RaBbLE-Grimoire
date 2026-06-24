@@ -1,150 +1,162 @@
-# Plan: Dolphin Icon Labels Grey / Unreadable Text
+# Plan: Fix Dolphin Grey/Unreadable Text in RaBbLE-OS
 
-**Status:** Two fixes applied, user reports text STILL not fixed on live display. May need logout/login for Kvantum reload. Commits: kdeglobals `8d8561a`, kvantum re-synced (no source change).
-**Repo:** RaBbLE-OS `new-horizons` · **Last touched:** S164 (2026-06-24)
+**Status:** ⚠️ `no_inactiveness` hypothesis **DISPROVEN by live measurement (S167)** — see
+"LIVE TEST RESULT" below. Labels are dim even when the window is ACTIVE. Diagnosis continues;
+new leading hypothesis = QPalette `Inactive`/`Disabled` group used + dimmed (needs Strategy 2 or
+a palette dump to confirm). The two kvconfig edits are retained as sane tiling-WM defaults, **not
+as the fix**.
+**Repo:** RaBbLE-OS `new-horizons` · **Implement as:** Sonnet (well-scoped, deterministic).
 
 ---
 
-## Architecture: What We Now Know
+## LIVE TEST RESULT (S167) — read this first
 
-Dolphin has at least THREE text rendering paths. Previous assumption (KColorScheme for labels) was WRONG.
+The `no_inactiveness=true` fix was deployed and tested live (the machine was rebooted, so the
+deployed Kvantum config was loaded fresh). **It did NOT fix the dim text.**
 
-| Path | Controls | Source | Verified? |
+- Deployed `~/.config/Kvantum/RaBbLE-Aether/RaBbLE-Aether.kvconfig` confirmed `no_inactiveness=true`,
+  `reduce_window_opacity=0` (grep on the live file).
+- Dolphin captured while **actively focused** (Hyprland active border present, `activewindow`=dolphin):
+  file labels + sidebar items **still dim**. Sampled label pixels ≈ **#656769 (101,103,105)** — a dim
+  neutral grey. (An active window would render bright if inactive-dimming were the cause.)
+- ⚠️ Harness caveat that bit S167 twice: Dolphin and VSCodium were **floating/overlapping**, and
+  `alterzorder top` did NOT reliably raise Dolphin → several captures measured VSCodium, not Dolphin.
+  The ONLY trustworthy capture was the actively-focused Dolphin one. **Use the tiled, non-overlapping
+  harness** (below) — do not trust `alterzorder` on floating windows.
+
+**Conclusion:** focus state is not the mechanism. The label color is dim regardless of active/inactive.
+**Leading hypothesis now:** Dolphin's `KItemListView` reads `QPalette.color(group, Text)` and (per the
+Wayland activation bug `tsujan/Kvantum#911`) `group` may resolve to `Inactive`/`Disabled` even for a
+Hyprland-focused window; Kvantum populates those palette groups dimmed, and `no_inactiveness` only
+changes Kvantum's *rendering*, not the palette group's *color values*. → This is what **Strategy 2**
+(pin the palette via qt6ct `custom_palette=true` with bright `inactive_colors`/`disabled_colors`) was
+meant to solve. Mark originally chose Strategy 1; the live disproof is grounds to revisit.
+
+**Next disciplined step (ends the guessing):** install `python3-pyqt6` (add to manifest) and dump the
+resolved `QApplication.palette()` for all groups × roles — this prints the EXACT color Dolphin's text
+uses in Active vs Inactive, with zero rendering ambiguity. Decide the fix from that, not screenshots.
+
+## TL;DR for the implementer
+
+Dolphin labels render dim grey (≈#656769) **regardless of window focus** (measured live, S167).
+The earlier theory — *Kvantum dims inactive windows* (`no_inactiveness`) — was tested and **failed**.
+Four prior sessions failed tuning palette *colors* (`[ItemView] text.normal.color`, `kdeglobals`,
+qt6ct color file); two of those are inert under qt6ct `custom_palette=false`. The real lever is
+**which QPalette group/role Dolphin's `KItemListView` actually reads, and what value that group
+holds** — confirm with a palette dump (see "LIVE TEST RESULT"), then fix at that layer.
+
+---
+
+## Root cause (confirmed by live inspection + upstream sources, S167)
+
+1. **qt6ct `custom_palette=false`** in `~/.config/qt6ct/qt6ct.conf`. qt6ct only applies
+   `color_scheme_path` when `custom_palette=true`. So `config/qt6ct/colors/CatppuccinMochaMauve.conf`
+   and `config/kdeglobals/kdeglobals` are **INERT** — the whole Qt palette comes from
+   **Kvantum `[GeneralColors]`** (`text.color=#f8f4ff`). Every prior edit to those files was a no-op.
+   *(Sources: Arch BBS "QT Apps completely ignore the theme"; hyprdots PR #2058; catppuccin/nix #275.)*
+
+2. **Kvantum is the only Qt style that visually dims *inactive* windows**, gated by
+   `no_inactiveness` (default `false` = dimming ON). Dolphin's `KStandardItemListWidget` selects
+   `QPalette::Inactive` when `!isActiveWindow()`; Kvantum renders that group dimmed → grey labels &
+   sidebar items. A known **Wayland activeness-detection bug** makes Kvantum mis-judge focus under
+   Hyprland, worsening it. Upstream `lxqt/pcmanfm-qt#560` ("No Inactive Item Text in Icon View Mode")
+   is this exact symptom. *(Sources: tsujan/Kvantum discussion #911, issues #560/#675.)*
+
+**Visual proof (S167):** Dolphin inactive → all folder labels + sidebar items dim; only the selected
+item (magenta highlight) + toolbar bright. Classic inactive-window dimming, not a color error.
+
+**Layered-dimming model to preserve:** Hyprland compositor dims whole windows uniformly
+(`decoration:inactive_opacity = 0.93` + Dolphin windowrule `opacity 0.97 0.95`) — KEEP, it preserves
+in-window contrast and Mark wants it. The bug is Kvantum *additionally* dimming text/icons at the Qt
+layer, which destroys contrast. Compositor owns window dimming; Kvantum must not.
+
+---
+
+## The change (Strategy 1 — Kvantum-driven)
+
+Edit **source only** (`RaBbLE-OS/config/...`), deploy via `dotctl`. NEVER edit `~/.config` directly.
+
+**File:** `RaBbLE-OS/config/kvantum/RaBbLE-Aether/RaBbLE-Aether.kvconfig`, section `[%General]`:
+
+| Key | From | To | Why |
 |---|---|---|---|
-| **Qt QPalette via Kvantum** | Icon view labels, item text | `~/.config/Kvantum/RaBbLE-Aether/RaBbLE-Aether.kvconfig` `[ItemView] text.normal.color` | Partial (pixel analysis showed improvement) |
-| **Qt QPalette via qt6ct** | Toolbar, window decorations, menus | `~/.config/qt6ct/colors/CatppuccinMochaMauve.conf` | FIXED (S160) |
-| **KColorScheme** (from kdeglobals) | Unknown — NOT icon labels (red-test proved) | `~/.config/kdeglobals [Colors:*]` | Controls something, unclear what |
-| **Unknown sidebar path** | Places Panel item text | Unknown — bypasses Kvantum [ItemView] | NOT FIXED |
+| `no_inactiveness` | `false` | `true` | The actual fix — stop dimming text/icons in inactive windows; also dodges the Wayland focus bug. |
+| `reduce_window_opacity` | `10` | `0` | Hyprland already owns window-level inactive fade. Kvantum's value double-dims at the Qt layer. Hand window dimming entirely to the compositor (Mark's intent). |
 
-`QT_QPA_PLATFORMTHEME=qt6ct` + `QT_STYLE_OVERRIDE=kvantum` (set in `~/.config/hypr/conf.d/env.conf`).
-- qt6ct = platform theme (QPalette provider)
-- Kvantum = style engine (drawing/rendering, can override palette colors via [GeneralColors])
-- **KColorScheme red-test confirmed: changes to ForegroundNormal in kdeglobals have NO visible effect on icon labels.** KColorScheme is NOT the icon label color source.
+> ⚠️ **Current working-tree state:** these two edits were ALREADY applied to the source file and
+> deployed via `dotctl apply kvantum` during the S167 diagnosis session — but **not verified with the
+> harness and not committed**. Confirm they're present (`grep -nE 'no_inactiveness|reduce_window_opacity'`),
+> then proceed straight to verification. If the working tree was reset, re-apply per the table.
 
-## Fixes Already Committed
+**Conditional secondary (only if harness proves headers illegible):** Places-sidebar *section headers*
+("Places", "Devices") use `QPalette::Disabled` (measured ≈ `#747679`). Kvantum
+`[GeneralColors] disabled.text.color = #8860aa`. Subdued headers are by-design — only bump this toward a
+readable lavender **if** the harness shows them genuinely unreadable after the primary fix. Use an
+existing Aether value only (`RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Palette.md`) — never invent a hex.
 
-### Layer 1 — Qt QPalette (FIXED, confirmed working)
-- Created `config/qt6ct/colors/CatppuccinMochaMauve.conf` and `config/qt5ct/` equivalent
-- Set `color_scheme_path` in `config/qt6ct/qt6ct.conf` and `config/qt5ct/qt5ct.conf`
-- Text = `#cdd6f4`, Base = `#1e1e2e`, Highlight = `#cba6f7`
-- Committed: `d8f3314`
-
-### Layer 2 — KColorScheme icon labels (COMMITTED, unverified)
-- Added `[General] Name=Catppuccin Mocha Mauve` to `config/color-schemes/CatppuccinMochaMauve.colors`
-  (was missing entirely → KF6 fell back to Breeze grey)
-- Removed duplicate `[General]` at line 135 of `.colors` file that had `ColorScheme=CatppuccinMochaMauve`
-  (KConfig last-value-wins would override the correct name)
-- Fixed `config/kdeglobals/kdeglobals`: `ColorScheme=CatppuccinMochaMauve` → `ColorScheme=Catppuccin Mocha Mauve`
-  (must match `Name=` exactly for KF6 lookup)
-- Bumped `ForegroundInactive` → `205,214,244` (= ForegroundNormal) in all view sections
-  (tiling WM: Dolphin is often in inactive state = labels used ForegroundInactive = grey)
-- Committed: `f1ebf19`
-
-## What Was Found (S161 — 2026-06-24)
-
-### Root Cause 1: Kvantum kvconfig out of sync (PRIMARY)
-
-The deployed `~/.config/Kvantum/RaBbLE-Aether/RaBbLE-Aether.kvconfig` was stale — it was missing `text.normal.color` in `[ItemView]` and used old Catppuccin palette colors instead of Aether. The source file (`config/kvantum/RaBbLE-Aether/RaBbLE-Aether.kvconfig`) already had `text.normal.color=#f8f4ff` in `[ItemView]`.
-
-**Fix:** `dotctl apply kvantum` (source was already correct — deploy was just stale).
-
-**Verification:** Icon view labels jumped from ~0 bright grey pixels to 69,223 pixels at brightness 150+, rendering at #f8f4ff (Aether text).
-
-### Root Cause 2: kdeglobals ForegroundInactive override (SECONDARY)
-
-`config/kdeglobals/kdeglobals` had explicit `ForegroundInactive=147,153,178` in [Colors:Button/Tooltip/View/Window]. This OVERRIDES the value in the .colors file (#f8f4ff). KConfig cascade: kdeglobals inline values take precedence over .colors file values.
-
-**Fix:** Changed `ForegroundInactive=147,153,178` → `205,214,244` in all 4 sections. Commit `8d8561a`.
-
-### KColorScheme vs Qt QPalette
-
-Icon view labels use **Qt QPalette via Kvantum** — NOT KColorScheme. This is why the previous "red-test on ForegroundNormal had no visible effect." KColorScheme (from kdeglobals) controls something, but NOT icon view labels under `QT_QPA_PLATFORMTHEME=qt6ct`.
-
-## Remaining Issue: Sidebar Item Text
-
-Dolphin Places Panel sidebar item labels ("Home", "Desktop", etc.) are still dim/invisible. Section headers ("Places", "Remote", "Recent", "Devices") render in #747679. The selected item shows the #ff2d78 highlight correctly.
-
-Sidebar item text is not picking up `[ItemView] text.normal.color=#f8f4ff` from Kvantum. Likely the Places Panel uses a different delegate rendering path that bypasses the Kvantum ItemView styling. Candidates:
-- KColorScheme::Link or KColorScheme::NormalText (still from kdeglobals)
-- A QPalette role that Kvantum doesn't intercept for custom delegates
-
-### Next Steps for Sidebar
-
-1. Red-test: Change `disabled.text.color` in Kvantum kvconfig to #00ff00, deploy, restart Dolphin → if sidebar items turn green, disabled.text.color IS the culprit
-2. Try `no_inactiveness=true` in Kvantum `[%General]` → disables inactive-state dimming effects
-3. Check if `QT_QPA_PLATFORMTHEME=kde` (with plasma-integration) fixes the sidebar (but may break other things)
-
-## Key Files
-
-| File | Purpose |
-|---|---|
-| `RaBbLE-OS/config/kvantum/RaBbLE-Aether/RaBbLE-Aether.kvconfig` | **PRIMARY** — Kvantum style engine; `[ItemView] text.normal.color` controls icon labels |
-| `RaBbLE-OS/config/kvantum/RaBbLE-Aether/RaBbLE-Aether.svg` | Kvantum SVG assets (frames, backgrounds) |
-| `RaBbLE-OS/config/kdeglobals/kdeglobals` | KDE global config; `ForegroundInactive` fixed (8d8561a) |
-| `RaBbLE-OS/config/color-schemes/CatppuccinMochaMauve.colors` | KDE color scheme — controls KColorScheme (unknown what this affects) |
-| `RaBbLE-OS/config/qt6ct/colors/CatppuccinMochaMauve.conf` | Qt QPalette 21-role dark scheme (toolbar, decorations) |
-| `~/.config/hypr/conf.d/env.conf` | `QT_QPA_PLATFORMTHEME=qt6ct`, `QT_STYLE_OVERRIDE=kvantum` |
+**Do NOT touch** (inert / out of scope): `qt6ct.conf custom_palette`,
+`config/qt6ct/colors/CatppuccinMochaMauve.conf`, `config/kdeglobals/kdeglobals`,
+`config/color-schemes/CatppuccinMochaMauve.colors`, any Hyprland opacity rule.
 
 ---
 
-## Cold-Start Handoff (next agent picks up here)
+## Deploy
 
-**Problem:** Dolphin icon labels and sidebar item text ("Home", "Desktop", etc.) appear grey/unreadable on the dark Aether void background. After S164 fixes, user confirms text is STILL not fixed on live display.
-
-**What was already tried and committed:**
-- `dotctl apply kvantum` — re-synced deployed Kvantum kvconfig to source (source had `text.normal.color=#f8f4ff` in `[ItemView]`). Pixel analysis showed 69k bright pixels post-fix (icon view area). But Kvantum style reloads may require **logout/login** to take full effect.
-- kdeglobals `ForegroundInactive` bumped to `205,214,244` in all `[Colors:*]` sections (commit `8d8561a`).
-
-**Step 0 — FIRST: logout/login to flush Kvantum style cache**
-Kvantum loads the style engine at session start. `pkill dolphin && dolphin` restarts the app but the Kvantum style engine may be cached in the running Qt session. A full Hyprland logout/login forces reload.
 ```bash
-# After login: open fresh Dolphin and screenshot
-hyprctl dispatch exec dolphin
-sleep 3
-# Take fresh screenshot and inspect
-```
-
-**Step 1 — If icon labels still grey after logout: Kvantum `[ItemView]` red-test**
-```bash
-# Edit source file: add text.normal.color=#ff0000 to [ItemView]
-vim RaBbLE-OS/config/kvantum/RaBbLE-Aether/RaBbLE-Aether.kvconfig
-# In [ItemView] section, set:
-# text.normal.color=#ff0000
+cd ~/RaBbLE-Collective/RaBbLE-OS
+grep -nE 'no_inactiveness|reduce_window_opacity' config/kvantum/RaBbLE-Aether/RaBbLE-Aether.kvconfig
+# expect: no_inactiveness=true , reduce_window_opacity=0  (re-apply if not)
 bash RaBbLE-OS-dotctl.sh apply kvantum
-pkill -x dolphin; hyprctl dispatch exec dolphin
-# Screenshot: if icon labels turn red → Kvantum [ItemView] IS the control path
-# If nothing turns red → Kvantum [ItemView] is not the path; move to Step 3
+grep -nE 'no_inactiveness|reduce_window_opacity' ~/.config/Kvantum/RaBbLE-Aether/RaBbLE-Aether.kvconfig
 ```
 
-**Step 2 — If icon labels ARE red: restore and tune Kvantum**
-The text.normal.color is working but something else is overriding in normal use.
-```bash
-# Check [GeneralColors] disabled.text.color=#8860aa — might be applied to non-focused items
-# Try: no_inactiveness=true in [%General] to disable inactive-state dimming
-# Then set disabled.text.color=#f8f4ff (or #cdd6f4 for Catppuccin) as safety net
-```
+---
 
-**Step 3 — If icon labels NOT red (Kvantum [ItemView] bypassed): identify actual path**
-```bash
-sudo dnf install strace -y
-strace -e openat -f dolphin 2>&1 | grep -E "\.colors|kdeglobals|kvantum|qt6ct" | head -40
-# Look for what config files Dolphin reads at startup
-# Also check: QT_DEBUG_PLUGINS=1 dolphin 2>&1 | head -40
-```
+## Verification — controlled harness (the part that burned prior sessions)
 
-**Step 4 — Sidebar item text (separate from icon labels):**
-The Places Panel sidebar uses a custom delegate. Even if icon labels are fixed, sidebar items may still use:
-- `QPalette::WindowText` from the inactive color group
-- Or KDE's `KColorScheme::Link` role (places items are bookmarks/links)
-```bash
-# Red-test: change disabled.text.color and link.color to #00ff00 in Kvantum kvconfig
-# If sidebar items turn green → that's the path
-# Also try: in kdeglobals [Colors:View] set ForegroundLink=0,255,0 → if green → KColorScheme controls sidebar
-```
+Prior failures = floating/overlapping windows, whole-window brightness, uncontrolled focus. Fix all three.
 
-**Environment constants to keep in mind:**
-- Display: 3840×2400 physical (1920×1200 logical), scale=2
-- grim full-screen gives 3840×2400; Dolphin at logical (510,327) 900×580 → physical crop (1020,654) 1800×1160
-- Kvantum: `~/.config/Kvantum/RaBbLE-Aether/`
-- dotctl: `cd RaBbLE-OS && bash RaBbLE-OS-dotctl.sh apply kvantum`
-- Screenshot workflow: `grim /tmp/fs.png` → python PIL crop → inspect with PIL pixel sampling
+**Environment constants:** display scale=2 (physical = logical×2). `grim` full = 3840×2400.
+A Dolphin **restart reloads Kvantum** — NO logout needed (each process re-reads the kvconfig at launch;
+the old "needs logout" belief was a symptom of editing the wrong knob).
+
+**Procedure**
+1. Put Dolphin + a terminal on one empty workspace so Hyprland **tiles them side-by-side** (no overlap,
+   no z-order ambiguity — what broke the S167 quick test).
+2. **Focus the terminal** → Dolphin is fully visible AND inactive. Confirm with
+   `hyprctl activewindow -j` (class must NOT be dolphin). Get Dolphin geometry from `hyprctl clients -j`.
+3. `grim` → crop to Dolphin's region (logical×2). Crop **just** the icon-label band and the sidebar
+   column; sample text-pixel luminance per-region. Then **focus Dolphin** (active) and recapture.
+4. **Pass criteria:**
+   - Inactive-state icon-label + sidebar-item luminance ≈ active-state (bright, ~`#f8f4ff`) — not dim.
+   - Selected item still shows `#ff2d78` highlight.
+   - Hyprland's whole-window inactive fade still visibly present (compositor dimming preserved).
+5. Save before/after crops to scratchpad and **read them back visually** — don't trust pixel counts alone.
+   (S167 "before" capture: inactive labels dim, on disk — reuse as the documented before if convenient.)
+6. If sidebar *headers* still illegible → apply the conditional `disabled.text.color` tweak, re-run 2–4
+   for the sidebar region only.
+
+---
+
+## Wrap-up
+
+1. Update this doc: mark **RESOLVED**, record harness numbers (before/after luminance per region).
+2. Commit (Pulse Protocol), e.g.:
+   `mend ~ os >> dolphin text legible: kvantum no_inactiveness ends inactive-window dimming // %DOLPHIN_TEXT_FIXED%`
+   (Active branch: `RaBbLE-OS-New-Horizons`. Do NOT merge to main — episode-gated.)
+3. `bash ../RaBbLE-Grimoire/spells/end-session.sh dolphin-text "<note>"`.
+4. If scope was claimed: `promote-insight.sh auto` then `agent-register.sh release`.
+
+## Deferred follow-up (separate task — Mark approved deferring)
+Make the **Aether palette complete & robust across KDE + GTK**, and reconcile the currently-inert
+qt6ct / kdeglobals / color-scheme files to Aether so there's a single source of truth (today Kvantum
+uses Aether `#f8f4ff`/void while those files carry leftover Catppuccin `#cdd6f4`/`#1e1e2e`). Log in
+RaBbLE-OS Roadmap / KnownIssues.
+
+## Key files
+| File | Role |
+|---|---|
+| `RaBbLE-OS/config/kvantum/RaBbLE-Aether/RaBbLE-Aether.kvconfig` | **THE FIX** — `[%General] no_inactiveness`, `reduce_window_opacity`; palette in `[GeneralColors]` |
+| `~/.config/qt6ct/qt6ct.conf` | `custom_palette=false` — why kdeglobals/qt6ct color files are inert (do not change) |
+| `~/.config/hypr/conf.d/look.conf` + `windowrules.conf` | Hyprland compositor inactive opacity — KEEP, owns window dimming |
+| `RaBbLE-OS-dotctl.sh` | `apply kvantum` to deploy source → `~/.config/Kvantum/` |

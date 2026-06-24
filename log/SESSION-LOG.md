@@ -14,6 +14,18 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-06-24 · Session 167 (Dolphin grey text — research + no_inactiveness DISPROVEN live)
+
+- Repos: RaBbLE-OS (new-horizons), RaBbLE-Grimoire (new-horizons). Concurrent with the S166 Plymouth track.
+- **Research (confirmed vs upstream, not memory):** qt6ct `custom_palette=false` means `color_scheme_path` is NOT applied → the qt6ct color file and `kdeglobals` are **inert**; Kvantum `[GeneralColors]` supplies the palette (so 4 prior sessions edited dead files). Kvantum is the only Qt style that dims *inactive* windows (`no_inactiveness`); there's a Wayland activation bug (tsujan/Kvantum#911); upstream `lxqt/pcmanfm-qt#560` matches the icon-label symptom.
+- **Candidate fix applied + deployed:** `no_inactiveness=false→true`, `reduce_window_opacity=10→0` in `config/kvantum/RaBbLE-Aether/RaBbLE-Aether.kvconfig` (hands window-dimming to Hyprland, which Mark wants kept).
+- **DISPROVEN by live measurement:** machine rebooted (config loaded fresh; deployed file confirms `no_inactiveness=true`). Dolphin captured while **actively focused** → labels STILL dim, sampled ≈ **#656769**. Active window would be bright if inactive-dimming were the cause → focus state is NOT the mechanism. Earlier "fixed" pixel counts were contaminated (VSCodium overlapping Dolphin; `alterzorder top` unreliable on floating windows).
+- **New leading hypothesis:** `KItemListView` reads `QPalette(group, Text)` and `group` resolves to Inactive/Disabled (Wayland #911) even when focused; Kvantum dims those groups; `no_inactiveness` changes rendering, not palette-group values. → revisit Strategy 2 (qt6ct `custom_palette=true` + bright `inactive_colors`/`disabled_colors`), and/or dump the resolved palette via `python3-pyqt6` to KNOW the exact role/value.
+- **State:** kvconfig edits retained as sane tiling-WM defaults, NOT as the fix. Handoff doc updated with the disproof + next steps. Committed honestly (no "fixed" claim).
+- **Next:** palette dump (PyQt6) → confirm which group/role/value Dolphin's labels use → fix at that layer (likely Strategy 2). Use the **tiled, non-overlapping** verify harness (not `alterzorder` on floats).
+
+---
+
 ## 2026-06-24 · Session 166 (Plymouth debug instrumentation + S165 capture)
 
 - Repos: RaBbLE-OS (new-horizons), RaBbLE-Grimoire (new-horizons).
