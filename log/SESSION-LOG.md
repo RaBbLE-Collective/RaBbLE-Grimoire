@@ -5,13 +5,24 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-25 · Session 172 (boot chain — handoff black diagnosed + fixed)
+## LATEST — 2026-06-25 · Session 173 (VM install unblocked — KS branch parameterized)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session (S172):** Live dmesg cracked the mid-Plymouth black: simpledrm(T+1.7)→amdgpu(T+4.2) device migration; `amdgpu.seamless=1` DISPROVEN (no-ops on DCN 3.5) → replaced with `initcall_blacklist=simpledrm_platform_driver_init`. Plymouth: removed SW floor grid (liminal BG only), `LOG_WINDOW=5` (no wordmark overlap), `WM_CX_FRAC` knob (wordmark→0.62). Probe: `RaBbLE-BaBbLE/tmp/boot-grub-probe.txt`. Staged; reboot-test pending.
+**This session (S173):** Root cause found: KS hard-coded non-existent branches (dev / RaBbLE-OS-New-Horizons) → `%post` silently cloned nothing → bare Fedora, no error. Fix: `__RABBLE_BRANCH__` placeholder + `--branch` flag on vmctl (defaults to OS repo checkout). vmctl also fixed: `sudo rm` for qemu-owned qcow2, software rendering for KS installs, ISO ACLs in setup, getfacl pre-check, trap scope. VM currently installing from new-horizons.
 **Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending.
-**Next:** `sudo ./RaBbLE-OS-layerctl.sh apply boot` → reboot → report GRUB-box phase-1 (pre-kernel, untargeted by the simpledrm fix) so the GRUB half is fixed.
+**Next:** Monitor install → bootstrap logs → `vmctl snapshot boot-clean` → build `spells/vm-boot-iterate.sh` (Part 3).
 **(Concurrent track — Chrysalis-Web S171:** reorg + subpath routing done; next: verify `dev.joinrabble.world/chrystalis`. Full entry below.)
+
+---
+
+## 2026-06-25 · Session 173 (VM install unblocked — KS branch parameterized + vmctl hardened)
+
+- Repos: RaBbLE-OS (new-horizons), RaBbLE-Grimoire (new-horizons).
+- Root cause: `RaBbLE-OS.ks` had `COLLECTIVE_BRANCH="dev"`, `GRIMOIRE_BRANCH="dev"`, `OS_BRANCH="RaBbLE-OS-New-Horizons"` — none exist on any remote. Each `git clone -b <wrong>` returned exit 0 via `|| { echo WARNING; exit 0 }`. `%post` exited clean with no repos cloned; `rabble-os-setup.service` ConditionPathExists never met; result was bare Fedora text login, no error.
+- Fix (Part 1, previous session, committed now): `__RABBLE_BRANCH__` placeholder in KS for all three branch literals + self-contained fallback. vmctl `cast-ks`/`recast` accept `--branch <name>` (default: OS repo's current checkout via `git rev-parse --abbrev-ref HEAD`). `vmctl-completions.sh` updated. Dry-run verified.
+- vmctl hardening (this session): `sudo rm -f` for qemu-owned qcow2 (4 sites); KS installs always use `spice`+`virtio` (no GL — qemu daemon can't reach Wayland socket); ISO ACLs set proactively in `cmd_setup`; `ensure_iso_accessible` pre-check now accepts world-readable file + parent dir ACL; `${ks_tmp:-}` trap fix (local var out of scope at EXIT).
+- VM install launched: `./vmctl recast --branch new-horizons` running, qcow2 at `/mnt/vms/rabble-os-dev.qcow2`. Install in progress (~15-30 min).
+- Next: install completes → `vmctl logs rabble-os-setup` (Bootstrap Ansible run) → `vmctl snapshot boot-clean` → build `spells/vm-boot-iterate.sh` (Part 3).
 
 ---
 
