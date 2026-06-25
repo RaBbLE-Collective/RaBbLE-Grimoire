@@ -628,9 +628,9 @@ _member_config() {
   esac
   MEMBER_DIR="$(dirname "$GRIMOIRE_ROOT")/$MEMBER_REPO"
   # chrysalis: wrangler.jsonc lives inside Chrysalis-Web/, not the repo root
-  [[ "$member" == "chrysalis" ]] && MEMBER_DIR="$MEMBER_DIR/Chrysalis-Web"
+  [[ "$member" == "chrysalis" ]] && MEMBER_DIR="$MEMBER_DIR/Chrysalis-Web" || true
   # dev router: lives inside Grimoire's workers/dev/
-  [[ "$member" == "dev" ]] && MEMBER_DIR="$GRIMOIRE_ROOT/workers/dev"
+  [[ "$member" == "dev" ]] && MEMBER_DIR="$GRIMOIRE_ROOT/workers/dev" || true
 }
 
 # ─ Workers commands ───────────────────────────────────────────────────────────
