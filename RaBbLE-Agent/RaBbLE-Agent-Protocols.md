@@ -437,6 +437,10 @@ The `/mnt/vms` (RaBbLE-VM) partition — and any VM/dev storage — must never b
 
 **Why:** In S40, vmctl reformatted the VM partition and dropped its `RaBbLE-VM` label; the fstab entry used `defaults` (no `nofail`), so systemd couldn't find the device and dropped to emergency mode — the system looked unbootable and needed manual recovery. Full detail: `RaBbLE-OS/fix/RaBbLE-OS-KnownIssues.md`.
 
+### KS install requires no credentials or SSH keys
+
+`RaBbLE-OS.ks` must never embed SSH keys (`sshkey` directive), git credentials, or any authentication material. The three repos cloned in `%post` (Collective, Grimoire, OS) are **publicly clonable** — no auth needed. A person installing RaBbLE-OS should only need the ISO and network access. If `vmctl` needs SSH into the guest for dev monitoring (`vmctl logs`, `vmctl ssh`), that is a dev-workflow concern: solve via interactive login or `sshpass`, never by baking keys into the installer.
+
 ---
 
 ## Entity Naming and Spell Vocabulary
