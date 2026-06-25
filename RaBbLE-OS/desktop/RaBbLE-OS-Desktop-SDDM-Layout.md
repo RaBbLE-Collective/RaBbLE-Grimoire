@@ -45,27 +45,66 @@ python3 measure-void-zone.py \
 
 ---
 
-## SDDM — `session_manager/files/sddm-theme/Main.qml`
+## SDDM — `session_manager/files/sddm-theme/`
 
 SDDM uses QML with `parent.height`-relative anchors. All values are percentages of
 the live screen height — they adapt to any resolution automatically.
+
+### File structure
+
+```
+sddm-theme/
+├── Main.qml          # root + palette + layout knobs + state + top-level assembly
+├── EntityDisplay.qml # animated entity sprite + cyan glow (self-contained)
+├── LoginForm.qml     # username display + passphrase field + error reaction
+├── metadata.desktop  # theme registration
+└── assets/           # bg.png, entity-idle-*.png, fonts/
+```
+
+**Main.qml** owns the layout. It sets all anchors and passes palette values down.
+**EntityDisplay** and **LoginForm** know nothing about each other or screen geometry.
+
+### Layout knobs
+
+`Main.qml` has a `// ── Layout knobs ──` block near the top with four named properties.
+**Edit only these four values** to reposition elements — don't touch the `anchors` further down.
+
+```qml
+// Safe content zone for Liminal BG: 0.42 – 0.65 (void between grids).
+readonly property real  lClockTop:   0.10    // clock topMargin from topBar as fraction of screen h
+readonly property int   lEntitySize: 520     // entity frame px (glow scales with it)
+readonly property real  lEntityV:   -0.04    // entity vertical offset from center (negative = up)
+readonly property real  lFormTop:    0.57    // login form top edge as fraction of screen h
+```
+
+| Knob | Meaning | Safe range |
+|---|---|---|
+| `lClockTop` | Clock distance below topBar | 0.06 – 0.14 |
+| `lEntitySize` | Entity frame size in px | 400 – 600 |
+| `lEntityV` | Entity center offset (neg=up) | −0.08 – +0.06 |
+| `lFormTop` | Login form top (username starts here) | 0.50 – 0.65 |
+
+#### Moving the password box upward
+
+The password box sits ~110 px below `lFormTop` (username 54 px + 16 px gap + spacer). To shift
+the whole form up, decrease `lFormTop`:
+
+```qml
+readonly property real  lFormTop:    0.54   // was 0.57 — moves form ~32 px up on 1080p
+```
+
+To move only the entity without touching the form, adjust `lEntityV`:
+
+```qml
+readonly property real  lEntityV:   -0.06   // entity ~22 px higher on 1080p
+```
+
+Each `0.01` step ≈ 11 px on 1080p, ≈ 16 px on 1600p (ProArt P16).
 
 ### Entity frame content bounds
 
 Entity sprites are **512×512 RGBA**; visible glow spans y=148–373 (225 px, ~center-aligned).
 At render size 520 px, a 50 %-centered entity has its glow at **screen 40 %–61 %**.
-
-### Key values
-
-| What | Property | Line | Current | Notes |
-|---|---|---|---|---|
-| Clock vertical | `anchors.topMargin` | ~166 | `parent.height * 0.10` | distance from topBar bottom |
-| Clock size | `font.pixelSize` | ~180 | `Math.min(root.width * 0.095, 104)` | scale + cap |
-| Entity size | `width` / `height` | ~190–202 | `520` | frame px; glow scales with it |
-| Entity vertical | `anchors.verticalCenterOffset` | ~194 | `0` | 0 = screen center (50 %) |
-| Form top | `anchors.topMargin` | ~246 | `parent.height * 0.57` | username top position |
-| Username size | `font.pixelSize` | ~261 | `54` | increase pushes PW box down |
-| PW box height | `height` | ~279 | `48` | `radius` must stay `height/2` |
 
 ### Entity vertical offset — directional reference
 
@@ -96,6 +135,38 @@ anchors.verticalCenterOffset:  54    // DOWN 54 px
 
 Each `0.01` step = ~11 px on 1080p, ~16 px on 1600p (ProArt P16).
 
+### Component interfaces
+
+**`EntityDisplay.qml`** — self-contained animation. Anchors set on the instance in Main.qml.
+
+| Property | Type | Default | What it does |
+|---|---|---|---|
+| `size` | `int` | 520 | Frame px; drives both width and height |
+| `glowColor` | `color` | `#00f5ff` (cCyan) | Glow tint passed to MultiEffect colorization |
+
+**`LoginForm.qml`** — username + passphrase field + error line. Width and anchors set on the
+instance; palette values bound explicitly so the form is palette-agnostic.
+
+| Interface | Kind | What it does |
+|---|---|---|
+| `currentUser` | property string | Drives the displayed username (auto-capitalises) |
+| `displayFamily` / `monoFamily` | property string | Font families from Main.qml |
+| `cText/cMuted/cMagenta/cCyan/cViolet/cRaised` | property color | Palette pass-through |
+| `password` | readonly string | Current passInput text — read by `doLogin()` |
+| `loginRequested()` | signal | Fired on Return/Enter; connect to `root.doLogin()` |
+| `focusInput()` | function | Focus the passphrase field |
+| `clearInput()` | function | Wipe the passphrase field |
+| `shakeError()` | function | Flash "authentication failed" for 3 s |
+
+**Tweaking username size or PW box height** — edit inside `LoginForm.qml`, not in Main.qml:
+
+```qml
+// Username size: font.pixelSize on usernameText (default 54)
+//   Larger values push the PW box further down.
+// PW box height: height on passField Rectangle (default 48)
+//   Always keep radius = height / 2 to preserve the pill shape.
+```
+
 ### Layout math
 
 ```
@@ -107,6 +178,9 @@ form bottom = topMargin + (usernameSize + spacing(10) + spacer(6) + passBox(48))
 
 ```bash
 # From RaBbLE-Collective root — uses source theme directly
+# QML cache gotcha: ~/.cache/sddm-greeter-qt6/qmlcache/ holds compiled .qmlc bytecode;
+# must be cleared before every test-mode run or source edits are silently ignored.
+rm -rf ~/.cache/sddm-greeter-qt6/qmlcache/
 STAMP=$(date +%Y%m%d-%H%M%S)
 OUT="RaBbLE-BaBbLE/captures/_inbox/sddm-tweak-$STAMP.png"
 QT_QPA_PLATFORM=wayland sddm-greeter-qt6 --test-mode \
@@ -236,6 +310,6 @@ Use the VM workflow or accept reboot QA.
 
 ---
 
-*Sources: `rabble-aether.script`, `Main.qml`, `theme.txt`, `measure-void-zone.py`*
-*Void zone measured S167 via PIL scan of `assets/bg.png` (1920×1200).*
+*Sources: `Main.qml`, `EntityDisplay.qml`, `LoginForm.qml`, `rabble-aether.script`, `theme.txt`, `measure-void-zone.py`*
+*Void zone measured S167 via PIL scan of `assets/bg.png` (1920×1200). Component split S168.*
 *→ `RaBbLE-OS/desktop/RaBbLE-OS-Desktop-BootFlow.md` — full boot chain config context*

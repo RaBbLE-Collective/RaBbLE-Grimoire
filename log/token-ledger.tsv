@@ -153,3 +153,4 @@ f12a1a5c-670f-4634-8623-de3ef88b61ac	collective	auto: current state S163: sCoRE 
 39931ba4-f061-4203-9f25-1ded30c76679	collective	auto: current state S164: Dolphin investigation, handoff plan written
 c9acd1e6-3249-4340-b0f6-6b6f0b9f640f	plymouth-boot	S166: arm plymouth:debug, capture/commit unlogged S165, rewrite black-screen plan doc
 8484eb27-04d1-49f8-a105-4c34f14a6578	collective	auto: current state S166: Plymouth debug armed, simpledrm pin disproven
+44d5b5dc-2609-412f-b441-9492a3df0a92	collective	auto: state S166: Plymouth root cause found (script ternary), fix awaiting verify

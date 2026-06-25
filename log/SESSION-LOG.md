@@ -8,9 +8,9 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-06-24 · Session 168 (SDDM greeter layout polish + boot-chain layout doc)
 
 **Phase:** Epoch 0 · Episode 1 · EP1 gates pending.
-**This session (S168):** SDDM greeter layout overhaul — entity + form separated into independent QML items; void zone pixel-measured (bg.png 1920×1200, void = 40–68 % screen); entity (520 px) centered at 50 %, form at 57 % (PW box bottom lands exactly at floor grid). Clock moved down/enlarged. Username enlarged (54 px). DE/user-switcher now shows toast when no alternatives exist. Boot-chain layout doc created covering SDDM, Plymouth, and GRUB.
-**Blockers:** → `log/BLOCKERS.md`. Plymouth visual verify still pending (awaits `layerctl apply boot` + reboot). EP1 gates G7/G9/G10 pending; B-02, B-09 open.
-**Next:** (1) `sudo ./RaBbLE-OS-layerctl.sh apply boot` → reboot → watch Plymouth splash; (2) fine-tune SDDM further if needed (see `RaBbLE-OS/desktop/RaBbLE-OS-Desktop-SDDM-Layout.md`); (3) Plymouth visual verify.
+**This session (S168):** SDDM layout overhaul — entity/form separated as independent QML items; entity at `-parent.height * 0.04` (upper void), form at 57% (PW box floor-anchored). DE/user-switcher toast added. QML cache gotcha found: `~/.cache/sddm-greeter-qt6/qmlcache/` must be cleared before test-mode for changes to apply. Boot-chain layout doc (SDDM/Plymouth/GRUB) created in Grimoire.
+**Blockers:** → `log/BLOCKERS.md`. Plymouth visual verify pending. EP1 gates G7/G9/G10 pending; B-02, B-09 open.
+**Next:** (1) `rm -rf ~/.cache/sddm-greeter-qt6/qmlcache/` + screenshot spell to verify layout; (2) `sudo ./RaBbLE-OS-layerctl.sh apply boot` → reboot → watch Plymouth splash; (3) `boot-debug-toggle.sh --off` + apply once confirmed.
 
 ---
 
@@ -22,7 +22,9 @@ Format: date, what was done, where things were left, what's next.
 - Entity enlarged 460→520 px; username 32→54 px; clock font enlarged + moved to topBar anchor.
 - Added DE/user-switcher toast (`notifyLine` + `notifyAnim`) for no-alternative feedback.
 - Created `RaBbLE-OS/desktop/RaBbLE-OS-Desktop-SDDM-Layout.md` covering SDDM, Plymouth, and GRUB positioning — void zone math, all key line numbers, screenshot spell, deploy flow.
-- Next: `layerctl apply boot` + reboot for Plymouth verify; further SDDM micro-tweaks if needed.
+- **QML cache gotcha:** `~/.cache/sddm-greeter-qt6/qmlcache/` caches compiled `.qmlc` bytecode — `rm -rf` before every test-mode run or changes won't apply. Added to layout doc screenshot spell.
+- Entity offset corrected to `-parent.height * 0.04` (percentage form; raw pixel values like `-.8` are sub-pixel and invisible).
+- Next: cache-clear + screenshot verify; `layerctl apply boot` + reboot for Plymouth verify.
 
 ---
 
