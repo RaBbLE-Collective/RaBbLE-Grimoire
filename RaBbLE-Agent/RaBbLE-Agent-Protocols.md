@@ -146,19 +146,26 @@ If you navigate to `RaBbLE-Chrysalis` expecting the development sandbox, you are
 
 ---
 
-### Never use /tmp for RaBbLE work — use BaBbLE and Xperimental
+### Never use /tmp for RaBbLE work — use BaBbLE/tmp/ and Xperimental
 
 Do not write RaBbLE work products, planning docs, research notes, or scratch files to `/tmp`. The directory does not survive reboots. Session work vanishes.
 
-Use the correct Cosmos member instead:
+**For agent scratch work (temp scripts, debug outputs, intermediate files):** use `RaBbLE-BaBbLE/tmp/`. It is gitignored (nuke-safe), persists across reboots, and can be reviewed by Mark. At session end, move keepers to `intake/` or `signals/`, or run `rm -rf tmp/* && git checkout -- tmp/.gitkeep`.
+
+**BaBbLE zone map (S170+):**
 
 | Content type | Goes to |
 |---|---|
-| Ideation, research notes, planning drafts, session notes | `RaBbLE-BaBbLE/` |
+| Agent temp scripts, debug outputs, intermediate files | `RaBbLE-BaBbLE/tmp/` — gitignored, nuke-safe |
+| Raw ideas, docs, files with no home yet | `RaBbLE-BaBbLE/intake/` |
+| Named ideas with a clear routing destination | `RaBbLE-BaBbLE/signals/` |
+| Screenshots and visual evidence | `RaBbLE-BaBbLE/captures/` + `captures/_inbox/` for raw dumps |
 | Prototype code, experimental scripts, sandboxed rablets | `RaBbLE-Xperimental/` |
 | Canonical specs, architecture, design docs | `RaBbLE-Grimoire/` |
 
-**Why:** Mark has rebooted multiple times during RaBbLE-OS development (S88–S92), clearing /tmp repeatedly. Any session work that landed in /tmp is gone. BaBbLE and Xperimental are git-tracked and survive reboots.
+**Note (S170):** `assets/` in BaBbLE was renamed `reliquary/concept-art/`. Any reference to `BaBbLE/assets/GRAPH.md` is now `BaBbLE/reliquary/concept-art/GRAPH.md`.
+
+**Why:** Mark has rebooted multiple times during RaBbLE-OS development (S88–S92), clearing /tmp repeatedly. Any session work that landed in /tmp is gone. BaBbLE/tmp/ and Xperimental are persistent and survive reboots.
 
 ---
 
