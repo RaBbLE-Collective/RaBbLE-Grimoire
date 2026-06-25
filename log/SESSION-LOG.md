@@ -5,14 +5,23 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-25 · Session 174 (Chrysalis links live + cloudflare-ctl.sh cleanup)
+## LATEST — 2026-06-25 · Session 175 (Chrysalis fully live: links + Aether RC1 + ep1 rename)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session (S174):** Chrysalis link routing fixed: `resolveUrl()` in `RaBbLE-liminal.js` + `RaBbLE-pages.js` updated for `world/` rename — portals now route to `/chrysalis/world/world/X` correctly. `_member_config` in `cloudflare-ctl.sh` reformatted to multi-line blocks (easier to add members). Both Workers redeployed. `dev.joinrabble.world/chrysalis/` links should be live.
-**Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending.
-**Next:** Mark: verify `/chrysalis/world/` portal links navigate correctly. Bare-metal Plymouth verify (G7).
+**This session (S175):** Chrysalis-Web at `dev.joinrabble.world/chrysalis/`. Three bugs fixed: (1) regex never matched `chrysalis` spelling → links un-prefixed; (2) `RaBbLE-config.js` missing from EP1 pages → Aether fell back to non-existent v0.0.0.0; (3) `world/` → `ep1/` rename. Aether + NeBuLA bumped to RC1. Links work; Aether RC1 loading on most pages. Graph page Aether still degraded (open).
+**Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending. Graph page Aether open.
+**Next:** Debug Grimoire Graph page Aether load. Bare-metal Plymouth verify (G7 gate).
 
 ---
+
+## 2026-06-25 · Session 175 (Chrysalis Aether RC1 + ep1 rename + link regex fix)
+
+- Repos: RaBbLE-Chrysalis (main), RaBbLE-Grimoire (new-horizons).
+- Bug 1: regex `(?:chry|chrys)talis` only matched misspelling `chrystalis`, never `chrysalis` → `basePath` always `/` → resolveUrl passed links through unchanged → navigated to bare `/world/X` (World Dev).
+- Bug 2: `RaBbLE-config.js` missing from 8 EP1 pages → `window.RABBLE_AETHER_URL` never set → fallback `/aether/v0.0.0.0/aether.css` (404). Added config.js before aether.js on all pages.
+- Bug 3: `Chrysalis-Web/world/` → `Chrysalis-Web/ep1/` rename for cleaner `/chrysalis/ep1/` public URL (was `/chrysalis/world/world/` double-path). `resolveUrl` updated to use `ep1/` prefix; index card updated.
+- Aether + NeBuLA PROD URLs bumped from v0.0.0.0 → v0.0.0.1-rc.1 (both verified live 200).
+- Open: Grimoire Graph page still shows Aether degraded — different script load structure.
 
 ## 2026-06-25 · Session 174 (Chrysalis links fix + cloudflare-ctl.sh cleanup)
 

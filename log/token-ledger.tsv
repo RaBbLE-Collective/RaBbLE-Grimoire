@@ -155,7 +155,9 @@ f12a1a5c-670f-4634-8623-de3ef88b61ac	collective	auto: current state S163: sCoRE 
 44d5b5dc-2609-412f-b441-9492a3df0a92	collective	auto: state S166: Plymouth root cause found (script ternary), fix awaiting verify
 10f849ff-2e37-4a7c-b301-e6c3592c5615	collective	auto: current state S168: SDDM layout polished, QML cache gotcha documented
 bcc02556-c050-42c9-b32e-3c5a5997e2b5	collective	auto: current state S170: GRUB 4K mode + Plymouth dracut fixes
-c9acd1e6-3249-4340-b0f6-6b6f0b9f640f	babble-restructure	BaBbLE zones: reliquary, tmp/, intake/, signals/, concept-art rename
 5dee5197-d57b-49c3-9a03-fe958105c786	chrysalis-web	Reorganized Chrysalis-Web with index and subpath routing
 787f2e0b-256b-432b-9337-188922fcd647	collective	auto: current state S172: simpledrm handoff fix staged, GRUB box pending
 commit-f6a364c	vm-bootdev	boot-iterate loop live: install+bootstrap clean, boot chain captured
+804860b7-3bd1-4b82-b47b-20e416d57163	collective	auto: current state S174: Chrysalis links fixed, dev.joinrabble.world/chrysalis/ live
+c9acd1e6-3249-4340-b0f6-6b6f0b9f640f	chrysalis-web-links	resolveUrl fix + cloudflare-ctl multi-line member config
+commit-922107e	boot-chain	simpledrm revert: SDDM failure; amdgpu.seamless=1 accepted for EP1; GRUB box deferred
