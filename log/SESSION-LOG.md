@@ -5,12 +5,25 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-24 · Session 171 (Chrysalis-Web reorganization + subpath routing)
+## LATEST — 2026-06-25 · Session 172 (boot chain — handoff black diagnosed + fixed)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session (S171):** Reorganized `RaBbLE-Chrysalis` into `Chrysalis-Web/`. Added Aether-themed dashboard at `index.html` with dynamic subpath routing. Symlinked `Chrysalis-Web/` in `RaBbLE-World` for `/chrystalis` / `/chrysalis` hosting. Created `spells/` folder in Chrysalis for local mock-CDN serving, sealing branches, and status checks.
+**This session (S172):** Live dmesg cracked the mid-Plymouth black: simpledrm(T+1.7)→amdgpu(T+4.2) device migration; `amdgpu.seamless=1` DISPROVEN (no-ops on DCN 3.5) → replaced with `initcall_blacklist=simpledrm_platform_driver_init`. Plymouth: removed SW floor grid (liminal BG only), `LOG_WINDOW=5` (no wordmark overlap), `WM_CX_FRAC` knob (wordmark→0.62). Probe: `RaBbLE-BaBbLE/tmp/boot-grub-probe.txt`. Staged; reboot-test pending.
 **Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending.
-**Next:** Verify deployment on `dev.joinrabble.world/chrystalis` + merge assets/ideas.
+**Next:** `sudo ./RaBbLE-OS-layerctl.sh apply boot` → reboot → report GRUB-box phase-1 (pre-kernel, untargeted by the simpledrm fix) so the GRUB half is fixed.
+**(Concurrent track — Chrysalis-Web S171:** reorg + subpath routing done; next: verify `dev.joinrabble.world/chrystalis`. Full entry below.)
+
+---
+
+## 2026-06-25 · Session 172 (boot chain — handoff black diagnosed + Plymouth polish)
+
+- Repos: RaBbLE-OS (new-horizons), RaBbLE-Grimoire (new-horizons), Collective (new-horizons).
+- Pulled live dmesg/journal from the running machine (sudo probe → `RaBbLE-BaBbLE/tmp/boot-grub-probe.txt`). Definitive monotonic timeline: simpledrm @ native 4K (T+1.7s) → amdgpu KMS (T+4.2s) → `Console: switching to colour dummy device 80x25` (T+4.23 = the black) → amdgpudrmfb (T+4.58). Plymouth migrates simpledrm→amdgpu; the CRTC blank + tick-based catch-up = the ~1-2s black + "accelerated" feel Mark reported.
+- DISPROVED `amdgpu.seamless=1`: `/sys/module/amdgpu/parameters/seamless == 1` yet amdgpu logs NO seamless decision and still drops to the dummy device. S167 "confirmed working" was a false positive. Seamless boot ineffective on DCN 3.5 (Ryzen AI 9 HX 370 / Radeon 890M) kernel 7.0.x. Removed it; documented the disproof in `asus_proart_p16.yml` so no future session re-chases it.
+- FIX (handoff): simpledrm is built-in → suppress via `initcall_blacklist=simpledrm_platform_driver_init` in `rabble_grub_extra_cmdline`. amdgpu becomes the only DRM device → no migration, no dummy switch. Trade-off: GRUB's last 4K frame holds ~2.5s before Plymouth (no flash, no speed-jump). Reboot-test pending.
+- Plymouth theme (`rabble-aether.script`): removed the software floor grid (rely on `bg-liminal.png`, which already has a baked grid) — script + build-assets.sh step 5 + `floor-grid.png` deleted. Added `WM_CX_FRAC` knob to slide the wordmark/tagline/bar column (set 0.62 from auto ≈0.69). Added `LOG_WINDOW=5` so the boot log fades before overlapping the wordmark (was effectively ~13 lines).
+- GRUB "black box after menu" is PRE-kernel — untouched by the simpledrm fix; needs Mark's phase-1 observation (full-screen vs rectangle vs faint text) to target. With simpledrm suppressed, whatever GRUB leaves on screen now holds ~2.5s, so the GRUB-frame fix is the complement to a seamless chain.
+- Next: `sudo ./RaBbLE-OS-layerctl.sh apply boot` → reboot → Mark reports GRUB box (phase 1) + confirms Plymouth black/jump gone, wordmark position, log clear (phase 2).
 
 ---
 
