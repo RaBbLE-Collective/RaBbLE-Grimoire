@@ -5,12 +5,25 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-24 · Session 170 (BaBbLE restructure + boot chain)
+## LATEST — 2026-06-24 · Session 171 (Chrysalis-Web reorganization + subpath routing)
 
-**Phase:** Epoch 0 · Episode 1 · EP1 gates pending.
-**This session (S170):** BaBbLE restructured: `_archive/`→`reliquary/`, `assets/`→`reliquary/concept-art/`, added `tmp/` (agent scratchpad, gitignored), `intake/`, `signals/`. Agent-Protocols updated with `tmp/` zone rule. Boot chain: GRUB at native 4K, Plymouth errors fixed, layout constants added.
-**Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending; B-02, B-09 open.
-**Next:** `sudo ./RaBbLE-OS-layerctl.sh apply boot` → reboot → verify GRUB 4K + seamless GRUB→Plymouth + Plymouth wordmark + no console text.
+**Phase:** Epoch 0 · Episode 1.
+**This session (S171):** Reorganized `RaBbLE-Chrysalis` repo into `Chrysalis-Web/`. Created Aether-themed dashboard at `index.html` with dynamic subpath routing. Symlinked `Chrysalis-Web/` in `RaBbLE-World` as `chrystalis` and `chrysalis` to enable hosting under `/chrystalis` and `/chrysalis`.
+**Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending.
+**Next:** Verify deployment on `dev.joinrabble.world/chrystalis` + merge assets/ideas.
+
+---
+
+## 2026-06-24 · Session 171 (Chrysalis-Web reorganization + subpath routing)
+
+- Repos: RaBbLE-Chrysalis (main), RaBbLE-World (new-horizons), RaBbLE-Grimoire (new-horizons).
+- Reorganized `RaBbLE-Chrysalis` repo: created `Chrysalis-Web/` and moved legacy `chrysalis` and `JS-Xperiments/` (WebOS, NeBuLA-JS) under it.
+- Created a custom Aether-themed dashboard index page at `Chrysalis-Web/index.html` using Exo 2, Orbitron fonts, glassmorphism dashboard layout and responsive neon glow accents.
+- Fixed absolute paths (`/` and `/world/...`) to respect subpath hosting dynamically via `resolveUrl` path prefix mapping helper in `RaBbLE-pages.js` and `RaBbLE-liminal.js`.
+- Converted hardcoded asset paths in `chrysalis/world/RaBbLE-Shell.html`, `summon.html`, and `RaBbLE-landing.js` to relative paths to avoid breaking asset loads.
+- Created sibling symlinks `chrystalis` and `chrysalis` in `RaBbLE-World` pointing to `../RaBbLE-Chrysalis/Chrysalis-Web` to enable deployment/hosting under `dev.joinrabble.world/chrystalis` / `/chrysalis`.
+- Serviced a local HTTP testing instance to verify that routing, assets, and pages load successfully.
+- Committed: `harmonize ~ chrysalis` and `harmonize ~ world`.
 
 ---
 
