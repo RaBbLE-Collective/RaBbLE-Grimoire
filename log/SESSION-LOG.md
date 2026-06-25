@@ -5,12 +5,21 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-24 · Session 169 (boot debug + SDDM component split + screenshot spell)
+## LATEST — 2026-06-24 · Session 170 (boot chain: GRUB 4K + Plymouth errors + layout constants)
 
 **Phase:** Epoch 0 · Episode 1 · EP1 gates pending.
-**This session (S169):** Boot debug: amdgpu.seamless=1 fixes simpledrm→amdgpu black-flash. SDDM `Main.qml` split into `EntityDisplay.qml` + `LoginForm.qml`; layout knobs block for one-line positional tweaks. `sddm-screenshot.sh` spell added (clears QML cache, captures focused monitor, `--check`/`--open`/`--delay` flags). Layout doc updated with component interfaces + knob table.
-**Blockers:** → `log/BLOCKERS.md`. Plymouth visual verify pending. EP1 gates G7/G9/G10 pending; B-02, B-09 open.
-**Next:** (1) `bash spells/sddm-screenshot.sh --open` (from RaBbLE-OS/) to verify layout; (2) `sudo ./RaBbLE-OS-layerctl.sh apply boot` → reboot → verify no black flash + Plymouth splash; (3) `boot-debug-toggle.sh --off` once confirmed clean.
+**This session (S170):** Boot video analyzed (133 frames/4fps → BaBbLE captures/Boot/S169-boot-debug/). GRUB black box = 1920→3840 mode switch; fix: GRUB now runs at native 4K with doubled fonts (24/32/36/72pt, group_vars-templated). Plymouth: label-pango.so + fc-match added to dracut conf (kills 114+ log errors). plymouth:debug removed from cmdline. Plymouth script: LAYOUT CONSTANTS block added — all positions in one place.
+**Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending; B-02, B-09 open.
+**Next:** `sudo ./RaBbLE-OS-layerctl.sh apply boot` → reboot → verify GRUB 4K + seamless GRUB→Plymouth + Plymouth with wordmark + no console text.
+
+---
+
+## 2026-06-24 · Session 170 (sddm-screenshot sudo passthrough fix)
+
+- Repos: RaBbLE-OS (new-horizons), RaBbLE-Grimoire (new-horizons).
+- `sudo spells/sddm-screenshot.sh` crashed with SIGABRT: greeter launched as root with wrong `WAYLAND_DISPLAY`/`XDG_RUNTIME_DIR`/`HOME` → can't connect to Wayland compositor.
+- Fix in `sddm-screenshot.sh`: added sudo-passthrough block (after arg parsing) that reads desktop user's `WAYLAND_DISPLAY` from `/proc/{pid}/environ`, sets `XDG_RUNTIME_DIR=/run/user/<uid>`, corrects `QML_CACHE` path. Greeter now launched via `sudo -u SUDO_USER env ...` when running under sudo.
+- Committed: `mend ~ os/spells >> sddm-screenshot sudo passthrough — SIGABRT fix`.
 
 ---
 
