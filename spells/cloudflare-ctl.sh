@@ -609,21 +609,28 @@ _get_cf_auth_token() {
 }
 
 # ─ Member config lookup ──────────────────────────────────────────────────────
-# Sets MEMBER_REPO, MEMBER_DIR, MEMBER_BUILD, WORKER_NAME, WORKER_DOMAIN
+# Sets MEMBER_REPO, MEMBER_DIR, MEMBER_BUILD, WORKER_NAME, WORKER_DOMAIN,
+# and optionally WRANGLER_CONFIG_FLAG (e.g. "-c wrangler.dev.jsonc")
 _member_config() {
   local member="$1"
+  WRANGLER_CONFIG_FLAG=""
   case "$member" in
     aether)    MEMBER_REPO="RaBbLE-Aether";    MEMBER_BUILD="npm run build:versioned"; WORKER_NAME="rabble-aether";        WORKER_DOMAIN="aether.joinrabble.world" ;;
-    nebula)    MEMBER_REPO="RaBbLE-NeBuLA";  MEMBER_BUILD="npm run build:versioned"; WORKER_NAME="rabble-nebula";        WORKER_DOMAIN="nebula.joinrabble.world" ;;
-    grimoire)  MEMBER_REPO="RaBbLE-Grimoire"; MEMBER_BUILD="";                       WORKER_NAME="rabble-grimoire";      WORKER_DOMAIN="grimoire.joinrabble.world" ;;
-    score)     MEMBER_REPO="RaBbLE-sCoRE";   MEMBER_BUILD="";                        WORKER_NAME="rabble-score";         WORKER_DOMAIN="score.joinrabble.world" ;;
-    world)     MEMBER_REPO="RaBbLE-World";   MEMBER_BUILD="";                        WORKER_NAME="rabble-collective";    WORKER_DOMAIN="joinrabble.world" ;;
-    chrysalis) MEMBER_REPO="RaBbLE-Chrysalis"; MEMBER_BUILD="";                      WORKER_NAME="rabble-chrysalis-web"; WORKER_DOMAIN="dev.joinrabble.world" ;;
-    *) err "Unknown member: $member  (aether|nebula|grimoire|score|world|chrysalis)"; return 1 ;;
+    nebula)    MEMBER_REPO="RaBbLE-NeBuLA";    MEMBER_BUILD="npm run build:versioned"; WORKER_NAME="rabble-nebula";        WORKER_DOMAIN="nebula.joinrabble.world" ;;
+    grimoire)  MEMBER_REPO="RaBbLE-Grimoire";  MEMBER_BUILD="";                        WORKER_NAME="rabble-grimoire";      WORKER_DOMAIN="grimoire.joinrabble.world" ;;
+    score)     MEMBER_REPO="RaBbLE-sCoRE";     MEMBER_BUILD="";                        WORKER_NAME="rabble-score";         WORKER_DOMAIN="score.joinrabble.world" ;;
+    world)     MEMBER_REPO="RaBbLE-World";     MEMBER_BUILD="";                        WORKER_NAME="rabble-collective";    WORKER_DOMAIN="joinrabble.world" ;;
+    world-dev) MEMBER_REPO="RaBbLE-World";     MEMBER_BUILD="";                        WORKER_NAME="rabble-world-dev";     WORKER_DOMAIN="";
+               WRANGLER_CONFIG_FLAG="-c wrangler.dev.jsonc" ;;
+    chrysalis) MEMBER_REPO="RaBbLE-Chrysalis"; MEMBER_BUILD="";                        WORKER_NAME="rabble-chrysalis-web"; WORKER_DOMAIN="" ;;
+    dev)       MEMBER_REPO="RaBbLE-Grimoire";  MEMBER_BUILD="";                        WORKER_NAME="rabble-dev";           WORKER_DOMAIN="dev.joinrabble.world" ;;
+    *) err "Unknown member: $member  (aether|nebula|grimoire|score|world|world-dev|chrysalis|dev)"; return 1 ;;
   esac
   MEMBER_DIR="$(dirname "$GRIMOIRE_ROOT")/$MEMBER_REPO"
   # chrysalis: wrangler.jsonc lives inside Chrysalis-Web/, not the repo root
   [[ "$member" == "chrysalis" ]] && MEMBER_DIR="$MEMBER_DIR/Chrysalis-Web"
+  # dev router: lives inside Grimoire's workers/dev/
+  [[ "$member" == "dev" ]] && MEMBER_DIR="$GRIMOIRE_ROOT/workers/dev"
 }
 
 # ─ Workers commands ───────────────────────────────────────────────────────────
@@ -637,7 +644,7 @@ cmd_deploy() {
 
   if [ -z "$member" ]; then
     warn "Usage: cloudflare-ctl.sh deploy <member> [version]"
-    info "Members: aether nebula grimoire score world chrysalis"
+    info "Members: aether nebula grimoire score world world-dev chrysalis dev"
     exit 1
   fi
 
@@ -686,13 +693,13 @@ cmd_deploy() {
   DEPLOY_OK=false
 
   if $OAUTH_OK; then
-    if (cd "$MEMBER_DIR" && env -u CLOUDFLARE_API_TOKEN wrangler deploy 2>&1 | tee "$DEPLOY_LOG"; exit "${PIPESTATUS[0]}"); then
+    if (cd "$MEMBER_DIR" && env -u CLOUDFLARE_API_TOKEN wrangler deploy $WRANGLER_CONFIG_FLAG 2>&1 | tee "$DEPLOY_LOG"; exit "${PIPESTATUS[0]}"); then
       DEPLOY_OK=true
     fi
   fi
 
   if ! $DEPLOY_OK && $TOKEN_OK; then
-    if (cd "$MEMBER_DIR" && wrangler deploy 2>&1 | tee -a "$DEPLOY_LOG"; exit "${PIPESTATUS[0]}"); then
+    if (cd "$MEMBER_DIR" && wrangler deploy $WRANGLER_CONFIG_FLAG 2>&1 | tee -a "$DEPLOY_LOG"; exit "${PIPESTATUS[0]}"); then
       DEPLOY_OK=true
     fi
   fi
@@ -737,7 +744,7 @@ cmd_domain() {
 
   if [ -z "$member" ]; then
     warn "Usage: cloudflare-ctl.sh domain <member> [add|verify|list|remove]"
-    info "Members: aether nebula grimoire score world chrysalis"
+    info "Members: aether nebula grimoire score world world-dev chrysalis dev"
     exit 1
   fi
 
@@ -876,7 +883,7 @@ cmd_status() {
       "grimoire:grimoire.joinrabble.world:/RaBbLE-Identity-gist.md" \
       "score:score.joinrabble.world:/" \
       "world:joinrabble.world:/" \
-      "chrysalis:dev.joinrabble.world:/"; do
+      "dev:dev.joinrabble.world:/"; do
     local m="${pair%%:*}" rest="${pair#*:}"
     local domain="${rest%%:*}" path="${rest#*:}"
     HTTP=$(curl -s -o /dev/null -w "%{http_code}" "https://$domain$path" 2>/dev/null || echo "000")
