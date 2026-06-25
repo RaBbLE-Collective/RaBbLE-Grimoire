@@ -5,15 +5,22 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-25 · Session 173 (VM bootdev: install unblocked + boot-iterate loop live)
+## LATEST — 2026-06-25 · Session 174 (Chrysalis links live + cloudflare-ctl.sh cleanup)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session (S173):** VM installs clean from KS. Bootstrap fixed 3 netinstall gaps (`TERM`, `google-noto-sans-fonts`, `python3-dnf`; vconsole handler `ignore_errors`). `boot-clean` snapshot taken at SDDM greeter. `spells/vm-boot-iterate.sh` built + first run succeeded: GRUB theme → Plymouth (no black screen — S170 fix verified) → SDDM in virsh screenshots. 74 frames captured at `BaBbLE/captures/Boot/vm-20260625-075636/`.
+**This session (S174):** Chrysalis link routing fixed: `resolveUrl()` in `RaBbLE-liminal.js` + `RaBbLE-pages.js` updated for `world/` rename — portals now route to `/chrysalis/world/world/X` correctly. `_member_config` in `cloudflare-ctl.sh` reformatted to multi-line blocks (easier to add members). Both Workers redeployed. `dev.joinrabble.world/chrysalis/` links should be live.
 **Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending.
-**Next:** Mark: verify Plymouth on bare-metal reboot (G7 gate). Run `vm-boot-iterate.sh` for boot-theme tweaks without rebooting laptop.
-**(Concurrent track — Chrysalis-Web S171:** reorg + subpath routing done; next: verify `dev.joinrabble.world/chrystalis`. Full entry below.)
+**Next:** Mark: verify `/chrysalis/world/` portal links navigate correctly. Bare-metal Plymouth verify (G7).
 
 ---
+
+## 2026-06-25 · Session 174 (Chrysalis links fix + cloudflare-ctl.sh cleanup)
+
+- Repos: RaBbLE-Chrysalis (main), RaBbLE-Grimoire (new-horizons).
+- Root cause: `resolveUrl()` in World EP1's `RaBbLE-liminal.js` + `RaBbLE-pages.js` used `'chrysalis/'` sub-dir prefix — correct for the old `/chrysalis/chrysalis/` nesting but wrong after the `chrysalis/` → `world/` rename. Now produces `/chrysalis/world/world/X.html`.
+- Fixed `resolveUrl`: `url==='/'` → `basePath + 'index.html'` (archive root); absolute urls → `basePath + 'world' + url`.
+- `cloudflare-ctl.sh` `_member_config`: refactored from single-line-per-member to readable multi-line blocks with add-member instruction comment.
+- Both `rabble-chrysalis-web` + `rabble-dev` redeployed clean.
 
 ## 2026-06-25 · Session 173 (VM bootdev: install + bootstrap + boot-iterate loop)
 

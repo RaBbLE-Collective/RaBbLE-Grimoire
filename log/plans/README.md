@@ -8,6 +8,17 @@ Visual plan exports from active and completed sessions live here as MDX artifact
 Plans are **created** in the local self-hosted plan server and **exported** here for
 version control and Grimoire logging. One subdirectory per plan: `log/plans/<slug>/`.
 
+## Markdown handoff plans
+
+Flat `*.md` files in this dir are cold-start handoffs for multi-session work — plain
+markdown, not MDX exports. Read these to resume an in-flight effort:
+
+| Plan | Status |
+|---|---|
+| `OS-VM-Dev-Flow.md` | 🟡 VM install unblocked (branch parameterized); cast VM + boot-theme loop pending |
+| `OS-Plymouth-Black-Screen.md` | 🎯 Root cause found (S166 ternary); awaiting visual verify |
+| `OS-Dolphin-Grey-Text.md` | KDE text-color investigation |
+
 ## Architecture
 
 The RaBbLE Plans server is a self-hosted, fully local Next.js app:
