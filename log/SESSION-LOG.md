@@ -5,15 +5,24 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-25 · Session 173 (VM install unblocked — KS branch parameterized)
+## LATEST — 2026-06-25 · Session 173 (VM bootdev: install unblocked + boot-iterate loop live)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session (S173):** Root cause found: KS hard-coded non-existent branches (dev / RaBbLE-OS-New-Horizons) → `%post` silently cloned nothing → bare Fedora, no error. Fix: `__RABBLE_BRANCH__` placeholder + `--branch` flag on vmctl (defaults to OS repo checkout). vmctl also fixed: `sudo rm` for qemu-owned qcow2, software rendering for KS installs, ISO ACLs in setup, getfacl pre-check, trap scope. VM currently installing from new-horizons.
+**This session (S173):** VM installs clean from KS. Bootstrap fixed 3 netinstall gaps (`TERM`, `google-noto-sans-fonts`, `python3-dnf`; vconsole handler `ignore_errors`). `boot-clean` snapshot taken at SDDM greeter. `spells/vm-boot-iterate.sh` built + first run succeeded: GRUB theme → Plymouth (no black screen — S170 fix verified) → SDDM in virsh screenshots. 74 frames captured at `BaBbLE/captures/Boot/vm-20260625-075636/`.
 **Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending.
-**Next:** Monitor install → bootstrap logs → `vmctl snapshot boot-clean` → build `spells/vm-boot-iterate.sh` (Part 3).
+**Next:** Mark: verify Plymouth on bare-metal reboot (G7 gate). Run `vm-boot-iterate.sh` for boot-theme tweaks without rebooting laptop.
 **(Concurrent track — Chrysalis-Web S171:** reorg + subpath routing done; next: verify `dev.joinrabble.world/chrystalis`. Full entry below.)
 
 ---
+
+## 2026-06-25 · Session 173 (VM bootdev: install + bootstrap + boot-iterate loop)
+
+- Repos: RaBbLE-OS (new-horizons), RaBbLE-Grimoire (new-horizons).
+- Bootstrap fixes (3 netinstall gaps vs. full desktop): `TERM=xterm-256color` in firstboot service unit; `google-noto-sans-fonts` in grub2/packages (grub.j2 always refs noto16.pf2); `python3-dnf` in core/packages (community.general.copr needs DNF4 Python bindings); `ignore_errors: true` on vconsole reload handler (setfont fails in SSH/VM — font loads on next boot).
+- Bootstrap ran clean: `ok=173, failed=0`. SDDM greeter visible with rabble-aether theme (dark void + pink grid + eye logo). Snapshot `boot-clean` taken.
+- `spells/vm-boot-iterate.sh` built: rsync boot roles → guest | SSH layerctl apply boot | reboot | 45s virsh screenshot loop → `BaBbLE/captures/Boot/vm-<timestamp>/`. Flags: `--no-reboot`, `--capture-only`, `--restore`.
+- First run clean (`ok=62, failed=0`). 74 frames captured. GRUB theme ✓ Plymouth (no black — S170 fix verified) ✓ SDDM ✓.
+- Plymouth console overlay visible from `console=ttyS0` in KS bootloader flags — expected for VM serial console; bare-metal boot will be clean.
 
 ## 2026-06-25 · Session 173 (VM install unblocked — KS branch parameterized + vmctl hardened)
 
