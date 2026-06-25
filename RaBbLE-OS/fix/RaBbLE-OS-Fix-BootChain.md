@@ -4,6 +4,12 @@
 **State:** `%REFINING%`
 **Goal:** Unified boot-chain theming — GRUB→Plymouth→SDDM reads as one continuous liminal performance using the Liminal_BG canvas across all stages.
 
+> 🧠 **Understand the boot chain first:** `RaBbLE-OS-BootChain-Anatomy.md` — the durable mental
+> model (stage-by-stage pipeline with measured timings, the framebuffer/DRM handoff explained,
+> the symptom→cause table, and the **disproven-theory ledger**: ternary bug, `use-simpledrm` pin,
+> `amdgpu.seamless=1` — all dead ends, with evidence, so we don't re-chase them). This file is the
+> chronological work log; that file is the model.
+
 > **Status legend** (S153 — do not conflate "written" with "working"):
 > `[x]` verified on a real reboot · `[~]` implemented, **UNVERIFIED on hardware** · `[ ]` not done.
 > Everything OpenCode landed in S152 is `[~]`, not `[x]`. The boot chain cannot be
