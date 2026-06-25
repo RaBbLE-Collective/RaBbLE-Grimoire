@@ -41,8 +41,10 @@
 #   bash spells/cloudflare-ctl.sh token-update         # instructions to add Workers:Edit
 #   bash spells/cloudflare-ctl.sh deploy aether v0.0.0.1-rc.1 # build versioned + deploy
 #   bash spells/cloudflare-ctl.sh deploy score                 # deploy proxy Worker (no build)
+#   bash spells/cloudflare-ctl.sh deploy chrysalis             # deploy Chrysalis-Web → dev.joinrabble.world
 #   bash spells/cloudflare-ctl.sh domain aether add            # wire aether.joinrabble.world
 #   bash spells/cloudflare-ctl.sh domain aether verify         # confirm subdomain is live
+#   bash spells/cloudflare-ctl.sh domain chrysalis add         # wire dev.joinrabble.world
 #   bash spells/cloudflare-ctl.sh workers-list                 # see all deployed Workers
 #   bash spells/cloudflare-ctl.sh r2-setup --dry-run
 #   bash spells/cloudflare-ctl.sh r2-domain add        # attach cdn.joinrabble.world
@@ -611,14 +613,17 @@ _get_cf_auth_token() {
 _member_config() {
   local member="$1"
   case "$member" in
-    aether)   MEMBER_REPO="RaBbLE-Aether";  MEMBER_BUILD="npm run build:versioned"; WORKER_NAME="rabble-aether";    WORKER_DOMAIN="aether.joinrabble.world" ;;
-    nebula)   MEMBER_REPO="RaBbLE-NeBuLA";  MEMBER_BUILD="npm run build:versioned"; WORKER_NAME="rabble-nebula";    WORKER_DOMAIN="nebula.joinrabble.world" ;;
-    grimoire) MEMBER_REPO="RaBbLE-Grimoire"; MEMBER_BUILD="";                        WORKER_NAME="rabble-grimoire";  WORKER_DOMAIN="grimoire.joinrabble.world" ;;
-    score)    MEMBER_REPO="RaBbLE-sCoRE";   MEMBER_BUILD="";                        WORKER_NAME="rabble-score";     WORKER_DOMAIN="score.joinrabble.world" ;;
-    world)    MEMBER_REPO="RaBbLE-World";   MEMBER_BUILD="";                        WORKER_NAME="rabble-collective"; WORKER_DOMAIN="joinrabble.world" ;;
-    *) err "Unknown member: $member  (aether|nebula|grimoire|score|world)"; return 1 ;;
+    aether)    MEMBER_REPO="RaBbLE-Aether";    MEMBER_BUILD="npm run build:versioned"; WORKER_NAME="rabble-aether";        WORKER_DOMAIN="aether.joinrabble.world" ;;
+    nebula)    MEMBER_REPO="RaBbLE-NeBuLA";  MEMBER_BUILD="npm run build:versioned"; WORKER_NAME="rabble-nebula";        WORKER_DOMAIN="nebula.joinrabble.world" ;;
+    grimoire)  MEMBER_REPO="RaBbLE-Grimoire"; MEMBER_BUILD="";                       WORKER_NAME="rabble-grimoire";      WORKER_DOMAIN="grimoire.joinrabble.world" ;;
+    score)     MEMBER_REPO="RaBbLE-sCoRE";   MEMBER_BUILD="";                        WORKER_NAME="rabble-score";         WORKER_DOMAIN="score.joinrabble.world" ;;
+    world)     MEMBER_REPO="RaBbLE-World";   MEMBER_BUILD="";                        WORKER_NAME="rabble-collective";    WORKER_DOMAIN="joinrabble.world" ;;
+    chrysalis) MEMBER_REPO="RaBbLE-Chrysalis"; MEMBER_BUILD="";                      WORKER_NAME="rabble-chrysalis-web"; WORKER_DOMAIN="dev.joinrabble.world" ;;
+    *) err "Unknown member: $member  (aether|nebula|grimoire|score|world|chrysalis)"; return 1 ;;
   esac
   MEMBER_DIR="$(dirname "$GRIMOIRE_ROOT")/$MEMBER_REPO"
+  # chrysalis: wrangler.jsonc lives inside Chrysalis-Web/, not the repo root
+  [[ "$member" == "chrysalis" ]] && MEMBER_DIR="$MEMBER_DIR/Chrysalis-Web"
 }
 
 # ─ Workers commands ───────────────────────────────────────────────────────────
@@ -632,7 +637,7 @@ cmd_deploy() {
 
   if [ -z "$member" ]; then
     warn "Usage: cloudflare-ctl.sh deploy <member> [version]"
-    info "Members: aether nebula grimoire score world"
+    info "Members: aether nebula grimoire score world chrysalis"
     exit 1
   fi
 
@@ -732,7 +737,7 @@ cmd_domain() {
 
   if [ -z "$member" ]; then
     warn "Usage: cloudflare-ctl.sh domain <member> [add|verify|list|remove]"
-    info "Members: aether nebula grimoire score world"
+    info "Members: aether nebula grimoire score world chrysalis"
     exit 1
   fi
 
@@ -870,7 +875,8 @@ cmd_status() {
       "nebula:nebula.joinrabble.world:/" \
       "grimoire:grimoire.joinrabble.world:/RaBbLE-Identity-gist.md" \
       "score:score.joinrabble.world:/" \
-      "world:joinrabble.world:/"; do
+      "world:joinrabble.world:/" \
+      "chrysalis:dev.joinrabble.world:/"; do
     local m="${pair%%:*}" rest="${pair#*:}"
     local domain="${rest%%:*}" path="${rest#*:}"
     HTTP=$(curl -s -o /dev/null -w "%{http_code}" "https://$domain$path" 2>/dev/null || echo "000")
