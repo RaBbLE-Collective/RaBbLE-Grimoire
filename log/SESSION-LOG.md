@@ -22,14 +22,14 @@ Format: date, what was done, where things were left, what's next.
 - `cloudflare-ctl.sh` `_member_config`: refactored from single-line-per-member to readable multi-line blocks with add-member instruction comment.
 - Both `rabble-chrysalis-web` + `rabble-dev` redeployed clean.
 
-## 2026-06-25 · Session 173 (VM bootdev: install + bootstrap + boot-iterate loop)
+## 2026-06-25 · Session 173 (boot chain closed for EP1 + VM bootdev loop)
 
 - Repos: RaBbLE-OS (new-horizons), RaBbLE-Grimoire (new-horizons).
+- **Boot chain closure (end of session):** `initcall_blacklist=simpledrm_platform_driver_init` (S172 fix) REVERTED — caused SDDM to fail to load and introduced more hiccups than the original Plymouth handoff black frames. `amdgpu.seamless=1` restored. Plymouth handoff black frames accepted for EP1. GRUB black box (pre-kernel, GOP framebuffer) deferred post-EP1. Boot chain on hold. Full decision history in `asus_proart_p16.yml`.
 - Bootstrap fixes (3 netinstall gaps vs. full desktop): `TERM=xterm-256color` in firstboot service unit; `google-noto-sans-fonts` in grub2/packages (grub.j2 always refs noto16.pf2); `python3-dnf` in core/packages (community.general.copr needs DNF4 Python bindings); `ignore_errors: true` on vconsole reload handler (setfont fails in SSH/VM — font loads on next boot).
-- Bootstrap ran clean: `ok=173, failed=0`. SDDM greeter visible with rabble-aether theme (dark void + pink grid + eye logo). Snapshot `boot-clean` taken.
+- Bootstrap ran clean: `ok=173, failed=0`. SDDM greeter visible with rabble-aether theme. Snapshot `boot-clean` taken.
 - `spells/vm-boot-iterate.sh` built: rsync boot roles → guest | SSH layerctl apply boot | reboot | 45s virsh screenshot loop → `BaBbLE/captures/Boot/vm-<timestamp>/`. Flags: `--no-reboot`, `--capture-only`, `--restore`.
-- First run clean (`ok=62, failed=0`). 74 frames captured. GRUB theme ✓ Plymouth (no black — S170 fix verified) ✓ SDDM ✓.
-- Plymouth console overlay visible from `console=ttyS0` in KS bootloader flags — expected for VM serial console; bare-metal boot will be clean.
+- First run clean (`ok=62, failed=0`). 74 frames captured. GRUB theme ✓ Plymouth (no black — S170 fix verified in VM) ✓ SDDM ✓.
 
 ## 2026-06-25 · Session 173 (VM install unblocked — KS branch parameterized + vmctl hardened)
 
