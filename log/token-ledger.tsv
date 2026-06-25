@@ -156,3 +156,4 @@ f12a1a5c-670f-4634-8623-de3ef88b61ac	collective	auto: current state S163: sCoRE 
 10f849ff-2e37-4a7c-b301-e6c3592c5615	collective	auto: current state S168: SDDM layout polished, QML cache gotcha documented
 bcc02556-c050-42c9-b32e-3c5a5997e2b5	collective	auto: current state S170: GRUB 4K mode + Plymouth dracut fixes
 c9acd1e6-3249-4340-b0f6-6b6f0b9f640f	babble-restructure	BaBbLE zones: reliquary, tmp/, intake/, signals/, concept-art rename
+5dee5197-d57b-49c3-9a03-fe958105c786	chrysalis-web	Reorganized Chrysalis-Web with index and subpath routing
