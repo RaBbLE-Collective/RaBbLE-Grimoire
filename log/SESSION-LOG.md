@@ -8,7 +8,7 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-06-24 · Session 171 (Chrysalis-Web reorganization + subpath routing)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session (S171):** Reorganized `RaBbLE-Chrysalis` repo into `Chrysalis-Web/`. Created Aether-themed dashboard at `index.html` with dynamic subpath routing. Symlinked `Chrysalis-Web/` in `RaBbLE-World` as `chrystalis` and `chrysalis` to enable hosting under `/chrystalis` and `/chrysalis`.
+**This session (S171):** Reorganized `RaBbLE-Chrysalis` into `Chrysalis-Web/`. Added Aether-themed dashboard at `index.html` with dynamic subpath routing. Symlinked `Chrysalis-Web/` in `RaBbLE-World` for `/chrystalis` / `/chrysalis` hosting. Created `spells/` folder in Chrysalis for local mock-CDN serving, sealing branches, and status checks.
 **Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending.
 **Next:** Verify deployment on `dev.joinrabble.world/chrystalis` + merge assets/ideas.
 
@@ -22,8 +22,9 @@ Format: date, what was done, where things were left, what's next.
 - Fixed absolute paths (`/` and `/world/...`) to respect subpath hosting dynamically via `resolveUrl` path prefix mapping helper in `RaBbLE-pages.js` and `RaBbLE-liminal.js`.
 - Converted hardcoded asset paths in `chrysalis/world/RaBbLE-Shell.html`, `summon.html`, and `RaBbLE-landing.js` to relative paths to avoid breaking asset loads.
 - Created sibling symlinks `chrystalis` and `chrysalis` in `RaBbLE-World` pointing to `../RaBbLE-Chrysalis/Chrysalis-Web` to enable deployment/hosting under `dev.joinrabble.world/chrystalis` / `/chrysalis`.
+- Added a `spells/` directory to `RaBbLE-Chrysalis` containing `dev-serve.sh` / `dev-server.js` (local mock-CDN serving on port 8081), `seal-branch.sh` (automatic reliquary branch sealing ceremony), and `status.sh` (displays reliquary branch listings and verifies symlinks).
 - Serviced a local HTTP testing instance to verify that routing, assets, and pages load successfully.
-- Committed: `harmonize ~ chrysalis` and `harmonize ~ world`.
+- Committed: `harmonize ~ chrysalis` (reorganization), `harmonize ~ world` (symlinks), `spark ~ spells` (spells), and `transcribe ~ log` (documentation).
 
 ---
 
