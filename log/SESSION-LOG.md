@@ -5,12 +5,24 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-24 · Session 168 (SDDM greeter layout polish + boot-chain layout doc)
+## LATEST — 2026-06-24 · Session 169 (boot debug analysis + amdgpu.seamless fix)
 
 **Phase:** Epoch 0 · Episode 1 · EP1 gates pending.
-**This session (S168):** SDDM layout overhaul — entity/form separated as independent QML items; entity at `-parent.height * 0.04` (upper void), form at 57% (PW box floor-anchored). DE/user-switcher toast added. QML cache gotcha found: `~/.cache/sddm-greeter-qt6/qmlcache/` must be cleared before test-mode for changes to apply. Boot-chain layout doc (SDDM/Plymouth/GRUB) created in Grimoire.
-**Blockers:** → `log/BLOCKERS.md`. Plymouth visual verify pending. EP1 gates G7/G9/G10 pending; B-02, B-09 open.
-**Next:** (1) `rm -rf ~/.cache/sddm-greeter-qt6/qmlcache/` + screenshot spell to verify layout; (2) `sudo ./RaBbLE-OS-layerctl.sh apply boot` → reboot → watch Plymouth splash; (3) `boot-debug-toggle.sh --off` + apply once confirmed.
+**This session (S169):** Boot debug log analyzed: simpledrm grabs DRM at T+0 (EFI FB), amdgpu claims CRTC at T+3s and blanks simpledrm scanout mid-Plymouth draw = black flash. Fix: `amdgpu.seamless=1` preserves firmware framebuffer during amdgpu KMS init → no handoff gap (committed S168 bundle). `plymouth:debug` identified as source of boot text on screen.
+**Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending; B-02, B-09 open.
+**Next:** (1) `sudo ./RaBbLE-OS-layerctl.sh apply boot` → reboot → verify no black flash; (2) `boot-debug-toggle.sh --off` + apply once confirmed clean.
+
+---
+
+## 2026-06-24 · Session 169 (boot debug analysis + amdgpu.seamless fix)
+
+- Repos: RaBbLE-OS (new-horizons), RaBbLE-Grimoire (new-horizons), Collective (new-horizons).
+- Analyzed post-S168 reboot boot debug log from `boot-diagnose.sh`.
+- Root cause of remaining black flash: simpledrm initialized at T+0 from EFI GOP framebuffer; amdgpu KMS modeset at T+3s claims CRTC, which darkens simpledrm scanout while Plymouth is mid-draw → 3-6s black.
+- Fix: `amdgpu.seamless=1` kernel param — amdgpu preserves firmware framebuffer during KMS init, making the handoff visually transparent. Added to `rabble_grub_extra_cmdline` in `asus_proart_p16.yml`; committed in S168 bundle by Mark. Requires GFXPAYLOAD=3840x2400 (already set, S153). Awaiting apply + reboot verify.
+- `plymouth:debug` confirmed as source of console text visible on screen — redirects plymouthd output to /dev/tty1; remove after next verify via `boot-debug-toggle.sh --off`.
+- Comment block in `asus_proart_p16.yml` updated with full simpledrm/amdgpu history (S160-S169 arc).
+- Next: apply boot layer + reboot; if no black flash → `boot-debug-toggle.sh --off` + apply.
 
 ---
 

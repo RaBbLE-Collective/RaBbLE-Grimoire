@@ -177,25 +177,16 @@ form bottom = topMargin + (usernameSize + spacing(10) + spacer(6) + passBox(48))
 ### Screenshot spell (no deploy needed)
 
 ```bash
-# From RaBbLE-Collective root — uses source theme directly
-# QML cache gotcha: ~/.cache/sddm-greeter-qt6/qmlcache/ holds compiled .qmlc bytecode;
-# must be cleared before every test-mode run or source edits are silently ignored.
-rm -rf ~/.cache/sddm-greeter-qt6/qmlcache/
-STAMP=$(date +%Y%m%d-%H%M%S)
-OUT="RaBbLE-BaBbLE/captures/_inbox/sddm-tweak-$STAMP.png"
-QT_QPA_PLATFORM=wayland sddm-greeter-qt6 --test-mode \
-  --theme RaBbLE-OS/ansible/roles/boot/session_manager/files/sddm-theme &
-GPID=$!; sleep 2
-grim -o "$(hyprctl monitors -j | python3 -c \
-  "import sys,json; print([m['name'] for m in json.load(sys.stdin) if m.get('focused')][0])")" "$OUT"
-kill $GPID && echo "→ $OUT"
+# From RaBbLE-OS/ — clears QML cache, launches greeter, captures focused monitor
+bash spells/sddm-screenshot.sh            # capture → RaBbLE-BaBbLE/captures/_inbox/
+bash spells/sddm-screenshot.sh --open     # capture + open in imv immediately
+bash spells/sddm-screenshot.sh --check    # parse-check only (no window, fast)
+bash spells/sddm-screenshot.sh --delay 4  # wait longer if entity hasn't faded in yet
 ```
 
-```bash
-# Offscreen parse-check only (no window — exit 124 = QML OK, other = error):
-QT_QPA_PLATFORM=offscreen timeout 6 sddm-greeter-qt6 --test-mode \
-  --theme RaBbLE-OS/ansible/roles/boot/session_manager/files/sddm-theme; echo "exit $?"
-```
+The spell always clears `~/.cache/sddm-greeter-qt6/qmlcache/` before launching — this is
+required because SDDM's QML engine caches compiled bytecode and will silently serve stale
+`.qmlc` files if the cache exists, ignoring your source edits.
 
 ### Deploy
 

@@ -151,6 +151,7 @@ commit-b4317a4	boot-chain-stabilization	S153 cont: GFXPAYLOAD black-pane fix + P
 c7e1101c-4297-4be9-bd7d-f39710a9d52c	collective	auto: current state S158: agent protocol hardening, insights integrated
 f12a1a5c-670f-4634-8623-de3ef88b61ac	collective	auto: current state S163: sCoRE arch lesson + HAOS integration
 39931ba4-f061-4203-9f25-1ded30c76679	collective	auto: current state S164: Dolphin investigation, handoff plan written
-c9acd1e6-3249-4340-b0f6-6b6f0b9f640f	plymouth-boot	S166: arm plymouth:debug, capture/commit unlogged S165, rewrite black-screen plan doc
 8484eb27-04d1-49f8-a105-4c34f14a6578	collective	auto: current state S166: Plymouth debug armed, simpledrm pin disproven
 44d5b5dc-2609-412f-b441-9492a3df0a92	collective	auto: state S166: Plymouth root cause found (script ternary), fix awaiting verify
+10f849ff-2e37-4a7c-b301-e6c3592c5615	collective	auto: current state S168: SDDM layout polished, QML cache gotcha documented
+c9acd1e6-3249-4340-b0f6-6b6f0b9f640f	sddm-layout-polish	QML cache gotcha found; entity offset corrected to percentage form; layout doc updated with component interfaces and cache-clear spell
