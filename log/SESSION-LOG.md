@@ -5,12 +5,24 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-24 · Session 170 (boot chain: GRUB 4K + Plymouth errors + layout constants)
+## LATEST — 2026-06-24 · Session 170 (BaBbLE restructure + boot chain)
 
 **Phase:** Epoch 0 · Episode 1 · EP1 gates pending.
-**This session (S170):** Boot video analyzed (133 frames/4fps → BaBbLE captures/Boot/S169-boot-debug/). GRUB black box = 1920→3840 mode switch; fix: GRUB now runs at native 4K with doubled fonts (24/32/36/72pt, group_vars-templated). Plymouth: label-pango.so + fc-match added to dracut conf (kills 114+ log errors). plymouth:debug removed from cmdline. Plymouth script: LAYOUT CONSTANTS block added — all positions in one place.
+**This session (S170):** BaBbLE restructured: `_archive/`→`reliquary/`, `assets/`→`reliquary/concept-art/`, added `tmp/` (agent scratchpad, gitignored), `intake/`, `signals/`. Agent-Protocols updated with `tmp/` zone rule. Boot chain: GRUB at native 4K, Plymouth errors fixed, layout constants added.
 **Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending; B-02, B-09 open.
-**Next:** `sudo ./RaBbLE-OS-layerctl.sh apply boot` → reboot → verify GRUB 4K + seamless GRUB→Plymouth + Plymouth with wordmark + no console text.
+**Next:** `sudo ./RaBbLE-OS-layerctl.sh apply boot` → reboot → verify GRUB 4K + seamless GRUB→Plymouth + Plymouth wordmark + no console text.
+
+---
+
+## 2026-06-24 · Session 170 (BaBbLE restructure — zones + reliquary)
+
+- Repos: RaBbLE-BaBbLE (new-horizons), RaBbLE-Grimoire (new-horizons).
+- BaBbLE restructured for usability. `_archive/` renamed `reliquary/` (RaBbLE vocabulary; `chrysalis` = existing member). `assets/` moved to `reliquary/concept-art/` (descriptive rename; 50-asset visual graph).
+- All routed-but-lingering top-level dirs archived: `visual/`, `design-system/`, `character/`, `behavior/`, `historical/`, `scratch/`, `sketches/` → `reliquary/`.
+- Added three new zones: `tmp/` (gitignored agent scratchpad, replaces /tmp use), `intake/` (raw drops), `signals/` (named ideas with routing destination).
+- Root loose files cleaned to zones: PNGs → captures/, HAOS session doc → signals/, Video.mov → intake/.
+- Agent-Protocols updated in Grimoire: `/tmp` rule now specifically names `BaBbLE/tmp/`, includes full zone map, notes `assets/` → `reliquary/concept-art/` rename.
+- Committed: `harmonize ~ BaBbLE` + `transcribe ~ grimoire`.
 
 ---
 
