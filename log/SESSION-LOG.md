@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-24 · Session 169 (boot debug analysis + amdgpu.seamless fix)
+## LATEST — 2026-06-24 · Session 169 (boot debug + SDDM component split + screenshot spell)
 
 **Phase:** Epoch 0 · Episode 1 · EP1 gates pending.
-**This session (S169):** Boot debug log analyzed: simpledrm grabs DRM at T+0 (EFI FB), amdgpu claims CRTC at T+3s and blanks simpledrm scanout mid-Plymouth draw = black flash. Fix: `amdgpu.seamless=1` preserves firmware framebuffer during amdgpu KMS init → no handoff gap (committed S168 bundle). `plymouth:debug` identified as source of boot text on screen.
-**Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending; B-02, B-09 open.
-**Next:** (1) `sudo ./RaBbLE-OS-layerctl.sh apply boot` → reboot → verify no black flash; (2) `boot-debug-toggle.sh --off` + apply once confirmed clean.
+**This session (S169):** Boot debug: amdgpu.seamless=1 fixes simpledrm→amdgpu black-flash. SDDM `Main.qml` split into `EntityDisplay.qml` + `LoginForm.qml`; layout knobs block for one-line positional tweaks. `sddm-screenshot.sh` spell added (clears QML cache, captures focused monitor, `--check`/`--open`/`--delay` flags). Layout doc updated with component interfaces + knob table.
+**Blockers:** → `log/BLOCKERS.md`. Plymouth visual verify pending. EP1 gates G7/G9/G10 pending; B-02, B-09 open.
+**Next:** (1) `bash spells/sddm-screenshot.sh --open` (from RaBbLE-OS/) to verify layout; (2) `sudo ./RaBbLE-OS-layerctl.sh apply boot` → reboot → verify no black flash + Plymouth splash; (3) `boot-debug-toggle.sh --off` once confirmed clean.
 
 ---
 
