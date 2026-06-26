@@ -5,12 +5,21 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-26 · Session 180 (World Aether polish → framework refactor plan)
+## LATEST — 2026-06-26 · Session 181 (Playwright system-wide; BuilderIO removed)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session (S180):** World landing polished (rounder panels, glow, liminal opening copy), then borders refactored to *apply* Aether's flowing `.rabble-border-harmony` systemically — World drops its hand-rolled rings (−94 lines). Authored the **World Framework Refactor** plan: Aether=CSS / NeBuLA=JS frameworks, World=thin assembler; exhaustive harvest of World+Chrysalis effects; component-catalog page; Opus→Sonnet/Haiku orchestration.
-**Blockers:** → `log/BLOCKERS.md`. **B-10 new:** dev autodeploy needs `CLOUDFLARE_API_TOKEN` GH secret (Mark). B-02/B-09 open.
+**This session (S181):** Playwright wired into Ansible ai-harnesses role (system-wide install + Chromium binary); `visual-screenshot.sh` updated to use `playwright` directly. BuilderIO/AgentNative skills removed from Ansible and pruned from `~/.claude/skills/` — intentional: third-party server dependency, security concern, undesirable for daily dev flow. Global CLAUDE.md cleared.
+**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
 **Next:** execute `log/plans/World-Framework-Refactor.md` when greenlit; then G7/G9 EP1 gates.
+
+---
+
+## 2026-06-26 · Session 181 (Playwright system-wide; BuilderIO removed)
+
+- Repos: RaBbLE-OS (new-horizons), RaBbLE-Grimoire (new-horizons).
+- **Playwright:** new Ansible task `ai-harnesses/tasks/playwright.yml` — installs `playwright` CLI globally via npm, runs `playwright install chromium` (idempotent). Wired into `main.yml` with `--tags playwright`. Toggle `ai_harnesses_playwright_enabled: true` in defaults. manifest.yml comment updated. `spells/visual-screenshot.sh` updated to call `playwright` directly (was `npx playwright`); prereq error now points to Ansible tag. Confirmed playwright v1.61.1 already present on this machine.
+- **BuilderIO/AgentNative removal:** `builder-skills.yml` deleted; include + toggle removed from Ansible. All BuilderIO skills pruned from `~/.claude/skills/` (agents-sdk, cloudflare, cloudflare-email-service, durable-objects, quick-recap, sandbox-sdk, turnstile-spin, web-perf, workers-best-practices, wrangler). Only `endsession` retained (custom). Global `~/.claude/CLAUDE.md` cleared (contained only the BuilderIO quick-recap block). **Reason:** third-party server dependency, security concern, external services undesirable for daily dev flow. Note: Cloudflare does not publish first-party Claude Code skills; all CF skills were BuilderIO-authored.
+- **Next:** execute `log/plans/World-Framework-Refactor.md`; G7/G9 EP1 gates.
 
 ---
 

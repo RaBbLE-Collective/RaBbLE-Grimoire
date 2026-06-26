@@ -35,7 +35,7 @@
 #   --workspace NUM   Switch to this workspace before opening Firefox (default: 9)
 #   --help            Show this usage
 #
-# Playwright requires: npx + @playwright/test Chromium binary
+# Playwright requires: playwright CLI + Chromium binary (both installed via RaBbLE-OS Ansible ai-harnesses role)
 # Hyprland requires: hyprctl, firefox, grim — active Hyprland session (RaBbLE-OS)
 #
 # reveal ~ os >> visual development screenshot captured // %VISUAL_CAST%
@@ -86,7 +86,8 @@ pulse "════════════════════════�
 
 # ── Playwright method (headless, no Hyprland required) ──────────────────────
 if [[ "$PLAYWRIGHT" == "1" ]]; then
-  command -v npx >/dev/null 2>&1 || error "npx not found — install Node.js"
+  command -v playwright >/dev/null 2>&1 || \
+    error "playwright not found — run: ansible-playbook site.yml --tags playwright"
 
   mkdir -p "$(dirname "$OUT")"
   info "Method: Playwright headless Chromium"
@@ -94,7 +95,7 @@ if [[ "$PLAYWRIGHT" == "1" ]]; then
   info "Waiting ${DELAY}s for page render..."
 
   DELAY_MS=$(( DELAY * 1000 ))
-  npx playwright screenshot \
+  playwright screenshot \
     --browser=chromium \
     --wait-for-timeout="$DELAY_MS" \
     --viewport-size=1280,800 \
