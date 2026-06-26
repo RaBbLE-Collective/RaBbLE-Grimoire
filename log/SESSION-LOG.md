@@ -5,6 +5,27 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## LATEST — 2026-06-25 · Session 177 (Dolphin theming — full history consolidated)
+
+**Phase:** Epoch 0 · Episode 1.
+**This session (S177):** Six weeks + seven sessions of Dolphin grey-text investigation consolidated into `log/plans/OS-Dolphin-Grey-Text.md` (source of truth). Stack confirmed (Kvantum `[GeneralColors]` sole palette source; kdeglobals/qt6ct/KColorScheme all inert). All ruled-out approaches tabulated. Fix paths ordered: PyQt6 palette dump → disabled.text.color → qt6ct custom_palette.
+**Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending.
+**Next:** G10 handoff session — World EP1 content. Then G7/G9 verify. Dolphin fix: run PyQt6 palette dump → apply Fix Path A.
+
+---
+
+## 2026-06-25 · Session 177 (Dolphin theming — history consolidation)
+
+- Repos: RaBbLE-Grimoire (new-horizons).
+- **Trigger:** Mark asked to audit all prior Dolphin theming attempts, capture learnings, and produce an organized source of truth to support new research and a definitive fix.
+- **Research:** Read S85, S116, S126, S140, S159, S160, S164, S167 session entries; HANDOFF-S116-Theme-and-Logging.md; RaBbLE-OS-Desktop-Theming.md; KnownIssues.md; Roadmap; kvconfig + kdeglobals + qt6ct.conf live files.
+- **Key synthesis captured:** `qt6ct custom_palette=false` is the keystone — makes kdeglobals, qt6ct color file, and KColorScheme **all inert**; Kvantum `[GeneralColors]` is the sole Qt palette source. Every prior session edited inert layers. `no_inactiveness` was disproven live (S167): labels dim even when Dolphin actively focused. S126 green-test on `disabled.text.color` is flagged as possibly invalid (kvconfig may have been stale).
+- **Document rewritten:** `log/plans/OS-Dolphin-Grey-Text.md` — 600+ lines: confirmed stack diagram, session log (S85→S167), master ruled-out table (15 approaches), current config state, 3 open contradictions, ordered fix paths (PyQt6 dump → Fix Path A/B), tiled verification harness.
+- **Commit:** `079c25e`
+- Next: Run PyQt6 palette dump on live Dolphin → identify dim group/role → apply Fix Path A (`disabled.text.color` → Aether Soft Violet or Primary Text).
+
+---
+
 ## LATEST — 2026-06-25 · Session 176 (transcript logging + dev auto-deploy + G10 handoff)
 
 **Phase:** Epoch 0 · Episode 1.
