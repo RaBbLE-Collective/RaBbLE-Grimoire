@@ -13,7 +13,7 @@
 
 **Target tag:** `episode-1-v0.0.0.1` — applied to all lockstep members **simultaneously**.
 **Version:** v0.0.0.0 → v0.0.0.1 (Epoch 0 · Evolution 0 · Echo 0 · Episode 1).
-**Last reconciled:** 2026-06-22 (S153 — chat spine verified live: G3/G4/G5/G6 green; G10 World FLOOR added). See `log/HANDOFF-S153-EP1-Coherence.md`.
+**Last reconciled:** 2026-06-25 (S177 — G10 closed: episode movement + os.html). See `log/HANDOFF-S153-EP1-Coherence.md`.
 
 ---
 
@@ -30,7 +30,7 @@
 | G7 | RaBbLE-OS meets its **Developer-Preview FLOOR** (see §C) on a generic x86_64 VM | ⏳ verify | — |
 | G8 | All lockstep members on `new-horizons`, clean, ready to tag | ✅ in-step (status.sh) | B-08 ✓ |
 | G9 | Collective bootstrap (`setup.sh`) verified end-to-end on a fresh machine/VM | ⏳ verify | — |
-| G10 | World prod is a coherent unified EP1 experience (learns Collective + RaBbLE, frames EP1, episodic roadmap) — **no `/chrysalis` or `/xperimental` on prod** | ⏳ World EP1 FLOOR | World/Chrysalis split (Track A) |
+| G10 | World prod is a coherent unified EP1 experience (learns Collective + RaBbLE, frames EP1, episodic roadmap) — **no `/chrysalis` or `/xperimental` on prod** | ✅ episode movement + os.html (S177) | — |
 
 **Decision rule (set by Mark, S129):** the air call is Mark's once these rows are green.
 G4+G5+G6 are the "smallest end-to-end loop" — they are the spine of Genesis. G3 gates the

@@ -5,12 +5,22 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-25 · Session 177 (Dolphin theming — full history consolidated)
+## LATEST — 2026-06-25 · Session 178 (G10 — World EP1 FLOOR closed)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session (S177):** Six weeks + seven sessions of Dolphin grey-text investigation consolidated into `log/plans/OS-Dolphin-Grey-Text.md` (source of truth). Stack confirmed (Kvantum `[GeneralColors]` sole palette source; kdeglobals/qt6ct/KColorScheme all inert). All ruled-out approaches tabulated. Fix paths ordered: PyQt6 palette dump → disabled.text.color → qt6ct custom_palette.
-**Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending.
-**Next:** G10 handoff session — World EP1 content. Then G7/G9 verify. Dolphin fix: run PyQt6 palette dump → apply Fix Path A.
+**This session (S178):** G10 closed. `episode` movement added to World (Genesis arc + Exodus framing + version). OS member card links to new `/world/os.html` Developer Preview install guide. Checklist updated: G10 ✅. G7/G9 still pending — those are the last two EP1 gates.
+**Blockers:** → `log/BLOCKERS.md`. B-02/B-09 open; non-gating for EP1.
+**Next:** G7 (RaBbLE-OS FLOOR verify on generic x86_64 VM) and G9 (setup.sh end-to-end verify). Both are Mark-led; then air call.
+
+---
+
+## 2026-06-25 · Session 178 (G10 — World EP1 FLOOR closed)
+
+- Repos: RaBbLE-World (new-horizons), RaBbLE-Grimoire (new-horizons).
+- **Trigger:** G10 handoff — HANDOFF-S176-G10-World-EP1-FLOOR.md.
+- **Work:** Added `episode` movement to `RaBbLE-movements-data.js` + `RaBbLE-movements.js` (registers between collective and converse). Content: Genesis scope honest statement, Exodus arc, Foundation arc + v0.0.0.1 version tag. Added `installLink` to OS member card → `/world/os.html`. Created `world/os.html` (Developer Preview install guide: spec, bootstrap curl, netinstall + KS path, F2 recovery, rough-edges deferred list, Exodus framing). Created `world/css/RaBbLE-os.css` (Aether tokens only). Updated `EP1-AIR-CHECKLIST.md` G10 → ✅.
+- **Commit:** (below)
+- Next: G7 (OS VM verify) + G9 (setup.sh verify) — both Mark-led. Air call when green.
 
 ---
 
