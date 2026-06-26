@@ -15,6 +15,7 @@ markdown, not MDX exports. Read these to resume an in-flight effort:
 
 | Plan | Status |
 |---|---|
+| `World-Framework-Refactor.md` | 🟡 PLAN ONLY — Aether(CSS)+NeBuLA(JS) as frameworks, World as thin assembler; exhaustive harvest of World+Chrysalis effects/components → generic Aether/NeBuLA; component-catalog page as palette+QA surface. Not started. |
 | `OS-VM-Dev-Flow.md` | 🟡 VM install unblocked (branch parameterized); cast VM + boot-theme loop pending |
 | `OS-Plymouth-Black-Screen.md` | 🎯 Root cause found (S166 ternary); awaiting visual verify |
 | `OS-Dolphin-Grey-Text.md` | 🔴 Labels dim ≈#656769 regardless of focus. Stack confirmed (Kvantum [GeneralColors] is sole palette source). no_inactiveness DISPROVEN. Next: PyQt6 palette dump → Fix Path A (disabled.text.color) or B (qt6ct custom_palette) |

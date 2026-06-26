@@ -4,12 +4,13 @@
 > Do not hand-edit — use `blockers.sh add` / `resolve`. This is the durable
 > home for blockers so they survive the rewrite of the SESSION-LOG `## LATEST` box.
 >
-> Last synced: 2026-06-24  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
+> Last synced: 2026-06-26  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
 
 ## OPEN
 
 - **B-02** — OpenRouter $10 credits not purchased — free tier 429 caps the chat chain  ·  owner:Mark  ·  since:S106  ·  [ep1-gate]
 - **B-09** — Lemonade Server needs debug — not confirmed working after NPU validation in S160  ·  owner:Mark  ·  since:S161  ·  [runtime]
+- **B-10** — dev.joinrabble.world auto-deploy fails: GitHub Actions deploy-dev job has no CLOUDFLARE_API_TOKEN secret. Workflow + dev domain binding + CLOUDFLARE_ACCOUNT_ID secret are correct; Mark to create a scoped Cloudflare Workers token then: gh secret set CLOUDFLARE_API_TOKEN --body <token>  ·  owner:Mark  ·  since:2026-06-26  ·  [ep1-dev]
 
 ## RESOLVED
 

@@ -5,12 +5,23 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-25 · Session 179 (OS page Aether polish)
+## LATEST — 2026-06-26 · Session 180 (World Aether polish → framework refactor plan)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session (S179):** OS page deeply rethemed: flowing outlines, larger body text, conic gradient borders (magenta → violet → cyan wrapping full perimeter), cyan section labels (not magenta — too harsh), secondary text brighter. VSCodium WS1 screenshot captured as Aether vibe reference. G7/G9 still the last two EP1 gates.
-**Blockers:** → `log/BLOCKERS.md`. B-02/B-09 open; non-gating for EP1.
-**Next:** G7 (RaBbLE-OS FLOOR verify on generic x86_64 VM) and G9 (setup.sh end-to-end verify). Both Mark-led; then air call.
+**This session (S180):** World landing polished (rounder panels, glow, liminal opening copy), then borders refactored to *apply* Aether's flowing `.rabble-border-harmony` systemically — World drops its hand-rolled rings (−94 lines). Authored the **World Framework Refactor** plan: Aether=CSS / NeBuLA=JS frameworks, World=thin assembler; exhaustive harvest of World+Chrysalis effects; component-catalog page; Opus→Sonnet/Haiku orchestration.
+**Blockers:** → `log/BLOCKERS.md`. **B-10 new:** dev autodeploy needs `CLOUDFLARE_API_TOKEN` GH secret (Mark). B-02/B-09 open.
+**Next:** execute `log/plans/World-Framework-Refactor.md` when greenlit; then G7/G9 EP1 gates.
+
+---
+
+## 2026-06-26 · Session 180 (World Aether polish → framework refactor plan)
+
+- Repos: RaBbLE-World (new-horizons), RaBbLE-Grimoire (new-horizons).
+- **Trigger:** Carry the S179 OS-page Aether treatment into the World landing surface; make it more liminal with integrated chat.
+- **Work (World):** `81ccb52` — conic gradient borders + rounder panels + liminal opening copy ("You. At the threshold.", em-dash removed). `dc5eb67` — **architecture fix:** replaced hand-rolled static rings with Aether's `.rabble-border-harmony` (flowing conic ring via `harmony-spin`/`@property --harmony-angle`), applied systemically in `stage.js` after each movement renders + in `ui.js`/`movements.js` factories; removed `.rc-*::before` rings + native `<button>` UA border. Verified animating in Chromium (`--harmony-angle` 41°→142°/2.5s). **Firefox flow unverified.**
+- **Work (Grimoire):** authored `log/plans/World-Framework-Refactor.md` (cold-start handoff: Aether/NeBuLA frameworks + World assembler; P0.5 exhaustive harvest of World+Chrysalis ep1; component catalog "the Atlas"; Opus-orchestrates-Sonnet/Haiku token model). Indexed in plans README. Fixed `spells/blockers.sh` octal bug (`10#$n`).
+- **Dev autodeploy:** diagnosed — workflow + domain binding correct; failing on missing GH secrets. Set `CLOUDFLARE_ACCOUNT_ID`; `CLOUDFLARE_API_TOKEN` still needed → **B-10** (Mark, picking up later).
+- **Next:** greenlight + execute the refactor plan. Root lesson: **apply, don't redefine.**
 
 ---
 
