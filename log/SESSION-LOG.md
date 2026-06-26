@@ -5,12 +5,26 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-26 · Session 181 (Playwright system-wide; BuilderIO removed)
+## LATEST — 2026-06-26 · Session 182 (World Framework Refactor — Atlas live)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session (S181):** Playwright wired into Ansible ai-harnesses role (system-wide install + Chromium binary); `visual-screenshot.sh` updated to use `playwright` directly. BuilderIO/AgentNative skills removed from Ansible and pruned from `~/.claude/skills/` — intentional: third-party server dependency, security concern, undesirable for daily dev flow. Global CLAUDE.md cleared.
+**This session (S182):** Opus-orchestrated refactor (Haiku harvest, Sonnet A/B/C tracks). Aether: 18 canonical `.rabble-*` component/motion classes, hex-clean, Firefox flow verified, `.rc-*` legacy aliases (a315d6d). NeBuLA: `<rabble-floor>`/`<rabble-graph>`/`<rabble-doors>` + `starfield` effect, 104KB bundle (a110de6). World: the Atlas catalog (`RaBbLE-Catalog.html`) renders all 57 items purely from framework parts; full-catalog screenshot QA PASS, zero page errors (b995235).
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
-**Next:** execute `log/plans/World-Framework-Refactor.md` when greenlit; then G7/G9 EP1 gates.
+**Next:** P4 destructive cleanup (delete redundant World CSS/JS, rewrite pages, drop aliases); de-dupe Three.js double-import; P5 effects (streaks/constellation/haze/doors); then G7/G9 EP1 gates.
+
+---
+
+## 2026-06-26 · Session 182 (World Framework Refactor — frameworks built, Atlas catalog live)
+
+- Repos: RaBbLE-Aether, RaBbLE-NeBuLA, RaBbLE-World (all new-horizons), RaBbLE-Grimoire (docs).
+- **Orchestration:** executed `log/plans/World-Framework-Refactor.md` per §6b — one Opus orchestrator, Haiku harvest/QA workers, Sonnet build tracks. Token model: reading pushed to Haiku, judgment to Sonnet, decisions/integration to Opus. Contract + map frozen before any build.
+- **P0 contract** frozen → `log/plans/World-Framework-Refactor-API.md` (Aether naming conventions + class roster; NeBuLA element/attr/effect API; acceptance gates). Firefox flow gate **verified CLEAR** (`.rabble-border-harmony` animates in Firefox + Chromium; getComputedStyle 0deg is expected API behavior, visual confirmed).
+- **P0.5 harvest** (Haiku) → `log/plans/harvest-map.md`: 52 distinct components/effects across World + Chrysalis ep1, deduped to canonical targets. Orchestrator rulings frozen in API §3b (ambiguous ownership: glitch-veil→Aether CSS for EP1, starfield/haze/streaks/constellation→NeBuLA, sigil/stagger→Aether; page layout stays in World).
+- **Track A — Aether (a315d6d):** 18 canonical `.rabble-*` component classes + `.rabble-sigil`/`.rabble-stagger-in` motion; glass recipe + `--rabble-accent` tokens; `.rc-*`/`--rc-*` legacy aliases for non-breaking migration. Hex-clean (component files). dev-serve :8080 confirmed serving.
+- **Track B — NeBuLA (a110de6):** extracted World `floor.js`→`<rabble-floor>` + `grimoire-graph.js`→`<rabble-graph>` (Three.js custom elements w/ `setData()`), `<rabble-doors>` stub, real `NeBuLA.effects.starfield`, stubbed streaks/constellation/haze. Clean 104KB IIFE, bundle copied to World. Render-QA PASS (elements mount, 3D scenes render, zero errors). Global is `window.NeBuLA` (uppercase).
+- **Track C — World (b995235):** the Atlas — `world/RaBbLE-Catalog.html`, 10 sections / 57 entries, every item rendered purely from an Aether class or mounted NeBuLA element (zero bespoke component CSS/JS; only page-layout using `var(--rabble-*)`). Registered in new `world/js/RaBbLE-pages.js`. Full-catalog screenshot QA PASS.
+- **Not done (deliberate, next phase):** P4 destructive cleanup — delete World's now-redundant component CSS/JS, rewrite `index.html` + `world/*.html` as thin assembly, remove `.rc-*` aliases (legacy aliases hold live pages together until then). De-dupe Three.js (loaded by both NeBuLA bundle + floor/graph — "Multiple instances" warning, non-blocking). Build real P5 effects + `<rabble-doors>`. Verify `RaBbLE-pages.js` entry filenames against actual page files.
+- **Next:** P4 reassembly pass (careful, per-page screenshot parity); then G7/G9 EP1 gates.
 
 ---
 
