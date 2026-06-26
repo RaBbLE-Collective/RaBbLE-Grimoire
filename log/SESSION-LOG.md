@@ -5,14 +5,28 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-25 · Session 175 (Chrysalis fully live: links + Aether RC1 + ep1 rename)
+## LATEST — 2026-06-25 · Session 175b (Captures reorganized + Agent-Protocols wired)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session (S175):** Chrysalis-Web at `dev.joinrabble.world/chrysalis/`. Three bugs fixed: (1) regex never matched `chrysalis` spelling → links un-prefixed; (2) `RaBbLE-config.js` missing from EP1 pages → Aether fell back to non-existent v0.0.0.0; (3) `world/` → `ep1/` rename. Aether + NeBuLA bumped to RC1. Links work; Aether RC1 loading on most pages. Graph page Aether still degraded (open).
+**This session (S175b):** BaBbLE captures fully reorganized. OS-IDE/ formalized (5 subfolders). `_reliquary/` pattern introduced for sealed sets (S169 boot, rc1 progression, particle-unify). `_inbox` cleared to zero. `RaBbLE-Captures-System.md` updated to v1.3; Agent-Protocols captures map updated to match. `/tmp` rule already in Protocols — no gap found.
 **Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending. Graph page Aether open.
 **Next:** Debug Grimoire Graph page Aether load. Bare-metal Plymouth verify (G7 gate).
 
 ---
+
+## 2026-06-25 · Session 175b (Captures reorganization + protocol wiring)
+
+- Repos: RaBbLE-BaBbLE (new-horizons), RaBbLE-Grimoire (new-horizons).
+- Reorganized `RaBbLE-BaBbLE/captures/`: 410 PNGs, zero lost.
+  - `OS-IDE/` formalized with 5 subfolders: Firefox/, SDDM/, Dolphin/, Terminal/, VSCodium/Aether-iterations/
+  - `Boot/_reliquary/S169-boot-debug/` — sealed 133-frame session with README
+  - `World/_reliquary/` — rc1-progression (36 files merged from baseline/emergence/wip) + particle-unify (16 files)
+  - `Boot/vm-sessions/vm-20260625-075636/` — today's VM boot session (74 frames, from _inbox)
+  - `Design-Iterations/fastfetch/` + `login/` — topic subfolders for iteration clusters
+  - `_inbox/` cleared to 0 (43 files triaged)
+- `RaBbLE-Captures-System.md` bumped to v1.3: OS-IDE/ documented, `_reliquary/` pattern explained, triage discipline added (<20 files, clear same session), quick-reference table expanded.
+- `RaBbLE-Agent-Protocols.md` — captures directory map updated to match new structure.
+- `/tmp` rule verified already present in both Agent-Protocols and BaBbLE/AGENT.md — no gap; rule is correctly wired.
 
 ## 2026-06-25 · Session 175 (Chrysalis Aether RC1 + ep1 rename + link regex fix)
 

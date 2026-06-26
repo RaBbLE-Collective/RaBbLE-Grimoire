@@ -338,16 +338,26 @@ Examples:
 
 ```
 RaBbLE-BaBbLE/captures/
+├── _inbox/                         # raw spell output — triage same session (<20 files)
 ├── World/Pages/{landing,chat,docs,os}/
 ├── World/States/liminal/
+├── World/_reliquary/               # sealed RC/phase progressions
 ├── Entity-UI/{Boot,Components,Portal}/
 ├── NeBuLA/
 ├── Grimoire/
+├── Aether/
 ├── Collective-Atmosphere/
-└── Design-Iterations/by-date/
+├── Boot/vm-sessions/               # VM boot iteration sessions (vm-YYYYMMDD-HHMMSS/)
+├── Boot/_reliquary/                # sealed S### boot debug sessions
+├── OS-IDE/{Firefox,SDDM,Dolphin,Terminal,VSCodium/}  # OS + IDE theming
+└── Design-Iterations/{by-date/,fastfetch/,login/}
 ```
 
-**Why:** Captures are ephemeral (`.gitignore`d), but their organization enables visual discovery across the Collective and session progress tracking.
+Sealed iteration sets go into `_reliquary/` inside the relevant topic folder — not BaBbLE's top-level `reliquary/`. Each `_reliquary/` subfolder gets a one-paragraph `README.md`.
+
+**Full reference:** `RaBbLE-Captures-System.md` for routing rules, naming convention, and triage discipline.
+
+**Why:** Captures are `.gitignore`d but organized — enables visual discovery across the Collective and session progress tracking.
 
 ---
 
