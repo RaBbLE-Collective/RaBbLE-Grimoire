@@ -5,12 +5,22 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-25 · Session 178 (G10 — World EP1 FLOOR closed)
+## LATEST — 2026-06-25 · Session 179 (OS page Aether polish)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session (S178):** G10 closed. `episode` movement added to World (Genesis arc + Exodus framing + version). OS member card links to new `/world/os.html` Developer Preview install guide. Checklist updated: G10 ✅. G7/G9 still pending — those are the last two EP1 gates.
+**This session (S179):** OS page deeply rethemed: flowing outlines, larger body text, conic gradient borders (magenta → violet → cyan wrapping full perimeter), cyan section labels (not magenta — too harsh), secondary text brighter. VSCodium WS1 screenshot captured as Aether vibe reference. G7/G9 still the last two EP1 gates.
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09 open; non-gating for EP1.
-**Next:** G7 (RaBbLE-OS FLOOR verify on generic x86_64 VM) and G9 (setup.sh end-to-end verify). Both are Mark-led; then air call.
+**Next:** G7 (RaBbLE-OS FLOOR verify on generic x86_64 VM) and G9 (setup.sh end-to-end verify). Both Mark-led; then air call.
+
+---
+
+## 2026-06-25 · Session 179 (OS page Aether polish)
+
+- Repos: RaBbLE-World (new-horizons), RaBbLE-BaBbLE (new-horizons).
+- **Trigger:** OS page from S178 needed Aether vibe: flowing outlines, readable text, proper gradient borders.
+- **Work:** Three CSS passes on `world/css/RaBbLE-os.css`. (1) Flowing outlines: panel `border-radius` 14→20px, multi-layer box-shadow inner+outer glow, code block radius 8→14px. Larger body text: `--rc-size-lg` for primary, `--rc-size-md` for secondary. (2) Magenta push: `conic-gradient` border technique swapped in for `linear-gradient`; section labels switched to magenta (later reverted). (3) Conic gradient borders fully wrapping perimeter (magenta → violet → cyan → violet → magenta from 225deg); section labels restored to cyan (nav hierarchy); secondary text uses `color-mix(in srgb, var(--rc-text) 65%, transparent)` instead of muted var. Desktop WS1 VSCodium screenshot captured as Aether vibe reference.
+- **Commits:** `5204633`, `9bf03ca`, `aab92d8` (World).
+- Next: G7 (OS VM verify) + G9 (setup.sh verify) — Mark-led. Air call when green.
 
 ---
 
