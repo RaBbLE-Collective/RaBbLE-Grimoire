@@ -5,12 +5,25 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-25 · Session 175b (Captures reorganized + Agent-Protocols wired)
+## LATEST — 2026-06-25 · Session 176 (transcript logging + dev auto-deploy + G10 handoff)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session (S175b):** BaBbLE captures fully reorganized. OS-IDE/ formalized (5 subfolders). `_reliquary/` pattern introduced for sealed sets (S169 boot, rc1 progression, particle-unify). `_inbox` cleared to zero. `RaBbLE-Captures-System.md` updated to v1.3; Agent-Protocols captures map updated to match. `/tmp` rule already in Protocols — no gap found.
-**Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending. Graph page Aether open.
-**Next:** Debug Grimoire Graph page Aether load. Bare-metal Plymouth verify (G7 gate).
+**This session (S176):** sCoRE transcript logging added (`transcripts.py`, R2 + file backends, no user identity). World CSS audited — clean. dev.joinrabble.world now auto-deploys on `new-horizons` push (GitHub Actions). Grimoire landing page created (`gist/index.html`). G10 handoff doc written — EP1 product decision locked (no accounts, free entity demo only). B-02 still resilience-only, non-gating.
+**Blockers:** → `log/BLOCKERS.md`. EP1 gates G7/G9/G10 pending.
+**Next:** G10 handoff session — World EP1 content (episode movement + OS page). Then G7/G9 verify.
+
+---
+
+## 2026-06-25 · Session 176 (transcript logging + dev auto-deploy + G10 handoff)
+
+- Repos: RaBbLE-sCoRE (new-horizons), RaBbLE-World (new-horizons), RaBbLE-Grimoire (new-horizons).
+- **sCoRE transcript logging:** `server/transcripts.py` created — R2 (Cloudflare management API) and file backends. R2 falls back to file on failure. Session IDs are random UUIDs, never linked to user_id. Hooked into both `/api/v1/chat` and `/api/v1/sessions/{id}/message` stream endpoints. `render.yaml` gets four new env var stubs (`TRANSCRIPT_BACKEND=file`, `CF_ACCOUNT_ID`, `CF_R2_TOKEN`, `CF_R2_BUCKET`). Flip to `r2` once a bucket is provisioned — code is ready.
+- **World CSS audit:** All component CSS uses `var(--rc-*)` exclusively. Zero raw hex violations. Aether/World separation already enforced. No changes needed.
+- **dev.joinrabble.world auto-deploy:** `RaBbLE-World/.github/workflows/deploy.yml` updated — push to `new-horizons` now triggers `wrangler deploy -c wrangler.dev.jsonc` → `rabble-world-dev` Worker. Requires `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID` in GitHub repo secrets (same ones prod deploy already uses).
+- **Grimoire landing page:** `gist/index.html` created — gives `grimoire.joinrabble.world` a real face. Lists all 9 gists with descriptions + token counts. Agent quick-start block. Graph/MCP stub. Ready to deploy via `bash spells/cloudflare-ctl.sh deploy grimoire`.
+- **EP1 product decision (locked):** EP1 = informational + free entity demo. No user accounts, no persistent data, no freemium tiers. Pair paradigm is design-only (Grimoire doc) in EP1; built in EP2 (Exodus). DB architecture off the table for EP1. Decision recorded in G10 handoff doc.
+- **G10 handoff doc:** `log/HANDOFF-S176-G10-World-EP1-FLOOR.md` — complete cold-start brief for the World EP1 content session. Three pieces: (1) `episode` movement in movements-data.js (Genesis framing + Exodus arc), (2) `world/os.html` Developer Preview install guide with screenshots, (3) identity/collective copy review. Handoff prompt at top.
+- Next: G10 handoff session (World content). Then G7 (OS VM verify) + G9 (setup.sh bootstrap verify).
 
 ---
 

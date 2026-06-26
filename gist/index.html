@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#03000b">
+<title>RaBbLE Grimoire</title>
+<style>
+  :root {
+    --void:    #03000b;
+    --bg:      #0a0010;
+    --surface: #12132a;
+    --raised:  #1a1b2e;
+    --border:  #2a2840;
+    --text:    #e8e6f0;
+    --muted:   #6b6880;
+    --dimmer:  #3d3860;
+    --magenta: #ff2d78;
+    --cyan:    #00f5ff;
+    --violet:  #bf5fff;
+    --green:   #50fa7b;
+    --yellow:  #f1fa8c;
+    --font-mono: 'Share Tech Mono', 'JetBrains Mono', monospace;
+    --font-ui:   'Exo 2', 'Inter', system-ui, sans-serif;
+    --font-hero: 'Orbitron', 'Exo 2', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-ui);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  a { color: var(--cyan); text-decoration: none; }
+  a:hover { color: var(--magenta); }
+
+  /* ── Layout ── */
+  .page { max-width: 860px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  /* ── Header ── */
+  .header { margin-bottom: 56px; }
+  .sigil {
+    font-family: var(--font-hero);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--violet);
+    margin-bottom: 16px;
+  }
+  .title {
+    font-family: var(--font-hero);
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .title span { color: var(--magenta); }
+  .subtitle {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.5;
+  }
+
+  /* ── Section ── */
+  .section { margin-bottom: 48px; }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── Gist cards ── */
+  .gist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 12px;
+  }
+  .gist-card {
+    background: color-mix(in srgb, var(--surface) 80%, transparent);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 18px;
+    transition: border-color 0.15s, background 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .gist-card:hover {
+    border-color: var(--violet);
+    background: color-mix(in srgb, var(--raised) 85%, transparent);
+  }
+  .gist-name {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--violet);
+  }
+  .gist-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+  .gist-tokens {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--dimmer);
+    margin-top: auto;
+    padding-top: 8px;
+  }
+
+  /* ── Callout ── */
+  .callout {
+    background: color-mix(in srgb, var(--surface) 60%, transparent);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--cyan);
+    border-radius: 4px;
+    padding: 14px 16px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .callout code {
+    color: var(--green);
+    background: none;
+  }
+
+  /* ── Graph preview stub ── */
+  .graph-stub {
+    background: color-mix(in srgb, var(--void) 70%, transparent);
+    border: 1px dashed var(--dimmer);
+    border-radius: 6px;
+    padding: 32px;
+    text-align: center;
+    color: var(--dimmer);
+    font-size: 13px;
+  }
+  .graph-stub .coming {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--violet);
+    margin-bottom: 8px;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--dimmer);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .footer a { color: var(--dimmer); }
+  .footer a:hover { color: var(--cyan); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="header">
+    <div class="sigil">◈ RaBbLE Collective · Grimoire</div>
+    <h1 class="title">The <span>Grimoire</span></h1>
+    <p class="subtitle">
+      Canonical source of truth for the RaBbLE Collective — identity, protocols,
+      architecture, and the memory layer that teaches RaBbLE to know itself.
+    </p>
+  </header>
+
+  <section class="section">
+    <div class="section-label">◐ Distilled Gists — full orientation in ~1,700 tokens</div>
+    <div class="gist-grid">
+      <a class="gist-card" href="RaBbLE-Identity-gist.md">
+        <div class="gist-name">RaBbLE-Identity-gist.md</div>
+        <div class="gist-desc">Who RaBbLE is, how it speaks, and how it behaves. Entity spec — the canonical source.</div>
+        <div class="gist-tokens">~260 tokens · source ~3,870</div>
+      </a>
+      <a class="gist-card" href="RaBbLE-Collective-gist.md">
+        <div class="gist-name">RaBbLE-Collective-gist.md</div>
+        <div class="gist-desc">Member repos, roles, and how the Collective is structured as an ecosystem.</div>
+        <div class="gist-tokens">~250 tokens · source ~1,930</div>
+      </a>
+      <a class="gist-card" href="RaBbLE-Collective-Overview-gist.md">
+        <div class="gist-name">RaBbLE-Collective-Overview-gist.md</div>
+        <div class="gist-desc">Episode 1 scope, public surfaces, and what ships in Genesis.</div>
+        <div class="gist-tokens">~200 tokens · source ~914</div>
+      </a>
+      <a class="gist-card" href="RaBbLE-Roadmap-gist.md">
+        <div class="gist-name">RaBbLE-Roadmap-gist.md</div>
+        <div class="gist-desc">Episode arc from Genesis (EP1) through Exodus (EP2) and beyond.</div>
+        <div class="gist-tokens">~250 tokens · source ~2,746</div>
+      </a>
+      <a class="gist-card" href="RaBbLE-Episode1-gist.md">
+        <div class="gist-name">RaBbLE-Episode1-gist.md</div>
+        <div class="gist-desc">Episode 1 gates, what ships, and what's honestly deferred.</div>
+        <div class="gist-tokens">~200 tokens</div>
+      </a>
+      <a class="gist-card" href="RaBbLE-Integration-Map-gist.md">
+        <div class="gist-name">RaBbLE-Integration-Map-gist.md</div>
+        <div class="gist-desc">How members wire together — sCoRE, World, Aether, NeBuLA, OS integration points.</div>
+        <div class="gist-tokens">~200 tokens</div>
+      </a>
+      <a class="gist-card" href="RaBbLE-Palette-gist.md">
+        <div class="gist-name">RaBbLE-Palette-gist.md</div>
+        <div class="gist-desc">The canonical color palette — the only permitted hex source for all members.</div>
+        <div class="gist-tokens">~150 tokens · source ~1,170</div>
+      </a>
+      <a class="gist-card" href="RaBbLE-Versioning-gist.md">
+        <div class="gist-name">RaBbLE-Versioning-gist.md</div>
+        <div class="gist-desc">Five-Es format: v{Epoch}.{Evolution}.{Echo}.{Episode}.{Event}. Currently v0.0.0.0.</div>
+        <div class="gist-tokens">~200 tokens · source ~1,471</div>
+      </a>
+      <a class="gist-card" href="RaBbLE-CommitStyle-gist.md">
+        <div class="gist-name">RaBbLE-CommitStyle-gist.md</div>
+        <div class="gist-desc">Pulse Protocol commit format. Impulses: spark · harmonize · mend · transcribe · ingest · evolve.</div>
+        <div class="gist-tokens">~150 tokens · source ~620</div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-label">◑ Quick start — for agents</div>
+    <div class="callout">
+      <code>cat gist/*.md</code> &nbsp;·&nbsp; full orientation in ~1,700 tokens<br>
+      <code>cat CONTEXT.md</code> &nbsp;·&nbsp; active tracks and current episode state<br>
+      <code>bash spells/status.sh</code> &nbsp;·&nbsp; live member health + open blockers
+    </div>
+    <div class="callout">
+      Grimoire is source-of-truth. Members reference it; they do not duplicate it.<br>
+      Colors live in <a href="RaBbLE-Palette-gist.md">RaBbLE-Palette-gist.md</a> only — never invent hex values.
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-label">◈ Grimoire Graph — browsable knowledge map</div>
+    <div class="graph-stub">
+      <div class="coming">Coming — Episode 2</div>
+      169 nodes · 424 edges · NeBuLA-rendered interactive graph<br>
+      Browse the full Grimoire as a living knowledge graph.<br>
+      Doc renderer, node search, and relationship explorer.
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span>RaBbLE Collective · Grimoire · v0.0.0.0</span>
+    <span>
+      <a href="https://joinrabble.world">joinrabble.world</a>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/RaBbLE-Collective">github</a>
+    </span>
+  </footer>
+
+</div>
+</body>
+</html>
