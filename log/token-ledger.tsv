@@ -168,3 +168,4 @@ commit-5ac288e	chrysalis-aether	ep1 rename + regex fix + config.js on all pages 
 commit-a8212ec	ep1-world-floor	G10 closed: episode movement, os.html (Aether retheme, scroll fix, Orbitron, flowing panels), join removed from sequence
 commit-c1e5b33	ep1-os-polish	OS page Aether retheme: conic gradient borders, flowing outlines, readable text, cyan labels, VSCodium WS1 reference
 commit-dc5eb67	world-framework-refactor	World landing Aether polish + flowing-border refactored to apply Aether .rabble-border-harmony; authored World Framework Refactor plan (Aether/NeBuLA frameworks, World assembler); B-10 dev-autodeploy blocked on CF API token
+e79f07e4-1c8a-45de-a9bf-e76774d52e7e	collective	auto: current state S182: World Framework Refactor done, Atlas catalog live
