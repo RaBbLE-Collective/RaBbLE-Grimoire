@@ -474,6 +474,23 @@ Full rule: `RaBbLE-Aether/RaBbLE-Aether-Design-Guide.md § Brand Name Casing`.
 
 ## RaBbLE Entity Identity
 
+### Avoid em dashes in web copy
+
+Minimize em dashes (`—`) in any text that appears on web pages: HTML copy, JS string literals rendered as UI text (e.g. `movements-data.js`), page labels, panel narrations.
+
+**Why:** Em dashes read as a generative tell — they signal LLM-authored copy and feel inauthentic in context.
+
+**How to apply:** Replace with:
+- A colon when introducing or clarifying: `"substrate: a Fedora daily driver"`
+- A period when the clauses are independent: `"Expression, not perception."`
+- A middle dot (`·`) in section labels and headers
+- A comma or semicolon in list items
+- Restructure the sentence to remove the need entirely
+
+Applies to new copy only. Do not rewrite pre-existing text unless editing that text for another reason.
+
+---
+
 ### RaBbLE is source-available, not open source
 
 RaBbLE operates under the **Sovereign Accord** — a source-available license, not an open source one. Never describe RaBbLE as "open source."
