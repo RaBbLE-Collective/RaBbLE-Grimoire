@@ -2,8 +2,8 @@
 
 > Living system for organizing visual documentation across the Collective
 
-**Version:** 1.2
-**Last Updated:** 2026-06-12
+**Version:** 1.3
+**Last Updated:** 2026-06-25
 **Steward:** Agents of the Collective
 **Spell Integration:** `spells/visual-screenshot.sh`
 
@@ -91,6 +91,7 @@ The OS screenshot keybinds now route directly into RaBbLE-Captures:
 
 ```
 RaBbLE-BaBbLE/captures/
+├── _inbox/                             # Raw spell output — triage within same session (target: <20 files)
 ├── World/                              # World app captures
 │   ├── Pages/                          # Finished page screenshots
 │   │   ├── landing/                    # Landing page iterations
@@ -99,7 +100,8 @@ RaBbLE-BaBbLE/captures/
 │   │   └── os/                         # OS/settings page
 │   ├── States/                         # UI states & effects
 │   │   └── liminal/                    # Liminal/atmospheric states
-│   └── Survey/                         # Full-page surveys & reviews
+│   ├── Survey/                         # Full-page surveys & reviews
+│   └── _reliquary/                     # Sealed release-cycle staging sets (rc1-progression, etc.)
 ├── Grimoire/                           # Grimoire backend/interface
 ├── NeBuLA/                             # Visual effects & canvas work
 ├── Entity-UI/                          # Entity component & boot states
@@ -107,9 +109,35 @@ RaBbLE-BaBbLE/captures/
 │   ├── Components/                     # Component closeups & details
 │   └── Portal/                         # Portal UI variations
 ├── Collective-Atmosphere/              # Ambient/atmospheric captures
-└── Design-Iterations/                  # Session work & dev progress
-    └── by-date/                        # Organized by YYYYMMDD
+├── Aether/                             # Aether CSS/design system captures
+├── Boot/                               # OS boot sequence captures
+│   ├── vm-sessions/                    # VM boot iteration sessions (vm-YYYYMMDD-HHMMSS/)
+│   └── _reliquary/                     # Sealed S### boot debug sessions
+├── OS-IDE/                             # Developer environment — OS theming + IDE
+│   ├── Dolphin/                        # File manager captures
+│   ├── Firefox/                        # Browser theme captures
+│   ├── SDDM/                           # Login screen captures
+│   ├── Terminal/                       # Shell/terminal captures
+│   └── VSCodium/                       # Editor captures
+│       └── Aether-iterations/          # Before/after Aether theme design work
+└── Design-Iterations/                  # Cross-component design work
+    ├── by-date/                        # Unnamed raw captures sorted by date (YYYYMMDD)
+    ├── fastfetch/                      # fastfetch prompt design iterations
+    └── login/                          # Login screen design mockups
 ```
+
+### `_reliquary/` pattern
+
+Each topic folder can have a `_reliquary/` subdirectory for **sealed iteration sets** — completed work that should stay browsable in captures for historical reference but no longer needs to be in an active folder.
+
+Use `_reliquary/` when:
+- A named S### session is complete (e.g., S169-boot-debug with 133 frames)
+- A release-cycle staging dir is done (e.g., rc1-baseline → rc1-emergence → rc1-wip → shipped)
+- A focused comparison investigation is complete (e.g., Particle-Unify local vs. prod)
+
+Each `_reliquary/` subfolder gets a short `README.md`: what it contains, when it was sealed, and why.
+
+This is **not** `BaBbLE/reliquary/` (the top-level cold storage zone) — reliquary subfolders stay within captures and remain easily discoverable by topic.
 
 ---
 
@@ -202,6 +230,13 @@ bash spells/visual-screenshot.sh \
 - **It shows Grimoire interface?** → `Grimoire/`
 - **It shows Aether design system?** → `Aether/` or relevant member
 - **It shows ambient visual work?** → `Collective-Atmosphere/`
+- **It shows OS login screen (SDDM)?** → `OS-IDE/SDDM/`
+- **It shows file manager (Dolphin/Thunar)?** → `OS-IDE/Dolphin/`
+- **It shows terminal/shell/fastfetch?** → `OS-IDE/Terminal/`
+- **It shows browser (Firefox) theming?** → `OS-IDE/Firefox/`
+- **It shows VSCodium/editor?** → `OS-IDE/VSCodium/`
+- **It shows a VM boot sequence session?** → `Boot/vm-sessions/vm-YYYYMMDD-HHMMSS/`
+- **It's a completed S### session archive?** → `Boot/_reliquary/S###-{topic}/`
 
 ### Design iterations guideline:
 
@@ -251,10 +286,14 @@ bash RaBbLE-Grimoire/spells/visual-screenshot.sh \
 
 ### End of session:
 - Review captures for important milestones
-- Move spell output from root `RaBbLE-BaBbLE/captures/` to category directories
+- **Triage `_inbox/`** — move everything to its topic folder before closing. Target: 0 files left.
+  - `dolphin-*` / `fs-*` → `OS-IDE/Dolphin/`; `sddm-*` → `OS-IDE/SDDM/`; `shell-*` → `OS-IDE/Terminal/`
+  - `visual-*` (unnamed spell output) → `Design-Iterations/by-date/`
+  - VM boot sessions → `Boot/vm-sessions/vm-YYYYMMDD-HHMMSS/`
+- **Seal completed sets** — if a session's capture folder is done, move it to the relevant `_reliquary/` with a README
 - Rename to match convention
 - Note any new captures in SESSION-LOG.md
-- Ensure new files follow naming convention
+- `_inbox/` should never accumulate more than ~20 files between triage passes
 
 ---
 
@@ -384,3 +423,10 @@ mkdir -p RaBbLE-BaBbLE/captures/Entity-UI/Voice
 | Component detail | `{Member}/Components/` | `{member}-component-{detail}_YYYYMMDD.png` | Playwright |
 | Full survey | `{Member}/Survey/` | `{member}-survey-{focus}_YYYYMMDD.png` | Either |
 | Full-screen OS work | Root → move to category | `{name}_YYYYMMDD.png` | Hyprland |
+| SDDM login screen | `OS-IDE/SDDM/` | `sddm-{variant}-{state}_YYYYMMDD.png` | Hyprland |
+| File manager | `OS-IDE/Dolphin/` | `dolphin-{state}_YYYYMMDD.png` | Hyprland |
+| Terminal/fastfetch | `OS-IDE/Terminal/` | `shell-{state}_YYYYMMDD.png` | Hyprland |
+| Firefox theming | `OS-IDE/Firefox/` | `ff-{component}-{state}_YYYYMMDD.png` | Hyprland |
+| VSCodium/editor | `OS-IDE/VSCodium/` | `vscodium-{state}_YYYYMMDD.png` | Hyprland |
+| VM boot session | `Boot/vm-sessions/vm-YYYYMMDD-HHMMSS/` | frame-NNNN.png | OS/script |
+| Sealed session archive | `{Topic}/_reliquary/{name}/` | README.md + original files | — |
