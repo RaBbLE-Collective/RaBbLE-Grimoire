@@ -5,12 +5,24 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-26 · Session 182 (World Framework Refactor — Atlas live)
+## LATEST — 2026-06-27 · Session 182 cont. (World Framework Refactor — round 2: real effects, P4, docs)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session (S182):** Opus-orchestrated refactor (Haiku harvest, Sonnet A/B/C tracks). Aether: 18 canonical `.rabble-*` component/motion classes, hex-clean, Firefox flow verified, `.rc-*` legacy aliases (a315d6d). NeBuLA: `<rabble-floor>`/`<rabble-graph>`/`<rabble-doors>` + `starfield` effect, 104KB bundle (a110de6). World: the Atlas catalog (`RaBbLE-Catalog.html`) renders all 57 items purely from framework parts; full-catalog screenshot QA PASS, zero page errors (b995235).
-**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
-**Next:** P4 destructive cleanup (delete redundant World CSS/JS, rewrite pages, drop aliases); de-dupe Three.js double-import; P5 effects (streaks/constellation/haze/doors); then G7/G9 EP1 gates.
+**This session:** Finished the refactor's round 2. Aether: 4 new CSS effects (text-shudder, horizon-glow, radial tint, reveal-3d) `a172cc4`. NeBuLA: real `streaks`/`constellation`/`haze` effects + real `<rabble-doors>` orbit engine from Chrysalis `liminal.js` `f4b9144`. World: P4 — pages consume Aether/NeBuLA directly, migrated CSS/JS dropped `821b96c`; catalog scroll footgun fixed `b0d934c`; Atlas grown with real container-mounted effects (Track C). Docs: `RaBbLE-Theme-System.md` + `RaBbLE-Frontend-Guide.md` `4cc3815`. Cold-start handoff: `log/plans/World-Framework-Refactor-HANDOFF.md`.
+**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open. 3 World flags for Mark (handoff doc): missing page-runtime.js/bg.js, account.html→Chat 404, stale World AGENT.md inventory.
+**Next:** drop `.rc-*` aliases once pages fully migrated (per-page screenshot parity); de-dupe Three.js; G7/G9 EP1 gates.
+
+---
+
+## 2026-06-27 · Session 182 cont. (round 2 — real deep-field effects, P4 cleanup, theme docs)
+
+- Repos: RaBbLE-Aether, RaBbLE-NeBuLA, RaBbLE-World (all new-horizons), RaBbLE-Grimoire (docs).
+- **Aether (`a172cc4`):** CSS effects harvested from Chrysalis/World — `.rabble-text-shudder` (`.is-active`, `.fast`/`.slow`), `.rabble-horizon-glow`, `.rabble-tint-radial` (`--rabble-tint-origin`), `.rabble-reveal-3d` (`.fast`/`.slow`), `.rabble-sigil` idle breathe. Hex-clean.
+- **NeBuLA (`f4b9144`):** promoted the 3 stubbed effects to real — `NeBuLA.effects.{streaks,constellation,haze}` — plus a real `<rabble-doors>` orbit engine (6 doors, theta/omega/ring math from Chrysalis `liminal.js`). **Mount contract surfaced:** effects take a sized `position:relative` *container div*, never a bare `<canvas>` (effect injects its own canvas; bare canvas → 0px blank). Documented in handoff + theme-system doc.
+- **World P4 (`821b96c`, `b0d934c`):** index/os/account/summon now consume Aether classes + NeBuLA elements directly; migrated component CSS/JS deleted; orphaned `RaBbLE-grimoire-graph.js` + `RaBbLE-realm.js` removed. Catalog scroll fixed by dropping `overflow-y:auto` from `<html>` root (self-sizing scroll-container footgun in non-Chromium engines). Atlas grown with the round-2 effects (Track C, container-mounted).
+- **Docs (`4cc3815`):** `RaBbLE-Agent/RaBbLE-Theme-System.md` (API ref — Aether classes, NeBuLA elements/effects/ui, CDN consumption) + `RaBbLE-Frontend-Guide.md` (how agents build new RaBbLE front-end apps). Indexed. Strategic intent captured: Aether+NeBuLA are *the* theme/effects system for all RaBbLE apps.
+- **Flags raised for Mark (in handoff doc, not yet acted on):** (1) `page-runtime.js`/`bg.js` referenced but missing (prior prune — restore vs accept?); (2) `account.html` "← chat" → nonexistent `RaBbLE-Chat.html` (404); (3) World `AGENT.md` page inventory stale (lists Chat/Boot/Docs/Studio).
+- **Next:** drop `.rc-*` aliases once every page is migrated (per-page screenshot parity first); de-dupe Three.js double-load; G7/G9 EP1 gates (Mark-led).
 
 ---
 
