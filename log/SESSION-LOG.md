@@ -5,12 +5,22 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-27 · Session 182 cont. (World Framework Refactor — round 2: real effects, P4, docs)
+## LATEST — 2026-06-27 · Session 183 (doc gap fixes: World AGENT.md, Theme-System, Frontend Guide)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** Finished the refactor's round 2. Aether: 4 new CSS effects (text-shudder, horizon-glow, radial tint, reveal-3d) `a172cc4`. NeBuLA: real `streaks`/`constellation`/`haze` effects + real `<rabble-doors>` orbit engine from Chrysalis `liminal.js` `f4b9144`. World: P4 — pages consume Aether/NeBuLA directly, migrated CSS/JS dropped `821b96c`; catalog scroll footgun fixed `b0d934c`; Atlas grown with real container-mounted effects (Track C). Docs: `RaBbLE-Theme-System.md` + `RaBbLE-Frontend-Guide.md` `4cc3815`. Cold-start handoff: `log/plans/World-Framework-Refactor-HANDOFF.md`.
-**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open. 3 World flags for Mark (handoff doc): missing page-runtime.js/bg.js, account.html→Chat 404, stale World AGENT.md inventory.
-**Next:** drop `.rc-*` aliases once pages fully migrated (per-page screenshot parity); de-dupe Three.js; G7/G9 EP1 gates.
+**This session:** Closed 3 handoff doc gaps. World AGENT.md: replaced stale 12-file phantom inventory with actual RC1 files. `RaBbLE-pages.js` comment + Frontend Guide: noted `page-runtime.js` was removed in RC1 prune. `RaBbLE-Theme-System.md`: `constellation` now explicitly requires `starfield` layering. Visual Verification URL updated (Boot.html → os.html).
+**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open. 1 World flag still open: `account.html` "← chat" → `RaBbLE-Chat.html` (404).
+**Next:** drop `.rc-*` aliases (per-page screenshot parity); de-dupe Three.js; G7/G9 EP1 gates.
+
+---
+
+## 2026-06-27 · Session 183 (doc gap fixes: World AGENT.md inventory, Theme-System, Frontend Guide)
+
+- Repos: RaBbLE-World, RaBbLE-Grimoire (both new-horizons).
+- **World `AGENT.md`:** replaced stale "Where Things Are" tables. Removed 12 phantom files (Boot/Chat/Docs/Studio HTML, landing/chrome/boot/chat CSS/JS, page-runtime.js, bg.js). Documented actual RC1 files: stage.js, movements.js, curator.js, dock.js, ui.js, Grimoire-Data.js, movements-data.js + matching CSS. Visual Verification example URL fixed (Boot.html → os.html).
+- **`RaBbLE-pages.js` comment + `RaBbLE-Frontend-Guide.md`:** clarified that `page-runtime.js` was removed in the RC1 prune; `data-page-id` is reserved for when the runtime ships.
+- **`RaBbLE-Theme-System.md`:** `constellation` effect now explicitly documents the `starfield` dependency — mounting alone produces no output; must be layered on the same target.
+- **Still open (not this session):** `account.html` "← chat" link points to nonexistent `RaBbLE-Chat.html` (flag #2 from handoff); `.rc-*` alias cleanup; Three.js de-dupe; G7/G9.
 
 ---
 

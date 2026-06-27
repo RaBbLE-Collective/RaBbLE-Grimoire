@@ -86,7 +86,7 @@ Place it at `RaBbLE-World/world/<page-slug>.html`. Copy the head wiring from an 
 - `RaBbLE-config.js` MUST be first — it sets `window.RABBLE_AETHER_URL` and `window.RABBLE_NEBULA_URL`.
 - `RaBbLE-aether.js` reads `window.RABBLE_AETHER_URL` immediately — must follow config.
 - `RaBbLE-NeBuLA.js` reads `window.RABBLE_NEBULA_URL` and injects the bundle — place before any page JS that uses NeBuLA.
-- `data-page-id` on `<body>` enables `RaBbLE-page-runtime.js` to mount global nav automatically.
+- `data-page-id` on `<body>` is reserved for the global nav runtime. `RaBbLE-page-runtime.js` was removed in the RC1 prune; set `data-page-id` anyway so the attribute is wired when the runtime ships.
 
 ### 2. Register in RaBbLE-pages.js
 

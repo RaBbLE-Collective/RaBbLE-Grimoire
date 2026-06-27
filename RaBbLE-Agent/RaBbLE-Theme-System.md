@@ -456,7 +456,7 @@ DOM/SVG factory functions; no custom elements required.
 |---|---|---|
 | `starfield` | `count` (180), `drift` (1.0), `depthLayers` (3), `palette` | Depth-layered Canvas2D star field: parallax, cursor-reactive, subtle constellation lines, twinkle. Mobile auto-caps at 100 stars. Palette resolved from Aether CSS vars at runtime. |
 | `streaks` | `spawnProb` (0.0022), `decay` (0.016), `palette`, `glitch` | Rare passing signal transmissions — velocity + decay line segments. `glitch: true` raises spawn rate ×9. |
-| `constellation` | `palette` | Lines drawn from star positions to cursor (reach radius ~130px, per-line alpha fades with distance). Depends on star positions being available in the render loop. |
+| `constellation` | `palette` | Lines drawn from star positions to cursor (reach radius ~130px, per-line alpha fades with distance). **Must be layered with `starfield` on the same target** — reads star positions from the shared render loop; mounting without `starfield` produces no output. |
 | `haze` | `palette` | 3 drifting radial blob hazes rendered at 1/8 resolution; CSS upscales for free GPU blur. Violet / magenta / cyan blobs, repaint every 4th frame. |
 
 ### Class effects (legacy API, `new` instantiation)
