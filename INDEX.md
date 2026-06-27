@@ -61,6 +61,8 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-Overview](RaBbLE-Agent/RaBbLE-Overview.md) — orientation map: ecosystem summary and quick-start pointers
 - [RaBbLE-References](RaBbLE-Agent/RaBbLE-References.md) — external influences and reference repositories
 - **[RaBbLE-NovelIdeas](RaBbLE-Agent/RaBbLE-NovelIdeas.md)** — **differentiation map + 10 novel ideas + surprises list** (speculation layer; available to all planning agents)
+- **[RaBbLE-Theme-System](RaBbLE-Agent/RaBbLE-Theme-System.md)** — **Aether + NeBuLA API reference.** Canonical surface: all `.rabble-*` classes (tables by group), design tokens, custom elements `<rabble-entity/floor/graph/doors>`, `NeBuLA.effects.*` (starfield/streaks/constellation/haze + 3 class effects), `NeBuLA.ui.*` factories, CDN consumption + the flip-point. Read before writing any RaBbLE front-end markup.
+- **[RaBbLE-Frontend-Guide](RaBbLE-Agent/RaBbLE-Frontend-Guide.md)** — **How to modify World / build new RaBbLE apps.** Thin-assembler pattern, step-by-step: add a World page (head wiring + page-id + Atlas workflow), add a CSS component to Aether, add a NeBuLA effect, build a standalone CDN-only app. Rules box (palette vars, no bundler, frameworks build / apps don't).
 
 ---
 
