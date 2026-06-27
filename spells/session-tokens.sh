@@ -88,9 +88,12 @@ dir_to_project() {
   local dirname="$1"
   # -home-rabble-RaBbLE-RaBbLE-sCoRE → RaBbLE-sCoRE
   # -home-rabble-RaBbLE-Collective → RaBbLE-Collective
+  # -home-rabble-Jobotron3000 → Jobotron3000
   # -home-rabble → (home)
   if [[ "$dirname" == *"-RaBbLE-Collective" ]]; then
     echo "RaBbLE-Collective"
+  elif [[ "$dirname" == *"-Jobotron3000" ]]; then
+    echo "Jobotron3000"
   elif [[ "$dirname" == *"-RaBbLE-RaBbLE-"* ]]; then
     echo "$dirname" | sed 's/.*-RaBbLE-RaBbLE-/RaBbLE-/'
   elif [[ "$dirname" == *"-RaBbLE-"* ]]; then
@@ -116,7 +119,7 @@ if $MODE_ONBOARDING; then
     "──────────────────" "────────────────────" "──────" "────────────" "────────────" "──────"
 
   declare -a OB_ROWS=()
-  for projdir in "$CLAUDE_PROJECTS"/-home-rabble-RaBbLE-*/; do
+  for projdir in "$CLAUDE_PROJECTS"/-home-rabble-{RaBbLE-*,Jobotron3000}/; do
     [[ -d "$projdir" ]] || continue
     project_name=$(dir_to_project "$(basename "$projdir")")
     for sessionfile in "$projdir"*.jsonl; do
@@ -174,8 +177,8 @@ fi
 
 declare -a SESSION_DATA=()
 
-# Scan all RaBbLE project session files
-for projdir in "$CLAUDE_PROJECTS"/-home-rabble-RaBbLE-*/; do
+# Scan all RaBbLE project session files and Jobotron3000
+for projdir in "$CLAUDE_PROJECTS"/-home-rabble-{RaBbLE-*,Jobotron3000}/; do
   [[ -d "$projdir" ]] || continue
   project_name=$(dir_to_project "$(basename "$projdir")")
 

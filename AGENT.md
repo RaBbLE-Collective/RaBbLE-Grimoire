@@ -136,8 +136,12 @@ claim/check/status/release`, `promote-insight.sh ls`, `blockers.sh ls`.
 # 3. Add session entry below LATEST (date, repos touched, work done, what's next)
 # 4. git add <changed files>
 # 5. git commit -m "[impulse] ~ [organ] >> [revelation] // %STATE%"
-# 6. Breadcrumb — tag this session's token spend by feature (agent-agnostic):
-#    bash spells/end-session.sh <feature-slug> "<note>"
+# 6. Tag token spend by feature (agent-agnostic; feeds analytics):
+#    bash spells/end-session.sh <feature-slug> "<optional-note>"
+#    Examples:
+#      bash spells/end-session.sh token-tracking "S184: session-tokens.sh extension"
+#      bash spells/end-session.sh rabble-collective-ops "S182 state updates"
+#    Use kebab-case slugs. For cross-repo: prefix with system (os-*, score-*, world-*, etc.)
 # 7. If you ran session-start.sh (claimed scope this session):
 #    bash spells/promote-insight.sh auto    # crystallize this session's insights/stumbles into Lessons
 #    bash spells/agent-register.sh release   # free your scope — ALSO stops the background heartbeat
