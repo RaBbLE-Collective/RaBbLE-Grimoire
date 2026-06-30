@@ -54,7 +54,7 @@ INDEX="$GRIMOIRE_ROOT/INDEX.md"
 # Files to ignore for index/connectivity purposes (generated or transient)
 ignore_for_index() {
   case "$1" in
-    gist/*|log/lessons/*|log/agents/*|log/SESSION-LOG*.md|log/grimoire-graph.md|\
+    gist/*|log/lessons/*|log/agents/*|log/SESSION-LOG*.md|log/generated/*|\
     CLAUDE.md|CODEX.md|GEMINI.md) return 0 ;;
     *) return 1 ;;
   esac
@@ -103,7 +103,7 @@ while IFS= read -r f; do
       err "$rel → $ref"; ((broken++)) || true       # path-qualified + nowhere = real breakage
     fi
   done < <( { grep -oP '\]\(\K[^)]+' "$f"; grep -oP '`\K[^`]+\.md(?=`)' "$f"; } 2>/dev/null || true)
-done < <(find "$GRIMOIRE_ROOT" -name '*.md' -type f ! -path '*/log/grimoire-graph.md' | sort)
+done < <(find "$GRIMOIRE_ROOT" -name '*.md' -type f ! -path '*/log/generated/*' | sort)
 [[ $broken -eq 0 ]] && ok "all path-qualified internal .md links resolve"
 [[ $broken -gt 0 ]] && say "  ${MUTED}fix: correct the path, or create the target doc${RESET}"
 

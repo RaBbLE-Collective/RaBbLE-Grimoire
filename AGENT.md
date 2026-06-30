@@ -121,7 +121,7 @@ bash spells/session-start.sh "<glob>"... --task "…"   # reads lessons + blocke
                                              # self-terminating background heartbeat so the claim survives.
 # no scope yet? `bash spells/session-start.sh` alone prints context only.
 ```
-The pre-commit auto-register (built; spec in `log/HANDOFF-PreCommit-AntiClobber.md`) is only a
+The pre-commit auto-register (built; spec in `log/handoffs/done/HANDOFF-PreCommit-AntiClobber.md`) is only a
 *backstop* for when this ritual is skipped — it warns at commit, after the damage. The ritual is
 the front line. Underlying spells if you need them à la carte: `agent-register.sh
 claim/check/status/release`, `promote-insight.sh ls`, `blockers.sh ls`.

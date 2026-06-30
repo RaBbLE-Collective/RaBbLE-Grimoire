@@ -8,17 +8,31 @@ Visual plan exports from active and completed sessions live here as MDX artifact
 Plans are **created** in the local self-hosted plan server and **exported** here for
 version control and Grimoire logging. One subdirectory per plan: `log/plans/<slug>/`.
 
-## Markdown handoff plans
+## Active plans
 
-Flat `*.md` files in this dir are cold-start handoffs for multi-session work — plain
-markdown, not MDX exports. Read these to resume an in-flight effort:
+Flat `*.md` files in this dir are in-flight work — read before starting the work.
+Completed plans move to `done/`. Handoff docs (written mid-session for a future agent to
+pick up) live in `../handoffs/` instead.
 
 | Plan | Status |
 |---|---|
-| `World-Framework-Refactor.md` | 🟡 PLAN ONLY — Aether(CSS)+NeBuLA(JS) as frameworks, World as thin assembler; exhaustive harvest of World+Chrysalis effects/components → generic Aether/NeBuLA; component-catalog page as palette+QA surface. Not started. |
+| `Subdomain-Registry-and-Maintenance.md` | 🟡 S185 — subdomain registry spec + Collective maintenance backlog |
+| `Aether-Theming-Convergence.md` | 🟡 Not started — palette sovereignty across web/editor/desktop/browser |
 | `OS-VM-Dev-Flow.md` | 🟡 VM install unblocked (branch parameterized); cast VM + boot-theme loop pending |
 | `OS-Plymouth-Black-Screen.md` | 🎯 Root cause found (S166 ternary); awaiting visual verify |
-| `OS-Dolphin-Grey-Text.md` | 🔴 Labels dim ≈#656769 regardless of focus. Stack confirmed (Kvantum [GeneralColors] is sole palette source). no_inactiveness DISPROVEN. Next: PyQt6 palette dump → Fix Path A (disabled.text.color) or B (qt6ct custom_palette) |
+| `OS-Dolphin-Grey-Text.md` | 🔴 Labels dim ≈#656769 regardless of focus. Next: PyQt6 palette dump → Fix Path A/B |
+
+## Completed plans
+
+Finished work in `done/` — kept for historical context.
+
+| Plan | Completed |
+|---|---|
+| `done/World-Framework-Refactor.md` | S182 — Aether+NeBuLA as frameworks, World as assembler |
+| `done/World-Framework-Refactor-HANDOFF.md` | S182+r2 — cold-start handoff |
+| `done/World-Framework-Refactor-API.md` | S182 — framework API surface |
+| `done/harvest-map.md` | S182 — World+Chrysalis effects extraction ledger |
+| `done/harvest-map-effects.md` | S182 — effects-specific harvest |
 
 ## Architecture
 

@@ -1,6 +1,6 @@
 # EP1 Air Checklist — Episode 1 (Genesis)
 
-> **Operational gate** for airing Episode 1. Distinct from `EPISODE-1-RELEASE.md`
+> **Operational gate** for airing Episode 1. Distinct from `log/episodes/EPISODE-1-RELEASE.md`
 > (the narrative release record / Genesis framing). This file is the live, member-by-member
 > state and the tag procedure. **The air gate is not pulled until every gate row is green.**
 >
@@ -13,7 +13,7 @@
 
 **Target tag:** `episode-1-v0.0.0.1` — applied to all lockstep members **simultaneously**.
 **Version:** v0.0.0.0 → v0.0.0.1 (Epoch 0 · Evolution 0 · Echo 0 · Episode 1).
-**Last reconciled:** 2026-06-25 (S177 — G10 closed: episode movement + os.html). See `log/HANDOFF-S153-EP1-Coherence.md`.
+**Last reconciled:** 2026-06-25 (S177 — G10 closed: episode movement + os.html). See `log/handoffs/done/HANDOFF-S153-EP1-Coherence.md`.
 
 ---
 
@@ -35,7 +35,7 @@
 **Decision rule (set by Mark, S129):** the air call is Mark's once these rows are green.
 G4+G5+G6 are the "smallest end-to-end loop" — they are the spine of Genesis. G3 gates the
 visual layer. If Mark elects to air with the chat path still rough, demote G4/G5/G6 to a
-**Known Limitation** in `EPISODE-1-RELEASE.md` rather than silently shipping a broken loop.
+**Known Limitation** in `log/episodes/EPISODE-1-RELEASE.md` rather than silently shipping a broken loop.
 
 ---
 
@@ -78,7 +78,7 @@ full reproducible bake. Tracked in `RaBbLE-Agent/RaBbLE-Post-EP1-Roadmap.md`.
    `bash spells/blockers.sh ls` → no `ep1-gate` open.
 2. **Backup tags** on each lockstep member (`git tag backup/pre-ep1-<member>`), per the
    history-retention practice from the S103 audit.
-3. **Fill the release record:** finalize `EPISODE-1-RELEASE.md` — remove the DRAFT notice,
+3. **Fill the release record:** finalize `log/episodes/EPISODE-1-RELEASE.md` — remove the DRAFT notice,
    fill the verification table, confirm Render URLs (no "Railway" / no `<pending>`).
 4. **Tag simultaneously:** `episode-1-v0.0.0.1` on Grimoire, sCoRE, World, Aether, NeBuLA, OS,
    BaBbLE. (`spells/seal-episode.sh` is the signing ceremony — exercise it here.)
@@ -90,7 +90,7 @@ full reproducible bake. Tracked in `RaBbLE-Agent/RaBbLE-Post-EP1-Roadmap.md`.
 
 ---
 
-## E. Honest-limitations carry-over (from EPISODE-1-RELEASE.md)
+## E. Honest-limitations carry-over (from log/episodes/EPISODE-1-RELEASE.md)
 
 Genesis ships **expression, not perception** — a face + a voice, not the entity the Identity
 spec describes. The honest boundary (no Watcher, no memory member, no entity emoting/state

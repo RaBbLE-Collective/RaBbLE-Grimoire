@@ -1,0 +1,87 @@
+# registry/subdomains.yml
+# Authoritative map of all joinrabble.world subdomains.
+#
+# Fields:
+#   host    — full hostname
+#   label   — short human label
+#   owner   — Collective member responsible for content + deploy
+#   tech    — hosting/delivery mechanism
+#   purpose — what this subdomain does
+#   status  — live | staging | unknown | planned
+#   blocker — (optional) blocker ID if the subdomain is blocked
+#   notes   — (optional) freeform context
+#
+# Update this file when:
+#   - A new subdomain is provisioned
+#   - A subdomain changes tech or owner
+#   - Status flips (staging → live, etc.)
+# Reference: log/plans/Subdomain-Registry-and-Maintenance.md §1
+
+subdomains:
+
+  - host: joinrabble.world
+    label: World — homepage
+    owner: RaBbLE-World
+    tech: Cloudflare Pages
+    purpose: User-facing homepage, entity interaction, chat surface
+    status: live
+    notes: EP1 landing + chat wired to sCoRE via score.joinrabble.world
+
+  - host: dev.joinrabble.world
+    label: World — dev/staging
+    owner: RaBbLE-World
+    tech: Cloudflare Workers (deploy-dev GitHub Actions workflow)
+    purpose: Staging + dev testing for HTML/CSS/JS pages; Xperimental and Chrysalis preview zone
+    status: staging
+    blocker: B-10
+    notes: |
+      Blocked on GitHub Actions secret. Mark to create a scoped CF Workers token:
+        gh secret set CLOUDFLARE_API_TOKEN --body <token>
+        gh secret set CLOUDFLARE_ACCOUNT_ID --body <account-id>
+      Workflow + dev domain binding already correct; secret is the only missing piece.
+
+  - host: score.joinrabble.world
+    label: sCoRE — LLM backend
+    owner: RaBbLE-sCoRE
+    tech: Render (free-tier Web Service); subdomain CNAME → Render URL
+    purpose: LLM chat API endpoint; all World chat traffic routes here
+    status: live
+    notes: |
+      Live at rabble-score-x7qq.onrender.com (S106).
+      Managed via spells/render-ctl.sh. Free-tier spins down after inactivity.
+
+  - host: grimoire.joinrabble.world
+    label: Grimoire — MCP + browsable docs
+    owner: RaBbLE-Grimoire
+    tech: unknown
+    purpose: |
+      Dual role:
+        (a) Grimoire as MCP server — agents connect here for context retrieval (EP2 target)
+        (b) Browsable Grimoire — human-readable doc site built from Grimoire markdown
+    status: unknown
+    notes: |
+      Unverified as of S185. To investigate:
+        curl -s -o /dev/null -w "%{http_code}" https://grimoire.joinrabble.world
+      If live: determine tech (Cloudflare Worker? static site? Render?).
+      MCP endpoint is EP2 (post-entity). Browsable docs site may be EP1.
+
+  - host: aether.joinrabble.world
+    label: Aether — CSS framework CDN
+    owner: RaBbLE-Aether
+    tech: Cloudflare R2 + Workers (versioned bundle delivery)
+    purpose: CDN delivery of all Aether versions (aether.min.css); framework docs
+    status: live
+    notes: |
+      v0.0.0.1-rc.1 bundle confirmed HTTP 200 (S153, G3 green).
+      Docs: member-side docs page points to Grimoire RaBbLE-Aether/ section (never duplicate).
+
+  - host: nebula.joinrabble.world
+    label: NeBuLA — JS effects CDN
+    owner: RaBbLE-NeBuLA
+    tech: Cloudflare R2 + Workers (versioned bundle delivery)
+    purpose: CDN delivery of all NeBuLA versions (nebula.iife.js); NeBuLA Studio (EP2)
+    status: live
+    notes: |
+      v0.0.0.1-rc.1 bundle confirmed HTTP 200 (S153, G3 green).
+      NeBuLA Studio (visual WYSIWYG 2D/3D) is EP2 target.
+      Docs: same pattern as Aether — member page points to Grimoire RaBbLE-NeBuLA/ section.

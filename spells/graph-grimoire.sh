@@ -23,8 +23,8 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
   echo "                  first — so you can pick the next doc to read on a budget."
   echo ""
   echo "Outputs:"
-  echo "  log/grimoire-graph.json   — adjacency list; nodes & edges carry \"tokens\""
-  echo "  log/grimoire-graph.md     — Mermaid diagram (token cost in each node label)"
+  echo "  log/generated/grimoire-graph.json   — adjacency list; nodes & edges carry \"tokens\""
+  echo "  log/generated/grimoire-graph.md     — Mermaid diagram (token cost in each node label)"
   echo ""
   echo "Reports: orphan docs, hub docs, islands, heaviest docs, link density."
   exit 0
@@ -43,10 +43,10 @@ RED='\033[38;2;224;92;111m'
 MUTED='\033[38;2;107;104;128m'
 RESET='\033[0m'
 
-mkdir -p "$GRIMOIRE_ROOT/log"
+mkdir -p "$GRIMOIRE_ROOT/log/generated"
 
-GRAPH_JSON="$GRIMOIRE_ROOT/log/grimoire-graph.json"
-GRAPH_MD="$GRIMOIRE_ROOT/log/grimoire-graph.md"
+GRAPH_JSON="$GRIMOIRE_ROOT/log/generated/grimoire-graph.json"
+GRAPH_MD="$GRIMOIRE_ROOT/log/generated/grimoire-graph.md"
 
 declare -A NODE_DIR
 declare -A OUTGOING
