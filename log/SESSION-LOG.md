@@ -5,12 +5,22 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-27 · Session 183 (doc gap fixes: World AGENT.md, Theme-System, Frontend Guide)
+## LATEST — 2026-06-30 · Session 184 (Aether Theming Convergence plan)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** Closed 3 handoff doc gaps. World AGENT.md: replaced stale 12-file phantom inventory with actual RC1 files. `RaBbLE-pages.js` comment + Frontend Guide: noted `page-runtime.js` was removed in RC1 prune. `RaBbLE-Theme-System.md`: `constellation` now explicitly requires `starfield` layering. Visual Verification URL updated (Boot.html → os.html).
-**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open. 1 World flag still open: `account.html` "← chat" → `RaBbLE-Chat.html` (404).
-**Next:** drop `.rc-*` aliases (per-page screenshot parity); de-dupe Three.js; G7/G9 EP1 gates.
+**This session:** Full audit of `RaBbLE-Aether/themes/` — discovered complete platform theme tree (VSCodium, Firefox, GTK3/4, Kvantum, `_palette/` pipeline). Wrote `log/plans/Aether-Theming-Convergence.md`: 4 tracks — A (VSCodium/Firefox naming unification + JSON codegen + keyframe harvest), B (Chrysalis CSS effects: glitch-veil/text, breathe, ring states), C (8 missing World pages, design-gated), D (`.rc-*` alias cleanup). VSCodium theme confirmed git-tracked in Aether and in sync with live system.
+**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
+**Next:** Execute Track A (A1 naming rename in custom.css + userChrome.css, A2 Firefox off-palette fix, A3 JSON Jinja2 template, A4 keyframe harvest into Aether web CSS). Mark-led on Track C design decisions.
+
+---
+
+## 2026-06-30 · Session 184 (Aether Theming Convergence plan)
+
+- Repos: RaBbLE-Grimoire (new-horizons).
+- **Full `themes/` audit:** discovered `RaBbLE-Aether/themes/` already holds VSCodium, Firefox, GTK3/4, Kvantum themes + `_palette/recolor.sh` pipeline. VSCodium installed extension confirmed identical to tracked source. GTK3 already palette-token-clean. Kvantum already pipeline-driven (recolor.sh + .map).
+- **Gaps found:** (1) `custom.css` + `userChrome.css` use non-canonical `--aether-angle`/`aether-harmony-spin` names (predate Aether's settled naming). (2) Firefox has 3 off-palette hex values. (3) VSCodium JSON (931 lines) has hardcoded hex — needs Jinja2 template + Ansible render. (4) `rabble-glow-cycle`/`rabble-ring-glow` keyframes + `.rabble-scrollbar-neon` not yet in Aether web CSS. (5) 5 Chrysalis CSS effects not yet harvested into Aether.
+- **Plan written:** `log/plans/Aether-Theming-Convergence.md` — 4 tracks with cold-start blocks, delivery order, and full palette propagation map. Indexed in INDEX.md.
+- **Next:** Track A (naming + codegen + harvest) is the immediate path — no design decisions required, purely technical unification.
 
 ---
 
