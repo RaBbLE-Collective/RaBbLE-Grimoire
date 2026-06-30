@@ -5,12 +5,30 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-30 · S185 (logging-clobber-mechanics)
+## LATEST — 2026-06-30 · S186 (log-cleanup)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** Session logging clobber fixed: end-session.sh auto-writes ## LATEST via --synopsis; pre-commit anti-clobber backstop built; AGENT.md protocol updated
+**This session:** S186: log/ restructured + handoffs/done/ + plans/done/ + episodes/ + archive/; registry/subdomains.yml live
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
-**Next:** subdomain registry + endpoint docs; G7/G9 EP1 gates (Mark-led)
+**Next:** G7/G9 EP1 gates; B-10 CF token; ep1-status.sh; grimoire.joinrabble.world verify
+
+---
+
+## 2026-06-30 · Session 186 (log cleanup + subdomain registry)
+
+- Repos: RaBbLE-Grimoire (new-horizons).
+- **log/ restructured:** 20 files moved out of the log root into typed subdirs:
+  - `handoffs/` + `handoffs/done/` — 4 done HANDOFFs (PreCommit, S116, S153, S176); 1 pending (FCC)
+  - `plans/done/` — 5 completed World-refactor plans + harvest maps
+  - `episodes/` — EPISODE-1-RELEASE.md + RC1-Entity-Correspondence.md
+  - `archive/` — 6 historical/superseded docs (S57 gap analysis, S58 dispatch, S103 audit, S104 plan, S138 overflow log, S184 token analysis)
+  - `generated/` — grimoire-graph.json + grimoire-graph.md; graph-grimoire.sh updated to write here; grimoire-doctor.sh exclude updated
+- **README files** written for each new subdir (handoffs/, plans/done/, episodes/, archive/, generated/)
+- **log/README.md** updated with full new structure overview
+- **log/plans/README.md** updated: active plans table current; done/ table added
+- **INDEX.md** updated: all moved paths corrected; new sections (Plans active, Handoffs pending, Episodes, Archive)
+- **registry/subdomains.yml** implemented: all 6 joinrabble.world subdomains with owner/tech/status/blocker/notes; spec from `log/plans/Subdomain-Registry-and-Maintenance.md §1`
+- **Next:** G7/G9 EP1 gates; B-10 CF token; `spells/ep1-status.sh`; grimoire.joinrabble.world verify.
 
 ---
 
