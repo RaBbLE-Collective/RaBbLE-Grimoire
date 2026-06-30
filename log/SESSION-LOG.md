@@ -14,9 +14,9 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## 2026-06-30 · Session 186 (sCoRE tracker: token up/down + dollar pricing + viz)
+## 2026-06-30 · Session 187 (sCoRE tracker: token up/down + dollar pricing + viz)
 
-- Repos: RaBbLE-OS (new-horizons), RaBbLE-Grimoire (new-horizons). Ran concurrently with the log-cleanup S186 session (which owns the LATEST box).
+- Repos: RaBbLE-OS (new-horizons), RaBbLE-Grimoire (new-horizons). Ran concurrently with the log-cleanup session (S186, which owns the LATEST box); double-booked as 186, renumbered to 187.
 - **Bar = web-only:** `score-status.sh` (both `claude` + `summary` modes) no longer prints the local token estimate on the waybar — only a fresh (≤1200s) Anthropic web observation. No fresh obs → agent-state glyph only. Estimate retained in the tooltip as a calibration delta.
 - **Tokens up/down + per-model $ pricing:** new `score-pricing.json` (single source of truth, list $/MTok per model; cache_read 0.1×, cache_write 1.25×) + importable `score_pricing.py` helper. `score-usage-detail.py` now accumulates a full per-model breakdown (in/out/cache) and prints `≈$N API` per window + per model.
 - **Regression refined:** `score-usage-fit.py` now filters regressors to Anthropic-only models (OpenRouter providers spend no Claude quota and were producing absurd coefficients) and uses non-negative least squares (scipy `nnls`). Full rank 16/16, all coeffs ≥ 0, ~100% of Δ% explained. Exports `~/.cache/rabble/llm-usage-coeffs.json`.

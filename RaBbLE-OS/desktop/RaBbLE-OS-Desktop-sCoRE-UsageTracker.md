@@ -127,7 +127,7 @@ One mechanism serves both "animate smoothly while busy" and "react instantly whe
 
 ---
 
-## Bar shows the live web meter only (S186)
+## Bar shows the live web meter only (S187)
 
 The **bar text never shows the local token estimate.** It appends a percentage only when there is a fresh (≤1200s) web observation from `score-usage-api-poll.py` — Anthropic's own meter. With no fresh observation the bar shows just the agent-state glyph/census. Rationale: the local estimate drifts (see below); showing it on the bar implied a precision it does not have. The estimate still lives in the **tooltip/popup** (`est X% / web Y% (Δ Z pp)`) as a calibration aid, never as the headline number. Edited in both the `claude` mode and the default `summary` mode bar-text blocks of `score-status.sh`.
 
@@ -160,7 +160,7 @@ The **bar text never shows the local token estimate.** It appends a percentage o
 
 `count_tokens_since` now writes `~/.cache/rabble/score-model-mix-5h.json` and `score-model-mix-week.json` after each heavy-tier pass. The tooltip shows `Models 5h: sonnet-4-6 85%  opus-4-6 15%` (output share). The click-through popup (`score-usage-detail.py`) now shows a `By model` summary at the bottom of each time window's session list.
 
-### Tokens up/down + dollar pricing (S186)
+### Tokens up/down + dollar pricing (S187)
 
 Two costs are tracked, and they answer different questions:
 
@@ -172,7 +172,7 @@ Two costs are tracked, and they answer different questions:
 
 Pricing lives in **`score-pricing.json`** (the single source of truth — list prices $/MTok per model; `cache_read = 0.1×input`, `cache_write = 1.25×input` for the 5-min TTL Claude Code uses). The importable **`score_pricing.py`** helper (`load`/`cost`/`fmt_usd`) is shared by the popup and the viz builder; unknown models fall back to the configured Sonnet-tier `default`. These are *API list-price* estimates, distinct from the subscription quota %.
 
-### Regression refinement — NNLS, Anthropic-only, exported coefficients (S186)
+### Regression refinement — NNLS, Anthropic-only, exported coefficients (S187)
 
 `score-usage-fit.py` was refined in two ways:
 
@@ -181,7 +181,7 @@ Pricing lives in **`score-pricing.json`** (the single source of truth — list p
 
 Result on the current log (~7,700 api-poll obs, 2,490 usable 5h deltas): full rank 16/16, all coefficients ≥ 0, RMSE ~2.0 pp/interval (5h) and ~0.7 pp (week), and CC tokens now explain ~100% of observed Δ% (was leaking into junk features). The fit **exports** `~/.cache/rabble/llm-usage-coeffs.json` — `{windows: {5h|week: {coeffs: {model: {type: %-per-token}}, rmse_pp, n_deltas}}}` — so other tools can predict `pct = Σ coeff[model][type]·tokens` from empirical weights instead of the crude `FIVE_H_LIMIT` division. Run `score-usage-fit.py` to regenerate after the poller accumulates more samples.
 
-### Breadcrumb visualization — `score-token-viz.py` (S186)
+### Breadcrumb visualization — `score-token-viz.py` (S187)
 
 Joins three breadcrumb sources — transcripts (per-session, **per-model**), `RaBbLE-Grimoire/log/token-ledger.tsv` (session → feature → note), and `score-pricing.json` — into one chartable JSON at `RaBbLE-Grimoire/log/token-viz.json`. Schema: `totals`, `by_model`, `by_feature`, `by_project`, and a `sessions[]` array, each with tokens down/up/cache, weighted cost, and `$` API estimate, plus a per-model breakdown. Auto-discovers the Grimoire by walking up from the script dir / CWD; `--since N` limits to recent days, `--stdout` / `--out` / `--quiet` control output. Token sums match `spells/session-tokens.sh` (same no-dedup approach + weighting constants); the new thing it adds over that spell is the per-model split and dollar costing.
 
