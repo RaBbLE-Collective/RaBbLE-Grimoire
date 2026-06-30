@@ -8,9 +8,21 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-06-30 · S186 (log-cleanup)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S186: log/ restructured + handoffs/done/ + plans/done/ + episodes/ + archive/; registry/subdomains.yml live
+**This session:** S186: log/ restructured + CONTEXT.md; registry/subdomains.yml live
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
 **Next:** G7/G9 EP1 gates; B-10 CF token; ep1-status.sh; grimoire.joinrabble.world verify
+
+---
+
+## 2026-06-30 · Session 186 (sCoRE tracker: token up/down + dollar pricing + viz)
+
+- Repos: RaBbLE-OS (new-horizons), RaBbLE-Grimoire (new-horizons). Ran concurrently with the log-cleanup S186 session (which owns the LATEST box).
+- **Bar = web-only:** `score-status.sh` (both `claude` + `summary` modes) no longer prints the local token estimate on the waybar — only a fresh (≤1200s) Anthropic web observation. No fresh obs → agent-state glyph only. Estimate retained in the tooltip as a calibration delta.
+- **Tokens up/down + per-model $ pricing:** new `score-pricing.json` (single source of truth, list $/MTok per model; cache_read 0.1×, cache_write 1.25×) + importable `score_pricing.py` helper. `score-usage-detail.py` now accumulates a full per-model breakdown (in/out/cache) and prints `≈$N API` per window + per model.
+- **Regression refined:** `score-usage-fit.py` now filters regressors to Anthropic-only models (OpenRouter providers spend no Claude quota and were producing absurd coefficients) and uses non-negative least squares (scipy `nnls`). Full rank 16/16, all coeffs ≥ 0, ~100% of Δ% explained. Exports `~/.cache/rabble/llm-usage-coeffs.json`.
+- **Breadcrumb viz:** new `score-token-viz.py` joins transcripts + `log/token-ledger.tsv` + pricing → `log/token-viz.json` (totals / by_model / by_feature / by_project / sessions[], each with down/up/cache, weighted, $). 350 sessions, ≈$2,315 API list-price total.
+- Deployed via `dotctl apply waybar`; doc updated: `RaBbLE-OS/desktop/RaBbLE-OS-Desktop-sCoRE-UsageTracker.md`.
+- **Next:** optionally wire `score-status.sh` tooltip est to consume `llm-usage-coeffs.json`; a chart frontend for `token-viz.json`.
 
 ---
 
@@ -28,6 +40,7 @@ Format: date, what was done, where things were left, what's next.
 - **log/plans/README.md** updated: active plans table current; done/ table added
 - **INDEX.md** updated: all moved paths corrected; new sections (Plans active, Handoffs pending, Episodes, Archive)
 - **registry/subdomains.yml** implemented: all 6 joinrabble.world subdomains with owner/tech/status/blocker/notes; spec from `log/plans/Subdomain-Registry-and-Maintenance.md §1`
+- **README.md → CONTEXT.md:** all 7 README.md files in log/ converted to CONTEXT.md following `registry/CONTEXT.md` pattern (workspace code block, `## What happens here`, `## Contents`). grimoire-doctor updated to exclude `log/*/CONTEXT.md` from unindexed check. `log/CONTEXT.md` indexed in INDEX.md.
 - **Next:** G7/G9 EP1 gates; B-10 CF token; `spells/ep1-status.sh`; grimoire.joinrabble.world verify.
 
 ---
