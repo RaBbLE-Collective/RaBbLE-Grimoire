@@ -234,6 +234,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-Aether-Design-Guide](RaBbLE-Aether/RaBbLE-Aether-Design-Guide.md) — palette, component prompts, and animation vocabulary for any AI design/image tool
 - [SYSTEM-PROMPT](RaBbLE-Aether/SYSTEM-PROMPT.md) — three-tier system prompt for pasting into Claude Design (quick card / short / full)
 - [RaBbLE-Aether-Effects-Bank](RaBbLE-Aether/RaBbLE-Aether-Effects-Bank.md) — saved CSS effects discovered accidentally, pending integration (cotton candy swirl, etc.)
+- **[Aether-Theming-Convergence](log/plans/Aether-Theming-Convergence.md)** — **ACTIVE PLAN.** 4 tracks: VSCodium theme → Aether `themes/vscodium/` (palette-driven JSON, naming unification, keyframe harvest), remaining Chrysalis CSS effects (glitch-veil, glitch-text, breathe, ring-states), 8 missing World pages, `.rc-*` alias cleanup. Aether as theming source of truth for web + editor + OS.
 - [DEBUG-SESSION-2026-05-15](RaBbLE-Aether/DEBUG-SESSION-2026-05-15.md) — session debug log (ephemeral reference)
 - [Visual Assets](RaBbLE-Aether/assets/) — SVG, logos, icons
 
