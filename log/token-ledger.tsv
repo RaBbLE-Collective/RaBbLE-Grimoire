@@ -168,7 +168,6 @@ commit-a8212ec	ep1-world-floor	G10 closed: episode movement, os.html (Aether ret
 commit-c1e5b33	ep1-os-polish	OS page Aether retheme: conic gradient borders, flowing outlines, readable text, cyan labels, VSCodium WS1 reference
 commit-dc5eb67	world-framework-refactor	World landing Aether polish + flowing-border refactored to apply Aether .rabble-border-harmony; authored World Framework Refactor plan (Aether/NeBuLA frameworks, World assembler); B-10 dev-autodeploy blocked on CF API token
 e79f07e4-1c8a-45de-a9bf-e76774d52e7e	rabble-collective-ops	auto: current state S182: World Framework Refactor done, Atlas catalog live
-c9acd1e6-3249-4340-b0f6-6b6f0b9f640f	world-framework-refactor	Opus-orchestrated A/B/C: Aether 18 .rabble-* classes, NeBuLA floor/graph/starfield, World Atlas catalog; QA PASS
 01c5f8d8-1675-4807-afb4-dce90391b690	token-tracking	S184: Token tracking analysis + Jobotron extension
 f37a9c84-9a01-45f2-9a82-f48289065032	jobotron-exploration	Jobotron work (external project)
 7d65aca1-5ef2-444c-9291-55f084b3df1f	jobotron-exploration	Jobotron work (external project)
@@ -179,3 +178,6 @@ fa8bae87-c282-43f4-98a1-8a89e73774c3	token-tracking	S184: Session-tokens.sh Jobo
 142075fb-a85b-4c1d-806d-28bb26008344	jobotron-exploration	Jobotron work (external project)
 d216d95a-82df-4d57-8b8d-9f65be41455e	rabble-collective-ops	S182 end-of-session state updates
 a96fcfd5-ab7e-43d9-a36e-cb42f778f3e2	rabble-collective-ops	S182 end-of-session state updates
+59c3f220-af7b-46ec-be0e-2bb501e2f941	token-tracking	S184: Session-tokens.sh Jobotron extension, feature consolidation, sCoRE architecture doc, CLAUDE.md ritual updates
+5923ce0f-f0ad-4147-956a-60b6877dd62e	collective	auto: current state S184: Aether Theming Convergence plan written
+c9acd1e6-3249-4340-b0f6-6b6f0b9f640f	logging-clobber-mechanics	

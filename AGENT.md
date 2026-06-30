@@ -121,7 +121,7 @@ bash spells/session-start.sh "<glob>"... --task "…"   # reads lessons + blocke
                                              # self-terminating background heartbeat so the claim survives.
 # no scope yet? `bash spells/session-start.sh` alone prints context only.
 ```
-The pre-commit auto-register (`log/HANDOFF-PreCommit-AntiClobber.md`, not yet built) is only a
+The pre-commit auto-register (built; spec in `log/HANDOFF-PreCommit-AntiClobber.md`) is only a
 *backstop* for when this ritual is skipped — it warns at commit, after the damage. The ritual is
 the front line. Underlying spells if you need them à la carte: `agent-register.sh
 claim/check/status/release`, `promote-insight.sh ls`, `blockers.sh ls`.
@@ -131,18 +131,18 @@ claim/check/status/release`, `promote-insight.sh ls`, `blockers.sh ls`.
 # 1. Blockers FIRST — keep the durable ledger current (it outlives the LATEST box):
 #    bash spells/blockers.sh add "<what's blocked>" --owner Mark --tag ep1-gate   # new blocker
 #    bash spells/blockers.sh resolve B-NN "<how it cleared>"                       # cleared one
-# 2. Update ## LATEST in log/SESSION-LOG.md (75 words max). The `Blockers:` line is a
-#    ONE-LINE POINTER to log/BLOCKERS.md — do NOT inline the list (that's what gets clobbered).
-# 3. Add session entry below LATEST (date, repos touched, work done, what's next)
-# 4. git add <changed files>
-# 5. git commit -m "[impulse] ~ [organ] >> [revelation] // %STATE%"
-# 6. Tag token spend by feature (agent-agnostic; feeds analytics):
-#    bash spells/end-session.sh <feature-slug> "<optional-note>"
+# 2. Add session entry below LATEST in log/SESSION-LOG.md (date, repos, work done, what's next)
+#    Do NOT hand-write ## LATEST — end-session.sh generates it from --synopsis (see step 4).
+# 3. git add <changed files>
+# 4. git commit -m "[impulse] ~ [organ] >> [revelation] // %STATE%"
+# 5. Tag token spend + auto-write ## LATEST (agent-agnostic; --synopsis is the clobber fix):
+#    bash spells/end-session.sh <feature-slug> [note] --synopsis "one-liner" --next "what's next"
 #    Examples:
-#      bash spells/end-session.sh token-tracking "S184: session-tokens.sh extension"
-#      bash spells/end-session.sh rabble-collective-ops "S182 state updates"
-#    Use kebab-case slugs. For cross-repo: prefix with system (os-*, score-*, world-*, etc.)
-# 7. If you ran session-start.sh (claimed scope this session):
+#      bash spells/end-session.sh token-tracking --synopsis "S184: session-tokens.sh done" --next "G7/G9 gates"
+#      bash spells/end-session.sh world-refactor "S182: Atlas" --synopsis "frameworks + Atlas live" --next "drop .rc-* aliases"
+#    Omit --synopsis to skip LATEST update (backward-compatible). Use kebab-case slugs.
+#    For cross-repo: prefix with system (os-*, score-*, world-*, etc.)
+# 6. If you ran session-start.sh (claimed scope this session):
 #    bash spells/promote-insight.sh auto    # crystallize this session's insights/stumbles into Lessons
 #    bash spells/agent-register.sh release   # free your scope — ALSO stops the background heartbeat
 # See RaBbLE-Agent/RaBbLE-CommitStyle.md (or gist/RaBbLE-CommitStyle-gist.md) for impulse vocab

@@ -46,4 +46,105 @@ if [[ -x "$ROOT/spells/grimoire-doctor.sh" ]] \
   "$ROOT/spells/grimoire-doctor.sh" --quiet || true
 fi
 
+# ── Anti-clobber backstop (auto-register + warn) ─────────────────────────────
+# Built from spec: log/HANDOFF-PreCommit-AntiClobber.md
+# Self-adopting: every commit auto-registers its scope so the NEXT session can
+# warn on overlap. Never aborts the commit. This is the backstop for when
+# session-start.sh was skipped; session-start.sh remains the front line.
+# Entire block wrapped in || true — a buggy hook that blocks commits is worse
+# than the problem it solves.
+{
+  # 1. Locate Grimoire relative to this member repo
+  _HOOK_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"
+  _HOOK_GRIMOIRE=""
+  for _p in \
+    "$_HOOK_ROOT/RaBbLE-Grimoire" \
+    "$(dirname "$_HOOK_ROOT")/RaBbLE-Grimoire" \
+    "$_HOOK_ROOT/../RaBbLE-Grimoire"; do
+    [[ -d "$_p/spells" ]] && _HOOK_GRIMOIRE="$(cd "$_p" && pwd)" && break
+  done
+  [[ -z "$_HOOK_GRIMOIRE" ]] && exit 0
+
+  _HOOK_AGENTS="$_HOOK_GRIMOIRE/log/agents"
+  mkdir -p "$_HOOK_AGENTS"
+  _HOOK_REPO="$(basename "$_HOOK_ROOT")"
+  _HOOK_NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+  _HOOK_NOW_SECS=$(date +%s)
+
+  # 2. Resolve session id + liveness-gate (same 15-min pattern as post-commit).
+  # Non-Claude agents get a git-commit key — still advisory, still useful.
+  _HOOK_SID=""
+  for _cand in "$(dirname "$_HOOK_ROOT")" "$_HOOK_ROOT" "$_HOOK_GRIMOIRE"; do
+    _projdir="$HOME/.claude/projects/$(echo "$_cand" | tr '/' '-')"
+    _sf=$(ls -t "$_projdir"/*.jsonl 2>/dev/null | head -1 || true)
+    if [[ -n "$_sf" ]]; then
+      [[ -n "$(find "$_sf" -mmin -15 2>/dev/null)" ]] || continue
+      _HOOK_SID=$(basename "$_sf" .jsonl)
+      break
+    fi
+  done
+  [[ -z "$_HOOK_SID" ]] && \
+    _HOOK_SID="commit-$(git rev-parse --short HEAD 2>/dev/null || date +%Y%m%d)"
+
+  # 3. Collect staged paths as member-prefixed scopes (RaBbLE-World:world/js/foo.js)
+  _HOOK_STAGED=$(git diff --cached --name-only 2>/dev/null)
+  [[ -z "$_HOOK_STAGED" ]] && exit 0
+  _HOOK_SCOPES=()
+  while IFS= read -r _path; do
+    [[ -z "$_path" ]] && continue
+    _HOOK_SCOPES+=("${_HOOK_REPO}:${_path}")
+  done <<< "$_HOOK_STAGED"
+
+  # 4. Check overlap with OTHER live sessions → print WARNING (never exit non-zero)
+  command -v jq &>/dev/null && {
+    for _other in "$_HOOK_AGENTS"/*.json; do
+      [[ -f "$_other" ]] || continue
+      _other_sid=$(basename "$_other" .json)
+      [[ "$_other_sid" == "$_HOOK_SID" ]] && continue
+      _hb=$(jq -r '.heartbeat_at // .started_at // ""' "$_other" 2>/dev/null)
+      [[ -z "$_hb" ]] && continue
+      _age=$(( _HOOK_NOW_SECS - $(date -d "$_hb" +%s 2>/dev/null || echo 0) ))
+      [[ "$_age" -gt 900 ]] && continue  # dead — skip
+
+      while IFS= read -r _their_scope; do
+        [[ -z "$_their_scope" ]] && continue
+        _their_path="${_their_scope#*:}"
+        for _my_scope in "${_HOOK_SCOPES[@]}"; do
+          _my_path="${_my_scope#*:}"
+          if [[ "$_my_path" == "$_their_path"* || "$_their_path" == "$_my_path"* \
+             || "$_my_scope" == "$_their_scope" ]]; then
+            echo "" >&2
+            echo "  ⚠ pre-commit: CLOBBER WARNING — another live session holds overlapping scope" >&2
+            echo "    Other session : $_other_sid" >&2
+            echo "    Their scope   : $_their_scope" >&2
+            echo "    Your path     : $_my_scope" >&2
+            echo "    Commit proceeds — coordinate if this was unintentional." >&2
+          fi
+        done
+      done < <(jq -r '.scopes[] // empty' "$_other" 2>/dev/null || true)
+    done
+  }
+
+  # 5. Auto-register staged scope (advisory, self-expiring, auto:true).
+  # Merges into existing claim if present; creates a new one otherwise.
+  command -v jq &>/dev/null || exit 0
+  _HOOK_SCOPES_JSON=$(printf '%s\n' "${_HOOK_SCOPES[@]}" | jq -R . | jq -s '.')
+  _HOOK_CLAIM="$_HOOK_AGENTS/${_HOOK_SID}.json"
+  if [[ -f "$_HOOK_CLAIM" ]]; then
+    _ctmp=$(mktemp)
+    jq --argjson s "$_HOOK_SCOPES_JSON" --arg t "$_HOOK_NOW" \
+      '.scopes = (.scopes + $s | unique) | .heartbeat_at = $t | .auto = (.auto // true)' \
+      "$_HOOK_CLAIM" > "$_ctmp" && mv "$_ctmp" "$_HOOK_CLAIM"
+  else
+    jq -n \
+      --arg sid "$_HOOK_SID" \
+      --arg cwd "$(pwd)" \
+      --argjson scopes "$_HOOK_SCOPES_JSON" \
+      --arg t "$_HOOK_NOW" \
+      '{session_id:$sid,agent:"auto",cwd:$cwd,scopes:$scopes,
+        started_at:$t,heartbeat_at:$t,auto:true}' \
+      > "$_HOOK_CLAIM"
+  fi
+} 2>/dev/null || true
+
 exit 0

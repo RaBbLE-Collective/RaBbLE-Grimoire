@@ -5,12 +5,24 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-30 · Session 184 (Aether Theming Convergence plan)
+## LATEST — 2026-06-30 · S185 (logging-clobber-mechanics)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** Full audit of `RaBbLE-Aether/themes/` — discovered complete platform theme tree (VSCodium, Firefox, GTK3/4, Kvantum, `_palette/` pipeline). Wrote `log/plans/Aether-Theming-Convergence.md`: 4 tracks — A (VSCodium/Firefox naming unification + JSON codegen + keyframe harvest), B (Chrysalis CSS effects: glitch-veil/text, breathe, ring states), C (8 missing World pages, design-gated), D (`.rc-*` alias cleanup). VSCodium theme confirmed git-tracked in Aether and in sync with live system.
+**This session:** Session logging clobber fixed: end-session.sh auto-writes ## LATEST via --synopsis; pre-commit anti-clobber backstop built; AGENT.md protocol updated
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
-**Next:** Execute Track A (A1 naming rename in custom.css + userChrome.css, A2 Firefox off-palette fix, A3 JSON Jinja2 template, A4 keyframe harvest into Aether web CSS). Mark-led on Track C design decisions.
+**Next:** subdomain registry + endpoint docs; G7/G9 EP1 gates (Mark-led)
+
+---
+
+## 2026-06-30 · Session 185 (logging + clobber mechanics)
+
+- Repos: RaBbLE-Grimoire (new-horizons).
+- **Root cause diagnosed:** `## LATEST` in SESSION-LOG hand-written by every agent → inevitable clobber under concurrent/sequential sessions. Pre-commit anti-clobber hook was spec'd in S129 (HANDOFF-PreCommit-AntiClobber.md) but never built.
+- **`spells/end-session.sh`:** gained `--synopsis`, `--next`, `--session` flags. When `--synopsis` is given, auto-generates `## LATEST` from epoch yml (phase), live blockers.jsonl (open IDs), and provided text — eliminating the manual hand-write step entirely.
+- **`spells/hooks/pre-commit`:** built the anti-clobber backstop spec. Every commit auto-registers staged paths as `Member:path` scopes in `log/agents/`; warns loudly if another live session claims overlap; always exits 0; wrapped `|| true` so hook bugs never block commits.
+- **`AGENT.md` (Grimoire + Collective):** step 2 (manual LATEST) removed from end-of-session protocol; new step says do NOT hand-write LATEST — end-session.sh `--synopsis` handles it. Pre-commit noted as built (was "not yet built").
+- **Hooks are symlinks** → pre-commit update propagated to all members automatically; no reinstall needed.
+- **Next:** subdomain registry + endpoint docs (`log/plans/Subdomain-Registry-and-Maintenance.md`); G7/G9 EP1 gates (Mark-led).
 
 ---
 
