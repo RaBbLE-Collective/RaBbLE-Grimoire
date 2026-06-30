@@ -55,6 +55,7 @@ INDEX="$GRIMOIRE_ROOT/INDEX.md"
 ignore_for_index() {
   case "$1" in
     gist/*|log/lessons/*|log/agents/*|log/SESSION-LOG*.md|log/generated/*|\
+    log/*/CONTEXT.md|log/*/*/CONTEXT.md|\
     CLAUDE.md|CODEX.md|GEMINI.md) return 0 ;;
     *) return 1 ;;
   esac

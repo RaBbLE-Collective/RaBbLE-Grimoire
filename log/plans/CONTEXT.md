@@ -1,0 +1,25 @@
+# log/plans/CONTEXT.md
+
+```
+workspace: log/plans | epoch: 0
+```
+
+## What happens here
+
+Active implementation plans — plain markdown, one file per work thread. Read before starting
+the work; these provide cold-start context for multi-session efforts. When work is done,
+move to `done/`. Handoff docs (written mid-session for a fresh agent) live in `../handoffs/`.
+
+## Active plans
+
+| Plan | Status |
+|---|---|
+| `Subdomain-Registry-and-Maintenance.md` | 🟡 S185 — subdomain registry spec + Collective maintenance backlog |
+| `Aether-Theming-Convergence.md` | 🟡 Not started — palette sovereignty across web/editor/desktop/browser |
+| `OS-VM-Dev-Flow.md` | 🟡 VM install unblocked; cast VM + boot-theme loop pending |
+| `OS-Plymouth-Black-Screen.md` | 🎯 Root cause found (S166 ternary); awaiting visual verify |
+| `OS-Dolphin-Grey-Text.md` | 🔴 Dim labels; stack confirmed; fix path A/B pending |
+
+## Completed plans
+
+Finished work in `done/` — kept for historical context on decisions made.
