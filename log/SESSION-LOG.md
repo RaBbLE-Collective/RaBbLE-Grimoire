@@ -5,12 +5,22 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-06-30 · S186 (log-cleanup)
+## LATEST — 2026-07-02 · Session 188 (doc-closeout-audit)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S186: log/ restructured + CONTEXT.md; registry/subdomains.yml live
+**This session:** S188: audited & committed S187 doc closeout (gist regen, INDEX sync, AGENT.md bump) that a prior session left uncommitted; no drift found
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
-**Next:** G7/G9 EP1 gates; B-10 CF token; ep1-status.sh; grimoire.joinrabble.world verify
+**Next:** G7/G9 EP1 gates; B-10 CF token; drop .rc-* aliases; ep1-status.sh spell
+
+---
+
+## 2026-07-02 · Session 188 (doc closeout audit: S187 gist regen + INDEX sync)
+
+- Found a prior auto session (claim `dc43b204…`, 2026-06-30 21:50–22:11) had done real, accurate doc-closeout work after S187 but never committed or logged it: `bash spells/distill-gists.sh` re-run (8 gists refreshed — Collective, Collective-Overview, CommitStyle, Episode1, Integration-Map, Palette, Roadmap, Versioning), `INDEX.md` linked to the new `RaBbLE-sCoRE-TokenTracking.md` doc, `spells/grimoire-doctor.sh` ignore-list extended for `log/plans/done/*` and `log/archive/*`, and `RaBbLE-Collective/AGENT.md` Current-State block bumped S186→S187.
+- Verified every gist diff against its source doc and against known-canonical facts (Five Es tiers, Pulse Protocol impulse vocab, Episode naming, current epoch position) — content is accurate, no fabrication/drift. Committed as-is.
+- Released 2 stale (DEAD, >45hr heartbeat) agent claim locks in `log/agents/` (`5923ce0f…`, `dc43b204…`) — both already had their token-ledger breadcrumb recorded, just never `release`d.
+- No code changes; RaBbLE-OS and RaBbLE-sCoRE were already clean (S187's actual feature work was committed on time — only the follow-up doc pass was orphaned).
+- **Next:** same as S186/S187 — G7/G9 EP1 gates; B-10 CF token; drop `.rc-*` aliases; `ep1-status.sh` spell.
 
 ---
 

@@ -1,35 +1,27 @@
-Here is the distilled gist:
-
 # RaBbLE-Collective Episode 1 Overview — gist
 
-> Source: `RaBbLE-Collective/RaBbLE-Collective-Episode-1-Overview.md` | ~914 → ~250 tokens
+> Source: `RaBbLE-Collective-Episode-1-Overview.md` | ~914 → ~260 tokens
 > Regenerate: `bash spells/distill-gists.sh`
 
-Ties **Aether + NeBuLA + World** into one three-layer stack for the Episode 1 pilot delivery. Implementation docs live in the Grimoire; members reference, never duplicate.
+**Episode 1 delivers three CDN-backed layers for coordinated release:** design system (Aether) + rendering engine (NeBuLA) + frontend app (World).
 
-**Three layers**
+**Aether (Design System)**
+- CSS bundle: `https://cdn.joinrabble.world/aether/v0.0.0/aether.min.css`
+- Canonical visual identity, reusable class library (`.rabble-card`, `.rabble-btn`, `.rabble-grid-3`, etc.)
+- Status: build setup pending
 
-| Layer | Role | Delivery | API / usage |
-|---|---|---|---|
-| Aether | Theme, look/feel | CSS bundle via CDN | Import classes (`.rabble-card`, `.rabble-btn`, `.rabble-grid-3`) |
-| NeBuLA | Flare, animation, entity visuals | JS (IIFE + ESM) via CDN | `window.NeBuLA.createPuppet({ canvas, ... })` |
-| World | Orchestration / frontend | Static HTML, CDN-loaded assets | Cloudflare Workers host, no build step |
+**NeBuLA (Rendering Engine)**
+- JavaScript (IIFE + ESM): `https://cdn.joinrabble.world/nebula/v0.0.0/nebula.iife.js`
+- Entity visuals, Canvas2D, animations, interactive components
+- Status: Phase 1 ✅ (build), Phase 2–3 🔄 (Palette + Canvas2D), Phase 4+ pending
+- Public API: `window.NeBuLA.createPuppet({ canvas, ... })`
 
-**Page pattern**
-```html
-<link rel="stylesheet" href="https://cdn.joinrabble.world/aether/v0.0.0/aether.min.css">
-<script src="https://cdn.joinrabble.world/nebula/v0.0.0/nebula.iife.js"></script>
-```
-New pages = ~70% HTML, 30% glue (Alpine.js/vanilla). Zero CSS/JS duplication.
+**RaBbLE-World (Frontend App)**
+- Static HTML pages + CDN-loaded scripts/CSS; no build step
+- Deploy via Cloudflare Workers (no backend until sCoRE API ready)
+- Workflow: copy template → apply Aether classes → load NeBuLA if needed → wire logic
+- Result: new pages ~70% HTML, ~30% logic; zero CSS/JS duplication
 
-**Versioning** — Five-Es `v{Epoch}.{Evolution}.{Echo}.{Episode}.{Event}`. Now `v0.0.0.0`; when Episode 1 airs, Aether/NeBuLA/World all tag `v0.0.0.1` simultaneously. CDN paths use Echo level (`v0.0.0` pre-air).
+**Versioning:** `v{Epoch}.{Evolution}.{Echo}.{Episode}.{Event}` — v0.0.0.0 pre-Episode-1, v0.0.0.1 at air date. CDN paths use Echo (v0.0.0).
 
-**CDN-first** — all assets static until sCoRE API ready; pages use mock JSON/localStorage, then bind live data on the same layers.
-
-**Status** — Aether build pending · NeBuLA Phase 1 done, Phase 2–3 in progress, 4+ pending · World template done.
-
-→ Full doc for: per-layer doc paths, NeBuLA's 8-phase plan, implementation-priority table, easy-page-creation steps, sCoRE integration detail.
-
----
-
-Note: the Write tool was denied, so I've output the gist inline rather than saving it to `gist/RaBbLE-Collective-Episode-1-Overview-gist.md`. Let me know if you'd like me to write the file (grant permission) or hand it to `distill-gists.sh`.
+→ Full doc for: phase-by-phase implementation plan, Canvas2D rendering specs, World page template, NeBuLA public API reference, CDN deployment procedures

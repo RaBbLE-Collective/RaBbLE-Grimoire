@@ -1,6 +1,6 @@
 # RaBbLE-Roadmap — gist
 
-> Source: `RaBbLE-Agent/RaBbLE-Roadmap.md` | ~2746 → ~280 tokens
+> Source: `RaBbLE-Agent/RaBbLE-Roadmap.md` | ~2746 → ~242 tokens
 > Regenerate: `bash spells/distill-gists.sh`
 
 **What this is:** Collective-level roadmap — which members work toward which Episode, and what blocks Episode 1 air.

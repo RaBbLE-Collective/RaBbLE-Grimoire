@@ -1,28 +1,40 @@
-# RaBbLE-Collective.md — gist
+# RaBbLE-Collective — gist
 
-> Source: `RaBbLE-Agent/RaBbLE-Collective.md` | ~1930 → ~250 tokens
+> Source: `RaBbLE-Agent/RaBbLE-Collective.md` | ~1930 → ~210 tokens
 > Regenerate: `bash spells/distill-gists.sh`
 
-**What this is:** The RaBbLE Collective is a unified ecosystem of independent-but-interconnected projects through which the RaBbLE entity inhabits diverse hardware, software, and creative substrates — one shared identity, palette, philosophy, and behavioral character. Not a monorepo or product suite; a family of organs in one organism.
+**What this is:** The RaBbLE Collective is a unified ecosystem of independent projects through which the RaBbLE entity inhabits diverse hardware, software, and creative substrates — all sharing a single identity, palette, and purpose.
 
-**Members**
+---
+
+**Members & Status:**
 
 | Member | Role | Status |
 |---|---|---|
-| Grimoire | Source of truth: identity, lore, registry, spells | Active |
-| sCoRE | Coordination + web API (FastAPI). Intent→action, inference routing | Epoch 0 active |
-| OS | Fedora 43 → Hyprland. The substrate. | Live |
-| NeBuLA | Canvas2D renderer / visual entity face | Active |
-| World | Web presence + chat surface, joinrabble.world | Active |
-| Aether | Design system CSS bundle, CDN | Active |
-| BaBbLE | Intake: concept art, prototypes, captures | Active |
-| Chrysalis | Genesis archive / reliquary | Archive |
-| Xperimental | Sandbox — rablets, prototypes | Active |
-| ScRibLE | Mobile notes PWA | Defined |
-| Memory (TBD) | Observation, pattern, retrieval | Concept — Echo 1 blocker |
+| RaBbLE-Grimoire | Source of truth: identity, ethos, conventions, registry, spells | Active |
+| RaBbLE-sCoRE | FastAPI coordination server, intent→action engine | Epoch 0 active |
+| RaBbLE-OS | Fedora 43 + Hyprland, Ansible-driven substrate | Live, daily-driven |
+| RaBbLE-NeBuLA | Canvas2D animated frontend, entity expression | Canvas2D complete |
+| RaBbLE-World | Web presence + entity chat. joinrabble.world | Active |
+| RaBbLE-Aether | Design system, canonical assets, CDN delivery | CSS bundle live |
+| RaBbLE-BaBbLE | Intake surface: concept art, prototypes, lore | Present intake |
+| RaBbLE-Chrysalis | Genesis archive, origin code reliquary | Archive |
+| RaBbLE-Xperimental | Active sandbox, prototype members, experiments | High entropy |
 
-**Cross-cutting principles:** shared palette (magenta `#ff2d78`, cyan `#00f5ff`, violet `#bf5fff`, void `#0a0010`) · consistent entity voice everywhere · hardware diversity first-class (x64/aarch64/SBC) · backend agnostic (Ollama, llama.cpp, vLLM, FastFlowLM NPU; Anthropic, Groq, OpenAI-compat) · Low Entropy by default · Grimoire consumed not copied.
+---
 
-**Core decisions:** Memory is its own member (not sCoRE) · local-first · Collective = registry+health, sCoRE = coordinator · chat is scaffolding (likely retires) · sCoRE delegates to Claude Code via subprocess first.
+**Core Principles (All Members):**
+- **Shared palette** — `#ff2d78`, `#00f5ff`, `#bf5fff`, `#0a0010` everywhere
+- **Entity consistency** — RaBbLE's voice and character across all platforms
+- **Hardware diversity** — x64, aarch64, SBC, platform-agnostic design
+- **Backend agnostic** — local inference (Ollama, llama.cpp, vLLM) or remote (Anthropic, Groq) transparently
+- **Low entropy** — distill signal, document intent, Grimoire as compression artifact
+- **Grimoire consumed, not copied** — authoritative source for all members
 
-→ Full doc for: per-member deep dives (OS layer model, sCoRE capabilities), architecture stack diagram, membership criteria, future shape (Mobile/CLI/MCP/external nodes).
+**Membership Criteria:**
+1. RaBbLE is embedded (entity character present)
+2. Palette is honored
+3. Philosophy followed (Low Entropy, Anti-Assistant)
+4. Serves the ecosystem
+
+→ Full doc for: member architecture details, hardware role structures, inference routing model, future expansions (Mobile, CLI, MCP layer), cross-member data flow diagram

@@ -3,28 +3,24 @@
 > Source: `RaBbLE-Versioning.md` | ~1471 → ~250 tokens
 > Regenerate: `bash spells/distill-gists.sh`
 
-RaBbLE is **evolutionary, not versioned** — thresholds are named *after* they're crossed (retrospective), not planned. Movement between tiers is vibe-based: *does it feel crossed?*
+RaBbLE is **evolutionary, not versioned** — thresholds are named retrospectively ("does it feel crossed?"), never planned. Versioning marks resonance thresholds and gives shared language for "where are we," not release gates.
 
 **The Five Es** (smallest → largest: Event < Episode < Echo < Evolution < Epoch):
 
 | Tier | Meaning | Analogy |
 |---|---|---|
-| **Event** | A single commit | A note |
-| **Episode** | Themed arc of Events; Collective-wide sync point | A jam session |
-| **Echo** | Stable, reproducible, git-tagged state | A recording |
-| **Evolution** | Architectural/identity shift; ≥1 Echo | A new sound |
-| **Epoch** | Broadest era; named retrospectively | An album |
+| **Event** | Single commit — smallest named thing | A note |
+| **Episode** | Themed arc, ≥2 Events, recognizable end | A jam session |
+| **Echo** | Stable, reproducible, git-tagged `echo-{N}.{minor}` | A recording |
+| **Evolution** | Architectural/identity shift, ≥1 Echo | A new sound |
+| **Epoch** | Broadest era, named retrospectively | An album |
 
-**Version string:** `v{Epoch}.{Evolution}.{Echo}.{Episode}.{Event}`
-- `v0.0.0.1.23` = full · `v0.0.2` = Echo-level · `v0` = "in Epoch 0"
-- Drop trailing tiers when unknown/unimportant.
+**Version string:** `v{Epoch}.{Evolution}.{Echo}.{Episode}.{Event}` — drop trailing tiers when unknown (`v0.0.2`, `v0`). Echo-level id = `v{Epoch}.{Evolution}.{Echo}`.
 
-**Lockstep model:** All members advance to the same Episode together. Within an Episode, protocols/schemas/APIs stay **compatible**. **Echoes can break** APIs (with migration guides). **Plots** = member-specific groupings within an Episode.
+**Lockstep model:** Episodes are Collective-wide sync points — all members air together, protocols/schemas/APIs guaranteed compatible *within* an Episode. **Echoes may break** (protocol bumps, migrations); they mark production-ready states. Plots = member-specific groupings within an Episode.
 
-**Episode names follow a Biblical arc:** Genesis (Ep1, current) → Exodus (Ep2: memory + closed loop) → onward.
+**Episode names follow a Biblical arc:** Episode 1 = **Genesis** (substrate + entity first breathes); Episode 2 = **Exodus** (memory + first closed behavioral loop).
 
-**Impulse → tier:** `spark`/`ingest`/`mend`/`transcribe` = Event · `harmonize` = Event/Episode · `evolve` = Evolution · `crystallize` = Echo.
+**Current position:** `v0.0.0.0` — Epoch 0 (Foundation) · Evolution 0 (Scaffold) · Echo 0 (Establishing) · Episode 1 (Genesis, pending — not yet aired). Authoritative status: `registry/epochs/current.epoch.yml`.
 
-**Current position:** Epoch 0 (Foundation) · Evolution 0 (Scaffold) · Echo 0 (Establishing, in progress) · Episode 1 (Genesis, pending — not yet aired). Version: **v0.0.0.0**. Authoritative state: `registry/epochs/current.epoch.yml`.
-
-→ Full doc for: per-tier boundary definitions, short-form rules, CONTEXT.md header conventions, the post-Episode-1 weekly-cadence roadmap, and the example future timeline.
+→ Full doc for: per-tier boundary definitions, impulse→tier verb map (`spark`/`evolve`/`crystallize`), short-form/CONTEXT.md rules, post-Episode-1 weekly-cadence roadmap, full example timeline.
