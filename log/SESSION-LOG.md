@@ -15,6 +15,16 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-07-03 · Session 190 (EP1 post-mortem + EP2 Liminal Experience plan)
+
+- **Repos:** RaBbLE-Grimoire (plan + index), RaBbLE-BaBbLE (captures, gitignored _inbox). Concurrent with S189 (Voice, Xperimental) — scope claimed via session-start.sh, no overlap.
+- **Post-mortem:** EP1 8/10 gates green (G7/G9 remain, Mark-led). OS boot-chain/theming grind ≈ S150–S178 was the token sink; G10 closed as a floor not a ceiling — prod front end is coherent but atmosphere-free ("mid" confirmed by capture review). Prod serves only `/` + `/world/summon.html`; account/os/catalog 404.
+- **Recon (Haiku + Sonnet sub-agents):** 13 captures of prod + Chrysalis pages → `RaBbLE-BaBbLE/captures/_inbox/ep2-recon/`. Decisive code finding: **ThreeJsBackend already fully built** in `RaBbLE-NeBuLA/src/backends/threejs-backend.js` (777 lines, eyes proportion-matched, `%3D_ENTITY_LIVE%` commit 34dee62) — just never wired to `<rabble-entity>`/World. NeBuLA docs stale on this; `specs/render-gap-analysis.md` describes a pre-port prototype (do not trust it).
+- **Mark's direction:** Chrysalis vibes on point but no cohesion/narrative and no live sCoRE. EP1 front end becomes a **single-page liminal experience**: Acts 0–IV (Signal → Genesis → Collective → Descent 2D→3D → Summoning with live sCoRE chat + entity state machine).
+- **Plan written:** `log/plans/EP1-Liminal-Experience-Plan.md` — vision, decisions, WS-A (NeBuLA wiring), WS-B (3JS aliveness parity), WS-C (single-page passage), WS-D (Haiku capture QA), sequencing, cold-start handoff, Exodus coupling. Indexed in INDEX.md.
+- **Mark's rulings (same session):** all of it is EP1 — the liminal passage is the EP1 air bar (G10 note added to EP1-AIR-CHECKLIST); eye-color sides non-canonical (swap = expression/change signal, dual accents flow through RaBbLE); layered+crossfade rendering; Mark authors final Genesis copy. EP2 = Post-EP1 roadmap spine + Pair/membership.
+- **Next:** WS-A (NeBuLA wiring→aliveness) + WS-C Acts 0–II (World passage) dispatched as parallel sub-agents; then WS-B visual parity, Acts III–IV, capture review.
+
 ## 2026-07-03 · Session 189 (RaBbLE-Voice: personality definition + foundation scaffold)
 
 - **Repos:** RaBbLE-Grimoire (new-horizons), RaBbLE-Xperimental/rablets/RaBbLE-Voice (filesystem, not tracked).
