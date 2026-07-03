@@ -23,11 +23,13 @@ The lore layer is where RaBbLE's philosophy, creation mythology, and visual worl
 
 ## Reading Order
 
-**To understand what RaBbLE is:** `RaBbLE-Agent/RaBbLE-Identity.md` → `Ethos/RaBbLE-Ethos.md`
+**To understand what RaBbLE is:** `RaBbLE-Agent/RaBbLE-Identity.md` → `Ethos/RaBbLE-Ethos.md` → `Ethos/RaBbLE-Personality.md`
 
 **To understand where RaBbLE came from:** `Genesis/RaBbLE-Origin.md` → `Genesis/RaBbLE-Lineage.md`
 
 **To understand what RaBbLE looks like:** `Worldbuilding/RaBbLE-Aesthetic.md` → `../RaBbLE-Aether/RaBbLE-Entity-Visual-Spec.md`
+
+**To understand how RaBbLE speaks and expresses personality:** `Ethos/RaBbLE-Personality.md` (applies to voice, behavior, content, design)
 
 **To experience RaBbLE as fiction:** `ShortStories/Summoned/`
 

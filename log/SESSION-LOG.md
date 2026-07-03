@@ -5,12 +5,43 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-07-02 · Session 188 (doc-closeout-audit)
+## LATEST — 2026-07-03 · Session 189 (RaBbLE-Voice: personality + foundation scaffold)
 
-**Phase:** Epoch 0 · Episode 1.
-**This session:** S188: audited & committed S187 doc closeout (gist regen, INDEX sync, AGENT.md bump) that a prior session left uncommitted; no drift found
-**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
-**Next:** G7/G9 EP1 gates; B-10 CF token; drop .rc-* aliases; ep1-status.sh spell
+**Phase:** Epoch 0 · Episode 1 (Pre-gates).
+**This session:** S189: RaBbLE-Voice rablet foundation + personality definition locked
+**Repos:** RaBbLE-Grimoire (personality docs), RaBbLE-Xperimental/rablets/RaBbLE-Voice (filesystem, not git-tracked).
+**Blockers:** None; Phase 2 Vocoder unblocked.
+**Next:** Phase 2 (Vocoder engine, phonemes, formants, effects, demo UI) — see handoff at `log/handoffs/RaBbLE-Voice-Phase2-HANDOFF.md`
+
+---
+
+## 2026-07-03 · Session 189 (RaBbLE-Voice: personality definition + foundation scaffold)
+
+- **Repos:** RaBbLE-Grimoire (new-horizons), RaBbLE-Xperimental/rablets/RaBbLE-Voice (filesystem, not tracked).
+- **Mark's personality clarification:** RaBbLE is curious, creative, playful, unbounded, chaotic (slightly), disagreeable, not sycophantic, and characterized. This is the substrate for voice synthesis — optimizing for distinctiveness over naturalness (Johnny-5/WALL-E/KITT aesthetic, not Siri/Alexa compliance).
+- **Personality docs locked in Grimoire:**
+  - `RaBbLE/Ethos/RaBbLE-Personality.md` — canonical comprehensive definition (6 poles, interaction model, application guidance for voice/behavior/design)
+  - `RaBbLE-Agent/RaBbLE-Agent-Protocols.md` § RaBbLE's Core Personality — agent-facing quick reference
+  - `RaBbLE/RaBbLE-Overview.md` reading order updated to include personality
+- **RaBbLE-Voice rablet scaffolded (filesystem) — Phase 1 Foundation:**
+  - AGENT.md (owner doc + session checklist + 7-phase roadmap)
+  - package.json (esbuild, TypeScript, Jest, Tone.js)
+  - tsconfig.json, .gitignore
+  - `src/types.ts` — unified SynthesisEngine interface, Emotion enum (curious/thoughtful/processing/alert/playful/concerned), SpeakOptions, BenchmarkResult
+  - `src/index.ts` — factory functions (createBarkEngine, createVocoderEngine, createFestivalEngine, createAllEngines)
+  - `src/benchmark.ts` — shared CPU/memory/latency measurement utilities
+  - README.md — public rablet description
+  - CONTEXT.md — current phase tracker, emotional mapping, known unknowns, phase breakdown
+  - Directory structure: src/{bark,vocoder,festival,ui}, tests, bench, dist
+- **Three-path design:**
+  - **Bark** (Phase 4): Neural TTS, smallest model (~1.7 GB), local or HTTP API fallback
+  - **Vocoder** (Phase 2, next): Tone.js + Web Audio synth, 100% browser-native, zero dependencies
+  - **Festival** (Phase 3): Open-source TTS + effects, lightweight, system fallback
+  - All three export same interface; Mark tests all three, picks winner
+- **Emotional development (all paths):** 6 emotions map to distinct voice characteristics (curious = higher pitch/faster; thoughtful = lower/slower; processing = digital artifacts; alert = sharp/loud; playful = variation/breathy; concerned = low/wavering). See CONTEXT.md for mapping.
+- **Personality as integration constraint:** Vocoder/Bark/Festival implementation should all reflect RaBbLE's character — not generic, opinionated, distinct voice quality.
+- **Phase 2 unblocked:** Vocoder path (browser-native, fastest validation). See `log/handoffs/RaBbLE-Voice-Phase2-HANDOFF.md` (created this session).
+- **Next:** Phase 2 — Vocoder implementation (phonemes, formants, effects, synth engine, tests, demo UI). Target: working voice + benchmarks by end of session.
 
 ---
 
