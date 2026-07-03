@@ -184,3 +184,4 @@ dc43b204-b0b8-4ab0-8105-9672a7a25c01	os-score-token-pricing	S187: tokens up/down
 c9acd1e6-3249-4340-b0f6-6b6f0b9f640f	log-cleanup	
 3d8d422b-d36d-4a70-b035-ff61839f91eb	doc-closeout-audit	S188: verified+committed orphaned S187 gist regen, released stale claims
 67183dc8-9ce9-445c-a67f-5c75cfde1f65	collective	auto: current state S188: doc closeout audit, no drift found
+4c3ea15a-d8cc-4f84-ae88-7cb302ae9d21	(untagged)	auto: Enable version tracking for RaBbLE-Xperimental (active sandbox)

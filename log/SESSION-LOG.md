@@ -15,6 +15,20 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-07-03 · Session 189 continued (RaBbLE-Voice: Phase 2 Vocoder built, audited, wired live)
+
+- **Repos:** RaBbLE-Xperimental (`new-horizons` branch, now git-tracked per Mark's request — genesis commit + branch split done), RaBbLE-Grimoire (ledger/log only).
+- **Vocoder engine built:** full phoneme→carrier→formant→effects pipeline (`vocoder-phonemes.ts`, `vocoder-formants.ts`, `vocoder-effects.ts`, `vocoder-engine.ts`), 32/32 tests passing, TS build clean.
+- **Haiku-authored code audit:** Mark switched Haiku→Sonnet 5 mid-session and asked for a quality audit of everything written under Haiku. Found and fixed 9 issues in severity order: speed-inversion bug (speed>1 was slowing speech, not speeding it), no-op formant filtering (BiquadFilterNode wasn't actually wired into a live graph — now uses OfflineAudioContext per phoneme), `EmotionProfile` interface→mapped-type TS error, string/number comparison bug in benchmark diffing, AudioContext-per-effect leak (effects now share one context), Node-only fs/path imports leaking into the browser bundle (split into `benchmark-io.ts`), IPA letter-map mismatches, hardcoded 44100 sample rate in Tremolo, and duplicated ad-hoc test mocks (consolidated into one module-scope mock set).
+- **Aether + NeBuLA made non-negotiable for the Collective** (Mark's explicit rule, now in CLAUDE.md territory going forward): `demo.html` rewritten off bespoke CSS onto real Aether classes/tokens + a live `<rabble-entity>` NeBuLA element reflecting engine state (idle/thinking/speaking).
+- **Dev server + live test:** `dev-serve.sh` hosts Aether/NeBuLA CDN-mock at :8080; rablet's own static server at :8081 (must run from rablet root so `dist/` is reachable from `src/ui/`). Verified via Playwright (Python variant — Node's npm package isn't installed here).
+- **Real engine wired into demo UI**, replacing placeholder sine-sweep audio. Found and fixed two bugs live: blank waveform canvas (output section was `display:none` when `offsetWidth`/`Height` were read — reordered), and audio clipping (formant peaking filters push gain 10-14dB, peaks were hitting ±2 — added a post-synthesis peak-normalize pass).
+- **`/tmp` mined for stray RaBbLE files**, moved to `RaBbLE-BaBbLE/tmp/` per the "never use plain /tmp" convention; live system-managed VSCodium zsh config dir was correctly left alone.
+- **Mark's assessment after listening: the vocoder output is unintelligible.** Good technical progress (real formant filtering, no clipping, emotion-differentiated timing/effects) but not yet recognizable speech — this is the open problem for the next work block, not a solved one.
+- **Next:** improve vocoder intelligibility (likely candidates: phoneme timing/coarticulation, formant bandwidth/Q tuning, consonant-vowel transitions, carrier waveform choice). Phase 3 (Festival) and Phase 4 (Bark) still unstarted.
+
+---
+
 ## 2026-07-03 · Session 190 (EP1 post-mortem + EP2 Liminal Experience plan)
 
 - **Repos:** RaBbLE-Grimoire (plan + index), RaBbLE-BaBbLE (captures, gitignored _inbox). Concurrent with S189 (Voice, Xperimental) — scope claimed via session-start.sh, no overlap.

@@ -1,0 +1,33 @@
+{
+  "session_id": "4c3ea15a-d8cc-4f84-ae88-7cb302ae9d21",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective",
+  "scopes": [
+    "RaBbLE-Collective:.gitignore",
+    "RaBbLE-Collective:RaBbLE-Xperimental",
+    "RaBbLE-Grimoire:RaBbLE-Agent/RaBbLE-Agent-Protocols.md",
+    "RaBbLE-Grimoire:RaBbLE/Ethos/RaBbLE-Personality.md",
+    "RaBbLE-Grimoire:RaBbLE/RaBbLE-Overview.md",
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/handoffs/RaBbLE-Voice-Phase2-HANDOFF.md",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/.gitignore",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/AGENT.md",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/CONTEXT.md",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/README.md",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/package.json",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/src/benchmark.ts",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/src/index.ts",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/src/types.ts",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/src/ui/demo.html",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/src/vocoder/README.md",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/src/vocoder/vocoder-effects.ts",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/src/vocoder/vocoder-engine.ts",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/src/vocoder/vocoder-formants.ts",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/src/vocoder/vocoder-phonemes.ts",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/tests/vocoder.test.ts",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/tsconfig.json"
+  ],
+  "started_at": "2026-07-03T05:08:09Z",
+  "heartbeat_at": "2026-07-03T16:46:32Z",
+  "auto": true
+}
