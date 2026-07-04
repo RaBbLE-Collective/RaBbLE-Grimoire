@@ -282,6 +282,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 
 ### Plans (active)
 
+- [Collective-Architecture-Audit-Plan](log/plans/Collective-Architecture-Audit-Plan.md) — S192 PROPOSED: fable-5 orchestrator + per-member sub-agent recon, gaps/oversights audit, sCoRE flat-architecture deep-dive; not yet run
 - [EP1-Liminal-Experience-Plan](log/plans/EP1-Liminal-Experience-Plan.md) — S190 ACTIVE: EP1 air bar = single-page Genesis passage (Acts 0–IV, sCoRE-live) + Three.js entity awakening; post-mortem + WS-A/B/C/D sub-agent decomposition
 - [Subdomain-Registry-and-Maintenance](log/plans/Subdomain-Registry-and-Maintenance.md) — S185: subdomain registry spec + Collective maintenance backlog
 - [Aether-Theming-Convergence](log/plans/Aether-Theming-Convergence.md) — palette sovereignty across web/editor/desktop/browser

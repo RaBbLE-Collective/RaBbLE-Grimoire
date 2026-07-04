@@ -5,12 +5,24 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-07-04 · Session 190 continued (ep1-liminal-experience)
+## LATEST — 2026-07-04 · S192 (collective-architecture-audit-plan)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S190: EP1 liminal passage BUILT — Acts 0–IV on World, 3D entity awakened (threejs parity), Act IV live sCoRE summoning; Mark to author Genesis copy + review
+**This session:** S192: Collective Architecture Audit plan + fable-5 orchestration prompt written (not yet run); sCoRE flat-architecture deep-dive scoped
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
-**Next:** Mark: Genesis copy + passage review; G7/G9 gates; deploy passage; registry claim-check mend
+**Next:** Mark runs the orchestrator prompt against fable-5 in a fresh session
+
+---
+
+## 2026-07-04 · Session 192 (Collective Architecture Audit: plan + fable-5 orchestration prompt)
+
+- **Repos:** RaBbLE-Grimoire only (plan doc + INDEX.md entry) — no member code touched.
+- Mark asked for a full-Collective code audit: find gaps and architectural oversights across every member, and produce design-improvement plans, with RaBbLE-sCoRE's flat architecture named as a concrete concern.
+- Recon confirmed the concern with numbers: `RaBbLE-sCoRE/server/` is ~16 flat Python files with no subpackages (`llm.py` 689 lines, `main.py` 496, `jane.py` 440), while `agents/*.md` (execution/memory/score/search) already implies domain boundaries the code doesn't reflect.
+- Wrote `RaBbLE-Grimoire/log/plans/Collective-Architecture-Audit-Plan.md`: a fable-5 orchestrator spawning one sub-agent per member repo (disjoint file ownership — each reads/writes only its own scope, no contention), recon-and-design only (explicitly no code changes), sCoRE gets a dedicated deep-dive with 2-3 restructuring options + tradeoffs rather than one mandated rewrite, every per-member plan ends in an "open decisions for Mark" section (peer-collaborator framing, not unilateral architecture calls). Indexed under Plans (active) in INDEX.md.
+- Flagged for Mark: the audit itself is orthogonal to G7/G9 (docs-only, safe pre-gate), but actual sCoRE refactor *implementation* should wait until after the gates land so it doesn't destabilize the release branch.
+- Mark chose to hold execution for a dedicated fresh session (cost: ~8-10 parallel sub-agents doing full-repo reads) rather than run it in this session.
+- **Next:** Mark runs the plan's ready-to-use orchestrator prompt against fable-5 in a fresh session when ready.
 
 ---
 
