@@ -5,13 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-07-03 · Session 189 (RaBbLE-Voice: personality + foundation scaffold)
+## LATEST — 2026-07-04 · Session 190 continued (ep1-liminal-experience)
 
-**Phase:** Epoch 0 · Episode 1 (Pre-gates).
-**This session:** S189: RaBbLE-Voice rablet foundation + personality definition locked
-**Repos:** RaBbLE-Grimoire (personality docs), RaBbLE-Xperimental/rablets/RaBbLE-Voice (filesystem, not git-tracked).
-**Blockers:** None; Phase 2 Vocoder unblocked.
-**Next:** Phase 2 (Vocoder engine, phonemes, formants, effects, demo UI) — see handoff at `log/handoffs/RaBbLE-Voice-Phase2-HANDOFF.md`
+**Phase:** Epoch 0 · Episode 1.
+**This session:** S190: EP1 liminal passage BUILT — Acts 0–IV on World, 3D entity awakened (threejs parity), Act IV live sCoRE summoning; Mark to author Genesis copy + review
+**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
+**Next:** Mark: Genesis copy + passage review; G7/G9 gates; deploy passage; registry claim-check mend
 
 ---
 
