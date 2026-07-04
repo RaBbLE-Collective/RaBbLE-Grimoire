@@ -98,6 +98,18 @@ When dispatching a sub-agent that needs to write files, run bash commands, or re
 
 **How:** Dispatch without `run_in_background: true` for any sub-agent that edits files or runs shell commands. For genuine parallel execution, dispatch multiple foreground agents in the same response (they run concurrently). Background agents are fine for pure read-only research with no write/bash calls.
 
+### Coordination-spell invocation gotchas (claims + ledger)
+
+Three sharp edges in the anti-clobber/closeout spells, found S190. Until they are mended, invoke defensively:
+
+1. **`session-start.sh` scopes must be separate `Repo:path` arguments.** One space-joined quoted string ("RaBbLE-World/index.html RaBbLE-World/world/js/x.js") makes the conflict check silently pass without comparing anything — the claim *looks* clean but was never checked. Correct: `session-start.sh "RaBbLE-World:index.html" "RaBbLE-World:world/js/x.js" --task "…"`.
+2. **Auto sweep claims (`"auto": true` registry entries) produce false conflicts.** They sweep ALL dirty working-tree files into a session's scope, including files that session never edited. A conflict against an auto claim is not proof of contention — check `git status` on the target repo (clean tree = nobody mid-edit) and who actually committed to those files before treating it as real. Manual `S<NN>-<topic>` claims are the trustworthy signal.
+3. **`end-session.sh` can clobber a token-ledger row.** On a session-id collision it re-tags an existing breadcrumb instead of appending (S190's run overwrote the S188 `doc-closeout-audit` row). After running it, check `git diff log/token-ledger.tsv` and restore any removed `-` row before committing.
+
+**Why:** All three fail *silently* — a skipped check, a false alarm, and a lost row each look like success. Two of them (1, 3) defeat the exact protections the spells exist to provide.
+
+**How:** Follow the invocation forms above; verify claim results and ledger diffs rather than trusting spell exit status. A registry mend session is queued (SESSION-LOG S190-continued) — update this section when the spells are fixed.
+
 ### Validate external CLIs and APIs before building around them
 
 Before scaffolding any integration, quota tracker, or workflow around an external CLI tool or API, verify the tool still exists and the specific flags/commands you need are current.
