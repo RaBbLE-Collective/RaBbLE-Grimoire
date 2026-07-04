@@ -15,6 +15,19 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-07-04 · Session 191 (RaBbLE-Voice: vocoder intelligibility v2 — root-caused + fixed, Mark-tested)
+
+- **Repos:** RaBbLE-Xperimental (`new-horizons` branch), RaBbLE-Grimoire (log only).
+- **Root-caused S189's "unintelligible" verdict to three specific bugs** in `RaBbLE-Voice/src/vocoder/`, not a vague tuning problem:
+  1. `textToPhonemes` mapped letters 1:1 with no digraph handling ("the" → t+h+e instead of ð+ə). Fixed with a ~50-word common-word dictionary + rule-based grapheme fallback (digraphs, soft c/g, silent e, doubled-letter collapse).
+  2. Every consonant rendered as raw white noise (indistinguishable hiss). Fixed: voiced consonants (m/n/l/r/w/y/nasals/voiced stops) now get a buzz-tone carrier through the formant-bank pipeline like vowels; only genuinely unvoiced consonants use noise, now spectrally colored per-phoneme.
+  3. Phoneme segments were hard-concatenated ("blip train"). Fixed with ~15ms overlap-add crossfade.
+- **Verified via build/test/real audio, not just claimed:** TS build clean, 32/32 tests passing, Playwright-rendered real Web Audio output shows zero clipping; 4 WAV samples rendered to `RaBbLE-BaBbLE/tmp/vocoder-v2-*.wav` for Mark to listen to.
+- **Mark's verdict after listening: "still does not sound coherent but is getting better."** Directionally correct, not solved.
+- **Next:** diphone/coarticulation modeling (formant transitions between phonemes, not static per-phoneme targets — likely the biggest remaining gap), stop-consonant closure gaps, sentence-level pitch prosody. Phase 3 (Festival) / Phase 4 (Bark) still unstarted.
+
+---
+
 ## 2026-07-03 · Session 189 continued (RaBbLE-Voice: Phase 2 Vocoder built, audited, wired live)
 
 - **Repos:** RaBbLE-Xperimental (`new-horizons` branch, now git-tracked per Mark's request — genesis commit + branch split done), RaBbLE-Grimoire (ledger/log only).
