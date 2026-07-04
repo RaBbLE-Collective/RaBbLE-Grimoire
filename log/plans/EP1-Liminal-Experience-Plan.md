@@ -1,6 +1,11 @@
 # EP1 Liminal Experience — World Guided Experience + Three.js Entity Awakening
 
-> **Status:** ACTIVE (S190, Mark-approved) · Owner: Mark · Orchestrator plan, built for cold-start implementation sessions.
+> **Status:** IMPLEMENTED (S190) · Owner: Mark · All four workstreams landed and capture-verified.
+> WS-A/WS-B: NeBuLA 16840ef/19321e3 + World bundle 374255a/70697f1 (3D entity awakened, parity approved).
+> WS-C: World f045315 + 0d73ef5 (Acts 0–II passage + polish). WS-D: World f3eb5b6 (Act III descent
+> crossfade + Act IV live summoning) + 2941c1c (voice de-dash). Remaining: Mark authors Genesis copy
+> (`GENESIS-COPY: Mark` markers in index.html), live-sCoRE check of Act IV, deploy. Details:
+> SESSION-LOG "Session 190 continued".
 > **Scope:** World front-end guided experience rebuild + NeBuLA Three.js entity wiring.
 > **This is Episode 1 work** (Mark, S190): the liminal passage lands on the EP1 scaffold and airs
 > as EP1. Episode 2 (Exodus) remains the roadmap spine (`RaBbLE-Agent/RaBbLE-Post-EP1-Roadmap.md`)

@@ -15,6 +15,19 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-07-04 · Session 190 continued (EP1 Liminal Experience: BUILT — Acts 0–IV live, 3D entity awakened)
+
+- **Repos:** RaBbLE-NeBuLA, RaBbLE-World, RaBbLE-Aether, RaBbLE-Grimoire. Orchestrator (plan holder) + Sonnet/Haiku sub-agents; every workstream closed only after orchestrator capture review.
+- **WS-A/WS-B (NeBuLA — 3D entity awakened):** the pre-built ThreeJsBackend wired to `<rabble-entity>` via a `backend="canvas2d|threejs"` attribute (WebGL check, silent fallback); shared soul extracted to `src/backends/eye-behavior.js` (saccade table, spring pursuit, distraction drift, burst-blink FSM) consumed by BOTH backends; `src/utils/three-loader.js` centralizes external three@0.160.0; portal sockets + glow layers + nebula densified to 1220 particles; near-camera aura blob mended. Parity proof: `examples/threejs-parity.html`, approved capture `ws-b-parity-7-final.png`. Commits: NeBuLA 16840ef/19321e3, World bundle 374255a/70697f1.
+- **WS-C (World — the passage):** `index.html` rebuilt as the single-page liminal Genesis passage — Acts 0 (Signal) / I (Genesis) / II (Collective); ONE persistent entity, IntersectionObserver act progression, real sCoRE `/health` presence ping with offline dim, ambient pulse-log, `<rabble-doors>` organ constellation. Polish round: Act 0 entity unclipped, constellation centered + connection-line ring (canvas layer tracing live door orbs), badge inset. Commits f045315 + 0d73ef5.
+- **WS-D (World — descent + summoning):** Act III = layered canvas2d→threejs crossfade (3D lazily initialized as the act approaches; reduced-motion cuts; no-WebGL degrades to persistent 2D). Act IV = live sCoRE chat reusing the RaBbLECurator SSE engine, entity choreography `%THINKING%→%SPEAKING%→%RESONANT%`, presence-gated with quiet offline copy; permanent `?act=N`/`#act-N` deep links. Commit f3eb5b6. Act IV verified via forced-presence full turn; NOT yet verified against live sCoRE (unreachable from sandbox).
+- **Riders:** curator transmissions de-dashed, spoken copy only (2941c1c); eye-color side ruling (non-canonical, swap = expression) recorded in both visual-spec copies (Aether 492cbf4, NeBuLA 00e7f8b); G10 row in EP1-AIR-CHECKLIST notes the raised bar.
+- **Registry gotchas (worth a mend session):** `session-start.sh` silently SKIPS the conflict check if scopes are passed space-joined in one argument (must be separate `Repo:path` args); auto sweep claims (e.g. Voice session 4c3ea15a) claim files they never edited, causing false conflicts for manual claimants. `S168-dolphin-palette-dump` claim still stale.
+- **For Mark:** author final Genesis copy (all `GENESIS-COPY: Mark` markers in index.html); walk the passage in a browser (`dev-serve.sh`, then `localhost:8080/?act=N` to jump); live-sCoRE check of Act IV; deploy decision (B-10 CF token still blocks dev auto-deploy).
+- **Next:** Mark's passage review + Genesis copy → G7/G9 gates → prod deploy of the passage. Registry mend.
+
+---
+
 ## 2026-07-04 · Session 191 (RaBbLE-Voice: vocoder intelligibility v2 — root-caused + fixed, Mark-tested)
 
 - **Repos:** RaBbLE-Xperimental (`new-horizons` branch), RaBbLE-Grimoire (log only).
