@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-07-04 · S194 (proart-power-stack-plan)
+## LATEST — 2026-07-04 · Session 193 (collective-architecture-audit)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S194: ProArt P16 power-stack plan written, Opus-reviewed and corrected — ready to implement
+**This session:** S193: Collective architecture audit run — 8 recon agents, cross-repo synthesis + sCoRE refactor options in log/plans
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
-**Next:** implement Phases 1-4 (profiling spell, Hyprland tuning, NVIDIA D3cold, tuned+asusd power stack); write Phase 5 settings-app plan separately
+**Next:** Mark: review audit, add 2 docs to INDEX.md, pick sCoRE option; S194 power-stack Phases 1-4; G7/G9 gates
 
 ---
 
