@@ -14,6 +14,17 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-07-04 · Session 193 (Collective Architecture Audit: RUN — 8 recon agents, cross-repo synthesis + sCoRE refactor options) *(concurrent with S194; completed after it)*
+
+- **Repos:** RaBbLE-Grimoire only (two new plan docs) — all 10 members READ, zero member code touched (recon-only mandate held).
+- Executed `log/plans/Collective-Architecture-Audit-Plan.md` (S192): fable-5 orchestrator + 8 scoped sub-agents (one per member; BaBbLE/Chrysalis/Captures combined). Run was rocky — two full session-limit deaths mid-flight; recovered by resuming partial agents from transcript and relaunching the rest on Sonnet after Mark flagged token burn (lesson: sub-agents inherit the parent model unless `model:` is set explicitly — recon fleets should always pin sonnet/haiku).
+- Wrote **`log/plans/Collective-Architecture-Audit-2026-07-04.md`** — 7 systemic patterns (doc-claims-outrun-code with no reconciliation mechanism; unenforced palette discipline — OS invented 4 hex incl. the live `#8860aa` KDE-bug color; orphaned code riding deploys — 59% of World js, 507 lines of sCoRE; duplicated-owner logic; unwired "single source of truth" claims; zero tests/CI guards Collective-wide; registry/version canon drift) + per-member findings and improvement plans, each ending in open decisions for Mark. Notable: NeBuLA's canonical API doc documents a `createPuppet()` API that doesn't exist in src; Chrysalis hosts a live Workers site against its own "nothing runs here" charter; Captures dir still receives screenshots despite the S92 fold into BaBbLE.
+- Wrote **`log/plans/sCoRE-Extensibility-Refactor-Plan.md`** — evidence (real auth circular import `auth.py:48`↔`auth_routes.py:11`, `main.py` god-module, orphaned `jane.py`/`actions.py` from pre-RaBbLE product, 3 persistence strategies, ~25 undocumented env vars) + shared preconditions P1–P4 + three options with tradeoffs: A domain subpackages, B ports/adapters, C seam-first flat. Orchestrator's read: C now, A as fast follow, B only if the HTTP↔task-pipeline merge becomes an episode goal. Mark decides; implementation waits for G7/G9.
+- INDEX.md deliberately NOT edited (per plan) — Mark to add both docs under Plans (active).
+- **Next:** Mark reviews the audit + picks a sCoRE option; registry-reconciliation session (Grimoire §2.1) is the cheapest first bite; audit implementation stays post-G7/G9.
+
+---
+
 ## 2026-07-04 · Session 194 (ProArt P16 power-stack plan: Hyprland GPU load, NVIDIA D3cold, tuned+asusd waybar)
 
 - **Repos:** RaBbLE-Grimoire only (plan doc + plans/CONTEXT.md) — no RaBbLE-OS code touched yet.
