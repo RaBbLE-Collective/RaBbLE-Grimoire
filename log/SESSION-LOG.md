@@ -5,12 +5,24 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-07-04 · S192 (collective-architecture-audit-plan)
+## LATEST — 2026-07-04 · S194 (proart-power-stack-plan)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S192: Collective Architecture Audit plan + fable-5 orchestration prompt written (not yet run); sCoRE flat-architecture deep-dive scoped
+**This session:** S194: ProArt P16 power-stack plan written, Opus-reviewed and corrected — ready to implement
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
-**Next:** Mark runs the orchestrator prompt against fable-5 in a fresh session
+**Next:** implement Phases 1-4 (profiling spell, Hyprland tuning, NVIDIA D3cold, tuned+asusd power stack); write Phase 5 settings-app plan separately
+
+---
+
+## 2026-07-04 · Session 194 (ProArt P16 power-stack plan: Hyprland GPU load, NVIDIA D3cold, tuned+asusd waybar)
+
+- **Repos:** RaBbLE-Grimoire only (plan doc + plans/CONTEXT.md) — no RaBbLE-OS code touched yet.
+- Mark reported Hyprland eating GPU on the ProArt P16 and asked for four things: profiling setup, proper NVIDIA dGPU suspend/idle, a waybar power-profile control with three real modes (quiet+low-power / quiet+balanced / unbounded-AC-only), and a settings app for tweaking RaBbLE-OS/waybar/Hyprland. Confirmed mid-session: settings app is a local Aether-themed web app (not GTK4/TUI); power profiles ride `asusctl` + `tuned` (Fedora 43 uses `tuned`+`tuned-ppd`, not `power-profiles-daemon`).
+- Investigation found this is mostly **dormant, already-designed scaffolding**, not a from-scratch build: the ASUS hardware Ansible role already declares `asusctl.yml`/`asusd.yml`/`tuned.yml`/`arbitration.yml`, wired into `main.yml`, but every one is a literal `%DORMANT%` stub. The canonical power-stack decision (`tuned`+`tuned-ppd`, never `power-profiles-daemon`) was already recorded in `RaBbLE-OS-AgentGuide.md`.
+- Wrote `log/plans/OS-ProArt-Power-Stack-Plan.md` (5 phases: profiling capture spell, Hyprland/iGPU tuning, NVIDIA D3cold + suspend fix, real tuned+asusd power stack + 3-mode waybar, settings-app design sketch deferred to its own plan). Indexed in `log/plans/CONTEXT.md`.
+- Per [[feedback_grimoire_plan_handoff]]: spawned a read-only Opus review agent against the actual source files before finalizing. It caught real defects — a missing package (`xorg-x11-drv-nvidia-power`) that would've made the suspend-service phase silently no-op, a wrong assumption about how asusd auto-follows tuned-ppd (fan curves are per-platform-profile, not a generic toggle), a mischaracterization of the waybar module state (no existing profile module to relabel — `power-profile.sh` is orphaned and the stock PPD module isn't even wired into `modules-right`), and a missing `nvidia-drm modeset=1`. All corrections folded into the plan before marking it ready.
+- Persisted the "Opus-review large plans before finalizing" lesson into Claude memory (`feedback_grimoire_plan_handoff.md`).
+- **Next:** implement Phases 1–4 in a fresh session (profiling spell, Hyprland tuning, NVIDIA D3cold, tuned+asusd power stack); write the Phase 5 settings-app plan as its own Grimoire doc separately.
 
 ---
 
