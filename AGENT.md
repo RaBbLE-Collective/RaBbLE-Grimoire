@@ -160,11 +160,13 @@ See `registry/manifests/` for the authoritative list. Current members:
 
 | Member | Status |
 |---|---|
+| RaBbLE-Collective | Active — root repo, bootstrap + identity entry point (`~/RaBbLE-Collective/`) |
 | RaBbLE-sCoRE | Active — Epoch 0, coordination engine + web API |
 | RaBbLE-OS | Active — Fedora 43/Hyprland live daily driver |
 | RaBbLE-World | Active — thin scaffold: Aether + NeBuLA loaders, joinrabble.world |
 | RaBbLE-NeBuLA | Active — Canvas2D renderer, `<rabble-entity>` web component |
 | RaBbLE-Aether | Active — design system CSS bundle, CDN delivery |
 | RaBbLE-BaBbLE | Active — intake surface: concept art, prototypes, ideation, creation lore, captures |
+| RaBbLE-TaskViSoR | Scaffold — Visual State Observer identity declared; Layer 1 ships as a World page, no own repo yet |
 | RaBbLE-Chrysalis | Genesis-archive — origin code from pre-Collective era; Reliquary for archived branches |
 | RaBbLE-Xperimental | Active sandbox — rablets in development, prototype members, experiments not yet emerged |

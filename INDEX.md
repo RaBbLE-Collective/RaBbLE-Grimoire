@@ -101,7 +101,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [registry/epochs/current.epoch.yml](registry/epochs/current.epoch.yml) — active epoch definition, per-member Episode 1 status
 - [registry/subdomains.yml](registry/subdomains.yml) — authoritative map of all joinrabble.world subdomains (owner, tech, status, blocker)
 - [registry/CONTEXT.md](registry/CONTEXT.md) — registry workspace metadata
-- **manifests/**: RaBbLE-Collective · RaBbLE-OS · RaBbLE-sCoRE · RaBbLE-Aether · RaBbLE-NeBuLA · RaBbLE-World · RaBbLE-BaBbLE · RaBbLE-Chrysalis · RaBbLE-Xperimental
+- **manifests/**: RaBbLE-Collective · RaBbLE-OS · RaBbLE-sCoRE · RaBbLE-Aether · RaBbLE-NeBuLA · RaBbLE-World · RaBbLE-BaBbLE · RaBbLE-Chrysalis · RaBbLE-TaskViSoR · RaBbLE-Xperimental
 
 ---
 
@@ -201,11 +201,10 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-World-Page-Template](RaBbLE-World/RaBbLE-World-Page-Template.md) — minimal page template, CDN integration pattern
 - [RaBbLE-World-README](RaBbLE-World/RaBbLE-World-README.md) — World member overview (joinrabble.world)
 - **[RaBbLE-World-EP1-Unification](RaBbLE-World/RaBbLE-World-EP1-Unification.md)** — **EP1 site spine (prior canon):** liminal as front door, door→surface map, shared threshold nav, Aether-first alignment
-- **[RaBbLE-World-RC1-Emergence-Plan](RaBbLE-World/RaBbLE-World-RC1-Emergence-Plan.md)** — **ACTIVE BUILD + HANDOFF:** archive the whole current site into `chrysalis/` (frozen, hostable); rebuild as ONE living surface (entity-guided movements, VSCode-Aether tinted glass). Orchestration waves + contracts + cold-start handoff for a fresh session.
+- [RaBbLE-World-RC1-Emergence-Plan](RaBbLE-World/RaBbLE-World-RC1-Emergence-Plan.md) — Superseded (prior canon) — S190's liminal passage (`log/plans/EP1-Liminal-Experience-Plan.md`) is the ACTIVE build; this plan's chrysalis-archive/RC1 approach was carried forward there.
 - [RaBbLE-Grimoire-Browser-Plan](RaBbLE-World/RaBbLE-Grimoire-Browser-Plan.md) — agent handoff: grimoire summoning-circle applet integration into World
 - [RaBbLE-World-MAINTAINING](RaBbLE-World/RaBbLE-World-MAINTAINING.md) — RaBbLE-Chat maintenance map: where the chat surface lives and how to keep it running
 - [REGRESSION-AUDIT-2026-05-15](RaBbLE-World/REGRESSION-AUDIT-2026-05-15.md) — Aether CDN regression post-mortem (resolved)
-- [Visual Assets](RaBbLE-World/assets/) — images, icons
 
 ---
 
@@ -282,7 +281,11 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 
 ### Plans (active)
 
-- [Collective-Architecture-Audit-Plan](log/plans/Collective-Architecture-Audit-Plan.md) — S192 PROPOSED: fable-5 orchestrator + per-member sub-agent recon, gaps/oversights audit, sCoRE flat-architecture deep-dive; not yet run
+- [Collective-Architecture-Audit-Plan](log/plans/Collective-Architecture-Audit-Plan.md) — S192 PROPOSED plan; RUN S193 — see the two deliverables below
+- [Collective-Architecture-Audit-2026-07-04](log/plans/Collective-Architecture-Audit-2026-07-04.md) — S193 RUN: cross-repo synthesis, all 10 members audited, drift findings + per-member improvement plans, open decisions for Mark
+- [sCoRE-Extensibility-Refactor-Plan](log/plans/sCoRE-Extensibility-Refactor-Plan.md) — S193: sCoRE `server/` restructuring deep-dive, 3 options, companion to the audit above
+- [Collective-Architecture-Audit-PROGRESS](log/plans/Collective-Architecture-Audit-PROGRESS.md) — S196 implementation ledger: which audit findings landed (Batch 1 doc/drift fixes) vs deferred (decisions + restructures)
+- [OS-ProArt-Power-Stack-Plan](log/plans/OS-ProArt-Power-Stack-Plan.md) — S194: ProArt power-stack plan, Opus-reviewed, ready to implement (Phases 1–4)
 - [EP1-Liminal-Experience-Plan](log/plans/EP1-Liminal-Experience-Plan.md) — S190 ACTIVE: EP1 air bar = single-page Genesis passage (Acts 0–IV, sCoRE-live) + Three.js entity awakening; post-mortem + WS-A/B/C/D sub-agent decomposition
 - [Subdomain-Registry-and-Maintenance](log/plans/Subdomain-Registry-and-Maintenance.md) — S185: subdomain registry spec + Collective maintenance backlog
 - [Aether-Theming-Convergence](log/plans/Aether-Theming-Convergence.md) — palette sovereignty across web/editor/desktop/browser

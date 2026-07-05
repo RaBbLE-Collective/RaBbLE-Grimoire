@@ -60,15 +60,15 @@ Every design decision, character trait, protocol schema, and technical pattern l
 | Integration & Ethos Plan (`RaBbLE-Collective/RaBbLE-Integration-Ethos-Plan.md`) | **Active** — Phase 1A✓ 1B✓ 1C✓ 0A✓ 2A✓ 2B✓ 2D✓ 3✓ · Phase 2C (Mark authors), 4 pending |
 | Palette (`RaBbLE-Agent/RaBbLE-Palette.md`) | Stable |
 | Roadmap (`RaBbLE-Agent/RaBbLE-Roadmap.md`) | Current — Episode 1 streams visible, open questions documented |
-| Registry (`registry/`) | 9 manifests live (Collective, OS, sCoRE, Aether, NeBuLA, World, BaBbLE, Chrysalis, Xperimental) |
+| Registry (`registry/`) | 10 manifests live (Collective, OS, sCoRE, Aether, NeBuLA, World, BaBbLE, Chrysalis, TaskViSoR, Xperimental) |
 | Spells (`spells/`) | ~41 spells live (coordination, deploy, sessions, multi-agent); see `SPELLS.md` / `bash spells/help.sh` for the authoritative list |
 | Versioning spec (`RaBbLE-Versioning.md`) | Stable — Five Es locked |
 | Episode tracking (`registry/epochs/current.epoch.yml`) | Episode 1 pending — all members accumulating Events |
 | Episode 1 scope (`RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md`) | Canonical scope locked — exit criteria, blockers, tag convention |
 | RaBbLE-sCoRE docs | Architecture + Roadmap present. DataCrawler RFC added. **LLM endpoint LIVE on Render** (`rabble-score-x7qq.onrender.com`, S106); local AI layer (Groq/OpenRouter/NVIDIA NIM) documented. Railway superseded. |
 | Grimoire MCP (`RaBbLE-Collective/RaBbLE-Grimoire-MCP.md`) | **Concept (S139)** — read-first remote MCP at `grimoire.joinrabble.world` (CF Worker); awaiting Mark on hosting/timing decisions (§7). Post-EP1. |
-| RaBbLE-World | **Active** — RC1 "Guided Realm" build in flight (threshold→realm→summon→shell, entity as curator). Loaders (Aether + NeBuLA) + liminal, shell, grimoire-graph surfaces live. |
-| RC1 Experience (`RaBbLE-Collective/RaBbLE-RC1-Experience.md`) | **Active** — design canon for the single entity-guided realm; bridges the PRD into the EP1 public surface. PRD §13 partially resolved. |
+| RaBbLE-World | **Active** — S190 liminal passage superseded the RC1 "Guided Realm" build: Acts 0–IV live on World `index.html`, Three.js entity awakened. Loaders (Aether + NeBuLA) + liminal, shell, grimoire-graph surfaces live. Remaining: Mark's Genesis copy, live Act IV check, deploy. |
+| RC1 Experience (`RaBbLE-Collective/RaBbLE-RC1-Experience.md`) | Superseded — S190's liminal passage (`log/plans/EP1-Liminal-Experience-Plan.md`) is now the live EP1 public-surface build; this doc's Guided Realm design is prior canon. |
 | RaBbLE-Aether | Active — component library complete, CDN delivery working, dev workflow documented. |
 | RaBbLE-NeBuLA | Active — Canvas2dBackend + BootSequence complete. `<rabble-entity>` now in NeBuLA. |
 | RaBbLE-BaBbLE | **Active** — formalized as Collective member (Phase 3). AGENT.md/CONTEXT.md/README.md live. Manifest registered. |
@@ -76,6 +76,7 @@ Every design decision, character trait, protocol schema, and technical pattern l
 | RaBbLE-Chrysalis | Genesis-archive — origin code from pre-Collective era. Reliquary for archived branches. Renamed from Xperimental S92. |
 | RaBbLE-Xperimental | Active sandbox — rablets in development, prototype members, experiments not yet emerged. New repo, created S92. |
 | RaBbLE-OS | Active — daily-driver substrate, Ep1 plots in progress, versioning diverged (deferred) |
+| RaBbLE-TaskViSoR | Scaffold — Visual State Observer identity declared (S141); Layer 1 not yet built, ships as a World page. Manifest registered, no own repo yet. |
 
 ## Reading Order for a New Session
 

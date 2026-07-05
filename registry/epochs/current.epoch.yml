@@ -4,7 +4,7 @@ status: active
 started: 2026-04-28
 
 episode_pending: 1
-episode_name: "First Integrated Release"
+episode_name: "Genesis"
 episode_note: >
   Events are accumulating toward Episode 1 — not yet aired. Episode 1 airs
   when it feels like a coherent stable-ish point across the ecosystem: members
@@ -95,10 +95,11 @@ focus:
     milestone: "joinrabble.world live: landing + chat wired to sCoRE"
     status: "Active — LIVE at joinrabble.world (HTTP 200, S120); chat→sCoRE→entity verified vs live backend (S106); NeBuLA unified 2D+3D renderer (S107)"
     episode_1_blocker: true
-    # Prod deploy DONE (S120). Durable open-blocker home is now log/BLOCKERS.md
-    # (tag:ep1-gate) + log/EP1-AIR-CHECKLIST.md §A — this note no longer drifts:
-    #   B-01 guest/invite chat path · B-03 CORS allow_origin_regex · B-04 Aether+NeBuLA CDN Workers.
-    blocker_note: "Prod deploy done (S120). Remaining: guest/invite chat path + CDN Workers (Aether/NeBuLA) + CORS. Tracked in log/BLOCKERS.md (ep1-gate); air gate in log/EP1-AIR-CHECKLIST.md."
+    # Prod deploy DONE (S120). B-01 (guest/invite chat path), B-03 (CORS
+    # allow_origin_regex), B-04 (Aether+NeBuLA CDN Workers) all resolved S153.
+    # Durable open-blocker home is log/BLOCKERS.md (tag:ep1-gate) + log/EP1-AIR-CHECKLIST.md
+    # §A — this note no longer drifts. Real open set: B-02 · B-09 · B-10.
+    blocker_note: "Prod deploy done (S120); guest chat path + CORS + CDN Workers resolved S153 (B-01/B-03/B-04). Open: B-02 OpenRouter $10 credits not purchased, B-09 Lemonade Server unconfirmed, B-10 dev.joinrabble.world auto-deploy missing CLOUDFLARE_API_TOKEN. Tracked in log/BLOCKERS.md; air gate in log/EP1-AIR-CHECKLIST.md."
 
   RaBbLE-sCoRE:
     priority: active
@@ -128,5 +129,5 @@ focus:
   RaBbLE-Xperimental:
     priority: active
     milestone: "Active sandbox — rablets and experiments not yet emerged as full members"
-    status: "Active (new) — distinct from Chrysalis; GitHub repo to be created by Mark"
+    status: "Active — distinct from Chrysalis; cloned, on branch new-horizons since S189"
     episode_1_blocker: false

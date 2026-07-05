@@ -29,6 +29,7 @@ Spells are bash scripts in `spells/` that manage the RaBbLE Collective. Grimoire
 | Spell | Purpose | When to use |
 |---|---|---|
 | `dev-serve.sh` | Launch local dev (Aether+NeBuLA+World on :8080) | Development — always use this, not manual servers |
+| `chat-local.sh` | Local World UI + `chat-bridge.py` proxy to LIVE Render sCoRE, with on-disk transcripts | Chatting/testing against prod sCoRE without redeploying |
 | `visual-screenshot.sh` | Capture browser screenshot for agent visual review | Verifying UI changes — agent sees the PNG |
 | `install-theme.sh` | Install RaBbLE theme on OS | RaBbLE-OS theming setup |
 
@@ -50,6 +51,9 @@ Spells are bash scripts in `spells/` that manage the RaBbLE Collective. Grimoire
 | `setup-cloudflare-r2.sh` | One-time R2 + CDN setup (autonomous, no dashboard) | Initial Episode-1 CDN infrastructure |
 | `render-ctl.sh` | Unified **sCoRE** Render control (env/deploy/status/logs via REST API) | sCoRE cloud deploy + key management |
 | `railway-ctl.sh` | **Dormant** — single Railway spell (superseded by Render) | Only if Railway is re-adopted as backend |
+| `groq-ctl.sh` | Groq control: verify key, list models, smoke-test/chat completion | Checking/using the Groq fast-chain provider |
+| `openrouter-ctl.sh` | OpenRouter control: verify key/credits, list models, smoke-test/chat completion | Checking/using the OpenRouter fallback provider |
+| `fcc-ctl.sh` | free-claude-code server control (start/stop/status/logs/keys/model routing) | Managing the local fcc systemd service + provider routing |
 
 **Docs, analytics & episode**
 
@@ -63,6 +67,7 @@ Spells are bash scripts in `spells/` that manage the RaBbLE Collective. Grimoire
 | `end-session.sh` | Record end-of-session feature breadcrumb (agent-agnostic) | Closing a session — tag its token spend |
 | `distill-hypr-docs.sh` | Fetch + distill a Hyprland wiki page to a Grimoire note (LLM fast chain) | Capturing upstream Hyprland config knowledge |
 | `seal-episode.sh` | Episode signing ceremony (DRAFT — needs Collective account) | Tagging an episode across the Collective |
+| `sync-gists-to-world.sh` | Copy `gist/*.md` into `RaBbLE-World/gist/` for CF Worker serving | After any gist change, before deploying World (feeds `fetch_grimoire`) |
 
 **Multi-agent coordination & session logging**
 
@@ -75,7 +80,7 @@ Spells are bash scripts in `spells/` that manage the RaBbLE Collective. Grimoire
 | `blockers.sh` | Durable append-only blocker ledger → generates `log/BLOCKERS.md` | Any blocker — so it survives the SESSION-LOG `## LATEST` rewrite |
 
 > Helper scripts (not run directly): `dev-cdn.js`, `playwright-capture.mjs` are invoked by
-> `dev-serve.sh` / `visual-screenshot.sh`.
+> `dev-serve.sh` / `visual-screenshot.sh`. `chat-bridge.py` is invoked by `chat-local.sh`.
 
 ---
 
@@ -186,6 +191,24 @@ curl -s -X POST http://localhost:8000/api/v1/chat \
   -d '{"messages":[{"role":"user","content":"who are you?"}],"model_tier":"fast"}'
 ```
 
+### `chat-local.sh` — Local Chat Against LIVE Render sCoRE
+
+Runs a static server (:8080, World UI + Aether/NeBuLA bundles) plus `chat-bridge.py`
+(:8000) — a local proxy that forwards `/api/*` to the live Render sCoRE backend, injects
+the `@demo` account's auth (mints a fresh JWT from a stored API key, no token juggling
+or 8h-expiry pain), adds permissive CORS, and tees every chat turn to a transcript on
+disk. `RaBbLE-config.js` auto-targets `localhost:8000`, so the app talks to the bridge
+with no config change.
+
+```bash
+bash spells/chat-local.sh                       # serve + bridge, Ctrl-C to stop
+CHAT_LOG_DIR=~/logs bash spells/chat-local.sh   # custom transcript dir
+```
+
+**Env (via `chat-bridge.py`):** `RENDER_URL` (default the live Render URL), `BRIDGE_PORT`
+(default 8000), `DEMO_ACCOUNT` (path to `demo_account.json` holding `api_key`),
+`CHAT_LOG_DIR` (default `~/RaBbLE-Collective/RaBbLE-sCoRE/chats`).
+
 ### `visual-screenshot.sh` — Agent Visual Capture
 
 Opens a URL in Firefox on a scratch Hyprland workspace, captures via `grim`, closes, returns. Prints `SCREENSHOT: /path` for agent file reading.
@@ -246,6 +269,44 @@ were removed (S105).
 
 **Note:** For local dev use `RaBbLE-sCoRE/spells/local-start.sh` instead — see Development section above.
 
+### `groq-ctl.sh` — Groq Provider Control
+
+Mirrors `render-ctl.sh` / `openrouter-ctl.sh` in shape. Reads `$GROQ_API_KEY`, else falls
+back to `RaBbLE-sCoRE/server/.env`. Never prints the key. Note: Groq blocks proton.me
+signups, so the key in `.env` may be a personal account, not the Collective identity.
+
+```bash
+bash spells/groq-ctl.sh key                                  # verify key, show model count
+bash spells/groq-ctl.sh models llama                          # list models (optional filter)
+bash spells/groq-ctl.sh test                                  # smoke-test completion
+bash spells/groq-ctl.sh chat llama-3.3-70b-versatile "hello"   # one completion
+```
+
+### `openrouter-ctl.sh` — OpenRouter Provider Control
+
+Mirrors `render-ctl.sh` / `railway-ctl.sh` in shape. Reads `$OPENROUTER_API_KEY`, else
+`RaBbLE-sCoRE/server/.env`. Never prints the key.
+
+```bash
+bash spells/openrouter-ctl.sh key                              # verify key, show tier/credits/usage
+bash spells/openrouter-ctl.sh models gemma                     # list models (free vs paid)
+bash spells/openrouter-ctl.sh test                              # smoke-test completion (free model)
+bash spells/openrouter-ctl.sh chat openai/gpt-4o-mini "hello"   # one completion
+```
+
+### `fcc-ctl.sh` — free-claude-code Server Control
+
+Manages the local `free-claude-code` systemd user service and its provider/model routing.
+
+```bash
+fcc-ctl start | stop | restart | status | logs   # service lifecycle
+fcc-ctl admin                                     # open Admin UI in browser
+fcc-ctl keys                                      # show which API keys are set
+fcc-ctl key <KEYNAME> <VALUE>                     # set a key in ~/.config/RaBbLE/fcc.env
+fcc-ctl model haiku|sonnet|opus <provider:model>  # set model routing
+fcc-ctl sync                                      # re-apply routing from RaBbLE-OS fcc.env.example
+```
+
 ### `install-theme.sh` — OS Theme Installation
 
 Installs RaBbLE synthwave theme across OS components. RaBbLE-OS specific.
@@ -270,6 +331,19 @@ bash spells/distill-gists.sh identity         # one gist (by slug)
 **Available slugs:** identity, collective, roadmap, commitstyle, versioning, palette, overview, episode1, integration
 
 **Requires:** `claude` CLI in PATH.
+
+### `sync-gists-to-world.sh` — Publish Gists to World for CF Serving
+
+World serves static assets at `joinrabble.world/*` via Cloudflare Workers. This copies
+`gist/*.md` into `RaBbLE-World/gist/`, served at `https://joinrabble.world/gist/{filename}`.
+sCoRE's `GRIMOIRE_URL` should point at `https://joinrabble.world` so `fetch_grimoire` can
+read these at runtime.
+
+```bash
+bash spells/sync-gists-to-world.sh
+```
+
+Run after any `gist/*.md` change, then commit World and deploy via wrangler.
 
 ### `distill-hypr-docs.sh` — Distill Hyprland Wiki Pages
 

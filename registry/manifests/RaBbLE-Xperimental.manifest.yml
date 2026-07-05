@@ -11,7 +11,7 @@ role: experimental
 
 # Repository
 repo: git@github.com:RaBbLE-Collective/RaBbLE-Xperimental.git
-branch: main
+branch: new-horizons
 worktree_root: RaBbLE-Xperimental
 surface_type: local
 
@@ -30,8 +30,7 @@ pulse_protocol: true
 notes: >
   Created S92. New repo — distinct from RaBbLE-Chrysalis (the former Xperimental,
   which holds the genesis archive). This is the active creative sandbox.
-  GitHub repo to be created by Mark under the RaBbLE-Collective org (no remote yet).
-  Local directory scaffold pending GitHub repo creation.
+  Cloned and active — on branch new-horizons since S189.
   Content: custom rablets in development, prototype member repos, sandboxed experiments.
   High entropy is correct. Nothing here is permanent — graduates to published rablets
-  or a full member repo. Branches: main + feature/* per experiment.
+  or a full member repo. Branches: new-horizons + feature/* per experiment.

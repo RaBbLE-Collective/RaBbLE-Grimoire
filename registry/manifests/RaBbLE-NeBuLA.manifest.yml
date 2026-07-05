@@ -32,7 +32,7 @@ depends_on:
 
 # Notes
 notes: >
-  Active branch: dev. NeBuLA v2 clean rebuild — no RBCNS naming constraints.
+  Active branch: new-horizons. NeBuLA v2 clean rebuild — no RBCNS naming constraints.
   Architecture: Canvas2dBackend owns entity rendering (particles, portals, eyes, boot sequence).
   <rabble-entity> web component lives in NeBuLA (src/element.js) — NOT in RaBbLE-World.
   Registers on World pages via the IIFE bundle loaded from CDN.
