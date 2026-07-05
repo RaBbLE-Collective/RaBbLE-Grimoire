@@ -75,7 +75,7 @@ Anyone can run the full stack locally at zero cost. This builds trust, lowers fr
 | sCoRE API | Render | Python FastAPI server | Free (cold-start ~30–60s) |
 | World frontend | Cloudflare Workers | Static HTML + edge | Free |
 | CDN bundles | Cloudflare R2 | Aether CSS, NeBuLA JS | Free |
-| Domain | Cloudflare | `joinrabble.world`, `cdn.joinrabble.world` | Paid |
+| Domain | Cloudflare | `joinrabble.world`, `aether.joinrabble.world`, `nebula.joinrabble.world` | Paid |
 | User/session data | Filesystem (Render disk) | Profiles, sessions, invite tokens | Free (Render disk) |
 
 **Cold-start caveat (EP1 only):** Render free tier sleeps after ~15 min idle, causing ~30–60s wake latency on first request. Document this as a known limitation; upgrade at Echo 1.

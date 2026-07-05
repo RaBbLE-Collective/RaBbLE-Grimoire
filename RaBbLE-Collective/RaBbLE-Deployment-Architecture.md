@@ -22,7 +22,7 @@ The canonical list of what lives where. All on the Cloudflare-managed `joinrabbl
 | `grimoire.joinrabble.world` | **Grimoire MCP** — live read interface for agents | Concept (S139) → `RaBbLE-Grimoire-MCP.md` |
 | `shop.joinrabble.world` | **Shop** — merch / sticker drops | Concept (S139) → `RaBbLE-Shop.md` |
 
-> **EP1 storage reality:** no R2, no persistent storage. Each member's assets are **bundled into its own Worker** and served per-subdomain; versioning is by path (`/v0.0.0.1-rc.1/…`), bumped on deploy. A dedicated `cdn.joinrabble.world` on R2 is a **roadmap target** (Phase 2, post-EP1) — the R2/`cdn.` references elsewhere in this doc describe that target, not the current EP1 setup.
+> **EP1 storage reality:** no R2, no persistent storage. Each member's assets are **bundled into its own Worker** and served per-subdomain; versioning is by path (`/v0.0.0.1-rc.1/…`), bumped on deploy. A dedicated unified `cdn.joinrabble.world` on R2 was considered as a future target and is **cancelled** — per-member subdomains (`aether.joinrabble.world`, `nebula.joinrabble.world`, as shown in the Subdomain Map above) are the permanent canonical CDN hosts. The R2/`cdn.` references in the "Production," "CDN Distribution Strategy," and "Cloudflare Configuration" sections below describe that abandoned design, not the current or future EP1 setup — retained for historical reference only; needs a fuller rewrite (follow-up).
 
 ---
 
@@ -83,7 +83,9 @@ The canonical list of what lives where. All on the Cloudflare-managed `joinrabbl
 
 ---
 
-### Production (Public CDN)
+### Production (Public CDN) — SUPERSEDED, see note above
+
+> **Superseded:** this section (through "Cloudflare Configuration" below) describes the cancelled unified `cdn.joinrabble.world` / R2 design. Actual production serves Aether and NeBuLA from `aether.joinrabble.world` and `nebula.joinrabble.world` directly, per the Subdomain Map at the top of this doc. Retained historically; needs a fuller rewrite (follow-up).
 
 **Purpose:** Live deployment to joinrabble.world  
 **Aether distribution:** https://cdn.joinrabble.world/aether/v0.0.0.0/aether.min.css  
@@ -322,7 +324,7 @@ Then open http://localhost:8000/index.html and navigate to pages.
 <script src="http://localhost:8000/nebula/v0.0.0.0/nebula.iife.js"></script>
 
 <!-- In prod, use public CDN -->
-<!-- <link rel="stylesheet" href="https://cdn.joinrabble.world/aether/v0.0.0.0/aether.min.css"> -->
+<!-- <link rel="stylesheet" href="https://aether.joinrabble.world/v0.0.0.0/aether.min.css"> -->
 ```
 
 Or use a simple templating approach: environment variable injected at build time.

@@ -29,7 +29,7 @@ New pages should:
   <title>RaBbLE — [Page Title]</title>
   
   <!-- Aether design system — all theme + components -->
-  <link rel="stylesheet" href="https://cdn.joinrabble.world/aether/v0.0.0/aether.min.css">
+  <link rel="stylesheet" href="https://aether.joinrabble.world/v0.0.0/aether.min.css">
 </head>
 <body>
   <div class="rabble-page">
@@ -56,7 +56,7 @@ New pages should:
 
     <!-- NeBuLA for animations (if needed) -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-    <script src="https://cdn.joinrabble.world/nebula/v0.0.0/nebula.iife.js"></script>
+    <script src="https://nebula.joinrabble.world/v0.0.0/nebula.iife.js"></script>
 
     <!-- Your page logic -->
     <script>

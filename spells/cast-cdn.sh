@@ -9,7 +9,9 @@
 #
 # Phase 1 CDN model: World worker serves /aether/ and /nebula/ as
 # root-relative paths. No separate CDN worker needed.
-# Phase 2 (post-Ep2): dedicated cdn.joinrabble.world worker per member.
+# NOTE: a later "Phase 2" unified cdn.joinrabble.world worker was considered
+# and cancelled — Aether/NeBuLA are instead deployed to their own permanent
+# subdomains (aether.joinrabble.world, nebula.joinrabble.world) directly.
 # See: RaBbLE-Grimoire/RaBbLE-Aether/RaBbLE-Aether-Build-CDN.md
 #
 # Usage:

@@ -4,7 +4,7 @@
 harmonize ~ grimoire >> build and cdn delivery updated to reflect current state // %AETHER_BUILD_CURRENT%
 ```
 
-> **Status:** Build system live. CDN served via World worker (Phase 1). Dedicated `cdn.joinrabble.world` is the roadmap target (Phase 2, post-Ep2 or when friction demands it).
+> **Status:** Build system live. A unified `cdn.joinrabble.world` host (the "Phase 2" design below) was considered and is **cancelled**. Aether and NeBuLA are each served from their own permanent subdomain instead — `aether.joinrabble.world` and `nebula.joinrabble.world` — with no shared `cdn.` host and no path-prefix routing. See `RaBbLE-Collective/RaBbLE-Deployment-Architecture.md` § Subdomain Map for current status.
 
 ---
 
@@ -175,7 +175,9 @@ Create `world-dev` when friction from deploying directly to production becomes r
 
 ---
 
-## CDN Delivery — Phase 2 (roadmap, post-Ep2)
+## CDN Delivery — Phase 2 (roadmap, post-Ep2) — SUPERSEDED
+
+> **This unified `cdn.joinrabble.world` design was cancelled.** Per-member subdomains (`aether.joinrabble.world`, `nebula.joinrabble.world`) are the permanent canonical CDN hosts, and they are already live — not a future trigger-based migration. The mechanics below (shared host, path-prefix routing, `aether.cdn.`/`nebula.cdn.` fallback) are retained for historical reference only; they describe a design that was never built and will not be built. Needs a fuller rewrite (follow-up) to replace this section with the actual per-subdomain Worker setup.
 
 A dedicated `cdn.joinrabble.world` Cloudflare Worker serves Aether and NeBuLA independently of World. Each member controls its own CDN deploy.
 

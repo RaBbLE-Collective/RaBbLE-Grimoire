@@ -21,7 +21,7 @@
 # Workflow:
 #   1. Run this once per RC version
 #   2. GitHub Actions builds and deploys to CDN
-#   3. Test from: https://cdn.joinrabble.world/aether/v0.0.0.1-rc.1/
+#   3. Test from: https://aether.joinrabble.world/v0.0.0.1-rc.1/
 #   4. If fixes needed: commit to rc/v0.0.0.1 and run this again (auto-increments RC)
 #   5. When approved: merge rc/v0.0.0.1 → main and run bash spells/seal-episode.sh
 #
@@ -176,7 +176,7 @@ info ""
 info "After publish:"
 info "  • GitHub Actions will build and deploy to CDN"
 info "  • Monitor at: https://github.com/markm1206/RaBbLE-Aether/actions"
-info "  • Test from: https://cdn.joinrabble.world/aether/$RC_TAG/"
+info "  • Test from: https://aether.joinrabble.world/$RC_TAG/"
 info "  • If fixes needed: commit to $RC_BRANCH and run this again"
 
 # ─ Confirmation ──────────────────────────────────────────────────────────────
@@ -256,5 +256,5 @@ info "Author:    $DEV_NAME"
 echo ""
 warn "Monitor deployment:"
 info "  GitHub: https://github.com/markm1206/RaBbLE-Aether/actions"
-info "  CDN:    https://cdn.joinrabble.world/aether/$RC_TAG/"
+info "  CDN:    https://aether.joinrabble.world/$RC_TAG/"
 echo ""

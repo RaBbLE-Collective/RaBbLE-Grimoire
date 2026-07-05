@@ -1469,7 +1469,7 @@ export const ASSETS = {
   // Aether CSS — theme layer
   aether: {
     version: '0.0.0',
-    cdn: 'https://cdn.joinrabble.world/aether',
+    cdn: 'https://aether.joinrabble.world',
     css: '/rabble.css',
     themeBridge: '/theme-bridge.css',
   },
@@ -1477,7 +1477,7 @@ export const ASSETS = {
   // NeBuLA distribution
   nebula: {
     version: '0.0.0',
-    cdn: 'https://cdn.joinrabble.world/nebula',
+    cdn: 'https://nebula.joinrabble.world',
     iife: '/nebula.iife.js',
     esm: '/nebula.esm.js',
   },
@@ -1501,10 +1501,10 @@ export function getCdnUrl(asset, file) {
 Pages import Aether + NeBuLA like this:
 
 ```html
-<link rel="stylesheet" href="https://cdn.joinrabble.world/aether/v0.0.0/rabble.css">
-<link rel="stylesheet" href="https://cdn.joinrabble.world/aether/v0.0.0/theme-bridge.css">
+<link rel="stylesheet" href="https://aether.joinrabble.world/v0.0.0/rabble.css">
+<link rel="stylesheet" href="https://aether.joinrabble.world/v0.0.0/theme-bridge.css">
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-<script src="https://cdn.joinrabble.world/nebula/v0.0.0/nebula.iife.js"></script>
+<script src="https://nebula.joinrabble.world/v0.0.0/nebula.iife.js"></script>
 ```
 
 Create a template helper in `RaBbLE-World/spells/generate-html-head.sh`:
@@ -1518,18 +1518,19 @@ AETHER_VERSION="0.0.0"
 NEBULA_VERSION="0.0.0"
 THREEJS_VERSION="0.160.0"
 
-CDN_HOST="https://cdn.joinrabble.world"
+AETHER_HOST="https://aether.joinrabble.world"
+NEBULA_HOST="https://nebula.joinrabble.world"
 
 cat <<EOF
 <!-- Theme system (Aether CSS) -->
-<link rel="stylesheet" href="$CDN_HOST/aether/v$AETHER_VERSION/rabble.css">
-<link rel="stylesheet" href="$CDN_HOST/aether/v$AETHER_VERSION/theme-bridge.css">
+<link rel="stylesheet" href="$AETHER_HOST/v$AETHER_VERSION/rabble.css">
+<link rel="stylesheet" href="$AETHER_HOST/v$AETHER_VERSION/theme-bridge.css">
 
 <!-- 3D rendering engine dependencies -->
 <script src="https://cdn.jsdelivr.net/npm/three@$THREEJS_VERSION/build/three.min.js"></script>
 
 <!-- NeBuLA visual entity engine -->
-<script src="$CDN_HOST/nebula/v$NEBULA_VERSION/nebula.iife.js"></script>
+<script src="$NEBULA_HOST/v$NEBULA_VERSION/nebula.iife.js"></script>
 EOF
 ```
 
@@ -1554,7 +1555,7 @@ All World pages follow this structure:
   <title>Page Title</title>
   
   <!-- Aether CSS: design system + theme variables -->
-  <link rel="stylesheet" href="https://cdn.joinrabble.world/aether/v0.0.0/rabble.css">
+  <link rel="stylesheet" href="https://aether.joinrabble.world/v0.0.0/rabble.css">
   
   <!-- World CSS: functional overrides for this page -->
   <link rel="stylesheet" href="/world/css/page-name.css">
@@ -1580,7 +1581,7 @@ All World pages follow this structure:
   
   <!-- NeBuLA rendering engine -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-  <script src="https://cdn.joinrabble.world/nebula/v0.0.0/nebula.iife.js"></script>
+  <script src="https://nebula.joinrabble.world/v0.0.0/nebula.iife.js"></script>
   
   <!-- World-specific script (functional) -->
   <script src="/world/js/page-name.js" type="module"></script>

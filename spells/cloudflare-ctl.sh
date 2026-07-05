@@ -970,7 +970,7 @@ cmd_monitor() {
 
   header "Monitoring: $member/$version"
 
-  CDN_URL="https://cdn.joinrabble.world/$member/$version/"
+  CDN_URL="https://$member.joinrabble.world/$version/"
 
   info "Polling CDN..."
   for i in {1..30}; do

@@ -2,6 +2,13 @@
 # =============================================================================
 # spells/deploy-member.sh — Complete Member Deployment Pipeline (CLI-Only)
 #
+# SUPERSEDED: this pipeline's R2 bucket setup step targets the cancelled
+# unified cdn.joinrabble.world design. Per-member subdomains
+# (aether.joinrabble.world, nebula.joinrabble.world) are the permanent
+# canonical CDN hosts, deployed via spells/cloudflare-ctl.sh's `deploy`/
+# `domain` commands instead. Retained for historical reference; needs a
+# fuller rewrite or retirement (follow-up).
+#
 # Orchestrates full RC deployment for any RaBbLE member (Aether, NeBuLA, World).
 # Zero dashboard interaction. Single command deploys to CDN.
 #
@@ -213,7 +220,7 @@ header "Step 5: Monitor Deployment"
 RC_TAG="v${VERSION}-rc.1"
 REPO_URL="https://github.com/${GITHUB_USER:-markm1206}/$MEMBER_REPO"
 ACTIONS_URL="$REPO_URL/actions"
-CDN_URL="https://cdn.joinrabble.world/$MEMBER/v$RC_TAG/"
+CDN_URL="https://$MEMBER.joinrabble.world/v$RC_TAG/"
 
 if [ "$DRY_RUN" = "true" ]; then
   warn "Deployment monitoring URLs:"

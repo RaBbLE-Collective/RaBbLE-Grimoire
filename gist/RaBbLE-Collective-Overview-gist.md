@@ -6,12 +6,12 @@
 **Episode 1 delivers three CDN-backed layers for coordinated release:** design system (Aether) + rendering engine (NeBuLA) + frontend app (World).
 
 **Aether (Design System)**
-- CSS bundle: `https://cdn.joinrabble.world/aether/v0.0.0/aether.min.css`
+- CSS bundle: `https://aether.joinrabble.world/v0.0.0/aether.min.css`
 - Canonical visual identity, reusable class library (`.rabble-card`, `.rabble-btn`, `.rabble-grid-3`, etc.)
 - Status: build setup pending
 
 **NeBuLA (Rendering Engine)**
-- JavaScript (IIFE + ESM): `https://cdn.joinrabble.world/nebula/v0.0.0/nebula.iife.js`
+- JavaScript (IIFE + ESM): `https://nebula.joinrabble.world/v0.0.0/nebula.iife.js`
 - Entity visuals, Canvas2D, animations, interactive components
 - Status: Phase 1 ✅ (build), Phase 2–3 🔄 (Palette + Canvas2D), Phase 4+ pending
 - Public API: `window.NeBuLA.createPuppet({ canvas, ... })`

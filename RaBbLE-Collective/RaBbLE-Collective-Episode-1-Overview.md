@@ -66,8 +66,8 @@ transcribe ~ collective >> episode 1 architecture, api, and build strategy docum
 
 **Pattern:**
 ```html
-<link rel="stylesheet" href="https://cdn.joinrabble.world/aether/v0.0.0/aether.min.css">
-<script src="https://cdn.joinrabble.world/nebula/v0.0.0/nebula.iife.js"></script>
+<link rel="stylesheet" href="https://aether.joinrabble.world/v0.0.0/aether.min.css">
+<script src="https://nebula.joinrabble.world/v0.0.0/nebula.iife.js"></script>
 <!-- Use Aether classes + window.NeBuLA API -->
 ```
 
@@ -108,8 +108,8 @@ When Episode 1 airs, all three (Aether, NeBuLA, World) are tagged v0.0.0.1 in gi
 ## CDN Deployment (Before API Integration)
 
 All static assets served from CDN:
-- Aether CSS: `https://cdn.joinrabble.world/aether/v0.0.0/aether.min.css`
-- NeBuLA JS: `https://cdn.joinrabble.world/nebula/v0.0.0/nebula.iife.js`
+- Aether CSS: `https://aether.joinrabble.world/v0.0.0/aether.min.css`
+- NeBuLA JS: `https://nebula.joinrabble.world/v0.0.0/nebula.iife.js`
 - World HTML: Cloudflare Workers (static host)
 
 No backend calls until sCoRE API is ready. Pages use:

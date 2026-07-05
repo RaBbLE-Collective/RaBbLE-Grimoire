@@ -2,6 +2,13 @@
 # =============================================================================
 # spells/setup-cloudflare-r2.sh — Cloudflare R2 & CDN Setup (Fully Autonomous)
 #
+# SUPERSEDED: this script sets up the unified cdn.joinrabble.world + R2 design,
+# which was cancelled. Per-member subdomains (aether.joinrabble.world,
+# nebula.joinrabble.world) are the permanent canonical CDN hosts, already live
+# via their own subdomain Workers — see spells/cloudflare-ctl.sh's `deploy` and
+# `domain` commands for the current, actually-used path. Retained for
+# historical reference; needs a fuller rewrite or retirement (follow-up).
+#
 # One-time setup for Episode 1 CDN deployment via CLI (no dashboard).
 # Supports non-interactive mode via environment variables.
 #

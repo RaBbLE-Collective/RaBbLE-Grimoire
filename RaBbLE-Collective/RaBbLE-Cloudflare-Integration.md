@@ -8,6 +8,10 @@ transcribe ~ collective >> cloudflare integration, cdn pipeline, deployment stra
 
 ---
 
+> **SUPERSEDED — the unified `cdn.joinrabble.world` design described in this entire document was cancelled.** Per-member subdomains (`aether.joinrabble.world`, `nebula.joinrabble.world`) are the permanent canonical CDN hosts, and are already live — there is no shared `cdn.` domain, no `cdn-rabble-prod` / `cdn-rabble-staging` R2 bucket pair, and no path-prefix (`/aether/*`, `/nebula/*`) routing on a combined host. Each member deploys to its own subdomain Worker directly (see `RaBbLE-Deployment-Architecture.md` § Subdomain Map, and `spells/cloudflare-ctl.sh`'s `deploy`/`domain` commands for the actual live tooling). This document is retained for historical reference only and needs a fuller rewrite (follow-up) rather than a line-by-line fix.
+
+---
+
 ## Overview
 
 **Setup:**

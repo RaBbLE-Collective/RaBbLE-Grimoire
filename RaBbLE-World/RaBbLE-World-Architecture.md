@@ -145,7 +145,7 @@ cd RaBbLE-World && wrangler deploy
 
 `world` is currently the only branch and is set as production in Cloudflare. Create `world-dev` when it becomes warranted — not before.
 
-**Phase 2** (post-Ep2, or when friction demands it): a dedicated `cdn.joinrabble.world` Cloudflare Worker serves Aether and NeBuLA independently. Loader URLs become absolute (`https://cdn.joinrabble.world/...`) and CORS headers are added. Full spec in `RaBbLE-Grimoire/RaBbLE-Aether/RaBbLE-Aether-Build-CDN.md`.
+**Superseded:** the unified `cdn.joinrabble.world` Phase 2 design described here is **cancelled**. Aether and NeBuLA are already served independently, each from its own permanent subdomain (`aether.joinrabble.world`, `nebula.joinrabble.world`) — no shared `cdn.` host, no path-prefix routing. See `RaBbLE-Grimoire/RaBbLE-Aether/RaBbLE-Aether-Build-CDN.md` for the current state.
 
 ---
 

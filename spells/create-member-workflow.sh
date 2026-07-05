@@ -2,6 +2,13 @@
 # =============================================================================
 # spells/create-member-workflow.sh — Create GitHub Actions Deployment Workflow
 #
+# SUPERSEDED: the aether/nebula branches of this generator upload to a shared
+# cdn.joinrabble.world R2 bucket, a design that was cancelled. Per-member
+# subdomains (aether.joinrabble.world, nebula.joinrabble.world) are the
+# permanent canonical CDN hosts, deployed via spells/cloudflare-ctl.sh's
+# `deploy`/`domain` commands instead. Retained for historical reference;
+# needs a fuller rewrite or retirement (follow-up).
+#
 # Generates and commits GitHub Actions workflow file for member repos.
 # Used to set up deploy.yml for Aether, NeBuLA, World, etc.
 #

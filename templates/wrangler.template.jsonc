@@ -1,4 +1,12 @@
 {
+  "// ── SUPERSEDED ──────────────────────────────────────────────────────────────": "",
+  "// This template's `cdn.joinrabble.world` route + shared R2 bucket design was": "",
+  "// cancelled. Per-member subdomains (aether.joinrabble.world, nebula.joinrabble.world)": "",
+  "// are the permanent canonical CDN hosts, already live via their own subdomain": "",
+  "// Workers — see RaBbLE-Deployment-Architecture.md § Subdomain Map and": "",
+  "// spells/cloudflare-ctl.sh. Retained for historical reference; needs a fuller": "",
+  "// rewrite (follow-up) before reuse.": "",
+
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "rabble-collective",
   "compatibility_date": "2026-05-06",

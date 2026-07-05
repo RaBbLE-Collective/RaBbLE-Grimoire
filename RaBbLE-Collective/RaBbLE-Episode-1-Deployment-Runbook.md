@@ -5,6 +5,10 @@
 
 ---
 
+> **SUPERSEDED — the unified `cdn.joinrabble.world` + R2 deployment path described in this document was cancelled.** Per-member subdomains (`aether.joinrabble.world`, `nebula.joinrabble.world`) are the permanent canonical CDN hosts, already live. There is no shared `cdn.` domain, no R2 bucket upload step, and no path-based (`/aether/*`, `/nebula/*`) cache purge on a combined zone — each member deploys straight to its own subdomain Worker (see `RaBbLE-Deployment-Architecture.md` § Subdomain Map and `spells/cloudflare-ctl.sh`). This document is retained for historical reference only and needs a fuller rewrite (follow-up).
+
+---
+
 ## What This Does
 
 | Repo | Trigger | Deploy Target | Result |

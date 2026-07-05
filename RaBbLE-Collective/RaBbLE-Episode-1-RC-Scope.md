@@ -131,7 +131,7 @@ Before tagging `episode-1-v0.0.0.1` across all members:
 - [ ] Shell + deep-conversation view — auth-gated session opens after summoning
 - [ ] Mobile QA — all rooms on 375px and 768px viewport
 - [ ] sCoRE deployed to Render — `https://rabble-score.onrender.com` responding
-- [ ] CDN live — Aether + NeBuLA bundles at `cdn.joinrabble.world`
+- [ ] CDN live — Aether + NeBuLA bundles at `aether.joinrabble.world` / `nebula.joinrabble.world`
 - [ ] Invite tokens issued to EP1 members
 - [ ] Dead links clean
 
