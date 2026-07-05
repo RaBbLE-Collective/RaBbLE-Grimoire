@@ -5,12 +5,27 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-07-04 · S195 (babble-strata-showcase)
+## LATEST — 2026-07-05 · Session 196 (collective-audit-batch1)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S195: BaBbLE-Strata.html live — Aether+NeBuLA design-history showcase
+**This session:** S196: architecture audit Batch 1 landed — Grimoire registry reconciled (+TaskViSoR), NeBuLA API doc + AnimationFilter export fixed, 4 CONTEXT.md refreshed, cdn→aether./nebula. subdomain sweep (unified CDN cancelled). All 18 decisions + restructures deferred to the PROGRESS ledger.
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
-**Next:** Mark decides if/when it migrates; more concept-art threads available
+**Next:** Mark's deferred decisions (sCoRE A/B/C, jane.py, Captures, .rc-*, OS manifest); G7/G9 VM verify; then restructure tier
+
+---
+
+## 2026-07-05 · Session 196 (Architecture Audit — Batch 1: safe doc/drift fixes)
+
+- **Repos:** RaBbLE-Grimoire, RaBbLE-NeBuLA, RaBbLE-World, RaBbLE-OS, RaBbLE-Xperimental, RaBbLE-Aether. Implemented the decision-free, non-gate-moving slice of the S193 architecture audit (`log/plans/Collective-Architecture-Audit-2026-07-04.md`); all decisions + code restructures deferred. Live ledger: `log/plans/Collective-Architecture-Audit-PROGRESS.md`.
+- Work parcelled to model-pinned sonnet sub-agents (grouped by repo to avoid same-tree collisions). First fleet hit the session limit mid-write; recovered partial edits from disk, verified none were truncated, and re-dispatched cleanly.
+- **Grimoire registry reconciliation:** aligned the 5 disagreeing member lists — surfaced two missing members (**RaBbLE-TaskViSoR** 11th, + RaBbLE-Collective); fixed 5 manifest branch notes → new-horizons, Xperimental status, epoch blocker-note (dropped resolved B-01/03/04) + `episode_name` → **Genesis**; +6 spells in SPELLS.md; RC1→liminal repointed; dead INDEX link removed; plans indexed; `plans/CONTEXT.md` reconciled. `status.sh` needed no edit (loops manifests dynamically).
+- **NeBuLA:** rewrote the canonical API doc against the real `<rabble-entity>` element (purged the fictional `createPuppet()` API — worst doc/code mismatch in the audit); fixed the missing `AnimationFilter` export on `window.NeBuLA.effects` (real bug) + rebuilt IIFE; corrected stale P5-stub comments; condensed a superseded spec to a stub. World re-vendor of the rebuilt bundle **held** until post-G7/G9 (touches frozen prod asset).
+- **CONTEXT.md sweep:** World (S53 fossil), OS (dead branch/`grimoire/` refs), Xperimental ("just scaffolded" → real state, Voice Phase 2/7 32 tests), Aether (R2-pending → live Workers) all refreshed against real trees.
+- **CDN → subdomain reconciliation (Mark's call this session):** unified `cdn.joinrabble.world` **cancelled**; `aether.`/`nebula.joinrabble.world` are now permanent canon (were wrongly framed as a Phase-2/R2 roadmap target). Swept ~60 stale refs across ~15 docs + spells (host/path fix, version strings preserved per the deferred version decision); reframed R2/unified-CDN roadmap sections as superseded; fixed a real host bug in `cloudflare-ctl.sh` monitor. Pattern per prod loader: `https://{member}.joinrabble.world/{ver}/{file}`.
+- **New findings** (not in original audit, all logged): Aether's live CDN bundle is stale (30KB vs 50KB local; Workers workflow lives only on new-horizons, not `main`) — mildly EP1-relevant; README's `cdn.` host failed DNS (now fixed); the R2 deploy scripts are confirmed dead paths; the audit's own "OS-ProArt plan untracked" claim was itself stale.
+- **Commits:** one per repo (Grimoire split: registry / NeBuLA-API-doc / CDN-sweep). Excluded the concurrent-S195 token-ledger + agents-json artifacts from all commits (not this session's to touch).
+- **Deferred — all in the PROGRESS ledger:** 18 open decisions incl. sCoRE refactor A/B/C + jane.py/actions.py, Captures register-vs-fold, `.rc-*` timing, OS manifest fate, Aether version alignment; plus the restructure tier (waits on G7/G9) and the regrowth-guards tier (palette-lint, context-freshness, per-member smoke tests).
+- **Next:** Mark works the deferred decisions; G7/G9 VM verification (OS Dev-Preview FLOOR + `setup.sh` fresh-machine); then the restructure tier. Deeper R2-runbook rewrites (`Cloudflare-Integration.md`, `Episode-1-Deployment-Runbook.md`) flagged as a follow-up.
 
 ---
 
