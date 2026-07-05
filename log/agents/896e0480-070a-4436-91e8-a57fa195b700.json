@@ -4,9 +4,13 @@
   "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-Grimoire",
   "scopes": [
     "RaBbLE-Grimoire:log/SESSION-LOG.md",
-    "RaBbLE-Grimoire:log/plans/EP1-Liminal-Experience-Plan.md"
+    "RaBbLE-Grimoire:log/agents/896e0480-070a-4436-91e8-a57fa195b700.json",
+    "RaBbLE-Grimoire:log/plans/CONTEXT.md",
+    "RaBbLE-Grimoire:log/plans/EP1-Liminal-Experience-Plan.md",
+    "RaBbLE-Grimoire:log/plans/OS-ProArt-Power-Stack-Plan.md",
+    "RaBbLE-Grimoire:log/token-ledger.tsv"
   ],
   "started_at": "2026-07-04T05:43:02Z",
-  "heartbeat_at": "2026-07-04T05:43:02Z",
+  "heartbeat_at": "2026-07-05T01:23:25Z",
   "auto": true
 }

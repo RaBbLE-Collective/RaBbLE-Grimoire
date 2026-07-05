@@ -1,0 +1,11 @@
+{
+  "session_id": "3b01a50a-d2f9-47ee-afad-c6b9859e8615",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-Xperimental",
+  "scopes": [
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/CONTEXT.md"
+  ],
+  "started_at": "2026-07-04T05:18:31Z",
+  "heartbeat_at": "2026-07-04T05:18:31Z",
+  "auto": true
+}

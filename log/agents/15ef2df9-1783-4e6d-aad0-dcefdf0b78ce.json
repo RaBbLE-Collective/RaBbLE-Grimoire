@@ -1,0 +1,19 @@
+{
+  "session_id": "15ef2df9-1783-4e6d-aad0-dcefdf0b78ce",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-World",
+  "scopes": [
+    "RaBbLE-Collective:AGENT.md",
+    "RaBbLE-Grimoire:INDEX.md",
+    "RaBbLE-Grimoire:RaBbLE-Agent/RaBbLE-Agent-Protocols.md",
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/plans/Collective-Architecture-Audit-Plan.md",
+    "RaBbLE-Grimoire:log/token-ledger.tsv",
+    "RaBbLE-World:index.html",
+    "RaBbLE-World:world/css/RaBbLE-liminal.css",
+    "RaBbLE-World:world/js/RaBbLE-liminal.js"
+  ],
+  "started_at": "2026-07-04T05:37:05Z",
+  "heartbeat_at": "2026-07-04T05:53:39Z",
+  "auto": true
+}

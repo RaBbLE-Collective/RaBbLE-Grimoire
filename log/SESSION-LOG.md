@@ -5,12 +5,23 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-07-04 · Session 193 (collective-architecture-audit)
+## LATEST — 2026-07-04 · S195 (babble-strata-showcase)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S193: Collective architecture audit run — 8 recon agents, cross-repo synthesis + sCoRE refactor options in log/plans
+**This session:** S195: BaBbLE-Strata.html live — Aether+NeBuLA design-history showcase
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
-**Next:** Mark: review audit, add 2 docs to INDEX.md, pick sCoRE option; S194 power-stack Phases 1-4; G7/G9 gates
+**Next:** Mark decides if/when it migrates; more concept-art threads available
+
+---
+
+## 2026-07-04 · Session 195 (BaBbLE Strata: cryptic design-iteration showcase)
+
+- **Repos:** RaBbLE-BaBbLE only (one new prototype file) — Aether/NeBuLA consumed read-only via their built `dist/` output, nothing modified in either member.
+- Mark asked for a "cool RaBbLE-BaBbLE website" built with Aether/NeBuLA that showcases design iterations and RaBbLE's development history in a cryptic way.
+- Built `RaBbLE-BaBbLE/prototypes/RaBbLE-Strata.html` — self-contained, no build step, not deployed (respects BaBbLE's "prototype only, don't build/deploy from here" charter). Loads Aether's built CSS and NeBuLA's IIFE bundle directly via relative `dist/` paths; uses NeBuLA's `effects.starfield` for the ambient background and `ui.createGrimoireEye` as a fixed "watching" corner widget.
+- Content is sourced entirely from existing archive material, nothing invented: the 10 most-iterated eye-portal assets, sticker V1→V2→V3 + wordmark lineage, and the 3-frame manifestation sequence from `reliquary/concept-art/`; the `RaBbLE.py` v0.1.0→v0.2.0 GIFs from Chrysalis; a "ghost names" thread of abandoned repo names (`RaBbLE-Aethernet`/`-Ember`/`-Hive`/`-Flux`/`-Memory`/`-Registry`·`-Compass`·`-Atlas`/`-ScRibLE`) and a compressed 3-era timeline, both pulled from `RaBbLE-Development-History.md`'s naming-churn sidebar.
+- Verified with a scripted Playwright pass (boot sequence + 9 scroll positions): zero console errors, all images resolve, scroll-reveal and typewriter boot sequencing work. Caught and fixed one real bug before calling it done: `createGrimoireEye()` ships a `sc-eye-label` ("RaBbLE" / "watching") sized for the Grimoire panel context it was built for, which overflowed off-screen in this page's fixed corner widget — hidden with page-scoped CSS.
+- **Next:** Mark decides if/when this migrates anywhere permanent (it's intake-only per BaBbLE's charter) or gets more threads added — several concept-art directories weren't used yet (`appendages/`, most of `environments/`, `moodboards/`, the `narrative/` storyboard gif).
 
 ---
 
