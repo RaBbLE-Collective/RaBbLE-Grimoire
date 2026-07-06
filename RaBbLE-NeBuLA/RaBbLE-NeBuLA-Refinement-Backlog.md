@@ -59,6 +59,8 @@ The items below are the next round of polish Mark flagged while reviewing it.
 
 ## 4. NeBuLA Studio — unify Demo + Studio into one WYSIWYG editor
 
+> **Status (S198):** MVP in progress — plan at `RaBbLE-Grimoire/log/plans/NeBuLA-Studio-Plan.md`. Palette auto-parsed from the component catalog page, JSON layout schema, breakpoint-switcher canvas. HTML export and the tunable-sliders integration described below are later phases, not yet started.
+
 - **Combine `RaBbLE-NeBuLA-Demo.html` and `RaBbLE-Studio.html`** into a single,
   genuinely useful WYSIWYG studio editor that covers **both the 2D and 3D entity**.
 - **Studio is the home** for: tweaking/using the NeBuLA render engine, and **creating

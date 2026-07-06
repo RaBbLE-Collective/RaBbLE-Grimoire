@@ -285,10 +285,13 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [Collective-Architecture-Audit-2026-07-04](log/plans/Collective-Architecture-Audit-2026-07-04.md) — S193 RUN: cross-repo synthesis, all 10 members audited, drift findings + per-member improvement plans, open decisions for Mark
 - [sCoRE-Extensibility-Refactor-Plan](log/plans/sCoRE-Extensibility-Refactor-Plan.md) — S193: sCoRE `server/` restructuring deep-dive, 3 options, companion to the audit above
 - [Collective-Architecture-Audit-PROGRESS](log/plans/Collective-Architecture-Audit-PROGRESS.md) — S196 implementation ledger: which audit findings landed (Batch 1 doc/drift fixes) vs deferred (decisions + restructures)
-- [OS-ProArt-Power-Stack-Plan](log/plans/OS-ProArt-Power-Stack-Plan.md) — S194: ProArt power-stack plan, Opus-reviewed, ready to implement (Phases 1–4)
+- [OS-ProArt-Power-Stack-Plan](log/plans/OS-ProArt-Power-Stack-Plan.md) — S194 plan → **S197 IMPLEMENTED** (Phases 1–4: profiling spell, look.conf GPU cut, nvidia D3cold, tuned+asusd 3-mode waybar); awaits Mark's on-hardware reboot verify
+- [OS-Boot-Chain-Seamless-Plan](log/plans/OS-Boot-Chain-Seamless-Plan.md) — S197: GRUB→Plymouth→SDDM seamless handoff — Phase 1 low-risk VM-verifiable fixes + Phase 2 real-HW root-cause recovery
+- [OS-Settings-App-Plan](log/plans/OS-Settings-App-Plan.md) — S197 SKETCH (deferred Phase 5): local Aether-themed web app for waybar/Hyprland/power tuning; cold-start handoff for a follow-up session
 - [EP1-Liminal-Experience-Plan](log/plans/EP1-Liminal-Experience-Plan.md) — S190 ACTIVE: EP1 air bar = single-page Genesis passage (Acts 0–IV, sCoRE-live) + Three.js entity awakening; post-mortem + WS-A/B/C/D sub-agent decomposition
 - [Subdomain-Registry-and-Maintenance](log/plans/Subdomain-Registry-and-Maintenance.md) — S185: subdomain registry spec + Collective maintenance backlog
 - [Aether-Theming-Convergence](log/plans/Aether-Theming-Convergence.md) — palette sovereignty across web/editor/desktop/browser
+- [NeBuLA-Studio-Plan](log/plans/NeBuLA-Studio-Plan.md) — S198: WYSIWYG page-layout builder (drag Aether/NeBuLA components, breakpoint preview, JSON save/load), lives in `RaBbLE-NeBuLA/studio/`; also establishes Aether+NeBuLA as the frontend framework for all RaBbLE web apps, not just World
 - [OS-VM-Dev-Flow](log/plans/OS-VM-Dev-Flow.md) — VM install unblocked; cast VM + boot-theme loop pending
 - [OS-Plymouth-Black-Screen](log/plans/OS-Plymouth-Black-Screen.md) — root cause found (S166 ternary); awaiting visual verify
 - [OS-Dolphin-Grey-Text](log/plans/OS-Dolphin-Grey-Text.md) — dim labels; stack confirmed; fix path A or B pending

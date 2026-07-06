@@ -5,12 +5,39 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-07-05 · Session 196 (collective-audit-batch1)
+## LATEST — 2026-07-06 · Session 198 (os-proart-power-stack)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S196: architecture audit Batch 1 landed — Grimoire registry reconciled (+TaskViSoR), NeBuLA API doc + AnimationFilter export fixed, 4 CONTEXT.md refreshed, cdn→aether./nebula. subdomain sweep (unified CDN cancelled). All 18 decisions + restructures deferred to the PROGRESS ledger.
+**This session:** S197: ProArt power stack Phases 1-4 implemented (authored, not applied) — profiling spell, Hyprland GPU cut, NVIDIA D3cold, tuned+asusd 3-mode waybar; awaits Mark's on-hardware reboot verify
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
-**Next:** Mark's deferred decisions (sCoRE A/B/C, jane.py, Captures, .rc-*, OS manifest); G7/G9 VM verify; then restructure tier
+**Next:** Mark reboots + verifies power stack on hardware (D3cold via capture spell, waybar 3-mode cycle, fan behaviour); confirm asusctl flag syntax; then Phase 5 settings-app
+
+---
+
+## 2026-07-06 · Session 198 (NeBuLA Studio MVP: built + Playwright-verified)
+
+- **Repos:** RaBbLE-NeBuLA (code) + RaBbLE-Grimoire (docs). Built the NeBuLA Studio WYSIWYG drag-and-drop page-layout builder MVP per `log/plans/NeBuLA-Studio-Plan.md` (4 architectural decisions locked with Mark: lives in `RaBbLE-NeBuLA/studio/`, JSON layout + renderer output, single-canvas breakpoint switcher, palette auto-parsed from the component catalog page). Also established that Aether+NeBuLA are the frontend framework for every RaBbLE web app, not just World — mirrored into `RaBbLE-Agent-Protocols.md`.
+- **Build:** all 11 files (`layout-schema.js`, `layout-store.js`, `catalog-parser.js`, `renderer.js`, `dnd.js`, `palette-panel.js`, `canvas.js`, `breakpoint-toolbar.js`, `studio.js`, `index.html`, `studio.css`) built by a model-pinned sonnet sub-agent. First dispatch failed instantly on an account session-limit rate-cap before writing anything; plain retry succeeded once the limit cleared.
+- **Verified live** via `dev-serve.sh` + Python Playwright (no console errors): palette parses 41 real entries from `RaBbLE-World/world/RaBbLE-Catalog.html`; both markup drop (`.rabble-btn`) and custom-element drop (`<rabble-doors>`, upgrades correctly) render on canvas; Desktop/Tablet/Mobile breakpoint switch resizes canvas and preserves placed instances; Save triggers a real JSON download.
+- **Bug found + fixed during verification:** the plan's assumed catalog fetch URL (`/RaBbLE-Catalog.html`) was wrong — actually served at `/world/RaBbLE-Catalog.html`. Fixed in `catalog-parser.js` and corrected throughout the plan doc.
+- **Also:** plan rendered as an Aether-themed Artifact; `NeBuLA/CONTEXT.md`, `NeBuLA/AGENT.md`, and the NeBuLA Refinement Backlog updated to reflect Phase 8 in progress → built.
+- **Not done:** inspector panel, undo/redo, HTML export, nesting/containers, Aether breakpoint tokens — all correctly deferred later phases, not MVP scope.
+- **Concurrent session:** shared the tree with a live ProArt power-stack (S197) session; excluded its files (RaBbLE-OS docs/code, `OS-ProArt-Power-Stack-Plan.md`, `OS-Settings-App-Plan.md`, token-ledger, agents-json) from these commits.
+- **Next:** Mark can open `http://localhost:8080/studio/` after `dev-serve.sh` to try it himself; later-phase work (inspector/export/nesting) whenever he wants to continue.
+
+---
+
+## 2026-07-06 · Session 197 (ProArt power-stack: profiling spell, Hyprland GPU cut, NVIDIA D3cold, tuned+asusd 3-mode waybar)
+
+- **Repos:** RaBbLE-OS (code) + RaBbLE-Grimoire (docs). Implemented `log/plans/OS-ProArt-Power-Stack-Plan.md` Phases 1–4 (Opus-reviewed S194 plan). Phase 5 (settings app) spun out to its own sketch/handoff doc, deferred. Work parcelled to three model-pinned Sonnet/Haiku sub-agents on disjoint file sets; every diff reviewed (`bash -n`, `yaml.safe_load`, jsonc) before acceptance.
+- **Phase 1 — profiling spell:** new `RaBbLE-OS/spells/power-profile-capture.sh` — read-only power/GPU/thermal snapshot (mirrors `boot-profile.sh` style), emits text + a stable machine-readable JSON schema. Writes to `RaBbLE-BaBbLE/tmp/` (reboot-safe; `/tmp` fallback warns). dGPU PCI derived dynamically (`lspci -d 10de:`), no `jq` dependency. Caught + fixed a `/tmp` protocol violation before landing (Agent-Protocols §tmp).
+- **Phase 2 — Hyprland GPU load cut:** `config/hypr/conf.d/look.conf` blur `size 8→6` / `passes 3→2`, `xray→true`, inactive-window `opacity 0.93→1.0`, each annotated with its compositor-GPU-cost rationale. Shadows + `vrr=1` untouched.
+- **Phase 3 — NVIDIA D3cold idle-power fix:** `nvidia.yml` adds `xorg-x11-drv-nvidia-power`, `nvidia-drm modeset=1`, a new `/etc/modprobe.d/rabble-nvidia-powermgmt.conf` (DynamicPowerManagement `0x02` + PreserveVideoMemoryAllocations, initramfs-regen + reboot-warning tasks), and enables nvidia suspend/hibernate/resume/powerd services (powerd annotated as Dynamic Boost, not the idle fix). `nvidia-persistenced` deliberately left disabled. `xorg-x11-drv-nvidia-power` + `tuned-ppd` added to `manifest.yml` (I made both package edits myself to avoid a parallel-agent write race).
+- **Phase 4 — tuned+asusd 3-mode power stack (was `%DORMANT%`):** `tuned/asusd/asusctl/arbitration.yml` now install+enable tuned+tuned-ppd+asusd+asusctl; `arbitration.yml` guards/masks `power-profiles-daemon`, assigns the three per-platform-profile fan curves (Balanced gets the QUIET curve = CPU headroom + quiet fans), and deploys an AC-unplug udev fallback. `config/waybar/scripts/power-profile.sh` rewritten to a composite 3-mode picker (Quiet·Low-Power / Quiet·Balanced / Unbounded) driving both `powerprofilesctl` and `asusctl`; Unbounded blocked on battery. New `power-ac-fallback.sh` + waybar `custom/power-profile` module (removed the unused stock PPD block).
+- **Docs:** plan status → 🟢 IMPLEMENTED (S197) with per-phase what-landed-vs-verify notes; DevHistory 2026-07-06 entry; AgentGuide tuned-stack bullet annotated *Implemented S197*; Fix-Nvidia/Fix-Suspend/Hardware-ProArtP16/Verify-PowerTesting updated (no fabricated numbers — all marked pending on-hardware reboot verify); new `log/plans/OS-Settings-App-Plan.md` (Phase 5 cold-start handoff).
+- **AUTHOR-ONLY:** nothing applied to the live machine — no `ansible-playbook`/`layerctl`/`hyprctl reload`/`modprobe`/`asusctl`/`tuned-adm` run. All reboot + hardware verification is Mark's. `asusctl` sub-command flag syntax (`profile -P`, `fan-curve`) marked CONFIRM-SYNTAX in the tasks.
+- **Concurrent session:** a live boot-chain/NeBuLA session shared the tree; excluded its files from my commits (`group_vars/asus_proart_p16.yml` amdgpu.seamless, OS-Boot-Chain + NeBuLA-Studio plans, Agent-Protocols, NeBuLA backlog, dev-cdn.js, its agents-json + token-ledger rows).
+- **Next:** Mark reboots + verifies on hardware — Phase 3 (dGPU `power_state` → `D3cold` at idle via the capture spell), Phase 4 (waybar 3-mode cycle + fan behavior), Phase 2 (compositor feel); confirm `asusctl` flag syntax; then Phase 5 settings-app is a clean follow-up.
 
 ---
 

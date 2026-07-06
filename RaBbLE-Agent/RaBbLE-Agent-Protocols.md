@@ -227,6 +227,8 @@ Before writing any visual or styled element in World, apply this split:
 
 **Why:** Mixing rendering into World or styles into NeBuLA creates coupling that makes members harder to evolve independently.
 
+**This split is collective-wide, not World-specific.** Aether + NeBuLA are the frontend framework for *every* RaBbLE web application — sCoRE's web UI, BaBbLE, OS web surfaces, any future member surface — not just World's CSS/effects layer. Any RaBbLE web project needing a new component adds it to Aether (styling) or NeBuLA (behavior/rendering) as a real, reusable, documented component; it never hand-rolls a one-off in the consuming project. Tooling should enforce this as friction, not paper over it with an escape hatch.
+
 ---
 
 ## World Tech Constraints
