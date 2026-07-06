@@ -17,9 +17,9 @@ AMD Radeon 890M (iGPU)              NVIDIA RTX 4060 Mobile (dGPU)
 
 ## Open Blockers
 
-- [ ] `nvidia-drm modeset=1` not set (only `fbdev=1`); `supergfxd.conf` does not set it
+- [x] `nvidia-drm modeset=1` not set (only `fbdev=1`); `supergfxd.conf` does not set it — **implemented in `nvidia.yml` (Phase 3, S196+), pending reboot verification on hardware.** Now set explicitly alongside `fbdev=1` in `rabble-nvidia-wayland.conf`.
 - [ ] NVIDIA modules not blacklisted from initramfs → Plymouth black flash
-- [ ] `nvidia-suspend/hibernate/resume.service` not enabled by role
+- [x] `nvidia-suspend/hibernate/resume.service` not enabled by role — **implemented in `nvidia.yml` (Phase 3), pending reboot verification on hardware.** Requires `xorg-x11-drv-nvidia-power` (added to `manifest.yml` + wired into the akmod-nvidia install task); also enables `nvidia-powerd.service` per the documented stack (Dynamic Boost 2.0, not an idle-power fix).
 - [ ] `AQ_DRM_DEVICES` pinned by card number — brittle across kernel upgrades (switch to by-path)
 - [ ] `LIBVA_DRIVER_NAME=nvidia` system-wide — too broad for hybrid
 
@@ -27,18 +27,22 @@ AMD Radeon 890M (iGPU)              NVIDIA RTX 4060 Mobile (dGPU)
 
 Primary cause of high idle draw: GPU stuck in D0 (active).
 
+**Status: implemented in `nvidia.yml` (Phase 3, S196+), pending reboot verification on hardware — not yet confirmed against real power-draw numbers.**
+
 ```bash
 # /etc/modprobe.d/rabble-nvidia-powermgmt.conf
 options nvidia NVreg_DynamicPowerManagement=0x02  # fine-grained → D3cold
-# Then: sudo dracut -f --regenerate-all
+options nvidia NVreg_PreserveVideoMemoryAllocations=1
+# notify: regenerate initramfs (task handler) — then REBOOT before this takes effect.
 ```
 
-Do NOT enable `nvidia-persistenced` — keeps GPU in D0.
-Enable `nvidia-powerd` for Dynamic Boost 2.0.
+Do NOT enable `nvidia-persistenced` — keeps GPU in D0. (Confirmed not enabled by the role.)
+`nvidia-powerd.service` is now enabled — Dynamic Boost 2.0 (perf/clock arbitration), **not** an idle-power reducer; included for stack completeness only.
 
-Verify:
+Verify (after reboot — real numbers TBD, owned by `verify/RaBbLE-OS-Verify-PowerTesting.md`):
 ```bash
-cat /sys/bus/pci/devices/0000:01:00.0/power_state   # target: "D3cold"
+NV_PCI=$(lspci -d 10de: -D | awk '{print $1}')
+cat /sys/bus/pci/devices/$NV_PCI/power_state   # target: "D3cold"
 ```
 
 ## Verification

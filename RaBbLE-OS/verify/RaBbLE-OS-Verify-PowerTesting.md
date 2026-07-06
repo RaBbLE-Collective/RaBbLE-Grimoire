@@ -3,6 +3,11 @@
 Run on battery, wifi connected but idle, display at 50% brightness.
 **Goal:** `<10W` at idle. Primary suspect: NVIDIA GPU not reaching D3cold.
 
+> `spells/power-profile-capture.sh` (RaBbLE-OS) now wraps this manual protocol into one
+> repeatable, read-only capture — text report + machine-readable JSON snapshot, written to
+> `RaBbLE-BaBbLE/tmp/` so numbers survive the reboots this protocol requires. Run it before
+> and after a change and diff the JSON instead of re-typing commands by hand each time.
+
 ## Measurements
 
 ```bash

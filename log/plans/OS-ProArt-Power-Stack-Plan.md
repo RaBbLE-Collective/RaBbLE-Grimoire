@@ -1,7 +1,14 @@
 # Plan: ProArt P16 — Hyprland GPU Load, Real Power Stack, Profiling, Settings App
 
-**Status:** 🟡 PLANNED — Opus-reviewed and corrected, not yet implemented
-**Repo:** RaBbLE-OS `new-horizons` · **Last touched:** 2026-07-04
+**Status:** 🟢 IMPLEMENTED (S197, 2026-07-06) — Phases 1–4 authored; **awaits Mark's on-hardware reboot verification** (every phase's real numbers need a reboot on the physical ProArt). Phase 5 spun out to `OS-Settings-App-Plan.md`.
+**Repo:** RaBbLE-OS `new-horizons` · **Last touched:** 2026-07-06
+
+> **S197 implementation note (what landed vs what Mark must verify):**
+> - **Phase 1** ✅ `spells/power-profile-capture.sh` — read-only text+JSON capture; dynamic dGPU PCI derivation (resolves `0000:64:00.0`); writes to `RaBbLE-BaBbLE/tmp/` (reboot-safe), `/tmp` fallback. Run it now for a baseline.
+> - **Phase 2** ✅ `config/hypr/conf.d/look.conf` — blur passes 3→2, size 8→6, `xray` true, `inactive_opacity` 1.0. Live after `hyprctl reload`; A/B with the capture spell.
+> - **Phase 3** ✅ `nvidia.yml` + `xorg-x11-drv-nvidia-power` (manifest) — `modeset=1`, `NVreg_DynamicPowerManagement=0x02`, `NVreg_PreserveVideoMemoryAllocations=1`, suspend/hibernate/resume/powerd services. **Requires initramfs rebuild + REBOOT** — D3cold is not live until then.
+> - **Phase 4** ✅ `tuned/asusd/asusctl/arbitration.yml` + waybar `power-profile.sh` rewrite + `custom/power-profile` module + AC-unplug udev rule. **⚠ `asusctl fan-curve` / `asusctl profile -P` flag syntax must be confirmed against the installed asusctl version at apply time** (tasks use `failed_when: false` + a warn task so drift can't fail the role, but they'll silently no-op if the flags moved).
+> - **Verify after apply/reboot:** `layerctl.sh apply hardware && layerctl.sh verify hardware`; the per-phase Verification blocks below; tick the fix-doc checklists with real numbers.
 **Goal:** Stand up a repeatable power-profiling spell, cut Hyprland/AMD-iGPU compositor GPU load, land the NVIDIA D3cold idle-power fix, and turn the dormant `tuned`+`asusd` power-stack scaffold into a real 3-mode waybar control (quiet+low-power / quiet+balanced / unbounded-AC-only). A settings-app design sketch is included but deliberately deferred to its own follow-up plan.
 
 ---

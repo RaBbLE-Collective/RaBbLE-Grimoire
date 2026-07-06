@@ -63,7 +63,10 @@ historical/     Stale docs — KDE-spin era installs, branch diffs, implementati
 - **`s2idle` is the only valid sleep mode** for the AMD Strix Point HX 370 (no S3
   support); **`tuned`+`tuned-ppd` is the canonical power stack — never install
   `power-profiles-daemon`** (it conflicts; `tuned-ppd` already exposes the same D-Bus
-  API `asusctl` needs).
+  API `asusctl` needs). *Implemented S197* (was `%DORMANT%`): the `tuned/asusd/asusctl/
+  arbitration.yml` hardware tasks now install+enable this stack, `arbitration.yml`
+  guards/masks `power-profiles-daemon`, and waybar's `custom/power-profile` exposes 3
+  composite modes. See `log/plans/OS-ProArt-Power-Stack-Plan.md`.
 - **Display is `3840×2400@60Hz`**, not `2560×1600@165Hz` — an early copy-paste error
   from an unrelated ASUS ROG G14 doc that had rippled into GRUB/TTY/kernel-cmdline font
   fixes before being caught (2026-04-13). If you see the wrong resolution anywhere, it's

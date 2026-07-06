@@ -11,11 +11,11 @@ AMD Strix Point HX 370 does not support S3 deep sleep — `s2idle` is the only v
 ## Blockers
 
 - [ ] `mem_sleep_default=s2idle` verified in GRUB cmdline
-- [ ] NVIDIA suspend hooks enabled — depends on `fix/proart-nvidia`
-  - `nvidia-suspend.service`
-  - `nvidia-hibernate.service`
-  - `nvidia-resume.service`
-- [ ] `NVreg_PreserveVideoMemoryAllocations=1` in `/etc/modprobe.d/` (survive suspend without VRAM corruption)
+- [x] NVIDIA suspend hooks enabled — depends on `fix/proart-nvidia` — **implemented in `nvidia.yml` (Phase 3, S196+), pending reboot verification on hardware.** Requires `xorg-x11-drv-nvidia-power` (wired into the akmod-nvidia install task in `fix/proart-nvidia`).
+  - `nvidia-suspend.service` — enabled
+  - `nvidia-hibernate.service` — enabled
+  - `nvidia-resume.service` — enabled
+- [x] `NVreg_PreserveVideoMemoryAllocations=1` in `/etc/modprobe.d/` (survive suspend without VRAM corruption) — **implemented** in `/etc/modprobe.d/rabble-nvidia-powermgmt.conf` (Phase 3), alongside `NVreg_DynamicPowerManagement=0x02`; requires a reboot to take effect, pending verification on hardware.
 - [ ] `journalctl -b -u systemd-suspend` clean after 3× cycle
 
 ## Verification

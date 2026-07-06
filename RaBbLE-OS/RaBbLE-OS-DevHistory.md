@@ -372,6 +372,21 @@ transcribe ~ grimoire >> substrate history crystallized // %DEV_LOG_LOCKED%
 
 ---
 
+## 2026-07-06
+
+### Session: ProArt Power Stack — DORMANT scaffold → implemented (S197)
+
+**Focus:** Finishing the dormant ASUS power-stack scaffolding on the ProArt P16 (plan: `log/plans/OS-ProArt-Power-Stack-Plan.md`, Opus-reviewed).
+
+- **Power stack moved from `%DORMANT%` to implemented.** The four stub task files (`tuned/asusd/asusctl/arbitration.yml`), which were literal `debug:` no-ops, now carry real content: `tuned`+`tuned-ppd` install/enable (never `power-profiles-daemon` — guarded + masked in `arbitration.yml`), `asusd`/`asusctl` install/enable, and per-platform-profile fan curves with **Balanced deliberately assigned the *quiet* curve** (CPU headroom without fan noise — the actual mechanism, since fan curve and platform-profile are one knob, not two).
+- **Waybar power control** is now a real 3-mode composite (`custom/power-profile`): Quiet·Low-Power / Quiet·Balanced / Unbounded (AC-only, gated in-script + by an AC-unplug udev rule).
+- **NVIDIA D3cold idle-power** authored in `nvidia.yml`: `xorg-x11-drv-nvidia-power` package, `nvidia-drm modeset=1`, `NVreg_DynamicPowerManagement=0x02`, `NVreg_PreserveVideoMemoryAllocations=1`, and the suspend/hibernate/resume/powerd services enabled. **Requires initramfs rebuild + reboot** to take effect.
+- **Hyprland GPU-load cut** in `look.conf` (blur passes 3→2, size 8→6, `xray` on, opaque inactive windows) for the reported 4K AMD-iGPU compositor cost.
+- **New profiling spell** `spells/power-profile-capture.sh` — repeatable read-only power/GPU snapshot (text + stable JSON), baseline for before/after and future settings-app diagnostics.
+- **Status:** all authored, none applied — every phase's real verification needs a reboot on the physical ProArt (the `asusctl` fan-curve/profile flag syntax also needs confirming against the installed version at apply time). Handed to Mark for on-hardware verify.
+
+---
+
 ## Open Issues (as of last session)
 
 | Area | Issue | Opened |

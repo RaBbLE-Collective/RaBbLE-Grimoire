@@ -129,12 +129,19 @@ Filesystem: **btrfs** (Fedora 43 default, CoW, native snapshots)
 
 ## Power Management
 
-```
-asusd  ←→  power-profiles-daemon (PPD)
-            Quiet       → power-saver
-            Balanced    → balanced
-            Performance → performance
+**Stack:** `tuned` + `tuned-ppd` (never `power-profiles-daemon` — conflicts; see `RaBbLE-OS-AgentGuide.md:64-66`). `tuned-ppd` is a D-Bus-compatible shim: `powerprofilesctl` works unmodified against it, which is what `asusctl` and the waybar power module both consume. `asusd`/`asusctl` own the platform-profile + per-profile fan curve; `tuned` owns CPU/system tuning. The two are coupled only via the kernel `platform_profile` sysfs interface — there is no generic decoupling toggle between "CPU headroom" and "fan curve"; they're the same knob.
 
+Waybar exposes three **composite** modes (`config/waybar/scripts/power-profile.sh`), not the stock three PPD profiles — each sets tuned-ppd's profile and asusd's platform-profile together:
+
+| Mode | `powerprofilesctl` (via tuned-ppd) | asusd platform-profile | AC gate |
+|---|---|---|---|
+| Quiet · Low Power | `power-saver` | Quiet | any |
+| Quiet · Balanced | `balanced` | Balanced (**quiet fan curve**, not stock) | any |
+| Unbounded | `performance` | Performance (unrestricted fan curve) | **AC only** |
+
+Balanced deliberately runs the *quiet* fan curve, not asusd's stock Balanced curve — that's the mechanism for "CPU headroom without fan noise" on this chassis (`ansible/roles/hardware/x64/asus_proart_p16/tasks/arbitration.yml`). Selecting Unbounded while on battery is blocked in the waybar script (notify-send warning); an AC-unplug udev rule (`/etc/udev/rules.d/90-rabble-power-ac.rules`) is the backstop if AC is pulled while Unbounded is already active — it drops back to Quiet · Balanced automatically.
+
+```
 supergfxd → GPU mode control
 
 Battery charge limit: configurable via asusctl

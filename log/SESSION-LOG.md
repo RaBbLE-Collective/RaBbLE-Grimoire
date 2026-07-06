@@ -5,7 +5,7 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-07-06 · Session 198 (os-proart-power-stack)
+## LATEST — 2026-07-06 · Session 197 (os-proart-power-stack)
 
 **Phase:** Epoch 0 · Episode 1.
 **This session:** S197: ProArt power stack Phases 1-4 implemented (authored, not applied) — profiling spell, Hyprland GPU cut, NVIDIA D3cold, tuned+asusd 3-mode waybar; awaits Mark's on-hardware reboot verify
