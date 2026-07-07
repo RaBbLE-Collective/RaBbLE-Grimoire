@@ -195,3 +195,4 @@ c9acd1e6-3249-4340-b0f6-6b6f0b9f640f	log-cleanup
 d81a9abf-58fb-4d4d-9c2d-f07a2d91e212	collective-audit-batch1	S196: audit Batch 1 — registry + NeBuLA API + CONTEXT sweep + CDN subdomains
 S197-proart-power-stack	os-proart-power-stack	S197: ProArt power stack Phases 1-4 authored
 a483abd0-7f74-4aab-a3ee-803e453ce361	collective	auto: current state S197: ProArt power stack Phases 1-4 implemented
+S199-os-runtime-llama-fix	os-runtime-llama-fix	S199: llama.cpp prebuilt 404 fixed

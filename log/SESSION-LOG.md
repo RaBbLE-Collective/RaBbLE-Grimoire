@@ -5,12 +5,22 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-07-06 · Session 197 (os-proart-power-stack)
+## 2026-07-06 · Session 199 (os-runtime-llama-fix: llama.cpp prebuilt download 404 fixed)
+
+- **Repo:** RaBbLE-OS. Ansible `runtime` role's `llama-cpp.yml` prebuilt-download path was failing with a hard 404 on `llama-b9892-bin-ubuntu-vulkan-x64.zip`.
+- **Root cause, two stacked issues:** (1) upstream org renamed `ggerganov/llama.cpp` → `ggml-org/llama.cpp` (GitHub redirects this, so not fatal alone); (2) the actual 404 — current llama.cpp releases dropped `.zip` packaging for Linux artifacts. `ubuntu-vulkan-x64` now ships only as `.tar.gz`; `.zip` survives solely for Windows assets. The role's `set_fact` constructed a `.zip` filename that no longer exists as a release asset.
+- **Fix:** updated `ansible/roles/runtime/tasks/llama-cpp.yml` (release-info API URL, download URL, constructed artifact filename `.zip`→`.tar.gz`) and `ansible/roles/runtime/defaults/main.yml` (`llama_cpp.repo` default) to `ggml-org/llama.cpp`. Verified the corrected URL resolves 200 directly against GitHub before committing. Commit `ed71e8e`.
+- **Not done:** haven't re-run the actual Ansible playbook against a machine/VM to confirm end-to-end (only verified the URL construction out-of-band via curl); Mark should re-run the runtime role to confirm.
+- **Next:** Mark re-runs `layerctl` / the runtime role and confirms `llama-server --version` reports installed.
+
+---
+
+## LATEST — 2026-07-06 · S199 (os-runtime-llama-fix)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S197: ProArt power stack Phases 1-4 implemented (authored, not applied) — profiling spell, Hyprland GPU cut, NVIDIA D3cold, tuned+asusd 3-mode waybar; awaits Mark's on-hardware reboot verify
+**This session:** S199: llama.cpp prebuilt download 404 fixed (ggml-org rename + zip->tar.gz)
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
-**Next:** Mark reboots + verifies power stack on hardware (D3cold via capture spell, waybar 3-mode cycle, fan behaviour); confirm asusctl flag syntax; then Phase 5 settings-app
+**Next:** Mark re-runs runtime role to confirm end-to-end
 
 ---
 
