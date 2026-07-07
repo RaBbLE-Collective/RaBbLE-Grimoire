@@ -208,7 +208,6 @@ World JS is split into focused modules loaded in order:
 | `RaBbLE-landing.js` | Alpine.data('landing') | Landing page Alpine component — wires all modules into reactive state |
 | `RaBbLE-pages.js` | `window.RaBbLE_PAGES` | Page registry — source of truth for all World page URLs |
 | `RaBbLE-page-runtime.js` | `window.RaBbLEPageRuntime` | Shared page utilities: startBackground, mountEntityMini, mountStatusbar, mountPageNav |
-| `RaBbLE-Studio.js` | — | NeBuLA Studio controls — vanilla JS, no Alpine |
 
 ### LandingBoot.play callback API
 
