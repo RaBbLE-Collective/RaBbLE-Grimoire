@@ -89,7 +89,8 @@ Hand-rolled native HTML5 DnD (`draggable`, `dragstart`/`dragover`/`drop`) — de
 - `render()` — calls `renderLayout(layoutDoc, currentBreakpoint, hostEl, {editable: true})`, then decorates each `[data-instance-id]` element with drag handlers + a click-to-select listener.
 - `selectInstance(id)` / `updateSelectionClasses()` — toggles `.is-selected` on the matching element (cyan outline via CSS only). Clicking the canvas host itself deselects.
 - `afterChange()` — bumps `meta.updatedAt`, re-renders, autosaves to localStorage, fires `onChange`.
-- `getSelectedId()` is exposed on the canvas API but **nothing consumes it yet** — no inspector panel, no delete, no resize. Selection today is purely visual.
+- `deleteInstance(id)` / `commitResize(id, size)` mutate `layoutDoc.instances` and go through the same `afterChange()` path as drop/reorder (re-render + autosave). Delete fires from the selected instance's overlay `×` button (`instance-controls.js`) or the Delete/Backspace key (guarded against firing while a real text input is focused). Resize drags mutate the wrapper's inline style live via plain mousedown/mousemove (not HTML5 DnD, which the wrapper already uses for reorder) and only call `commitResize` — writing `width`/`height` into `styleOverrides[currentBreakpoint]` — on mouseup.
+- `getSelectedId()` now drives `instance-controls.js`: `updateSelectionClasses()` mounts a delete button + `e`/`s`/`se` resize handles onto the selected wrapper and destroys them on deselect/re-render (S199).
 
 ## Renderer (`renderer.js`)
 
@@ -107,18 +108,26 @@ Renders one button per entry in `layoutDoc.breakpoints` (schema-driven, not hard
 - **Load** — reads a file via `FileReader`, `JSON.parse`s, runs through `validate()` before rendering — rejects malformed/stale-schema files rather than silently mis-rendering them.
 - **Autosave** — persists to `localStorage` key `nebula-studio-autosave` on every change; read back through `validate()` too.
 
-## Sidebar / palette (`palette-panel.js`) — current gap
+## Sidebar / palette (`palette-panel.js`)
 
-Renders a **flat text-list**, not thumbnails: each catalog section becomes a labeled group, each entry becomes a card with only the entry name (mono, truncated) and a color-coded text badge for `kind` ("element" cyan / "markup" magenta). The catalog page itself has live `.atlas-entry-preview` divs, but the Studio parser only reads `.atlas-entry-name` and `.atlas-entry-code` — no visual preview of the actual component renders in the sidebar today.
+Each card now shows a live visual thumbnail above the name/badge row (S199). `catalog-parser.js` additionally captures `entry.previewHtml` — the innerHTML of the catalog page's own `.atlas-entry-preview` div — for every entry. `kind: "markup"` entries render that captured HTML directly inside a fixed-height (`56px`), `overflow:hidden`, `pointer-events:none` thumbnail box (Aether CSS is already loaded by the Studio page, so the real component styling just works). `kind: "element"` entries (the 4 Three.js-backed custom elements: `<rabble-entity>`, `<rabble-floor>`, `<rabble-graph>`, `<rabble-doors>`) get a static `◈` glyph placeholder instead of a live render — instantiating multiple WebGL/Three.js scenes simultaneously in a scrollable sidebar is unnecessary cost for a decorative preview. `pointer-events: none` on the thumbnail also means any interactive markup inside a preview (buttons, etc.) can't be clicked or accidentally hijack the card's own drag — the whole card, not its contents, carries the drag payload.
+
+## Delete + resize (`instance-controls.js`, S199)
+
+A per-instance overlay is mounted only onto the currently selected instance wrapper (`canvas.js`'s `mountControlsForSelection()`, called from `updateSelectionClasses()`, destroyed and remounted on every selection change or re-render):
+
+- **Delete** — a small cyan `×` button pinned top-right of the selected instance; click calls `canvas.js`'s `deleteInstance(id)`. Also bound to the Delete/Backspace keys globally while something is selected (skipped if a real text input/textarea/contenteditable currently has focus, since Studio has no such fields today but this guards future ones).
+- **Resize** — three drag handles (`e`, `s`, `se`) at the edge/corner of the selected instance. Dragging live-updates the wrapper's inline `width`/`height` via plain `mousedown`/`mousemove`/`mouseup` (deliberately not HTML5 DnD, which the same wrapper already uses for drag-to-reorder) for immediate visual feedback; the final size is only written into `styleOverrides[currentBreakpoint]` on mouseup, matching the app's existing "commit on change, not per-frame" pattern (same as drop/reorder triggering exactly one `afterChange()`).
+- Every control element (`overlay`, delete button, resize handles) has `draggable` explicitly forced to `false` — without it, a mousedown originating on one of these children would be reinterpreted by the browser as a native drag of the nearest `draggable="true"` ancestor (the instance wrapper itself).
+- `canvas.js`'s returned API also exposes `deleteSelected()` for any future toolbar wiring, though today's only entry points are the overlay button and the keyboard shortcut.
 
 ## Known gaps / next phases
 
-No delete, no resize, no inspector panel exist yet — verified by full read of all 11 files, not stubbed anywhere. These are the next round of work (tracked as "Phase 2" in the original plan doc):
+Per-instance inspector panel and undo/redo do not exist yet (delete + resize shipped S199, closing out the rest of what was originally scoped as "Phase 2"):
 
-- **Phase 2:** per-instance inspector panel (edit attrs/styleOverrides without hand-editing JSON), delete/duplicate, undo/redo, resize/manipulation gizmos on selected instances.
+- **Phase 2 (remainder):** per-instance inspector panel (edit attrs/styleOverrides without hand-editing JSON), duplicate, undo/redo.
 - **Phase 3:** HTML export/codegen — call `renderLayout(doc, bp, offscreenHost, {editable: false})` per breakpoint, serialize to a committable World page fragment.
 - **Phase 4:** nesting/containers (rows/columns instead of a flat list), multi-page projects, promote breakpoint constants to real Aether tokens.
-- **Visual palette:** render `.atlas-entry-preview` thumbnails in the sidebar instead of the current text+badge list.
 
 ---
 
@@ -128,3 +137,4 @@ No delete, no resize, no inspector panel exist yet — verified by full read of 
 |---|---|
 | 2026-07-06 (S198) | MVP built and Playwright-verified end to end: palette parse (41 entries), markup + custom-element drag-drop, breakpoint switching, save-download, zero console errors. |
 | 2026-07-06 (S199) | Architecture doc written distilling the plan doc into a stable reference; noted as prep for delete/resize gizmo + visual-palette work. |
+| 2026-07-06 (S199) | Delete (overlay button + Delete/Backspace key), resize gizmos (`e`/`s`/`se` handles committing to `styleOverrides`), and live visual palette thumbnails (`.atlas-entry-preview` reuse, static glyph for the 4 Three.js element entries) built and Playwright-verified: 41 palette entries (37 live thumbnails + 4 placeholders), drop→select→resize→delete round-trip, keyboard delete, zero console errors. |
