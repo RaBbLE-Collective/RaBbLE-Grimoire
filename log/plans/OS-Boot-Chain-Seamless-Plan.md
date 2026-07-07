@@ -6,6 +6,29 @@
 
 ---
 
+## Status — S197 (Phase 1 DONE + VM-verified)
+
+Phase 1 implemented and verified on the dev VM (captures `vm-20260706-153249` = before, `-155917` = after 1D). Commits on `new-horizons`:
+
+- **1D — `terminus-fonts-console` added to manifest** (commit `5ad3b16`). **THE headline win.** `/etc/vconsole.conf` sets `FONT=ter-v32b`, but the manifest shipped only `terminus-fonts` (X11 glyphs), not the console-PSF package → `setfont ter-v32b` failed → `systemd-vconsole-setup.service` failed at boot → its red `[FAILED]` error flashed through at *both* GRUB→Plymouth and Plymouth→SDDM. The ProArt happened to have the console pkg already, hiding this until a clean VM boot. **VM-verified: the red error text is gone from both transitions.** Fixes the dominant "TTY transition" seam on every fresh install → de-risks G7.
+- **1A — retain-splash** (`plymouth quit --retain-splash`, commit `b3c0b21`). Deployed; SDDM loads clean. VM could NOT confirm it closes the ~1s Plymouth→SDDM black (the sway greeter clears the fb before painting; retain-splash alone can't stop that). Net-neutral on VM, may help real HW. Kept (harmless).
+- **1C — dropped no-op `amdgpu.seamless=1`** (commit `b3c0b21`) + fixed stale doc comment.
+- **1B — GRUB menu: NO CHANGE NEEDED.** VM frame 10 shows the menu rendering legibly over the liminal bg; the "black box" (frame 15) was a transient GRUB teardown frame, not a defect. Mark chose "accept synthwave horizon" — grub-bg.png's empty center band stays as-is.
+- **2A — greeter by-path GPU pin** landed in power-stack commit `7076979` (rode along in `nvidia.yml`).
+
+**Residual (clean black, not error text; not G7 blockers):** GRUB→Plymouth ~1.5s and Plymouth→SDDM ~1s handoff/startup blacks.
+
+## Remaining work (NEXT SESSION picks up here)
+
+1. **Update the Grimoire boot-chain docs** with S197 findings (Mark deferred to next session):
+   `RaBbLE-OS/fix/RaBbLE-OS-BootChain-Anatomy.md` (§3.5 retain-splash reality, §4.3 seamless removed, NEW: vconsole-setup/terminus-fonts-console root cause) and `RaBbLE-OS-Fix-BootChain.md`.
+2. **Fix `RaBbLE-OS/spells/vm-boot-iterate.sh` three bugs** (all bit this session): (a) `--restore` reverts to the `boot-clean` *running*-state snapshot which already starts the VM, then unconditionally runs `virsh start` → "Domain is already active" → `set -e` abort (guard it / `|| true`); (b) IP discovery reads only `virsh net-dhcp-leases`, which is empty after a stale/expired lease (11-day-old snapshot) even though the VM is up — fall back to ARP (`ip neigh | grep <mac>`). Workaround used: reboot guest via SSH to force a fresh DHCP lease; (c) line 33 `CAPTURES_DIR="${COLLECTIVE_DIR}/BaBbLE/captures/Boot"` points at a NON-EXISTENT dir — wrong repo name (missing `RaBbLE-` prefix) and wrong nesting → it created a stray `BaBbLE/` at the Collective root. Fix to `"${COLLECTIVE_DIR}/RaBbLE-BaBbLE/captures/Boot/vm-sessions"` (+ the line-6 comment). This session's two capture sets were relocated to `RaBbLE-BaBbLE/captures/Boot/vm-sessions/` and the stray dir removed.
+3. **Phase 2 (real HW, Mark-driven):** amdgpu as sole DRM device (§ Phase 2 below). Needs recovery USB; VM cannot reproduce (virtio-gpu). 2A prep already committed.
+4. **Optional (cosmetic):** give generic/VM targets a smaller default console font than the ProArt's `ter-v32b` so the 4K-sized font isn't used on small displays.
+5. **Optional (real polish):** close the residual Plymouth→SDDM black — have the sway greeter paint the retained splash as its first frame instead of clearing to black.
+
+---
+
 ## Context
 
 The RaBbLE-OS boot chain (GRUB → Plymouth splash → SDDM greeter) has three visible seams on the ProArt P16, documented across `RaBbLE-Grimoire/RaBbLE-OS/fix/RaBbLE-OS-BootChain-Anatomy.md` and `RaBbLE-OS-Fix-BootChain.md`:

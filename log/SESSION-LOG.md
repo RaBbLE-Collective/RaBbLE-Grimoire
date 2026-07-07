@@ -14,6 +14,18 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-07-06 · Session 197 (os-boot-chain-seamless: TTY-flash root cause fixed, Phase 1 VM-verified)
+
+- **Repos:** RaBbLE-OS (code) + RaBbLE-Grimoire (docs). Implemented + VM-verified Phase 1 of `log/plans/OS-Boot-Chain-Seamless-Plan.md` (seamless GRUB→Plymouth→SDDM). Concurrent with the power-stack (S197) and NeBuLA-Studio (S198) sessions — excluded their files from every commit; work parcelled to model-pinned Sonnet/Haiku sub-agents on disjoint files.
+- **Headline fix (1D):** the boot TTY flash between GRUB/Plymouth/SDDM was a MISSING PACKAGE, not a timing seam. `/etc/vconsole.conf` sets `FONT=ter-v32b`, but `manifest.yml` shipped only `terminus-fonts` (X11 glyphs), not `terminus-fonts-console` (console PSF). On a fresh install `setfont ter-v32b` fails → `systemd-vconsole-setup.service` fails → its red `[FAILED]` text flashes at both transitions. The ProArt already had the console pkg, hiding it until a clean VM boot. Added `terminus-fonts-console` to the manifest (commit `5ad3b16`); **VM-verified the red error text is gone from both transitions.** De-risks G7.
+- **Other Phase-1 (commit `b3c0b21`):** 1A Plymouth-quit `--retain-splash` (replaces the blind `sleep 0.3`; deployed + SDDM clean, but the VM couldn't confirm it closes the greeter-clear black — kept, may help real HW); 1C dropped the proven no-op `amdgpu.seamless=1` + fixed a stale comment. 1B GRUB menu: NO CHANGE — VM frame shows it renders legibly; the "black box" was a transient teardown frame; Mark chose to accept the synthwave horizon. 2A greeter by-path GPU pin rode along in power-stack commit `7076979`.
+- **Verified via** `spells/vm-boot-iterate.sh` on dev VM `rabble-os-dev` (captures `vm-20260706-153249` before, `-155917` after 1D) + per-frame brightness + visual analysis.
+- **Spell bugs found (logged for next session):** `vm-boot-iterate.sh` — (a) `--restore` double-starts the running-snapshot VM → `set -e` abort; (b) IP discovery only reads `net-dhcp-leases`, empty after a stale lease though the VM is up (worked around by rebooting the guest to force a fresh lease); (c) `CAPTURES_DIR` (line 33) pointed at a non-existent `BaBbLE/` (wrong repo name + nesting) → dumped captures into a stray root dir. Relocated both capture sets to `RaBbLE-BaBbLE/captures/Boot/vm-sessions/`, removed the stray dir (Mark flagged).
+- **Not done (deferred to next session, per Mark):** update boot-chain docs (`fix/RaBbLE-OS-BootChain-Anatomy.md` / `RaBbLE-OS-Fix-BootChain.md`); fix the vm-boot-iterate.sh bugs; Phase 2 (amdgpu sole DRM, real-HW, needs recovery USB). All captured in the plan doc's "Remaining work" section. Skipped `end-session.sh --synopsis` to avoid clobbering the concurrent power-stack LATEST box.
+- **Next:** next session picks up the boot-chain doc updates + spell fixes; Phase 2 is Mark-driven on real hardware.
+
+---
+
 ## 2026-07-06 · Session 198 (NeBuLA Studio MVP: built + Playwright-verified)
 
 - **Repos:** RaBbLE-NeBuLA (code) + RaBbLE-Grimoire (docs). Built the NeBuLA Studio WYSIWYG drag-and-drop page-layout builder MVP per `log/plans/NeBuLA-Studio-Plan.md` (4 architectural decisions locked with Mark: lives in `RaBbLE-NeBuLA/studio/`, JSON layout + renderer output, single-canvas breakpoint switcher, palette auto-parsed from the component catalog page). Also established that Aether+NeBuLA are the frontend framework for every RaBbLE web app, not just World — mirrored into `RaBbLE-Agent-Protocols.md`.
