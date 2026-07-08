@@ -6,6 +6,16 @@
 
 ---
 
+## Status — S200 (real-HW regression root-caused + fixed; awaits Mark's reboot verify)
+
+**S197's Phase 1 shipped a live regression that S200 root-caused from real-boot evidence** (Mark reported the ProArt boot to a black screen requiring TTY login after this session, plus a stale-looking TTY font):
+
+- **Actual cause: NOT retain-splash.** The 2A greeter GPU pin (`nvidia.yml`, landed in power-stack commit `7076979`, same day as S197) repointed `WLR_DRM_DEVICES` from `/dev/dri/card1` to the udev by-path symlink `/dev/dri/by-path/pci-0000:65:00.0-card`. wlroots parses `WLR_DRM_DEVICES` as **colon-delimited** (like `$PATH`) — but PCI by-path names embed a colon-formatted bus address, so wlroots split the pin into three bogus paths (`.../pci-0000`, `65`, `00.0-card`), found 0 GPUs, and the sway greeter backend failed to start on every boot. Real-boot journal evidence: `sway: [ERROR] Failed to open device: '65': No such file or directory` / `Found 0 GPUs, cannot create backend` — greeter session opened and closed within the same second, no login UI, TTY only. Mark's own manual revert of the retain-splash drop-in (commit `fe17453`) did NOT fix it, because retain-splash was never the cause — it just happened to land the same day as the real bug.
+- **Fix (RaBbLE-OS commit `416b5ec`):** alias both DRM cards to colon-free symlinks via a udev rule matched by **PCI vendor ID** (`0x1002` AMD / `0x10de` NVIDIA) rather than card number or raw by-path — `/dev/dri/rabble-amdgpu-card` / `/dev/dri/rabble-nvidia-card`. This survives card renumbering (the original goal of 2A, still achieved) *and* any future PCI bus/slot change, since it never encodes position. SDDM's greeter pin now uses the AMD alias. Also fixed the same latent bug in `config/hypr/conf.d/env.conf`'s `AQ_DRM_DEVICES` (the live Hyprland session hardcoded `card1:card0` — same fragility, not yet triggered because it uses plain numbers, not by-path).
+- **retain-splash re-applied (commit `96f616b`, reverts `fe17453`):** now that the actual bug is fixed, 1A's `--retain-splash` override is back in `plymouth-quit-sddm.conf`. It was never confirmed working on real amdgpu hardware (only VM, which couldn't reproduce the handoff) — this reboot is the first real test.
+- **TTY font (small on 4K):** checked live — `terminus-fonts-console` is installed and `systemd-vconsole-setup.service` succeeded on the current boot. Not yet root-caused; deferred, not blocking.
+- **Not yet done:** Mark needs to `sudo ./RaBbLE-OS-layerctl.sh apply hardware && sudo ./RaBbLE-OS-layerctl.sh apply boot && sudo reboot`, then confirm SDDM loads (GPU-pin fix) and check whether the Plymouth→SDDM handoff now dissolves instead of flashing black (retain-splash, first real-HW test). Run `bash spells/boot-diagnose.sh` after to capture evidence per this doc's usual standard.
+
 ## Status — S197 (Phase 1 DONE + VM-verified)
 
 Phase 1 implemented and verified on the dev VM (captures `vm-20260706-153249` = before, `-155917` = after 1D). Commits on `new-horizons`:
