@@ -3,10 +3,19 @@
   "agent": "auto",
   "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-OS",
   "scopes": [
+    "RaBbLE-Collective:AGENT.md",
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/agents/a0462ac2-bef5-4694-9108-686627b87fef.json",
+    "RaBbLE-Grimoire:log/plans/OS-ProArt-Power-Stack-Plan.md",
+    "RaBbLE-Grimoire:log/token-ledger.tsv",
+    "RaBbLE-OS:ansible/packages/manifest.yml",
+    "RaBbLE-OS:ansible/roles/hardware/x64/asus_proart_p16/tasks/arbitration.yml",
+    "RaBbLE-OS:ansible/roles/hardware/x64/asus_proart_p16/tasks/asusctl.yml",
+    "RaBbLE-OS:ansible/roles/hardware/x64/asus_proart_p16/tasks/asusd.yml",
     "RaBbLE-OS:ansible/roles/runtime/defaults/main.yml",
     "RaBbLE-OS:ansible/roles/runtime/tasks/llama-cpp.yml"
   ],
   "started_at": "2026-07-07T02:44:23Z",
-  "heartbeat_at": "2026-07-07T02:44:23Z",
+  "heartbeat_at": "2026-07-07T02:50:28Z",
   "auto": true
 }

@@ -190,10 +190,10 @@ c9acd1e6-3249-4340-b0f6-6b6f0b9f640f	log-cleanup
 15ef2df9-1783-4e6d-aad0-dcefdf0b78ce	collective	auto: current state S192: architecture audit plan written
 123d6ba4-533c-4339-b494-1ab24fed3cf5	collective	auto: current state S193: architecture audit run, two plan docs live
 123d6ba4-533c-4339-b494-1ab24fed3cf5	collective-architecture-audit	S193: audit run — 8 recon agents, cross-repo synthesis + sCoRE options
-3d8d422b-d36d-4a70-b035-ff61839f91eb	babble-strata-showcase	S195: cryptic design-iteration showcase for BaBbLE
 86dc0ec2-75ed-4362-9c5d-d637daf9e69c	collective	auto: current state S195: BaBbLE Strata showcase built
 d81a9abf-58fb-4d4d-9c2d-f07a2d91e212	collective-audit-batch1	S196: audit Batch 1 — registry + NeBuLA API + CONTEXT sweep + CDN subdomains
 S197-proart-power-stack	os-proart-power-stack	S197: ProArt power stack Phases 1-4 authored
 a483abd0-7f74-4aab-a3ee-803e453ce361	collective	auto: current state S197: ProArt power stack Phases 1-4 implemented
 S199-os-runtime-llama-fix	os-runtime-llama-fix	S199: llama.cpp prebuilt 404 fixed
 a0462ac2-bef5-4694-9108-686627b87fef	collective	auto: current state S199: llama.cpp prebuilt 404 fixed
+3d8d422b-d36d-4a70-b035-ff61839f91eb	os-gpu-pin-regression	S200: SDDM black-screen GPU pin root-caused + fixed

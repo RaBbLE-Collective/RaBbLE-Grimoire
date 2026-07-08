@@ -1,0 +1,21 @@
+{
+  "session_id": "8f19ebd9-ff6e-425e-ac8e-335bb6aa35e4",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-Grimoire",
+  "scopes": [
+    "RaBbLE-Grimoire:INDEX.md",
+    "RaBbLE-Grimoire:RaBbLE-NeBuLA/RaBbLE-NeBuLA-Refinement-Backlog.md",
+    "RaBbLE-Grimoire:RaBbLE-NeBuLA/RaBbLE-NeBuLA-Studio.md",
+    "RaBbLE-Grimoire:RaBbLE-World/RaBbLE-World-Architecture.md",
+    "RaBbLE-NeBuLA:AGENT.md",
+    "RaBbLE-NeBuLA:CONTEXT.md",
+    "RaBbLE-NeBuLA:studio/canvas.js",
+    "RaBbLE-NeBuLA:studio/catalog-parser.js",
+    "RaBbLE-NeBuLA:studio/instance-controls.js",
+    "RaBbLE-NeBuLA:studio/palette-panel.js",
+    "RaBbLE-NeBuLA:studio/studio.css"
+  ],
+  "started_at": "2026-07-07T02:53:52Z",
+  "heartbeat_at": "2026-07-07T03:01:28Z",
+  "auto": true
+}

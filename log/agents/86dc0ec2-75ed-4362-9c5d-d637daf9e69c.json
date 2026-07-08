@@ -3,9 +3,19 @@
   "agent": "auto",
   "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-BaBbLE",
   "scopes": [
-    "RaBbLE-BaBbLE:prototypes/RaBbLE-Strata.html"
+    "RaBbLE-BaBbLE:prototypes/RaBbLE-Strata.html",
+    "RaBbLE-Collective:AGENT.md",
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/agents/123d6ba4-533c-4339-b494-1ab24fed3cf5.json",
+    "RaBbLE-Grimoire:log/agents/15ef2df9-1783-4e6d-aad0-dcefdf0b78ce.json",
+    "RaBbLE-Grimoire:log/agents/3b01a50a-d2f9-47ee-afad-c6b9859e8615.json",
+    "RaBbLE-Grimoire:log/agents/4c3ea15a-d8cc-4f84-ae88-7cb302ae9d21.json",
+    "RaBbLE-Grimoire:log/agents/86dc0ec2-75ed-4362-9c5d-d637daf9e69c.json",
+    "RaBbLE-Grimoire:log/agents/883fe0e8-af57-407a-af57-a04efaa5d4e4.json",
+    "RaBbLE-Grimoire:log/agents/896e0480-070a-4436-91e8-a57fa195b700.json",
+    "RaBbLE-Grimoire:log/token-ledger.tsv"
   ],
   "started_at": "2026-07-05T03:10:53Z",
-  "heartbeat_at": "2026-07-05T03:10:53Z",
+  "heartbeat_at": "2026-07-05T03:14:21Z",
   "auto": true
 }

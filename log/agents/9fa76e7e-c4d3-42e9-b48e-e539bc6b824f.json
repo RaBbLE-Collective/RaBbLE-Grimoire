@@ -1,0 +1,16 @@
+{
+  "session_id": "9fa76e7e-c4d3-42e9-b48e-e539bc6b824f",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-Grimoire",
+  "scopes": [
+    "RaBbLE-Grimoire:INDEX.md",
+    "RaBbLE-Grimoire:RaBbLE-Agent/RaBbLE-Agent-Protocols.md",
+    "RaBbLE-Grimoire:RaBbLE-NeBuLA/RaBbLE-NeBuLA-Refinement-Backlog.md",
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/plans/NeBuLA-Studio-Plan.md",
+    "RaBbLE-Grimoire:spells/dev-cdn.js"
+  ],
+  "started_at": "2026-07-06T19:40:59Z",
+  "heartbeat_at": "2026-07-06T19:40:59Z",
+  "auto": true
+}

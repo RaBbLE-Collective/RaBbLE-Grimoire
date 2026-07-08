@@ -15,12 +15,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-07-06 · S199 (os-runtime-llama-fix)
+## LATEST — 2026-07-08 · S200 (os-gpu-pin-regression)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S199: llama.cpp prebuilt download 404 fixed (ggml-org rename + zip->tar.gz)
+**This session:** S200: SDDM black-screen root-caused (WLR_DRM_DEVICES colon-parse bug), fixed via vendor-ID udev aliases, retain-splash re-applied
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
-**Next:** Mark re-runs runtime role to confirm end-to-end
+**Next:** Mark applies hardware+boot layers, reboots, verifies via boot-diagnose.sh
 
 ---
 
