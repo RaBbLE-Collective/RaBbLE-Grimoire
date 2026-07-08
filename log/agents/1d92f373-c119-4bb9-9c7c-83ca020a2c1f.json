@@ -1,0 +1,20 @@
+{
+  "session_id": "1d92f373-c119-4bb9-9c7c-83ca020a2c1f",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-Grimoire",
+  "scopes": [
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/agents/86dc0ec2-75ed-4362-9c5d-d637daf9e69c.json",
+    "RaBbLE-Grimoire:log/agents/8f19ebd9-ff6e-425e-ac8e-335bb6aa35e4.json",
+    "RaBbLE-Grimoire:log/agents/9fa76e7e-c4d3-42e9-b48e-e539bc6b824f.json",
+    "RaBbLE-Grimoire:log/agents/a0462ac2-bef5-4694-9108-686627b87fef.json",
+    "RaBbLE-Grimoire:log/agents/a483abd0-7f74-4aab-a3ee-803e453ce361.json",
+    "RaBbLE-Grimoire:log/agents/commit-dfc6595.json",
+    "RaBbLE-Grimoire:log/agents/d81a9abf-58fb-4d4d-9c2d-f07a2d91e212.json",
+    "RaBbLE-Grimoire:log/agents/dc755c83-4ac1-4f79-a5bc-4bfca4747a68.json",
+    "RaBbLE-Grimoire:log/token-ledger.tsv"
+  ],
+  "started_at": "2026-07-08T19:12:41Z",
+  "heartbeat_at": "2026-07-08T19:12:41Z",
+  "auto": true
+}
