@@ -1,16 +1,45 @@
 # Source of Truth: Dolphin File Manager Theming — RaBbLE-OS
 
-> **Consolidated 2026-06-25 (S175-prep).**
-> All prior session drafts, handoff notes, and plan fragments integrated here.
-> This is the single file a fresh agent reads to understand the full history of this issue
-> and decide the next correct action — without repeating prior mistakes.
+> ## ✅ RESOLVED — S201 (2026-07-11)
+>
+> **Root cause: KF6 `KColorSchemeManager` (kconfigwidgets), running inside every KDE
+> app, OWNS the application QPalette and overrides Kvantum `[GeneralColors]`, qt6ct,
+> and kdeglobals `[Colors:*]`.** With no scheme selected it fell back to default
+> **Breeze LIGHT** (qt6ct does not relay the portal's dark preference, so KDE code saw
+> "light"). Dolphin was painting Breeze-Light text roles onto Kvantum-dark surfaces:
+> labels `#656769`, sidebar `#232629` (near-invisible), white tooltips. Every layer
+> edited across S85–S167 sat *below* this override — which is why no green-test ever fired.
+>
+> **The fix (all encoded in RaBbLE-OS `new-horizons`):**
+> 1. `config/kdeglobals/kdeglobals` → new `[UiSettings] ColorScheme=CatppuccinMochaMauve`.
+>    This is the key KColorSchemeManager reads (KConfig cascade `<app>rc` → `kdeglobals`,
+>    so it applies to ALL KDE apps). Value must be the `.colors` file **basename**, not the
+>    display name. This is the same key Dolphin's hamburger → Color Scheme menu writes per-app.
+> 2. `config/qt6ct/qt6ct.conf` + `config/qt5ct/qt5ct.conf` → `custom_palette=true`, so
+>    pure-Qt apps (no KColorSchemeManager) also get the dark Catppuccin QPalette.
+> 3. **Second bug — the kvconfig clobber:** `ansible/roles/apps/tasks/qt-gtk-theme.yml`
+>    deployed Kvantum from `RaBbLE-Aether/themes/kvantum/` (ancient pre-S116 copy) over
+>    dotctl's maintained copy on every theming run (last hit 2026-07-06). Ansible now
+>    sources `{{ dotfiles_repo_root }}/config/kvantum/RaBbLE-Aether/`; the Aether copy is
+>    reduced to a pointer README. One source of truth.
+>
+> **Verified live (grim pixel-sampled, tiled harness, both focus states):**
+> active labels+sidebar = `205,214,244` exact; inactive = `192,200,229` (ForegroundInactive
+> under Hyprland compositor dim — correct); tooltips dark; Papirus folders follow the mauve
+> accent; `kvantummanager` (pure Qt) fully readable with `custom_palette=true`.
+>
+> **Corrections to prior conclusions below (kept for history):** S167's "Kvantum
+> `[GeneralColors]` is the sole Qt palette source" was true only for plain Qt apps — KF6
+> apps override it via KColorSchemeManager. The S126/S164 green/red-test "no effect"
+> results are explained by the same override, not by stale kvconfigs alone.
+> Remaining debt (Fix Path C): overlay Aether hexes onto the Catppuccin baseline across
+> `.colors` / kdeglobals / qt5ct-qt6ct color confs so all layers speak one palette.
 
 **Repo:** RaBbLE-OS `new-horizons`
-**Implement as:** Sonnet (well-scoped, deterministic after palette dump step)
 
 ---
 
-## Executive Summary
+## Executive Summary (historical — superseded by RESOLVED box above)
 
 Dolphin icon-view labels and Places sidebar items render dim grey (≈`#656769`) regardless of
 window focus. **Seven dedicated sessions across six weeks have not permanently fixed it.**

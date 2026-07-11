@@ -24,6 +24,18 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-07-11 · Session 201 (os-dolphin-theme: 7-session grey-text bug ROOT-CAUSED + fixed live)
+
+- **Repos:** RaBbLE-OS (fix) + RaBbLE-Aether (stale copy removed) + RaBbLE-Grimoire (plan doc RESOLVED). The Dolphin/KDE grey-text bug that defeated S85/S116/S126/S140/S159/S160/S164/S167 is fixed and verified on the live ProArt display.
+- **Root cause (live-verified, not theorized):** KF6 apps run `KColorSchemeManager` (kconfigwidgets), which **owns the app QPalette and overrides every layer prior sessions edited** (Kvantum `[GeneralColors]`, qt6ct, kdeglobals `[Colors:*]`, `.colors` files). With no scheme selected it fell back to default **Breeze LIGHT** — qt6ct doesn't relay the portal's dark preference — so Dolphin painted light-palette text roles onto Kvantum-dark surfaces: labels `#656769`, sidebar `#232629`, white tooltips. The white tooltip in a grim capture was the tell.
+- **Fix (RaBbLE-OS `new-horizons`):** (1) kdeglobals gains `[UiSettings] ColorScheme=CatppuccinMochaMauve` — the exact key KColorSchemeManager reads; KConfig cascade (`<app>rc` → kdeglobals) makes it apply to ALL KDE apps; value must be the `.colors` **basename**. (2) qt5ct/qt6ct `custom_palette=true` so pure-Qt apps get the dark QPalette too. Deployed via dotctl.
+- **Second bug killed — the kvconfig clobber:** Ansible `qt-gtk-theme.yml` deployed Kvantum from `RaBbLE-Aether/themes/kvantum/` — an ancient pre-S116 Catppuccin re-skin — over dotctl's maintained copy on every theming run (last hit 2026-07-06, S199's Ansible work). This silently regressed multiple past sessions' kvconfig fixes and poisoned at least one green-test. Ansible now sources `{{ dotfiles_repo_root }}/config/kvantum/RaBbLE-Aether/`; Aether's copy reduced to a pointer README.
+- **Verified:** grim pixel-sampling both focus states — active labels+sidebar `205,214,244` exact (scheme ForegroundNormal); inactive `192,200,229` (ForegroundInactive under Hyprland compositor dim); tooltips dark; Papirus folders follow mauve accent; `kvantummanager` (pure Qt) readable. Capture harness: atomic save-ws→focus→grim→restore-ws script (Mark's concurrent use shifts focus between separate Bash calls).
+- **Deferred (Fix Path C, plan doc):** overlay Aether palette hexes onto the Catppuccin baseline across `.colors`/kdeglobals/qt5ct-qt6ct color confs so all layers speak one palette.
+- **Next:** Mark eyeballs Dolphin + any Qt app on his own workflow; Aether-hex overlay session when desired.
+
+---
+
 ## 2026-07-08 · Session 200 (os-gpu-pin-regression: SDDM black-screen root-caused + fixed, retain-splash re-applied)
 
 - **Repo:** RaBbLE-OS. Mark reported the ProArt P16 boot to a black screen requiring TTY login, plus a too-small TTY font — a regression from the S197 boot-chain/power-stack work. Diagnosed live on the actual hardware (this session had real shell access to the ProArt, not a VM) using `boot-diagnose.sh`, `boot-profile.sh`, and `journalctl`.
