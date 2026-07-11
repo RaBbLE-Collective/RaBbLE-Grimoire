@@ -1,0 +1,25 @@
+{
+  "session_id": "0ec40847-47b2-48b4-a60f-b41bcf4e86e0",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-OS",
+  "scopes": [
+    "RaBbLE-Aether:themes/kvantum/README.md",
+    "RaBbLE-Aether:themes/kvantum/RaBbLE-Aether.kvconfig",
+    "RaBbLE-Aether:themes/kvantum/RaBbLE-Aether.svg",
+    "RaBbLE-BaBbLE:captures/OS-IDE/Dolphin/dolphin-S201-after-active.png",
+    "RaBbLE-BaBbLE:captures/OS-IDE/Dolphin/dolphin-S201-after-inactive.png",
+    "RaBbLE-BaBbLE:captures/OS-IDE/Dolphin/dolphin-S201-before-breeze-light-override.png",
+    "RaBbLE-BaBbLE:captures/OS-IDE/Dolphin/kvantummanager-S201-custom-palette-true.png",
+    "RaBbLE-Collective:AGENT.md",
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/plans/OS-Dolphin-Grey-Text.md",
+    "RaBbLE-Grimoire:log/token-ledger.tsv",
+    "RaBbLE-OS:ansible/roles/apps/tasks/qt-gtk-theme.yml",
+    "RaBbLE-OS:config/kdeglobals/kdeglobals",
+    "RaBbLE-OS:config/qt5ct/qt5ct.conf",
+    "RaBbLE-OS:config/qt6ct/qt6ct.conf"
+  ],
+  "started_at": "2026-07-11T06:33:30Z",
+  "heartbeat_at": "2026-07-11T06:50:15Z",
+  "auto": true
+}
