@@ -15,12 +15,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-07-08 · S200 (os-gpu-pin-regression)
+## LATEST — 2026-07-11 · S201 (os-dolphin-theme)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S200: SDDM black-screen root-caused (WLR_DRM_DEVICES colon-parse bug), fixed via vendor-ID udev aliases, retain-splash re-applied
+**This session:** S201: Dolphin/KDE grey text ROOT-CAUSED (KF6 KColorSchemeManager owned palettes, defaulted Breeze Light) + fixed live: kdeglobals [UiSettings] scheme + qt5/6ct custom_palette; Ansible kvantum clobber killed
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
-**Next:** Mark applies hardware+boot layers, reboots, verifies via boot-diagnose.sh
+**Next:** Mark eyeballs Qt apps in daily use; Aether-hex overlay (Fix Path C); S200 power/SDDM reboot-verify still pending
 
 ---
 
