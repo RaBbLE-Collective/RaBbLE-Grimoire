@@ -250,6 +250,12 @@ function createMyComponent(opts) {
 }
 ```
 
+### NeBuLA effects mounts rewrite their host's position — wrap them (S203)
+
+`NeBuLA.effects.starfield(host)` / `haze(host)` set the host element's `position` **inline**, overriding any stylesheet `position: fixed`. The host silently becomes an in-flow element. Inside a CSS-grid `body` this is fatal: the mount hosts become grid items, eat the explicit rows (one can swallow the `1fr` track), and shove the page's real header/main/footer into implicit rows at the bottom.
+
+**How:** never make an effects host a direct child of a grid/flex page skeleton. Put mount hosts inside a dedicated wrapper the effects never touch (`position: fixed; inset: 0; pointer-events: none`), hosts as `position: absolute; inset: 0; width/height: 100%` children. Give the skeleton's real children explicit `grid-row` assignments as a backstop. Diagnose with a computed-style probe (body `grid-template-rows` showing extra tracks = this bug), not by staring at screenshots.
+
 ---
 
 ## NeBuLA Build Workflow
