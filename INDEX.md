@@ -301,6 +301,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 ### Handoffs (pending)
 
 - [HANDOFF-FCC-Free-Claude-Code](log/handoffs/HANDOFF-FCC-Free-Claude-Code.md) — FCC tuning for agentic output (NIM Mistral 400 fix, LiteLLM retry/backoff/failover)
+- [HANDOFF-S203-B10-Cloudflare-Token](log/handoffs/HANDOFF-S203-B10-Cloudflare-Token.md) — B-10: dashboard-mint CF Workers token + org-wide `gh secret set` (+ Chrysalis per-repo); wrangler OAuth cannot mint tokens
 
 ### Episodes
 

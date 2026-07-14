@@ -1,0 +1,24 @@
+{
+  "session_id": "5a00cfb3-23dc-459a-bd99-5fbc44c46362",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-Grimoire",
+  "scopes": [
+    "RaBbLE-Chrysalis:Chrysalis-Web/ep1/world/RaBbLE-Liminal-Passage.html",
+    "RaBbLE-Chrysalis:Chrysalis-Web/ep1/world/css/RaBbLE-liminal.css",
+    "RaBbLE-Chrysalis:Chrysalis-Web/ep1/world/js/RaBbLE-liminal.js",
+    "RaBbLE-Grimoire:log/plans/EP1-Air-Push-Plan.md",
+    "RaBbLE-NeBuLA:src/effects/deepfield.js",
+    "RaBbLE-NeBuLA:src/effects/starfield.js",
+    "RaBbLE-World:CONTEXT.md",
+    "RaBbLE-World:index.html",
+    "RaBbLE-World:world/RaBbLE-Catalog.html",
+    "RaBbLE-World:world/css/RaBbLE-face.css",
+    "RaBbLE-World:world/css/RaBbLE-liminal.css",
+    "RaBbLE-World:world/js/RaBbLE-NeBuLA.js",
+    "RaBbLE-World:world/js/RaBbLE-face.js",
+    "RaBbLE-World:world/js/RaBbLE-liminal.js"
+  ],
+  "started_at": "2026-07-14T05:30:51Z",
+  "heartbeat_at": "2026-07-14T06:08:00Z",
+  "auto": true
+}

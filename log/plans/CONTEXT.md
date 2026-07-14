@@ -14,7 +14,7 @@ move to `done/`. Handoff docs (written mid-session for a fresh agent) live in `.
 
 | Plan | Status |
 |---|---|
-| `EP1-Air-Push-Plan.md` | 🟡 S202 PROPOSED — decisions locked, not started. EP1-close-to-air push: air-critical (registry/canon, deploy, OS download page, World-for-air) + coherence (Chrysalis reliquary, orphan sweep, Aether/NeBuLA EP1-ready, Studio maturation) tracks; restructures deferred |
+| `EP1-Air-Push-Plan.md` | 🟢 S203 ACTIVE — A4 DONE: entity-forward face built + verified (Mark sign-off pending), passage retired to Chrysalis reliquary. B-10 mapped → `../handoffs/HANDOFF-S203-B10-Cloudflare-Token.md` (Mark-gated). Next: A5 (Chrysalis CI + deploy.sh wrapper + key inventory), C1 (reliquary garden), A1 |
 | `Collective-Architecture-Audit-2026-07-04.md` | 🟢 S193 RUN (findings). S196 — Batch 1 safe doc/drift fixes landed; decisions + restructures deferred. Live status → `Collective-Architecture-Audit-PROGRESS.md` |
 | `Collective-Architecture-Audit-PROGRESS.md` | 🟢 S196 — implementation ledger: what's done vs deferred across all audit findings |
 | `sCoRE-Extensibility-Refactor-Plan.md` | 🟡 S193 — 3 options (A/B/C) + preconditions; awaiting Mark's option choice, then post-G7/G9 |

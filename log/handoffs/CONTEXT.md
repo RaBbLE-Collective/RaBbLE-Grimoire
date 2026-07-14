@@ -14,6 +14,7 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 | File | Scope |
 |---|---|
 | `HANDOFF-FCC-Free-Claude-Code.md` | FCC LiteLLM proxy tuning — research done, implementation pending |
+| `HANDOFF-S203-B10-Cloudflare-Token.md` | B-10: mint CF Workers token (dashboard-only) + org/Chrysalis `gh secret set` — Mark-gated, unblocks all CI deploys |
 
 ## Done (reference only)
 

@@ -24,6 +24,18 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-07-14 · Session 203 (ep1-air-decisions: entity-forward face BUILT, passage retired, HiDPI effects fix, B-10 mapped)
+
+- **Repos:** RaBbLE-Grimoire, RaBbLE-World, RaBbLE-NeBuLA, RaBbLE-Chrysalis. Mark locked the EP1 air-push decisions and the face got built the same session.
+- **Decisions locked (AskUserQuestion):** entity-forward face NOW (reverses S202 "keep passage"); Chrysalis at chrysalis.joinrabble.world; deploy = thin `spells/deploy.sh` wrapper over existing -ctl spells; secrets vault + CI guards → EP2 (EP1 floor = key inventory + CI secrets set). `EP1-Air-Push-Plan.md` revised (Grimoire fda0abb) + Artifact plan page published.
+- **A4 DONE — entity-forward face:** World `index.html` replaced per Mark's brief (entity centered/ambient, conversation as the only input surface, no scroll). New `world/css/RaBbLE-face.css` + `world/js/RaBbLE-face.js` on the curator engine — scripted always answers, live sCoRE upgrades, offline degrade verified E2E via Playwright (greet → user echo → intent reply → %RESONANT%). World 2434da6. **Mark's sign-off pending.**
+- **Passage retired:** S190 liminal passage frozen whole into Chrysalis `Chrysalis-Web/ep1/world/RaBbLE-Liminal-Passage.html` at retirement state (pre-existing Chrysalis liminal css/js were a stale older-era snapshot — overwritten from World HEAD). Chrysalis 6c57c11; liminal css/js git rm'd from World.
+- **Two NeBuLA effect bugs root-caused + fixed** (Mark's "web not on the cursor" reports): (1) Atlas constellation synthetic sweep fought the real pointer — hover now pauses it (World 9536397, sub-agent); (2) effect canvases displayed at intrinsic dpr-scaled size (`inset:0` doesn't stretch a replaced element) → all pointer-anchored drawing landed ~25% past the cursor on HiDPI, and mounts clobbered stylesheet-positioned hosts (haze sat below the viewport, invisible). Fixed at root: canvas `width/height:100%` + only set host position when static (NeBuLA 382d23b, bundle resync World e9728cd). Protocol addenda Grimoire 04c8793 + 769bad9 — **always test effect canvases at device_scale_factor=2**.
+- **B-10 fully mapped:** no CF API token exists on disk; local wrangler = hourly-refreshed OAuth whose scopes can't mint tokens (dashboard-only); June Aether token unrecoverable from GitHub. Runbook: `log/handoffs/HANDOFF-S203-B10-Cloudflare-Token.md` (Mark-gated).
+- **Next:** Mark: face sign-off (hard-refresh localhost:8080) + B-10 token mint per handoff. Then A5 (Chrysalis deploy.yml + chrysalis subdomain + all-members CI audit + deploy.sh wrapper + key inventory), C1 reliquary garden, A1 registry reconciliation. GENESIS-COPY pass on curator transmissions (passage vocabulary) is Mark's voice. G7/G9 VM verify airs last.
+
+---
+
 ## 2026-07-11 · Session 201 (os-dolphin-theme: 7-session grey-text bug ROOT-CAUSED + fixed live)
 
 - **Repos:** RaBbLE-OS (fix) + RaBbLE-Aether (stale copy removed) + RaBbLE-Grimoire (plan doc RESOLVED). The Dolphin/KDE grey-text bug that defeated S85/S116/S126/S140/S159/S160/S164/S167 is fixed and verified on the live ProArt display.

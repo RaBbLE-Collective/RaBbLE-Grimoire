@@ -1,0 +1,13 @@
+{
+  "session_id": "S203-ep1-air-decisions",
+  "agent": "claude",
+  "host": "localhost",
+  "pid": 347374,
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-Grimoire",
+  "task": "",
+  "scopes": [
+    "RaBbLE-World:world/RaBbLE-Catalog.html"
+  ],
+  "started_at": "2026-07-14T05:58:22Z",
+  "heartbeat_at": "2026-07-14T06:20:36Z"
+}

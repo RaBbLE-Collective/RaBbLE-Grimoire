@@ -10,7 +10,7 @@
 
 - **B-02** — OpenRouter $10 credits not purchased — free tier 429 caps the chat chain  ·  owner:Mark  ·  since:S106  ·  [ep1-gate]
 - **B-09** — Lemonade Server needs debug — not confirmed working after NPU validation in S160  ·  owner:Mark  ·  since:S161  ·  [runtime]
-- **B-10** — dev.joinrabble.world auto-deploy fails: GitHub Actions deploy-dev job has no CLOUDFLARE_API_TOKEN secret. Workflow + dev domain binding + CLOUDFLARE_ACCOUNT_ID secret are correct; Mark to create a scoped Cloudflare Workers token then: gh secret set CLOUDFLARE_API_TOKEN --body <token>  ·  owner:Mark  ·  since:2026-06-26  ·  [ep1-dev]
+- **B-10** — dev.joinrabble.world auto-deploy fails: GitHub Actions deploy-dev job has no CLOUDFLARE_API_TOKEN secret. S203 mapped fully: no token on local disk, wrangler OAuth can't mint one (dashboard-only), June Aether token unrecoverable from GitHub. Runbook: `log/handoffs/HANDOFF-S203-B10-Cloudflare-Token.md`  ·  owner:Mark  ·  since:2026-06-26  ·  [ep1-dev]
 
 ## RESOLVED
 

@@ -1,0 +1,13 @@
+{
+  "session_id": "38a6c61b-89bf-4575-9b68-80221f75fa1c",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-Grimoire",
+  "scopes": [
+    "RaBbLE-Grimoire:INDEX.md",
+    "RaBbLE-Grimoire:log/plans/CONTEXT.md",
+    "RaBbLE-Grimoire:log/plans/EP1-Air-Push-Plan.md"
+  ],
+  "started_at": "2026-07-14T00:43:41Z",
+  "heartbeat_at": "2026-07-14T00:43:41Z",
+  "auto": true
+}
