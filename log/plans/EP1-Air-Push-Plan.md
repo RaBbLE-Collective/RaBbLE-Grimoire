@@ -4,9 +4,11 @@
 spark ~ collective >> S202: EP1 air-push plan — contradictions, reliquary, deploy, Studio, OS packaging // %EP1_AIR_PUSH_PLAN%
 ```
 
-> **Status:** 🟡 PROPOSED (S202) — decisions locked with Mark, not started. Mark picks this up
-> next session. This is the cold-start context for a multi-session push to bring **Episode 1
-> (Genesis) close to air**.
+> **Status:** 🟡 ACTIVE (S202 proposed · S203 revised) — decisions locked with Mark. This is the
+> cold-start context for a multi-session push to bring **Episode 1 (Genesis) close to air**.
+> **S203 revision:** A4 REVERSED (entity-forward face, agent-built to Mark's brief — passage
+> retires), C1 domain locked (chrysalis.joinrabble.world), new A5 (deploy wrapper + CI
+> completion + key inventory). See "Decisions locked S203" below.
 > **Companions:** `Collective-Architecture-Audit-2026-07-04.md` (the "contradictions Fable found"),
 > `Collective-Architecture-Audit-PROGRESS.md` (implementation ledger — this plan continues it),
 > `NeBuLA-Studio-Plan.md` (Studio MVP; C5 builds its deferred phases),
@@ -44,6 +46,32 @@ across all repos simultaneously.
   deferred to post-EP1.
 - **Restructures: defer all** — sCoRE server refactor, `.rc-*` retirement, OS-manifest→SSoT
   wiring all wait until after G7/G9. This push is safe cleanups + truth-alignment + net-new only.
+
+## Decisions locked S203 (2026-07-14)
+
+Mark, unprompted: *"the EP1 page should be entity forward, not scrolling based, conversation as
+input surface, RaBbLE should feel ambient and present in the space."* That is a design brief from
+Mark himself — so the S202 "don't redesign World blind" rule no longer applies to it.
+
+- **World face: build entity-forward NOW** (reverses S202 "passage stays"). Agent builds the new
+  EP1 face to Mark's brief: entity centered + ambient, **conversation is the only input surface**,
+  no scrolling narrative. The S190 liminal passage **retires to the Chrysalis reliquary** (joins
+  C1 content). Studio maturation (C5) continues — it's how Mark refines the face later, not the
+  gate for having one.
+- **Chrysalis home: `chrysalis.joinrabble.world`** — own subdomain, matching the member pattern
+  (aether./nebula./score.). NOT under dev. (dev is World's preview env; different lifecycle).
+  Worker `rabble-chrysalis-web` already exists; needs the custom domain + a `deploy.yml`.
+- **Deploy unification: thin wrapper, no rewrite** — `spells/deploy.sh <member> [--env dev|prod]`
+  in the Grimoire *dispatches* to existing mechanisms (`wrangler deploy` per member
+  `wrangler.jsonc`; `render-ctl.sh` for sCoRE). GitHub Actions stays the prod path; the spell is
+  the local/manual fallback. Underlying `-ctl` spells unchanged.
+- **Secrets: split.** EP1 floor = **key inventory** (every key: what, where it lives, Mark-personal
+  vs Collective-owned) + CI secrets set correctly. The SOPS/age vault build + account migration
+  from `RaBbLE-Secrets-and-Identity.md` → **EP2** (it's a restructure; S202 deferred those).
+- **CI guards stay deferred** (palette-lint/render-smoke etc. → EP2). EP1 CI bar = deploy-only:
+  every airing member has a green deploy workflow.
+- **Sequencing:** G7/G9 VM verification airs **last**; everything else is agent-executable in
+  parallel ahead of it.
 
 ## Two tracks
 
@@ -85,20 +113,40 @@ The audit's #1 finding is "docs outrun code." Fix canon first so everything down
   default inventory generic (not ProArt) so a VM/x86_64 install doesn't self-assign Mark-hardware
   roles (feeds G7); archive legacy Sway-era `Install.sh`. (Manifest→SSoT wiring stays deferred.)
 
-### A4. World for-air (keep passage functional; no redesign)
-- Author the placeholder `GENESIS-COPY` blocks in `index.html` (Mark's voice, or scaffold from
-  `RaBbLE-Identity.md` for his edit) so the face reads finished.
-- Verify Act IV live chat + graceful degrade against the sCoRE guest endpoint.
+### A4. World entity-forward face (REVISED S203 — replaces "keep passage")
+Build the new EP1 face to Mark's brief; the liminal passage retires to Chrysalis (C1/C2).
+- **The brief:** single surface, no scroll. Entity centered, awake, ambient — RaBbLE is *present
+  in the space*, not presented by it. **Conversation is the input surface**: one input, the page
+  responds as the entity (chat → sCoRE guest endpoint, graceful offline degrade). Navigation
+  (collective/summon/os) recedes to quiet affordances, not a scroll story.
+- Compose strictly from Aether tokens/components + NeBuLA `<rabble-entity>`/effects (frameworks
+  discipline — apply, don't redefine). Mark reviews via screenshots + live page; iterate.
+- Genesis copy shrinks to what an ambient face needs (short presence lines, not narrative acts) —
+  scaffold from `RaBbLE-Identity.md` for Mark's edit.
+- Passage `index.html` + its acts → frozen into `Chrysalis-Web/ep1/world/` before removal.
 - **NeBuLA/World delivery (default: commit to vendored):** `world/js/RaBbLE-NeBuLA.js` IS the IIFE
   build; delete the dead `RABBLE_NEBULA_URL`/`RABBLE_THREE_URL`/`RABBLE_RENDER_BACKEND` flips in
   `RaBbLE-config.js`; update Integration-Map + `AGENT.md:44` to match.
+
+### A5. CI/CD completion + deploy wrapper + key inventory (net-new S203)
+- **Chrysalis `deploy.yml`:** mirror the Aether/NeBuLA/World workflow for `rabble-chrysalis-web`;
+  bind `chrysalis.joinrabble.world` custom domain.
+- **All-members CI audit:** every airing member deploys green from its workflow once B-10 token
+  lands (Aether, NeBuLA, World prod+dev, sCoRE proxy, Chrysalis, Grimoire worker).
+- **`spells/deploy.sh` wrapper:** `deploy.sh <member> [--env dev|prod] [--dry-run]` dispatching to
+  member `wrangler.jsonc` / `render-ctl.sh`; `deploy.sh status` curls each live endpoint. Document
+  in `SPELLS.md`. No changes to underlying spells.
+- **Key inventory:** one table in `RaBbLE-Collective/RaBbLE-Secrets-and-Identity.md` (or adjunct):
+  every credential (OpenRouter, Groq personal, NIM, CF token, Render, GitHub secrets…), where it
+  lives, personal-vs-Collective, EP2 migration note. Inventory only — vault build stays EP2.
 
 ---
 
 ## COHERENCE TRACK
 
 ### C1. Chrysalis reliquary garden (net-new; resolves §2.9 charter violation)
-Mark's decision: **Chrysalis IS the archive + memorial site.** Amend the charter.
+Mark's decision: **Chrysalis IS the archive + memorial site**, served at
+**`chrysalis.joinrabble.world`** (own subdomain — locked S203). Amend the charter.
 - Build a curated **reliquary index / timeline page** in `RaBbLE-Chrysalis/Chrysalis-Web/` over
   content that already exists (`Chrysalis-Web/ep1/world/` holds 10 never-aired pages: Boot, Chat,
   Collective, Docs, Grimoire-Graph, NeBuLA-Demo/NeBuLA, OS, Shell, Studio, summon). Aether-themed
@@ -151,15 +199,16 @@ design-capable:
 ## DEFERRED (post-EP1 / post-G7-G9) — explicitly NOT this push
 sCoRE server/ refactor (`sCoRE-Extensibility-Refactor-Plan.md`, awaiting option choice) · `.rc-*`
 token migration · OS manifest→Ansible SSoT · per-member test/CI guards (palette-lint,
-context-freshness, render-smoke) · built-`.iso` track.
+context-freshness, render-smoke) · built-`.iso` track · **secrets vault build** (SOPS/age +
+account migration per `RaBbLE-Secrets-and-Identity.md` — EP1 gets the key inventory only, S203).
 
 ## MARK-GATED (agent cannot do; these gate the actual air)
 - **G7** — OS Dev-Preview install/recovery on generic x86_64 VM.
 - **G9** — `setup.sh` bootstrap end-to-end on fresh VM.
 - **B-02** — buy OpenRouter $10 credits.
 - **B-10** — create scoped Cloudflare Workers token → `gh secret set CLOUDFLARE_API_TOKEN`.
-- **World design vision** — Mark composes via the matured Studio (C5); agent then wires the
-  export into World.
+- **World face sign-off** — agent builds entity-forward to Mark's S203 brief (A4); Mark reviews
+  and approves the face before air (Studio C5 remains his tool for refining it later).
 
 ## Execution notes
 - Render an **Aether-themed Artifact page** of this plan (exact palette hexes, color-coded by
@@ -170,8 +219,10 @@ context-freshness, render-smoke) · built-`.iso` track.
   concurrent sessions; claim before editing shared files.
 
 ## Suggested first move
-Land **A1 (registry reconciliation)** — zero-risk, makes all canon honest, prerequisites others
-cite. Then A2 endpoint hardening + A3 OS download page in parallel.
+**A4 (entity-forward face)** is the emotional unblock — Mark has been stalling partly because the
+current face isn't his; build it first so air feels wanted. **A1 (registry reconciliation)** runs
+in parallel (zero-risk, sub-agent-able). Then A5 CI/deploy wrapper + C1 reliquary (the passage
+retirement feeds it), then A2/A3.
 
 ## Verification
 - **A1:** `bash spells/status.sh` consistent member set, no off-track; epoch YAML blocker note +
@@ -180,8 +231,11 @@ cite. Then A2 endpoint hardening + A3 OS download page in parallel.
   joinrabble.world no longer serves AGENT.md/gist.
 - **A3:** fresh VM boots netinstall with `inst.ks=<url>`, %post completes, Ansible runs, session
   boots (G7/G9 territory — Mark-run); download page renders in Aether.
-- **A4:** load index.html locally, cast `visual-screenshot.sh`; Act IV chat streams from sCoRE +
-  degrades offline.
+- **A4:** load new index.html locally, cast `visual-screenshot.sh`; no scroll; entity boots
+  ambient; chat streams from sCoRE + degrades offline; old passage renders frozen from Chrysalis.
+- **A5:** `deploy.sh status` all-green; Chrysalis Action green; `curl -I
+  https://chrysalis.joinrabble.world` 200; key inventory covers every secret named in any
+  workflow/.env/render config.
 - **C1/C2:** reliquary page renders + links each frozen era; World `ls world/js` shows only live
   files.
 - **C3/C4:** Aether one version everywhere; README CDN URL 200; NeBuLA API doc matches
