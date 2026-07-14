@@ -282,6 +282,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 
 ### Plans (active)
 
+- [EP1-Air-Push-Plan](log/plans/EP1-Air-Push-Plan.md) — S202 PROPOSED: multi-session push to bring EP1 close to air. Decisions locked (Studio matured not World redesigned; OS netinstall+KS now / ISO later; restructures deferred). Air-critical vs coherence tracks; resolves the S193 audit contradictions + net-new (Chrysalis reliquary, OS download page, Studio inspector/nesting/export)
 - [Collective-Architecture-Audit-Plan](log/plans/Collective-Architecture-Audit-Plan.md) — S192 PROPOSED plan; RUN S193 — see the two deliverables below
 - [Collective-Architecture-Audit-2026-07-04](log/plans/Collective-Architecture-Audit-2026-07-04.md) — S193 RUN: cross-repo synthesis, all 10 members audited, drift findings + per-member improvement plans, open decisions for Mark
 - [sCoRE-Extensibility-Refactor-Plan](log/plans/sCoRE-Extensibility-Refactor-Plan.md) — S193: sCoRE `server/` restructuring deep-dive, 3 options, companion to the audit above
