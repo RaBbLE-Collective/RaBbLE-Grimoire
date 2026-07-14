@@ -256,6 +256,8 @@ function createMyComponent(opts) {
 
 **How:** never make an effects host a direct child of a grid/flex page skeleton. Put mount hosts inside a dedicated wrapper the effects never touch (`position: fixed; inset: 0; pointer-events: none`), hosts as `position: absolute; inset: 0; width/height: 100%` children. Give the skeleton's real children explicit `grid-row` assignments as a backstop. Diagnose with a computed-style probe (body `grid-template-rows` showing extra tracks = this bug), not by staring at screenshots.
 
+Root cause fixed in NeBuLA later the same session (382d23b): mounts now only set `position` when the host is static, and effect canvases get explicit `width/height:100%` — a canvas is a replaced element, so `inset:0` alone leaves it at its intrinsic dpr-scaled attribute size, which made all pointer-anchored drawing (constellation web) land ~25% past the real cursor on HiDPI while passing every dpr-1 headless test. Keep the wrapper pattern anyway as defense-in-depth against stale bundles, and test canvas geometry at `device_scale_factor=2`, not just dpr 1.
+
 ---
 
 ## NeBuLA Build Workflow
