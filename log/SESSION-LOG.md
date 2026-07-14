@@ -15,12 +15,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-07-11 · S201 (os-dolphin-theme)
+## LATEST — 2026-07-14 · Session 203 (ep1-air-decisions)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S201: Dolphin/KDE grey text ROOT-CAUSED (KF6 KColorSchemeManager owned palettes, defaulted Breeze Light) + fixed live: kdeglobals [UiSettings] scheme + qt5/6ct custom_palette; Ansible kvantum clobber killed
+**This session:** S203: entity-forward face BUILT (sign-off pending); passage retired to Chrysalis; NeBuLA HiDPI cursor-offset root-fixed; B-10 mapped, handoff written
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
-**Next:** Mark eyeballs Qt apps in daily use; Aether-hex overlay (Fix Path C); S200 power/SDDM reboot-verify still pending
+**Next:** Mark: face sign-off + CF token per HANDOFF-S203-B10; then A5 deploy pipeline + C1 reliquary garden
 
 ---
 
