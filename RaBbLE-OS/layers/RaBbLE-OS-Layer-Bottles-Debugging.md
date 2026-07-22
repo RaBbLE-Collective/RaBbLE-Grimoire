@@ -69,6 +69,31 @@ disown
 
 ---
 
+## Step 2b: use Bottles' own binary analyzer ("Eagle") before guessing dependencies
+
+Bottles ships a GUI-only feature (right-click a program → "Analyze with Eagle") that inspects the actual installed EXE and reports: detected framework (Electron/CEF/Qt/etc.), required runtimes (VC++ version, .NET), installer technology, and suggested overrides (Esync/GameMode/discrete GPU/Virtual Desktop). It's not exposed via `bottles-cli` — ask whoever has GUI access to run it and paste the report — but it's a genuinely reliable way to identify what a binary actually needs instead of guessing.
+
+**Installing a missing runtime it flags (e.g. VC++ 2015-22) via CLI:** Bottles' own "Dependencies" installer panel is also GUI-only. Use `winetricks` directly instead — but **not** through `bottles-cli shell`:
+```bash
+# WRONG — bottles-cli shell -i runs the string INSIDE the Windows/Wine environment,
+# not on the host. It'll look for a Windows winetricks.exe and fail:
+#   "ShellExecuteEx failed: File not found."
+flatpak run --command=bottles-cli com.usebottles.bottles shell -b <Bottle> -i "winetricks vcrun2015"   # don't do this
+
+# RIGHT — invoke the real host-side winetricks script, pointed at the bottle's prefix:
+flatpak run --command=bash com.usebottles.bottles -c \
+  "export WINEPREFIX='$HOME/.var/app/com.usebottles.bottles/data/bottles/bottles/<Bottle>'; \
+   export PATH='$HOME/.var/app/com.usebottles.bottles/data/bottles/runners/<runner>/bin:'\$PATH; \
+   winetricks -q vcrun2015"
+```
+Verify it actually landed: `find <bottle>/drive_c/windows/system32 -iname "vcruntime140.dll"`.
+
+**Toggling the overrides Eagle suggests** (Esync/GameMode/discrete GPU) doesn't need the GUI either — they're plain fields under `Parameters:` in `bottle.yml`, same file/technique as the `WINEDEBUG` trick above (`sync: wine|esync|fsync`, `gamemode: true|false`, `discrete_gpu: true|false`). Kill the bottle's wineserver before retesting a `sync` change — an old wineserver started under a different sync mode will throw `err:esync:esync_init Failed to open esync shared memory file` for any new process until it's gone.
+
+**`discrete_gpu: true` is not free on a hybrid-GPU laptop.** It changes which GPU renders the app (visible in the launched process's own args, e.g. `--gpu-vendor-id=0x10de` for NVIDIA vs `0x1002` for AMD) — confirm the change took by checking that, not just by assuming the YAML edit worked. On a laptop where the discrete GPU has no direct display path, this can also change *which workspace/output the window ends up on* — don't conclude "no window rendered" from one workspace screenshot after changing this; check `hyprctl clients` for where the window actually landed before assuming a regression.
+
+---
+
 ## Step 3: know these two structural Bottles/Wine gotchas — they show up in almost any app
 
 ### A. Bottles' Flatpak sandbox has zero filesystem access beyond its own app data by default

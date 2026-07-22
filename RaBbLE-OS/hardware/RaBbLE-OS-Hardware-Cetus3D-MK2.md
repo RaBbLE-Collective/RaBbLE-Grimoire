@@ -45,8 +45,9 @@ Ansible automates the whole software chain (`tasks/upstudio.yml`, see [Layer-Bot
 | UP Studio download + bottle + install, end to end | **Built and verified** — `tasks/upstudio.yml`, downloads from TierTime's CDN, launches the installer, idempotent across re-applies |
 | UP Studio actually installed | **Done** — confirmed 2026-07-22, full app tree present |
 | `/Tiertime` drive-relative path bug | **Fixed and automated** — host dirs + Flatpak override, see Layer-Bottles |
-| UP Studio actually starts up and shows its main window | **Not done — open issue.** Reproducibly hangs on the startup splash past the `/Tiertime` fix, even with the printer connected from launch. See "Still open" in Layer-Bottles for what's been ruled out (printer connection, network calls, CUPS, a red-herring HID trace line) and the suggested next step (debugger attach for a real stack trace) if picked back up |
+| UP Studio actually starts up and shows its main window | **Not done — open issue.** Reproducibly hangs on the startup splash past the `/Tiertime` fix, even with the printer connected from launch. Also ruled out: missing VC++ 2015-22 runtime (installed via winetricks, no change), Wine sync mode/GameMode/GPU selection (tried Esync+GameMode+discrete GPU per Bottles' own "Eagle" binary analysis, no change). See "Still open" in Layer-Bottles for the full ruled-out list and the suggested next step (debugger attach for a real stack trace) if picked back up |
 | USB/serial verified end-to-end | **Blocked on the above** — printer enumerates fine at the USB level (`lsusb` confirms it), but UP Studio itself never reaches a state where it could talk to it |
+| **Idea for a future session:** try UP Studio **3** (newer major version) as a fresh bottle | **Not started.** Mark's idea 2026-07-22 — worth checking whether a newer release simply doesn't have whatever bug UP Studio 2's startup sequence hits. Would need its own download link (same WooCommerce-checkout problem likely applies) and its own bottle, independent of the UP Studio 2 one documented here |
 | Affinity Suite in a separate bottle | **Planned, not started** |
 
 ---

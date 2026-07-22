@@ -18,9 +18,9 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-07-22 · S204 (os-bottles-upstudio)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S204: layer/bottles built, UP Studio installs via full wizard, 3 real bugs fixed, startup hang open
+**This session:** S204: layer/bottles built, UP Studio installs via full wizard, 3 real bugs fixed, startup hang open (survived a 2nd troubleshooting round via Bottles' Eagle analyzer too)
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
-**Next:** debugger attach for the open hang, or Affinity Suite bottle next
+**Next:** try UP Studio 3 as a fresh bottle, or debugger attach on v2's hang, or Affinity Suite bottle
 
 ---
 
@@ -35,7 +35,8 @@ Format: date, what was done, where things were left, what's next.
 - **Also confirmed:** the installer is Advanced-Installer-wrapped MSI; `/quiet` really is a working silent flag (no GUI) but reliably rolls back the whole install (a bundled `WinusbFM` USB-driver custom action fails under Wine, no real driver model) — the full interactive wizard succeeds where `/quiet` doesn't, so that's the confirmed default, not a fallback.
 - **Open, unresolved:** even past all three fixes, UP Studio hangs on its startup splash — reproduced consistently, its own log stops at an identical point every clean launch. Ruled out: printer disconnected (tested with the Cetus3D MK2 plugged in from launch — no change, though it enumerates fine at the USB level per `lsusb`), a hanging network call, the CUPS/IPP connection. A promising-looking `fixme:hid:handle_IRP_MN_QUERY_ID` Wine trace line turned out to be ordinary Wine-boot noise, unrelated. Next step if picked back up: debugger attach (winedbg/gdb) for a real stack trace — bigger time investment, not attempted this session per Mark's call to stop and document instead.
 - **New Grimoire docs:** `RaBbLE-OS/layers/RaBbLE-OS-Layer-Bottles.md` (the layer), `RaBbLE-OS/layers/RaBbLE-OS-Layer-Bottles-Debugging.md` (general troubleshooting playbook for the *next* Windows app under Bottles — Affinity Suite is next in line — distilling the WINEDEBUG-via-bottle.yml technique, the two structural gotchas above, the `pkill -f` self-match gotcha, and the stale-process-tree-after-force-quit gotcha), `RaBbLE-OS/hardware/RaBbLE-OS-Hardware-Cetus3D-MK2.md` (the printer, firmware research, setup path).
-- **Next:** Mark — pick up the startup hang with a debugger attach if/when he wants to keep pushing, or accept UP Studio needs the firmware-mod path (open-firmware board swap, native Linux slicer) as an alternative discussed but not pursued. Affinity Suite bottle: not started, same infra applies.
+- **Round 2, same session — Bottles' own "Eagle" binary analyzer:** Mark ran it (GUI-only) against `UPStudio.exe`, confirming CEF/Electron + flagging a missing `VC++ 2015-22` runtime, and suggesting Esync/GameMode/discrete-GPU overrides. Installed VC++ 2015-22 via `winetricks vcrun2015` (confirmed DLLs landed) and enabled all three suggested overrides (direct `bottle.yml` edits, no GUI needed) — **no change to the hang**, confirmed visually on Mark's screen. `discrete_gpu: true` correctly routed to the NVIDIA dGPU but isn't relevant here and was reverted per Mark ("dGPU not ideal for apps"); Esync + GameMode left on. New gotcha found: `bottles-cli shell -i "winetricks ..."` runs the string *inside* Wine, not the host — use `flatpak run --command=winetricks` directly instead. Folded into the debugging playbook + Layer-Bottles doc.
+- **Next:** Mark — next session idea: try **UP Studio 3** (newer major version) as a fresh, separate bottle, to see if a newer release simply avoids whatever bug UP Studio 2 hits. Otherwise: debugger attach (winedbg/gdb) for a real stack trace on UP Studio 2, or accept the firmware-mod path (open-firmware board swap, native Linux slicer) as an alternative discussed but not pursued. Affinity Suite bottle: not started, same infra applies.
 
 ---
 

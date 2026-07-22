@@ -3,6 +3,14 @@
   "agent": "auto",
   "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-OS",
   "scopes": [
+    "RaBbLE-Grimoire:INDEX.md",
+    "RaBbLE-Grimoire:RaBbLE-OS/RaBbLE-OS-AgentGuide.md",
+    "RaBbLE-Grimoire:RaBbLE-OS/hardware/RaBbLE-OS-Hardware-Cetus3D-MK2.md",
+    "RaBbLE-Grimoire:RaBbLE-OS/layers/RaBbLE-OS-Layer-Bottles-Debugging.md",
+    "RaBbLE-Grimoire:RaBbLE-OS/layers/RaBbLE-OS-Layer-Bottles.md",
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/agents/91265a22-e47c-444b-96d2-57ca6782cb11.json",
+    "RaBbLE-Grimoire:log/token-ledger.tsv",
     "RaBbLE-OS:RaBbLE-OS-layerctl.sh",
     "RaBbLE-OS:ansible/inventory/group_vars/all.yml",
     "RaBbLE-OS:ansible/packages/manifest.yml",
@@ -12,6 +20,6 @@
     "RaBbLE-OS:ansible/site.yml"
   ],
   "started_at": "2026-07-22T05:44:51Z",
-  "heartbeat_at": "2026-07-22T05:44:51Z",
+  "heartbeat_at": "2026-07-22T05:45:31Z",
   "auto": true
 }
