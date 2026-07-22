@@ -1,0 +1,17 @@
+{
+  "session_id": "91265a22-e47c-444b-96d2-57ca6782cb11",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-OS",
+  "scopes": [
+    "RaBbLE-OS:RaBbLE-OS-layerctl.sh",
+    "RaBbLE-OS:ansible/inventory/group_vars/all.yml",
+    "RaBbLE-OS:ansible/packages/manifest.yml",
+    "RaBbLE-OS:ansible/roles/layer/bottles/defaults/main.yml",
+    "RaBbLE-OS:ansible/roles/layer/bottles/tasks/main.yml",
+    "RaBbLE-OS:ansible/roles/layer/bottles/tasks/upstudio.yml",
+    "RaBbLE-OS:ansible/site.yml"
+  ],
+  "started_at": "2026-07-22T05:44:51Z",
+  "heartbeat_at": "2026-07-22T05:44:51Z",
+  "auto": true
+}

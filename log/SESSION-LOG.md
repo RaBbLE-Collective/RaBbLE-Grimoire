@@ -15,12 +15,27 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-07-14 · Session 203 (ep1-air-decisions)
+## LATEST — 2026-07-22 · S204 (os-bottles-upstudio)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S203: entity-forward face BUILT (sign-off pending); passage retired to Chrysalis; NeBuLA HiDPI cursor-offset root-fixed; B-10 mapped, handoff written
+**This session:** S204: layer/bottles built, UP Studio installs via full wizard, 3 real bugs fixed, startup hang open
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
-**Next:** Mark: face sign-off + CF token per HANDOFF-S203-B10; then A5 deploy pipeline + C1 reliquary garden
+**Next:** debugger attach for the open hang, or Affinity Suite bottle next
+
+---
+
+## 2026-07-22 · Session 204 (os-bottles-upstudio: Wine app-compat layer built, 3 real bugs fixed, 1 open)
+
+- **Repo:** RaBbLE-OS (+ RaBbLE-Grimoire docs). Mark has a Cetus3D MK2 printer; stock firmware is proprietary, TierTime's UP Studio client is Windows/Mac only. Built the whole Wine/Bottles path from scratch through to a real, reproducible install.
+- **New Ansible layer, `layer/bottles`** (`ansible/roles/layer/bottles/`, opt-in via `rabble_enable_wine_bottles`, `layerctl apply bottles`) — reference implementation of the `layer/*` optional-feature-group pattern `ansible/packages/manifest.yml` had documented but never wired up. Installs Bottles (Flatpak), `dialout` group, and fully automates the UP Studio bottle: downloads the installer from TierTime's own CDN (`static.tiertime.com`, first-party, Mark supplied the link directly), extracts, runs it (full interactive wizard — confirmed the only reliable path, see below), creates a desktop launcher entry.
+- **Three real bugs found + fixed, all via live empirical testing on Mark's actual machine, not docs-guessing:**
+  1. Bottles' Flatpak sandbox has **zero filesystem access** beyond its own app-data dir by default (`flatpak info --show-permissions` — no `[filesystem]` line at all) — installer staged anywhere else was invisible to `bottles-cli`.
+  2. `bottles-cli run` has **no `-a` flag** (an earlier guess from a search-summarized doc page) — takes trailing positional args instead.
+  3. **`/Tiertime` drive-relative path bug** — UP Studio builds some data paths as bare `/Tiertime/Log` (no drive letter); Wine resolves that against the *current drive*, which is `Z:` (host `/`) unless the process's working directory is on `C:` — so it was trying to `mkdir /Tiertime/Log` on the real host root, root-owned, unwritable, infinite retry loop. Fix needs BOTH: launch via `bottles-cli run -p <name>` not `-e <path>` (`-p` sets working dir to the program's own folder; `-e` sets none), AND real host dirs at `/Tiertime/{Log,Temp,Cache,Config,Data,Db}` plus `flatpak override --user com.usebottles.bottles --filesystem=/Tiertime` (the override is not optional — host dirs alone are invisible to the sandbox).
+- **Also confirmed:** the installer is Advanced-Installer-wrapped MSI; `/quiet` really is a working silent flag (no GUI) but reliably rolls back the whole install (a bundled `WinusbFM` USB-driver custom action fails under Wine, no real driver model) — the full interactive wizard succeeds where `/quiet` doesn't, so that's the confirmed default, not a fallback.
+- **Open, unresolved:** even past all three fixes, UP Studio hangs on its startup splash — reproduced consistently, its own log stops at an identical point every clean launch. Ruled out: printer disconnected (tested with the Cetus3D MK2 plugged in from launch — no change, though it enumerates fine at the USB level per `lsusb`), a hanging network call, the CUPS/IPP connection. A promising-looking `fixme:hid:handle_IRP_MN_QUERY_ID` Wine trace line turned out to be ordinary Wine-boot noise, unrelated. Next step if picked back up: debugger attach (winedbg/gdb) for a real stack trace — bigger time investment, not attempted this session per Mark's call to stop and document instead.
+- **New Grimoire docs:** `RaBbLE-OS/layers/RaBbLE-OS-Layer-Bottles.md` (the layer), `RaBbLE-OS/layers/RaBbLE-OS-Layer-Bottles-Debugging.md` (general troubleshooting playbook for the *next* Windows app under Bottles — Affinity Suite is next in line — distilling the WINEDEBUG-via-bottle.yml technique, the two structural gotchas above, the `pkill -f` self-match gotcha, and the stale-process-tree-after-force-quit gotcha), `RaBbLE-OS/hardware/RaBbLE-OS-Hardware-Cetus3D-MK2.md` (the printer, firmware research, setup path).
+- **Next:** Mark — pick up the startup hang with a debugger attach if/when he wants to keep pushing, or accept UP Studio needs the firmware-mod path (open-firmware board swap, native Linux slicer) as an alternative discussed but not pursued. Affinity Suite bottle: not started, same infra applies.
 
 ---
 

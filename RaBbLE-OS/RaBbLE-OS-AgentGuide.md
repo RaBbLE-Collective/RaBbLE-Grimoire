@@ -44,6 +44,8 @@ historical/     Stale docs — KDE-spin era installs, branch diffs, implementati
 | Verify a bootstrap | `verify/RaBbLE-OS-Verify-Checklist.md` |
 | Check layer state | `verify/RaBbLE-OS-Verify-LayerState.md` |
 | Add new hardware target | `hardware/RaBbLE-OS-Hardware-AddingTargets.md` |
+| Run Windows-only software (Wine/Bottles) | `layers/RaBbLE-OS-Layer-Bottles.md` |
+| Enable the Cetus3D MK2 printer | `hardware/RaBbLE-OS-Hardware-Cetus3D-MK2.md` |
 
 ## Rules
 
