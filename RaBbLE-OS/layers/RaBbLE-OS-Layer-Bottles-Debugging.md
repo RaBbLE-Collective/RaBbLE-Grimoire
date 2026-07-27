@@ -130,6 +130,17 @@ Two independent fixes, both usually needed together:
 
 ---
 
+## Step 5: debugger attach — the escalation of last resort, and its own gotchas
+
+Confirmed 2026-07-26 (getting UP Studio 2's still-open splash-screen hang). Two independent debuggers, two different failure modes:
+
+**`winedbg --gdb <pid>` (the "correct" tool — knows Wine's PE-level symbols) has to run *inside* the same Flatpak sandbox instance as the target, which is its own trap:**
+- Every fresh `flatpak run --command=... <app-id> ...` opens a **brand-new sandbox instance with its own PID namespace**. It cannot see processes started by an *earlier* `flatpak run` — `ps`/`pgrep` from a second invocation will come up empty even though the app is plainly still running.
+- Fix: `flatpak ps` to find the running instance's numeric ID, then `flatpak enter <instance-id> bash` to get a shell **inside that same live sandbox**. Only then do in-sandbox PIDs resolve to the right process — and note in-sandbox PIDs are their own numbering, different from the host's `ps` view of the same process (a process that's PID 72146 on the host can be PID 44 inside its own sandbox — cross-reference via `cmdline`, not the number).
+- Even after correctly entering the sandbox and targeting the right in-sandbox PID, the attach itself can still fail: `Can't attach process <hex-pid>: error 87`. Ruled out: Flatpak permissions (`flatpak info --show-permissions` showed `features=devel` already granted — that's the flag that's supposed to allow this) and YAMA (`ptrace_scope` read `0` both on the host and inside the sandbox). **Leading unconfirmed suspect: SELinux** (Fedora runs Enforcing by default) — confirming needs `sudo ausearch -m avc -ts recent | grep denied` right after reproducing the failure, which needs an interactive root password no automated session has. If you hit this, that's the next command to run, by hand.
+
+**Native host-side `gdb -p <host-pid>` is the fallback that actually works**, no sandbox-entering required — attach it directly from a normal host shell against the PID as seen in plain `ps aux` (yes, this is the *host* PID, different from the in-sandbox one above; Bottles doesn't seem to isolate the actual Wine app processes into as deep a namespace as the `flatpak run` wrapper itself, or at least the host can still see and ptrace into them — gdb prints a `different PID namespaces` warning but the attach and backtrace both still work regardless). The tradeoff: gdb has no idea how to read Wine's internal PE debug info, so every frame in `thread apply all bt` prints as `?? ()` — the only way to get anything useful out of it is `info proc mappings` to identify which `.so`/binary each raw return address actually falls inside. That tells you *which module* (Wine's ntdll unix-side, libc, the app's own code) each thread is stuck in, not the Windows-level function/symbol name — genuinely useful for ruling a busy-loop/crash-loop in or out (check CPU%: 0% across every thread + everything resolving into libc's `poll`/`futex` implementation = a real, well-behaved blocking wait, not a spin), but it won't tell you *which Windows object* the wait is on. That last piece needs the winedbg attach above to actually work.
+
 ## Quick reference: escalation order
 
 1. Screenshot it (workspace switch + `grim`). Don't trust process metrics alone.
@@ -137,7 +148,7 @@ Two independent fixes, both usually needed together:
 3. Enable `WINEDEBUG` via `bottle.yml`'s `Environment_Variables`, launch through the normal `bottles-cli` path, read the log.
 4. Look for a repeating `OutputDebugString` message — that's usually the app telling you exactly what's wrong, just not through its own log file.
 5. Check whether the process's working directory is on `C:` (`-p` vs `-e`) if you see bare `/path` style failures.
-6. If none of that surfaces a lead: a debugger attach (`winedbg`/`gdb`) for a real stack trace of the blocked thread is the next real step — bigger time investment, not something to reach for first.
+6. If none of that surfaces a lead: a debugger attach for a real stack trace of the blocked thread is the next real step (see Step 5 above for the two tools and their respective traps) — bigger time investment, not something to reach for first, and the winedbg path may need a human with a root password to get past an SELinux wall.
 
 ---
 
