@@ -18,9 +18,9 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-07-27 · S204b (os-bottles-upstudio3)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S204b: UP Studio 2 debugger-attach hit an SELinux-shaped wall (needs Mark's sudo to confirm); UP Studio 3 (build 3.3.4.3, separate bottle) WORKS — launches, doesn't hang; Hyprland float+workspace+layout script built for it; .desktop entry added
+**This session:** S204b: UP Studio 2 debugger wall (SELinux?), UP Studio 3 works + Hyprland layout script
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
-**Next:** connect UP Studio 3 to the actual Cetus3D MK2 printer (didn't connect on first try); Mark to run the `ausearch -m avc` check if UP Studio 2's hang is worth resuming
+**Next:** connect UP Studio 3 to printer; Mark: ausearch check if resuming v2
 
 ---
 
