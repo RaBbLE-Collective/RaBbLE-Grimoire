@@ -21,7 +21,8 @@ move to `done/`. Handoff docs (written mid-session for a fresh agent) live in `.
 | `OS-ProArt-Power-Stack-Plan.md` | 🟡 S189 — Hyprland GPU load, NVIDIA D3cold, tuned+asusd 3-mode waybar, settings-app sketch; Opus-reviewed + corrected, ready to implement |
 | `OS-Boot-Chain-Seamless-Plan.md` | 🟢 S197 — Phase 1 DONE + VM-verified: 1D terminus-fonts-console kills the vconsole TTY flash (headline win, commit 5ad3b16), 1A retain-splash + 1C seamless-drop (b3c0b21), 1B GRUB no-change. NEXT SESSION: update boot-chain docs, fix vm-boot-iterate.sh bugs, Phase 2 real-HW (Mark-driven) |
 | `Subdomain-Registry-and-Maintenance.md` | 🟡 S185 — subdomain registry spec + Collective maintenance backlog |
-| `Aether-Theming-Convergence.md` | 🟡 Not started — palette sovereignty across web/editor/desktop/browser |
+| `OS-Theming-Variants-Plan.md` | 🟡 S204 designed — token canon + variants (void/dawn) + profiles (surge/drift/still), Firefox dropdown root cause, contrast QA gate; awaiting Mark's calls on defaults/naming/dawn hues |
+| `Aether-Theming-Convergence.md` | 🟡 Not started — palette sovereignty across web/editor/desktop/browser. Tracks A1–A3 absorbed by `OS-Theming-Variants-Plan.md` Phase 2 |
 | `OS-VM-Dev-Flow.md` | 🟡 VM install unblocked; cast VM + boot-theme loop pending |
 | `OS-Plymouth-Black-Screen.md` | 🎯 Root cause found (S166 ternary); awaiting visual verify |
 | `OS-Dolphin-Grey-Text.md` | 🔴 Dim labels; stack confirmed; fix path A/B pending |
