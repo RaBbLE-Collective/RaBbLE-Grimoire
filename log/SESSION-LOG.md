@@ -15,12 +15,26 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-07-27 · Session 205 (os-upstudio3-usb-wifi)
+## LATEST — 2026-07-28 · S206 (os-screenshot-containers)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S205: Cetus3D USB driver confirmed unfixable under Wine, WiFi handshake plan via Windows dual-boot
+**This session:** S206: screenshots pipe direct to swappy (~/Screenshots default), new opt-in Docker/Podman layer, stray RaBbLE-Captures/ removed
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10/B-11 open.
-**Next:** Mark: one-time WiFi SSID handshake on Windows 11, then verify Wand connects over WiFi in RaBbLE-OS
+**Next:** nothing blocking; verify a live end-to-end capture next time it comes up
+
+---
+
+## 2026-07-28 · Session 206 (os-screenshot-swappy: capture flow reworked, containers layer added)
+
+- **Repo:** RaBbLE-OS + RaBbLE-Grimoire. Mark asked to fix the screenshot location/shortcut (captures were landing in RaBbLE-Captures) and, separately mid-session, to add a Docker/Podman Ansible layer and to remove a stray root-level `RaBbLE-Captures/` directory.
+- **Screenshot flow — reverted S72, then simplified twice on live feedback:** First pass saved to `~/Screenshots` + a fuzzel quick-action popup (edit/move/discard), modeled loosely on iOS. Mark tried it live, said swappy looked better than the fuzzel menu, and asked for direct-to-swappy instead — landed on `grim | swappy -f -` (no intermediate file at all; Ctrl+S saves to `~/Screenshots` per `config/swappy/config`, Ctrl+C copies, Escape is a true discard since nothing touches disk until Save). `$mod+S` = full screen, `$mod+Shift+S` = region; `Ctrl+Print` stays clipboard-only. Along the way found and fixed a real pre-existing bug: `ssf`/`ssw` zsh aliases passed `full`/`window` but the old script only matched `screen`/`region`, silently falling through to a region capture. Also caught that `config/hypr/scripts/screenshot.sh` is a **copied** file, not a symlink — repo edits don't go live without `dotctl apply hypr`, which cost a round-trip when captures "didn't seem to land anywhere."
+- **swappy customization ceiling (confirmed via man page + binary strings, not guessed):** its window is always sized to the captured image (no independent small-popup chrome), no file-chooser/save-as dialog exists, and `early_exit` is a single boolean covering both save and copy — no way to make save auto-close while copy stays open without a bolt-on `inotifywait` wrapper. Mark chose to keep `early_exit=true` as-is rather than add that complexity.
+- **RaBbLE-Captures/ cleanup:** the root-level `~/RaBbLE-Collective/RaBbLE-Captures/` directory was a stray, empty (0 files), pre-BaBbLE-split leftover — removed it plus its now-unneeded `.gitignore` line. "RaBbLE-Captures" is the name of the organizational *system* (documented since S92); the real tree is `RaBbLE-BaBbLE/captures/`.
+- **New opt-in layer — containers:** `ansible/roles/layer/containers/` installs Docker CE (own repo, `docker.socket` lazy-activated rather than an eager `docker.service`, user added to `docker` group) + Podman side by side, deliberately skipping `podman-docker` (would alias `/usr/bin/docker` over the real `docker-ce-cli`). Second reference implementation of the `layer/*` opt-in pattern after Bottles — `layerctl apply containers`, gated by `rabble_enable_containers` (default false). Podman's manifest entries existed before this session but were declared under `layer/dev` and never actually wired into any real Ansible task; this gave both runtimes a working install path for the first time.
+- **Ansible-driven installs reinforced:** Mark answered "install swappy now" to a direct question, then reversed himself moments later — "since all of this is doable with layerctl I'll hold off on manual dnf and let ansible handle all installs." Manifest + role vars updated; no live `sudo dnf install` run. Mirrored into `RaBbLE-Agent-Protocols.md`.
+- **Docs:** `RaBbLE-Agent/RaBbLE-Captures-System.md` (screenshot flow), new `RaBbLE-OS/layers/RaBbLE-OS-Layer-Containers.md`, `RaBbLE-OS-AgentGuide.md` + `INDEX.md` routing entries.
+- **Not done:** no live capture round-trip verified inside this transcript beyond the keybind/config checks Mark reported back — worth a real end-to-end confirm next time screenshots come up.
+- **Next:** nothing blocking; both features are deployed live and committed.
 
 ---
 

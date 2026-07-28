@@ -442,6 +442,14 @@ If a file has already drifted (direct edit happened), use `dotctl diff hypr` to 
 
 **Applies to:** All dotctl bundles — `hypr` · `waybar` · `quickshell` · `kitty` · `fuzzel` · `zsh` · `bash` · `mako` · `wallpapers` · `claude`. Same principle applies to Ansible-managed system config: change the playbook, not the system file.
 
+### Packages go through the manifest + role, not a live `sudo dnf install`
+
+Same "repo → system, never the reverse" principle applies to packages, not just config files. When a task needs a new package on RaBbLE-OS, edit `ansible/packages/manifest.yml` (documentation + KS source) **and** the owning role's `vars/main.yml`/`tasks/` (the actual install path — these two are not auto-synced, keep them in step manually), then let the human run `layerctl apply <layer> --packages` themselves. Don't reach for a live `sudo dnf install` on their machine as a shortcut, even if they say "install it now" — that preference can flip mid-task once they realize Ansible already covers it.
+
+**Why:** S206 — Mark first answered "install swappy now" to a direct question, then moments later said "since all of this is doable with layerctl I'll hold off on manual dnf and let ansible handle all installs," overriding his own earlier answer. Manifest-first keeps every install reproducible from a fresh Kickstart, which a live `dnf install` silently breaks.
+
+**How:** Add the package to both places, verify with `ansible-playbook site.yml --syntax-check --tags <layer>`, and hand the exact `layerctl apply <layer> --packages` command back to the human instead of running `sudo dnf` yourself.
+
 ### fastfetch colors are raw SGR params — bare indexes silently fail
 
 In `RaBbLE-OS/config/fastfetch/config.jsonc`, every color value (`keyColor`, `display.color.*`, title colors, `percent.color.*`) is passed through as a raw SGR parameter, not a 256-color index. `"135"` emits `\e[135m` — an undefined code terminals silently ignore, so the text renders default white-bold and *looks* deliberately styled. The 256-color form is `"38;5;135"`.

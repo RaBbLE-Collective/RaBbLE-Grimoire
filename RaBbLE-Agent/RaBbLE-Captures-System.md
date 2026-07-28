@@ -73,17 +73,26 @@ bash RaBbLE-Grimoire/spells/visual-screenshot.sh \
 - Automatically closes Firefox and returns to original workspace
 - Useful for full-page layouts, multi-app scenarios, OS UI work
 
-### RaBbLE-OS keyboard shortcuts (Print key — S72):
+### RaBbLE-OS keyboard shortcuts (Print/Super+S — S72, reverted+simplified S206):
 
-The OS screenshot keybinds now route directly into RaBbLE-Captures:
+The OS screenshot keybinds pipe the capture straight into `swappy` for
+annotate/save/discard — no intermediate popup:
 
-| Key | Destination | Use for |
-|-----|-------------|---------|
-| `Print` | `Collective-Atmosphere/capture-screen_TIMESTAMP.png` | Full desktop state captures |
-| `Shift+Print` | `Design-Iterations/by-date/capture-region_TIMESTAMP.png` | Targeted region captures |
-| `Ctrl+Print` | clipboard only (no file saved) | Quick copy |
+| Key | Action | Use for |
+|-----|--------|---------|
+| `Print` / `$mod+S` | full screen → swappy | Full desktop state captures |
+| `Shift+Print` / `$mod+Shift+S` | region select → swappy | Targeted region captures |
+| `Ctrl+Print` | region → clipboard only (no swappy, no file) | Quick copy |
 
-`~/Pictures/Screenshots/` is no longer the default capture location. Rename and move captures from `Design-Iterations/by-date/` to their final category when classification is clear.
+In swappy: `Ctrl+S` saves to `~/Screenshots/` (default, set in
+`config/swappy/config` `save_dir`), `Ctrl+C` copies to clipboard, `Escape`
+discards without saving. The app auto-closes after save/copy (`early_exit`).
+
+If a capture is destined for the Captures system (e.g. World UI iteration
+work), move it into `RaBbLE-BaBbLE/captures/` manually via the popup's "Move
+to other folder…" action or the `visual-screenshot.sh` spell below — it is no
+longer the default landing spot. There is no standalone `RaBbLE-Captures/`
+directory; captures live under RaBbLE-BaBbLE.
 
 ---
 
