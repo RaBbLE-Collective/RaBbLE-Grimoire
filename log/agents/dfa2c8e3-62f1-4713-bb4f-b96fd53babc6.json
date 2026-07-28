@@ -1,0 +1,17 @@
+{
+  "session_id": "dfa2c8e3-62f1-4713-bb4f-b96fd53babc6",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-OS",
+  "scopes": [
+    "RaBbLE-Grimoire:RaBbLE-OS/hardware/RaBbLE-OS-Hardware-Cetus3D-MK2.md",
+    "RaBbLE-Grimoire:RaBbLE-OS/layers/RaBbLE-OS-Layer-Bottles-Debugging.md",
+    "RaBbLE-Grimoire:RaBbLE-OS/layers/RaBbLE-OS-Layer-Bottles.md",
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/token-ledger.tsv",
+    "RaBbLE-OS:config/hypr/conf.d/windowrules.conf",
+    "RaBbLE-OS:config/hypr/scripts/upstudio3-launch.sh"
+  ],
+  "started_at": "2026-07-27T19:13:19Z",
+  "heartbeat_at": "2026-07-27T19:26:46Z",
+  "auto": true
+}

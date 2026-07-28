@@ -1,0 +1,17 @@
+{
+  "session_id": "8fe69cd2-c9d6-4c2c-9c6e-456fbed26834",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-Grimoire",
+  "scopes": [
+    "RaBbLE-Grimoire:RaBbLE-OS/hardware/RaBbLE-OS-Hardware-Cetus3D-MK2.md",
+    "RaBbLE-Grimoire:log/BLOCKERS.md",
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/agents/S205-upstudio3-usb-wifi.json",
+    "RaBbLE-Grimoire:log/blockers/blockers.jsonl",
+    "RaBbLE-Grimoire:log/token-ledger.tsv",
+    "RaBbLE-OS:config/hypr/conf.d/windowrules.conf"
+  ],
+  "started_at": "2026-07-28T03:52:58Z",
+  "heartbeat_at": "2026-07-28T03:59:39Z",
+  "auto": true
+}

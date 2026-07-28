@@ -6,7 +6,20 @@
     "RaBbLE-Chrysalis:Chrysalis-Web/ep1/world/RaBbLE-Liminal-Passage.html",
     "RaBbLE-Chrysalis:Chrysalis-Web/ep1/world/css/RaBbLE-liminal.css",
     "RaBbLE-Chrysalis:Chrysalis-Web/ep1/world/js/RaBbLE-liminal.js",
+    "RaBbLE-Collective:AGENT.md",
+    "RaBbLE-Grimoire:INDEX.md",
+    "RaBbLE-Grimoire:log/BLOCKERS.md",
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/agents/0ec40847-47b2-48b4-a60f-b41bcf4e86e0.json",
+    "RaBbLE-Grimoire:log/agents/1d92f373-c119-4bb9-9c7c-83ca020a2c1f.json",
+    "RaBbLE-Grimoire:log/agents/38a6c61b-89bf-4575-9b68-80221f75fa1c.json",
+    "RaBbLE-Grimoire:log/agents/5a00cfb3-23dc-459a-bd99-5fbc44c46362.json",
+    "RaBbLE-Grimoire:log/agents/S203-ep1-air-decisions.json",
+    "RaBbLE-Grimoire:log/handoffs/CONTEXT.md",
+    "RaBbLE-Grimoire:log/handoffs/HANDOFF-S203-B10-Cloudflare-Token.md",
+    "RaBbLE-Grimoire:log/plans/CONTEXT.md",
     "RaBbLE-Grimoire:log/plans/EP1-Air-Push-Plan.md",
+    "RaBbLE-Grimoire:log/token-ledger.tsv",
     "RaBbLE-NeBuLA:src/effects/deepfield.js",
     "RaBbLE-NeBuLA:src/effects/starfield.js",
     "RaBbLE-World:CONTEXT.md",
@@ -19,6 +32,6 @@
     "RaBbLE-World:world/js/RaBbLE-liminal.js"
   ],
   "started_at": "2026-07-14T05:30:51Z",
-  "heartbeat_at": "2026-07-14T06:08:00Z",
+  "heartbeat_at": "2026-07-14T06:22:20Z",
   "auto": true
 }
