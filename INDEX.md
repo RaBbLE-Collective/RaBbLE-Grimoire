@@ -21,8 +21,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 | `gist/RaBbLE-CommitStyle-gist.md` | Pulse Protocol, impulses, branch naming | ~320 |
 | `gist/RaBbLE-Versioning-gist.md` | Five Es, version string, lockstep rule | ~350 |
 | `gist/RaBbLE-Palette-gist.md` | All hex values, CSS variables | ~270 |
-| `gist/RaBbLE-Collective-Overview-gist.md` | Three-layer architecture (Aether+NeBuLA+World) | ~340 |
-| `gist/RaBbLE-Episode1-gist.md` | Exit conditions, blockers, deploy sequence | ~335 |
+| `gist/RaBbLE-Episode1-gist.md` | Live EP1 gate table, blockers, tag procedure | ~335 |
 | `gist/RaBbLE-Integration-Map-gist.md` | Cross-member data flow, CDN chain, boundaries | ~350 |
 
 ---
