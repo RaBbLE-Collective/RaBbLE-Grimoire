@@ -24,6 +24,20 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-07-27 · Session 205 (os-upstudio3-usb-wifi)
+
+- **Repo:** RaBbLE-OS + RaBbLE-Grimoire. Continued the UP Studio 3 work: tried to get the Cetus3D MK2 talking over USB.
+- **USB confirmed working at the OS/sandbox level:** `lsusb` shows `4745:277f Tiertime Cetus S7N` once plugged in; Bottles' Flatpak sandbox already has `devices=all` + `shared=network` (confirmed same netns as host, no isolation) and `dialout` group membership — none of that was the blocker.
+- **Root cause found: the vendor USB driver cannot install under Wine, confirmed twice.** UP Studio 3 ships the driver as its own standalone installer (`TiertimeDriver x64.exe`, distinct from v2's inline MSI action) — but it's itself an MSI wrapper, and running it hit the exact same `MsiInstallDrivers`/`WinusbFM` failure (error 1603, full rollback) already known from UP Studio 2. This is a structural Wine limitation (no real Windows Driver Store/PnP manager), not fixable by retrying or install flags. UP Studio 3's own startup toast confirms the consequence: `Printer:-1`.
+- **Wand's connect UI is wireless-only** — no USB/local device option at all, so there's no fallback path even if the driver somehow landed.
+- **Diagnosed the way forward (not yet executed):** Tiertime's own docs confirm WiFi setup needs a one-time USB handshake (set SSID/password, then unplug). Since that needs the same broken driver, the plan is to do the one-time handshake booted into the machine's Windows 11 dual-boot (real Windows installs `WinusbFM` natively) — after that, RaBbLE-OS only needs Wand's already-working wireless connect, no USB/Wine involved. Tracked as `B-11`.
+- **Confirmed:** UP Studio 3's bottle/install is ad hoc — `ansible/roles/layer/bottles` only automates UP Studio 2 (`tasks/upstudio.yml`); no `upstudio3.yml` exists yet.
+- **Reverted the UP Studio 3 Hyprland window rules** (`config/hypr/conf.d/windowrules.conf`) — the float + dedicated-workspace + `scripts/upstudio3-launch.sh` positioning combo was fighting the windows (wrong z-order/stale geometry) more than helping while debugging live. Now launches plain (`bottles-cli run -b UPStudio3 -p "UP Studio3"`) with default Hyprland tiling; revisit positioning once the app actually works end to end. Deployed by copying the single changed file directly rather than `dotctl apply hypr`, since that bundle has unrelated pre-existing drift on `env.conf`/`look.conf` not part of this session.
+- **Full findings + updated status table:** `RaBbLE-OS/hardware/RaBbLE-OS-Hardware-Cetus3D-MK2.md`.
+- **Next:** Mark does the one-time WiFi SSID handshake on Windows 11, reboots back into RaBbLE-OS, confirms Wand finds the printer over WiFi. Mark is also considering evolving `layerctl` to auto-discover layers/recipes dynamically and eventually serve optional RaBbLE-OS-optimized apps package-manager-style — not scoped/started, just noted for later.
+
+---
+
 ## 2026-07-27 · Session 204b (os-bottles-upstudio3: UP Studio 3 works, Hyprland layout script, UP Studio 2 debugger wall)
 
 - **Repo:** RaBbLE-OS + RaBbLE-Grimoire docs. Continuation of S204 — Mark asked to push on UP Studio 2's unresolved startup hang via debugger attach, and separately try UP Studio 3 as a fresh bottle.

@@ -4,13 +4,14 @@
 > Do not hand-edit — use `blockers.sh add` / `resolve`. This is the durable
 > home for blockers so they survive the rewrite of the SESSION-LOG `## LATEST` box.
 >
-> Last synced: 2026-06-26  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
+> Last synced: 2026-07-28  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
 
 ## OPEN
 
 - **B-02** — OpenRouter $10 credits not purchased — free tier 429 caps the chat chain  ·  owner:Mark  ·  since:S106  ·  [ep1-gate]
 - **B-09** — Lemonade Server needs debug — not confirmed working after NPU validation in S160  ·  owner:Mark  ·  since:S161  ·  [runtime]
-- **B-10** — dev.joinrabble.world auto-deploy fails: GitHub Actions deploy-dev job has no CLOUDFLARE_API_TOKEN secret. S203 mapped fully: no token on local disk, wrangler OAuth can't mint one (dashboard-only), June Aether token unrecoverable from GitHub. Runbook: `log/handoffs/HANDOFF-S203-B10-Cloudflare-Token.md`  ·  owner:Mark  ·  since:2026-06-26  ·  [ep1-dev]
+- **B-10** — dev.joinrabble.world auto-deploy fails: GitHub Actions deploy-dev job has no CLOUDFLARE_API_TOKEN secret. Workflow + dev domain binding + CLOUDFLARE_ACCOUNT_ID secret are correct; Mark to create a scoped Cloudflare Workers token then: gh secret set CLOUDFLARE_API_TOKEN --body <token>  ·  owner:Mark  ·  since:2026-06-26  ·  [ep1-dev]
+- **B-11** — Cetus3D MK2 WiFi not provisioned — needs one-time USB+UP Studio handshake on real Windows (Wine's MsiInstallDrivers/WinusbFM driver install fails under both UP Studio 2 and 3, confirmed twice; Wand's connect UI is wireless-only so USB isn't a usable fallback path either). Plan: do the one-time SSID handshake booted into Windows 11 (dual-boot), then RaBbLE-OS only needs Wand's WiFi connect going forward. See RaBbLE-OS/hardware/RaBbLE-OS-Hardware-Cetus3D-MK2.md  ·  owner:Mark  ·  since:2026-07-28  ·  [hardware]
 
 ## RESOLVED
 
