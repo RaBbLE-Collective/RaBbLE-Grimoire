@@ -15,12 +15,21 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-07-28 · S206b (collective)
+## LATEST — 2026-07-28 · S206c (os-containers-layer)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S206b: audited local Claude memory against Grimoire, fixed a stale dead-plan-server section in Agent-Protocols, mirrored 3 lessons, added 2 orphaned ideas to OS Roadmap
+**This session:** S206c: containers layer applied + verified on Mark's machine (docker 29.6.2, podman 5.8.4); docker group needs re-login to take effect
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10/B-11 open.
-**Next:** nothing blocking
+**Next:** Mark re-logs in, confirms docker ps works without sudo
+
+---
+
+## 2026-07-28 · Session 206c (containers layer verified live on Mark's machine)
+
+- **Repo:** RaBbLE-OS. Mark ran `./RaBbLE-OS-layerctl.sh apply containers` (S206's opt-in Docker CE + Podman layer) for real, interactively for the sudo prompt.
+- **Verified working:** `docker --version` → 29.6.2, `podman --version` → 5.8.4, `docker.socket` active/listening (lazy-activated as designed, `docker.service` not eagerly started), `getent group docker` shows `rabble` added.
+- **One expected gap, not a bug:** `docker ps` still fails with permission denied in the shell session that ran the apply — group membership doesn't take effect until a fresh login. Told Mark to log out/in (or reboot) before expecting `docker` to work without `sudo`; `podman` works immediately since it's rootless.
+- **Next:** Mark re-logs in and confirms `docker ps`/`docker run --rm hello-world` works without sudo; `podman run --rm hello-world` can be tried any time.
 
 ---
 
