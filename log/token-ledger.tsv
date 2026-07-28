@@ -200,3 +200,4 @@ a0462ac2-bef5-4694-9108-686627b87fef	collective	auto: current state S199: llama.
 0ec40847-47b2-48b4-a60f-b41bcf4e86e0	os-dolphin-theme	S201: KDE grey text root-caused + fixed
 5a00cfb3-23dc-459a-bd99-5fbc44c46362	ep1-air-decisions	S203: face built + HiDPI fix + B-10 handoff
 3d8d422b-d36d-4a70-b035-ff61839f91eb	os-bottles-upstudio3	S204b: UP Studio 3 works
+S205-upstudio3-usb-wifi	os-upstudio3-usb-wifi	S205: USB driver dead end confirmed, WiFi path diagnosed

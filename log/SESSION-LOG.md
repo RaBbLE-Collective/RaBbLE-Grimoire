@@ -15,12 +15,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-07-27 · S204b (os-bottles-upstudio3)
+## LATEST — 2026-07-27 · Session 205 (os-upstudio3-usb-wifi)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S204b: UP Studio 2 debugger wall (SELinux?), UP Studio 3 works + Hyprland layout script
-**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10 open.
-**Next:** connect UP Studio 3 to printer; Mark: ausearch check if resuming v2
+**This session:** S205: Cetus3D USB driver confirmed unfixable under Wine, WiFi handshake plan via Windows dual-boot
+**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10/B-11 open.
+**Next:** Mark: one-time WiFi SSID handshake on Windows 11, then verify Wand connects over WiFi in RaBbLE-OS
 
 ---
 
