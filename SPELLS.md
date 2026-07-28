@@ -68,6 +68,7 @@ Spells are bash scripts in `spells/` that manage the RaBbLE Collective. Grimoire
 | `distill-hypr-docs.sh` | Fetch + distill a Hyprland wiki page to a Grimoire note (LLM fast chain) | Capturing upstream Hyprland config knowledge |
 | `seal-episode.sh` | Episode signing ceremony (DRAFT — needs Collective account) | Tagging an episode across the Collective |
 | `sync-gists-to-world.sh` | Copy `gist/*.md` into `RaBbLE-World/gist/` for CF Worker serving | After any gist change, before deploying World (feeds `fetch_grimoire`) |
+| `build-kb.sh` | Regenerate the flat 16-bundle Grimoire KB export (`generated/`, gitignored, this repo) | Before uploading/refreshing a Claude.ai project knowledge base |
 
 **Multi-agent coordination & session logging**
 
@@ -81,6 +82,7 @@ Spells are bash scripts in `spells/` that manage the RaBbLE Collective. Grimoire
 
 > Helper scripts (not run directly): `dev-cdn.js`, `playwright-capture.mjs` are invoked by
 > `dev-serve.sh` / `visual-screenshot.sh`. `chat-bridge.py` is invoked by `chat-local.sh`.
+> `build-kb.py` is invoked by `build-kb.sh`.
 
 ---
 
@@ -358,6 +360,18 @@ bash spells/distill-hypr-docs.sh window-rules /tmp/wr.md      # → file
 **Page slugs:** window-rules, dispatchers, variables, binds, animations, workspace-rules, keybinds, monitors, env — or any path appended as-is to the wiki base.
 
 **Requires:** `curl`, `jq`, `GROQ_API_KEY` (or `RaBbLE-sCoRE/server/.env` with one). Optional: `pandoc` (HTML→text; falls back to `lynx`, then raw curl).
+
+### `build-kb.sh` — Regenerate the Flat Grimoire KB Export
+
+Concatenates canonical Grimoire docs into ~16 self-contained Markdown bundles for upload to a Claude.ai project knowledge base — the workaround until the live `RaBbLE-Grimoire-MCP` (`RaBbLE-Collective/RaBbLE-Grimoire-MCP.md`) exists. Delegates the actual bundling to `build-kb.py` (bundle map lives there — edit `BUNDLES` to change scope).
+
+```bash
+bash spells/build-kb.sh
+```
+
+**Output:** `generated/grimoire-kb/` in this repo — gitignored, not canonical; regenerate anytime, never commit. Re-run after any meaningful Grimoire change before re-uploading to a Claude project.
+
+**Requires:** `python3`.
 
 ---
 

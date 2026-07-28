@@ -24,6 +24,18 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-07-28 · Session 206d (grimoire-kb-spell: flat KB exporter moved into Grimoire as a spell)
+
+- **Repo:** RaBbLE-Grimoire (brief RaBbLE-Collective `.gitignore` touch, reverted). Triggered by Mark surfacing a stale `/home/rabble/Downloads/EP1-Air-Plan.md` from an old claude.ai web chat — its Grimoire context predated the S153 blocker resolutions (B-01/B-03/B-04), tracing back to the `~/grimoire-kb/` flat KB export (last built Jun 30) going stale.
+- **Regenerated the KB first** (`_build.py`, unchanged at the time) — confirmed all 159 source docs still resolve, brought the bundle current through S206.
+- **Then migrated the exporter into the Grimoire proper**, per Mark's preference to have KB tooling live as a spell like `distill-gists.sh`: moved `_build.py` → `spells/build-kb.py` (paths now computed relative to script location, no hardcoded `/home/rabble`), added `spells/build-kb.sh` as the bash entry point (`--help`, delegates to the `.py` — matches the `chat-bridge.py`/`chat-local.sh` pattern). Registered in `SPELLS.md` (Quick Reference table + full section).
+- **Output location, corrected mid-session:** first placed at `RaBbLE-Collective/generated/` (Mark's initial ask — keep it out of `~/`), but Mark then asked whether it should live under Grimoire instead. Checked precedent: NeBuLA/Aether both gitignore their own `dist/` *inside* their own repo, not hoisted to the Collective root. Moved to `RaBbLE-Grimoire/generated/grimoire-kb/`, gitignored via Grimoire's own `.gitignore` (reverted the Collective-root `.gitignore` edit — Collective already blanket-ignores member repos, so no entry was needed there anyway).
+- Deleted the old `~/grimoire-kb/` (fully reproducible via the new spell; confirmed with Mark before `rm -rf`).
+- **Larger thread surfaced, not built:** `RaBbLE-Collective/RaBbLE-Grimoire-MCP.md` (S139) already scopes the next step Mark was gesturing at — a live `grimoire_fetch`/`grimoire_gist`/`grimoire_list` MCP (P0) that makes this manual-upload KB optional, plus a P2 "write-back Learning Loop" for agents proposing new Grimoire entries. Flagged `build-kb.sh` in `SPELLS.md` as the interim workaround pending that.
+- **Next:** no immediate follow-up on this thread. If Mark wants to pull the MCP P0 forward, that's a separate scoped push (needs hosting/auth decisions in §7 of the MCP doc first).
+
+---
+
 ## 2026-07-28 · Session 206c (containers layer verified live on Mark's machine)
 
 - **Repo:** RaBbLE-OS. Mark ran `./RaBbLE-OS-layerctl.sh apply containers` (S206's opt-in Docker CE + Podman layer) for real, interactively for the sudo prompt.
