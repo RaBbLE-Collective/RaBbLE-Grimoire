@@ -394,31 +394,29 @@ Sealed iteration sets go into `_reliquary/` inside the relevant topic folder —
 
 ## Visual Planning Workflow
 
-### Use the self-hosted plan server — never plan.agent-native.com
+### The local agent-native plan server is ARCHIVED (S157) — plans are Grimoire markdown
 
-When `/visual-plan` is invoked, it must route to the local self-hosted plan server, not the upstream hosted service. No plan content ever leaves the machine.
+RaBbLE previously ran its own local agent-native plan server (`rabble-plans` systemd unit, nginx proxy on :3000, MCP endpoint) as a self-hosted alternative to `plan.agent-native.com`. It was built (S155), hit three Ansible bugs, never fully ran, and was archived at S157. **Do not try to bring it up or route `/visual-plan` through it** — `systemctl --user status rabble-plans` currently reports `bad-setting`/`inactive`, and no MCP registration exists in `~/.claude/claude_code_config.json`. The Ansible role (`RaBbLE-OS/ansible/roles/apps/plans/`) is kept only as reference; its `site.yml` play is disabled (`hosts: plans_server_disabled`).
 
-**Local server:** `http://localhost:3000` (nginx proxy → `rabble-plans` systemd service on port 3001)  
-**MCP endpoint:** `http://localhost:3000/_rabble/mcp` (registered in `~/.claude/claude_code_config.json` as `rabble-plans`)  
-**Full protocol:** `RaBbLE-Agent/RaBbLE-VisualPlan-Protocol.md`
+The visual render surface for plans is now RaBbLE's own problem to solve, targeted at EP2 NeBuLA/World — see `RaBbLE-Collective/RaBbLE-Plan-Surface.md`. Until that lands, plans are **plain markdown in the Grimoire**, per the plan-handoff convention below — not MDX exported from a plan server.
 
-**Check before using:**
-```bash
-systemctl --user status rabble-plans
-```
+### Write plans as durable Grimoire docs, not ephemeral session files
 
-**If not running:** apply the Ansible role — `ansible-playbook ansible/site.yml --tags plans` from `RaBbLE-Collective/RaBbLE-OS/`.
+Mark often implements large or multi-wave work in a **separate, fresh session** — sometimes on a cheaper model tier (an Opus session plans, a Sonnet session implements) — specifically to save tokens. That means a plan must outlive the session that wrote it: write it, plus a complete cold-start handoff, into the **Grimoire** as a durable doc, indexed in `INDEX.md` — never leave it only in an ephemeral `~/.claude/plans/*` file. Don't proceed to implement after planning unless told to.
 
-### Export approved plans to Grimoire
+**Why:** the implementing session starts cold. It needs repo/branch state, what's reusable, exact file paths, dev/test recipes, and gotchas — not just a feature list. Keeping expensive planning and cheap execution on separate model tiers only works if the handoff is self-contained.
 
-After a plan is approved, export the MDX and commit it:
-```
-export-visual-plan → log/plans/<impulse>-<organ>-<topic>-S<session>/
-git add log/plans/<slug>/ && git commit -m "transcribe ~ grimoire >> visual plan: <slug>"
-```
-Add one line to `log/SESSION-LOG.md`: `Plan: log/plans/<slug>/ — <description>`
+**Where:** member-build handoffs go in `RaBbLE-Grimoire/RaBbLE-<Member>/…-Plan.md`. Cross-cutting or member-specific-but-not-a-full-build plans instead go in `RaBbLE-Grimoire/log/plans/<Prefix>-<Topic>.md` (e.g. `OS-ProArt-Power-Stack-Plan.md`), indexed in `log/plans/CONTEXT.md`'s Active plans table. Match whichever convention the target doc-home already uses — check its own index first.
 
-**Why:** The plan MCP connector in `agent-native-skill.json` defaults to `plan.agent-native.com` (the upstream hosted URL). RaBbLE overrides this via `claude_code_config.json`'s local MCP registration. If the local service is down, the tools will attempt to reach the hosted service — always verify the service is running before `/visual-plan`.
+**What to include:** mission, locked decisions, orchestration (waves + a shared contract + a **disjoint file-ownership table** so parallel sub-agents don't collide + which steps route to Haiku vs Sonnet), and a cold-start handoff section (git state, reusable modules, palette/tokens, dev-serve + capture recipe, voice constraints). Mark trusts the orchestration decomposition to the agent ("you know best").
+
+**Before finalizing a large/architectural plan:** spawn a read-only Opus review agent (Agent tool, `model: opus`, explicitly told not to edit/write/run mutating commands) to check the plan against the actual source files it references, not just internal consistency. This has caught package gaps that would silently no-op a whole phase, wrong assumptions about how two subsystems couple, and mischaracterizing already-existing vs. still-to-build wiring — all things a same-session self-review missed. Fold corrections into the Grimoire doc before presenting as final.
+
+### Never mutate a shared file to isolate a commit from a concurrent session
+
+If a concurrent session has added lines to a shared file (`INDEX.md`, `SESSION-LOG.md`, `token-ledger.tsv`) that aren't relevant to your own commit, do **not** `Edit` those lines back out to "clean" your commit — that IS a clobber, the exact failure the anti-clobber ritual above exists to prevent, just done at commit-time instead of edit-time. If they haven't committed yet, deleting their in-progress additions destroys real work.
+
+**How to apply:** to keep a commit scoped during concurrency, either (a) leave the shared file entirely out of your staging and let whichever session commits last carry it, or (b) commit it whole — their lines plus yours; a dangling markdown link to their not-yet-committed file is harmless. Excluding-by-not-staging is fine; deleting-then-restoring is not.
 
 ---
 

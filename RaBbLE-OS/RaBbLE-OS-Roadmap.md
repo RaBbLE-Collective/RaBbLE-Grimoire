@@ -195,6 +195,7 @@ x86_64 preview bar** — it does not gate the EP1 preview. Boot-chain detail liv
 ### E · Strategic initiatives
 - **Fedora 44 upgrade + backup/archive** — **near-term (decided S140).** First step: a backup/archive checklist covering RaBbLE-Collective + all of RaBbLE-OS before upgrading. → `ops/RaBbLE-OS-Fedora44-Upgrade.md`.
 - **Aether-themed Gnome DE — exploratory R&D (decided S140).** A testbed to (a) learn theming deterministically and (b) make a more approachable RaBbLE-OS for standard users, with a semi-uniform feel between Hyprland and Gnome (flowing-border + transparency carried into Gnome; harvest what Gnome does well back into Hyprland). **Not a committed ship target** — exploration toward EP2/EP3. Theme work here should feed the deterministic theming plan (bucket D), not fork it.
+- **`layerctl` dynamic recipe discovery — idea, not scoped (raised S205).** Mark wants `layerctl` to auto-discover layers/recipes from `ansible/roles/` instead of the hand-maintained `LAYER_NAMES`/`LAYER_ORDER` associative arrays, and eventually serve optional RaBbLE-OS-optimized apps package-manager-style (browse/install curated recipes beyond the base layer set). No design yet — surface this if `layerctl.sh` comes up for a rework.
 
 ---
 
@@ -222,6 +223,12 @@ Spec in `DistilledNonZense.md` § VII.
 **Candidate:** Agentic app builder in the OS — [injn.ai](https://injn.ai/). Lets the
 substrate generate/assemble apps on demand, aligned with the AI-stack theme. Study
 fit alongside Ollama/MCP. (Surfaced from `BaBbLE.scratch`, 2026-06-02.)
+
+**Candidate:** Screenshot agent with context awareness and visual capabilities — understands
+what's on screen and can act on captures visually, not just file/edit/discard. Raised as a
+"maybe in the future" aside while reworking the screenshot flow (S206, see
+`layers/RaBbLE-OS-Layer-Containers.md` sibling doc `RaBbLE-Agent/RaBbLE-Captures-System.md`
+for the current non-agentic swappy-based flow). Not scoped, not started.
 
 → `RaBbLE-OS-AgentGuide.md` — directory map and navigation by task
 → `fix/RaBbLE-OS-KnownIssues.md` — active blockers per layer
