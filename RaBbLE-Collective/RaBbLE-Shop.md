@@ -5,7 +5,7 @@ transcribe ~ collective >> shop: physical products, first and third party, creat
 ```
 
 > **What this is:** The RaBbLE Shop — a physical products storefront within the Collective where first-party and third-party designs are sold on shirts, stickers, prints, and other items.
-> **Status:** Defined S92. Full store: Echo 1+. **EP1 Air Drop: a semi-exclusive first-party sticker/merch drop pulled forward to the Episode 1 air (concept, S139) — see below.**
+> **Status:** Defined S92. Full store: Echo 1+. **EP1 Air Drop: a semi-exclusive first-party sticker/merch drop pulled forward to the Episode 1 air (concept, S139) — see below.** **A narrower slice — first-party static designs only (no user-generated/collectible) — is additionally pulled forward to Episode 2; the collectible angle stays at Echo 1+ pending Personal Cosmos. See `log/DECISIONS.md` "Storefront pulled forward" (2026-07-28) and `RaBbLE-Post-EP1-Roadmap.md` Episode 2.**
 > **Home:** `shop.joinrabble.world` (concept, S139) — see `RaBbLE-Deployment-Architecture.md` subdomain map.
 > **Related:** [Income Model](RaBbLE-Income-Model.md) · [Personal Cosmos](RaBbLE-Personal-Cosmos.md) · [Social and Aesthetic](RaBbLE-Social-and-Aesthetic.md) · [GTM Content Strategy](RaBbLE-GTM-Content-Strategy.md)
 

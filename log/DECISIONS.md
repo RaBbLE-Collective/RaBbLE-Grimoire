@@ -207,3 +207,48 @@ The root problem behind constant surface/model swapping is **persistence**, not 
 ### Agent framework substrate — research captured, adoption deferred to Echo 1
 
 Framework research for the sCoRE orchestrator is captured in `RaBbLE-sCoRE/RaBbLE-sCoRE-Agent-Framework-Research.md`. Planning recommendation (Mark resolves): LangGraph orchestrator + `create_agent` nodes + PydanticAI typed tools + Mem0 behavioral memory (Tier 2) over Grimoire (Tier 3 canonical), DSPy optimization deferred. Hermes Agent evaluated as a *dev tool alongside* RaBbLE-OS, not an integrated layer (identity/character/license collision). EP1 stays minimal (chain fix + guest path); framework adoption is Echo 1 work.
+
+---
+
+## Claude-web planning session (integrated 2026-07-28)
+
+> Another reflective session run on claude.ai, originating from a marketplace/merch question and
+> widening into EP1/EP2 rescope. Same drift pattern as the 2026-06-20 sessions above: the web
+> agent worked from a stale KB export and flagged one gap it couldn't resolve (the S202
+> `EP1-Air-Push-Plan.md` body) — reconciled directly against the live Grimoire in-session; no
+> conflict found, the two remaining EP1 gates are still G7/G9 only. The items below are the
+> genuinely new decisions that came out of it.
+
+### Storefront pulled forward: first-party static designs move to EP2
+
+Canon (`RaBbLE-Shop.md`) targets the full Shop at Echo 1+. This session pulls a narrower slice
+forward: **EP2 ships a first-party static storefront** (existing entity art / lore prints only —
+no user-generated or collectible designs). Rationale: EP2 is framed as "RaBbLE becomes visible to
+the world," and a storefront is part of that visible surface; but the *collectible* angle (users
+generating and collecting NeBuLA stickers) has nowhere to live until Personal Cosmos exists
+(EP2+ per `RaBbLE-Personal-Cosmos.md`), so it stays parked at its original Echo 1+ slot. This is a
+deliberate pull-forward of scope, not drift — logged here per the session's own instruction.
+Recorded in `RaBbLE-Shop.md` status line and `RaBbLE-Post-EP1-Roadmap.md` Episode 2 section.
+
+### Episode 2 scope formalized: "the reveal"
+
+EP1 (Genesis) = concept proposal + infrastructure/scaffold — this already matches existing canon
+(`current.epoch.yml` exit_condition, S109 OS Developer-Preview decoupling), just confirmed rather
+than changed. EP2 (Exodus) is framed as when RaBbLE **becomes visible to the world**: absorbs
+whatever EP1 polish didn't land, adds a heavy CI/CD pass, and begins user-facing UX scaffolding
+(pairing refinement, the EP2 storefront slice above, entity interaction). Roadmap beyond EP2 stays
+intentionally unscoped/flexible — a deliberate choice to reduce scope friction, not an oversight.
+
+### Episode/Echo gating — open question, deferred to post-air
+
+Raised: should the Collective shift from Episode-level lockstep (all members sync every Episode)
+to Echo-gating, with Episodes becoming more member-scoped/independent? Analysis leaned against a
+full swap — Episode lockstep is currently the *only* cross-member compatibility guarantee, and
+nothing exists yet to replace it (protocol contracts under `protocol/` are still undefined,
+deferred to post-EP1/Echo 1); Echo checkpoints (~12 episodes apart) are too infrequent to be the
+primary sync mechanism alone. Recommendation on the table (not yet accepted or rejected by Mark):
+don't replace Episode-gating — instead formally activate the divergence-tolerance rule already
+written into `current.epoch.yml`'s `episode_coherence_policy` (per-project Episode pacing, capped
+at ~1–2 episodes drift, Echo remains the coherence checkpoint not the sync point). **Mark set this
+aside to focus on shipping EP1 first — revisit after the tag.** If adopted, it changes how members
+interact and should be logged as an Evolution-level decision, not drift in quietly.

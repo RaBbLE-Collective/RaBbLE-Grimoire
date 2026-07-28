@@ -51,6 +51,16 @@ Spine, per `log/EPISODE-1-RELEASE.md` ("What Episode 2 Enables") and `log/FABLE-
 - **Cyberdeck target** (DIY handheld/portable; Pi / N100 SBCs). x86_64 works now; the **aarch64/Pi
   Ansible role** is the next hardware milestone. → `RaBbLE-OS/hardware/Cyberdeck`.
 
+### User-facing UX scaffolding (pulled forward from Echo 1, S206 claude-web session)
+
+EP2 is framed as "RaBbLE becomes visible to the world" — begins user-facing UX work rather than
+deferring all of it to Echo 1:
+- **Storefront (first-party static designs only)** — existing entity art / lore prints, no
+  user-generated or collectible designs. Pulled forward from `RaBbLE-Shop.md`'s Echo 1+ canon.
+  Collectible/generative-print angle stays at its original Echo 1+/Echo 2+ slot — it needs
+  Personal Cosmos (above) to exist first. → `RaBbLE-Shop.md`, `log/DECISIONS.md` (2026-07-28).
+- Pairing refinement + entity interaction polish, building on the EP1 summoning ceremony baseline.
+
 ---
 
 ## Echo 1 — the orchestration substrate matures
