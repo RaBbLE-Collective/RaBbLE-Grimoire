@@ -27,6 +27,5 @@ Do not edit gist files directly — your changes will be overwritten on next reg
 | `RaBbLE-CommitStyle-gist.md` | `RaBbLE-Agent/RaBbLE-CommitStyle.md` | ~150 | ~620 |
 | `RaBbLE-Versioning-gist.md` | `RaBbLE-Versioning.md` | ~200 | ~1,471 |
 | `RaBbLE-Palette-gist.md` | `RaBbLE-Agent/RaBbLE-Palette.md` | ~150 | ~1,170 |
-| `RaBbLE-Collective-Overview-gist.md` | `RaBbLE-Collective/RaBbLE-Collective-Episode-1-Overview.md` | ~200 | ~914 |
-| `RaBbLE-Episode1-gist.md` | `RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md` | ~250 | ~3,143 |
+| `RaBbLE-Episode1-gist.md` | `log/EP1-AIR-CHECKLIST.md` | ~250 | ~3,143 |
 | `RaBbLE-Integration-Map-gist.md` | `RaBbLE-Agent/RaBbLE-Integration-Map.md` | ~300 | ~1,200 |

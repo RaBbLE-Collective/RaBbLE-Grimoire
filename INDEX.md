@@ -69,14 +69,9 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 ## RaBbLE-Collective
 
 - **[RaBbLE-GTM-Content-Strategy](RaBbLE-Collective/RaBbLE-GTM-Content-Strategy.md)** — **GTM canon.** Three audience personas, five content pillars, five GTM plays, Instagram strategy, anti-vanity metrics. The entity broadcasts before it sells.
-- **[RaBbLE-Episode-1-Release-Map](RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md)** — **CANONICAL Episode 1 scope.** Member deliverables, blockers, exit criteria, VM testing, deployment sequence, tag convention.
-- **[RaBbLE-Episode-1-RC-Scope](RaBbLE-Collective/RaBbLE-Episode-1-RC-Scope.md)** — **EP1 RC checklist.** Public surface as one guided realm (rooms), repolish tasks, deferred list, sign-off gate.
-- **[RaBbLE-RC1-Experience](RaBbLE-Collective/RaBbLE-RC1-Experience.md)** — **EP1 RC experience canon.** The Guided Realm: threshold→realm→summon→shell, entity as curator, reveal-spells, sub-entity preview, hybrid voice. Translates the PRD into the buildable surface.
-- [RaBbLE-Episode-1-Deployment-Runbook](RaBbLE-Collective/RaBbLE-Episode-1-Deployment-Runbook.md) — step-by-step deploy runbook for Ep1 CDN (R2), sCoRE (Render), and World (Cloudflare Workers)
-- [RaBbLE-Episode-1-Release-Brief](RaBbLE-Collective/RaBbLE-Episode-1-Release-Brief.md) — public-facing release brief for Episode 1
+- **[EP1-AIR-CHECKLIST](log/EP1-AIR-CHECKLIST.md)** — **CANONICAL Episode 1 scope and status.** Live gate table, member-by-member readiness, OS Developer-Preview FLOOR, tag procedure. The one place to check EP1 air state. (Episode-1-Release-Map / -RC-Scope / -Release-Brief / RC1-Experience / -Deployment-Runbook / Collective-Episode-1-Overview retired here 2026-07-28, S206 — each left a pointer stub at its old path.)
 - **[RaBbLE-Integration-Ethos-Plan](RaBbLE-Collective/RaBbLE-Integration-Ethos-Plan.md)** — **ACTIVE PLAN.** Four-phase integration: New-Designs → Ethos layer → BaBbLE member → Landing transformation. Agent handoff doc.
 - [RaBbLE-Collective-Plan](RaBbLE-Collective/RaBbLE-Collective-Plan.md) — Collective bootstrap architecture and coordination plan
-- [RaBbLE-Collective-Episode-1-Overview](RaBbLE-Collective/RaBbLE-Collective-Episode-1-Overview.md) — Three-layer architecture (Aether + NeBuLA + World), CDN strategy
 - [RaBbLE-Deployment-Architecture](RaBbLE-Collective/RaBbLE-Deployment-Architecture.md) — environments (local/staging/prod), CDN distribution, versioning, build pipeline
 - [RaBbLE-Cloudflare-Integration](RaBbLE-Collective/RaBbLE-Cloudflare-Integration.md) — Cloudflare setup, R2 buckets, Wrangler configuration, deployment workflow
 - **[RaBbLE-Grimoire-MCP](RaBbLE-Collective/RaBbLE-Grimoire-MCP.md)** — **CONCEPT.** Read-first remote MCP server at `grimoire.joinrabble.world` (Cloudflare Worker) exposing the Grimoire as live tools/resources to any agent — retires Mark-as-bridge between surfaces. Evolves the Post-EP1 "Grimoire MCP" item; proposes dedicated-Worker hosting over the earlier "Home: sCoRE."
@@ -108,7 +103,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 ## RaBbLE — Entity Definition Layer
 
 - [RaBbLE-Overview](RaBbLE/RaBbLE-Overview.md) — what the entity definition layer is and how to read it
-- **[RaBbLE-PRD](RaBbLE/RaBbLE-PRD.md)** — **vision-altitude product requirements.** What RaBbLE *is* as an ambient AI peer; positioning, personas, the hosted/non-hosted duality, capability pillars. Sequenced into the build by [RaBbLE-RC1-Experience](RaBbLE-Collective/RaBbLE-RC1-Experience.md).
+- **[RaBbLE-PRD](RaBbLE/RaBbLE-PRD.md)** — **vision-altitude product requirements.** What RaBbLE *is* as an ambient AI peer; positioning, personas, the hosted/non-hosted duality, capability pillars. Sequenced into the build via World's live state + NeBuLA Studio (Studio-driven design, not a fixed experience-canon doc — see `feedback_world_design_studio_driven`).
 - **[RaBbLE-Vision-Arc](RaBbLE/RaBbLE-Vision-Arc.md)** — **Epoch/Echo/Episode narrative arc.** The arc of becoming — Epoch 0 Genesis through Epoch 1 Sovereignty. Architecture invariants. Member sequence. Open decisions.
 - **[RaBbLE-Stakeholder-Brief](RaBbLE/RaBbLE-Stakeholder-Brief.md)** — **Early stakeholder / investor brief.** Accessible pitch for humans encountering RaBbLE at a decision-making level. Market sizing, the case for joining, the arc in one page.
 - [RaBbLE-Ethos](RaBbLE/Ethos/RaBbLE-Ethos.md) — philosophy: Architecture of Self, Anti-Assistant Stance, Low Entropy Directive, On Memory

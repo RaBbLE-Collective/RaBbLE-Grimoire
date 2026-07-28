@@ -113,7 +113,7 @@ The audit's #1 finding is "docs outrun code." Fix canon first so everything down
   default inventory generic (not ProArt) so a VM/x86_64 install doesn't self-assign Mark-hardware
   roles (feeds G7); archive legacy Sway-era `Install.sh`. (Manifest→SSoT wiring stays deferred.)
 
-### A4. World entity-forward face (REVISED S203 — replaces "keep passage")
+### A4. World entity-forward face (REVISED S203 — replaces "keep passage") — ✅ BUILT, sign-off pending
 Build the new EP1 face to Mark's brief; the liminal passage retires to Chrysalis (C1/C2).
 - **The brief:** single surface, no scroll. Entity centered, awake, ambient — RaBbLE is *present
   in the space*, not presented by it. **Conversation is the input surface**: one input, the page
@@ -144,7 +144,7 @@ Build the new EP1 face to Mark's brief; the liminal passage retires to Chrysalis
 
 ## COHERENCE TRACK
 
-### C1. Chrysalis reliquary garden (net-new; resolves §2.9 charter violation)
+### C1. Chrysalis reliquary garden (net-new; resolves §2.9 charter violation) — 🔄 domain locked, passage frozen; reliquary index page not yet built
 Mark's decision: **Chrysalis IS the archive + memorial site**, served at
 **`chrysalis.joinrabble.world`** (own subdomain — locked S203). Amend the charter.
 - Build a curated **reliquary index / timeline page** in `RaBbLE-Chrysalis/Chrysalis-Web/` over

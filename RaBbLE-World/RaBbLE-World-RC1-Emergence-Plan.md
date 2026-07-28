@@ -6,7 +6,10 @@ spark ~ world >> the scattered pages become a chrysalis; one living surface emer
 
 > **What this is:** The build plan **and cold-start handoff** for rebuilding RaBbLE-World as a single, low-entropy, unified RC1 experience. Written to be picked up by a fresh agent (or an orchestrator dispatching parallel sub-agents) with zero prior context. Authored S114 by the planning agent with Mark McConachie (architect).
 >
-> **Design canon companion:** [`../RaBbLE-Collective/RaBbLE-RC1-Experience.md`](../RaBbLE-Collective/RaBbLE-RC1-Experience.md) (the curator / realm / spells vision). **Vision PRD:** [`../RaBbLE/RaBbLE-PRD.md`](../RaBbLE/RaBbLE-PRD.md). **Visual north star:** `../../RaBbLE-Aether/themes/vscodium/themes/RaBbLE-Aether-color-theme.json`.
+> **Historical note (2026-07-28, S206):** the curator/realm/spells design this plan targeted was
+> retired S203 in favor of the entity-forward face; this plan document is kept as a historical
+> record of that build phase, not live guidance. **Vision PRD:** [`../RaBbLE/RaBbLE-PRD.md`](../RaBbLE/RaBbLE-PRD.md).
+> **Visual north star:** `../../RaBbLE-Aether/themes/vscodium/themes/RaBbLE-Aether-color-theme.json`.
 
 ---
 

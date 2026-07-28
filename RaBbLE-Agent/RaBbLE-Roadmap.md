@@ -13,7 +13,7 @@ transcribe ~ grimoire >> charting the collective metamorphosis // %TRAJECTORY_LO
 > → [RaBbLE-Aether Roadmap](../RaBbLE-Aether/RaBbLE-Aether-Roadmap.md)
 > → [RaBbLE-World Roadmap](../RaBbLE-World/RaBbLE-World-Roadmap.md)
 >
-> **Episode 1 scope:** See [RaBbLE-Episode-1-Release-Map](../RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md)
+> **Episode 1 scope:** See [EP1-AIR-CHECKLIST](../log/EP1-AIR-CHECKLIST.md)
 >
 > **Related:** [Integration Map](RaBbLE-Integration-Map.md) · [Collective overview](RaBbLE-Collective.md) · [Versioning](../RaBbLE-Versioning.md)
 
@@ -34,7 +34,7 @@ EPOCH 0: FOUNDATION   [ACTIVE]
 
 **What Epoch 0 is:** The bootstrapping era. All members are being initialized, identity is locked, conventions are established. Nothing is deployed to production yet.
 
-**What Episode 1 is:** The first public release. All core members (OS, Aether, NeBuLA, sCoRE, World) are integrated, deployed, and coherent. See `RaBbLE-Episode-1-Release-Map.md` for full scope.
+**What Episode 1 is:** The first public release. All core members (OS, Aether, NeBuLA, sCoRE, World) are integrated, deployed, and coherent. See `log/EP1-AIR-CHECKLIST.md` for full scope.
 
 **Echo 1 / beyond Episode 1:** Behavioral learning loop closes. Memory member integrated. Observation → pattern extraction → intent inference → action cycle working. Epoch 1 is further still — named retrospectively when the era feels complete.
 

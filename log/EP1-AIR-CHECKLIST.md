@@ -13,7 +13,7 @@
 
 **Target tag:** `episode-1-v0.0.0.1` — applied to all lockstep members **simultaneously**.
 **Version:** v0.0.0.0 → v0.0.0.1 (Epoch 0 · Evolution 0 · Echo 0 · Episode 1).
-**Last reconciled:** 2026-06-25 (S177 — G10 closed: episode movement + os.html). See `log/handoffs/done/HANDOFF-S153-EP1-Coherence.md`.
+**Last reconciled:** 2026-07-28 (S206 — G10 updated: entity-forward face per S203, sign-off pending; EP1 release-doc consolidation). See `log/handoffs/done/HANDOFF-S153-EP1-Coherence.md`.
 
 ---
 
@@ -30,7 +30,7 @@
 | G7 | RaBbLE-OS meets its **Developer-Preview FLOOR** (see §C) on a generic x86_64 VM | ⏳ verify | — |
 | G8 | All lockstep members on `new-horizons`, clean, ready to tag | ✅ in-step (status.sh) | B-08 ✓ |
 | G9 | Collective bootstrap (`setup.sh`) verified end-to-end on a fresh machine/VM | ⏳ verify | — |
-| G10 | World prod is a coherent unified EP1 experience (learns Collective + RaBbLE, frames EP1, episodic roadmap) — **no `/chrysalis` or `/xperimental` on prod** | 🔄 bar raised (S190): EP1 airs with the single-page liminal Genesis passage — `log/plans/EP1-Liminal-Experience-Plan.md` (S177 floor remains met) | — |
+| G10 | World prod is a coherent unified EP1 experience (learns Collective + RaBbLE, frames EP1, episodic roadmap) — **no `/chrysalis` or `/xperimental` on prod** | 🔄 redesigned (S203): the S190 liminal passage retired to the Chrysalis reliquary; World now ships the entity-forward, conversation-as-input face built to Mark's brief — `log/plans/EP1-Air-Push-Plan.md` A4. **Mark's sign-off pending.** | — |
 
 **Decision rule (set by Mark, S129):** the air call is Mark's once these rows are green.
 G4+G5+G6 are the "smallest end-to-end loop" — they are the spine of Genesis. G3 gates the

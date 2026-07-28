@@ -4,7 +4,7 @@
 transcribe ~ grimoire >> rearchitecture integrated, effects scope added, responsibility split formalized // %NEBULA_ROADMAP_UPDATED%
 ```
 
-> **Collective Context:** NeBuLA is the rendering engine — the entity's visual expression. See `RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md` for how this fits the whole picture. See `RaBbLE-Episode-1-Release-Map.md` for Episode 1 scope across all members.
+> **Collective Context:** NeBuLA is the rendering engine — the entity's visual expression. See `RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md` for how this fits the whole picture. See `log/EP1-AIR-CHECKLIST.md` for Episode 1 scope across all members.
 > **Related:** [Collective Roadmap](../RaBbLE-Agent/RaBbLE-Roadmap.md) · [NeBuLA Architecture](RaBbLE-NeBuLA-Architecture.md) · [Aether Architecture](../RaBbLE-Aether/RaBbLE-Aether-Architecture.md) · [Integration Map](../RaBbLE-Agent/RaBbLE-Integration-Map.md)
 
 ---

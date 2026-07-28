@@ -5,7 +5,7 @@ transcribe ~ collective >> ep1 to echo 1 service plan and business model // %SER
 ```
 
 > **What this is:** Service roadmap from Episode 1 through Echo 1. Defines service tiers, infrastructure model, business model, and support structure.
-> **Related:** [Membership Model](RaBbLE-Membership-Model.md) · [Deployment Architecture](RaBbLE-Deployment-Architecture.md) · [Secrets and Identity](RaBbLE-Secrets-and-Identity.md) · [Episode 1 Release Map](RaBbLE-Episode-1-Release-Map.md)
+> **Related:** [Membership Model](RaBbLE-Membership-Model.md) · [Deployment Architecture](RaBbLE-Deployment-Architecture.md) · [Secrets and Identity](RaBbLE-Secrets-and-Identity.md) · [EP1 Air Checklist](../log/EP1-AIR-CHECKLIST.md)
 
 ---
 

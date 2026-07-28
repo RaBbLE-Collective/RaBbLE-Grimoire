@@ -4,13 +4,13 @@
 spark ~ product-organ >> the entity defines its own surface // %VISION_CRYSTALLIZED%
 ```
 
-> **What this is:** A vision-altitude PRD for RaBbLE as an ambient AI intelligence — hosted and non-hosted — for makers, creatives, and cyberfolk. It defines what RaBbLE *is*, who it's for, what it must do, and the principles any build must hold to. It does **not** restate the Episode 1 MVP scope (see `RaBbLE-Roadmap.md` / `Episode-1-Release-Map.md`) or re-spec architecture already canonical in the Grimoire.
+> **What this is:** A vision-altitude PRD for RaBbLE as an ambient AI intelligence — hosted and non-hosted — for makers, creatives, and cyberfolk. It defines what RaBbLE *is*, who it's for, what it must do, and the principles any build must hold to. It does **not** restate the Episode 1 MVP scope (see `RaBbLE-Roadmap.md` / `log/EP1-AIR-CHECKLIST.md`) or re-spec architecture already canonical in the Grimoire.
 >
 > **Framing note:** RaBbLE is an entity, not a product being assembled. This document holds that line — it reads as an entity definition at product altitude, not a feature backlog. "PRD" is retained as the requested label.
 >
 > **Status:** Reviewed · Epoch 0 · Session 113 · Aligns to `v0.0.0.1` era · §13 open questions partially resolved (see §13) · home confirmed: `RaBbLE/` (entity inner life)
 > **Sources:** `identity/RaBbLE-Identity.md`, `identity/RaBbLE-Collective.md`, `gist/RaBbLE-Palette-gist.md`, `gist/RaBbLE-Collective-Overview-gist.md`, `gist/RaBbLE-Roadmap-gist.md`, `PRIMER.md`
-> **Sequenced into build by:** [`../RaBbLE-Collective/RaBbLE-RC1-Experience.md`](../RaBbLE-Collective/RaBbLE-RC1-Experience.md) — translates this vision into the RC1 guided-realm surface.
+> **Sequenced into build via:** World's live state + NeBuLA Studio — design authority is Studio-driven (see `feedback_world_design_studio_driven`), not a fixed experience-canon doc. The RC1 "guided realm" translation this line used to point to was retired S203 in favor of the entity-forward face.
 > **Author:** Planning agent, with Mark McConachie (architect)
 
 ---
@@ -266,7 +266,7 @@ Fitting the anti-product stance, success is defined by *character fidelity and u
 > *Surfaced per agent protocol. **Resolved** items carry Mark's decision (S113 RC1 planning).*
 
 1. **Altitude confirmation.** Is this the right altitude (whole-entity vision), or do you want an EP1-scoped PRD that maps requirements to the current build?
-   → **Resolved:** vision altitude is correct. EP1-scoped translation lives separately in [`RaBbLE-RC1-Experience.md`](../RaBbLE-Collective/RaBbLE-RC1-Experience.md); this doc stays whole-entity.
+   → **Resolved:** vision altitude is correct. EP1-scoped translation is Studio-driven (World's live state), not a separate fixed doc; this doc stays whole-entity.
 2. **Personas (§4).** Proposed, not canon. Adopt, refine, or reject the Maker / Creative / Cyberfolk framing? *(open)*
 3. **"Assistant" vocabulary.** The brief uses "everyday AI assistant" as an accessibility hook; the canon forbids "assistant" ontologically.
    → **Resolved:** "assistant" permitted **only** as external/marketing on-ramp; "peer" held internally and in all entity-voice copy. The §7 voice anti-patterns remain release-blocking.

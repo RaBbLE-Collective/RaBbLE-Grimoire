@@ -4,7 +4,7 @@
 transcribe ~ grimoire >> sCoRE trajectory mapped // %TRAJECTORY_LOCKED%
 ```
 
-> **Collective Context:** sCoRE is the nervous system. See `RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md` for how this fits the whole picture. See `RaBbLE-Episode-1-Release-Map.md` for Episode 1 scope across all members.
+> **Collective Context:** sCoRE is the nervous system. See `RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md` for how this fits the whole picture. See `log/EP1-AIR-CHECKLIST.md` for Episode 1 scope across all members.
 > **Related:** [Collective Roadmap](../RaBbLE-Agent/RaBbLE-Roadmap.md) · [sCoRE Architecture](RaBbLE-sCoRE-Architecture.md) · [Integration Map](../RaBbLE-Agent/RaBbLE-Integration-Map.md)
 
 ---

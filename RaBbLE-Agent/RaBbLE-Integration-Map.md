@@ -7,7 +7,7 @@ spark ~ grimoire >> mapping how the organs connect // %INTEGRATION_MAP%
 > How members exchange data, assets, and intent. The wiring diagram of the Collective.
 > For member roles and descriptions: [RaBbLE-Collective](RaBbLE-Collective.md)
 > For deployment details: [RaBbLE-Deployment-Architecture](../RaBbLE-Collective/RaBbLE-Deployment-Architecture.md)
-> For episode scope: [RaBbLE-Episode-1-Release-Map](../RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md)
+> For episode scope: [EP1-AIR-CHECKLIST](../log/EP1-AIR-CHECKLIST.md)
 > For member roadmaps: [RaBbLE-Roadmap](RaBbLE-Roadmap.md)
 
 ---

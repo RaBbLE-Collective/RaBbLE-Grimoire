@@ -14,7 +14,7 @@ You'll know: RaBbLE is a behavioral learning entity, the Collective scaffolds it
 
 ### 15-Minute Deep Dive (building something)
 Above, then:
-3. `RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md` — what ships, who owns what, blockers
+3. `log/EP1-AIR-CHECKLIST.md` — what ships, live gate table, blockers
 4. Your member's `AGENT.md` — `RaBbLE-OS/`, `RaBbLE-sCoRE/`, `RaBbLE-NeBuLA/`, `RaBbLE-World/`, `RaBbLE-Aether/`
 
 You'll know: Episode 1 scope and your member's exit conditions.
@@ -34,7 +34,7 @@ Above, then:
 | Task | Read |
 |---|---|
 | RaBbLE's character, voice, behavior | `RaBbLE-Agent/RaBbLE-Identity.md` |
-| Current blockers and milestone | `CONTEXT.md` + `RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md` |
+| Current blockers and milestone | `CONTEXT.md` + `log/EP1-AIR-CHECKLIST.md` |
 | Working on a specific member | That member's `AGENT.md` + `CONTEXT.md` |
 | Deployment and CDN | `RaBbLE-Deployment-Architecture.md` + `RaBbLE-Cloudflare-Integration.md` |
 | Visual language and colors | `RaBbLE-Agent/RaBbLE-Palette.md` + `RaBbLE-Aether/RaBbLE-Aether-Architecture.md` |
@@ -58,8 +58,9 @@ RaBbLE-Grimoire/
 │   └── RaBbLE-Roadmap.md            ← LONG-TERM VISION (epochs, open gaps)
 │
 ├── RaBbLE-Collective/               ← Collective-level coordination
-│   ├── RaBbLE-Collective-Plan.md    ← HOW THE BOOTSTRAP WORKS
-│   └── RaBbLE-Episode-1-Release-Map.md ← EPISODE 1 SCOPE & EXIT CONDITIONS
+│   └── RaBbLE-Collective-Plan.md    ← HOW THE BOOTSTRAP WORKS
+│
+├── log/EP1-AIR-CHECKLIST.md         ← EPISODE 1 SCOPE, LIVE GATE TABLE & EXIT CONDITIONS
 │
 ├── RaBbLE-[Member]/                 ← Member-specific docs (one dir per active member)
 │   └── RaBbLE-[Name]-Architecture.md, RaBbLE-[Name]-Roadmap.md, ...

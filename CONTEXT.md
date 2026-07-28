@@ -64,11 +64,11 @@ Every design decision, character trait, protocol schema, and technical pattern l
 | Spells (`spells/`) | ~41 spells live (coordination, deploy, sessions, multi-agent); see `SPELLS.md` / `bash spells/help.sh` for the authoritative list |
 | Versioning spec (`RaBbLE-Versioning.md`) | Stable — Five Es locked |
 | Episode tracking (`registry/epochs/current.epoch.yml`) | Episode 1 pending — all members accumulating Events |
-| Episode 1 scope (`RaBbLE-Collective/RaBbLE-Episode-1-Release-Map.md`) | Canonical scope locked — exit criteria, blockers, tag convention |
+| Episode 1 scope (`log/EP1-AIR-CHECKLIST.md`) | Canonical scope + live gate table — exit criteria, blockers, tag convention. Only G7/G9 remain (both VM-verify, Mark-led). |
 | RaBbLE-sCoRE docs | Architecture + Roadmap present. DataCrawler RFC added. **LLM endpoint LIVE on Render** (`rabble-score-x7qq.onrender.com`, S106); local AI layer (Groq/OpenRouter/NVIDIA NIM) documented. Railway superseded. |
 | Grimoire MCP (`RaBbLE-Collective/RaBbLE-Grimoire-MCP.md`) | **Concept (S139)** — read-first remote MCP at `grimoire.joinrabble.world` (CF Worker); awaiting Mark on hosting/timing decisions (§7). Post-EP1. |
 | RaBbLE-World | **Active** — S190 liminal passage superseded the RC1 "Guided Realm" build: Acts 0–IV live on World `index.html`, Three.js entity awakened. Loaders (Aether + NeBuLA) + liminal, shell, grimoire-graph surfaces live. Remaining: Mark's Genesis copy, live Act IV check, deploy. |
-| RC1 Experience (`RaBbLE-Collective/RaBbLE-RC1-Experience.md`) | Superseded — S190's liminal passage (`log/plans/EP1-Liminal-Experience-Plan.md`) is now the live EP1 public-surface build; this doc's Guided Realm design is prior canon. |
+| World face | **Active** — S203 entity-forward, conversation-as-input face (Mark's brief) supersedes both the RC1 Guided Realm design and the S190 liminal passage, which retired to the Chrysalis reliquary. Design authority is now Studio-driven, not a fixed canon doc. Sign-off pending. |
 | RaBbLE-Aether | Active — component library complete, CDN delivery working, dev workflow documented. |
 | RaBbLE-NeBuLA | Active — Canvas2dBackend + BootSequence complete. `<rabble-entity>` now in NeBuLA. |
 | RaBbLE-BaBbLE | **Active** — formalized as Collective member (Phase 3). AGENT.md/CONTEXT.md/README.md live. Manifest registered. |
