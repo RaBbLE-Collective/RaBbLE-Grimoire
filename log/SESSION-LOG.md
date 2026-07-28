@@ -15,12 +15,26 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-07-28 · S206 (os-screenshot-containers)
+## LATEST — 2026-07-28 · S206b (collective)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S206: screenshots pipe direct to swappy (~/Screenshots default), new opt-in Docker/Podman layer, stray RaBbLE-Captures/ removed
+**This session:** S206b: audited local Claude memory against Grimoire, fixed a stale dead-plan-server section in Agent-Protocols, mirrored 3 lessons, added 2 orphaned ideas to OS Roadmap
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10/B-11 open.
-**Next:** nothing blocking; verify a live end-to-end capture next time it comes up
+**Next:** nothing blocking
+
+---
+
+## 2026-07-28 · Session 206b (memory-audit: local Claude memory cross-checked against Grimoire)
+
+- **Repo:** RaBbLE-Grimoire. Mark asked to make sure everything in the local `~/.claude` memory cache relevant to RaBbLE is actually captured in the Grimoire — not just sitting in an ungoverned, non-version-controlled cache.
+- **Method:** read all ~87 entries in the memory index, checked each against Grimoire content (grep for named facts/paths, read the relevant doc section), and fixed what was missing or wrong rather than just reporting gaps.
+- **Found and fixed one real bug, not just a gap:** `RaBbLE-Agent-Protocols.md`'s "Visual Planning Workflow" section documented the local agent-native plan server (`rabble-plans` systemd unit, MCP endpoint) as current practice — an agent following it today would hit dead infrastructure. Confirmed via `systemctl --user status rabble-plans` (`bad-setting`/inactive) and an absent MCP registration that it was archived at S157 (built S155, hit three Ansible bugs, never fully ran). Replaced the section with the actual current practice (plans as Grimoire markdown) plus two feedback memories that had never been mirrored into Agent-Protocols at all: the plan-authoring/cold-start-handoff shape (locked decisions, disjoint file-ownership table for parallel sub-agents, Opus-review-before-finalizing) and the Opus-plans/Sonnet-implements model-tier split.
+- **Also mirrored:** the "never mutate a shared file to isolate a commit from a concurrent session" lesson (S197), explicitly flagged not-yet-mirrored in its own memory, added beside the existing concurrent-git-index section.
+- **Two orphaned ideas given a home:** `layerctl` dynamic recipe discovery (S205) and the screenshot-agent-with-vision idea (S206) had no Grimoire presence at all — added to `RaBbLE-OS-Roadmap.md` (Strategic Initiatives and Episode 3 respectively).
+- **Everything else already covered:** spot-checked ~20 more entries (NeBuLA perf-rollback rule, World Studio-driven design authority, LLM provider constraints, auth tiers, the Aether effects bank, OS installer/polkit/gap-analysis history, sCoRE chat-context loading) — all already documented, several already explicitly noted as "mirrored in Agent-Protocols." No action needed.
+- **Not done:** did not prune the local memory cache itself — Mark declined ("no need"), so the memory files stay in place as a searchable index even where content is now duplicated in Grimoire.
+- **Commit:** `bb9cf4a`.
+- **Next:** nothing blocking.
 
 ---
 
