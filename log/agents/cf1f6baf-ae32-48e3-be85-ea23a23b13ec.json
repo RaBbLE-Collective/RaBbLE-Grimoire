@@ -1,0 +1,15 @@
+{
+  "session_id": "cf1f6baf-ae32-48e3-be85-ea23a23b13ec",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-Grimoire",
+  "scopes": [
+    "RaBbLE-Grimoire:.gitignore",
+    "RaBbLE-Grimoire:SPELLS.md",
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:spells/build-kb.py",
+    "RaBbLE-Grimoire:spells/build-kb.sh"
+  ],
+  "started_at": "2026-07-28T05:37:31Z",
+  "heartbeat_at": "2026-07-28T05:37:31Z",
+  "auto": true
+}
