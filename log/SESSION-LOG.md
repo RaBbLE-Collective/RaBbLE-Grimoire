@@ -15,12 +15,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-07-28 · S206c (os-containers-layer)
+## LATEST — 2026-07-29 · Session 206e (ep1-doc-consolidation-b10-token)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S206c: containers layer applied + verified on Mark's machine (docker 29.6.2, podman 5.8.4); docker group needs re-login to take effect
-**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-10/B-11 open.
-**Next:** Mark re-logs in, confirms docker ps works without sudo
+**This session:** S206e: EP1 doc sprawl consolidated to EP1-AIR-CHECKLIST.md; B-10 resolved, B-12 opened (Cloudflare token needs User Details:Read)
+**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12 open.
+**Next:** Mark re-mints CF token via Edit Cloudflare Workers template; then G7/G9 VM verification
 
 ---
 
