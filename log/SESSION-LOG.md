@@ -15,12 +15,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-07-29 · Session 206e (ep1-doc-consolidation-b10-token)
+## LATEST — 2026-08-02 · S208 (os-gnome-layer)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S206e: EP1 doc sprawl consolidated to EP1-AIR-CHECKLIST.md; B-10 resolved, B-12 opened (Cloudflare token needs User Details:Read)
+**This session:** S208: opt-in GNOME Shell layer scaffolded (SDDM-only, zero extensions, system-wide Aether theming)
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12 open.
-**Next:** Mark re-mints CF token via Edit Cloudflare Workers template; then G7/G9 VM verification
+**Next:** Mark runs VM verification checklist in RaBbLE-OS-Desktop-Gnome.md
 
 ---
 
