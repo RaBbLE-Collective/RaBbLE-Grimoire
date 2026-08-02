@@ -78,6 +78,66 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-08-02 · Session 207 (system-storage-audit + rabble-lineage)
+
+- **Repos:** RaBbLE-BaBbLE, RaBbLE-Xperimental, RaBbLE-Grimoire. Mark asked for a full
+  disk-usage breakdown (fastfetch showed heavy use) plus a backup-coverage audit, then
+  asked to log/commit the findings and act on two of the gaps it surfaced.
+- **Storage audit:** root partition 117G/222G used; `/home` is 81G of it (Dropbox 52G,
+  `.npm`/`.cache` ~11G regenerable, `RaBbLE-Collective` 6.5G). `RaBbLE-OS` repo's 3.5G is
+  97% two Fedora 44 install ISOs (kept deliberately — Mark's planned F44 upgrade), not
+  waste. Non-home OS footprint ~28G, in range for 2,507 packages + the NPU/LLM toolchain;
+  `/opt` (4.0G) confirmed 100% Ansible-tracked (llama.cpp, FastFlowLM, xrt/xdna-driver).
+  Full writeup: `RaBbLE-BaBbLE/intake/System-Storage-Breakdown-S207.md`.
+- **Dropbox correction:** initial read (no running sync client) wrongly concluded nothing
+  was cloud-backed. Found `~/Dropbox/.reorg/` — a prior session's project that
+  reorganized the whole remote account (432.7GB) via the Dropbox API directly and
+  verified the new structure remotely on 2026-05-21. Maestral's local daemon stopped
+  cleanly on 2026-07-13 (fully synced at that point, `pending_uploads=[]`) and just never
+  restarted (no autostart unit) — zero local drift since, so the 52G on disk is
+  genuinely cloud-backed, just paused. Left as-is per Mark (no restart requested).
+  Confirmed separately: `~/RaBbLE-Collective` is NOT inside the Dropbox sync path.
+- **Backup gaps found and two acted on:** `RaBbLE-BaBbLE` (no remote, Mark will cover via
+  Dropbox instead — no action taken) and `RaBbLE-Xperimental` (no remote, 18 local-only
+  commits) — created `github.com/markm1206/RaBbLE-Xperimental` (private, matches the
+  Chrysalis convention) and pushed. Also flagged but not actioned: `Incenergy` (no
+  remote, 11 uncommitted files), `GCS`/`Personal-Grimoire` (no remote), `FreelanceWebDev`
+  (no git at all), Firefox passwords (Sync not signed in, local-only), and
+  `Collective-SECRETS.zip` (unzips to 63 bytes — looks like a stale placeholder, not the
+  real SOPS/age vault; no age key found anywhere under `~`).
+- **RaBbLE-Lineage.md:** Mark asked to "capture the creation history of RaBbLE." Found
+  `RaBbLE-Grimoire/RaBbLE/Genesis/` already scaffolds exactly this
+  (`RaBbLE-Genesis-Overview.md`). Consolidated existing sources — no new research — into
+  `RaBbLE/Genesis/RaBbLE-Lineage.md`: the pre-Collective prototype (`RaBbLE_Core`/
+  `RaBbLE_dot_py`/`RaBbLE_WebOS`, 2025-11→2026-06, originally "Realtime Animated Babbling
+  Behavioral Learning Engine"), the Qwen3.5-era `soul.md` character draft, RaBbLE-OS's
+  pre-Collective genesis, the Apr 16 `%GENESIS%` commit (acronym shift to "Boundless
+  Behavioral Learning Engine"), the sCoRE bridge, and the archived NeBuLA/RBCNS naming
+  era. Corrected two stale source pointers in `RaBbLE-Genesis-Overview.md` along the way
+  (NeBuLA-JS origin code is in Chrysalis, not Xperimental; concept-art images moved to
+  `reliquary/concept-art/`). Left three things open rather than guessing: the prototype's
+  final home (Chrysalis vs. Dropbox `Projects/` vs. folio-only — flagged in the reorg
+  project's own docs as Mark's call, not mine), `RaBbLE-Origin.md` itself (explicitly
+  reserved for Mark to author), and `RaBbLE-Collaborators.md`/`RaBbLE-Visual-Evolution.md`
+  (need sources not located in this pass).
+- **Session-coordination note:** ran `session-start.sh` claiming `RaBbLE/Genesis/
+  RaBbLE-Lineage.md` + `INDEX.md` before editing (S208's GNOME session was concurrently
+  live and noted its own uncommitted `INDEX.md` line got incidentally absorbed into this
+  session's `INDEX.md` commit `56c6363` — no conflict, both lines landed, but see S208's
+  entry above for the full note). Did not touch the `## LATEST` box or run
+  `end-session.sh --synopsis`, since S208's GNOME work is more current and LATEST
+  already correctly points to it.
+- **Commits:** BaBbLE `1ee7578`; Xperimental pushed as-is (no new commits, just a
+  remote); Grimoire `56c6363`.
+- **Not done:** none of the flagged backup gaps beyond Xperimental were actioned (Mark's
+  calls, not made yet); Dropbox daemon left stopped; `Collective-SECRETS.zip` contents
+  not investigated further.
+- **Next:** Mark decides on `Incenergy`/`GCS`/`Personal-Grimoire` remotes, Firefox Sync,
+  and the prototype-code disposition; whoever picks up Genesis next authors
+  `RaBbLE-Origin.md` and locates model-attribution sources for `RaBbLE-Collaborators.md`.
+
+---
+
 ## 2026-07-28/29 · Session 206e (ep1-doc-consolidation + b10-cloudflare-token)
 
 - **Repo:** RaBbLE-Grimoire. Two threads: (1) fold two stale claude.ai-web-derived planning docs into canon, then a full EP1 release-doc consolidation Mark asked for; (2) diagnose why the Cloudflare dev-deploy (B-10) still wasn't working.
