@@ -20,6 +20,7 @@
 | Network applet | `desktop/network-applet` | %DEPLOYABLE% |
 | Fonts | missing — new role needed | Phase 1 blocker |
 | Quickshell | `ui_ux/quickshell` | %HIGH_ENTROPY% — Episode 3 |
+| GNOME Shell (opt-in secondary DE) | `layer/gnome` | %EXPLORATORY% |
 
 ## Phase 1 Item
 
@@ -34,4 +35,7 @@ Breaking change v0.51→v0.54: `windowrulev2` → `windowrule` (matcher syntax u
 → `desktop/RaBbLE-OS-Desktop-Hyprland.md` — keybinds, window rules, layout reference
 → `desktop/RaBbLE-OS-Desktop-Shell.md` — ZSH/Bash config reference
 → `desktop/RaBbLE-OS-Desktop-Theming.md` — palette application, Kvantum, GTK
+→ `desktop/RaBbLE-OS-Desktop-Gnome.md` — GNOME layer: opt-in, SDDM-only, system-wide Aether
+  theming testbed. Lives under the `layer/gnome` opt-in play in `site.yml` (tags
+  `[layer, gnome]`), not the `desktop` tag tree this doc otherwise covers.
 → `ops/RaBbLE-OS-Ops-Dotctl.md` — how desktop configs are deployed via dotctl

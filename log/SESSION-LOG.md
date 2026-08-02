@@ -24,6 +24,60 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-08-02 · Session 208 (os-gnome-layer: opt-in GNOME Shell layer scaffolded)
+
+- **Repos:** RaBbLE-OS (primary), RaBbLE-Grimoire (docs). Mark wants a second, standard-Fedora
+  GNOME desktop alongside Hyprland — a simpler fallback DE, an approachable entry point for
+  non-tiling-WM users, and a deterministic testbed for GTK3/4 theming (Roadmap bucket E,
+  decided S140; this session is its first implementation).
+- **Decided with Mark before writing anything:** SDDM stays the only display manager (no GDM,
+  ever); "macOS-lean" feel means simplicity + a top bar only, not visual reskinning; zero
+  GNOME Shell extensions; cursor ships as stock `Adwaita` (Bibata turns out to be a manual,
+  undocumented install on Mark's own Hyprland account, not Ansible-managed anywhere — fixing
+  that is a separate shared follow-up); Papirus folder tint applied system-wide (root), since
+  Aether is RaBbLE-OS's native theme; `tracker-miner-fs-3` (GNOME's file-indexer, pulled in by
+  `nautilus`) masked by default to keep the fallback DE lean for a tiling-WM daily driver.
+- **Built:** new opt-in Ansible role `ansible/roles/layer/gnome/` (RaBbLE-OS), mirroring the
+  `layer/containers` opt-in pattern — explicit package names only (verified `dnf group info
+  GNOME` lists `gdm` as Mandatory in the `@gnome-desktop` group, so the group is never used),
+  `gnome-session-wayland-session` called out as the load-bearing package (plain
+  `gnome-session` ships no session `.desktop` file — without it SDDM has nothing to list).
+  System-wide theming is additive to Mark's existing per-user path
+  (`apps/tasks/qt-gtk-theme.yml` + dotctl): GTK3/4 CSS copied from the same Aether-repo source
+  to `/usr/share/themes/RaBbLE-Aether/`, dconf defaults at `/etc/dconf/db/local.d/`, Papirus
+  tinted system-wide. Wired through `site.yml`, `group_vars/all.yml`,
+  `RaBbLE-OS-layerctl.sh` (`apply gnome` / `remove gnome`), `manifest.yml`.
+- **Bug caught during verification, not assumed away:** built a standalone repro to test how
+  Ansible tag filtering actually behaves for this play shape, and found that a play's own
+  `tags:` apply to *every* task inside it regardless of that task's own tags — so
+  `remove.yml`'s tasks would have silently fired during a normal `apply gnome` too (both share
+  the enclosing `[layer, gnome]`-tagged play). Fixed by gating the `remove.yml` include on
+  `when: "'remove' in ansible_run_tags"` (the literal `--tags` CLI value) instead of tag
+  membership, and re-verified with three test runs (apply / remove / apply-all) before
+  touching the real role. Also fixed `cmd_remove` in `layerctl.sh` to pass `LAYER_EXTRA_VARS`
+  — without it, removal silently no-ops for *any* opt-in layer gated by a role-level
+  `when: rabble_enable_*` (a pre-existing gap, also affecting `bottles`/`containers`, not
+  gnome-specific).
+- **Docs:** new `RaBbLE-Grimoire/RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Gnome.md` (package table,
+  theming mechanism table, the tag gotcha above, full verification checklist); updated
+  `layers/RaBbLE-OS-Layer-Desktop.md` and `RaBbLE-OS-Roadmap.md` bucket E.
+- **Validated:** all new/edited YAML + the Jinja dconf template parse clean, `bash -n` on
+  `layerctl.sh` clean, `ansible-playbook --syntax-check` clean, tag-filtering logic
+  empirically verified via a throwaway repro (not just read from docs).
+- **Not done:** the actual VM boot → SDDM session-picker → GNOME login → theme verification
+  pass (needs real hardware/KVM, not available in-session) — full checklist is in the new
+  Gnome doc, ready for Mark to run.
+- **Concurrent-session note:** `INDEX.md` was edited by this session (one line, `desktop/`
+  row) and independently by a live concurrent session (S207, `RaBbLE-Lineage.md`) at the same
+  time; their commit (`56c6363`) incidentally absorbed my uncommitted working-tree line too —
+  no conflict, both lines landed correctly, but flagging since it's exactly the shared-file
+  clobber risk the multisession discipline warns about. Didn't run `session-start.sh` at the
+  start of this session (should have, per the Grimoire ritual) — got lucky this time.
+- **Next:** Mark runs the VM verification checklist in `RaBbLE-OS-Desktop-Gnome.md`; separately,
+  Ansible-manage Bibata system-wide (shared Hyprland + GNOME follow-up, not yet scoped).
+
+---
+
 ## 2026-07-28/29 · Session 206e (ep1-doc-consolidation + b10-cloudflare-token)
 
 - **Repo:** RaBbLE-Grimoire. Two threads: (1) fold two stale claude.ai-web-derived planning docs into canon, then a full EP1 release-doc consolidation Mark asked for; (2) diagnose why the Cloudflare dev-deploy (B-10) still wasn't working.
