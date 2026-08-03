@@ -15,12 +15,28 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-08-02 · S208 (os-gnome-layer)
+## LATEST — 2026-08-03 · S209 (scribble-polish)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S208: opt-in GNOME Shell layer scaffolded (SDDM-only, zero extensions, system-wide Aether theming)
+**This session:** S209: ScRiBbLE v1 hardened post-scaffold - src/ restructure, desktop trackpad pan/zoom, draggable text boxes, camera-persistence/focus-steal/toolbar-order bugs fixed, brand casing propagated
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12 open.
-**Next:** Mark runs VM verification checklist in RaBbLE-OS-Desktop-Gnome.md
+**Next:** Mark tests on real iPad+Pencil and ProArt P16 trackpad; decide on pressure-width-not-persisted fix; Cloudflare secrets/DNS for scribble.joinrabble.world pending B-12
+
+---
+
+## 2026-08-03 · Session 209 (scribble-polish: RaBbLE-ScRiBbLE v1 hardened)
+
+- **Repos:** RaBbLE-ScRiBbLE (primary), RaBbLE-Grimoire + RaBbLE-World + RaBbLE-Collective (registry/docs, brand-casing fix). Continues S207's scaffold of the neon note-taking PWA.
+- **Restructure:** `git mv scribble/ src/` — flat `scribble/` read oddly next to `index.html`/`manifest.json`/`sw.js` at repo root; `src/` reads as "app source" at a glance. Updated every reference (`index.html` script/link tags, `sw.js` `APP_SHELL` array, `AGENT.md` file table) and bumped `sw.js` `CACHE_NAME` v1→v2 since the cached shell manifest changed.
+- **Bug: toolbar rendered at bottom instead of top.** HTML source order had `#viewport` before `#toolbar` inside a `flex-direction:column` container. Fixed by reordering markup in `index.html`.
+- **Bug: text boxes silently failed to appear on real mouse clicks** (worked fine with synthetic `PointerEvent` dispatch in isolated tests — the discrepancy was the tell). Root cause: the browser's default mousedown focus-handling ran *after* our `el.focus()` call and stole focus straight back, firing an immediate `blur` on the still-empty box, which auto-deletes empty boxes. Fix: `e.preventDefault()` at the top of `_onLayerPointerDown` in `RaBbLE-text-tool.js`, before creating the box.
+- **Bug: strokes/text jumped off-screen after reload.** `Engine`'s camera always initialized to `{x:0,y:0,zoom:1}` regardless of saved board state; the "center camera" logic only ran when the board was empty and was never persisted — so a reload with existing content used a different default camera than whatever was active while drawing. Fix (three-part): camera now seeds from `board.camera` if present; camera changes persist onto `board.camera` and save via a new shared `_commitCamera()` helper; `app.js`'s centering condition changed from `strokes.length===0` to `!board.camera`.
+- **Missing desktop pan/zoom** (reported by Mark as "can't resize the canvas on my desktop"): pan/zoom only existed for the 2-finger touch gesture path — no mouse-wheel/trackpad equivalent at all. Added `_onWheel` in `RaBbLE-canvas-engine.js`: plain wheel = pan, ctrl/meta+wheel = zoom anchored at the cursor position, with delta-clamping so a single wheel notch can't cause a jarring jump. **Untested on real hardware** — Mark's ProArt P16 trackpad feel is the actual target and hasn't been confirmed yet.
+- **Draggable text boxes** (Mark: "text boxs should be easy to drag and reposition"): `RaBbLE-text-tool.js` now builds each box as a wrapper holding a small drag-handle (`⠿` grip) plus the contentEditable — kept as separate DOM elements deliberately, since a handle living *inside* the editable region would just be more editable content (selectable/backspace-deletable). Handle has its own pointer-capture drag loop, `stopPropagation()`'d so it doesn't bubble into "create new box."
+- **Brand casing:** propagated the `ScRiBbLE` (two b's) correction from S207 into `RaBbLE-Aether-Design-Guide.md`, `registry/epochs/current.epoch.yml` (priority deferred→active, status updated), new `registry/manifests/RaBbLE-ScRiBbLE.manifest.yml`, `RaBbLE-World/AGENT.md`, and Collective root `.gitignore`/`CONTEXT.md`.
+- **Found, not yet fixed:** stroke `width` is a single scalar overwritten on every `pointermove`, not stored per-point — so pressure-variable line thickness is visible only live while drawing; any redraw (reload/undo/pan-zoom) renders the whole stroke at one uniform width (the last sample). Flagged to Mark; not actioned this session.
+- **Not done:** no live Cloudflare deploy (B-12 blocks every member's pipeline identically); no real-device verification (iPad+Pencil, ProArt trackpad) — only desktop-mouse + synthetic Playwright interaction tests this session.
+- **Next:** Mark tests on real iPad+Pencil and ProArt P16 trackpad; decide on the pressure-width fix; Cloudflare secrets/DNS for `scribble.joinrabble.world` once B-12 clears.
 
 ---
 

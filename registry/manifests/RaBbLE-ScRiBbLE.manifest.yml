@@ -1,0 +1,44 @@
+# manifests/RaBbLE-ScRiBbLE.manifest.yml
+# Neon note-taking PWA — infinite canvas, glow-pen ink + text. iPad + Apple
+# Pencil first, mouse/keyboard fully usable. scribble.joinrabble.world.
+
+# Identity
+name: RaBbLE-ScRiBbLE
+slug: RaBbLE-ScRiBbLE
+description: "Neon note-taking PWA — infinite canvas, glow-pen ink + text. scribble.joinrabble.world."
+role: frontend
+
+# Repository
+repo: git@github.com:RaBbLE-Collective/RaBbLE-ScRiBbLE.git
+branch: main
+worktree_root: RaBbLE-ScRiBbLE
+
+# Status
+epoch: 0
+status: active
+release_track: independent   # not part of EP1 lockstep — deferred Epoch-1+ member Mark chose to start early
+
+# Collective alignment
+palette_version: "1.0"
+entity_embedded: true
+pulse_protocol: true
+
+# Dependencies — other Collective members this member consumes at runtime
+depends_on:
+  - slug: RaBbLE-Aether
+    mechanism: CDN CSS bundle (aether.min.css)
+  - slug: RaBbLE-NeBuLA
+    mechanism: CDN IIFE bundle (nebula.iife.js) — createEntityMini('e-scribble') brand mark only, no full <rabble-entity>
+
+# Notes
+notes: >
+  v1 scaffolded S207. Thin static PWA, no bundler, same shape as RaBbLE-World
+  (wrangler.jsonc + GH Actions deploy). Local-only (IndexedDB), no backend —
+  matches the Collective's local-first rule. Single infinite canvas (not a
+  multi-page notebook) for v1. Glow rendering reuses NeBuLA AmbientField's
+  dual-canvas CSS-blur technique. Toolbar built from Aether component classes
+  (.rabble-btn, .rabble-glass), not hand-rolled. Brand name corrected from the
+  registry's prior "ScRibLE" (one b) to "ScRiBbLE" (two b's) — mirrors RaBbLE's
+  own "Bb" pattern and is the correct English spelling; Mark's call, S207.
+  Deploy pending: Cloudflare secrets/DNS route for scribble.joinrabble.world
+  (same open blocker B-12 affects every repo's deploy pipeline).

@@ -108,10 +108,10 @@ focus:
     episode_1_blocker: false
     blocker_note: "Resolved S106 — sCoRE deployed and reachable; chat verified end-to-end"
 
-  RaBbLE-ScRibLE:
-    priority: deferred
-    milestone: "Mobile PWA — Epoch 1+"
-    status: "Defined, repo not yet created"
+  RaBbLE-ScRiBbLE:
+    priority: active
+    milestone: "Mobile PWA — Epoch 1+, started early at Mark's request"
+    status: "Active — v1 scaffold in progress (S207): neon note PWA, infinite canvas, local-only IndexedDB, deploy pending Cloudflare secrets/DNS (scribble.joinrabble.world)"
     episode_1_blocker: false
 
   RaBbLE-BaBbLE:

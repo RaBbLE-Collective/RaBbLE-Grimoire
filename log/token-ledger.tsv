@@ -202,4 +202,5 @@ a0462ac2-bef5-4694-9108-686627b87fef	collective	auto: current state S199: llama.
 S205-upstudio3-usb-wifi	os-upstudio3-usb-wifi	S205: USB driver dead end confirmed, WiFi path diagnosed
 80fa41dd-9e94-4717-a083-b8a8bb845147	collective	auto: gitignore: narrow member-repo wildcard, drop stray RaBbLE-Captures/ rule
 3d8d422b-d36d-4a70-b035-ff61839f91eb	os-containers-layer	S206c: Docker+Podman verified live
-e1cb253f-7c15-469c-9057-795dfadbb57a	os-gnome-layer	
+e1cb253f-7c15-469c-9057-795dfadbb57a	os-gnome-layer
+e4c809a2-c96b-4d46-a8e1-94c274d00331	scribble-polish	S209: ScRiBbLE v1 hardened - desktop pan/zoom, draggable text, bug fixes

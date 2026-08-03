@@ -56,7 +56,7 @@ Every organ name has intentional mixed case. CSS `text-transform: uppercase` mus
 | The entity | `RaBbLE` | `RABBLE`, `Rabble` |
 | The renderer | `NeBuLA` | `NEBULA`, `Nebula` |
 | The coordinator | `sCoRE` | `SCORE`, `SCoRE`, `score` |
-| The scribe | `ScRibLE` | `SCRIBLE`, `Scrible` |
+| The scribe | `ScRiBbLE` | `SCRIBBLE`, `Scribble`, `ScRibLE` |
 
 **CSS rule:** Any element rendered in `--font-hero` (Orbitron) that contains a brand name must explicitly set `text-transform: none` to prevent inheriting an uppercase context from a parent nav, label, or pill rule.
 
