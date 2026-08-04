@@ -24,6 +24,16 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-08-04 · Session 210 (os-vscodium-checksum-fix: rpmnew adoption)
+
+- **Repo:** RaBbLE-OS. Mark reported the VSCodium "installation appears corrupt" banner had returned, despite the S80-S82 fix (Ansible task that recomputes the `workbench.desktop.main.css` integrity checksum in `product.json` after Aether CSS injection).
+- **Root cause (verified live on hardware):** `product.json` is an RPM `%config` file. On the 2026-08-02 `dnf` upgrade (1.121.03429 → 1.126.04524), RPM found our checksum-patched `product.json` locally modified and refused to overwrite it — dropping the real 1.126 `product.json` alongside as `product.json.rpmnew` instead. Every *other* checksummed file (`workbench.desktop.main.js`, `extensionHostProcess.js`, both `sessions.*` bundles, `preload.js`, two `workbench.html`/`.js` pairs) is *not* a config file, so RPM freely replaced those with fresh 1.126 content. Confirmed by hash: 9 of 10 checksummed files matched the `.rpmnew` checksums (new content) while `product.json` itself still reported version 1.121 with stale checksums for all of them — only the CSS entry matched, because Ansible had re-patched that one after the upgrade. Diagnosed via `rpm -V codium`, `rpm -q --last`, and a one-off Python hash comparison against both `product.json` and `product.json.rpmnew`.
+- **Fix:** `ansible/roles/apps/tasks/vscode.yml` gained three tasks between the CSS injection and the existing checksum-repair step — resolve the app root, `stat` for a pending `product.json.rpmnew`, and `mv` it over `product.json` when present — so `product.json` always starts from whatever RPM actually installed before the CSS checksum gets patched on top. Not yet applied/verified live; YAML syntax-checked only (`python3 -c "import yaml..."`, no `ansible-lint` on this machine).
+- **Not done:** haven't run `layerctl apply apps --tags vscode` + relaunch to confirm the banner clears.
+- **Next:** Mark runs `./RaBbLE-OS-layerctl.sh apply apps --tags vscode`, hard-quits (`pkill -x codium`) and relaunches VSCodium to confirm.
+
+---
+
 ## 2026-08-03 · Session 209 (scribble-polish: RaBbLE-ScRiBbLE v1 hardened)
 
 - **Repos:** RaBbLE-ScRiBbLE (primary), RaBbLE-Grimoire + RaBbLE-World + RaBbLE-Collective (registry/docs, brand-casing fix). Continues S207's scaffold of the neon note-taking PWA.
