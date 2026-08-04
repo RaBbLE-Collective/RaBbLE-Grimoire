@@ -1,0 +1,30 @@
+{
+  "session_id": "030e2ba1-3431-4473-9b4a-66999112e3c1",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-BaBbLE",
+  "scopes": [
+    "RaBbLE-BaBbLE:intake/System-Storage-Breakdown-S207.md",
+    "RaBbLE-Grimoire:INDEX.md",
+    "RaBbLE-Grimoire:RaBbLE-OS/RaBbLE-OS-Roadmap.md",
+    "RaBbLE-Grimoire:RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Gnome.md",
+    "RaBbLE-Grimoire:RaBbLE-OS/layers/RaBbLE-OS-Layer-Desktop.md",
+    "RaBbLE-Grimoire:RaBbLE/Genesis/RaBbLE-Lineage.md",
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/token-ledger.tsv",
+    "RaBbLE-OS:RaBbLE-OS-layerctl.sh",
+    "RaBbLE-OS:ansible/inventory/group_vars/all.yml",
+    "RaBbLE-OS:ansible/packages/manifest.yml",
+    "RaBbLE-OS:ansible/roles/layer/gnome/defaults/main.yml",
+    "RaBbLE-OS:ansible/roles/layer/gnome/handlers/main.yml",
+    "RaBbLE-OS:ansible/roles/layer/gnome/tasks/main.yml",
+    "RaBbLE-OS:ansible/roles/layer/gnome/tasks/packages.yml",
+    "RaBbLE-OS:ansible/roles/layer/gnome/tasks/remove.yml",
+    "RaBbLE-OS:ansible/roles/layer/gnome/tasks/theme.yml",
+    "RaBbLE-OS:ansible/roles/layer/gnome/templates/01-rabble-aether.j2",
+    "RaBbLE-OS:ansible/roles/layer/gnome/vars/main.yml",
+    "RaBbLE-OS:ansible/site.yml"
+  ],
+  "started_at": "2026-08-02T17:58:19Z",
+  "heartbeat_at": "2026-08-02T18:11:45Z",
+  "auto": true
+}
