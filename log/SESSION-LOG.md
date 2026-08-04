@@ -15,12 +15,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-08-03 · S209 (scribble-polish)
+## LATEST — 2026-08-04 · Session 210 (os-vscodium-checksum-fix)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S209: ScRiBbLE v1 hardened post-scaffold - src/ restructure, desktop trackpad pan/zoom, draggable text boxes, camera-persistence/focus-steal/toolbar-order bugs fixed, brand casing propagated
+**This session:** S210: VSCodium checksum fix v2 - adopt product.json.rpmnew on upgrade
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12 open.
-**Next:** Mark tests on real iPad+Pencil and ProArt P16 trackpad; decide on pressure-width-not-persisted fix; Cloudflare secrets/DNS for scribble.joinrabble.world pending B-12
+**Next:** Mark applies apps/vscode tag + relaunches to confirm banner clears
 
 ---
 
