@@ -268,6 +268,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-Pocket-Firmware-BuildFlash](RaBbLE-Pocket/RaBbLE-Pocket-Firmware-BuildFlash.md) — verified config/build/flash walkthrough (hello_world smoke test + vendor LVGL demo), eim activation-script gotcha + fix, USB re-enumeration + headless-monitor gotchas
 - [RaBbLE-Pocket-Roadmap](RaBbLE-Pocket/RaBbLE-Pocket-Roadmap.md) — open questions and next steps; `release_track: independent`, not part of the EP1 lockstep
 - [RaBbLE-Pocket-Backplate-CAD](RaBbLE-Pocket/RaBbLE-Pocket-Backplate-CAD.md) — custom battery-bay backplate (v1) + reference assembly, built parametric in FreeCAD (headless via Flatpak); mount holes/board orientation sourced from vendor STEP + drawing cross-check
+- [RaBbLE-Pocket-V1-Firmware-Plan](RaBbLE-Pocket/RaBbLE-Pocket-V1-Firmware-Plan.md) — first custom firmware: idle face (eyes/time/battery %), GIF-frame boot animation, touch settings, two-tier PMIC-gated sleep/wake; BSP/HAL file layout + 7-slice incremental verification plan
 
 ---
 
