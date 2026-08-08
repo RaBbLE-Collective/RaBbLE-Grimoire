@@ -1,0 +1,28 @@
+# manifests/RaBbLE-Pocket.manifest.yml
+
+name: RaBbLE-Pocket
+slug: RaBbLE-Pocket
+description: "AI companion pendant/wearable device, phone-tethered, wake-word driven"
+role: experimental
+
+repo: TBD
+branch: main
+worktree_root: ~/RaBbLE-Collective/RaBbLE-Pocket
+
+phase: 0
+epoch: 0
+status: scaffold                   # no repo yet — hardware bring-up phase, firmware not started
+release_track: independent         # hardware/firmware prototyping, not part of EP1 web/OS lockstep
+
+palette_version: "1.0"
+entity_embedded: true              # pendant is a physical embodiment target — idle/listening/thinking/speaking states mirror entity presence
+pulse_protocol: true
+
+notes: >
+  Scaffolded 2026-08-07 (S207-ish). AI companion pendant/wearable, ESP32-S3
+  (Waveshare AMOLED-1.75-B in hand, 1.75C aluminum pendant ordered). No repo
+  yet — local scaffold only per Mark. Docs live in RaBbLE-Grimoire/RaBbLE-Pocket/,
+  not a local grimoire/ dir (matches every other member's convention).
+  main = 1-commit stub (README+LICENSE+.gitignore); new-horizons = active dev
+  branch (checked out), matching every other Collective member.
+  Source rundown: RaBbLE-Grimoire/RaBbLE-Pocket/RaBbLE-Pocket-Hardware.md.

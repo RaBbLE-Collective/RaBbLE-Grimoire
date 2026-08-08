@@ -170,3 +170,4 @@ See `registry/manifests/` for the authoritative list. Current members:
 | RaBbLE-TaskViSoR | Scaffold — Visual State Observer identity declared; Layer 1 ships as a World page, no own repo yet |
 | RaBbLE-Chrysalis | Genesis-archive — origin code from pre-Collective era; Reliquary for archived branches |
 | RaBbLE-Xperimental | Active sandbox — rablets in development, prototype members, experiments not yet emerged |
+| RaBbLE-Pocket | Scaffold — hardware in hand (ESP32-S3 AMOLED pendant), no firmware/repo yet; `release_track: independent` |

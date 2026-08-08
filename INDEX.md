@@ -95,7 +95,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [registry/epochs/current.epoch.yml](registry/epochs/current.epoch.yml) — active epoch definition, per-member Episode 1 status
 - [registry/subdomains.yml](registry/subdomains.yml) — authoritative map of all joinrabble.world subdomains (owner, tech, status, blocker)
 - [registry/CONTEXT.md](registry/CONTEXT.md) — registry workspace metadata
-- **manifests/**: RaBbLE-Collective · RaBbLE-OS · RaBbLE-sCoRE · RaBbLE-Aether · RaBbLE-NeBuLA · RaBbLE-World · RaBbLE-BaBbLE · RaBbLE-Chrysalis · RaBbLE-TaskViSoR · RaBbLE-Xperimental
+- **manifests/**: RaBbLE-Collective · RaBbLE-OS · RaBbLE-sCoRE · RaBbLE-Aether · RaBbLE-NeBuLA · RaBbLE-World · RaBbLE-BaBbLE · RaBbLE-Chrysalis · RaBbLE-TaskViSoR · RaBbLE-Xperimental · RaBbLE-Pocket
 
 ---
 
@@ -258,6 +258,14 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 ## RaBbLE-Xperimental
 
 - [README](RaBbLE-Xperimental/RaBbLE-Xperimental-Overview.md) — active sandbox: rablets in development, prototype members, experiments not yet emerged
+
+---
+
+## RaBbLE-Pocket
+
+- [RaBbLE-Pocket-Hardware](RaBbLE-Pocket/RaBbLE-Pocket-Hardware.md) — AI companion pendant/wearable: Waveshare ESP32-S3-Touch-AMOLED-1.75-B (v1, in hand) + 1.75C aluminum pendant (v1.5, ordered); explored/deferred hardware options (RT700, Tuya T5-E1, smartwatch teardowns)
+- [RaBbLE-Pocket-Architecture](RaBbLE-Pocket/RaBbLE-Pocket-Architecture.md) — BSP/HAL firmware pattern, wake-word (ESP-SR/VIT), BLE+WiFi comms split (phone is the dispatch hub), iOS companion app toolchain
+- [RaBbLE-Pocket-Roadmap](RaBbLE-Pocket/RaBbLE-Pocket-Roadmap.md) — open questions and next steps; `release_track: independent`, not part of the EP1 lockstep
 
 ---
 
