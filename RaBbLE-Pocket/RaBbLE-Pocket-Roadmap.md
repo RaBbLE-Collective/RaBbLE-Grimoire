@@ -4,6 +4,10 @@ Open questions and next steps. Source: Mark's project rundown, 2026-08-07. Updat
 
 ## Open Questions / Next Steps
 
+- [x] v1 firmware (idle face, boot animation, settings, two-tier sleep/wake) — built + hardware-verified end to end 2026-08-08. See `RaBbLE-Pocket-V1-Firmware-Plan.md` and `RaBbLE-Pocket-Architecture.md`.
+- [ ] Root-cause the I2C transmit error seen once at a Tier 1 sleep entry (touch controller IRQ poll likely racing light-sleep transition) — non-fatal, not blocking, noted in `planning/decisions/2026-08-08-two-tier-sleep.md`
+- [ ] LVGL drag-and-drop UI simulator (Mark's ask, deferred out of v1) — build once real screen needs beyond idle/settings/boot become clearer
+- [ ] NeBuLA/Aether → LVGL asset-translation pipeline (Mark's ask, deferred out of v1) — mock in NeBuLA, render on Pocket
 - [ ] Confirm which wake-word engine ships in v1 firmware (ESP-SR vs. porting VIT concepts)
 - [ ] Decide BLE audio codec and chunking protocol for wake-word utterance transport
 - [ ] Build out BSP for -B board; validate mic, display, IMU, touch via Waveshare demo firmware first

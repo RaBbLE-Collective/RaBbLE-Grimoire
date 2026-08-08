@@ -39,6 +39,26 @@ idf.py -C firmware/<project> -B build/<project> -p /dev/ttyACM0 flash monitor
 
 Worked example (hello_world smoke test + vendor LVGL demo) with gotchas hit during verification: `RaBbLE-Pocket-Firmware-BuildFlash.md`.
 
+### Application State Machine (v1)
+
+`APP_STATE_BOOT → APP_STATE_IDLE ⇄ APP_STATE_SETTINGS`, driven by a simple pair of mutually-referencing callbacks in `app_main.c` (no formal state-machine struct yet — two screens don't need one). `LISTENING/THINKING/SPEAKING` are named as placeholders for the future wake-word epoch; no screens exist for them yet. Boot fades into idle via `lv_screen_load_anim(..., LV_SCREEN_LOAD_ANIM_FADE_IN, 250, 0, true)`; idle↔settings is a hard `lv_scr_load()` cut, triggered by an 800ms long-press on the idle screen's time label.
+
+Full build history (boot-timing measurements, the GIF→native-LVGL boot animation pivot, eye/portal geometry tuning, the white-flash/backlight-timing fixes) lives in `RaBbLE-Pocket-V1-Firmware-Plan.md`, not duplicated here.
+
+### Power Management
+
+Two-tier sleep, verified end-to-end on real hardware 2026-08-08 (see the plan doc's "Slice 5-6 hardware verification" section for the live serial-log evidence). Owned entirely by `rabble_power_task` — one FreeRTOS task, independent of app/screen state, started once from `app_main()` after display bring-up.
+
+- **Tier 0 (awake)** — the task polls the PWR button over I2C (TCA9554 `SYS_OUT`, ~100ms) for a press edge. No expander interrupt line reaches an ESP32 GPIO on this board (confirmed from vendor `ButtonTest.cpp`), so every transition here is I2C-polled, never ISR-driven.
+- **Tier 0 → Tier 1 (click)** — panel `DISPOFF` (`esp_lcd_panel_disp_on_off(panel, false)`, real command now — not the earlier stub) + backlight off, then the ESP32 itself drops into `esp_light_sleep_start()`, waking every ~100ms to re-poll the button. Light sleep halts every task including LVGL's render/tick task, so the clock/battery `lv_timer`s pause automatically and resume on wake, no extra bookkeeping needed. RAM/PSRAM (and LVGL's full UI state) survive untouched.
+- **Tier 1 → Tier 0 (click within 45s)** — instant resume: panel `DISPON` + backlight on, no reboot, no boot animation. This is the "seamless" wake path.
+- **Tier 1 → Tier 2 (45s unclicked, `CONFIG_RABBLE_SLEEP_TIMEOUT_MS`)** — `rabble_hal_power_shutdown()` → AXP2101 software power-gate (`COMMON_CONFIG` reg `0x10` bit 0), cutting the main 3V3 rail. µA-range draw; PCF85063 RTC keeps time on its own backup supply, independent of the gated rail. This board's USB is the ESP32-S3's *native* USB-JTAG-serial peripheral, not an external bridge chip, so the rail cut drops the whole USB device from the host — confirmed live (`/dev/ttyACM0` disappearing at the 45s mark), expected behavior, not a bug.
+- **Tier 2 → Tier 0 (click)** — not code `rabble_power_task` runs; it's the AXP2101 itself re-powering the rail on a qualifying PWR press (`XPOWERS_POWERON_128MS`, configured once in `rabble_hal_init()`), which cold-boots `app_main` fresh. Confirmed on real hardware: a single click reliably wakes it on the *first* Tier-2 attempt (~3s felt total to idle) — the open question of whether the 128ms press-on register setting itself survives the power-gate turned out to be moot, since `rabble_hal_init()` reasserts it on every cold boot regardless of what AXP2101 came back up with.
+- **Residual-press guard** — the same physical click that cold-boots the board from Tier 2 may still be held down when `rabble_power_task` starts polling a couple seconds later. Left unguarded, that reads as a fresh Tier 0→1 click and immediately re-sleeps the device right after boot. Fixed by requiring one full button release before the task's main loop will treat any press as real (`wait_for_release()` at task start, and again after every detected edge).
+- **Known non-fatal rough edge**: one `E (...) lcd_panel.io.i2c: panel_io_i2c_tx_buffer` transmit error observed right at a Tier 1 entry — likely the touch controller's IRQ-driven I2C poll (CST9217, wrapped via `esp_lcd_panel_io_i2c`) racing the light-sleep transition. Device recovered fine both times seen; not root-caused or fixed this pass.
+
+`rabble_hal_display_sleep()`/`wake()` need the `esp_lcd_panel_handle_t` the vendor BSP creates internally but never exposes a getter for — `app_main.c`'s `rabble_display_start_dark()` (the white-flash fix, see plan doc) hands it to the HAL once via `rabble_hal_display_set_panel_handle()` right after `bsp_display_new()` returns.
+
 ## Comms Architecture
 
 **Phone is the dispatch hub, not the device.**
