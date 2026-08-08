@@ -15,12 +15,24 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-08-08 · S212 (pocket-esp-idf-eim)
+## LATEST — 2026-08-08 · S213 (os-creator-apps)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S212: RaBbLE-Pocket scaffolded, ESP-IDF toolchain wired via EIM CLI
+**This session:** S213: fixed broken freecad layer (LAYER_NAMES entry), generalized into data-driven layer/creator-apps registry + layerctl app subcommand
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12 open.
-**Next:** Mark runs layerctl apply esp-idf, verifies eim install layout + pocket-idf activation
+**Next:** Mark runs layerctl app freecad, confirms FreeCAD launches, starts battery mount CAD work
+
+---
+
+## 2026-08-08 · Session 213 (os-creator-apps: fixed broken freecad layer, generalized it into a data-driven app registry)
+
+- **Repo:** RaBbLE-OS. Direct continuation of S211's FreeCAD layer — Mark reported "freecad is not an option" when trying to apply it.
+- **Root cause found:** `layerctl status` crashed with `unbound variable` right after `gnome`. `LAYER_NAMES['freecad']` was missing — present in `LAYER_EXTRA_VARS`/`LAYER_VERIFY`/`LAYER_ORDER`, but not there. Traced to my own S211 reconciliation step: when untangling this session's uncommitted FreeCAD edits from a concurrent session's ESP-IDF edits to the same shared bash arrays in `layerctl.sh`, I ran `git checkout -- RaBbLE-OS-layerctl.sh` to restore to what I believed was a commit containing both sets of changes correctly — but that commit (`f60b674`) never actually had FreeCAD in `LAYER_NAMES` (I'd only diff-verified the other three arrays, not that one). Fixed by re-adding the entry and verifying live (`layerctl status` no longer crashes, lists freecad) before committing (`2576783`).
+- **Then generalized per Mark's ask** ("could we register individual apps into layerctl") — the one-role-per-app shape (`layer/freecad`, matching `layer/bottles`/`layer/esp-idf`/`layer/gnome`) is exactly the kind of hand-maintained state that just broke silently. Replaced `layer/freecad` with `layer/creator-apps`: one generic role, one data-driven list (`ansible/roles/layer/creator-apps/vars/main.yml`, `rabble_optional_apps: [{id, flatpak, desc}]`). Adding a future single-Flatpak creator app (Blender, KiCad, …) is now a 3-line vars entry — no new role directory, no new `site.yml` play, no `layerctl.sh` array edits. `layerctl.sh` gained a new `app` subcommand (`app list`, `app <id>`) that reads the vars list at runtime via `python3`+PyYAML (already a hard Ansible dependency) rather than requiring the list to be duplicated into bash. `apply creator-apps` still installs everything in the list, same as any other layer. `manifest.yml` keeps a hand-maintained decision-record entry per app (the WHY) separate from the mechanical vars list (the WHAT) — asked Mark to confirm this tradeoff via `AskUserQuestion`; he picked the generic-role approach over keeping one-role-per-app. Commit `4219520`.
+- **Verified live** (this machine is Mark's actual daily-driver RaBbLE-OS box, not a separate test target): `bash -n`, `shellcheck` (no new warnings beyond one pre-existing unrelated one), `ansible-playbook --syntax-check` + `--list-tasks --tags creator-apps` (resolves the expected 3 tasks), `layerctl app list`, `layerctl status`, and the unknown-app error path all exercised directly, not just read.
+- **Process note for future sessions:** this repo currently has Mark running genuinely concurrent sessions against the same shared files (`layerctl.sh`, `manifest.yml`, `site.yml`) with no locking beyond the anti-clobber heartbeat backstop — three separate races with the ESP-IDF session happened across S211/S213. None caused data loss (git history is intact and each collision was caught and reconciled), but the freecad-in-`LAYER_NAMES` bug shipped in a commit and reached Mark before being caught — `git diff` review after a `git checkout` restore needs to check *every* array touched, not just the ones that showed up in the last-seen diff.
+- **Also noticed, not fixed:** `end-session.sh`'s session-label auto-inference (`grep -m1 "^## 2[0-9][0-9][0-9]-"`) grabbed a stray old dated header (`## 2026-07-06 · Session 199`) that sits *above* `## LATEST` near the top of this file, instead of the actual newest entry below it — wrong label written into `## LATEST` once this session, caught and hand-fixed before committing. Passing `--session "S213"` explicitly sidesteps it; the stray S199 block's position is the real fix, left alone here since it's unrelated to this session's scope.
+- **Next:** Mark runs `./RaBbLE-OS-layerctl.sh app freecad` (or `apply creator-apps`), confirms FreeCAD launches, begins RaBbLE-Pocket battery-mount CAD work.
 
 ---
 

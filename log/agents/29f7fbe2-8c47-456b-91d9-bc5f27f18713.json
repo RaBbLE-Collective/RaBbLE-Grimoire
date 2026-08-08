@@ -9,6 +9,11 @@
     "RaBbLE-Grimoire:RaBbLE-Pocket/RaBbLE-Pocket-Architecture.md",
     "RaBbLE-Grimoire:RaBbLE-Pocket/RaBbLE-Pocket-Hardware.md",
     "RaBbLE-Grimoire:RaBbLE-Pocket/RaBbLE-Pocket-Roadmap.md",
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/agents/29f7fbe2-8c47-456b-91d9-bc5f27f18713.json",
+    "RaBbLE-Grimoire:log/agents/d130e7eb-c370-4151-87f2-4d83397c5bd5.json",
+    "RaBbLE-Grimoire:log/agents/e63f781f-0d27-44b9-86f5-7bc7276eb2f0.json",
+    "RaBbLE-Grimoire:log/token-ledger.tsv",
     "RaBbLE-Grimoire:registry/manifests/RaBbLE-Pocket.manifest.yml",
     "RaBbLE-OS:RaBbLE-OS-layerctl.sh",
     "RaBbLE-OS:ansible/packages/manifest.yml",
@@ -18,6 +23,6 @@
     "RaBbLE-OS:ansible/site.yml"
   ],
   "started_at": "2026-08-08T02:28:46Z",
-  "heartbeat_at": "2026-08-08T03:48:57Z",
+  "heartbeat_at": "2026-08-08T04:20:52Z",
   "auto": true
 }

@@ -5,11 +5,15 @@
   "scopes": [
     "RaBbLE-Grimoire:RaBbLE-OS/layers/RaBbLE-OS-Layer-ESP-IDF.md",
     "RaBbLE-Grimoire:RaBbLE-Pocket/RaBbLE-Pocket-Architecture.md",
+    "RaBbLE-OS:RaBbLE-OS-layerctl.sh",
+    "RaBbLE-OS:ansible/packages/manifest.yml",
+    "RaBbLE-OS:ansible/roles/layer/esp-idf/tasks/main.yml",
+    "RaBbLE-OS:ansible/roles/layer/esp-idf/vars/main.yml",
     "RaBbLE-OS:ansible/roles/layer/freecad/defaults/main.yml",
     "RaBbLE-OS:ansible/roles/layer/freecad/tasks/main.yml",
     "RaBbLE-OS:ansible/site.yml"
   ],
   "started_at": "2026-08-08T03:52:56Z",
-  "heartbeat_at": "2026-08-08T03:52:56Z",
+  "heartbeat_at": "2026-08-08T04:10:43Z",
   "auto": true
 }

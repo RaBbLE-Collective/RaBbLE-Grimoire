@@ -207,3 +207,4 @@ e4c809a2-c96b-4d46-a8e1-94c274d00331	scribble-polish	S209: ScRiBbLE v1 hardened 
 d130e7eb-c370-4151-87f2-4d83397c5bd5	os-vscodium-checksum-fix	S210: rpmnew adoption fix for VSCodium corrupt banner
 e63f781f-0d27-44b9-86f5-7bc7276eb2f0	os-freecad-layer	S211: opt-in FreeCAD layer
 S212-pocket-esp-idf-eim	pocket-esp-idf-eim	S212: RaBbLE-Pocket scaffolded, ESP-IDF toolchain wired via EIM CLI
+6a7f7b3d-a67d-4757-be86-e4f1c6f1456c	os-creator-apps	S213: fixed + generalized FreeCAD layer into creator-apps registry
