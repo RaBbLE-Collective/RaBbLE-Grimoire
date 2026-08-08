@@ -15,12 +15,26 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-08-08 · Session 218 (pocket-cad-real-parts)
+## LATEST — 2026-08-08 · Session S219 (pocket-firmware-v1-screens)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S218: CAD real-parts split, Case DXF refs
+**This session:** S219: RaBbLE-Pocket v1 firmware Slices 0-4 done (idle/boot/settings screens, real hardware verified)
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12/B-13 open.
-**Next:** sketch Case body; verify mirroring+rim step; backplate redesign queued
+**Next:** Slice 5-6: two-tier sleep/wake power task
+
+---
+
+## 2026-08-08 · Session S219 (pocket-firmware-v1-screens: ESP-IDF scaffold, power/RTC HAL, idle+settings+boot screens)
+
+- **Repo:** RaBbLE-Pocket + RaBbLE-Grimoire. First custom firmware build on the Waveshare ESP32-S3-Touch-AMOLED-1.75-B — Slices 0-4 of the v1 plan, all verified end to end on real hardware over many build/flash/look iterations in one sitting.
+- **Slice 0-1 (scaffold + power/RTC HAL):** `firmware/` turned into the ESP-IDF project root (BSP + `components/rabble_axp2101` + `components/rabble_pcf85063`, both hand-written since no vendor ESP-IDF component existed for either chip). Confirmed on hardware: battery %/charging read correctly, RTC read/validity (oscillator-integrity flag correctly flags a never-set clock) both work first try. Real reset-to-idle-screen time, read directly off ESP-IDF's own boot-elapsed log timestamps (not a self-measured delta, which undercounted by missing the bootloader phase): ~2.95s, not the ≤2s originally targeted — dominant cost is two hardcoded 600ms vendor delays in the CO5300 panel's own init table, confirmed present in Brookesia (the vendor's reference firmware) too, not something either app's code controls.
+- **Slice 2 (idle screen):** eyes+portals (`entity_face.h/.c`), time+battery(color-coded)+wordmark, pure black bg for AMOLED pixels-off. Eye/portal geometry ported from `RaBbLE-NeBuLA/src/backends/eye-behavior.js` + `canvas2d/{eye-system,portal-system}.js`, then corrected through several rounds of real-hardware photo feedback with Mark — the concentric mapping first ported turned out to be NeBuLA's mid-boot-emergence formula, not its resting-state one; at rest eyes share one centerline while each portal sits independently above/below its own eye (always asymmetric, cyan above/magenta below with individually hand-tuned offsets). Found and fixed a real LVGL bug along the way: `transform_scale_x/y`'s pivot defaults to an object's top-left corner, not its center (confirmed in `lv_obj_pos.c`) - squashing an axis without pinning `transform_pivot_x/y` to 50%/50% first shrinks the shape toward that corner.
+- **Slice 3 (boot animation) - plan pivot:** originally planned as a Playwright-capture -> ffmpeg-GIF -> `lv_gif` pipeline; switched to native LVGL animation on Mark's call once the idle screen's eye/portal objects already existed and were tuned - reusing them for boot keeps the two screens visually consistent by construction, no export pipeline, no GIF palette banding. v1 scope kept deliberately minimal (Mark's call): just the two portal rings fading in, no eyes/particles yet. Two real vendor-BSP display-timing bugs found and fixed via hardware iteration: (1) white flash on boot - `bsp_display_start()` sets brightness to 100% and starts the LVGL adapter task internally, before app code regains control; fixed by replicating Brookesia's own documented "P4 reference startup sequence" (brightness 100%->0% *before* `esp_lv_adapter_start()`) as a new `rabble_display_start_dark()` in `app_main.c`, bypassing `bsp_display_start()` entirely; (2) partial-frame (bottom-half) flash - turning the backlight back on immediately after unlock raced the first frame's multi-strip QSPI DMA flush; fixed with a 100ms settle delay.
+- **Slice 4 (settings screen):** year/month/day + hour/minute/AM-PM rollers (reordered + resized after Mark found the first layout too cramped and the Save button hard to hit), writes via `rabble_hal_rtc_set_datetime`. RTC persistence confirmed for real, incidentally - the date Mark set via Settings survived several subsequent reflashes (PCF85063's own backup supply, independent of ESP32 resets).
+- **Also:** rebalanced palette use toward more cyan per Mark's ask (roller selection highlight, Cancel button border, idle am/pm label - previously magenta-heavy).
+- **Commits:** RaBbLE-Pocket `12f7799` (firmware code). RaBbLE-Grimoire `8dc5e70` (design doc), this entry.
+- **Not done:** two-tier sleep/wake power task (Slice 5-6) - button read, Tier 1 light-sleep, Tier 2 PMIC power-gate. Flagged as the riskiest remaining slice (a bug can cut power mid-debug, unlike the reflash-and-look loop used for everything above).
+- **Next:** Slice 5-6 (power task), then update `RaBbLE-Pocket-Architecture.md` with the finalized app state machine + power management sections, plus a new ADR for the two-tier sleep decision (both still pending from the original plan).
 
 ---
 
