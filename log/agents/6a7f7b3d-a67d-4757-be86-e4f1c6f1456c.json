@@ -3,13 +3,16 @@
   "agent": "auto",
   "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-OS",
   "scopes": [
+    "RaBbLE-OS:RaBbLE-OS-layerctl.sh",
+    "RaBbLE-OS:ansible/packages/manifest.yml",
     "RaBbLE-OS:ansible/roles/layer/creator-apps/defaults/main.yml",
     "RaBbLE-OS:ansible/roles/layer/creator-apps/tasks/main.yml",
     "RaBbLE-OS:ansible/roles/layer/creator-apps/vars/main.yml",
     "RaBbLE-OS:ansible/roles/layer/freecad/defaults/main.yml",
-    "RaBbLE-OS:ansible/roles/layer/freecad/tasks/main.yml"
+    "RaBbLE-OS:ansible/roles/layer/freecad/tasks/main.yml",
+    "RaBbLE-OS:ansible/site.yml"
   ],
   "started_at": "2026-08-08T04:33:10Z",
-  "heartbeat_at": "2026-08-08T04:33:10Z",
+  "heartbeat_at": "2026-08-08T05:36:55Z",
   "auto": true
 }
