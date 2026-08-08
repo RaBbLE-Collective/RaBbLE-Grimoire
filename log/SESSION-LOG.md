@@ -15,12 +15,22 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-08-08 · S214 (os-creator-apps-cli-alias)
+## LATEST — 2026-08-08 · S215 (os-arduino-cli-fix)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S214: layer/creator-apps apps can declare a cli field; role generates flatpak-wrapped shell aliases sourced by .zshrc/.bashrc
+**This session:** S215: fixed layer/arduino-cli's 404'ing download (bad latest URL pattern copied from EIM), landed the layer
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12 open.
-**Next:** Mark uses freecadcmd directly; future creator apps with a CLI just need a cli: vars entry
+**Next:** Mark builds the vendor's reference .ino examples against the ESP32 core for comparison against RaBbLE-Pocket's ESP-IDF firmware
+
+---
+
+## 2026-08-08 · Session 215 (os-arduino-cli-fix: fixed layer/arduino-cli's 404 download, landed the layer)
+
+- **Repo:** RaBbLE-OS. Mark's own concurrent session had scaffolded `layer/arduino-cli` (fifth `layer/*` opt-in reference impl — arduino-cli + ESP32 core, for building the vendor's reference `.ino` examples as comparison material only; RaBbLE-Pocket's actual firmware stays on ESP-IDF per the S212 ADR) in parallel with this session's S213/S214 work, still uncommitted. Mark ran `layerctl apply arduino-cli` and hit a hard 404 on the download task.
+- **Root cause:** the task copied `layer/esp-idf`'s EIM install pattern — a GitHub `/releases/latest/download/<filename>` URL — but the two vendors' release assets don't share a naming convention. EIM publishes a *static* filename every release (`eim-cli-linux-x64.rpm`, unchanged across versions), so the `/latest/` shortcut resolves correctly. arduino-cli embeds the real version number in its filenames (`arduino-cli_1.5.1_Linux_64bit.tar.gz`); the role's `arduino_cli_version: latest` var got templated straight into the filename too, producing a request for `arduino-cli_latest_Linux_64bit.tar.gz` — an asset that has never existed. Confirmed against the GitHub releases API (`tag_name: v1.5.1`, real asset names all version-stamped) before touching anything.
+- **Fix:** replaced the `get_url`+`unarchive` pair with Arduino's own official `install.sh` (`curl -fsSL .../install.sh | sh`, `BINDIR` env var pointed at `arduino_cli_bin_dir`) — same pattern this manifest already uses for `ollama`. It resolves the correct version and arch itself, so there's no filename left to drift out of sync with a future release. Dropped the now-unused `arduino_cli_version` var with a comment explaining why the EIM pattern doesn't transfer, so a future reader doesn't reintroduce it. Commit `b6c1634`.
+- **Verified live, twice over:** first ran the equivalent commands directly (not through Ansible — the play's `dialout`-group task needs `become: true`, and fact-gathering at the play level needs an interactive `sudo` this tool environment can't supply) — confirmed `arduino-cli 1.5.1` installs, config initializes, ESP32 board index adds and updates, `esp32:esp32@3.3.10` core installs. Then Mark ran the actual `layerctl apply arduino-cli` himself end-to-end and confirmed it works; `layerctl status` now reports `arduino-cli applied`.
+- **Next:** Mark builds the vendor's reference `.ino` examples (`firmware/vendor/.../examples/arduino/`) against the installed ESP32 core, for comparison against RaBbLE-Pocket's own ESP-IDF firmware.
 
 ---
 
