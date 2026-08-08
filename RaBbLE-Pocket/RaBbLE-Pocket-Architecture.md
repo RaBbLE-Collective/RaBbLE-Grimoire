@@ -24,11 +24,15 @@ Firmware and comms architecture for the pendant. Hardware inventory: `RaBbLE-Poc
 - **ESP-SR (wake word) is ESP-IDF native** — no equivalent maturity on Arduino.
 - **Matches the vendor repo's own primary path.** Waveshare's Brookesia reference firmware (the fullest-featured example — 13 apps, ES7210 mic capture, ES8311 playback, QMI8658, AXP2101) is validated against **ESP-IDF v5.5.4** specifically (v6.0.2 also supported for the plain examples). `firmware/vendor/ESP32-S3-Touch-AMOLED-1.75/docs/getting-started.md` has the exact `idf.py -C examples/esp-idf/<name> -B build/<name> set-target esp32s3 build` invocation — pin to v5.5.4 to match Brookesia and avoid version-skew surprises when reading their example code.
 
-Practical setup, Linux + VSCode, no IDE:
+**Install + version management, RaBbLE-OS-side:** `bash RaBbLE-OS-layerctl.sh apply esp-idf` — opt-in `layer/esp-idf`, installs prerequisites, one or more ESP-IDF versions side by side (`~/esp/esp-idf-<version>`, no collision — Espressif's toolchain/venv caches are keyed by version), plus `picocom`/`usbutils`/`fzf` and Espressif's own EIM GUI (machine-wide version browser). Full layer doc: `RaBbLE-Grimoire/RaBbLE-OS/layers/RaBbLE-OS-Layer-ESP-IDF.md`.
+
+**Which version a project actually uses is a project-level decision**, not a machine one — `firmware/.esp-idf-version` pins it (currently `v5.5.4`), and `ops/esp-idf-select.sh` (sourced, defines a `pocket-idf` shell function) resolves the pin or prompts interactively and activates it. ADR: `RaBbLE-Pocket/planning/decisions/2026-08-07-esp-idf-multiversion-and-eim.md`.
+
+Practical day-to-day, Linux + VSCode, no IDE:
 ```sh
-git clone -b v5.5.4 --recursive https://github.com/espressif/esp-idf.git ~/esp/esp-idf
-cd ~/esp/esp-idf && ./install.sh esp32s3
-. ~/esp/esp-idf/export.sh          # run this once per shell/session before idf.py
+cd ~/RaBbLE-Collective/RaBbLE-Pocket
+source ops/esp-idf-select.sh       # once per shell (or add to shell rc)
+pocket-idf                         # activates whatever firmware/.esp-idf-version pins
 idf.py -C firmware/<project> -B build/<project> set-target esp32s3 build
 idf.py -C firmware/<project> -B build/<project> -p /dev/ttyACM0 flash monitor
 ```
