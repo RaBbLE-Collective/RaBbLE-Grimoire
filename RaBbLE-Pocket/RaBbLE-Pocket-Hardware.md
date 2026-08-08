@@ -11,16 +11,17 @@ Hardware is alive. Waveshare ESP32-S3-Touch-AMOLED-1.75-B is booted, running on 
 **Board:** Waveshare ESP32-S3-Touch-AMOLED-1.75-B ($33.99, protective case variant)
 - ESP32-S3R8, Xtensa LX7 dual-core, 240MHz, 8MB PSRAM, 16MB flash
 - 1.75" round AMOLED, 466×466, CO5300 driver, CST9217 capacitive touch (QSPI + I2C)
-- Dual digital microphone array with ES7210 echo cancellation chip
+- Dual digital microphone array with ES7210 echo cancellation chip (mic capture) + ES8311 codec driving the speaker output via an NS4150B PA — confirmed from the schematic (`U8` = ES7210, `U6` = ES8311), two separate chips doing separate jobs, not a naming conflict
 - QMI8658 6-axis IMU, PCF85063 RTC, AXP2101 PMIC
 - TF card slot, MX1.25 2-pin battery header, 8Ω 2W external speaker (included, wired)
 - WiFi 4 (802.11 b/g/n) + Bluetooth 5 (LE) — **no Bluetooth Classic, no LE Audio (BLE 5.0, not 5.2 ISO channels)**
 - 2.54mm 8-pin header (3× GPIO, UART, reserved I2C + 3× expanded IO)
 
 **Vendor resources:**
-- [ESP32-S3-Touch-AMOLED-1.75 firmware repo](https://github.com/waveshareteam/ESP32-S3-Touch-AMOLED-1.75)
+- [ESP32-S3-Touch-AMOLED-1.75 firmware repo](https://github.com/waveshareteam/ESP32-S3-Touch-AMOLED-1.75) — Apache-2.0 licensed (some bundled example deps carry their own permissive licenses)
 - [Board docs](https://docs.waveshare.com/ESP32-S3-Touch-AMOLED-1.75)
 - [Resources and Documents (schematics, datasheets, drivers)](https://docs.waveshare.com/ESP32-S3-Touch-AMOLED-1.75/Resources-And-Documents)
+- Local copy (vendor firmware clone + all PDFs/schematics, gitignored): `RaBbLE-Pocket/firmware/vendor/` — see that dir's `README.md` for the resolved codec finding and full file list
 
 **Battery:** EEMB 3.7V 320mAh LiPo, 402535 (25×35×4.3mm), JST/MX1.25 2-pin, built-in protection circuit (overcharge 4.28V / overdischarge 3.0V cutoff)
 - Confirmed correct connector match to board header
