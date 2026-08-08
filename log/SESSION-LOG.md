@@ -18,9 +18,9 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-08-08 · Session 218 (pocket-cad-real-parts)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S218: CAD split into 4 real per-part FreeCAD files (Board/Case/Backplate/Battery); Case gets DXF-traced reference geometry from the -B drawing views
+**This session:** S218: CAD real-parts split, Case DXF refs
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12/B-13 open.
-**Next:** Mark: sketch the Case body over the placed references (verify front/back mirroring + the 1.70mm rim step against the physical case first); backplate also flagged for a redesign pass
+**Next:** sketch Case body; verify mirroring+rim step; backplate redesign queued
 
 ---
 
