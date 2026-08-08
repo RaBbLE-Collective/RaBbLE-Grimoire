@@ -24,6 +24,20 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-08-08 · Session (pocket-backplate-cad: battery backplate v1 built in FreeCAD)
+
+- **Repo:** RaBbLE-Pocket + RaBbLE-Grimoire. Mark got FreeCAD running locally and asked for a custom backplate with battery space for the -B board, plus a reference assembly for future design work.
+- **Sourced real dimensions, not guesses:** the vendor's 3D download only ships a STEP file for the base 1.75 variant, not -B (that zip has DWG/PDF only). Extracted the 3 mounting-hole positions directly from the base STEP's geometry (headless FreeCAD, filtered `Part::GeomCylinder` faces r<3mm) and cross-checked against the -B mechanical drawing — the 13.75/14.70/20.50mm dimensions matched exactly, confirming both variants share one PCB/mount pattern. A face-area comparison (large flat face vs. the domed AMOLED front's small planar sliver) identified which side is the back, used to orient the board in the assembly.
+- **Design (Mark confirmed via AskUserQuestion):** backplate bolts to the board's existing 3 PCB mounting holes (not the stock -B case), v1 is battery-bay only (no lanyard/clip yet), tolerances tuned for the Cetus3D MK2. Boss-and-pocket construction: Ø51mm disc, 25.6×35.6×4.7mm pocket for the EEMB 320mAh battery, 3 bolt-through bosses, wire pass-through notch (placeholder position — not tied to an exact connector coordinate).
+- **Two Flatpak gotchas cost real time:** FreeCAD's Flatpak sandbox has a *private* `/tmp` (the `host` filesystem permission doesn't cover it) — scratch files for headless runs had to live under `/home`. And `FreeCADCmd <script>.py` as a bare positional arg silently no-ops; needs `-c "exec(open('...').read())"`.
+- **Verified, not just generated:** exported STL checked watertight + no self-intersections via `Mesh.isSolid()`/`hasSelfIntersections()`. Rendered PNG views offscreen (GUI-enabled FreeCAD + `QT_QPA_PLATFORM=offscreen`, since FreeCADCmd has no `Gui` module) to visually confirm the pocket/boss layout and that the imported board's real bosses/header/connectors line up with the computed hole coordinates.
+- **One bug caught and fixed:** a bbox-based edge filter for the cosmetic top-rim fillet grabbed the wrong edges and blew the plate outward past its 51mm OD. Rewrote as a geometric circle-radius match with a bounding-box safety fallback to a sharp edge.
+- **Dropped from the commit:** a full STEP export of the reference assembly ballooned to ~80MB from the vendor board's component-level detail — not worth committing; the FCStd (2.3MB) covers it.
+- **Files:** `RaBbLE-Pocket/hardware/cad/` (scripts, out/ deliverables incl. print-ready STL, renders). Docs: `RaBbLE-Pocket-Backplate-CAD.md` (new), `RaBbLE-Pocket-Hardware.md` updated, ADR at `RaBbLE-Pocket/planning/decisions/2026-08-08-backplate-battery-mount.md`.
+- **Not done / next:** confirm wire notch position and mounting-screw length against the physical board before printing; print v1 and test-fit; v2 adds the lanyard/clip once fit is validated.
+
+---
+
 ## 2026-08-08 · Session 215 (os-arduino-cli-fix: fixed layer/arduino-cli's 404 download, landed the layer)
 
 - **Repo:** RaBbLE-OS. Mark's own concurrent session had scaffolded `layer/arduino-cli` (fifth `layer/*` opt-in reference impl — arduino-cli + ESP32 core, for building the vendor's reference `.ino` examples as comparison material only; RaBbLE-Pocket's actual firmware stays on ESP-IDF per the S212 ADR) in parallel with this session's S213/S214 work, still uncommitted. Mark ran `layerctl apply arduino-cli` and hit a hard 404 on the download task.

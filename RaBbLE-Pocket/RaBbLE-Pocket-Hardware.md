@@ -51,3 +51,9 @@ Hardware is alive. Waveshare ESP32-S3-Touch-AMOLED-1.75-B is booted, running on 
 ## Custom Case Decision (Open)
 
 Build around -B / bare 1.75 board (keeps RTC + TF slot + pluggable header) vs. 1.75C form factor. Not yet decided — tracked in Roadmap.
+
+**Battery backplate — v1 built (2026-08-08):** custom backplate that bolts to
+the -B board's existing 3 PCB mounting holes and houses the EEMB 320mAh LiPo
+in a dedicated pocket (previously dangling on wires). Battery-bay only for
+now, no lanyard/clip yet. Full design + files:
+[RaBbLE-Pocket-Backplate-CAD](RaBbLE-Pocket-Backplate-CAD.md).
