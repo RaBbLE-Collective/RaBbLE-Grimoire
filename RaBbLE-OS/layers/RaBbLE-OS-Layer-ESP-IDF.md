@@ -5,13 +5,15 @@
 > Opt-in var: `rabble_enable_esp_idf` (default `false` — see `ansible/roles/layer/esp-idf/defaults/main.yml`)
 > Role: `ansible/roles/layer/esp-idf/`
 
-Installs Espressif's ESP-IDF embedded toolchain(s) for RaBbLE-Pocket firmware development (Waveshare ESP32-S3-Touch-AMOLED-1.75). ADR for choosing ESP-IDF over Arduino: `RaBbLE-Pocket/planning/decisions/2026-08-07-esp-idf-over-arduino.md`. ADR for the multi-version + EIM setup below: `RaBbLE-Pocket/planning/decisions/2026-08-07-esp-idf-multiversion-and-eim.md`. Toolchain rundown: `../RaBbLE-Pocket/RaBbLE-Pocket-Architecture.md`.
+Installs Espressif's ESP-IDF embedded toolchain(s) for RaBbLE-Pocket firmware development (Waveshare ESP32-S3-Touch-AMOLED-1.75), provisioned via Espressif's own **EIM CLI**. ADRs: `RaBbLE-Pocket/planning/decisions/2026-08-07-esp-idf-over-arduino.md` (ESP-IDF vs Arduino) · `2026-08-07-esp-idf-multiversion-and-eim.md` (per-project pinning + EIM as a secondary tool) · `2026-08-08-eim-cli-provisioning.md` (EIM CLI became the actual installer, not just a standalone extra). Toolchain rundown: `../RaBbLE-Pocket/RaBbLE-Pocket-Architecture.md`.
 
-ESP-IDF itself is **not a Fedora package** — Espressif ships it as a `git clone` + a self-contained `install.sh` that downloads its own cross-compiler toolchain and builds a private Python venv under `~/.espressif/`. This layer installs the dnf-packaged build *prerequisites* that `install.sh` needs already present on the system, then does the clone + install as the regular user (not root — `become: false` on those tasks, overriding the play's default `become: true`).
+**Provisioning goes through `eim install`, not a hand-rolled git-clone + install.sh loop.** EIM (`espressif/idf-im-ui`) is Espressif's own documented, non-interactive-capable multi-version installer + registry (`eim list` reads a real `eim_idf.json`, default `~/.espressif/tools/`) — a better fit than reinventing that mechanism. `eim`'s own prerequisites still need to be present via dnf first (its `--install-all-prerequisites` auto-install flag is Windows-only per `eim install --help`).
 
-**Multiple versions install side by side**, one directory per version (`esp_idf_versions` list in `vars/main.yml`, currently just `["v5.5.4"]`) — Espressif's own toolchain/venv caches under `~/.espressif/` are already keyed by version, so this never collides. Which version a given *project* uses is resolved at the project level, not here — see `RaBbLE-Pocket/ops/esp-idf-select.sh`.
+**Multiple versions install side by side**, one `--version-name` subdirectory each under a shared `--path` (`esp_idf_eim_path`, `~/esp/esp-idf-eim`) — `esp_idf_versions` list in `vars/main.yml`, currently just `["v5.5.4"]`. Which version a given *project* uses is resolved at the project level, not here — EIM has no concept of a project pin — see `RaBbLE-Pocket/ops/esp-idf-select.sh`.
 
 Third reference implementation of the `layer/*` optional-feature-group pattern (see `RaBbLE-OS-Layer-Bottles.md` and `RaBbLE-OS-Layer-Containers.md`). Neither `apply all` nor `upgrade` installs this layer — only an explicit `apply esp-idf`.
+
+**Not fully live-verified yet:** `eim install`'s flags are all confirmed to exist and mean what's documented (extracted the binary with `rpm2cpio`/`cpio`, ran `eim install --help` directly, no system install needed to check). What's *not* confirmed from this side is the exact on-disk layout `--path`+`--version-name` actually produces on a real run, and whether re-running `eim install` for an already-installed version is itself idempotent (the role guards this independently by checking `eim list` output first). Worth a glance at `~/esp/esp-idf-eim/` after the first real `apply esp-idf`.
 
 ---
 
@@ -19,17 +21,16 @@ Third reference implementation of the `layer/*` optional-feature-group pattern (
 
 | Step | What | Why |
 |---|---|---|
-| dnf prerequisites | `git wget flex bison gperf python3-pip cmake ninja-build ccache dfu-util libusbx openssl-devel libffi-devel` | Espressif's documented Linux/Fedora build prerequisites for `install.sh` |
+| dnf prerequisites | `git wget flex bison gperf python3-pip cmake ninja-build ccache dfu-util libusbx openssl-devel libffi-devel` | `eim install` still needs these present on Linux |
 | broader tools | `picocom` (serial terminal), `usbutils` (`lsusb`), `fzf` (nicer picker in `esp-idf-select.sh`, falls back to plain `select` without it) | Generally useful for USB/serial embedded work, not IDF-specific |
 | `dialout` group | `rabble_user` appended | The board enumerates as `/dev/ttyACM*`; `idf.py flash` (esptool.py) needs this to open the port without `sudo` — same rationale as `layer/bottles`' USB/serial task. **Requires a new login session to take effect.** |
-| ESP-IDF clone(s) | `git clone -b <version> --recursive https://github.com/espressif/esp-idf.git ~/esp/esp-idf-<version>` per entry in `esp_idf_versions` | One directory per version — no collision, see above |
-| `install.sh esp32s3` | run from each `~/esp/esp-idf-<version>`, as the regular user | Downloads the xtensa-esp32s3 cross-compiler + builds the Python venv under `~/.espressif/`, per version |
-| `~/esp/esp-idf-default` symlink | → `esp_idf_versions[0]` | Fallback for anything assuming one fixed path — `esp-idf-select.sh` doesn't rely on it directly (pin file first, interactive picker second) |
-| EIM GUI | `eim-gui-linux-x64.rpm`, latest GitHub release, `disable_gpg_check: true` (unsigned third-party rpm) | Espressif's own multi-version manager — installed because Mark wants all generally-useful official ESP tools present, not because it's the primary workflow here |
+| EIM CLI | `eim-cli-linux-x64.rpm`, latest GitHub release, `disable_gpg_check: true` (unsigned third-party rpm) | The tool this role actually drives — see below for why CLI over GUI |
+| ESP-IDF version(s) | `eim install --path ~/esp/esp-idf-eim --version-name <v> --idf-versions <v> --target esp32s3 --non-interactive true --do-not-track true`, once per `esp_idf_versions` entry, skipped if `eim list` already shows that version | Idempotent-by-registry-check provisioning |
+| `~/esp/esp-idf-default` symlink | → `esp_idf_eim_path/<esp_idf_versions[0]>` | Fallback for anything assuming one fixed path — `esp-idf-select.sh` doesn't rely on it directly (pin file first, interactive picker second) |
 
-**Why GUI only, not GUI+CLI:** `espressif/idf-im-ui` ships `eim-cli` and `eim-gui` as separate release packages that both install to `/usr/bin/eim`. Checked with `rpm -qp --dump` — genuinely different binaries (32MB vs 51MB, different SHA256), so dnf refuses to have both installed at once. Installing GUI since that's what was asked for; swap the release asset in `tasks/main.yml` to `eim-cli-linux-x64.rpm` if CLI-only is ever preferred.
+**Why CLI, not GUI:** `espressif/idf-im-ui` ships `eim-cli` and `eim-gui` as separate release packages that both install to `/usr/bin/eim`. Checked with `rpm -qp --dump` — genuinely different binaries (32MB vs 51MB, different SHA256), so dnf refuses to have both installed at once; only one can ever be present. Started with GUI (that's what was asked for first), switched to CLI once it became clear `eim --help` shows full command parity (`install`/`list`/`select`/`run`/`remove`/`rename`/`wizard`/...) plus `--non-interactive` scriptability the GUI doesn't offer — and CLI is what this role's tasks actually need to call. Swap the release asset back to `eim-gui-linux-x64.rpm` if the GUI ever becomes preferred again (loses the automated provisioning path — would need reverting to the git-clone+install.sh mechanism, still in git history).
 
-`esp_idf_versions`, `esp_idf_target`, `esp_idf_prereq_packages`, `esp_idf_extra_packages` all live in `ansible/roles/layer/esp-idf/vars/main.yml`.
+`esp_idf_versions`, `esp_idf_target`, `esp_idf_eim_path`, `esp_idf_prereq_packages`, `esp_idf_extra_packages` all live in `ansible/roles/layer/esp-idf/vars/main.yml`.
 
 ---
 
@@ -47,16 +48,22 @@ idf.py -C firmware/<project> -B build/<project> set-target esp32s3 build
 idf.py -C firmware/<project> -B build/<project> -p /dev/ttyACM0 flash monitor
 ```
 
-`pocket-idf list` shows installed versions + the current pin; `pocket-idf v6.0.2` activates an explicit version; `pocket-idf pin v6.0.2` writes a pin without activating. Full detail: `RaBbLE-Pocket/ops/CONTEXT.md`.
+`pocket-idf list` shows installed versions + the current pin (plus `eim list`'s raw output for cross-reference — not parsed, just shown); `pocket-idf v6.0.2` activates an explicit version; `pocket-idf pin v6.0.2` writes a pin without activating. Full detail: `RaBbLE-Pocket/ops/CONTEXT.md`.
 
-**Manual flow — no project context, one version:**
+**EIM directly** — Espressif's own commands, machine-wide, no project-pin awareness:
 
 ```bash
-. ~/esp/esp-idf-v5.5.4/export.sh
-idf.py --version
+eim list                                    # what's installed, per EIM's registry
+eim run "idf.py --version" v5.5.4           # run a command in a specific version's context, no global switch needed
+eim wizard                                  # interactive terminal wizard for install/manage
 ```
 
-**EIM GUI** — launch from the app grid (`.desktop` entry ships with the rpm) or `eim` from a terminal. Machine-wide version browsing/installing; doesn't know about a project's pin file.
+**Manual flow — no project or EIM context, one version:**
+
+```bash
+. ~/esp/esp-idf-eim/v5.5.4/export.sh
+idf.py --version
+```
 
 For VSCode IntelliSense without any Espressif extension: `idf.py build` generates `build/compile_commands.json` — point `C_Cpp.default.compileCommands` at it.
 
@@ -65,8 +72,8 @@ For VSCode IntelliSense without any Espressif extension: `idf.py build` generate
 ## Verify
 
 ```bash
-bash RaBbLE-OS-layerctl.sh verify esp-idf   # ~/esp/esp-idf-default symlink + ~/.espressif/python_env + `eim` on PATH
-. ~/esp/esp-idf-v5.5.4/export.sh && idf.py --version
+bash RaBbLE-OS-layerctl.sh verify esp-idf   # `eim` on PATH + `eim list` succeeds + ~/esp/esp-idf-default symlink
+. ~/esp/esp-idf-eim/v5.5.4/export.sh && idf.py --version
 ```
 
 If `dialout` group membership doesn't seem to be working (permission denied opening `/dev/ttyACM0`), log out and back in — same gotcha as `layer/bottles`' USB/serial group.
