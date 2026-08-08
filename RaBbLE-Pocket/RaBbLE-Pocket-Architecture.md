@@ -16,8 +16,9 @@ Firmware and comms architecture for the pendant. Hardware inventory: `RaBbLE-Poc
 
 ### Toolchain: ESP-IDF, not Arduino (decided S207-ish)
 
-**Decision: ESP-IDF.** Reasons:
+**Decision: ESP-IDF.** Formal ADR: `RaBbLE-Pocket/planning/decisions/2026-08-07-esp-idf-over-arduino.md`. Reasons:
 
+- **Arduino's single-loop model is a real pain point for this project's actual concurrency needs** — wake word, BLE GATT, WiFi provisioning, LVGL rendering, and audio I/O all need to run as independent, properly scheduled tasks, not cooperative slices of one `loop()`. Arduino-ESP32 is itself built on ESP-IDF/FreeRTOS but hides that under the single-loop illusion; ESP-IDF exposes the FreeRTOS task/queue/semaphore primitives directly.
 - **Fits the "no IDE" constraint exactly.** ESP-IDF's `install.sh` sets up a self-contained Python venv + toolchain; `. export.sh` activates it in any shell; `idf.py build/flash/monitor` drives everything from a plain terminal. No GUI application required — VSCode is just an editor here (the Espressif VSCode extension is optional QoL, not needed). Arduino's CLI path (`arduino-cli`) exists too, but the ecosystem centers on the GUI Arduino IDE and its getting-started docs assume it.
 - **Matches the BSP/HAL architecture above.** The `rabble_hal.h` + per-board BSP pattern needs low-level control over peripherals (QSPI AMOLED, I2C bus arbitration, IMU/RTC/PMIC drivers). Arduino-ESP32's abstraction layer works against that — it's built on top of ESP-IDF and hides the register/driver-level access custom BSPs need.
 - **ESP-SR (wake word) is ESP-IDF native** — no equivalent maturity on Arduino.
