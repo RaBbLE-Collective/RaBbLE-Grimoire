@@ -37,6 +37,8 @@ idf.py -C firmware/<project> -B build/<project> set-target esp32s3 build
 idf.py -C firmware/<project> -B build/<project> -p /dev/ttyACM0 flash monitor
 ```
 
+Worked example (hello_world smoke test + vendor LVGL demo) with gotchas hit during verification: `RaBbLE-Pocket-Firmware-BuildFlash.md`.
+
 ## Comms Architecture
 
 **Phone is the dispatch hub, not the device.**

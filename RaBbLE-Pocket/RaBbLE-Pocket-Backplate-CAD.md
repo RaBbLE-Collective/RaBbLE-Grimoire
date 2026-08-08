@@ -100,3 +100,61 @@ Printer target: Cetus3D MK2 (confirmed reliable per `[[project_bottles_layer_cet
 - [ ] Confirm existing mounting screws are long enough, or get longer ones
 - [ ] Print v1, test-fit the battery and the 3-hole mount
 - [ ] v2: lanyard loop/clip once the fit is validated (deferred by design, see ADR)
+
+---
+
+## v2: rebuilt as a hand-editable PartDesign Body (2026-08-08)
+
+v1's backplate was a Python script producing raw boolean shapes
+(`Part::Feature`) — fine to regenerate headlessly, but nothing in it is
+clickable/draggable in the FreeCAD GUI (no sketch to open, no feature to
+double-click). Mark wants to hand-edit the backplate directly, so
+`scripts/build_backplate_partdesign.py` re-expresses the same verified
+dimensions as a real `PartDesign::Body` feature tree:
+
+```
+Sketch_Disc (circle) -> Pad_Disc
+  -> Sketch_Pocket (sharp rect, corners rounded via a Fillet dressup below)
+     -> Pocket_Battery -> Fillet_PocketCorners
+  -> Boss_1/2/3 (AdditiveCylinder, one per mounting hole)
+  -> Sketch_Holes (3 circles) -> Pocket_Holes (ThroughAll)
+  -> Sketch_Notch -> Pocket_Notch (wire pass-through)
+  -> Fillet_TopRim (cosmetic, best-effort — see gotcha below)
+```
+
+Output: `out/RaBbLE-Pocket-Backplate-v2-PartDesign.{FCStd,step,stl}` and
+`out/RaBbLE-Pocket-Assembly-v2.FCStd` (via `build_assembly_v2.py`, same
+board-orientation math as v1). Bbox matches v1 exactly
+(Ø51mm × 5.9mm tall); volume is ~1% higher than v1 because the top-rim
+cosmetic fillet didn't survive on this run (see below) — everything
+structural (pocket, bosses, holes, notch) matches.
+
+Left two sketches deliberately under-constrained (`Sketch_Pocket` has no
+L/W dimension, `Sketch_Holes` has no radius constraints) as first
+live-editing exercises rather than fully locking them down.
+
+**Gotcha — PartDesign primitive box/cylinder features are unreliable on this
+build (FreeCAD 1.1.3, Flatpak) once a body already has boolean/fillet
+history:** a manually-`Placement`-positioned `PartDesign::SubtractiveBox` or
+`SubtractiveCylinder` added as the 2nd+ feature either crashed the whole app
+(`Application unexpectedly terminated`, no Python traceback) or silently
+produced an invalid shape that only surfaced later when a downstream Fillet
+tried to use it as a base (`"Base feature's TopoShape is invalid"`). Fix:
+build cuts as Sketch + Pocket instead (used for the wire notch) — never had
+this problem. `AdditiveCylinder` for the mounting bosses was fine (first
+feature added after each, not chained onto a fresh boolean result the same
+way). If a `PartDesign::Fillet` recompute silently fails, FreeCAD falls back
+to the feature's base shape rather than nulling it out — check
+`"Invalid" in obj.State`, not just `obj.Shape.isNull()`, to detect it, and
+dry-run the fillet on a detached `shape.copy()` via `Part.Shape.makeFillet()`
+*before* creating the real `PartDesign::Fillet` object, since cleaning up a
+half-failed one (`removeObject` + `body.Tip` reassignment) risked leaving the
+Body's dependency graph in a state that made `Body.Shape` permanently invalid
+(`"The graph must be a DAG"` warning). Also: a Body's origin planes are
+`f.Name == "XY_Plane"` (underscore) but `f.Label == "XY-plane"`
+(hyphen, lowercase) — match on `Name`, not `Label`.
+
+Also true and worth knowing for future headless FreeCAD scripts: plain
+Python `print()` calls inside `FreeCADCmd -c "exec(...)"` are unreliable
+(often silently swallowed) — use `FreeCAD.Console.PrintMessage()` /
+`PrintWarning()` instead, which always flush.

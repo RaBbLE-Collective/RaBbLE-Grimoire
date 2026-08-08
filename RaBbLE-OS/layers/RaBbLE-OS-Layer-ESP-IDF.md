@@ -13,7 +13,7 @@ Installs Espressif's ESP-IDF embedded toolchain(s) for RaBbLE-Pocket firmware de
 
 Third reference implementation of the `layer/*` optional-feature-group pattern (see `RaBbLE-OS-Layer-Bottles.md` and `RaBbLE-OS-Layer-Containers.md`). Neither `apply all` nor `upgrade` installs this layer — only an explicit `apply esp-idf`.
 
-**Not fully live-verified yet:** `eim install`'s flags are all confirmed to exist and mean what's documented (extracted the binary with `rpm2cpio`/`cpio`, ran `eim install --help` directly, no system install needed to check). What's *not* confirmed from this side is the exact on-disk layout `--path`+`--version-name` actually produces on a real run, and whether re-running `eim install` for an already-installed version is itself idempotent (the role guards this independently by checking `eim list` output first). Worth a glance at `~/esp/esp-idf-eim/` after the first real `apply esp-idf`.
+**Live-verified 2026-08-08:** `eim install --path ~/esp/esp-idf-eim --version-name <v>` puts the actual ESP-IDF checkout one level deeper than that path — `~/esp/esp-idf-eim/<v>/esp-idf/`, not `~/esp/esp-idf-eim/<v>/` directly. More importantly, eim does **not** use the plain upstream `esp-idf/export.sh` layout for its Python venv — it manages its own venv/toolchain paths and writes a dedicated activation script per version at `~/.espressif/tools/activate_idf_<v>.sh` (source of truth: `eim list` and `~/.espressif/tools/eim_idf.json`). Sourcing the plain `export.sh` fails with `ESP-IDF Python virtual environment ... not found` — it's looking in the wrong place. `esp-idf-select.sh` was written assuming the plain-`export.sh` layout and needed a fix; it's now correct. If you're activating by hand, use eim's own script, not `export.sh` (see "Manual flow" below).
 
 ---
 
@@ -50,6 +50,12 @@ idf.py -C firmware/<project> -B build/<project> -p /dev/ttyACM0 flash monitor
 
 `pocket-idf list` shows installed versions + the current pin (plus `eim list`'s raw output for cross-reference — not parsed, just shown); `pocket-idf v6.0.2` activates an explicit version; `pocket-idf pin v6.0.2` writes a pin without activating. Full detail: `RaBbLE-Pocket/ops/CONTEXT.md`.
 
+**One-shot, non-interactive:**
+
+```bash
+ops/build-flash.sh firmware/<project>   # config + build + flash, one command
+```
+
 **EIM directly** — Espressif's own commands, machine-wide, no project-pin awareness:
 
 ```bash
@@ -61,7 +67,7 @@ eim wizard                                  # interactive terminal wizard for in
 **Manual flow — no project or EIM context, one version:**
 
 ```bash
-. ~/esp/esp-idf-eim/v5.5.4/export.sh
+. ~/.espressif/tools/activate_idf_v5.5.4.sh   # eim's own script, not esp-idf/export.sh (see note above)
 idf.py --version
 ```
 
@@ -73,12 +79,14 @@ For VSCode IntelliSense without any Espressif extension: `idf.py build` generate
 
 ```bash
 bash RaBbLE-OS-layerctl.sh verify esp-idf   # `eim` on PATH + `eim list` succeeds + ~/esp/esp-idf-default symlink
-. ~/esp/esp-idf-eim/v5.5.4/export.sh && idf.py --version
+. ~/.espressif/tools/activate_idf_v5.5.4.sh && idf.py --version
 ```
 
 If `dialout` group membership doesn't seem to be working (permission denied opening `/dev/ttyACM0`), log out and back in — same gotcha as `layer/bottles`' USB/serial group.
 
 → `RaBbLE-OS-Layer-Bottles.md` — the `layer/*` pattern this follows
 → `RaBbLE-OS-Layer-Containers.md` — second reference implementation
+→ `RaBbLE-OS-Layer-Arduino-CLI.md` — fourth reference implementation, sibling layer for the vendor's Arduino examples
 → `../../RaBbLE-OS/ansible/packages/manifest.yml` — package declarations (`layer.esp-idf` category)
 → `../RaBbLE-Pocket/RaBbLE-Pocket-Architecture.md` — full toolchain rationale + Arduino porting notes
+→ `../RaBbLE-Pocket/RaBbLE-Pocket-Firmware-BuildFlash.md` — verified worked example + gotchas

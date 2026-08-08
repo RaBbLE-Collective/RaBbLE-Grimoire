@@ -1,0 +1,17 @@
+{
+  "session_id": "df5eee18-679e-43ba-a459-cfb82c8f3de1",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-OS",
+  "scopes": [
+    "RaBbLE-Grimoire:RaBbLE-OS/fix/RaBbLE-OS-KnownIssues.md",
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/token-ledger.tsv",
+    "RaBbLE-OS:ansible/roles/boot/grub2/files/rabble-console-font.service",
+    "RaBbLE-OS:ansible/roles/boot/grub2/tasks/config.yml",
+    "RaBbLE-OS:ansible/roles/boot/session_manager/files/sddm-plymouth-handoff.conf",
+    "RaBbLE-OS:ansible/roles/boot/session_manager/tasks/config.yml"
+  ],
+  "started_at": "2026-08-08T17:20:48Z",
+  "heartbeat_at": "2026-08-08T17:21:04Z",
+  "auto": true
+}
