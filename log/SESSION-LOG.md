@@ -15,12 +15,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-08-07 · Session 211 (os-freecad-layer)
+## LATEST — 2026-08-08 · S212 (pocket-esp-idf-eim)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S211: opt-in FreeCAD layer (Flathub) added for RaBbLE-Pocket battery-mount CAD work
+**This session:** S212: RaBbLE-Pocket scaffolded, ESP-IDF toolchain wired via EIM CLI
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12 open.
-**Next:** Mark runs layerctl apply freecad, confirms it launches, starts battery mount design
+**Next:** Mark runs layerctl apply esp-idf, verifies eim install layout + pocket-idf activation
 
 ---
 
