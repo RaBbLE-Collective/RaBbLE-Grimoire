@@ -15,12 +15,23 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-08-04 · Session 210 (os-vscodium-checksum-fix)
+## LATEST — 2026-08-07 · Session 211 (os-freecad-layer)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S210: VSCodium checksum fix v2 - adopt product.json.rpmnew on upgrade
+**This session:** S211: opt-in FreeCAD layer (Flathub) added for RaBbLE-Pocket battery-mount CAD work
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12 open.
-**Next:** Mark applies apps/vscode tag + relaunches to confirm banner clears
+**Next:** Mark runs layerctl apply freecad, confirms it launches, starts battery mount design
+
+---
+
+## 2026-08-07 · Session 211 (os-freecad-layer: opt-in FreeCAD layer for RaBbLE-Pocket CAD)
+
+- **Repo:** RaBbLE-OS. Mark wants to start FreeCAD work on RaBbLE-Pocket — designing the battery mount inside the enclosure — and asked for FreeCAD as an optional app for creators to install.
+- **Confirmed FreeCAD is not in Fedora's repos** (`dnf search freecad` against the machine's actual repo set — Fedora + RPM Fusion + active COPRs — returned nothing); it's on Flathub as `org.freecad.FreeCAD`. Built a fourth `layer/*` opt-in reference implementation, same shape as `layer/bottles`/`layer/esp-idf`/`layer/gnome`: new role `ansible/roles/layer/freecad/` (ensure flatpak + Flathub remote, install FreeCAD), gated by `rabble_enable_freecad` (default false, never pulled in by `apply all`/`upgrade`), wired into `site.yml` as its own play, registered in `RaBbLE-OS-layerctl.sh` (`LAYER_NAMES`/`LAYER_EXTRA_VARS`/`LAYER_VERIFY`/`LAYER_ORDER`), decision-record entries added to `ansible/packages/manifest.yml`.
+- **Concurrent-edit note:** a separate concurrent session (Mark, same machine) was mid-flight landing multi-version ESP-IDF support + EIM GUI into `layer/esp-idf` while this was in progress, touching the same shared arrays in `layerctl.sh`. That work landed on its own as commit `f60b674` and, mid-edit, swept up this session's not-yet-committed `manifest.yml`/`layerctl.sh` FreeCAD additions along with it. Rather than untangle already-committed history, reconciled forward: restored `layerctl.sh` to match the landed commit (which already carried both sets of changes correctly) and committed the remaining FreeCAD pieces (`site.yml` play + the new role directory) as commit `87fe709`. Net result is correct and equivalent to a clean split — just not two commits with perfectly disjoint diffs.
+- **Verified:** `ansible-playbook site.yml --syntax-check` clean; `yamllint` clean (line-length warnings only, pre-existing style); `shellcheck` on `layerctl.sh` shows only a pre-existing unrelated warning.
+- **Not done:** not yet applied on hardware — Mark needs to run the apply command himself (interactive `-K` sudo prompt).
+- **Next:** Mark runs `./RaBbLE-OS-layerctl.sh apply freecad`, confirms `flatpak run org.freecad.FreeCAD` launches, begins battery-mount CAD work for RaBbLE-Pocket.
 
 ---
 

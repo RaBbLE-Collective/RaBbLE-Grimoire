@@ -4,11 +4,15 @@
   "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-OS",
   "scopes": [
     "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/agents/030e2ba1-3431-4473-9b4a-66999112e3c1.json",
+    "RaBbLE-Grimoire:log/agents/5e0a610f-139d-42bd-9744-1ab78d57aca5.json",
+    "RaBbLE-Grimoire:log/agents/7bfbcf0b-f041-4461-b301-e8635e3db75a.json",
+    "RaBbLE-Grimoire:log/agents/commit-4867581.json",
     "RaBbLE-Grimoire:log/agents/d130e7eb-c370-4151-87f2-4d83397c5bd5.json",
     "RaBbLE-Grimoire:log/token-ledger.tsv",
     "RaBbLE-OS:ansible/roles/apps/tasks/vscode.yml"
   ],
   "started_at": "2026-08-04T19:10:49Z",
-  "heartbeat_at": "2026-08-04T20:23:33Z",
+  "heartbeat_at": "2026-08-04T20:39:01Z",
   "auto": true
 }

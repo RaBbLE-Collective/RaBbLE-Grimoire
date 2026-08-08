@@ -205,3 +205,4 @@ S205-upstudio3-usb-wifi	os-upstudio3-usb-wifi	S205: USB driver dead end confirme
 e1cb253f-7c15-469c-9057-795dfadbb57a	os-gnome-layer
 e4c809a2-c96b-4d46-a8e1-94c274d00331	scribble-polish	S209: ScRiBbLE v1 hardened - desktop pan/zoom, draggable text, bug fixes
 d130e7eb-c370-4151-87f2-4d83397c5bd5	os-vscodium-checksum-fix	S210: rpmnew adoption fix for VSCodium corrupt banner
+e63f781f-0d27-44b9-86f5-7bc7276eb2f0	os-freecad-layer	S211: opt-in FreeCAD layer

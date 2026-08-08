@@ -1,0 +1,23 @@
+{
+  "session_id": "29f7fbe2-8c47-456b-91d9-bc5f27f18713",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-Grimoire",
+  "scopes": [
+    "RaBbLE-Grimoire:AGENT.md",
+    "RaBbLE-Grimoire:INDEX.md",
+    "RaBbLE-Grimoire:RaBbLE-OS/layers/RaBbLE-OS-Layer-ESP-IDF.md",
+    "RaBbLE-Grimoire:RaBbLE-Pocket/RaBbLE-Pocket-Architecture.md",
+    "RaBbLE-Grimoire:RaBbLE-Pocket/RaBbLE-Pocket-Hardware.md",
+    "RaBbLE-Grimoire:RaBbLE-Pocket/RaBbLE-Pocket-Roadmap.md",
+    "RaBbLE-Grimoire:registry/manifests/RaBbLE-Pocket.manifest.yml",
+    "RaBbLE-OS:RaBbLE-OS-layerctl.sh",
+    "RaBbLE-OS:ansible/packages/manifest.yml",
+    "RaBbLE-OS:ansible/roles/layer/esp-idf/defaults/main.yml",
+    "RaBbLE-OS:ansible/roles/layer/esp-idf/tasks/main.yml",
+    "RaBbLE-OS:ansible/roles/layer/esp-idf/vars/main.yml",
+    "RaBbLE-OS:ansible/site.yml"
+  ],
+  "started_at": "2026-08-08T02:28:46Z",
+  "heartbeat_at": "2026-08-08T03:48:57Z",
+  "auto": true
+}
