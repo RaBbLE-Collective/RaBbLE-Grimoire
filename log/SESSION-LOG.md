@@ -15,12 +15,28 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-08-08 · Session S219 (pocket-firmware-v1-screens)
+## LATEST — 2026-08-08 · Session S220 (pocket-power-task)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S219: RaBbLE-Pocket v1 firmware Slices 0-4 done (idle/boot/settings screens, real hardware verified)
+**This session:** S220: RaBbLE-Pocket v1 firmware feature-complete, two-tier power verified on hardware
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12/B-13 open.
-**Next:** Slice 5-6: two-tier sleep/wake power task
+**Next:** wake-word engine decision (ESP-SR vs VIT)
+
+---
+
+## 2026-08-08 · Session S220 (pocket-power-task: Tier 0/1/2 sleep state machine, hardware-verified end to end)
+
+- **Repo:** RaBbLE-Pocket + RaBbLE-Grimoire. Continuation of S219 — built and hardware-verified the two-tier power state machine (Slice 5-6), the last piece of the v1 firmware plan, closing it out feature-complete.
+- **HAL boundary extended for real display sleep/wake:** `rabble_hal_display_sleep()`/`wake()` were stubs left from S219 (`TODO(Slice 6)`) because the vendor BSP never exposes the `esp_lcd_panel_handle_t` it creates internally inside `bsp_display_new()`. Fixed with a one-time setter, `rabble_hal_display_set_panel_handle()`, called from `app_main.c`'s `rabble_display_start_dark()` (the S219 white-flash fix) right after the panel is created; the HAL functions now issue real `esp_lcd_panel_disp_on_off()` panel commands (confirmed the CO5300 SPI variant implements `disp_on_off` — sends `DISPON`/`DISPOFF`, not full `SLPIN`/`SLPOUT` — by reading `esp_lcd_co5300_spi.c` directly rather than assuming).
+- **`rabble_power_task` (new, `main/app/power_task.c`):** one FreeRTOS task owning the whole Tier 0/1/2 state machine end to end, independent of app/screen state. Tier 0 polls the PWR button over I2C (TCA9554, no expander IRQ line reaches an ESP32 GPIO on this board) every ~100ms. A click drops the display+backlight off and puts the ESP32 into `esp_light_sleep_start()`, re-polling every ~100ms for either a wake click (instant resume, no reboot) or the `CONFIG_RABBLE_SLEEP_TIMEOUT_MS` (45s, already in Kconfig from S219) elapsing, which calls `rabble_hal_power_shutdown()` — a real AXP2101 rail cut, does not return.
+- **Bug found and fixed during implementation, not anticipated in the S219 plan:** the same physical click that cold-boots the board from Tier 2 can still be held down several seconds later when the power task starts its first poll — unguarded, that residual press reads as a fresh Tier 0→1 click and immediately re-sleeps the device right after boot. Fixed by requiring one full observed button release before the task will treat any press as real (`wait_for_release()` at task start and after every detected edge).
+- **Hardware verification, all four transitions confirmed live** (not just build-clean): Tier 0→1 and Tier 1→0 round-tripped repeatedly via real clicks, clean log pairs with backlight toggling correctly each time. Tier 1→2 confirmed the hard way — left unclicked, `/dev/ttyACM0` disappeared from the host entirely at the 45s mark (expected: this board's USB is the ESP32-S3's *native* USB-JTAG-serial peripheral, not an external bridge chip, so cutting the rail necessarily drops the whole USB device). Tier 2→0 then closed the one risk flagged in the S219 plan — a single PWR click reliably produced a fresh cold boot on the *first* attempt (Mark: "~3 second total wakeup," matching the ~2.95s measured cold-boot floor), meaning the AXP2101's 128ms PEKEY press-on-time config doesn't need to survive the power-gate itself, since `rabble_hal_init()` reasserts it on every cold boot regardless.
+- **Verification required real back-and-forth, not one clean run:** two earlier attempts to watch the Tier 1→2 timeout via raw serial capture came up empty because of the tooling's own limits — a live serial device only yields bytes to whoever has it open when they're written, and a blocking capture window can't be synchronized with when a human actually clicks a physical button. Resolved by asking Mark to click and confirming the transition through indirect but conclusive evidence instead (USB device node disappearing/reappearing, `lsusb` bus renumbering) rather than trying to force a perfectly-timed log capture.
+- **Known non-fatal rough edge, not fixed this session:** one `E (...) lcd_panel.io.i2c: panel_io_i2c_tx_buffer` transmit error observed in the log right at a Tier 1 entry — likely the touch controller's IRQ-driven I2C poll (CST9217, wrapped via `esp_lcd_panel_io_i2c`) racing the light-sleep transition. Device recovered fine both times seen. Logged in the new ADR and Roadmap for whoever next touches touch/sleep interaction.
+- **Docs:** `RaBbLE-Pocket-Architecture.md` gained "Application State Machine (v1)" + "Power Management" sections; `RaBbLE-Pocket-V1-Firmware-Plan.md` updated with the full hardware-verification writeup and closed risks; `RaBbLE-Pocket-Roadmap.md` ticked the v1-firmware item and added the I2C rough edge + the still-deferred LVGL-simulator/NeBuLA-translator tooling as open items; new ADR `RaBbLE-Pocket/planning/decisions/2026-08-08-two-tier-sleep.md`; both `CONTEXT.md` files (repo-root and `firmware/`) brought current — the repo-root one was badly stale ("No firmware written yet"), predating even S219.
+- **Commits:** RaBbLE-Pocket `239d54b` (power task + HAL + ADR). RaBbLE-Grimoire `f91594c` (doc updates), this entry.
+- **Not done:** wake-word engine decision, BLE GATT scaffold, WiFi provisioning, iOS companion app toolchain decision — none started, all still open per Roadmap. The I2C/light-sleep race above is flagged, not root-caused.
+- **Next:** v1 firmware (idle/boot/settings/power) is now feature-complete and hardware-verified end to end. Next major push is wake-word engine selection (ESP-SR vs. porting VIT concepts) — the first piece of the always-listening pipeline, and the natural sequel now that the device can actually sleep and wake on its own.
 
 ---
 
