@@ -15,12 +15,22 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-08-08 · S213 (os-creator-apps)
+## LATEST — 2026-08-08 · S214 (os-creator-apps-cli-alias)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S213: fixed broken freecad layer, generalized into layer/creator-apps + layerctl app subcommand; caught a staging bug on final review (commit message didn't match its diff) and landed the fix
+**This session:** S214: layer/creator-apps apps can declare a cli field; role generates flatpak-wrapped shell aliases sourced by .zshrc/.bashrc
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12 open.
-**Next:** Mark runs layerctl app freecad, confirms FreeCAD launches, starts battery mount CAD work
+**Next:** Mark uses freecadcmd directly; future creator apps with a CLI just need a cli: vars entry
+
+---
+
+## 2026-08-08 · Session 214 (os-creator-apps-cli-alias: generated shell CLI aliases for creator apps)
+
+- **Repo:** RaBbLE-OS. Direct continuation of S213's `layer/creator-apps` — Mark asked for a `freecadcmd` alias so he wouldn't have to type `flatpak run --command=freecadcmd org.freecad.FreeCAD` by hand.
+- **Kept it data-driven rather than hardcoding one alias**, consistent with why `layer/creator-apps` exists at all: `rabble_optional_apps` entries in `vars/main.yml` can now declare an optional `cli` field (the in-sandbox binary name). A new role task renders `templates/creator-apps-aliases.zsh.j2` to `~/.local/state/rabble/creator-apps-aliases.zsh` — one `alias <cli>='flatpak run --command=<cli> <flatpak>'` line per app that declares one, regenerated in full every `apply creator-apps` / `app <id>` (so a single-app install never clobbers another app's alias). `config/shell/zsh/.zshrc` and `config/shell/bash/.bashrc` each got one new guarded source line — a one-time dotfile edit, not a per-app one. `layerctl app list` now shows the alias when an app declares one. Commit `11618bd`.
+- **Verified live, working around an environment limit:** the full Ansible play needs an interactive `sudo` prompt this tool environment can't supply (fact-gathering runs as root at the play level even though the new template task itself is `become: false`), so rendered the Jinja2 template directly with `python3`+`jinja2` — the same engine Ansible uses — to confirm output, then deployed via `./RaBbLE-OS-dotctl.sh apply zsh` / `apply bash` (plain file copies, no sudo needed) to make it live immediately rather than leaving it theoretical. Confirmed `freecadcmd --version` resolves through the alias in a genuine interactive shell (`printf 'freecadcmd --version\nexit\n' | zsh -i`) after a `zsh -c "cmd1; cmd2"` one-liner test gave a false negative — that form has its own alias-expansion quirk (whole `-c` string parsed as one unit) unrelated to whether the real setup works.
+- **Fourth concurrent-edit collision with Mark's parallel ESP-IDF/Pocket session**, this time on a new `arduino-cli` layer he was adding to the same shared arrays in `layerctl.sh` while this session was mid-edit. Cleanly split with `git add -p` (hunk-by-hunk, not the fragile `git checkout`-and-reconstruct approach from S213) — my two hunks (the `cli` field plumbing in `creator_apps_list`/`verify_creator_apps`/`cmd_app`) staged and committed; his four hunks (`arduino-cli` entries in `LAYER_NAMES`/`LAYER_EXTRA_VARS`/`LAYER_VERIFY`/`LAYER_ORDER`) left untouched in the working tree for his own session. `manifest.yml`/`site.yml` and the new `layer/arduino-cli/` role were entirely his and excluded outright — verified `git show --stat HEAD` matched intent post-commit before reporting done, learning from S213's staging miss.
+- **Next:** Mark uses `freecadcmd` directly going forward; a future creator app with a CLI (Blender's `blender -b`, etc.) just needs `cli: <binary>` added to its `vars/main.yml` entry — no other edits.
 
 ---
 
