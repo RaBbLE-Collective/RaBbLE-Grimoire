@@ -15,12 +15,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-08-08 · S216 (os-boot-chain-race-fix)
+## LATEST — 2026-08-08 · Session 217 (pocket-freecad-learning)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S216: SDDM login race + TTY font root-caused (both racing plymouth-quit-wait), fixes written to Ansible, not yet deployed
-**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12 open.
-**Next:** Mark runs layerctl apply boot --config + reboots to verify; suspend hang still open
+**This session:** S217: FreeCAD live walkthrough, DWG via LibreCAD, HiDPI root-caused (fix pending)
+**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12/B-13 open.
+**Next:** Mark: dimension sketches by hand, apply B-13 HiDPI fix via dotctl at a deliberate restart
 
 ---
 

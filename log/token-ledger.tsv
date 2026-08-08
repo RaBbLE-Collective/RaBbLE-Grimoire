@@ -202,10 +202,10 @@ a0462ac2-bef5-4694-9108-686627b87fef	collective	auto: current state S199: llama.
 S205-upstudio3-usb-wifi	os-upstudio3-usb-wifi	S205: USB driver dead end confirmed, WiFi path diagnosed
 80fa41dd-9e94-4717-a083-b8a8bb845147	collective	auto: gitignore: narrow member-repo wildcard, drop stray RaBbLE-Captures/ rule
 3d8d422b-d36d-4a70-b035-ff61839f91eb	os-containers-layer	S206c: Docker+Podman verified live
-e1cb253f-7c15-469c-9057-795dfadbb57a	os-gnome-layer
 e4c809a2-c96b-4d46-a8e1-94c274d00331	scribble-polish	S209: ScRiBbLE v1 hardened - desktop pan/zoom, draggable text, bug fixes
 d130e7eb-c370-4151-87f2-4d83397c5bd5	os-vscodium-checksum-fix	S210: rpmnew adoption fix for VSCodium corrupt banner
 S212-pocket-esp-idf-eim	pocket-esp-idf-eim	S212: RaBbLE-Pocket scaffolded, ESP-IDF toolchain wired via EIM CLI
 6a7f7b3d-a67d-4757-be86-e4f1c6f1456c	os-creator-apps	S213: fixed + generalized freecad layer into creator-apps registry, plus caught+fixed a staging bug on final review
 e63f781f-0d27-44b9-86f5-7bc7276eb2f0	os-arduino-cli-fix	S215: fixed layer/arduino-cli's 404 download, landed the layer
 811e20ec-e9a2-47dc-b9dd-85657ed584ed	os-boot-chain-race-fix	S216
+e1cb253f-7c15-469c-9057-795dfadbb57a	pocket-freecad-learning	
