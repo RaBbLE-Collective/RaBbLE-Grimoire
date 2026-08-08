@@ -45,14 +45,29 @@ harmonize ~ grimoire >> surfacing the static // %DRIFT_TRACKING%
 - NOTE: the S152 doc claimed a `ter-32.pf2 "RaBbLE UI Mono"` font — **no Ansible task generates it and no theme directive uses it** (corrected S153). Only Noto Sans is built.
 - Handlers run in correct order: mkfont before mkconfig
 
-**TTY font — shifts size during boot** `[IMPLEMENTED S152 · NEEDS REBOOT VERIFY]`
+**TTY font — shifts size during boot / stays tiny** `[ROOT-CAUSED + FIX IMPLEMENTED S207 · NEEDS REBOOT VERIFY]`
 - `fbcon=font:TER16x32` added to `GRUB_CMDLINE_LINUX` for early framebuffer font
 - `vconsole.conf` sets `FONT=ter-v32b` for post-initramfs font via systemd-vconsole-setup
-- OPEN: Mark reports the larger TTY font is seen *applying* before Plymouth but may **not persist on the actual TTY**. Verify `setfont ter-v32b` works and fbcon is active post-pivot.
+- **S207 root cause (confirmed on real hardware, 2026-08-08):** two stacked failures, neither ever actually worked.
+  1. `fbcon=font:TER16x32` is a dead no-op on this kernel — Fedora's kernel ships `CONFIG_FONT_8x16` only, no `CONFIG_FONT_TER16x32`. Confirmed via `dmesg | grep "Console: switching"` → `480x150` (= 3840/8 × 2400/16, the stock 8x16 font) on every boot checked; never the `240x75` a 16x32 font would give.
+  2. `systemd-vconsole-setup` races Plymouth for console ownership and loses on every boot observed: `All allocated virtual consoles are busy, will not configure key mapping and font.` ter-v32b never lands, early or late.
+- **Fix:** new `rabble-console-font.service` (`boot/grub2/files/`), `After=plymouth-quit-wait.service`, calls `setfont -C <vt>` directly (bypasses vconsole-setup's self-defeating busy-check) on tty1-6 once Plymouth has actually released the consoles, before any getty shows a prompt. Deploy: `./RaBbLE-OS-layerctl.sh apply boot --config`.
+- Still open after that command runs: confirm on a real reboot that tty1-6 all show the large font, and that `ter-v32b` (32pt) is the size Mark actually wants now that it's finally rendering — group_vars can be repointed to `ter-v28b`/`ter-v24b` if 32pt reads as too large in practice.
 
 **Plymouth — DejaVu font / wrong palette colors** `[IMPLEMENTED S87–S152 · NEEDS REBOOT VERIFY]`
 - JetBrains Mono for boot logs, Orbitron for wordmark (pre-rendered PNGs, no font discovery in initrd)
 - Palette locked to canonical hex values: `#ff2d78`, `#bf5fff`, `#0a0010`, `#00f5ff`, `#e8e6f0`, `#6b6880`
+
+**SDDM greeter fails to appear after reboot (DRM race with Plymouth)** `[ROOT-CAUSED + FIX IMPLEMENTED S207 · NEEDS REBOOT VERIFY]`
+- **Symptom (Mark, 2026-08-08):** after a `dnf update` reboot, SDDM never showed a login screen; had to drop to a TTY and run `start-hyprland` manually.
+- **Root cause (confirmed via boot journal):** `sddm.service` is vendor-ordered `After=plymouth-quit.service`, which only *fires* the Plymouth quit signal — it does not wait for plymouthd to actually release DRM master. `plymouth-quit-wait.service` is the unit that blocks until Plymouth is really gone, and nothing ordered `sddm.service` after it. The greeter's sway compositor (pinned to the AMD card, `nvidia.yml` Step 1c) does a single non-retrying DRM `open()` and dies instantly if it loses the race:
+  ```
+  sway: [ERROR] Failed to open device: '/dev/dri/rabble-amdgpu-card': Device or resource busy
+  sway: [ERROR] Unable to open /dev/dri/rabble-amdgpu-card as KMS device
+  ```
+  The greeter session then closes ~1s later — no login screen, no retry.
+- Most boots the timing happens to work out (including the one right after this, boot 0) — it is an intermittent race, not a hard failure every time, which is why it wasn't caught by the S197/S200 udev-alias fix (a real but different bug in the same area).
+- **Fix:** new drop-in `sddm.service.d/plymouth-handoff.conf` (`boot/session_manager/files/`), `After=plymouth-quit-wait.service`. Independent of the S197 `plymouth-quit-sddm.conf` retain-splash drop-in (that one controls *what* Plymouth leaves on screen; this one controls *when* it's safe for the greeter to grab DRM) — both are needed together. Deploy: `./RaBbLE-OS-layerctl.sh apply boot --config`.
 
 **Plymouth — black flash / NVIDIA DRM reset mid-boot** `[IMPLEMENTED S152–S153 · NEEDS REBOOT VERIFY]`
 - `plymouth.use-simpledrm=1` removed from GRUB cmdline (was the simpledrm→KMS handoff flash)

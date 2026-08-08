@@ -15,12 +15,29 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-08-08 · S215 (os-arduino-cli-fix)
+## LATEST — 2026-08-08 · S216 (os-boot-chain-race-fix)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S215: fixed layer/arduino-cli's 404'ing download (bad latest URL pattern copied from EIM), landed the layer
+**This session:** S216: SDDM login race + TTY font root-caused (both racing plymouth-quit-wait), fixes written to Ansible, not yet deployed
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12 open.
-**Next:** Mark builds the vendor's reference .ino examples against the ESP32 core for comparison against RaBbLE-Pocket's ESP-IDF firmware
+**Next:** Mark runs layerctl apply boot --config + reboots to verify; suspend hang still open
+
+---
+
+## 2026-08-08 · Session S216 (os-boot-chain-race-fix: SDDM login race + TTY font root-caused, suspend hang investigated)
+
+- **Repo:** RaBbLE-OS + RaBbLE-Grimoire. Mark reported SDDM didn't come back after a `dnf update` reboot (had to `start-hyprland` manually from a TTY), the login screen didn't return after an overnight lid-close, and the TTY font is still tiny/unreadable on the 4K panel despite `vconsole.conf` already setting `ter-v32b`.
+- **Root cause 1 (SDDM):** `sddm.service` is vendor-ordered `After=plymouth-quit.service` (fires the quit signal) but never `After=plymouth-quit-wait.service` (actually blocks until Plymouth releases DRM). The greeter's sway compositor (pinned to the AMD card per `nvidia.yml` Step 1c) does a single non-retrying DRM `open()` — real-boot journal caught it losing the race: `Failed to open device: '/dev/dri/rabble-amdgpu-card': Device or resource busy`, greeter session closed ~1s later, no login screen. Confirmed intermittent, not constant — the very next boot (same kernel, no akmods rebuild needed) succeeded cleanly. Independent of the existing S197 `plymouth-quit-sddm.conf` retain-splash drop-in (that controls *what* Plymouth leaves on screen; this controls *when* it's safe to grab DRM) — both needed together.
+- **Root cause 2 (TTY font):** two stacked failures, neither font mechanism ever actually worked. (1) `fbcon=font:TER16x32` on the GRUB cmdline is a dead no-op — this Fedora kernel is built with `CONFIG_FONT_8x16` only, no `CONFIG_FONT_TER16x32` (confirmed via `/boot/config-$(uname -r)`). (2) `systemd-vconsole-setup` (meant to apply `ter-v32b` from `/etc/vconsole.conf`) races Plymouth for console ownership and loses on every boot checked: `All allocated virtual consoles are busy, will not configure key mapping and font.` Confirmed via `dmesg`: console geometry was `480x150` (= 3840/8 × 2400/16, the stock tiny font) on every boot examined, never the `240x75` a 16x32 font would give.
+- **Why it correlates with kernel updates (Mark's observation):** `sddm.service` also waits on `akmods.service`. On a normal reboot that check is instant (module already built for this kernel); on the first boot after a kernel update, akmods may actually rebuild the NVIDIA module and every module/initramfs/BLS path runs fresh for the first time — shifting boot timing enough to flip the latent Plymouth/SDDM race from "gets lucky" to "loses."
+- **Fix (same anchor for both):** gate on `plymouth-quit-wait.service` instead of relying on the racy default ordering.
+  - New drop-in `sddm.service.d/plymouth-handoff.conf` (`ansible/roles/boot/session_manager/files/`) — `After=plymouth-quit-wait.service`.
+  - New oneshot unit `rabble-console-font.service` (`ansible/roles/boot/grub2/files/`) — `After=plymouth-quit-wait.service systemd-vconsole-setup.service`, `Before=getty.target`; calls `setfont -C <vt>` directly per tty1-6 (bypasses vconsole-setup's own busy-check, which is exactly what's skipping the font today) rather than re-invoking the same self-defeating binary.
+  - Both wired into their roles' `config.yml` (new `copy` + enable tasks), both in the `boot` layerctl layer. **Not yet deployed** — needs Mark's sudo password interactively (`./RaBbLE-OS-layerctl.sh apply boot --config`), then a real reboot to verify.
+  - Root cause + fix documented in `RaBbLE-Grimoire/RaBbLE-OS/fix/RaBbLE-OS-KnownIssues.md`, marked `NEEDS REBOOT VERIFY` per the project's existing convention for unverified boot-chain changes (matches the S152/S153 pattern already in that doc).
+- **Suspend/resume investigated, not fixed:** overnight lid-close never resumed. Journal for that boot shows a clean resume at 02:56 (full amdgpu/wifi/audio resume logged) followed by a second suspend at 03:34 whose log simply stops at `PM: suspend entry (s2idle)` with zero resume-path evidence — a genuine hang, not a graceful failure. This is the same open, already-tracked issue in `fix/RaBbLE-OS-Fix-Suspend.md` ("no wake freezes" goal, 3x-clean-cycle checkbox never checked) — not a new bug, and there isn't enough in journald to root-cause it (the freeze happens before printk can flush anything). Prime suspect per that doc's own checklist: NVIDIA RTD3/D3cold (`NVreg_DynamicPowerManagement=0x02`) interacting with s2idle, still flagged "pending reboot verification" there. If Mark wants to chase it: a debug boot with `no_console_suspend` + serial/netconsole or `/sys/power/pm_debug_messages`, since normal journald can't capture a true hang. Left as-is, not touched.
+- **Files:** RaBbLE-OS — `ansible/roles/boot/session_manager/{tasks/config.yml, files/sddm-plymouth-handoff.conf}`, `ansible/roles/boot/grub2/{tasks/config.yml, files/rabble-console-font.service}`. RaBbLE-Grimoire — `RaBbLE-OS/fix/RaBbLE-OS-KnownIssues.md`.
+- **Not done / next:** Mark runs `./RaBbLE-OS-layerctl.sh apply boot --config` (interactive sudo), reboots, confirms `journalctl -b -1 | grep -i 'device or resource busy'` is empty and tty1-6 render at the large font. Suspend hang still open/untouched.
 
 ---
 
