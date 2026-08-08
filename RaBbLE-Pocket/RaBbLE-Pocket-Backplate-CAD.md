@@ -18,7 +18,7 @@ spark ~ pocket >> the entity gets a battery home // %POCKET_BACKPLATE_V1%
 |---|---|
 | `scripts/build_backplate.py` | Parametric generator — run headless via FreeCADCmd, edit the params block at the top and re-run |
 | `scripts/build_assembly.py` | Builds the reference assembly (board + battery block + backplate) |
-| `ref/ESP32-S3-Touch-AMOLED-1_75.stp` | Vendor board STEP (base 1.75 variant — same PCB/mount pattern as -B), copied from `firmware/vendor/docs/` for script convenience |
+| `ref/ESP32-S3-Touch-AMOLED-1_75.stp` | Vendor board STEP (base 1.75 variant — same PCB/mount pattern as -B), extracted flat here for script convenience |
 | `out/RaBbLE-Pocket-Backplate-v1.{FCStd,step,stl}` | Backplate part — STL is print-ready (verified watertight, no self-intersections) |
 | `out/RaBbLE-Pocket-Assembly-v1.FCStd` | Combined reference assembly (FCStd only — a full STEP re-export balloons to ~80MB from the vendor board's component-level detail, not worth committing) |
 
@@ -36,10 +36,11 @@ arg silently no-ops in this install — use `-c "exec(open('...').read())"`.
 
 ## How the board's mechanical data was sourced
 
-Waveshare's official 3D download (`firmware/vendor/docs/ESP32-S3-Touch-AMOLED-1.75-3D.zip`)
+Waveshare's official 3D download (`hardware/cad/ref/ESP32-S3-Touch-AMOLED-1.75-3D/`)
 only ships a STEP file for the **base** 1.75 variant, not the -B variant Mark
-actually has (that zip has DWG/PDF only). Two independent sources were
-cross-checked to confirm the base STEP's mount pattern applies to -B too:
+actually has (`hardware/cad/ref/ESP32-S3-Touch-AMOLED-1.75-B-3D/` has DWG/PDF
+only). Two independent sources were cross-checked to confirm the base STEP's
+mount pattern applies to -B too:
 
 1. **STEP inspection** (headless FreeCAD, iterate `shape.Faces`, filter
    `Part::GeomCylinder` surfaces with radius < 3mm) found 3 mounting holes at
@@ -158,3 +159,36 @@ Also true and worth knowing for future headless FreeCAD scripts: plain
 Python `print()` calls inside `FreeCADCmd -c "exec(...)"` are unreliable
 (often silently swallowed) — use `FreeCAD.Console.PrintMessage()` /
 `PrintWarning()` instead, which always flush.
+
+---
+
+## v3: split into real per-part FreeCAD files (2026-08-08)
+
+The design is four components — Display+Controller board, case, backplate,
+battery (placeholder) — and each is now its own real FreeCAD part file under
+`hardware/cad/RaBbLE-Pocket-ESP32-S3-Touch-AMOLED-1.75/`, not objects buried
+inside a shared assembly script:
+
+| File | What |
+|---|---|
+| `Board.FCStd` | Vendor STEP import, wrapped as its own part. Orientation baked in: flat back face at local Z=0, board rising in +Z — the "resting on the backplate" pose, no rotation needed at assembly time. |
+| `Case.FCStd` | Empty `PartDesign::Body` scaffold — no case solid exists anywhere in the vendor data (the -B DWG has only 2D drawing views), so there's nothing to generate. Profile gets traced from the DWG and sketched live in the GUI. |
+| `Backplate.FCStd` | The v2 `PartDesign::Body` from above, moved here and renamed from `RaBbLE-Pocket-Backplate-v2-PartDesign.FCStd`. |
+| `Battery.FCStd` | New — placeholder envelope (Sketch + Pad, 25×35×4.3mm) for the EEMB LiPo, bottom face at local Z=0. Previously an inline `Part.makeBox` in the assembly script only, not a real part. |
+
+`hardware/cad/out/` is now artifacts-only (STL/STEP exports, PNG renders,
+the superseded v1 files) — no CAD source lives there anymore.
+`build_assembly_v2.py` still produces `out/RaBbLE-Pocket-Assembly-v2.FCStd`,
+but it's explicitly a fit-check/render preview (loads the three part files,
+positions their shapes with a plain script), not the real assembly. The real
+assembly — linking all four part files with actual joints/mates — stays
+Mark's live GUI exercise with FreeCAD 1.1's native Assembly workbench,
+unchanged from the v2 decision above.
+
+**Gotcha:** `Part.Shape.Placement = Placement(...)` *replaces* whatever
+transform the shape already carries rather than composing with it — the
+first version of the updated assembly script clobbered Board's baked-in
+-90° orientation this way, silently producing a shape rotated back to its
+raw STEP-import pose. Fix: use `shape.translate(vector)` for a pure
+positional offset on top of an already-correctly-oriented part; only
+reassign `.Placement` outright when you mean to replace the whole transform.
