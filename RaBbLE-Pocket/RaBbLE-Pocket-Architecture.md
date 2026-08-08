@@ -14,6 +14,24 @@ Firmware and comms architecture for the pendant. Hardware inventory: `RaBbLE-Poc
 
 **Wake word:** Leaning on Mark's prior hands-on experience with NXP VIT and VoiceSeeker (used as WWE on i.MX 8ULP). ESP32-S3 path will likely use Espressif's ESP-SR toolkit; VIT knowledge carries forward more directly if/when the project moves to NXP RT700 silicon.
 
+### Toolchain: ESP-IDF, not Arduino (decided S207-ish)
+
+**Decision: ESP-IDF.** Reasons:
+
+- **Fits the "no IDE" constraint exactly.** ESP-IDF's `install.sh` sets up a self-contained Python venv + toolchain; `. export.sh` activates it in any shell; `idf.py build/flash/monitor` drives everything from a plain terminal. No GUI application required — VSCode is just an editor here (the Espressif VSCode extension is optional QoL, not needed). Arduino's CLI path (`arduino-cli`) exists too, but the ecosystem centers on the GUI Arduino IDE and its getting-started docs assume it.
+- **Matches the BSP/HAL architecture above.** The `rabble_hal.h` + per-board BSP pattern needs low-level control over peripherals (QSPI AMOLED, I2C bus arbitration, IMU/RTC/PMIC drivers). Arduino-ESP32's abstraction layer works against that — it's built on top of ESP-IDF and hides the register/driver-level access custom BSPs need.
+- **ESP-SR (wake word) is ESP-IDF native** — no equivalent maturity on Arduino.
+- **Matches the vendor repo's own primary path.** Waveshare's Brookesia reference firmware (the fullest-featured example — 13 apps, ES7210 mic capture, ES8311 playback, QMI8658, AXP2101) is validated against **ESP-IDF v5.5.4** specifically (v6.0.2 also supported for the plain examples). `firmware/vendor/ESP32-S3-Touch-AMOLED-1.75/docs/getting-started.md` has the exact `idf.py -C examples/esp-idf/<name> -B build/<name> set-target esp32s3 build` invocation — pin to v5.5.4 to match Brookesia and avoid version-skew surprises when reading their example code.
+
+Practical setup, Linux + VSCode, no IDE:
+```sh
+git clone -b v5.5.4 --recursive https://github.com/espressif/esp-idf.git ~/esp/esp-idf
+cd ~/esp/esp-idf && ./install.sh esp32s3
+. ~/esp/esp-idf/export.sh          # run this once per shell/session before idf.py
+idf.py -C firmware/<project> -B build/<project> set-target esp32s3 build
+idf.py -C firmware/<project> -B build/<project> -p /dev/ttyACM0 flash monitor
+```
+
 ## Comms Architecture
 
 **Phone is the dispatch hub, not the device.**
