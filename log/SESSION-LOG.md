@@ -15,12 +15,23 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-08-08 · Session S221 (pocket-case-dxf-refs)
+## LATEST — 2026-08-23 · S222 (os-dotnet-sdk-layer)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S221: all 6 Case reference views fixed, valid, visible, oriented
+**This session:** S222: dotnet-sdk opt-in layer added, OS name em-dash to ASCII hyphen
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12/B-13 open.
-**Next:** Mark traces Case PartDesign solid from the 6 references
+**Next:** Mark runs layerctl apply dotnet-sdk + apply boot
+
+---
+
+## 2026-08-23 · Session S222 (os-dotnet-sdk-layer + os-ascii-name-fix)
+
+- **Repo:** RaBbLE-OS. Two small, unrelated Ansible changes in one session.
+- **New opt-in layer `layer/dotnet-sdk`:** Mark plans to run `sudo dnf install -y dotnet-sdk-8.0` by hand; added it as ground truth instead. New `ansible/roles/layer/dotnet-sdk/{tasks,defaults}/main.yml` (plain `dnf install dotnet-sdk-8.0` — Fedora ships it natively from the `updates` repo, no MS repo needed, confirmed on Mark's machine where it's already installed), gated by `rabble_enable_dotnet_sdk` (default false). Wired into `ansible/packages/manifest.yml`, `ansible/site.yml`, and `RaBbLE-OS-layerctl.sh` (`LAYER_NAMES`/`LAYER_EXTRA_VARS`/`LAYER_VERIFY`/`LAYER_ORDER`) following the `arduino-cli` layer as the template — simplest existing opt-in dev-tool layer, single dnf package, no vendor install script needed here since Fedora packages it directly.
+- **OS name em dash → ASCII:** Mark flagged the OS identity string used an em dash (non-ASCII), wanted it pure ASCII for compatibility. Fixed the two real value sites: `rabble_os_pretty_name` in `ansible/inventory/group_vars/all.yml` and the GRUB BLS `new_title` in `ansible/roles/boot/grub2/tasks/config.yml`, both em dash → plain hyphen. Left comment-style em dashes elsewhere in the codebase alone (out of scope — this was about the displayed OS name, not a repo-wide em-dash purge).
+- **Gotcha:** `/etc/os-release` on Mark's machine was found *already* hyphenated (mtime seconds before I checked) — something/someone fixed the live file ahead of the Ansible source. Matched that choice (hyphen, not colon) in the Ansible templates so the next `layerctl apply boot` doesn't flip it back to a different separator. GRUB's `/boot/loader/entries/*.conf` titles are still stale (root-owned, no sudo this session) — clears on next `layerctl apply boot`.
+- **Not done:** haven't run `layerctl apply dotnet-sdk` or `layerctl apply boot` against the live machine this session — both are one-command follow-ups for Mark.
+- **Next:** Mark runs `./RaBbLE-OS-layerctl.sh apply dotnet-sdk` (no-ops since already installed, just tracks it) and `./RaBbLE-OS-layerctl.sh apply boot` (re-labels the stale BLS titles).
 
 ---
 
