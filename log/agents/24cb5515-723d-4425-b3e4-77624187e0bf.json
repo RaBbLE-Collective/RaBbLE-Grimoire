@@ -3,6 +3,14 @@
   "agent": "auto",
   "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-OS",
   "scopes": [
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/agents/0d321ed3-b85a-4065-8b70-804d7516305b.json",
+    "RaBbLE-Grimoire:log/agents/24cb5515-723d-4425-b3e4-77624187e0bf.json",
+    "RaBbLE-Grimoire:log/agents/992dfc86-49a3-4d1b-b95e-bb895ea45785.json",
+    "RaBbLE-Grimoire:log/agents/c92701cb-6730-4809-98e3-f54214e95314.json",
+    "RaBbLE-Grimoire:log/agents/df5eee18-679e-43ba-a459-cfb82c8f3de1.json",
+    "RaBbLE-Grimoire:log/token-ledger.tsv",
+    "RaBbLE-OS:.gitignore",
     "RaBbLE-OS:AGENT.md",
     "RaBbLE-OS:ansible/roles/hardware/x64/asus_proart_p16/files/rabble-sddm-compositor-wait.sh",
     "RaBbLE-OS:ansible/roles/hardware/x64/asus_proart_p16/tasks/nvidia.yml",
@@ -33,6 +41,6 @@
     "RaBbLE-OS:config/waybar/scripts/score-status-daemon.sh"
   ],
   "started_at": "2026-08-24T18:32:49Z",
-  "heartbeat_at": "2026-08-24T18:33:17Z",
+  "heartbeat_at": "2026-08-24T18:59:52Z",
   "auto": true
 }
