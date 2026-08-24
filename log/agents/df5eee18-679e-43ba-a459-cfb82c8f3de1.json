@@ -1,0 +1,14 @@
+{
+  "session_id": "df5eee18-679e-43ba-a459-cfb82c8f3de1",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-Grimoire",
+  "scopes": [
+    "RaBbLE-Grimoire:RaBbLE-Pocket/RaBbLE-Pocket-Backplate-CAD.md",
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/agents/df5eee18-679e-43ba-a459-cfb82c8f3de1.json",
+    "RaBbLE-Grimoire:log/token-ledger.tsv"
+  ],
+  "started_at": "2026-08-08T18:17:27Z",
+  "heartbeat_at": "2026-08-08T20:21:45Z",
+  "auto": true
+}

@@ -1,0 +1,11 @@
+{
+  "session_id": "0d321ed3-b85a-4065-8b70-804d7516305b",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-Grimoire",
+  "scopes": [
+    "RaBbLE-Grimoire:log/agents/0d321ed3-b85a-4065-8b70-804d7516305b.json"
+  ],
+  "started_at": "2026-08-23T20:02:04Z",
+  "heartbeat_at": "2026-08-23T20:02:04Z",
+  "auto": true
+}

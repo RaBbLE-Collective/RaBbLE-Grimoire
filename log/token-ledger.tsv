@@ -211,4 +211,4 @@ e63f781f-0d27-44b9-86f5-7bc7276eb2f0	os-arduino-cli-fix	S215: fixed layer/arduin
 S219-pocket-firmware-v1-screens	pocket-firmware-v1-screens	S219: RaBbLE-Pocket v1 firmware Slices 0-4 done (idle/boot/settings screens, real hardware verified)
 S220-pocket-power-task	pocket-power-task	Slice 5-6 power task, hardware-verified end to end
 S221-pocket-case-dxf-refs	pocket-case-dxf-refs	S221: all 6 Case reference views fixed, valid, visible, oriented
-e1cb253f-7c15-469c-9057-795dfadbb57a	os-dotnet-sdk-layer	S222: dotnet-sdk layer + OS-name ASCII fix
+e1cb253f-7c15-469c-9057-795dfadbb57a	os-sddm-hypr-lua-llama-fix	S223: SDDM DRM retry, Hyprland Lua migration, llama.cpp latest-tag fix, Pocket buildflash commit
