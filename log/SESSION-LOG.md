@@ -15,12 +15,24 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-08-27 · S226 (os-sddm-drm-retry-actual)
+## LATEST — 2026-08-27 · S227 (os-boot-tag-scope-fix)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S226: SDDM DRM race S224 fix falsified by real boot; retry-on-EBUSY fix applied, RDSEED cleared as red herring
+**This session:** S227: root cause of 3 failed SDDM verify reboots found — `apply boot` never had the ansible tag reach the compositor-wait wrapper; S223/S224/S226's script edits were never deployed. Tag scope fixed.
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12/B-13 open.
-**Next:** Mark: layerctl apply boot + reboot, check journalctl for sway busy/retry pattern
+**Next:** Mark: `sudo bash RaBbLE-OS-layerctl.sh apply boot && sudo reboot` — this is the first reboot that will actually run S226's retry logic
+
+---
+
+## 2026-08-27 · Session S227 (os-boot-tag-scope-fix)
+
+- **Repo:** RaBbLE-OS. Mark ran S226's verify reboot (`a5626bf`: retry-on-actual-EBUSY wrapper). Reported: "didn't work" — same failure.
+- **Pulled the fresh `journalctl -b 0`** (before it scrolled) and found something more serious than "the new fix also didn't hold": **there was no second sway launch attempt at all.** Same single-shot `sway[1829]: Device or resource busy` → session close pattern as every prior round, with the exact same ~940ms crash-to-exit timing as S224's boot. That timing signature only makes sense if the OLD wrapper ran, not the new retry one.
+- **Confirmed directly on disk:** `cat /usr/libexec/rabble-sddm-compositor-wait` showed the **S207-original** wrapper (elapsed-time heuristic, header literally reads "S207/S211" only) — not S223's, not S224's, not S226's version. None of those three sessions' edits to this file had ever reached the machine, despite each one ending with "Mark runs `layerctl apply boot` + reboots" and Mark doing exactly that each time.
+- **Root cause:** `layerctl apply boot` runs `ansible-playbook site.yml --tags boot` (`RaBbLE-OS-layerctl.sh` → `run_playbook`). The wrapper-deploy task and its `CompositorCommand` config task live in `ansible/roles/hardware/x64/asus_proart_p16/tasks/nvidia.yml`, under a play tagged only `[hardware, asus_proart_p16]` (`ansible/site.yml:63`) — **not** `boot`. `--tags boot` never touches that role, so the file on disk has been frozen at S207 through three full "fix → commit → verify reboot" cycles. Not a config/timing bug this time — a build-system routing bug that made every prior verify reboot re-test the same untouched code.
+- **Fix:** added an explicit `tags: [boot]` to the three tasks in `nvidia.yml` that own this wrapper's deployment (the `/etc/sddm.conf.d` dir, the wrapper `copy`, and the `CompositorCommand` config `copy`) — additive to their inherited `[hardware, asus_proart_p16]` tags, so `apply boot` now reaches them without pulling the rest of the NVIDIA driver-install tasks into the boot layer. Commit `69e5f96` on `new-horizons`.
+- **Not done:** not yet verified — this is the first session in the saga where the *next* reboot will actually be running S226's retry-on-EBUSY logic for real. If it still fails after this, that's genuinely new information about the retry approach itself, not a repeat of an undeployed fix.
+- **Next:** Mark runs `sudo bash RaBbLE-OS-layerctl.sh apply boot && sudo reboot`, then `cat /usr/libexec/rabble-sddm-compositor-wait | head -3` to confirm the deployed file's header now says S226 (proves the tag fix worked) *before* even checking whether login appears. Then check `journalctl -b 0 -o short-monotonic | grep -iE 'sway\[|Device or resource busy'` as before.
 
 ---
 

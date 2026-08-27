@@ -1,0 +1,15 @@
+{
+  "session_id": "S227-os-boot-tag-scope-fix",
+  "agent": "claude",
+  "host": "localhost",
+  "pid": 14299,
+  "cwd": "/home/rabble/RaBbLE-Collective",
+  "task": "apply boot never reached compositor-wait wrapper (wrong ansible tag scope) - real root cause of 3 failed verify reboots",
+  "scopes": [
+    "RaBbLE-OS:ansible/roles/hardware/x64/asus_proart_p16",
+    "RaBbLE-OS:ansible/site.yml",
+    "RaBbLE-Grimoire:log"
+  ],
+  "started_at": "2026-08-27T18:47:06Z",
+  "heartbeat_at": "2026-08-27T18:47:06Z"
+}
