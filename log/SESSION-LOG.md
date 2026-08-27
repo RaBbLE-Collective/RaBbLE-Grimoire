@@ -15,12 +15,25 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-08-27 · S228 (os-boot-tag-scope-fix2)
+## LATEST — 2026-08-27 · S229 (os-sddm-live-restart-and-tmp-perm-fix)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S228: S227's tag fix was incomplete — `nvidia.yml`'s dynamic `include_tasks` gate in `main.yml` also needed `[boot]`, not just the tasks inside it. Verified with `ansible-playbook --list-tasks` (not a guess) that `--tags boot` now reaches the wrapper-deploy tasks.
+**This session:** S229: S228's tag fix worked and deployed for real — which immediately exposed two dormant bugs it had never been able to trigger before: a live `notify: restart sddm` killed Mark's active Hyprland session mid-`apply`, and the wrapper itself failed with `Permission denied` (wrote to root-only `/run` as the unprivileged `sddm` user). Both fixed.
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12/B-13 open.
-**Next:** Mark: `sudo bash RaBbLE-OS-layerctl.sh apply boot` (watch for "Deploy SDDM greeter DRM-race retry wrapper" → `changed`) then `cat /usr/libexec/rabble-sddm-compositor-wait | head -3` to confirm S226 header before rebooting
+**Next:** Mark: `sudo bash RaBbLE-OS-layerctl.sh apply boot` (safe now — no live sddm restart), confirm wrapper header shows S228, then `sudo reboot` for the real verify
+
+---
+
+## 2026-08-27 · Session S229 (os-sddm-live-restart-and-tmp-perm-fix)
+
+- **Repo:** RaBbLE-OS. Mark ran S228's `apply boot` fix and reported: "the ansible froze the system and SDDM didn't come back on reboot." More serious than prior rounds — this wasn't silently-undeployed code, something actually broke live.
+- **Diagnosed from `journalctl -b -1`** (the boot *before* the one Mark was now on — captured before further reboots could lose it) and confirmed the tag fix genuinely worked this time: `ansible-ansible.legacy.copy ... dest=/usr/libexec/rabble-sddm-compositor-wait` with a real checksum, i.e. S227/S228's tag scoping is correct and the file finally got written. That's what made the next two bugs possible to hit for the first time — both had been sitting dormant in code that `--tags boot` could never reach until this session.
+- **Bug 1 — live SDDM restart:** one line after the copy, journal shows `Stopping sddm.service - Simple Desktop Display Manager...` while Mark's session was active. The two `copy` tasks in `nvidia.yml` still carried `notify: restart sddm` from whenever they were originally written (pre-S223, never actually fired because the tasks were unreachable). The exact same hazard is *already documented and deliberately avoided* elsewhere in this codebase — `ansible/roles/boot/session_manager/tasks/config.yml` has a comment reading "Deliberately no `notify: restart sddm`: restarting SDDM kills the active session. The theme is picked up the next time the greeter starts." The hardware role's copy tasks just never got the same treatment because nobody could see them fire before now.
+- **Bug 2 — wrapper broken on its own terms:** same journal, right after: `/usr/libexec/rabble-sddm-compositor-wait: line 45: /run/rabble-sddm-compositor-wait.out: Permission denied`, then `No such file or directory` on every subsequent read of that path. S226's retry wrapper (mine) wrote its scratch output to a fixed `/run/...` path assuming root — but the SDDM greeter compositor runs as the unprivileged `sddm` user, and `/run` is root:root 0755, so the redirection failed outright and **sway never launched at all** on this path. Worse than the bug it replaced, and entirely self-inflicted — should have checked what user this script actually executes as before choosing where to write.
+- **Fix:** (1) removed `notify: restart sddm` from both `copy` tasks in `nvidia.yml`, matching the pattern already established in `boot/session_manager` — SDDM changes land at the next natural greeter start, never live. (2) rewrote the wrapper's scratch-file path to `out="$(mktemp /tmp/rabble-sddm-compositor-wait.XXXXXX)"` — `/tmp` is sticky-writable by any user, and `mktemp` avoids any collision between concurrent greeter launches too. `sh -n` syntax-checked. Commit `47b2411` on `new-horizons`.
+- **Current machine state, confirmed live:** `sddm.service` active, Mark logged into a real `wayland`-type session on seat0/tty2 (`loginctl show-session` confirms) — the system is not actually stuck, whatever "froze" was the live sddm restart, not a hang. A `free-claude-code.service` was crash-looping (~500+ restarts) and suspend/resume cycled twice in the prior boot's tail, around the same window — noted but not chased down; looks incidental to the sddm-restart disruption rather than caused by these Ansible changes, and wasn't investigated further this session.
+- **Not done:** not yet verified end-to-end — this session's fixes remove two confirmed regressions but the *original* SDDM DRM-race retry logic (S226) still hasn't had a clean real-boot test, since every attempt so far has been derailed by a deployment bug (S227/S228) or, this round, by the deploy itself misbehaving before a reboot ever happened.
+- **Next:** Mark runs `sudo bash RaBbLE-OS-layerctl.sh apply boot` — this time it should NOT touch the live session (no restart handler). Confirm `cat /usr/libexec/rabble-sddm-compositor-wait | head -3` says S228, then deliberately `sudo reboot` and check the sway/EBUSY journal pattern. This is the first attempt where nothing already known to be broken stands between the fix and the test.
 
 ---
 
