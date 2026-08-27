@@ -15,12 +15,23 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-08-27 · S227 (os-boot-tag-scope-fix)
+## LATEST — 2026-08-27 · S228 (os-boot-tag-scope-fix2)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S227: root cause of 3 failed SDDM verify reboots found — `apply boot` never had the ansible tag reach the compositor-wait wrapper; S223/S224/S226's script edits were never deployed. Tag scope fixed.
+**This session:** S228: S227's tag fix was incomplete — `nvidia.yml`'s dynamic `include_tasks` gate in `main.yml` also needed `[boot]`, not just the tasks inside it. Verified with `ansible-playbook --list-tasks` (not a guess) that `--tags boot` now reaches the wrapper-deploy tasks.
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12/B-13 open.
-**Next:** Mark: `sudo bash RaBbLE-OS-layerctl.sh apply boot && sudo reboot` — this is the first reboot that will actually run S226's retry logic
+**Next:** Mark: `sudo bash RaBbLE-OS-layerctl.sh apply boot` (watch for "Deploy SDDM greeter DRM-race retry wrapper" → `changed`) then `cat /usr/libexec/rabble-sddm-compositor-wait | head -3` to confirm S226 header before rebooting
+
+---
+
+## 2026-08-27 · Session S228 (os-boot-tag-scope-fix2)
+
+- **Repo:** RaBbLE-OS. Mark ran `sudo bash RaBbLE-OS-layerctl.sh apply boot` per S227's instructions, then reported the wrapper file was *still* the S207 original.
+- **S227's fix was necessary but not sufficient.** It added `tags: [boot]` to the three tasks inside `nvidia.yml` that deploy the wrapper — correct, but useless on its own, because `nvidia.yml` itself is pulled into the role via a **dynamic** `include_tasks` in `roles/hardware/x64/asus_proart_p16/tasks/main.yml`: `{ ansible.builtin.include_tasks: nvidia.yml, tags: [hardware, nvidia] }`. Ansible's tag-filtering rule for dynamic includes (`include_tasks`/`include_role`, as opposed to static `import_tasks`/`import_role`) is that the **include statement's own tags** gate whether the file is even opened — inner-task tags are invisible to `--tags` filtering unless the include itself also carries a matching tag. `[hardware, nvidia]` doesn't intersect with `boot`, so `--tags boot` never entered `nvidia.yml` at all, regardless of what tags the tasks inside it carried.
+- **Verified before committing, not assumed:** ran `ansible-playbook site.yml --tags boot --list-tasks` before the fix — play #2 (the ASUS hardware role) showed zero tasks under that filter. Added `boot` to the `include_tasks` line's own tag list (`tags: [hardware, nvidia, boot]`), re-ran `--list-tasks`, and the include now appears under the hardware play for `--tags boot`. This is the same category of bug as S227 (ansible tag-scope, not the wrapper's own logic) but one layer further out — the full chain needed both fixes together.
+- **Fix:** one-line change, `ansible/roles/hardware/x64/asus_proart_p16/tasks/main.yml` line 5, adding `boot` to the include's tag list. Commit `20fbd79` on `new-horizons`.
+- **Not done:** still not verified end-to-end on real hardware — `--list-tasks` proves the task is now *reachable*, not that the `copy` module will report `changed` and actually write the new file (should, since content differs from what's on disk, but that's the next real check). Have not run the full `apply boot` myself (requires sudo/becomes on Mark's machine).
+- **Next:** Mark re-runs `sudo bash RaBbLE-OS-layerctl.sh apply boot`, watches the output for the "Deploy SDDM greeter DRM-race retry wrapper" task reporting `changed` (not `ok`/skipped), then `cat /usr/libexec/rabble-sddm-compositor-wait | head -3` — only once that says `S207/S216/S223/S224/S226` is this actually the fix that's been iterated on since S223 finally on the machine. Then reboot and check the sway/EBUSY journal pattern as before.
 
 ---
 

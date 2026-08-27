@@ -1,0 +1,14 @@
+{
+  "session_id": "S228-os-boot-tag-scope-fix2",
+  "agent": "claude",
+  "host": "localhost",
+  "pid": 86495,
+  "cwd": "/home/rabble/RaBbLE-Collective",
+  "task": "S227 tag fix incomplete - dynamic include_tasks gate in main.yml also needed the boot tag",
+  "scopes": [
+    "RaBbLE-OS:ansible/roles/hardware/x64/asus_proart_p16",
+    "RaBbLE-Grimoire:log"
+  ],
+  "started_at": "2026-08-27T19:16:06Z",
+  "heartbeat_at": "2026-08-27T19:16:06Z"
+}
