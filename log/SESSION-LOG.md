@@ -15,12 +15,23 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-08-27 · S224 (os-boot-chain-drm-race)
+## LATEST — 2026-08-27 · S225 (collective-icm-conformance-audit)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S224: SDDM DRM-master race fixed for real (deterministic plymouthd wait); GRUB hidden-timeout + amdgpu force_drivers for handoff black, awaiting reboot verify
+**This session:** S225: ICM/MWP conformance audit — Collective ~70% there (A context arch, C+ stage contracts); plan doc + Aether artifact delivered
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12/B-13 open.
-**Next:** Mark: apply boot + reboot, verify SDDM/GRUB/mid-Plymouth handoff
+**Next:** Mark picks up plan in phases with Sonnet 5, starting with the 3 open decisions
+
+---
+
+## 2026-08-27 · Session S225 (collective-icm-conformance-audit)
+
+- **Repo:** RaBbLE-Grimoire (docs only). Mark asked for an audit of the Collective against the ICM/MWP paper (Van Clief & McDermott, *Interpretable Context Methodology: Folder Structure as Agentic Architecture*, arXiv 2603.16021v2, 17–18 Mar 2026) and a plan to better use the methodology, since he's followed the authors but never checked his own conformance.
+- **Method:** Fetched + verified the paper exists (not a confabulation — cross-checked abstract page + web search). Extracted the five-layer context hierarchy (L0 identity → L1 routing → L2 stage contract → L3 reference → L4 per-run), the Inputs/Process/Outputs stage-contract shape, the five design principles (§3.1), and the §5.2 anti-patterns. Then mapped the real tree: root `AGENT.md`/`CONTEXT.md`, Grimoire folder `CONTEXT.md`s, gists, plans, handoffs, registry.
+- **Verdict:** Collective is already ~70% ICM-conformant. **A on context architecture** (L0/L1/L3 strong; the Reading-Order token-budget table is *more* rigorous than the paper's own example), **C+ on stage formalization** (folder `CONTEXT.md`s are descriptive readmes, not I/P/O contracts; L3/L4 mixed in `log/`). Key guardrail finding: ICM is for *linear pipelines*; the Collective is a *branching ecosystem* (§5.2 anti-patterns) — so **do NOT number the repo folders**. ICM applies to the linear workflows *inside* it (session lifecycle, plan→handoff→execute), which is where the clobber/misattribution pain already lives.
+- **Deliverables:** (1) canonical plan `log/plans/Collective-ICM-Conformance-Audit.md` (5 phases: 0 don't-restructure · 1 promote L2 contracts · 2 split L3/L4 · 3 stage the session lifecycle / decompose `end-session.sh` · 4 grimoire-doctor conformance lint; + 3 open decisions for Mark); indexed in `INDEX.md` + `log/plans/CONTEXT.md`. (2) Aether-themed Artifact visual plan: https://claude.ai/code/artifact/35e1f34e-e23f-43d3-807c-2608ca2d526b
+- **Not done:** no tree changes beyond the plan doc (Mark chose "full audit + plan doc"). Phases are unstarted.
+- **Next:** Mark picks up the plan in phases with Sonnet 5, starting with the 3 open decisions (Phase 0 boundary, Phase 2 output surface, Phase 3 timing vs EP1 gates).
 
 ---
 

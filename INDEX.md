@@ -288,6 +288,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 
 ### Plans (active)
 
+- [Collective-ICM-Conformance-Audit](log/plans/Collective-ICM-Conformance-Audit.md) — 2026-08-27: audit of the Collective against ICM/MWP (arXiv 2603.16021v2, Van Clief & McDermott). Finding: already ~70% conformant (L0/L1/L3 strong, context-scoping stronger than the paper), gaps = L2 stage contracts (I/P/O) + L3/L4 handoff split. Phase 0 = do NOT restructure the branching ecosystem (§5.2 anti-patterns); ICM applies to linear internal workflows (session lifecycle, plan→handoff→execute) where the clobber pain lives. 5 phases + 3 open decisions
 - [EP1-Air-Push-Plan](log/plans/EP1-Air-Push-Plan.md) — S202 PROPOSED: multi-session push to bring EP1 close to air. Decisions locked (Studio matured not World redesigned; OS netinstall+KS now / ISO later; restructures deferred). Air-critical vs coherence tracks; resolves the S193 audit contradictions + net-new (Chrysalis reliquary, OS download page, Studio inspector/nesting/export)
 - [Collective-Architecture-Audit-Plan](log/plans/Collective-Architecture-Audit-Plan.md) — S192 PROPOSED plan; RUN S193 — see the two deliverables below
 - [Collective-Architecture-Audit-2026-07-04](log/plans/Collective-Architecture-Audit-2026-07-04.md) — S193 RUN: cross-repo synthesis, all 10 members audited, drift findings + per-member improvement plans, open decisions for Mark

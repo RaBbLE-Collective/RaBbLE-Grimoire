@@ -14,6 +14,7 @@ move to `done/`. Handoff docs (written mid-session for a fresh agent) live in `.
 
 | Plan | Status |
 |---|---|
+| `Collective-ICM-Conformance-Audit.md` | 🟢 2026-08-27 AUDIT COMPLETE — ICM/MWP (arXiv 2603.16021v2) conformance: Collective already ~70% there (L0/L1/L3 strong), gaps = L2 stage contracts + L3/L4 split; Phase 0 = do NOT restructure the ecosystem. Awaiting Mark's calls on the 3 open decisions |
 | `EP1-Air-Push-Plan.md` | 🟢 S203 ACTIVE — A4 DONE: entity-forward face built + verified (Mark sign-off pending), passage retired to Chrysalis reliquary. B-10 mapped → `../handoffs/HANDOFF-S203-B10-Cloudflare-Token.md` (Mark-gated). Next: A5 (Chrysalis CI + deploy.sh wrapper + key inventory), C1 (reliquary garden), A1 |
 | `Collective-Architecture-Audit-2026-07-04.md` | 🟢 S193 RUN (findings). S196 — Batch 1 safe doc/drift fixes landed; decisions + restructures deferred. Live status → `Collective-Architecture-Audit-PROGRESS.md` |
 | `Collective-Architecture-Audit-PROGRESS.md` | 🟢 S196 — implementation ledger: what's done vs deferred across all audit findings |
