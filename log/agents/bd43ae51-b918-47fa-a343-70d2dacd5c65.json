@@ -3,12 +3,15 @@
   "agent": "auto",
   "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-OS",
   "scopes": [
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/agents/bd43ae51-b918-47fa-a343-70d2dacd5c65.json",
+    "RaBbLE-Grimoire:log/token-ledger.tsv",
     "RaBbLE-OS:ansible/inventory/group_vars/asus_proart_p16.yml",
     "RaBbLE-OS:ansible/roles/boot/plymouth/tasks/config.yml",
     "RaBbLE-OS:ansible/roles/hardware/x64/asus_proart_p16/files/rabble-sddm-compositor-wait.sh",
     "RaBbLE-OS:ansible/roles/hardware/x64/asus_proart_p16/tasks/nvidia.yml"
   ],
   "started_at": "2026-08-27T16:19:56Z",
-  "heartbeat_at": "2026-08-27T16:19:56Z",
+  "heartbeat_at": "2026-08-27T16:21:19Z",
   "auto": true
 }

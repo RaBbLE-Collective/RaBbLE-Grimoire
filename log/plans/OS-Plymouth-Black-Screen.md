@@ -1,6 +1,15 @@
 # Plan: Plymouth Boot Splash Black Screen
 
 **Status:** 🎯 ROOT CAUSE FOUND (S166) — theme script had an unsupported ternary operator at L460, failing to compile → nothing rendered. Fix applied to source. **AWAITING visual verify** (deploy + reboot + see the splash) before marking DONE.
+
+> **S226 note:** the script-compile bug this doc tracks was resolved (S166) and the
+> simpledrm→amdgpu handoff risk below is now closed by `force_drivers+=" amdgpu "`
+> (S224, confirmed via real boot log S226 — amdgpu KMS is fully up at t≈4.1s, before
+> `plymouth-start` at t≈5.4s, so the splash never sees a mid-animation handoff). The
+> boot chain's **current** live issue is a *different* stage — the SDDM greeter's
+> post-Plymouth DRM-master race — tracked in `log/SESSION-LOG.md` (S207/S216/S223/
+> S224/S225... "os-sddm-drm-retry") rather than in this file. Read the SESSION-LOG
+> entries for that thread, not this doc, for the active bug.
 **Repo:** RaBbLE-OS `new-horizons` · **Last touched:** S166 (2026-06-24)
 **Hardware:** ASUS ProArt P16 — dual-GPU. `card0`=NVIDIA RTX 4060 (blacklisted in initramfs), `card1`=AMD 890M. **Laptop panel `card1-eDP-1` is on the AMD GPU.**
 
