@@ -212,3 +212,4 @@ S219-pocket-firmware-v1-screens	pocket-firmware-v1-screens	S219: RaBbLE-Pocket v
 S220-pocket-power-task	pocket-power-task	Slice 5-6 power task, hardware-verified end to end
 S221-pocket-case-dxf-refs	pocket-case-dxf-refs	S221: all 6 Case reference views fixed, valid, visible, oriented
 e1cb253f-7c15-469c-9057-795dfadbb57a	os-sddm-hypr-lua-llama-fix	S223 close: eim_config.toml gitignored as eim's own runtime state
+commit-570a466	os-boot-chain-drm-race	
