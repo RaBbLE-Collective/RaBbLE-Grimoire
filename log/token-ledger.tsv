@@ -214,3 +214,4 @@ S221-pocket-case-dxf-refs	pocket-case-dxf-refs	S221: all 6 Case reference views 
 e1cb253f-7c15-469c-9057-795dfadbb57a	os-sddm-hypr-lua-llama-fix	S223 close: eim_config.toml gitignored as eim's own runtime state
 commit-570a466	os-boot-chain-drm-race	
 commit-cf92725	collective-icm-conformance-audit	ICM/MWP audit + 5-phase plan doc + Aether artifact
+commit-df7ea35	os-sddm-drm-retry-actual	

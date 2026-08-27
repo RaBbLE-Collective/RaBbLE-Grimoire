@@ -15,12 +15,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-08-27 · S225 (collective-icm-conformance-audit)
+## LATEST — 2026-08-27 · S226 (os-sddm-drm-retry-actual)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S225: ICM/MWP conformance audit — Collective ~70% there (A context arch, C+ stage contracts); plan doc + Aether artifact delivered
+**This session:** S226: SDDM DRM race S224 fix falsified by real boot; retry-on-EBUSY fix applied, RDSEED cleared as red herring
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12/B-13 open.
-**Next:** Mark picks up plan in phases with Sonnet 5, starting with the 3 open decisions
+**Next:** Mark: layerctl apply boot + reboot, check journalctl for sway busy/retry pattern
 
 ---
 
