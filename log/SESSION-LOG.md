@@ -15,12 +15,23 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-08-27 · S229 (os-sddm-live-restart-and-tmp-perm-fix)
+## LATEST — 2026-08-27 · S230 (os-revert-force-drivers)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S229: S228's tag fix worked and deployed for real — which immediately exposed two dormant bugs it had never been able to trigger before: a live `notify: restart sddm` killed Mark's active Hyprland session mid-`apply`, and the wrapper itself failed with `Permission denied` (wrote to root-only `/run` as the unprivileged `sddm` user). Both fixed.
+**This session:** S230: reverted S224's `force_drivers` amdgpu change back to `add_drivers` — Mark reports the early-forced-load boot is more glitchy/laggy than the old handoff-hiccup version; no amdgpu fault in the kernel log either way, and it never fixed the actual bug (the unrelated SDDM race) it was added for.
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12/B-13 open.
-**Next:** Mark: `sudo bash RaBbLE-OS-layerctl.sh apply boot` (safe now — no live sddm restart), confirm wrapper header shows S228, then `sudo reboot` for the real verify
+**Next:** Mark: `sudo bash RaBbLE-OS-layerctl.sh apply boot` (SDDM wrapper fix from S229 + this revert together), then `sudo reboot` for the real verify of both
+
+---
+
+## 2026-08-27 · Session S230 (os-revert-force-drivers)
+
+- **Repo:** RaBbLE-OS. Mark, separately from the SDDM-race saga: "the pure AMD DRM is more glitchy/laggy than the version with the black screen DRM handoff hiccup" — comparing S224's `force_drivers+=" amdgpu "` (amdgpu KMS forced up before Plymouth even starts, no handoff, S226 confirmed this working as designed) against the prior `add_drivers` config (amdgpu loads late via normal udev coldplug, ~T+4.2s, which causes the ~3s-in black-flash handoff during the splash documented in `OS-Plymouth-Black-Screen.md`).
+- **Checked for hard evidence before reverting, not just going on feel:** `journalctl -b 0 -k | grep -iE "amdgpu.*reset|hang|timeout|TDR|GPU reset|recover"` across the current and recent boots — nothing. No amdgpu resets, hangs, or command-timeout errors under either config. So this isn't a fault; the plausible mechanism is scheduling cost — forcing amdgpu's ~2.5s firmware load (DMUB/PSP/VBIOS/SMU) into dracut's early pre-udev hook means it now competes with udev coldplug and module loading for CPU during the single busiest window of early boot, right when Plymouth needs smooth frame timing for its own animation.
+- **Decisive factor:** `force_drivers` never actually fixed what it was added for. It was S224's response to the (then-suspected) simpledrm→amdgpu handoff risk in `OS-Plymouth-Black-Screen.md`, but S226's real-boot investigation later established the actual black-screen bug was *entirely* the separate SDDM greeter DRM-master race (S207→S229 saga) — Plymouth's own splash was never the problem. So `force_drivers` has been paying an unrelated cost (this laggy/glitchy feel) for a fix to a bug that didn't need it.
+- **Fix:** reverted `ansible/roles/boot/plymouth/tasks/config.yml` back to `add_drivers+=" amdgpu "`, with an updated comment block recording the full timeline (why S224 added it, that it worked as designed, why it's being reverted anyway, and the pointer to the real bug). Commit `c0b4f0b` on `new-horizons`. The ~3s handoff black-flash this reintroduces is the known, minor, cosmetic issue from before S224 — not the login blocker.
+- **Not done:** not verified on real hardware yet post-revert (same as everything else queued this session — bundle with the next `apply boot` + reboot).
+- **Next:** Mark runs `sudo bash RaBbLE-OS-layerctl.sh apply boot && sudo reboot` — this single reboot now tests three things at once: S229's SDDM-wrapper permission fix + no-live-restart safety, this force_drivers revert, and (still pending from S226) whether the retry-on-EBUSY logic actually closes the login race for real.
 
 ---
 
