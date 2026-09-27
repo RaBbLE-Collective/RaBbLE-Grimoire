@@ -46,6 +46,12 @@ Format: date, what was done, where things were left, what's next.
   Remaining iPhone/landscape assertions were still running at close (see handoff). **Not verified:** real-GPU
   smoothness / 60 FPS (headless ran ~5 fps). Bundle 69 → 199 KB.
 - **Not done:** World vendoring + W2 rebuild, NeBuLA-API.md rewrite, W3, W4. Collective `AGENT.md` door refreshed.
+- **Follow-up, 2D perf (NeBuLA `8994353`):** Mark: 2D "abysmally slow" on the AMD iGPU laptop, 3D smooth, and it must
+  be accelerated on Firefox too. Measured headed Firefox 153 at 3840x2400: 2D 11 fps / 3D 60; forcing
+  `gfx.canvas.accelerated` changed nothing (Firefox rasters Canvas2D on the CPU). Built `alive-gl.js`, a Canvas2D
+  subset on WebGL that runs the unchanged field draw code; face stays Canvas2D as a texture. Firefox 2D now **60 fps**;
+  visuals match the Canvas2D path side by side. Suite on real GPU: **20/20 pass** incl. iPhone 15 portrait + landscape
+  (the earlier iPhone FAIL was swiftshader slowness). Landscape boot text now kept off the orb.
 - **Next:** W2 per handoff; Mark eyeballs http://localhost:8080/examples/alive.html on real hardware.
 
 ---

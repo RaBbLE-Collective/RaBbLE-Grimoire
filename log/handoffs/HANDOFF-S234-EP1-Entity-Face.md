@@ -19,19 +19,24 @@
   vendor the bundle into World (`cp dist/nebula.iife.js ../RaBbLE-World/world/js/RaBbLE-NeBuLA.js`) as
   part of W2; publish to nebula.joinrabble.world only at air.
 - [ ] **W2** World five-beat surface (not started). [ ] **W3** Grimoire truth-alignment. [ ] **W4** accounts doc.
-- [ ] **Mark:** eyeball the entity on real hardware (lab URL below). Headless tests ran on swiftshader at ~5 fps,
-  so motion smoothness, spring feel and the 60 FPS target are UNVERIFIED on a real GPU.
+- [x] **2D perf on Firefox (S234 follow-up, NeBuLA `8994353`):** Mark found 2D "abysmally slow" on the laptop
+  (AMD iGPU) while 3D was smooth. Root cause: Firefox rasters Canvas2D on the CPU (forcing `gfx.canvas.accelerated`
+  did NOT help: 11 fps either way at 3840x2400). Fix: `src/backends/alive-gl.js`, a Canvas2D-subset implemented on
+  WebGL; the field draw code is unchanged and the face stays Canvas2D, uploaded as a texture. Default renderer is
+  now `webgl` (`renderer="2d"` keeps the old path; auto-fallback when WebGL is missing). Measured headed Firefox 153
+  on the Radeon 890M: **2D 11 -> 60 fps**, 3D 60. Chromium GPU 2D 60. Main-thread cost ~14 ms/frame at 4K
+  (grid 3.2 · field 2.7 · face 3.75 · submit 4.45, via `profile` attr): inside budget, thin on weaker machines.
+  Headroom if needed: build the grid on the GPU, shrink/skip face re-raster when static, cap face texture.
+- [ ] **Mark:** eyeball the lab on real hardware (smoothness/feel is still a human call).
 
 ## Verified (Playwright, S234; screenshots were in BaBbLE/tmp/alive/shots, gitignored)
 Desktop 1280×800: dormant before boot · boot holds at t=7.4 while a step is pending · a tap during the hold
 does not skip it · completes after the step settles · states listening/speaking · moods ponder/process/insight ·
 setPortals violet/pink and rejects identical poles · 3D engages with fat lines on three 0.160 · dispose removes
-the stage · no page errors. **16 PASS / 1 FAIL.** iPhone 15 portrait (safe areas simulated via `--rbl-safe-*`,
-Dynamic Island drawn): PASS boot text clear of island + home indicator (top 395 px, bottom 582 px of 852).
-**FAIL, open:** "failed step still completes boot" on the iPhone 15 profile. The check's 120 s `until(boot.done)`
-expired at 3x DPR under swiftshader; most likely just slow (the desktop run completes via the same settleStep path),
-but NOT proven. Re-run at deviceScaleFactor 1, or on a real device, before W2 relies on the offline path.
-iPhone landscape pass never ran (run stopped at session close).
+the stage · no page errors. **Final: 20/20 PASS on the WebGL renderer, real GPU (`GPU=1`).** Includes iPhone 15
+portrait (safe areas simulated via `--rbl-safe-*`, Dynamic Island drawn: boot text clear, offline-degrade boot
+completes) and iPhone 15 landscape (boot text inside side safe areas and now kept off the booting orb). The earlier
+swiftshader FAIL was only slowness.
 
 ## The contract W2 codes against
 ```
@@ -79,12 +84,15 @@ iPhone landscape pass never ran (run stopped at session close).
   Firefox). In a non-interactive shell its esbuild watchers exit immediately, so run `npm run build:iife` by hand.
 - Entity lab: http://localhost:8080/examples/alive.html (`?autoboot=1&delay=<s>&fail=1&dim=3d&auto=0`)
   — `/examples/` route added to `spells/dev-cdn.js` this session.
-- Tests: `PLAYWRIGHT=~/.npm/_npx/218f5d799962bf90/node_modules/playwright node RaBbLE-NeBuLA/test/alive.playwright.mjs`
+- Tests: `GPU=1 VK_LOADER_DRIVERS_SELECT='*radeon*' PLAYWRIGHT=~/.npm/_npx/218f5d799962bf90/node_modules/playwright node RaBbLE-NeBuLA/test/alive.playwright.mjs`
+  (`GPU=1` = real GPU, fast; `VK_LOADER_DRIVERS_SELECT` pins the AMD iGPU, otherwise Chromium picks the RTX 4060).
+  Perf: `HEADED=1 BROWSER=firefox W=1920 H=1200 node test/alive.perf.mjs gpu 2` (opens a real Firefox window;
+  headless Firefox renders everything in software and is not representative). `RENDERER=2d` compares the old path.
   (that copy matches installed chromium 1228; newer npx copies want a browser that isn't installed).
   Headless is slow: the suite waits on entity state, never wall time. Screenshot timeout is 90 s.
 
 ## Gotchas
-- Bundle grew 69 KB → 199 KB (alive renderer + 26 KB fat lines). Fat lines could lazy-load with 3D later.
+- Bundle grew 69 KB → 211 KB (alive renderer + 26 KB fat lines + WebGL 2D). Fat lines could lazy-load with 3D later.
 - Render did NOT auto-redeploy on `render-ctl.sh env-set` or a push to sCoRE `new-horizons` (last auto deploy
   2026-06-26). After any sCoRE env/code change: `bash spells/render-ctl.sh deploy --wait`, then verify with a GET
   (`/health` rejects HEAD with 405).
