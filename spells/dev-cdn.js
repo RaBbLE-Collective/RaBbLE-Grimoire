@@ -25,6 +25,9 @@ const server = http.createServer((req, res) => {
     // Strip /nebula/v0.0.0.0/ → look in dist/
     const file = parsedUrl.pathname.replace(/^\/nebula\/[^/]+\//, '');
     filePath = path.join(NEBULA_ROOT, 'dist', file);
+  } else if (parsedUrl.pathname.startsWith('/examples/')) {
+    // NeBuLA dev harnesses (e.g. /examples/alive.html, the entity lab)
+    filePath = path.join(NEBULA_ROOT, 'examples', parsedUrl.pathname.replace(/^\/examples\//, ''));
   } else if (parsedUrl.pathname.startsWith('/studio/')) {
     const file = parsedUrl.pathname.replace(/^\/studio\//, '');
     filePath = path.join(NEBULA_ROOT, 'studio', file || 'index.html');

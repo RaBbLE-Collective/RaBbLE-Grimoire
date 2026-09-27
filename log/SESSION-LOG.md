@@ -24,6 +24,42 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-09-26 · Session S234 (ep1-entity-face)
+
+- **Repos:** Grimoire, World, sCoRE, ScRiBbLE, Chrysalis, NeBuLA, BaBbLE. Opus 5.5 session; Mark asked for a Grimoire
+  audit + EP1 launch help, then "commence plan".
+- **Audit found:** prod and dev.joinrabble.world still served the S190 liminal passage; the S203 face never deployed
+  because every World Action since June failed on Cloudflare auth 10000 (new blocker B-12). `/setup.sh` and
+  `/RaBbLE-OS.ks` were 404 (G9 could not pass as documented); AGENT.md/CONTEXT.md were publicly served;
+  chrysalis. had no DNS; sCoRE cold start 32 s; `end-session.sh` S199 label bug recurring (S231–S233).
+- **Plan:** `log/plans/EP1-Entity-Face-Plan.md` + handoff, Opus-reviewed (review corrected my claim that
+  `/api/v1/users/summon` didn't exist; it does, invite-gated on ephemeral `/tmp`). Decisions: accounts plan-only
+  (EP2), port the "alive" entity into NeBuLA, World flow Arrive → Boot → Meet → Summon → Enter, palette D4 = swap
+  to closest canonical + `RaBbLE-Agent/RaBbLE-Palette-Candidates.md`. Aether plan page published as an Artifact.
+  Supersedes Air-Push A4.
+- **W0 Cloudflare/edge (done, live):** Mark re-minted the token; secrets synced ×6; B-12 resolved. World `63f8d3d`
+  (`_redirects` for setup.sh + KS, `.assetsignore`, dispatch) → dev deploy green, first since June. ScRiBbLE
+  `61eb3a9` → scribble.joinrabble.world live. Chrysalis `78d174d` → chrysalis.joinrabble.world live (own channel,
+  parallel to dev). sCoRE `ab823d6`: keep-warm cron `*/10` on the proxy Worker (Render free-tier spin-down) +
+  `FRONTEND_URL` adds dev + chrysalis origins; Render did NOT auto-redeploy, manual `render-ctl.sh deploy --wait`
+  needed, then CORS verified per origin and chat streamed from the dev origin. `registry/subdomains.yml` updated.
+- **W1 alive entity → NeBuLA (done, NeBuLA `c7f0229`):** `<rabble-entity backend="alive">`. Mark's alive HTML
+  transformed 1:1 (asserted replacements; provenance BaBbLE `prototypes/alive-port/`, local commit) into
+  `src/backends/alive-backend.js`: host-driven boot that holds at the ready phase until World's real steps settle,
+  real-only boot log lines, moods (SVG rig machine) + Aether states (portal flip) + emotions, setPortals with pole
+  opposition, pause/resume/dispose, events, safe-area aware (iPhone 15 Dynamic Island/home indicator via probe),
+  3D on NeBuLA's single three@0.160 with vendored fat lines (`src/utils/three-fatlines.js`) and color management
+  off. `palette.js` now reads Aether's real token names + `readPalette(el)`. Lab: `examples/alive.html`
+  (dev-cdn `/examples/` route added); suite `test/alive.playwright.mjs`.
+- **Verified (headless swiftshader):** dormant → boot → hold at 7.4 → tap can't skip hold → completes; listening/
+  speaking; ponder/process/insight; portals; 3D with fat lines; dispose; iPhone 15 portrait boot clear of the island.
+  Remaining iPhone/landscape assertions were still running at close (see handoff). **Not verified:** real-GPU
+  smoothness / 60 FPS (headless ran ~5 fps). Bundle 69 → 199 KB.
+- **Not done:** World vendoring + W2 rebuild, NeBuLA-API.md rewrite, W3, W4. Collective `AGENT.md` door refreshed.
+- **Next:** W2 per handoff; Mark eyeballs http://localhost:8080/examples/alive.html on real hardware.
+
+---
+
 ## 2026-09-26 · Session S233 (entity-harness-poc-intake)
 
 - **Repos:** RaBbLE-Grimoire, RaBbLE-Aether, RaBbLE-NeBuLA, RaBbLE-Pocket, RaBbLE-BaBbLE. Mark dropped
