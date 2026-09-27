@@ -59,14 +59,48 @@ cd ~/RaBbLE-Collective/RaBbLE-OS
 sudo ./RaBbLE-OS-vmctl.sh cast-ks ISO/Fedora-Everything-netinst-x86_64-44-1.7.iso
 ```
 
-### Bare Metal Path (future)
+### Bare Metal Path (first exercised 2026-09, Ventoy USB — not yet a completed install)
 
-For bare metal, append the KS URL at GRUB boot:
+No `--initrd-inject` equivalent exists for bare metal, and `vmctl`'s templating (password
+hash, branch) doesn't run either — the KS must be hand-prepped. Two delivery options:
+
+**Recommended: OEMDRV auto-detect (no boot-line editing).** Anaconda auto-mounts any
+partition labeled exactly `OEMDRV` and, if it finds `/ks.cfg` there, uses it automatically
+— equivalent to `inst.ks=hd:LABEL=OEMDRV:/ks.cfg` with zero GRUB editing. Works fine
+alongside a Ventoy USB (Ventoy's own data partition just holds the ISO; a separate small
+`OEMDRV`-labeled partition on the same stick holds `ks.cfg`). Convention: keep the file
+named `ks.cfg.unused` when inactive and rename to `ks.cfg` only right before booting the
+target machine — otherwise *any* Anaconda-based ISO later booted from that same stick
+(e.g. a Fedora Live image) will silently pick it up too. Rename back to `.unused` after.
+
+**Alternative: GRUB boot-line edit.** Host the KS somewhere reachable and append at the
+Anaconda boot menu (press `e` to edit):
 ```
 inst.ks=https://raw.githubusercontent.com/markm1206/RaBbLE-OS/main/RaBbLE-OS.ks
 ```
 
-Before bare metal use: replace the plaintext password in the KS with a hash (`openssl passwd -6`), and remove `clearpart`/`autopart` lines to allow interactive partitioning.
+**Hand-prep needed either way, before use:**
+- Replace `__RABBLE_PASSWORD_HASH__` with a real hash (`openssl passwd -6`) — or drop
+  `--password=... --iscrypted` from the `user` line entirely to make Anaconda prompt for
+  it interactively on the User Creation spoke instead (username itself must stay `rabble`
+  — hardcoded through `%post` and the firstboot systemd unit's `User=`/`WorkingDirectory=`/
+  `ConditionPathExists=`; see `idea_gui_installer_custom_de` local-memory note for what
+  it'd take to lift that).
+- `__RABBLE_BRANCH__` placeholders need no edit — the `%post` fallback already resolves
+  them to `new-horizons` when untouched by `vmctl`.
+- Remove `clearpart`/`autopart` entirely (not just for VMs) to get the interactive
+  Installation Destination spoke — disk + partitioning-scheme choice on-screen.
+- **WiFi-only targets:** kickstart's `network` command has no WPA support (WEP only, long
+  deprecated) — drop any `--device=... --activate` line. Anaconda falls back to its normal
+  WiFi picker (SSID + WPA passphrase) on the Network & Host Name spoke; the connection it
+  establishes persists through package install and into `%post`/firstboot. Keep
+  `network --hostname=...` — that still applies independent of device activation.
+- Locale/keyboard/timezone are fine left hardcoded for a personal install (adjust the
+  `timezone` line for your region) — only worth making interactive for a genuinely
+  general-purpose installer aimed at other users.
+
+Net effect: 3 interactive screens (destination, user password, WiFi) on an otherwise
+unattended run through to firstboot — same automation as the VM path from there on.
 
 ## Manual Path (no KS)
 
