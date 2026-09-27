@@ -15,12 +15,58 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-09-26 · S232 (os-installer-user-spoke-fix)
+## LATEST — 2026-09-26 · S233 (entity-harness-poc-intake)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S232: Anaconda locks user spoke w/ partial KS user line, fixed by dropping it; theatrical installer idea logged
+**This session:** S233: entity rig landed in NeBuLA/Aether, EnGrAm named, EP2+Puppet-Pocket plans landed
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12/B-13 open.
-**Next:** Mark retrying bare-metal install with fixed KS
+**Next:** NeBuLA to port mood/listening state machine; decide EnGrAm vs sCoRE memory boundary
+
+---
+
+## 2026-09-26 · Session S233 (entity-harness-poc-intake)
+
+- **Repos:** RaBbLE-Grimoire, RaBbLE-Aether, RaBbLE-NeBuLA, RaBbLE-Pocket, RaBbLE-BaBbLE. Mark dropped
+  9 new files into `RaBbLE-BaBbLE/intake/`: a working hand-authored SVG entity animation rig
+  (`entity-rig.svg` + `entity-rig.json` manifest + `entity.html` reference engine) with an
+  accompanying visual guide (html+pdf), an unrelated earlier canvas render, and three
+  architecture/planning docs (`RaBbLE-EnGrAm-Architecture.md`, EP2 accounts/encryption spec,
+  a NeBuLA+Pocket puppet-rendering research session). All 9 routed this session.
+- **Entity rig POC → NeBuLA + Aether.** Landed `entity-rig.svg`/`.json` + the reference engine
+  (renamed `entity-rig-demo.html`) in `RaBbLE-NeBuLA/specs/rig/` — reference only, not wired into
+  `backends/canvas2d-backend.js`/`eye-behavior.js`. Rewrote `RaBbLE-Aether/RaBbLE-Entity-Visual-Spec.md`
+  (mirrored to `RaBbLE-NeBuLA/specs/visual-spec.md`): fixed a standing internal contradiction where
+  the TL;DR said "the two eyes are never level" while the doc's own geometry section always had
+  them level (only the portals mismatched); added the reconciled five-mood state machine
+  (Idle/Ponder/Process/Insight/Curious) and a new `listening` Aether state (portal-flip, not yet
+  implemented live); added an Animation Rig section (pivots/poles/tiers/spawners/occlusion) and a
+  Revision History. **Mark's ruling, recorded verbatim in spirit:** portal asymmetry (always one
+  above its eye, one below, never both the same side) and eye/portal color-pole opposition are the
+  character-defining invariants — not eye vertical position. Eyes rest level at zero-input idle and
+  may drift once animated; leveling itself is not an enforced rule either way.
+- **EnGrAm named + architected.** `RaBbLE-EnGrAm-Architecture.md` landed at
+  `RaBbLE-Grimoire/RaBbLE-EnGrAm/` — resolves `RaBbLE-Roadmap.md` open question #4 ("Memory member
+  name + scope"). Updated `RaBbLE-Roadmap.md`, `RaBbLE-Post-EP1-Roadmap.md` item 3, and
+  `RaBbLE-Personal-Cosmos.md` to point at it. Left one thing genuinely open (the doc's own §8.7):
+  whether EnGrAm (personal-content memory) and sCoRE's session/behavioral memory are the same
+  Memory member or two — not resolved, flagged in Post-EP1-Roadmap item 3.
+- **EP2 spec + Puppet/Pocket pipeline landed as plans.** `log/plans/EP2-Accounts-Encryption-Spec.md`
+  (first EP2-scoped plan doc — accounts phase decoupled from client-side-encrypted ingestion
+  phase, two-layer DEK/KEK) and `log/plans/NeBuLA-Pocket-Puppet-Rendering-Pipeline.md` (Godot as
+  authoring studio, `esp_emote_gfx`/ThorVG for Pocket). Pocket-relevant decisions also recorded as
+  `RaBbLE-Pocket/planning/decisions/2026-09-26-emote-rendering-stack.md` (ADR), cross-linked rather
+  than duplicated.
+- **BaBbLE cleanup:** `_ROUTING.md` + `CONTEXT.md` updated with the full routing table; all 9
+  originals moved to `reliquary/2026-09-26-entity-harness/` (sealed reference).
+- **Not done:** the new mood state machine + `listening` state are spec-only — implementing them
+  in NeBuLA's live Canvas2D/Three.js backends is real feature work, not started. One pre-existing
+  `grimoire-doctor` false-positive (an `INDEX.md` cross-repo path reference read as a broken
+  Grimoire-internal link) was hit and fixed in a follow-up commit (`b3b04cf`) — worth remembering
+  if another cross-repo `member-repo/path/file.md`-shaped reference gets added to `INDEX.md` later.
+- **Next:** NeBuLA session to port the mood/listening state machine from `specs/rig/` into the
+  live renderer; decide EnGrAm vs. sCoRE memory-layer boundary before Episode 2 build starts;
+  measure real `esp_emote_gen_player` clip sizes against the flash partition plan once Pocket's
+  first rig clips are authored.
 
 ---
 

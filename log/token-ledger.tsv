@@ -217,3 +217,4 @@ commit-cf92725	collective-icm-conformance-audit	ICM/MWP audit + 5-phase plan doc
 commit-df7ea35	os-sddm-drm-retry-actual	
 commit-763ca1d	os-gnome-firstboot	S231: GNOME first-class firstboot, bare-metal KS path
 commit-b2d17ba	os-installer-user-spoke-fix	S232: Anaconda user-spoke lock, rd.break recovery, theatrical installer idea
+commit-b3b04cf	entity-harness-poc-intake	S233: entity rig POC + EnGrAm/EP2/Puppet-Pocket docs routed
