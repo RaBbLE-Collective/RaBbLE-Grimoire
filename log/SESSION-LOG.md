@@ -15,12 +15,25 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-09-26 · S231 (os-gnome-firstboot)
+## LATEST — 2026-09-26 · S232 (os-installer-user-spoke-fix)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S231: GNOME promoted to first-class firstboot DE, bare-metal OEMDRV KS path documented
+**This session:** S232: real bare-metal install hit Anaconda locking the User Creation spoke on a password-less `user` KS line (no usable login resulted); recovered via `rd.break`+`passwd`+`autorelabel`, fixed KS by dropping `user` entirely, documented in KnownIssues; theatrical entity-guided installer idea captured in Roadmap.
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12/B-13 open.
-**Next:** Mark completing bare-metal install now; fold verified pass into F4 once confirmed
+**Next:** Mark retrying the bare-metal install with the fixed KS (type username `rabble` by hand at User Creation); fold a verified pass into F4 once confirmed.
+
+---
+
+## 2026-09-26 · Session S232 (os-installer-user-spoke-fix)
+
+- **Repo:** RaBbLE-Grimoire (docs only this half of the session — the KS fix itself is a USB-local file edit, not git-tracked).
+- **Real bug hit on bare metal:** the S231 KS made the `user` line password-less to get an interactive prompt on the User Creation spoke. On this box's Fedora 44 (WebUI-based Anaconda), that didn't work — Anaconda treated the spoke as kickstart-owned and greyed the fields out instead of prompting. The install proceeded with `rabble` created but genuinely no password set (locked shadow entry), and with `rootpw --lock` too, there was no usable login anywhere after firstboot — dropped to an unusable TTY.
+- **Recovery:** GRUB → `e` → append `rd.break` → `mount -o remount,rw /sysroot && chroot /sysroot` → `passwd rabble` → `touch /.autorelabel` (required — SELinux policy isn't loaded under `rd.break`, so `/etc/shadow`'s context is wrong after editing it there; skipping this risks a second, AVC-flavored lockout) → `exit; exit`. Confirmed this matches the already-documented F2 recovery path (`core/tasks/recovery.yml`, S109) — RaBbLE-OS already had the escape hatch, it just hadn't been exercised for *this specific* failure mode before.
+- **Real fix:** drop the KS `user` command entirely (not just `--password`) — only a fully absent `user` line gives Anaconda a genuinely empty, editable spoke on this Anaconda version. Applied directly to the USB's `ks.cfg` (OEMDRV partition). Username must now be typed by hand as exactly `rabble` at that screen, since `%post`/the firstboot systemd unit still hardcode that literal name.
+- **Documented:** new "Installer / Kickstart" section in `RaBbLE-OS/fix/RaBbLE-OS-KnownIssues.md` with the full failure mode, recovery steps, and fix — flagged as unverified whether this is Fedora-44-WebUI-specific or also true of older classic-GTK Anaconda.
+- **Also this half-session:** captured the theatrical entity-guided installer vision as a Roadmap idea (`RaBbLE-OS-Roadmap.md` bucket E) — entity greets the user from first boot using the same Plymouth/NeBuLA animation asset as the OS itself, narrates/Q&A's the guided choices, and explicitly delegates disk partitioning to GParted/`parted`'s own proven UI (entity explains, doesn't execute) rather than a custom partitioning engine. Tier 2 (custom live ISO) scope, EP2/Exodus-scale, extends the existing "Custom GUI installer" idea rather than duplicating it.
+- **Not done:** install still not verified end-to-end on this hardware (Mark retrying now with the fixed KS); GNOME-in-firstboot therefore also still unverified on real hardware; whether the Anaconda user-spoke lock is version-specific is untested.
+- **Next:** Mark retries the install; report back on whether User Creation is now editable and whether the whole flow reaches SDDM with Hyprland+GNOME as expected.
 
 ---
 

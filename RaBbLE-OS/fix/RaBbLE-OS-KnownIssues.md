@@ -208,6 +208,17 @@ harmonize ~ grimoire >> surfacing the static // %DRIFT_TRACKING%
 
 ---
 
+### Installer / Kickstart
+
+**Anaconda locks the User Creation spoke even with an incomplete `user` KS command `[WORKED AROUND S231]`**
+- On the first real bare-metal install (Fedora 44, WebUI-based Anaconda), a KS `user` line with `--name`/`--groups`/`--gecos` set but **no** `--password` was expected to leave the User Creation spoke incomplete-but-editable, matching the Installation Destination/Network spokes' behavior when their commands are similarly left incomplete. It did not: Anaconda treated the spoke as kickstart-owned and greyed the fields out, refusing manual edits. The install proceeded with the `rabble` account created but no password set at all (locked shadow entry, not "ask interactively") — combined with `rootpw --lock`, this left no usable login anywhere and dropped to an unusable TTY after firstboot.
+- **Recovery used:** GRUB → edit boot line → append `rd.break` → `mount -o remount,rw /sysroot && chroot /sysroot` → `passwd rabble` → **`touch /.autorelabel`** (SELinux policy isn't loaded in the initramfs, so `/etc/shadow`'s context is wrong after this edit — skipping the relabel risks a second lockout via AVC denials, not a wrong password) → `exit; exit` to resume boot.
+- **Fix:** drop the `user` command from the KS **entirely** — no partial line at all. Anaconda then renders a genuinely empty, fully editable User Creation spoke (username + password both typed by hand). Confirmed this is the only reliable way to get an interactive user-creation prompt on this Anaconda version; a `--password`-less `user` line is not enough.
+- **Caveat if you do this:** the username is no longer pre-filled — it must be typed as exactly `rabble` at that screen, since `%post` and the firstboot systemd unit (`RaBbLE-OS.ks`) still hardcode that literal name (sudoers grant, `WorkingDirectory=`, `ConditionPathExists=`). A different name there means firstboot silently never fires.
+- **Not verified:** whether this is Fedora-44-WebUI-specific or also true of the classic GTK Anaconda hub-and-spoke UI on earlier releases — worth rechecking if a future install targets an older Fedora base.
+
+---
+
 ## Resolved Issues `[FIXED]`
 
 | Date | Issue | Resolution |
