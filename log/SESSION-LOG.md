@@ -15,12 +15,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-08-27 · S230 (os-revert-force-drivers)
+## LATEST — 2026-09-26 · S231 (os-gnome-firstboot)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S230: reverted S224's `force_drivers` amdgpu change back to `add_drivers` — Mark reports the early-forced-load boot is more glitchy/laggy than the old handoff-hiccup version; no amdgpu fault in the kernel log either way, and it never fixed the actual bug (the unrelated SDDM race) it was added for.
+**This session:** S231: GNOME promoted to first-class firstboot DE, bare-metal OEMDRV KS path documented
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12/B-13 open.
-**Next:** Mark: `sudo bash RaBbLE-OS-layerctl.sh apply boot` (SDDM wrapper fix from S229 + this revert together), then `sudo reboot` for the real verify of both
+**Next:** Mark completing bare-metal install now; fold verified pass into F4 once confirmed
 
 ---
 
