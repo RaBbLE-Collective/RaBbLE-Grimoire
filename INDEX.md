@@ -41,6 +41,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 
 - [RaBbLE-Identity](RaBbLE-Agent/RaBbLE-Identity.md) — manifesto, character, voices, state machine, system prompt
 - [RaBbLE-Palette](RaBbLE-Agent/RaBbLE-Palette.md) — all hex values, Ansible block, component mapping
+- [RaBbLE-Palette-Candidates](RaBbLE-Agent/RaBbLE-Palette-Candidates.md) — consideration list (not canon): off-palette hexes found in real work, their canonical swaps, and promote notes (S234: alive entity + nebula ramp)
 - [RaBbLE-CommitStyle](RaBbLE-Agent/RaBbLE-CommitStyle.md) — the Pulse Protocol
 - [RaBbLE-BranchStrategy](RaBbLE-Agent/RaBbLE-BranchStrategy.md) — branch topology
 - [RaBbLE-DocTemplates](RaBbLE-Agent/RaBbLE-DocTemplates.md) — canonical AGENT.md and CONTEXT.md templates for all member repos
@@ -295,6 +296,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 ### Plans (active)
 
 - [Collective-ICM-Conformance-Audit](log/plans/Collective-ICM-Conformance-Audit.md) — 2026-08-27: audit of the Collective against ICM/MWP (arXiv 2603.16021v2, Van Clief & McDermott). Finding: already ~70% conformant (L0/L1/L3 strong, context-scoping stronger than the paper), gaps = L2 stage contracts (I/P/O) + L3/L4 handoff split. Phase 0 = do NOT restructure the branching ecosystem (§5.2 anti-patterns); ICM applies to linear internal workflows (session lifecycle, plan→handoff→execute) where the clobber pain lives. 5 phases + 3 open decisions
+- **[EP1-Entity-Face-Plan](log/plans/EP1-Entity-Face-Plan.md)** — **S234 ACTIVE.** Supersedes Air-Push A4: the "alive" 2D/3D entity + SVG-rig moods ported into NeBuLA `<rabble-entity>`; World rebuilt as Arrive→Boot→Meet→Summon→Enter (boot masks sCoRE cold start); Cloudflare B-12 unblock + setup.sh/KS redirects + keep-warm; accounts plan-only (EP2). Handoff: [HANDOFF-S234-EP1-Entity-Face](log/handoffs/HANDOFF-S234-EP1-Entity-Face.md)
 - [EP1-Air-Push-Plan](log/plans/EP1-Air-Push-Plan.md) — S202 PROPOSED: multi-session push to bring EP1 close to air. Decisions locked (Studio matured not World redesigned; OS netinstall+KS now / ISO later; restructures deferred). Air-critical vs coherence tracks; resolves the S193 audit contradictions + net-new (Chrysalis reliquary, OS download page, Studio inspector/nesting/export)
 - [Collective-Architecture-Audit-Plan](log/plans/Collective-Architecture-Audit-Plan.md) — S192 PROPOSED plan; RUN S193 — see the two deliverables below
 - [Collective-Architecture-Audit-2026-07-04](log/plans/Collective-Architecture-Audit-2026-07-04.md) — S193 RUN: cross-repo synthesis, all 10 members audited, drift findings + per-member improvement plans, open decisions for Mark

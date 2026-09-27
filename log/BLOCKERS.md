@@ -4,14 +4,13 @@
 > Do not hand-edit — use `blockers.sh add` / `resolve`. This is the durable
 > home for blockers so they survive the rewrite of the SESSION-LOG `## LATEST` box.
 >
-> Last synced: 2026-08-08  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
+> Last synced: 2026-09-27  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
 
 ## OPEN
 
 - **B-02** — OpenRouter $10 credits not purchased — free tier 429 caps the chat chain  ·  owner:Mark  ·  since:S106  ·  [ep1-gate]
 - **B-09** — Lemonade Server needs debug — not confirmed working after NPU validation in S160  ·  owner:Mark  ·  since:S161  ·  [runtime]
 - **B-11** — Cetus3D MK2 WiFi not provisioned — needs one-time USB+UP Studio handshake on real Windows (Wine's MsiInstallDrivers/WinusbFM driver install fails under both UP Studio 2 and 3, confirmed twice; Wand's connect UI is wireless-only so USB isn't a usable fallback path either). Plan: do the one-time SSID handshake booted into Windows 11 (dual-boot), then RaBbLE-OS only needs Wand's WiFi connect going forward. See RaBbLE-OS/hardware/RaBbLE-OS-Hardware-Cetus3D-MK2.md  ·  owner:Mark  ·  since:2026-07-28  ·  [hardware]
-- **B-12** — Cloudflare Workers deploy rejects the .cloudflare/config token on auth: error [code:10000] 'Are you missing the User->User Details->Read permission?'. Token verifies as active/valid but lacks scope for the real deploy request. Fix: on dash.cloudflare.com re-mint via the built-in 'Edit Cloudflare Workers' template (bundles Workers Scripts:Edit + Account Settings:Read + User Details:Read) scoped to account 0391968396156c874398a9696e0b3598, then gh secret set CLOUDFLARE_API_TOKEN on all 6 repos again.  ·  owner:Mark  ·  since:S206  ·  [ep1-dev]
 - **B-13** — FreeCAD/LibreCAD Flatpak UI pixelated/blurry on HiDPI (3840x2400 @ Hyprland scale=2) — X11-only Flathub sandbox forces XWayland, Hyprland compositor bitmap-scales those surfaces unconditionally. QT_SCALE_FACTOR override alone makes it worse (compounds with compositor scaling, 4x too large + still blurry). Real fix needs xwayland:force_zero_scaling=true in Hyprland config paired with a Qt scale factor — NOT safe to toggle live (killed all running XWayland clients instantly when tried, S212). Needs a deliberate config/hypr/ + dotctl change applied at a restart Mark chooses.  ·  owner:Mark  ·  since:2026-08-08  ·  [hidpi, freecad]
 
 ## RESOLVED
@@ -24,4 +23,5 @@
 - **B-07** — resolved: live S120 — joinrabble.world returns 200
 - **B-08** — resolved: done — status.sh shows all lockstep in-step on new-horizons (S103 audit item closed)
 - **B-10** — resolved: CLOUDFLARE_API_TOKEN secret now wired via gh secret set across all 6 org repos (World/Aether/NeBuLA/sCoRE ×2 + Grimoire has none needed) S206, working around missing admin:org gh scope with per-repo sets. Missing-secret failure mode confirmed cleared via re-run. See B-12 for the narrower permission issue this surfaced.
+- **B-12** — resolved: S234: re-minted token w/ User Details:Read + Memberships:Read + Zone DNS:Edit/Read + Workers Routes:Edit; verified via CF API; secrets synced to World/Aether/NeBuLA/sCoRE/ScRiBbLE/Chrysalis; World dev Action green (63f8d3d), first since June
 

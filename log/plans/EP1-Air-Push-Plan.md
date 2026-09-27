@@ -113,7 +113,11 @@ The audit's #1 finding is "docs outrun code." Fix canon first so everything down
   default inventory generic (not ProArt) so a VM/x86_64 install doesn't self-assign Mark-hardware
   roles (feeds G7); archive legacy Sway-era `Install.sh`. (Manifest→SSoT wiring stays deferred.)
 
-### A4. World entity-forward face (REVISED S203 — replaces "keep passage") — ✅ BUILT, sign-off pending
+### A4. World entity-forward face (REVISED S203 — replaces "keep passage") — ⛔ SUPERSEDED S234
+
+> **S234:** never deployed (B-12 blocked every World Action), and now replaced by
+> `EP1-Entity-Face-Plan.md` (W1 alive entity in NeBuLA + W2 guided Arrive→Boot→Meet→Summon→Enter).
+> The S203 build freezes to Chrysalis as "the face that never aired". Kept below for history.
 Build the new EP1 face to Mark's brief; the liminal passage retires to Chrysalis (C1/C2).
 - **The brief:** single surface, no scroll. Entity centered, awake, ambient — RaBbLE is *present
   in the space*, not presented by it. **Conversation is the input surface**: one input, the page

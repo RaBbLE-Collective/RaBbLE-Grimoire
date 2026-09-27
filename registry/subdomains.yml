@@ -22,7 +22,7 @@ subdomains:
   - host: joinrabble.world
     label: World — homepage
     owner: RaBbLE-World
-    tech: Cloudflare Pages
+    tech: Cloudflare Workers static assets (Worker rabble-collective; deploy-prod on World main)
     purpose: User-facing homepage, entity interaction, chat surface
     status: live
     notes: EP1 landing + chat wired to sCoRE via score.joinrabble.world
@@ -31,14 +31,13 @@ subdomains:
     label: World — dev/staging
     owner: RaBbLE-World
     tech: Cloudflare Workers (deploy-dev GitHub Actions workflow)
-    purpose: Staging + dev testing for HTML/CSS/JS pages; Xperimental and Chrysalis preview zone
+    purpose: Staging + dev testing for HTML/CSS/JS pages; World new-horizons preview
     status: staging
-    blocker: B-10
     notes: |
-      Blocked on GitHub Actions secret. Mark to create a scoped CF Workers token:
-        gh secret set CLOUDFLARE_API_TOKEN --body <token>
-        gh secret set CLOUDFLARE_ACCOUNT_ID --body <account-id>
-      Workflow + dev domain binding already correct; secret is the only missing piece.
+      S234: unblocked (B-10/B-12 resolved, token re-minted). Router Worker rabble-dev
+      (Grimoire workers/dev/) → rabble-world-dev (World new-horizons) + /chrysalis/* →
+      rabble-chrysalis-web (legacy path; chrysalis.joinrabble.world is now the channel).
+      sCoRE CORS allows this origin (FRONTEND_URL, S234).
 
   - host: score.joinrabble.world
     label: sCoRE — LLM backend
@@ -48,7 +47,9 @@ subdomains:
     status: live
     notes: |
       Live at rabble-score-x7qq.onrender.com (S106).
-      Managed via spells/render-ctl.sh. Free-tier spins down after inactivity.
+      Managed via spells/render-ctl.sh. Free-tier spins down after inactivity;
+      S234 keep-warm cron (*/10) on proxy Worker rabble-score pings /health.
+      CORS origins: joinrabble.world, dev., chrysalis. (FRONTEND_URL comma list).
 
   - host: grimoire.joinrabble.world
     label: Grimoire — MCP + browsable docs
@@ -85,3 +86,21 @@ subdomains:
       v0.0.0.1-rc.1 bundle confirmed HTTP 200 (S153, G3 green).
       NeBuLA Studio (visual WYSIWYG 2D/3D) is EP2 target.
       Docs: same pattern as Aether — member page points to Grimoire RaBbLE-NeBuLA/ section.
+
+  - host: chrysalis.joinrabble.world
+    label: Chrysalis — reliquary channel
+    owner: RaBbLE-Chrysalis
+    tech: Cloudflare Workers static assets (Worker rabble-chrysalis-web; deploy.yml on Chrysalis main)
+    purpose: Archive + memorial site for never-aired/retired pages; parallel channel to dev
+    status: live
+    notes: |
+      Bound S234 (78d174d). Reliquary index/timeline page still to build (Air-Push C1).
+
+  - host: scribble.joinrabble.world
+    label: ScRiBbLE — neon note PWA
+    owner: RaBbLE-ScRiBbLE
+    tech: Cloudflare Workers static assets (Worker rabble-scribble; deploys from new-horizons)
+    purpose: Mobile-first local-only note PWA (IndexedDB)
+    status: live
+    notes: |
+      First deploy S234 (61eb3a9). main is a README stub; app lives on new-horizons.
