@@ -14,6 +14,21 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-09-27 · Session S235 (ep1-w2-face)
+
+- **Repos:** World, Chrysalis, Grimoire. Opus 5.5; Mark: "start the handoff" (HANDOFF-S234 → W2).
+- **W2 built:** World `dc5d11a` five-beat face around `<rabble-entity backend="alive">`; boot steps are real
+  (Aether applied, NeBuLA upgraded, sCoRE via new `window.RABBLE_HEALTH`); typing → listening, awaiting → process,
+  streaming → speaking, done → idle + insight; Summon = pole-opposed `setPortals` preview ("claim it in Exodus",
+  nothing persisted); Enter = four doors. Curator no longer latches offline after a cold start. Summon/account
+  retired to Chrysalis `7e1513d` with the S203 face (`RaBbLE-Face.html`). Fixed os.html's dead inst.ks path.
+- **Verified:** Playwright walkthrough 22/22 (desktop cold-sCoRE hold then release, offline, iPhone 15 portrait +
+  landscape, simulated insets). Caught + fixed: dock overlay swallowed the wake click; brand casing uppercased by
+  Aether button/label styles; voice colliding with the dock on mobile; landscape sheets too tall.
+- **Blocked:** prod Aether CDN is the June build (no askbox/statusbar/btn-pill); Aether `main` is a stub. Neither
+  World nor Chrysalis pushed; Mark decides the Aether publish, then push World to dev for G10.
+- **Next:** Aether publish decision → push World `new-horizons` → dev review (G10); Genesis copy edit; W3, W4.
+
 ## 2026-09-26 · Session S234 (ep1-entity-face)
 
 - **Repos:** Grimoire, World, sCoRE, ScRiBbLE, Chrysalis, NeBuLA, BaBbLE. Opus 5.5 session; Mark asked for a Grimoire
