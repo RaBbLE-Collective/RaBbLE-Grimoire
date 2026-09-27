@@ -5,22 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## 2026-07-06 · Session 199 (os-runtime-llama-fix: llama.cpp prebuilt download 404 fixed)
-
-- **Repo:** RaBbLE-OS. Ansible `runtime` role's `llama-cpp.yml` prebuilt-download path was failing with a hard 404 on `llama-b9892-bin-ubuntu-vulkan-x64.zip`.
-- **Root cause, two stacked issues:** (1) upstream org renamed `ggerganov/llama.cpp` → `ggml-org/llama.cpp` (GitHub redirects this, so not fatal alone); (2) the actual 404 — current llama.cpp releases dropped `.zip` packaging for Linux artifacts. `ubuntu-vulkan-x64` now ships only as `.tar.gz`; `.zip` survives solely for Windows assets. The role's `set_fact` constructed a `.zip` filename that no longer exists as a release asset.
-- **Fix:** updated `ansible/roles/runtime/tasks/llama-cpp.yml` (release-info API URL, download URL, constructed artifact filename `.zip`→`.tar.gz`) and `ansible/roles/runtime/defaults/main.yml` (`llama_cpp.repo` default) to `ggml-org/llama.cpp`. Verified the corrected URL resolves 200 directly against GitHub before committing. Commit `ed71e8e`.
-- **Not done:** haven't re-run the actual Ansible playbook against a machine/VM to confirm end-to-end (only verified the URL construction out-of-band via curl); Mark should re-run the runtime role to confirm.
-- **Next:** Mark re-runs `layerctl` / the runtime role and confirms `llama-server --version` reports installed.
-
----
-
-## LATEST — 2026-09-26 · S233 (entity-harness-poc-intake)
+## LATEST — 2026-09-26 · S234 (ep1-entity-face)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S233: entity rig landed in NeBuLA/Aether, EnGrAm named, EP2+Puppet-Pocket plans landed
-**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12/B-13 open.
-**Next:** NeBuLA to port mood/listening state machine; decide EnGrAm vs sCoRE memory boundary
+**This session:** S234: Cloudflare unblocked (B-12), scribble./chrysalis. live, keep-warm; alive entity ported into NeBuLA
+**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-13 open.
+**Next:** W2 World five-beat rebuild per HANDOFF-S234; Mark eyeballs entity on real GPU
 
 ---
 
@@ -691,6 +681,16 @@ Format: date, what was done, where things were left, what's next.
 - **Session-numbering note:** S197 was double-booked (`os-boot-chain-seamless` and `ProArt-power-stack` both landed same-day under S197 — see both entries below). Not renumbering history (commit trailers are permanent and a doc-only renumber would desync from them); continuing forward from S200. If you're auditing S197-tagged commits, check which of the two S197 plan docs a change belongs to.
 - **AUTHOR-partial:** RaBbLE-OS commits are pushed to the working tree but **not yet applied to the live machine** (no root access from this session). Mark must run `layerctl` himself.
 - **Next:** Mark runs `sudo ./RaBbLE-OS-layerctl.sh apply hardware && sudo ./RaBbLE-OS-layerctl.sh apply boot && sudo reboot`, confirms SDDM loads and the Plymouth→SDDM handoff dissolves instead of flashing black, then `bash spells/boot-diagnose.sh` to capture evidence. TTY font still unexplained if it persists after this fix.
+
+---
+
+## 2026-07-06 · Session 199 (os-runtime-llama-fix: llama.cpp prebuilt download 404 fixed)
+
+- **Repo:** RaBbLE-OS. Ansible `runtime` role's `llama-cpp.yml` prebuilt-download path was failing with a hard 404 on `llama-b9892-bin-ubuntu-vulkan-x64.zip`.
+- **Root cause, two stacked issues:** (1) upstream org renamed `ggerganov/llama.cpp` → `ggml-org/llama.cpp` (GitHub redirects this, so not fatal alone); (2) the actual 404 — current llama.cpp releases dropped `.zip` packaging for Linux artifacts. `ubuntu-vulkan-x64` now ships only as `.tar.gz`; `.zip` survives solely for Windows assets. The role's `set_fact` constructed a `.zip` filename that no longer exists as a release asset.
+- **Fix:** updated `ansible/roles/runtime/tasks/llama-cpp.yml` (release-info API URL, download URL, constructed artifact filename `.zip`→`.tar.gz`) and `ansible/roles/runtime/defaults/main.yml` (`llama_cpp.repo` default) to `ggml-org/llama.cpp`. Verified the corrected URL resolves 200 directly against GitHub before committing. Commit `ed71e8e`.
+- **Not done:** haven't re-run the actual Ansible playbook against a machine/VM to confirm end-to-end (only verified the URL construction out-of-band via curl); Mark should re-run the runtime role to confirm.
+- **Next:** Mark re-runs `layerctl` / the runtime role and confirms `llama-server --version` reports installed.
 
 ---
 

@@ -218,3 +218,5 @@ commit-df7ea35	os-sddm-drm-retry-actual
 commit-763ca1d	os-gnome-firstboot	S231: GNOME first-class firstboot, bare-metal KS path
 commit-b2d17ba	os-installer-user-spoke-fix	S232: Anaconda user-spoke lock, rd.break recovery, theatrical installer idea
 commit-b3b04cf	entity-harness-poc-intake	S233: entity rig POC + EnGrAm/EP2/Puppet-Pocket docs routed
+1cd18ae6-093d-46a4-b132-b3753d89245e	collective	auto: current state S234: Cloudflare unblocked, alive entity in NeBuLA, W2 next
+commit-3833f93	ep1-entity-face	S234: CF unblocked + alive entity in NeBuLA
