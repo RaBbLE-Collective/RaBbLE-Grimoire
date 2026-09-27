@@ -18,9 +18,9 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-09-26 · S232 (os-installer-user-spoke-fix)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S232: real bare-metal install hit Anaconda locking the User Creation spoke on a password-less `user` KS line (no usable login resulted); recovered via `rd.break`+`passwd`+`autorelabel`, fixed KS by dropping `user` entirely, documented in KnownIssues; theatrical entity-guided installer idea captured in Roadmap.
+**This session:** S232: Anaconda locks user spoke w/ partial KS user line, fixed by dropping it; theatrical installer idea logged
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-12/B-13 open.
-**Next:** Mark retrying the bare-metal install with the fixed KS (type username `rabble` by hand at User Creation); fold a verified pass into F4 once confirmed.
+**Next:** Mark retrying bare-metal install with fixed KS
 
 ---
 

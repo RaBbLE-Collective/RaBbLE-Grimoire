@@ -216,3 +216,4 @@ commit-570a466	os-boot-chain-drm-race
 commit-cf92725	collective-icm-conformance-audit	ICM/MWP audit + 5-phase plan doc + Aether artifact
 commit-df7ea35	os-sddm-drm-retry-actual	
 commit-763ca1d	os-gnome-firstboot	S231: GNOME first-class firstboot, bare-metal KS path
+commit-b2d17ba	os-installer-user-spoke-fix	S232: Anaconda user-spoke lock, rd.break recovery, theatrical installer idea
