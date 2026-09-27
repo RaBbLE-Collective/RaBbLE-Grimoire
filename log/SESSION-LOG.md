@@ -25,9 +25,11 @@ Format: date, what was done, where things were left, what's next.
 - **Verified:** Playwright walkthrough 22/22 (desktop cold-sCoRE hold then release, offline, iPhone 15 portrait +
   landscape, simulated insets). Caught + fixed: dock overlay swallowed the wake click; brand casing uppercased by
   Aether button/label styles; voice colliding with the dock on mobile; landscape sheets too tall.
-- **Blocked:** prod Aether CDN is the June build (no askbox/statusbar/btn-pill); Aether `main` is a stub. Neither
-  World nor Chrysalis pushed; Mark decides the Aether publish, then push World to dev for G10.
-- **Next:** Aether publish decision → push World `new-horizons` → dev review (G10); Genesis copy edit; W3, W4.
+- **Round 2 (Mark: publish Aether, fix boot-text overlap, keep chat off the entity, OS back to a booted entity,
+  coherent scripted replies):** Aether rc.2 published (local deploy, rc.1 kept); NeBuLA `13681ce` `setInsets` +
+  mesh-aware boot text; World `543ed6e` live on dev; walkthrough 23/23 locally, live dev check clean on desktop +
+  iPhone 15 (real sCoRE reply). Chrysalis pushed.
+- **Next:** Mark signs off dev (G10) + Genesis copy; W3, W4; `setInsets` into the NeBuLA API doc.
 
 ## 2026-09-26 · Session S234 (ep1-entity-face)
 

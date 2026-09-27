@@ -2,7 +2,7 @@
 
 > Cold start for any agent picking up the EP1 face push. Plan of record:
 > `log/plans/EP1-Entity-Face-Plan.md` (read it first; this file is the "where are we" layer).
-> **Next up: Aether publish decision → push World to dev → G10.** W0, W1, W2 (built, local) done; W3/W4 not started.
+> **Next up: Mark reviews dev.joinrabble.world (G10).** W0, W1, W2 done and live on dev; W3/W4 not started.
 
 ## State at handoff (S234 close, 2026-09-26)
 - [x] **W0** Cloudflare unblocked (B-12 resolved): token re-minted, secrets on World/Aether/NeBuLA/sCoRE/
@@ -25,14 +25,19 @@
   Chrysalis `7e1513d` (local): S203 face frozen as `ep1/world/RaBbLE-Face.html` + summon/account at retirement state.
   Playwright walkthrough 22/22 PASS (desktop, offline, iPhone 15 portrait + landscape); script was in the session
   scratchpad, not committed. GENESIS-COPY markers in index.html + face.js await Mark's edit.
-- [ ] **W2 BLOCKER, dev review:** prod Aether CDN (`aether.joinrabble.world/v0.0.0.1-rc.1/`, and the unversioned root)
-  is the June build: no `.rabble-askbox*`, `.rabble-statusbar*`, `.rabble-btn-pill`. On dev/prod the ask box and
-  statusbar render unstyled (the never-aired S203 face had the same gap). Aether deploys only from `main`/`v*` tags
-  and Aether `main` is a stub, so fixing it = an Aether publish decision (Air-Push C3). Mark decides; then push World
-  `new-horizons` → dev.joinrabble.world and sign off (G10).
-- [ ] **W2 copy nit:** offline scripted replies (`RaBbLE-curator-transmissions.js` deflect/intents) still speak of
-  "the realm" / "point me at a cluster" (RC1 graph floor). Retune with Genesis copy.
-- [ ] **NeBuLA nit:** at iPhone landscape (852×393) the boot wordmark/log overlap the right portal mesh.
+- [x] **W2 on dev (S235):** Aether **v0.0.0.1-rc.2** published to aether.joinrabble.world via
+  `cloudflare-ctl.sh deploy aether v0.0.0.1-rc.2` (local deploy keeps the untracked `dist/v0.0.0.1-rc.1/`; a CI tag
+  deploy would DROP it, since Aether `dist/` is gitignored). World pinned to rc.2 and pushed: World `543ed6e` is live
+  on dev.joinrabble.world, verified end to end against live sCoRE (boot 3/3 steps OK, live reply, no errors).
+  NeBuLA `13681ce` pushed: new `el.setInsets({top,right,bottom,left})` (host UI insets on top of device safe areas;
+  the settled entity eases to center above the chat, scale floor .55); boot text clears the whole portal mesh.
+  World: entity sits above the conversation; `sessionStorage rabble:awake` + OS/Atlas back links `/?wake=1` land on a
+  booted entity; scripted voice rewritten for the Genesis face (`RaBbLE-curator-transmissions.js` now holds the
+  first words + Summon invite, GENESIS-COPY). Chrysalis `7e1513d` pushed.
+- [ ] **Mark:** review dev.joinrabble.world and sign off (G10); edit GENESIS-COPY.
+- [ ] **At air:** prod joinrabble.world still serves the old deploy (World `main` is a stub); `/setup.sh` and
+  `/RaBbLE-OS.ks` 404 on prod until the air merge. Repoint `_redirects` (KS + `/roadmap`) to `main` then.
+- [ ] **Contract doc:** add `setInsets` to the W1 API rewrite (`RaBbLE-NeBuLA/RaBbLE-NeBuLA-API.md`).
 - [ ] **W3** Grimoire truth-alignment. [ ] **W4** accounts doc.
 - [x] **2D perf on Firefox (S234 follow-up, NeBuLA `8994353`):** Mark found 2D "abysmally slow" on the laptop
   (AMD iGPU) while 3D was smooth. Root cause: Firefox rasters Canvas2D on the CPU (forcing `gfx.canvas.accelerated`
