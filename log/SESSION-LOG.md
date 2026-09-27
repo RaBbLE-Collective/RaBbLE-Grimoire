@@ -14,6 +14,36 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-09-27 · Session S236 (os-ks-iso-firefox)
+
+- **Repos:** OS, Aether, Grimoire. Opus 5.5; Mark: Firefox form dropdowns light-grey-on-white; KS install
+  left him at a TTY with no RaBbLE-OS and no git; wants the install to reach a themed SDDM, Ansible before the
+  reboot if possible; "might be worth making RaBbLE-OS its own ISO" → chose the branded netinstall ISO over a
+  full Live ISO (Live deferred to its own plan).
+- **KS diagnosis:** git is in `%packages`, so the KS never loaded: OEMDRV `ks.cfg` on Ventoy wasn't seen by
+  Anaconda. The documented `inst.ks=` URL pointed at OS `main`, which has no KS. The S232 "clone race" is
+  more plausibly DNS in the chroot (resolv.conf → systemd-resolved `/run`).
+- **KS rework (OS):** `spells/build-iso.sh` bakes the KS into the Fedora netinstall with mkksiso (lorax
+  added to the virtualization layer). The KS is now a template: `#@VM@` lines (user/disk/NIC/serial) are
+  enabled by vmctl, `#@BARE@` lines dropped. Bare metal keeps the disk, user and WiFi spokes interactive,
+  and the user is detected (no hardcoded `rabble`). `%post` borrows the installer's DNS, runs Bootstrap
+  (base,boot,desktop,gnome) in the chroot, relabels SELinux offline, and keeps `rabble-os-setup.service`
+  as the first-boot retry. Chroot-safety fixes: plymouth `dracut --force --regenerate-all`, Bootstrap
+  `clear` tolerates no TERM. Both KS renders validated with pykickstart and the scripts shellchecked.
+  **Not built or install-tested:** needs `layerctl apply virtualization` (lorax) plus a push, then `vmctl cast-ks`.
+- **Firefox (Aether + OS):** the first fix never deployed, and it was also wrong: in Firefox 153, userChrome
+  `::part()` never matches popup internals. The list is `-moz-combobox` (white) under
+  `--content-select-background-image`. Fixed via host vars (`--panel-background-color`, `--panel-text-color`,
+  `--content-select-background-image`) in userChrome §9/§9b. Verified old vs new in a headless FF153 via
+  raw Marionette + `InspectorUtils.getMatchingCSSRules`, and Mark confirmed live after restarting Firefox.
+- **dotctl `firefox` bundle (OS):** `config/firefox/` mirrors the profile, with `chrome/*.css` symlinked into
+  Aether (stale OS copies removed). Profile dir is resolved from `profiles.ini`. dotctl now follows symlinks
+  in all bundles and warns on dangling ones. `browsers.yml` reads the same tree.
+- **Docs:** Ops-Install (ISO path, in-installer Bootstrap, chroot-safety rules, KS markers), KnownIssues
+  (S236 re-diagnosis), Ops-Dotctl (firefox bundle + FF153 `::part` gotcha).
+- **Next:** push OS/Aether/Grimoire → `layerctl apply virtualization` → `vmctl cast-ks` end-to-end check →
+  `build-iso.sh` → bare-metal install. Open: KS setup sudoers NOPASSWD is never revoked; Live ISO plan.
+
 ## 2026-09-27 · Session S235 (ep1-w2-face)
 
 - **Repos:** World, Chrysalis, Grimoire. Opus 5.5; Mark: "start the handoff" (HANDOFF-S234 → W2).

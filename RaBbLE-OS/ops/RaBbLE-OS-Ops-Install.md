@@ -10,12 +10,30 @@ Automated VM install via `vmctl cast-ks`. The KS file drives the entire flow.
 2. `--initrd-inject` embeds `RaBbLE-OS.ks` directly into the initrd (no HTTP server needed)
 3. Anaconda boots, reads `inst.ks=file:/RaBbLE-OS.ks` from the injected initrd
 4. KS automates: locale, timezone, user (`rabble`), network, partitioning, package selection
-5. `%post` clones canonical Collective structure (see below) + creates firstboot service
-6. `reboot` directive restarts into installed OS
-7. Firstboot service runs Bootstrap with `base,boot,desktop,gnome` tags (+
-   `RABBLE_EXTRA_VARS=rabble_enable_gnome_desktop=true`) → SDDM greeter appears
-   listing both a Hyprland and a GNOME session (GNOME promoted to a first-class
-   firstboot DE 2026-09 — see `desktop/RaBbLE-OS-Desktop-Gnome.md`)
+5. `%post` (still inside the installer, before reboot) drops the firstboot script +
+   `rabble-os-setup.service`, then **runs that script immediately** in the target chroot:
+   clone Collective/Grimoire/OS → Bootstrap with `base,boot,desktop,gnome` (+
+   `RABBLE_EXTRA_VARS=rabble_enable_gnome_desktop=true`). Log:
+   `/var/log/rabble-os-install.log` (watch from the installer: Alt+F2 →
+   `tail -f /mnt/sysroot/var/log/rabble-os-install.log`). Success writes
+   `/var/lib/rabble-os/.setup-complete`; `setfiles` then relabels SELinux offline.
+6. `reboot` → first boot lands directly on the themed SDDM greeter (Hyprland + GNOME
+   sessions; GNOME is a first-class install DE since 2026-09 — see
+   `desktop/RaBbLE-OS-Desktop-Gnome.md`)
+7. Fallback only: if step 5's Bootstrap failed, the marker is absent and
+   `rabble-os-setup.service` retries the same script on first boot
+   (`journalctl -u rabble-os-setup -f`). The install itself never fails over Ansible.
+
+**Chroot-safety rules for install-path roles** (base, boot, desktop, gnome): no
+`dracut` without `--regenerate-all` (`uname -r` is the installer's kernel); service
+start/restart/reload is ignored in the chroot (`SYSTEMD_OFFLINE=1` + systemctl's own
+chroot detection) so it must never be load-bearing — enable units, don't depend on them
+running; no `--user` systemd or live-session D-Bus calls.
+
+**KS template markers:** `RaBbLE-OS.ks` is never used raw. `#@VM@` lines (user
+`rabble`, clearpart/autopart, `network --activate`, serial-console bootloader) are
+uncommented by `vmctl cast-ks`; lines ending `#@BARE@` are deleted by it.
+`spells/build-iso.sh` renders the bare-metal variant (markers left as comments).
 
 ### Clone Strategy (S37)
 
@@ -59,48 +77,34 @@ cd ~/RaBbLE-Collective/RaBbLE-OS
 sudo ./RaBbLE-OS-vmctl.sh cast-ks ISO/Fedora-Everything-netinst-x86_64-44-1.7.iso
 ```
 
-### Bare Metal Path (first exercised 2026-09, Ventoy USB — not yet a completed install)
+### Bare Metal Path: RaBbLE-OS ISO `[S236 · NOT YET BUILT OR INSTALL-VERIFIED]`
 
-No `--initrd-inject` equivalent exists for bare metal, and `vmctl`'s templating (password
-hash, branch) doesn't run either — the KS must be hand-prepped. Two delivery options:
-
-**Recommended: OEMDRV auto-detect (no boot-line editing).** Anaconda auto-mounts any
-partition labeled exactly `OEMDRV` and, if it finds `/ks.cfg` there, uses it automatically
-— equivalent to `inst.ks=hd:LABEL=OEMDRV:/ks.cfg` with zero GRUB editing. Works fine
-alongside a Ventoy USB (Ventoy's own data partition just holds the ISO; a separate small
-`OEMDRV`-labeled partition on the same stick holds `ks.cfg`). Convention: keep the file
-named `ks.cfg.unused` when inactive and rename to `ks.cfg` only right before booting the
-target machine — otherwise *any* Anaconda-based ISO later booted from that same stick
-(e.g. a Fedora Live image) will silently pick it up too. Rename back to `.unused` after.
-
-**Alternative: GRUB boot-line edit.** Host the KS somewhere reachable and append at the
-Anaconda boot menu (press `e` to edit):
-```
-inst.ks=https://raw.githubusercontent.com/markm1206/RaBbLE-OS/main/RaBbLE-OS.ks
+```bash
+cd ~/RaBbLE-Collective/RaBbLE-OS
+spells/build-iso.sh ISO/Fedora-Everything-netinst-x86_64-44-1.7.iso   # → ISO/RaBbLE-OS-<branch>.iso
 ```
 
-**Hand-prep needed either way, before use:**
-- Replace `__RABBLE_PASSWORD_HASH__` with a real hash (`openssl passwd -6`) — or drop
-  `--password=... --iscrypted` from the `user` line entirely to make Anaconda prompt for
-  it interactively on the User Creation spoke instead (username itself must stay `rabble`
-  — hardcoded through `%post` and the firstboot systemd unit's `User=`/`WorkingDirectory=`/
-  `ConditionPathExists=`; see `idea_gui_installer_custom_de` local-memory note for what
-  it'd take to lift that).
-- `__RABBLE_BRANCH__` placeholders need no edit — the `%post` fallback already resolves
-  them to `new-horizons` when untouched by `vmctl`.
-- Remove `clearpart`/`autopart` entirely (not just for VMs) to get the interactive
-  Installation Destination spoke — disk + partitioning-scheme choice on-screen.
-- **WiFi-only targets:** kickstart's `network` command has no WPA support (WEP only, long
-  deprecated) — drop any `--device=... --activate` line. Anaconda falls back to its normal
-  WiFi picker (SSID + WPA passphrase) on the Network & Host Name spoke; the connection it
-  establishes persists through package install and into `%post`/firstboot. Keep
-  `network --hostname=...` — that still applies independent of device activation.
-- Locale/keyboard/timezone are fine left hardcoded for a personal install (adjust the
-  `timezone` line for your region) — only worth making interactive for a genuinely
-  general-purpose installer aimed at other users.
+`build-iso.sh` renders the bare-metal KS (branch filled in), validates it with
+pykickstart, and embeds it with `mkksiso` (lorax, from the virtualization layer). The ISO
+boots straight into the KS: no OEMDRV partition, no `ks.cfg.unused` renaming, no
+boot-line edit, no password-hash hand-prep. Flash with Fedora Media Writer or `dd`;
+Ventoy is untested with an embedded KS.
 
-Net effect: 3 interactive screens (destination, user password, WiFi) on an otherwise
-unattended run through to firstboot — same automation as the VM path from there on.
+Interactive screens (everything else is automated):
+- **Installation Destination:** disk + partitioning (no clearpart/autopart on bare metal)
+- **User Creation:** any username; tick *administrator*. `%post` detects the first
+  UID ≥ 1000 account, so the name is no longer hardcoded to `rabble`. A partial KS
+  `user` line locks this spoke (see KnownIssues S231), hence it's VM-only.
+- **Network:** WiFi picker (KS `network` has no WPA); the connection persists into `%post`.
+
+The install clones from **GitHub**, not the local checkout: push before building, or
+the installed system won't have your changes (`build-iso.sh` warns if HEAD is ahead).
+
+Superseded (S236): OEMDRV `ks.cfg` on a Ventoy stick. The S232-era install that landed
+at a TTY without `git` never loaded the KS at all (git is in `%packages`), which is
+consistent with Anaconda not seeing the OEMDRV partition under Ventoy. The old
+`inst.ks=https://raw.githubusercontent.com/.../main/RaBbLE-OS.ks` boot-line option was
+also dead: the KS doesn't exist on `main`.
 
 ## Manual Path (no KS)
 
