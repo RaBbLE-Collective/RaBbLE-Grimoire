@@ -220,3 +220,5 @@ commit-b2d17ba	os-installer-user-spoke-fix	S232: Anaconda user-spoke lock, rd.br
 commit-b3b04cf	entity-harness-poc-intake	S233: entity rig POC + EnGrAm/EP2/Puppet-Pocket docs routed
 1cd18ae6-093d-46a4-b132-b3753d89245e	collective	auto: current state S234: Cloudflare unblocked, alive entity in NeBuLA, W2 next
 commit-3833f93	ep1-entity-face	S234: CF unblocked + alive entity in NeBuLA
+e80ae986-3aaf-4500-b9f6-667af196329d	collective	auto: current state S235: EP1 face live on dev, Aether rc.2, G10 review next
+commit-df4dd2c	world-ep1-face	S235: W2 five-beat face

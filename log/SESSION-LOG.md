@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-09-26 · S234 (ep1-entity-face)
+## LATEST — 2026-09-27 · Session S235 (world-ep1-face)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S234: Cloudflare unblocked (B-12), scribble./chrysalis. live, keep-warm; alive entity ported into NeBuLA
+**This session:** S235: W2 five-beat face live on dev, Aether rc.2 published, NeBuLA setInsets
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-13 open.
-**Next:** W2 World five-beat rebuild per HANDOFF-S234; Mark eyeballs entity on real GPU
+**Next:** Mark reviews dev.joinrabble.world + GENESIS-COPY (G10); W3/W4
 
 ---
 
