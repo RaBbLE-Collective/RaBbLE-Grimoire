@@ -33,7 +33,7 @@ The Personal Grimoire is the source of truth for this human. It is their knowled
 
 The entity contributes to the Grimoire actively: surfacing patterns, tagging recurring themes, suggesting what belongs in structured memory. The human approves what enters.
 
-At EP1, the Grimoire is a conversation history + stated intention. The full Personal Grimoire (structured KB, entity-maintained index) is an EP2+ feature requiring the Memory member.
+At EP1, the Grimoire is a conversation history + stated intention. The full Personal Grimoire (structured KB, entity-maintained index) is an EP2+ feature requiring the Memory member — named **EnGrAm** (2026-09-26), see `RaBbLE-EnGrAm/RaBbLE-EnGrAm-Architecture.md`. This Personal Grimoire is the curated *view*; EnGrAm is the backend that makes it possible.
 
 ---
 
@@ -103,7 +103,7 @@ The Cosmos is portable:
 | Feature | Target |
 |---|---|
 | Session history as proto-Grimoire | EP1 |
-| Structured Personal Grimoire (Memory member) | EP2 |
+| Structured Personal Grimoire (Memory member — EnGrAm) | EP2 |
 | BaBbLE intake surface (text + voice) | EP2 |
 | ScRibLE drawn/visual intake | EP2–EP3 |
 | Xperimental sandbox | EP2 |

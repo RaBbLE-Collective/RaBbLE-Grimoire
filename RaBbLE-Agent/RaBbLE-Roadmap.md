@@ -293,7 +293,10 @@ Recommendations from S29 token audit (~1.56M total tokens; docs ~1M, code ~525K)
    (`sync-grimoire.sh`, `grimoire_sync`) is retired. One source of truth, referenced.
 2. **Manifest protocol:** Confirm Pydantic-published JSON schema for `registry/protocol/`
 3. **Inter-member transport:** HTTP/REST fine for v0; event bus premature
-4. **Memory member name + scope:** (Mnemos, Codex, other?) — design before Episode 2
+4. **Memory member name + scope:** ✓ RESOLVED (2026-09-26) — **EnGrAm** (Entity's Networked
+   Graph-Relational Archival Memory). Unified photo/notes item schema, hybrid vector+graph
+   storage, EnGrAm-native store (no Obsidian). See `RaBbLE-EnGrAm/RaBbLE-EnGrAm-Architecture.md`.
+   Repo creation itself is still open (see Post-EP1-Roadmap item 3).
 5. **Observation ethics:** Which OS signals are OK to self-observe? Privacy-of-self matters.
 6. **Ambient suggestion UX:** Where's the line between helpful intent and creepy surveillance?
 7. **Behavioral Learning architecture:** One engine or several? Pattern extraction / intent inference / delegation may want separation.

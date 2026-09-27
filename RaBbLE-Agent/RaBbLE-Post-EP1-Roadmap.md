@@ -33,14 +33,25 @@ Spine, per `log/EPISODE-1-RELEASE.md` ("What Episode 2 Enables") and `log/FABLE-
    (session duration, command repetition, focus) → sCoRE reads them → the entity makes **one**
    unprompted observation in chat. Backbone: BaBbLE `behavior/crawler-bots.md` (Scavenger →
    Organizer → Librarian), to be promoted to RFC. → `EPISODE-1-RELEASE.md`, BaBbLE `_ROUTING.md`.
-3. **Behavioral memory — name the Memory member.** Create the repo (even skeletal — naming is
-   generative here). Define the **observation contract first** (what's captured, where stored,
-   local vs cloud, what the entity may act on). Local-first is stated; the contract isn't.
+3. **Behavioral memory — name the Memory member.** Personal-content memory (photos, notes,
+   synthesis digests) is now named and architected: **EnGrAm**, see
+   `RaBbLE-EnGrAm/RaBbLE-EnGrAm-Architecture.md` (2026-09-26, resolves Roadmap open question #4).
+   **Still open:** whether this *session/agent-observation* memory referenced here (Watcher
+   daemon signals, sCoRE's three-tier Mem0+Grimoire memory) is the same member as EnGrAm or a
+   separate one — EnGrAm's own Open Questions §8.7 flags this exact boundary as unresolved.
+   Create the repo (even skeletal). Define the **observation contract first** (what's captured,
+   where stored, local vs cloud, what the entity may act on). Local-first is stated; the
+   contract isn't.
 4. **NeBuLA entity state machine.** `entity.setState('%RESONANT%' | '%THINKING%' | '%SPEAKING%')`
    → eyes/particles/blink respond; wire sCoRE streaming to it. Spec exists in BaBbLE `assets/states/`
    + `_ROUTING.md`; zero implementation today.
 5. **De-dup + chrome unification.** Grimoire Graph consumes NeBuLA's canonical eye (kills the
    ~734-line copy); `<rabble-entity-mini>` state-driven on every World page — one continuous entity.
+6. **User accounts + encrypted ingestion.** Public-facing (joinrabble.world, no invite gate) but
+   scoped to single-digit real users initially; two decoupled phases — accounts/sessions first
+   (unencrypted, nothing sensitive yet), then ingestion+encryption built together (client-side
+   Web Crypto, two-layer DEK/KEK, no server-side plaintext ever). → **Draft spec:**
+   `log/plans/EP2-Accounts-Encryption-Spec.md`.
 
 ### OS hardening toward Exodus (deferred from EP1 Developer Preview, S109)
 - Deep theming polish; the residual KDE dim-label issue (`kdeglobals`/KColorScheme cache — S126).

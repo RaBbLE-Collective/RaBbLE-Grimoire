@@ -272,6 +272,12 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 
 ---
 
+## RaBbLE-EnGrAm
+
+- **[RaBbLE-EnGrAm-Architecture](RaBbLE-EnGrAm/RaBbLE-EnGrAm-Architecture.md)** — **Personal Cosmos's Memory member** (resolves Roadmap open question #4). Entity's Networked Graph-Relational Archival Memory: unified photo/notes item schema, hybrid vector+graph storage, own store (no Obsidian), self-hosted PWA front end. No repo yet — architecture/planning only.
+
+---
+
 ## Log
 
 - [log/CONTEXT.md](log/CONTEXT.md) — log workspace: directory map, coordination spells overview
@@ -304,6 +310,8 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [OS-VM-Dev-Flow](log/plans/OS-VM-Dev-Flow.md) — VM install unblocked; cast VM + boot-theme loop pending
 - [OS-Plymouth-Black-Screen](log/plans/OS-Plymouth-Black-Screen.md) — root cause found (S166 ternary); awaiting visual verify
 - [OS-Dolphin-Grey-Text](log/plans/OS-Dolphin-Grey-Text.md) — dim labels; stack confirmed; fix path A or B pending
+- [EP2-Accounts-Encryption-Spec](log/plans/EP2-Accounts-Encryption-Spec.md) — DRAFT, first EP2-scoped plan: accounts phase (OAuth/email+Argon2, summoning ceremony) decoupled from ingestion+encryption phase (client-side Web Crypto, two-layer DEK/KEK key management); OAuth-path key derivation + encrypted-embedding search open
+- [NeBuLA-Pocket-Puppet-Rendering-Pipeline](log/plans/NeBuLA-Pocket-Puppet-Rendering-Pipeline.md) — cross-repo research: Godot-as-authoring-studio (exports glTF, MIT), `esp_emote_gfx`/ThorVG Pocket rendering stack + dedicated flash partition, one locked puppet-parameter schema across Godot/NeBuLA/Pocket; see also `RaBbLE-Pocket/planning/decisions/2026-09-26-emote-rendering-stack.md`
 
 ### Handoffs (pending)
 
