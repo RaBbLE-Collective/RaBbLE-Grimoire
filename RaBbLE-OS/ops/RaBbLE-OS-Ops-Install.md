@@ -12,7 +12,10 @@ Automated VM install via `vmctl cast-ks`. The KS file drives the entire flow.
 4. KS automates: locale, timezone, user (`rabble`), network, partitioning, package selection
 5. `%post` clones canonical Collective structure (see below) + creates firstboot service
 6. `reboot` directive restarts into installed OS
-7. Firstboot service runs Bootstrap with `base,boot` tags → SDDM greeter appears
+7. Firstboot service runs Bootstrap with `base,boot,desktop,gnome` tags (+
+   `RABBLE_EXTRA_VARS=rabble_enable_gnome_desktop=true`) → SDDM greeter appears
+   listing both a Hyprland and a GNOME session (GNOME promoted to a first-class
+   firstboot DE 2026-09 — see `desktop/RaBbLE-OS-Desktop-Gnome.md`)
 
 ### Clone Strategy (S37)
 

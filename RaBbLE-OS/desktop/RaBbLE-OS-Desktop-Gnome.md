@@ -1,25 +1,38 @@
-# RaBbLE-OS — GNOME Shell (opt-in secondary DE)
+# RaBbLE-OS — GNOME Shell (first-class fallback DE)
 
 ```
-spark ~ desktop/gnome >> opt-in GNOME layer scaffolded, SDDM-only, zero extensions // %GNOME_LAYER_SCAFFOLDED%
+harmonize ~ desktop/gnome >> promoted from opt-in R&D to first-class firstboot DE // %GNOME_FIRSTBOOT_PROMOTED%
 ```
 
-> Reference for the `layer/gnome` Ansible role. Opt-in, exploratory R&D — not a committed
-> ship target. Decided S140, implementation started per
-> `RaBbLE-OS-Roadmap.md` bucket E.
+> Reference for the `layer/gnome` Ansible role. Scaffolded opt-in/exploratory at S140
+> (bucket E); promoted 2026-09 to ship by default on fresh installs via
+> `RaBbLE-OS.ks`'s firstboot service — a mouse/GUI-driven desktop entry point and a
+> solid fallback when Hyprland is misbehaving, not just a theming testbed. Still
+> opt-in for `layerctl apply all` / `upgrade` on an already-installed system (see
+> Enabling/Disabling) — only the KS firstboot path defaults it on.
 
 ---
 
 ## Purpose & Scope
 
-RaBbLE-OS ships one primary desktop — Hyprland. GNOME exists alongside it, opt-in, for
-three reasons:
+RaBbLE-OS's entity-native home is Hyprland — that doesn't change. GNOME ships
+alongside it as a first-class second option, for:
 
-1. **A simpler fallback DE** for when Hyprland is misbehaving.
-2. **An approachable entry point** for non-tiling-WM users.
-3. **A deterministic testbed for GTK3/4 theming** — the weakest-themed surface per
+1. **A genuinely mouse/GUI-driven desktop** — a tiling WM can be made more
+   pointer-friendly at the margins, but the window-management model stays
+   keyboard/config-first. GNOME's normal desktop metaphor (free drag/resize,
+   overview, multi-monitor drag-and-drop) covers that case natively instead.
+2. **A solid fallback DE** for when Hyprland is misbehaving.
+3. **An approachable entry point** for non-tiling-WM users.
+4. **A deterministic testbed for GTK3/4 theming** — the weakest-themed surface per
    `RaBbLE-OS-Desktop-Theming.md`'s maturity table. Findings here should feed the
    deterministic theming plan (Roadmap bucket D), not fork it.
+
+**Tradeoff accepted with this promotion:** every fresh KS install now costs more
+time/disk for a second full DE, and any future Aether palette/token change needs
+checking against both the Hyprland dotfiles path and GNOME's GTK/dconf path — not
+optional R&D anymore, an ongoing parity tax. Worth it for the GUI-first desktop
+use case; revisit if it turns out to rot un-verified between sessions.
 
 Hard constraints, decided with Mark before implementation:
 
@@ -34,14 +47,24 @@ Hard constraints, decided with Mark before implementation:
 
 ## Enabling / Disabling
 
+**Fresh KS install:** on by default. `RaBbLE-OS.ks`'s firstboot service runs Bootstrap
+with `RABBLE_TAGS=base,boot,desktop,gnome` and `RABBLE_EXTRA_VARS=rabble_enable_gnome_desktop=true`
+— GNOME lands themed alongside Hyprland before first login, no manual step.
+
+**Already-installed system (`layerctl apply all` / `upgrade`):** still opt-in — the
+role's own default stays `false` so a full reconcile never silently adds a second DE
+to an existing daily driver.
+
 ```bash
 bash RaBbLE-OS-layerctl.sh apply gnome     # installs + themes
 bash RaBbLE-OS-layerctl.sh status          # shows gnome verified (LAYER_VERIFY)
 bash RaBbLE-OS-layerctl.sh remove gnome    # uninstalls, reverts theme/dconf/tracker-mask
 ```
 
-Gated by `rabble_enable_gnome_desktop` (default `false`, `ansible/inventory/group_vars/all.yml`)
-— never installed by `apply all` / `upgrade`. Role: `ansible/roles/layer/gnome/`.
+Gated by `rabble_enable_gnome_desktop` (default `false`, `ansible/inventory/group_vars/all.yml`).
+Role: `ansible/roles/layer/gnome/`. Both paths flip the same var — firstboot via
+`RABBLE_EXTRA_VARS` (`RaBbLE-OS-Bootstrap.sh`), `layerctl` via `LAYER_EXTRA_VARS`
+(`RaBbLE-OS-layerctl.sh`).
 
 `layerctl remove <layer>` now also passes `LAYER_EXTRA_VARS` (a small fix to `cmd_remove` in
 `RaBbLE-OS-layerctl.sh` made alongside this layer) — without it, any opt-in role gated by a
@@ -135,9 +158,10 @@ stock icons if desired.
 ## Verification Checklist
 
 Run via `RaBbLE-OS-vmctl.sh` on `generic_x64` — SDDM is shared infrastructure both DEs
-depend on, snapshot first.
+depend on, snapshot first. On a fresh KS install this already ran during firstboot;
+`layerctl apply gnome` (idempotent) is the manual equivalent on an existing system.
 
-1. `layerctl apply gnome`.
+1. `layerctl apply gnome` (or confirm firstboot already ran it — `layerctl status`).
 2. `rpm -q gdm` → not installed. `readlink -f /etc/systemd/system/display-manager.service` →
    still `sddm.service`. `systemctl is-active sddm` → active.
 3. `test -f /usr/share/wayland-sessions/gnome.desktop` → exists. SDDM greeter lists both a
@@ -159,5 +183,6 @@ depend on, snapshot first.
 
 → `RaBbLE-OS-Desktop-Theming.md` — Aether theming system, GTK/Qt maturity status
 → `../layers/RaBbLE-OS-Layer-Desktop.md` — desktop layer role state
-→ `../RaBbLE-OS-Roadmap.md` — bucket E, exploratory R&D framing
+→ `../ops/RaBbLE-OS-Ops-Install.md` — firstboot flow, RABBLE_EXTRA_VARS mechanism
+→ `../RaBbLE-OS-Roadmap.md` — bucket E origin; F4 preview-bar gate
 → `ansible/roles/layer/gnome/` (RaBbLE-OS repo) — role source
