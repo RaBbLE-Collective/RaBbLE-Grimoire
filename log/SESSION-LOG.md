@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-09-27 · Session S235 (world-ep1-face)
+## LATEST — 2026-09-27 · Session S236 (os-ks-iso-firefox)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S235: W2 five-beat face live on dev, Aether rc.2 published, NeBuLA setInsets
+**This session:** S236: KS baked into RaBbLE-OS ISO w/ in-installer Bootstrap; Firefox dropdowns fixed via dotctl firefox bundle
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-13 open.
-**Next:** Mark reviews dev.joinrabble.world + GENESIS-COPY (G10); W3/W4
+**Next:** push + vmctl cast-ks verify ISO install; Mark reviews dev + GENESIS-COPY (G10); W3/W4
 
 ---
 
