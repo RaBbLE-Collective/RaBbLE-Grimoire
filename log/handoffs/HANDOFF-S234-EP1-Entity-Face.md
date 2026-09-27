@@ -26,8 +26,12 @@
 Desktop 1280×800: dormant before boot · boot holds at t=7.4 while a step is pending · a tap during the hold
 does not skip it · completes after the step settles · states listening/speaking · moods ponder/process/insight ·
 setPortals violet/pink and rejects identical poles · 3D engages with fat lines on three 0.160 · dispose removes
-the stage. iPhone 15 portrait/landscape pass (safe areas simulated via `--rbl-safe-*`, Dynamic Island drawn):
-see the SESSION-LOG S234 entry for the final pass/fail lines.
+the stage · no page errors. **16 PASS / 1 FAIL.** iPhone 15 portrait (safe areas simulated via `--rbl-safe-*`,
+Dynamic Island drawn): PASS boot text clear of island + home indicator (top 395 px, bottom 582 px of 852).
+**FAIL, open:** "failed step still completes boot" on the iPhone 15 profile. The check's 120 s `until(boot.done)`
+expired at 3x DPR under swiftshader; most likely just slow (the desktop run completes via the same settleStep path),
+but NOT proven. Re-run at deviceScaleFactor 1, or on a real device, before W2 relies on the offline path.
+iPhone landscape pass never ran (run stopped at session close).
 
 ## The contract W2 codes against
 ```
