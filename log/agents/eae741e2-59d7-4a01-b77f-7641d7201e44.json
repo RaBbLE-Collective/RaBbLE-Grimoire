@@ -1,0 +1,13 @@
+{
+  "session_id": "eae741e2-59d7-4a01-b77f-7641d7201e44",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-Grimoire",
+  "scopes": [
+    "RaBbLE-Grimoire:RaBbLE-OS/fix/RaBbLE-OS-KnownIssues.md",
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/token-ledger.tsv"
+  ],
+  "started_at": "2026-09-27T01:03:55Z",
+  "heartbeat_at": "2026-09-27T01:04:26Z",
+  "auto": true
+}

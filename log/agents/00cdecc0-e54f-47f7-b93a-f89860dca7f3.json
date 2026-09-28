@@ -1,0 +1,15 @@
+{
+  "session_id": "00cdecc0-e54f-47f7-b93a-f89860dca7f3",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-Grimoire",
+  "scopes": [
+    "RaBbLE-Grimoire:INDEX.md",
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/plans/CONTEXT.md",
+    "RaBbLE-Grimoire:log/plans/Collective-ICM-Conformance-Audit.md",
+    "RaBbLE-Grimoire:log/token-ledger.tsv"
+  ],
+  "started_at": "2026-08-27T17:00:07Z",
+  "heartbeat_at": "2026-08-27T17:00:07Z",
+  "auto": true
+}

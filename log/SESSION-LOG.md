@@ -5,14 +5,55 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-09-27 · Session S236 (os-ks-iso-vm)
+## LATEST — 2026-09-27 · Session S237 (os-iso-vm-interactive)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S236: ISO unattended VM PASS (themed SDDM, 0 failed); bare metal failed, firmware fix untested
-**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-13 open.
-**Next:** interactive ISO VM run per HANDOFF-S236-OS-ISO-VM-Run.md, then bare-metal retry; G10 review
+**This session:** S237: interactive ISO VM install PASSED end-to-end, Hyprland launched; fixed workspaces.lua schema bug; Ventoy stick updated for bare-metal retry
+**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-13/B-14 open.
+**Next:** bare-metal retry w/ new stick; root-cause missing wallpaper (B-14); verify workspaces.lua fix live
 
 ---
+
+## 2026-09-27 · Session S237 (os-iso-vm-interactive)
+
+- **Repos:** OS, Grimoire. Sonnet 5. Interactive ISO VM run per `HANDOFF-S236-OS-ISO-VM-Run.md`: `virt-install`
+  domain `rabble-os-iso` on the 21:42 ISO (sha `fc320a2a`), Mark drove the 3 interactive screens
+  (Destination/User/Network) via virt-viewer; KS loaded correctly (no extra prompts).
+- **Install PASSED end-to-end** — a first for this cycle. Watched `%post`/Bootstrap live via synthetic
+  `virsh send-key` typing into tty2 + host-side `grim` screenshots of the virt-viewer window (`virsh
+  screenshot`/QEMU screendump doesn't work here — "no surface" — because `egl-headless`+`accel3d` uses a GL
+  surface, not a plain framebuffer). Final reboot powered the domain off as expected (`--noautoconsole`
+  behavior); `virsh start` + relaunching `virt-viewer` picked first boot back up.
+- **First boot reached SDDM** (mouse cursor invisible there — likely a QEMU/SPICE cursor-plane quirk under
+  `egl-headless`, not a theming bug) → **Hyprland actually launched** (the earlier VM pass aborted outright
+  with `CBackend::create() failed!`).
+- **Found + fixed a real bug**: Hyprland's Lua config loader rejected two fields —
+  `conf_d/workspaces.lua:95/106: hl.workspace_rule: unknown field 'defaultName'` / `'on-created-empty'`.
+  Traced root cause via the `hyprconf2lua` (Prateek-squadron, the tool that generated this file) converter's
+  own `mappings.py` on GitHub: its `WORKSPACE_RULE_MAP` has zero entries for either key — every other key it
+  handles gets snake_cased (`gapsin`→`gaps_in`, `bordersize`→`border_size`) but these two just aren't in its
+  table, so they passed through unmapped. Not auto-regenerated anywhere in this repo (checked — no ansible
+  task or script calls `hyprconf2lua`), so hand-fixed directly in `config/hypr/conf_d/workspaces.lua`:
+  `defaultName`→`default_name`, `["on-created-empty"]`→`on_created_empty`. **Committed, not yet pushed.**
+  Not yet re-verified live (needs push + `git pull` + `dotctl apply hypr` + `hyprctl reload` on the VM, or a
+  fresh install).
+- **Wallpaper/BG still not working** on the fresh install — root cause not found this session. Ruled out:
+  the workspace-rule error blocking it, since `hyprland.lua`'s `require()` order loads `conf_d.autostart`
+  (line 11, presumably starts the wallpaper daemon) *before* `conf_d.workspaces` (line 13). Logged as B-14.
+- **RPM-count question resolved (no bug)**: Mark compared Anaconda's own pre-Bootstrap package count between
+  the earlier bare-metal "Desktop" attempt (438) and this VM's install (~80 more). Confirmed expected: that
+  Desktop run used the *old* 20:46 ISO, predating `f65edff`'s `@hardware-support` group; verified
+  `@hardware-support` is a real, resolvable comps group (`dnf5 group info hardware-support` — firmware
+  packages: amd-/nvidia-gpu-firmware, iwlwifi-*-firmware, realtek-firmware, etc.) not present in that older
+  build. The earlier "no git / clones kept failing" bare-metal symptom is therefore most likely just
+  downstream of the same already-fixed missing-firmware→no-network issue, not a separate bug — no new fix
+  needed for it.
+- **Ventoy stick updated**: copied the fixed 21:42 ISO (`fc320a2a`) over the stale 20:46 build in
+  `LinuxISO/`, verified via direct (uncached) `dd iflag=direct | sha256sum`, safely unmounted + powered off.
+  Ready for the bare-metal retry.
+- **Next:** bare-metal retry with the updated stick; root-cause the missing wallpaper; verify the
+  `workspaces.lua` fix live (push + pull + `dotctl apply hypr` + `hyprctl reload`, or bake into next ISO
+  build); confirm SDDM cursor issue is VM-only and not worth chasing further.
 
 ## 2026-09-27 · Session S236 (os-ks-iso-firefox)
 

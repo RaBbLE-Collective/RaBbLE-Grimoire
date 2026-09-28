@@ -1,0 +1,11 @@
+{
+  "session_id": "dc1eaa18-d379-4a1d-94bd-c0768e9985d0",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-OS",
+  "scopes": [
+    "RaBbLE-OS:config/hypr/conf_d/workspaces.lua"
+  ],
+  "started_at": "2026-09-28T02:30:28Z",
+  "heartbeat_at": "2026-09-28T02:30:28Z",
+  "auto": true
+}

@@ -4,7 +4,7 @@
 > Do not hand-edit — use `blockers.sh add` / `resolve`. This is the durable
 > home for blockers so they survive the rewrite of the SESSION-LOG `## LATEST` box.
 >
-> Last synced: 2026-09-27  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
+> Last synced: 2026-09-28  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
 
 ## OPEN
 
@@ -12,6 +12,7 @@
 - **B-09** — Lemonade Server needs debug — not confirmed working after NPU validation in S160  ·  owner:Mark  ·  since:S161  ·  [runtime]
 - **B-11** — Cetus3D MK2 WiFi not provisioned — needs one-time USB+UP Studio handshake on real Windows (Wine's MsiInstallDrivers/WinusbFM driver install fails under both UP Studio 2 and 3, confirmed twice; Wand's connect UI is wireless-only so USB isn't a usable fallback path either). Plan: do the one-time SSID handshake booted into Windows 11 (dual-boot), then RaBbLE-OS only needs Wand's WiFi connect going forward. See RaBbLE-OS/hardware/RaBbLE-OS-Hardware-Cetus3D-MK2.md  ·  owner:Mark  ·  since:2026-07-28  ·  [hardware]
 - **B-13** — FreeCAD/LibreCAD Flatpak UI pixelated/blurry on HiDPI (3840x2400 @ Hyprland scale=2) — X11-only Flathub sandbox forces XWayland, Hyprland compositor bitmap-scales those surfaces unconditionally. QT_SCALE_FACTOR override alone makes it worse (compounds with compositor scaling, 4x too large + still blurry). Real fix needs xwayland:force_zero_scaling=true in Hyprland config paired with a Qt scale factor — NOT safe to toggle live (killed all running XWayland clients instantly when tried, S212). Needs a deliberate config/hypr/ + dotctl change applied at a restart Mark chooses.  ·  owner:Mark  ·  since:2026-08-08  ·  [hidpi, freecad]
+- **B-14** — Hyprland wallpaper/BG not showing on fresh RaBbLE-OS install (fc320a2a ISO) — root cause not found; ruled out the workspaces.lua workspace_rule schema error as the blocker since conf_d.autostart loads before conf_d.workspaces in hyprland.lua's require() order  ·  owner:Mark  ·  since:2026-09-28  ·  [hyprland,os-install]
 
 ## RESOLVED
 
