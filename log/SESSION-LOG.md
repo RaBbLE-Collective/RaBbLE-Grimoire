@@ -8,9 +8,9 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-09-27 · Session S238 (os-bare-metal-verify)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S238: bare-metal install PASSED end-to-end for the first time; hyprpaper wildcard bug found+fixed (B-14 resolved); SDDM/Plymouth race likely the known S207 issue; new B-15: ProArt hardware role wrongly matching non-ProArt Desktop, breaking Ansible/Firefox
+**This session:** S238 close: RaBbLE-OS installed on Desktop (first bare-metal success); GRUB issue corrected to a resolution/fit mismatch, not secure-boot; B-15 ProArt misdetection is next session's priority
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-13/B-15 open.
-**Next:** diagnose B-15 hardware auto-detection; confirm SDDM plymouth-handoff drop-in is loaded; re-run Bootstrap once B-15 fixed
+**Next:** B-15 hardware auto-detection diagnosis; GRUB video-mode vs background-canvas mismatch; confirm SDDM plymouth-handoff drop-in loaded
 
 ---
 
@@ -70,8 +70,17 @@ Format: date, what was done, where things were left, what's next.
   causing Ansible task failures; the finished install has no Firefox and "a good number" of other failed
   recipes. This directly undercuts the "properly scoped" assumption above — hardware auto-detection
   itself needs diagnosis next session, not just the individual role's own gating logic.
+- **GRUB theme "renders terribly" on the desktop — corrected diagnosis.** First guessed this was the
+  same known secure-boot/`insmod`-blocked issue from the S236 handoff, but Mark confirmed the theme DID
+  load (pink text and the background image both showed) — ruling that out. Real symptom: "jumbled, not
+  fitting into the resolution." `theme.txt` layout is percentage-based (portable), but
+  `build-grub-bg.py` renders the background at a fixed 1920x1200 canvas while `GRUB_GFXMODE` defaults to
+  `1920x1080,1920x1200,1280x720,auto` — whatever mode the desktop's GRUB actually lands on likely doesn't
+  match the image's aspect ratio/resolution cleanly. Not yet fixed — needs checking the actual selected
+  GRUB video mode on this hardware.
 - **Next:** diagnose why ProArt hardware detection is matching a non-ProArt machine (B-15) — likely the
-  most urgent item, since it's silently breaking package installation, not just cosmetics; confirm the
+  most urgent item, since it's silently breaking package installation, not just cosmetics; check the
+  actual GRUB video mode selected on the desktop vs. the 1920x1200 background render; confirm the
   SDDM drop-in is actually loaded; re-run Bootstrap/dotctl once B-15 is fixed to get a clean Ansible pass
   with Firefox and everything else that failed this run.
 
