@@ -41,8 +41,30 @@ Format: date, what was done, where things were left, what's next.
   in all bundles and warns on dangling ones. `browsers.yml` reads the same tree.
 - **Docs:** Ops-Install (ISO path, in-installer Bootstrap, chroot-safety rules, KS markers), KnownIssues
   (S236 re-diagnosis), Ops-Dotctl (firefox bundle + FF153 `::part` gotcha).
-- **Next:** push OS/Aether/Grimoire → `layerctl apply virtualization` → `vmctl cast-ks` end-to-end check →
-  `build-iso.sh` → bare-metal install. Open: KS setup sudoers NOPASSWD is never revoked; Live ISO plan.
+- **Continuation (same session): VM + bare-metal testing.** `build-iso.sh` needs sudo (mkksiso → mkefiboot;
+  skipping it drops inst.ks from the UEFI ESP), so Mark builds. Agent drove `virt-install` directly (libvirt
+  group) and watched via a Python-pty serial logger, `virsh send-key` and `virsh screenshot`. Unattended VM run
+  #1: Bootstrap in-installer reached base+boot (themed SDDM on first boot) but failed on Aether: never cloned,
+  and **private** (Mark made it public). KS `GH_BASE` was `markm1206` (redirect only), now the
+  `RaBbLE-Collective` org. Run #2: failed on gnome `papirus-folders` (Papirus only installed by apps), and
+  showed **no dotfiles at all** (Ansible dotfile tasks are stubs; dotctl is the only deployer) → firstboot now
+  runs `dotctl apply all`. Also found the SDDM theme showed `guest` and **could not log in** on a fresh install
+  (empty lastUser) → defaults to first user. Run #3 **PASSED**: 207 ok / 0 failed in-installer, marker set,
+  dotfiles deployed, SELinux enforcing, greeter "RaBbLE", login works (landed in GNOME).
+- **Then:** Hyprland aborted in the VM (`CBackend::create() failed!`): `env.lua` pinned `AQ_DRM_DEVICES` to
+  ProArt-only udev aliases for every machine → moved into an Ansible-written `conf_d/machine.lua` (ProArt role
+  only, `pcall(require)`). Fixed broken SUPER+SHIFT+←/→ binds, GNOME Fedora-blue background (RaBbLE wallpaper
+  system default), SDDM session-switch feedback + Hyprland default, and added `@hardware-support` (WiFi/GPU
+  firmware) to the KS. The bare-metal desktop (20:46 ISO via Ventoy; OEMDRV ks.cfg → `.unused`) landed at a
+  TTY with no network and no logs obtainable; firmware is the leading hypothesis, untested.
+- **Incident:** `virsh undefine --remove-all-storage` deleted the attached Fedora netinstall ISO. Restored
+  from dl.fedoraproject.org, gpg-verified CHECKSUM. Rule recorded in the handoff + agent memory.
+- **Commits (OS):** e4025aa eb9c53b b4da4fa 5a971d8 184d78e 63caf40 d887d49 a58351e 72fa398 f65edff.
+  Grimoire 21c6d9e, this entry, handoff. ISO rebuilt 21:42 (sha `fc320a2a`), not yet on the stick.
+- **Next:** `log/handoffs/HANDOFF-S236-OS-ISO-VM-Run.md`: boot the ISO itself in a UEFI VM with
+  egl-headless 3D, Mark clicks the 3 screens, verify Hyprland/GNOME/SDDM; then copy ISO to Ventoy and retry
+  the desktop. Open: KS setup sudoers NOPASSWD never revoked; "Fedora 43" branding on F44; GRUB
+  secure-boot insmod line; silent `%post`; Workstation+Bootstrap fallback needs a GDM disable; Live ISO plan.
 
 ## 2026-09-27 · Session S235 (ep1-w2-face)
 

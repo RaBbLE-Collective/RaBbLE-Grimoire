@@ -77,7 +77,7 @@ cd ~/RaBbLE-Collective/RaBbLE-OS
 sudo ./RaBbLE-OS-vmctl.sh cast-ks ISO/Fedora-Everything-netinst-x86_64-44-1.7.iso
 ```
 
-### Bare Metal Path: RaBbLE-OS ISO `[S236 · NOT YET BUILT OR INSTALL-VERIFIED]`
+### Bare Metal Path: RaBbLE-OS ISO `[S236 · BUILT · unattended VM PASS · interactive VM + bare metal pending: see log/handoffs/HANDOFF-S236-OS-ISO-VM-Run.md]`
 
 ```bash
 cd ~/RaBbLE-Collective/RaBbLE-OS
