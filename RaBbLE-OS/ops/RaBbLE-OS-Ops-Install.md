@@ -97,6 +97,13 @@ Interactive screens (everything else is automated):
   `user` line locks this spoke (see KnownIssues S231), hence it's VM-only.
 - **Network:** WiFi picker (KS `network` has no WPA); the connection persists into `%post`.
 
+The install clones **Collective, Grimoire, OS and Aether** anonymously from
+`github.com/RaBbLE-Collective` (Aether is the theme source for the gnome, qt-gtk, VSCodium and
+Firefox tasks), so all four repos must be **public**: no credentials ever go in the KS. S236 VM
+test: the in-installer run got through base and boot (themed SDDM on first boot, SELinux
+enforcing) and then failed only at `gnome-theme | deploy system theme index.theme` because Aether
+wasn't cloned (and was private).
+
 The install clones from **GitHub**, not the local checkout: push before building, or
 the installed system won't have your changes (`build-iso.sh` warns if HEAD is ahead).
 
