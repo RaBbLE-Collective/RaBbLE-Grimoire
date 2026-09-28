@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-09-27 · Session S236 (os-ks-iso-firefox)
+## LATEST — 2026-09-27 · Session S236 (os-ks-iso-vm)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S236: KS baked into RaBbLE-OS ISO w/ in-installer Bootstrap; Firefox dropdowns fixed via dotctl firefox bundle
+**This session:** S236: ISO unattended VM PASS (themed SDDM, 0 failed); bare metal failed, firmware fix untested
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-13 open.
-**Next:** push + vmctl cast-ks verify ISO install; Mark reviews dev + GENESIS-COPY (G10); W3/W4
+**Next:** interactive ISO VM run per HANDOFF-S236-OS-ISO-VM-Run.md, then bare-metal retry; G10 review
 
 ---
 

@@ -222,4 +222,4 @@ commit-b3b04cf	entity-harness-poc-intake	S233: entity rig POC + EnGrAm/EP2/Puppe
 commit-3833f93	ep1-entity-face	S234: CF unblocked + alive entity in NeBuLA
 e80ae986-3aaf-4500-b9f6-667af196329d	collective	auto: current state S235: EP1 face live on dev, Aether rc.2, G10 review next
 commit-df4dd2c	world-ep1-face	S235: W2 five-beat face
-1db2bb91-39e7-4518-a3e9-35eb29ddc985	os-ks-iso-firefox	S236: KS → ISO, in-installer Ansible, Firefox dropdowns + dotctl bundle
+1db2bb91-39e7-4518-a3e9-35eb29ddc985	os-ks-iso-firefox	S236: KS → ISO, in-installer Ansible, VM runs + install fixes, Firefox dropdowns + dotctl bundle
