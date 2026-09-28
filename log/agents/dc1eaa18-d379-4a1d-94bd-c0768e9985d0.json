@@ -3,9 +3,25 @@
   "agent": "auto",
   "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-OS",
   "scopes": [
-    "RaBbLE-OS:config/hypr/conf_d/workspaces.lua"
+    "RaBbLE-Grimoire:log/BLOCKERS.md",
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/agents/00cdecc0-e54f-47f7-b93a-f89860dca7f3.json",
+    "RaBbLE-Grimoire:log/agents/15748ca4-83d7-4b6c-ad56-c1180f3c6851.json",
+    "RaBbLE-Grimoire:log/agents/1cd18ae6-093d-46a4-b132-b3753d89245e.json",
+    "RaBbLE-Grimoire:log/agents/1db2bb91-39e7-4518-a3e9-35eb29ddc985.json",
+    "RaBbLE-Grimoire:log/agents/24cb5515-723d-4425-b3e4-77624187e0bf.json",
+    "RaBbLE-Grimoire:log/agents/62d32d77-4a8d-42e0-b56f-c2cdfa3a4612.json",
+    "RaBbLE-Grimoire:log/agents/S230-os-revert-force-drivers.json",
+    "RaBbLE-Grimoire:log/agents/dc1eaa18-d379-4a1d-94bd-c0768e9985d0.json",
+    "RaBbLE-Grimoire:log/agents/e80ae986-3aaf-4500-b9f6-667af196329d.json",
+    "RaBbLE-Grimoire:log/agents/eae741e2-59d7-4a01-b77f-7641d7201e44.json",
+    "RaBbLE-Grimoire:log/blockers/blockers.jsonl",
+    "RaBbLE-Grimoire:log/token-ledger.tsv",
+    "RaBbLE-OS:RaBbLE-OS.ks",
+    "RaBbLE-OS:config/hypr/conf_d/workspaces.lua",
+    "RaBbLE-OS:config/hypr/hyprpaper.conf"
   ],
   "started_at": "2026-09-28T02:30:28Z",
-  "heartbeat_at": "2026-09-28T02:30:28Z",
+  "heartbeat_at": "2026-09-28T03:23:14Z",
   "auto": true
 }

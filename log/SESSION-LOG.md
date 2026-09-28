@@ -5,14 +5,75 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-09-27 · Session S237 (os-iso-vm-interactive)
+## LATEST — 2026-09-27 · Session S238 (os-bare-metal-verify)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S237: interactive ISO VM install PASSED end-to-end, Hyprland launched; fixed workspaces.lua schema bug; Ventoy stick updated for bare-metal retry
-**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-13/B-14 open.
-**Next:** bare-metal retry w/ new stick; root-cause missing wallpaper (B-14); verify workspaces.lua fix live
+**This session:** S238: bare-metal install PASSED end-to-end for the first time; hyprpaper wildcard bug found+fixed (B-14 resolved); SDDM/Plymouth race likely the known S207 issue; new B-15: ProArt hardware role wrongly matching non-ProArt Desktop, breaking Ansible/Firefox
+**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-13/B-15 open.
+**Next:** diagnose B-15 hardware auto-detection; confirm SDDM plymouth-handoff drop-in is loaded; re-run Bootstrap once B-15 fixed
 
 ---
+
+## 2026-09-27 · Session S238 (os-bare-metal-verify)
+
+- **Repos:** OS, Grimoire. Sonnet 5. Continuation of the same day's S237 work: bare-metal retry on the
+  Desktop, live-watched via `journalctl -u rabble-os-setup` and Ctrl+Alt+F2 (physical keyboard, no
+  serial console on bare metal — VM tty-photographing tricks don't apply to real hardware).
+- **Root-caused the recurring "git: command not found" bare-metal failure** (present in `%post` *and* the
+  post-reboot firstboot fallback, not just one path): WiFi genuinely never got a saved NetworkManager
+  connection profile on the *installed* system, even though the *live installer* connects fine (that's
+  what earlier photos of a healthy-looking DHCP/IPv6/NTP console were actually showing — the installer's
+  own connection, not the target's). Ruled out a PATH-stripping theory (`%post`'s `env -i` explicitly sets
+  `PATH=/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin`; the firstboot systemd service gets systemd's own
+  sane default) — this is a real missing-package/missing-profile problem, not an environment bug.
+  Mark's own diagnosis nailed the mechanism: any KS `network` line — even a bare `--hostname=`-only one
+  like ours — makes Anaconda treat networking as fully KS-managed, which can (a) skip copying the
+  interactively-configured WiFi connection into the target, and (b) let Installation Source/Software
+  Selection resolve before the Network spoke finishes. **Fix (OS `e7927c7`):** bare metal now has zero KS
+  `network` directives; hostname moves to `%post` (`hostnamectl set-hostname rabble-os`); the live
+  installer's `*.nmconnection` files get copied into the target as a belt-and-suspenders backstop
+  (`%post --nochroot`, same pattern as the existing DNS-handoff trick). Also added `ensure_base_tools()`
+  to the shared firstboot script (OS `9e4c06e`) — self-heals `git`/`ansible`/`curl`/`python3` via `dnf`
+  if any are missing, since by firstboot time network is guaranteed up regardless of why the base install
+  came up short.
+- **Retested: still needed manual help on Installation Source/Software Selection**, and the package list
+  showed as plain default Fedora, not the KS's custom one — even with WiFi connected *before* those
+  spokes were reached. So the `network`-line theory, while probably still correct as a WiFi-persistence
+  fix, likely isn't what actually gates *when* Anaconda evaluates `url`/`%packages` — more likely a
+  straight timing race between Anaconda's hub init and real WiFi association/DHCP (which takes a few
+  seconds), that the VM's instant virtio ethernet link never exposed. Practical workaround that worked:
+  re-visit Installation Source and click "Done" again once WiFi is confirmed up, which forces a retry.
+- **Rebuild + bare-metal retry (Mark's own `build-iso.sh` run) SUCCEEDED**: git/clone/Bootstrap completed
+  this time. First real end-to-end bare-metal pass since this cycle of work started.
+- **Found + fixed the Hyprland wallpaper bug (B-14, resolved)**: `config/hypr/hyprpaper.conf` hardcoded
+  `monitor = eDP-1` / `monitor = HDMI-A-1` — literally this dev laptop's own output names. Silently
+  matched no output at all on the VM (virtio display) or the bare-metal desktop (no eDP panel, external
+  monitor) — hyprpaper started fine, just had nothing to attach the wallpaper to, no error anywhere.
+  Confirmed via hyprpaper's own source (`WallpaperMatcher.cpp` on GitHub, `isWildcard()`) that `"*"` is a
+  real, intentional wildcard (preferred over an empty string due to a `hyprlang` special-category
+  parsing quirk noted right in the code). Fixed to one wildcard wallpaper block (OS `69f9a03`). Live-
+  fixable on the already-installed Desktop via `git pull && ./RaBbLE-OS-dotctl.sh apply hypr && hyprctl
+  reload` — no reinstall needed, same for the earlier `workspaces.lua` fix.
+- **SDDM inconsistent after Plymouth**: matched to an *already-documented* known issue
+  (`RaBbLE-OS-KnownIssues.md:61`, S207) — SDDM is vendor-ordered `After=plymouth-quit.service`, which only
+  signals Plymouth to quit without waiting for it to release DRM master; the greeter's compositor does a
+  single non-retrying DRM open and dies if it loses that race. A fix drop-in
+  (`sddm-plymouth-handoff.conf`, `After=plymouth-quit-wait.service`) was implemented at S207 but flagged
+  `NEEDS REBOOT VERIFY` — today's Desktop run is plausibly the first real verification, and "inconsistent"
+  (sometimes works) would be progress over "never works," not a new bug. Ruled out the ProArt GPU-pin
+  drop-in (`nvidia.yml` Step 1c, `/dev/dri/rabble-amdgpu-card`) as a *second* cause on this hardware,
+  since that role is properly scoped to `hardware/x64/asus_proart_p16/` — **except see below, that scoping
+  turned out not to hold in practice.** Asked Mark to check `systemctl show sddm.service -p After` to
+  confirm the drop-in is actually loaded; not yet answered.
+- **New blocker found at session close (B-15, open): the ProArt hardware role is actually being applied
+  on Mark's non-ProArt Desktop.** Tries to install NVIDIA packages that don't exist on that hardware,
+  causing Ansible task failures; the finished install has no Firefox and "a good number" of other failed
+  recipes. This directly undercuts the "properly scoped" assumption above — hardware auto-detection
+  itself needs diagnosis next session, not just the individual role's own gating logic.
+- **Next:** diagnose why ProArt hardware detection is matching a non-ProArt machine (B-15) — likely the
+  most urgent item, since it's silently breaking package installation, not just cosmetics; confirm the
+  SDDM drop-in is actually loaded; re-run Bootstrap/dotctl once B-15 is fixed to get a clean Ansible pass
+  with Firefox and everything else that failed this run.
 
 ## 2026-09-27 · Session S237 (os-iso-vm-interactive)
 
