@@ -5,12 +5,36 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-09-27 · Session S238 (os-bare-metal-verify)
+## LATEST — 2026-09-29 · S239 (os-hypr-maximize-fix)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S238 close: RaBbLE-OS installed on Desktop (first bare-metal success); GRUB issue corrected to a resolution/fit mismatch, not secure-boot; B-15 ProArt misdetection is next session's priority
+**This session:** S239: kitty maximize root-caused (no suppress_event rule), fullscreen/raise/pin binds, Lua hypr config deployed
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-13/B-15 open.
-**Next:** B-15 hardware auto-detection diagnosis; GRUB video-mode vs background-canvas mismatch; confirm SDDM plymouth-handoff drop-in loaded
+**Next:** relogin to load Lua config; B-15 hardware detection
+
+---
+
+## 2026-09-29 · Session S239 (os-hypr-maximize-fix)
+
+- **Repos:** OS (`0a49d70`), Grimoire. Sonnet 5.5.
+- **Symptom:** new kitty terminals covered every other window. **Root cause:** no `suppress_event maximize`
+  windowrule, so Hyprland honored kitty's own maximize request on open (2 live kitties had `fullscreen=1`,
+  `fullscreenClient=1`). Reproduced in a nested Hyprland instance (`Hyprland --config` from a scratch copy,
+  driven with `hyprctl -i <sig> eval 'hl.dispatch(...)'`) and confirmed fixed there. Fix: catch-all
+  `suppress_maximize` rule first in `conf_d/windowrules.lua`.
+- **Keybinds** (`conf_d/keybinds.lua`): Super+F = `fullscreen({mode="fullscreen",action="toggle"})` (was a
+  bare call identical to Shift+F); Super+Shift+F = maximize toggle; new Super+U = `bring_to_top`;
+  Super+Shift+U = `pin` (floating windows only). All four verified in the nested instance.
+- **Audit:** full Lua config loads with zero configerrors. `scripts/help.sh` (Super+F1) had never been
+  committed, only existed in the deployed copy; now tracked + cheat sheet updated.
+- **Finding:** deployed `~/.config/hypr` was still the pre-S223 hyprlang `.conf` set; the Lua migration was
+  never `dotctl apply`'d. Applied this session; takes effect on next login (live reload not attempted, it
+  could switch config managers mid-session).
+- **Gotchas:** `hyprctl eval` only works under the lua config manager (so not on the live .conf session);
+  `dotctl` must be run via the repo path `./RaBbLE-OS-dotctl.sh` (the ~/.local/bin symlink resolves the repo
+  root wrong: "Bundle 'hypr' source not found"). OS has unrelated uncommitted work from another session
+  (ansible/hardware, ISO); left untouched.
+- **Next:** log out/in to load the Lua config and confirm the binds live; retest first-boot on a real login.
 
 ---
 

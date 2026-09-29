@@ -226,3 +226,4 @@ commit-df4dd2c	world-ep1-face	S235: W2 five-beat face
 commit-d668789	os-iso-vm-interactive	S237: interactive ISO VM install passed, Hyprland workspace_rule bug fixed
 commit-00f9c92	os-bare-metal-verify	S238: bare-metal install succeeded, wallpaper root-caused+fixed, ProArt misdetection found
 commit-e01e2a0	os-bare-metal-verify	S238 close: session ends, RaBbLE-OS installed on Desktop, GRUB diagnosis corrected
+commit-254dc1f	os-hypr-maximize-fix	S239 hypr maximize fix
