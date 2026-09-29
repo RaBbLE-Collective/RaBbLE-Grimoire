@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-09-29 · S239 (os-hypr-maximize-fix)
+## LATEST — 2026-09-29 · Session S240 (os-f44-hw-detect-branding)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S239: kitty maximize root-caused (no suppress_event rule), fullscreen/raise/pin binds, Lua hypr config deployed
+**This session:** S240: OS on F44, B-15 detection fixed (desktop unverified), fcc revived, Fedora-free branding
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-13/B-15 open.
-**Next:** relogin to load Lua config; B-15 hardware detection
+**Next:** apply base+hardware on desktop; verify B-15; ISO menu titles; XRT on F44
 
 ---
 

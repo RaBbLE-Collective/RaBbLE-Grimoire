@@ -227,3 +227,6 @@ commit-d668789	os-iso-vm-interactive	S237: interactive ISO VM install passed, Hy
 commit-00f9c92	os-bare-metal-verify	S238: bare-metal install succeeded, wallpaper root-caused+fixed, ProArt misdetection found
 commit-e01e2a0	os-bare-metal-verify	S238 close: session ends, RaBbLE-OS installed on Desktop, GRUB diagnosis corrected
 commit-254dc1f	os-hypr-maximize-fix	S239 hypr maximize fix
+df602299-4b92-4307-bed8-06a00ce205a3	collective	auto: current state S239: hypr maximize fix, Lua config deployed
+66b40bb1-3593-483f-975b-01886f17b7ff	collective	auto: current state S240: F44 retarget, B-15 fix, fcc revived
+commit-19a9ace	os-f44-hw-detect-branding	S240
