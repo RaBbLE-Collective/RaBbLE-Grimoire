@@ -14,6 +14,47 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-09-29 · Session S240 (os-f44-hw-detect-branding)
+
+- **Repos:** OS, Grimoire, Collective. Sonnet 5.5. Mark upgrading dev machines to F44 by hand
+  (`dnf system-upgrade --releasever=44`); this session retargeted the repo to 44 and fixed what surfaced.
+- **B-15 root cause + fix:** `inventory/hosts.yml` statically put `localhost` in `asus_proart_p16`; nothing ever
+  read DMI, so every machine got the ProArt role. New first play in `site.yml` (`group_by` on
+  `ansible_product_name` ~ `ProArt P16`, else `generic_x64`; override `-e rabble_hardware=`). Verified on the
+  ProArt laptop (matches, group_vars load for the dynamic group) + override path. **Not yet verified on the
+  desktop** → B-15 left OPEN until it lands in `generic_x64` there. `layerctl` no longer always passes
+  `rabble_target=generic_x64` (unused); passes `rabble_hardware` only when `RABBLE_HARDWARE` is set.
+- **free-claude-code was crash-looping (3075 restarts)**: upstream moved to `src/free_claude_code`
+  (`uvicorn server:app` gone → `fcc-server`); upstream needs newer uv (recipe's `creates:` never updated it →
+  `uv self update` step); upstream reads `HOST`/`PORT` NOT the `FCC_HOST`/`FCC_PORT` its example shows, and
+  defaults to `0.0.0.0` with a no-auth key, so unit sets `HOST=127.0.0.1` (verified loopback via `ss`). Unit
+  change now restarts the service. Health 200.
+- **`ansible.cfg`** used the removed `community.general.yaml` callback, which aborted every playbook run; now
+  `stdout_callback=default` + `callback_result_format=yaml`.
+- **Branding/versioning (option 1):** `PRETTY_NAME="RaBbLE-OS - Episode 1 Preview"`, no Fedora mention;
+  `VERSION`/`RABBLE_VERSION` = Five-Es `0.0.0.0` (Mark's `v0.0.1.44` idea rejected: it reads as Echo 1 / Episode
+  44 under Five-Es); `RABBLE_BASE=f44` custom key for tooling. `VERSION_ID`/`PLATFORM_ID` stay Fedora's and are
+  now derived from the running system (`ansible_facts.distribution_major_version`), never hardcoded (a hardcoded
+  44 would break dnf on a host still on 43). BLS titles strip `.fcNN.arch`. Bootstrap "Built on: Fedora" line
+  removed. 43→44 in README/AGENT/vmctl (`fedora44` osinfo exists)/script headers; `MIN_FEDORA_VERSION=44`.
+  fastfetch: only the kernel line still shows `fcN` (wanted); no config change needed.
+- **Static hostname:** machines with no static hostname showed the DHCP rDNS name (`syn-2603-…spectrum.com`).
+  New core task sets `rabble_hostname` (default `rabble-os`) only when none is set.
+- **Generic NVIDIA recipe:** `roles/hardware/x64/generic/tasks/nvidia.yml` — runs only if DRM vendor 0x10de is
+  present; RPM Fusion check, Secure Boot/MOK warning, nouveau blacklist, KMS opts, akmod stack, Hyprland env only
+  when NVIDIA is the sole GPU. Detection verified (hybrid laptop → present, not sole); **driver install/akmod
+  build untested** — needs the desktop.
+- **COPR chroots for fedora-44:** Hyprland (lionheartp), swayosd, yazi, amd-npu-driver all present.
+  `emersion/xdg-desktop-portal-termfilechooser` does not exist (file_manager.yml stub is stale). XRT source-build
+  need on F44 (Boost) not yet tested.
+- **Gotchas:** `all.yml` sets `ansible_become`, so ad-hoc test plays that load it need `-e ansible_become=false`;
+  INI values in `ansible.cfg` can't have inline comments; dnf system-upgrade may reinstall `fedora-release` and
+  revert the templated `/etc/os-release` → re-run `layerctl apply base`/`boot` after upgrade.
+- **Next:** on the desktop: `layerctl apply base` + `hardware` (confirm `generic_x64`, NVIDIA, hostname,
+  os-release); resolve B-15 if clean; check ISO installer menu titles in `build-iso.sh`; XRT on F44.
+
+---
+
 ## 2026-09-29 · Session S239 (os-hypr-maximize-fix)
 
 - **Repos:** OS (`0a49d70`), Grimoire. Sonnet 5.5.
