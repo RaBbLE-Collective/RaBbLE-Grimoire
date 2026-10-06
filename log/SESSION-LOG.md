@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-06 · Session S242 (pocket-muse-sdk-bringup)
+## LATEST — 2026-10-06 · S243 (pocket-gadget-port)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S242: Muse SDK flashed on Pocket -B, all HW verified, port map in Grimoire
+**This session:** S243: Pocket = RaBbLE gadget (IDF v6), own face, voice beamed to sCoRE, e2e verified via beam-echo
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-13/B-15 open.
-**Next:** Keep Muse or restore backup; port board vtable+PMU+audio; optional local TTS in start_tts
+**Next:** sCoRE beam endpoint: STT + Groq LLM on Render + fast vocoder TTS, conversational
 
 ---
 
