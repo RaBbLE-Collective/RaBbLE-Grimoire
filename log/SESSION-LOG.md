@@ -14,6 +14,31 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-06 · Session S243 (pocket-gadget-port)
+
+- **Repos:** Pocket, Grimoire, Collective. Opus 5.5. Mark: port the SDK to his BSP, hardware usable, his own LVGL
+  face (no Jollybot), only Apache/permissive code, a RaBbLE gadget on Wi-Fi that beams audio to and from sCoRE, no
+  muse/meta names in code.
+- **License rules (Mark):** permissive third-party only (Apache/BSD/MIT/CC0, never copyleft), isolated so the Accord
+  stays clean; his copyright on top of derived files, Meta's line kept verbatim (required), boilerplate cut to an
+  SPDX tag + `LICENSE-APACHE` beside the code; `firmware/NOTICE` maps it.
+- **Firmware rebuilt (IDF v6.0.1, LVGL 9.5; ADR 2026-10-06):** `components/rabble_gadget/apache/` (derived: board
+  seam, audio, voice loop, input + Tier 2, Wi-Fi keeper, settings + UI, setup console, beam seam) and `accord/` (own:
+  canvas-drawn entity face, sCoRE session over WebSocket, palette, clock screen). `rabble_axp2101` keeps the 128 ms
+  PEKEY wake. `rabble_hal.h` + v1 screens retired; your eye/portal geometry and clock screen carried over.
+- **Beam protocol v0** (`RaBbLE-Pocket/RaBbLE-Pocket-Beam-Protocol.md`): `/api/v1/beam`, PCM 16 kHz both ways with a
+  4-byte header, JSON turn events; dev URL baked in: `ws://rabble-os.local:8000/api/v1/beam`.
+  `Pocket/ops/beam-echo.py` stands in for sCoRE (plays speech back).
+- **Fixes during bring-up:** first face used LVGL transforms (swipe to settings lagged): now one canvas with an
+  anti-aliased ellipse rasterizer + portal glow. Boot animation ran while the panel was still dark: now timed from
+  the first lit frame.
+- **Verified on the -B:** clean build, all hardware up, Wi-Fi joins and rejoins, beam connects by mDNS, four voice
+  turns round-trip through beam-echo with playback + captions. Opened `8000/tcp` on rabble-os (session only).
+- **Open:** possible reboot mid-turn (turn 2 never ended; device reconnected with turn ids reset). Unconfirmed.
+- **Docs:** `RaBbLE-Pocket-Gadget-Port.md` (record + layout + next), `RaBbLE-Pocket-Beam-Protocol.md`, both indexed.
+- **Next:** sCoRE beam endpoint, conversational: STT, LLM via Groq through sCoRE on Render, fast vocoder TTS
+  streamed from the first sentence (wss + device token on Render). Then the mid-turn reboot, face/swipe check.
+
 ## 2026-10-06 · Session S242 (pocket-muse-sdk-bringup)
 
 - **Repos:** Pocket, OS, Grimoire, BaBbLE, Collective. Opus 5.5. Mark's intake plan
