@@ -234,3 +234,4 @@ commit-2241492	world-face-ios-scroll	S241: voice stack, iOS zoom/landscape
 ae4118d8-6573-4f86-963d-778db64d5025	collective	auto: current state S241: face scroll + iOS fixes on dev
 35c63c6d-d13d-4870-b6df-d5b86071ba0e	pocket-muse-sdk-bringup	S242
 commit-885ebcb	pocket-gadget-port	S243: gadget port
+a5cc84d6-8896-4305-8f8c-a5c52be6f0d9	collective	auto: current state S243: Pocket gadget + beam to sCoRE
