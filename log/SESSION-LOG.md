@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-09-29 · Session S240 (os-f44-hw-detect-branding)
+## LATEST — 2026-10-06 · Session S241 (world-face-ios-scroll)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S240: OS on F44, B-15 detection fixed (desktop unverified), fcc revived, Fedora-free branding
+**This session:** S241: face voice scrollable depth-stack, wrap + iOS zoom/landscape fixed, on dev
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-13/B-15 open.
-**Next:** apply base+hardware on desktop; verify B-15; ISO menu titles; XRT on F44
+**Next:** Mark tests on iPhone; B-15 desktop verify; G7/G9/G10
 
 ---
 
