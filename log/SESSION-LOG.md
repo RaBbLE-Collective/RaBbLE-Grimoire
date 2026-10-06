@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-06 · Session S241 (world-face-ios-scroll)
+## LATEST — 2026-10-06 · Session S242 (pocket-muse-sdk-bringup)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S241: face voice scrollable depth-stack, wrap + iOS zoom/landscape fixed, on dev
+**This session:** S242: Muse SDK flashed on Pocket -B, all HW verified, port map in Grimoire
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-13/B-15 open.
-**Next:** Mark tests on iPhone; B-15 desktop verify; G7/G9/G10
+**Next:** Keep Muse or restore backup; port board vtable+PMU+audio; optional local TTS in start_tts
 
 ---
 
