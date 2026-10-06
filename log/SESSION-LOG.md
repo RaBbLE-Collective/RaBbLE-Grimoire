@@ -14,6 +14,28 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-06 · Session S241 (world-face-ios-scroll)
+
+- **Repos:** World, Grimoire, Collective. Sonnet 5.5. Mark reported the dev entity surface: text wrap broken, no
+  way to scroll the text, iOS zooms on input and never unzooms, landscape iPhone finicky.
+- **Wrap:** `.face-voice` was a fixed-height `overflow:hidden` flex column whose children shrank (clipped lines)
+  and history was capped at 4. Lines are now `flex:none` + `overflow-wrap:anywhere`; 80 lines kept.
+- **Scroll as layers:** the voice is a native scroller; `RaBbLE-face.js` sets `--d` (0 front..1 back) per line from
+  its distance to a focus line that slides bottom to top with scroll progress; CSS maps `--d` to translateZ/rotateX/
+  opacity under `perspective`. Stick-to-bottom unless the visitor scrolled back; sending snaps to front.
+- **iOS:** input `font-size:max(16px,1rem)!important` (focus-zoom cause), `text-size-adjust:100%` (landscape
+  inflation), `touch-action:manipulation`, `overscroll-behavior:none`; dock rides `visualViewport` keyboard offset
+  (`--face-kb`), pan undone on focusout. Landscape phone (`max-height:500px`): voice + dock become a right column
+  and the entity gets `setInsets({right})`.
+- **Verified:** Playwright mobile emulation 390x844 and 844x390: wrap, depth scroll, column, 16px input, no JS
+  errors. **NOT verified on a real iPhone** (keyboard/visualViewport path especially). Aether CDN + sCoRE
+  unreachable locally, so shots were unstyled; boot needed the 45 s failsafe.
+- **Shipped:** World `f9ae6c7` on new-horizons; dev deploy Action green; live CSS confirmed. Prod untouched.
+- **Next:** Mark tests on iPhone (portrait, landscape, keyboard, rotate); tune depth (`-150px`, `.86`) if wanted;
+  B-15 desktop verify and G7/G9/G10 still pending.
+
+---
+
 ## 2026-09-29 · Session S240 (os-f44-hw-detect-branding)
 
 - **Repos:** OS, Grimoire, Collective. Sonnet 5.5. Mark upgrading dev machines to F44 by hand
