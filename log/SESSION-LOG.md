@@ -14,6 +14,32 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-06 · Session S242 (pocket-muse-sdk-bringup)
+
+- **Repos:** Pocket, OS, Grimoire, BaBbLE, Collective. Opus 5.5. Mark's intake plan
+  `BaBbLE/intake/rabble-pocket-muse-bringup.md`: flash Meta's Muse Gadget SDK on the Pocket v1 board to prove the
+  hardware and study the firmware as a starting point for RaBbLE's own.
+- **Toolchain:** SDK needs ESP-IDF v6.0.1 exactly; added to `OS layer/esp-idf` vars beside v5.5.4, Mark ran
+  layerctl. SDK cloned to `Pocket/firmware/muse-gadget-sdk/` (gitignored, `b139b45`).
+- **Board:** -B identified as the 1.75 (`s3n` profile): same Waveshare BSP component our firmware uses, 16 MB flash,
+  TF + RTC present; boot log confirms. Full 16 MB backup first: `Pocket/firmware/backups/pocket-175b-20261006-1730.bin`
+  (sha256 `0550642c…5e9954`). No eFuses touched.
+- **Flashed no-token build; all hardware works:** display, touch, settings, MP3 + speaker, both mics (loopback),
+  AXP2101 + battery, Wi-Fi, BLE. **Paired to Muse without an SDK token** (firmware just omits it; Muse may enforce
+  later). Talk turns work but replies are **text only** (SDK plays silence in `start_tts`, bring-your-own TTS), slow,
+  push-to-talk only (no wake word in the SDK). Scares that weren't faults: speaker lead unplugged; 1.5 s PWR hold
+  powers off and only PWR/USB brings it back.
+- **Gotcha:** SDK `board.sh` + EIM: sourcing the activate script inside `board.sh` hits EIM's not-sourced `exit 0`
+  (silent no-op), and `idf.py` is an EIM shell function children don't inherit. Recipe in the new doc.
+- **Doc:** `RaBbLE-Pocket/RaBbLE-Pocket-Muse-SDK-Map.md` (indexed): Muse is a stationary smart-home bridge, not a
+  companion; file-level port map (board vtable, PMU + battery meter, audio, settings UI, bench console,
+  `muse_hatch_*` backend cut line, TTS hook); RaBbLE must speak, feel fast, feel present; licensing (Jollybot excluded).
+- **Board state:** Muse firmware still on the -B, paired to Mark's Muse account.
+- **Next:** keep Muse as a reference or restore backup; if porting, board vtable + `muse_pmu` + `muse_audio` first;
+  optional quick win: local TTS into `start_tts`.
+
+---
+
 ## 2026-10-06 · Session S241 (world-face-ios-scroll)
 
 - **Repos:** World, Grimoire, Collective. Sonnet 5.5. Mark reported the dev entity surface: text wrap broken, no
