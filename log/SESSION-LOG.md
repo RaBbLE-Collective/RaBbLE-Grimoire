@@ -91,8 +91,17 @@ Format: date, what was done, where things were left, what's next.
   turns round-trip through beam-echo with playback + captions. Opened `8000/tcp` on rabble-os (session only).
 - **Open:** possible reboot mid-turn (turn 2 never ended; device reconnected with turn ids reset). Unconfirmed.
 - **Docs:** `RaBbLE-Pocket-Gadget-Port.md` (record + layout + next), `RaBbLE-Pocket-Beam-Protocol.md`, both indexed.
-- **Next:** sCoRE beam endpoint, conversational: STT, LLM via Groq through sCoRE on Render, fast vocoder TTS
-  streamed from the first sentence (wss + device token on Render). Then the mid-turn reboot, face/swipe check.
+- **Later in S243, Pocket:** IMU (own QMI8658 accel driver): entity stays upright on a spring, dizzy on a shake,
+  raise to wake (Settings > Sleep); Settings > Clock; Settings > Sound > Voice (daniel/austin/troy).
+- **sCoRE beam live** (`server/beam.py`): Groq Whisper turbo STT, RaBbLE persona on Groq gpt-oss-20b (reasoning
+  low) with per-device memory, Orpheus TTS chunked to 200 chars, resampled to 16 kHz. Device token required even in
+  DEMO_MODE (`BEAM_ALLOW_GUEST` for LAN dev). Measured: speech 1.5–2.2 s after release. Orpheus needed its terms
+  accepted in the Groq console; free plan = 100 TTS requests/day. Mark: conversational, dislikes the voice (hannah).
+- **Found:** Groq key has no Llama models any more (only gpt-oss-20b/120b, qwen3.8-27b): sCoRE's default chains are
+  stale and the local medium tier likely errors (404 doesn't fall back). Logged in sCoRE CONTEXT, not fixed.
+- **Open:** device reboots seen twice mid-conversation (turn ids reset); upright direction unverified.
+- **Next:** core dump to catch the reboot; beam on Render (wss + device token); a voice of RaBbLE's own; stale
+  chains fix.
 
 ## 2026-10-06 · Session S242 (pocket-muse-sdk-bringup)
 

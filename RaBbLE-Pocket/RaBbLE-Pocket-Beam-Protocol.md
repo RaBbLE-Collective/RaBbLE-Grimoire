@@ -1,13 +1,13 @@
 # RaBbLE-Pocket-Beam-Protocol.md
 
-The beam: how RaBbLE-Pocket talks to sCoRE. One WebSocket carries push-to-talk turns: speech up while the button is held, then the transcript, reply text and reply speech back down, speech playing as it arrives. **Status: v0 draft (2026-10-06).** The firmware side is implemented and builds; the sCoRE endpoint does not exist yet. `RaBbLE-Pocket/ops/beam-echo.py` is a dev stand-in that speaks v0 and plays your speech back as the reply.
+The beam: how RaBbLE-Pocket talks to sCoRE. One WebSocket carries push-to-talk turns: speech up while the button is held, then the transcript, reply text and reply speech back down, speech playing as it arrives. **Status: v0, working end to end (2026-10-06).** Firmware: `RaBbLE-Pocket` `rabble_beam_score.c`. sCoRE: `RaBbLE-sCoRE/server/beam.py` (Groq Whisper STT, RaBbLE on Groq gpt-oss-20b, Groq Orpheus TTS; speech starts 1.5–2.2 s after release on the LAN). `RaBbLE-Pocket/ops/beam-echo.py` is a no-cloud stand-in that plays your speech back.
 
 Firmware: `RaBbLE-Pocket/firmware/components/rabble_gadget/accord/rabble_beam_score.c` (session) behind `apache/rabble_beam.h` (the seam the voice loop calls). Port record: [RaBbLE-Pocket-Gadget-Port](RaBbLE-Pocket-Gadget-Port.md).
 
 ## Endpoint
 
 - `ws://` or `wss://` URL, set on the device (Settings > sCoRE, or console `>beam.url=`). Firmware dev default: `ws://rabble-os.local:8000/api/v1/beam` (`CONFIG_RABBLE_BEAM_DEFAULT_URL` in `sdkconfig.defaults`), so the path sCoRE should serve is `/api/v1/beam`.
-- Auth: `Authorization: Bearer <device token>` on the upgrade request when a token is set (console `>beam.token=`, chunked with `>beam.token+=`). No token is sent when none is set: a LAN sCoRE in dev mode may accept that, a public one must not. Fits the Web=demo / Local=BYOK split.
+- Auth: `Authorization: Bearer <device token>` on the upgrade request when a token is set (console `>beam.token=`, chunked with `>beam.token+=`). sCoRE accepts `BEAM_DEVICE_TOKEN`, a member API key or a JWT, and refuses otherwise **even in DEMO_MODE** (the beam spends speech quota); `BEAM_ALLOW_GUEST=true` opens it for LAN bench testing only. Fits the Web=demo / Local=BYOK split.
 - wss uses the ESP-IDF certificate bundle, so public CAs work; a self-signed LAN cert would need its CA added to the firmware.
 - The device keeps the socket open while awake, pings every 15 s (gives up after 45 s without a pong), reconnects with backoff 5 s to 120 s, and closes it after 2 min of rest (screen off on battery) until the next wake or press.
 
@@ -28,7 +28,7 @@ Audio of any turn but the current one is dropped on both sides. Frames may be an
 | type | Fields | When |
 |---|---|---|
 | `hello` | `proto: "rabble-beam/0"`, `device` (e.g. `RaBbLE-Pocket-5EB8`), `fw`, `audio: {rate, format, channels}` | Once per connection |
-| `turn.begin` | `turn` (uint32, increasing), `mode: "voice" \| "text"`, `speak` (bool: speaker on, so send reply speech), `text` (text turns only) | Talk pressed (voice), or a typed console turn |
+| `turn.begin` | `turn` (uint32, increasing), `mode: "voice" \| "text"`, `speak` (bool: speaker on, so send reply speech), `voice` (optional: `daniel`, `austin`, `troy`; unknown names get sCoRE's default), `text` (text turns only) | Talk pressed (voice), or a typed console turn |
 | *(binary 0x01)* | speech | While the button is held, from up to 320 ms before the press (pre-roll) |
 | `turn.end` | `turn` | All speech sent (button released, plus a 120 ms tail) |
 | `turn.cancel` | `turn` | Tap, barge-in during the reply, or the device gave up |

@@ -41,9 +41,19 @@ Toolchain: **ESP-IDF v6.0.1** (`firmware/.esp-idf-version`; ADR `planning/decisi
 - `beam-echo.py` round-trips a voice turn and a typed turn with a scripted client (loopback).
 - **End to end on the device (Mark):** Wi-Fi joined from the settings keypad and rejoins by itself after reset (~2.5 s from scan to IP); the beam connects to `rabble-os.local:8000` by mDNS name; four push-to-talk turns (2.2 to 4.5 s) went up, came back through `beam-echo.py` and played on the speaker with captions. Firewall needed `8000/tcp` opened on rabble-os.
 
+## Added later in S243
+
+- **Motion (QMI8658 accelerometer, own driver `components/rabble_qmi8658`):** the entity counter-rotates on a slightly underdamped spring to stay upright (eases home when flat); a shake (4 spikes past 1 g in 1 s) makes it dizzy (eyes orbit, portals flicker, wobble), chirps when idle and wakes it when asleep; **raise to wake** (screen tipped up towards the face by 0.35 of "up" in 1.5 s, then held still), on by default, Settings > Sleep or `>raise_wake=`. Axes: screen x = chip Y, screen up = chip X, screen out = -chip Z (vendor gravity demo; z verified with `>imu`). IMU INT2 is GPIO21: a future light-sleep wake without polling.
+- **Clock:** Settings > Clock opens the date/time screen (as does a long-press on the face's time).
+- **Voice:** Settings > Sound > Voice cycles sCoRE's Daniel / Austin / Troy (`>voice=`), sent per turn.
+- **sCoRE beam live** (`RaBbLE-sCoRE/server/beam.py`), replacing beam-echo for real conversation.
+
 ## Open
 
-- **Possible reboot mid-turn:** in the echo log, turn 2 began and never ended, and 26 s later the device reconnected with its turn counter back at 1. Either Mark held PWR, or something restarted the board during a turn. Unconfirmed: capture the device log (`>`-less read of /dev/ttyACM0 resets the board, so log over a long session) during a long turn to see a panic.
+- **Upright direction and raise-to-wake feel:** unverified on the device (x/y mapping from the vendor demo).
+- **Console stall:** a host that opens /dev/ttyACM0 but stops reading blocks the firmware's log writes. Bench tools must keep reading.
+- **Possible reboot mid-turn:** seen twice now (turn ids reset 1, 2, 1, 2 in the sCoRE log during real conversation). Next: enable core dumps to flash to catch it.
+- **Old note:** in the echo log, turn 2 began and never ended, and 26 s later the device reconnected with its turn counter back at 1. Either Mark held PWR, or something restarted the board during a turn. Unconfirmed: capture the device log (`>`-less read of /dev/ttyACM0 resets the board, so log over a long session) during a long turn to see a panic.
 
 ## Not verified yet
 
@@ -53,8 +63,10 @@ Toolchain: **ESP-IDF v6.0.1** (`firmware/.esp-idf-version`; ADR `planning/decisi
 
 ## Next
 
-1. **Make the pendant conversational (Mark's next):** the sCoRE beam endpoint (`/api/v1/beam`, FastAPI WebSocket) per the protocol doc: STT, the entity's LLM turn through sCoRE via Groq (sCoRE on Render), and a fast vocoder TTS streaming speech back from the first sentence. `beam-echo.py` is the wire-format reference. Render means `wss://` and a device token (the LAN dev URL is ws://).
-2. The checks under "Not verified yet", and the possible mid-turn reboot.
+1. **Catch the mid-turn reboot** (core dump to flash, then read it after it happens).
+2. **Deploy the beam on Render:** set `BEAM_DEVICE_TOKEN` there, then on the device `>beam.url=wss://<service>/api/v1/beam` and `>beam.token=`. Render free sleeps when idle: the first press after a while waits out a cold start.
+3. A voice that is RaBbLE's own (Mark dislikes the stock ones): DSP in sCoRE to make it less human, or a self-hosted model (Kokoro, Apache-2.0).
+4. The checks under "Not verified yet".
 3. SNTP to set the RTC when Wi-Fi is up (needs a timezone setting).
 4. BLE provisioning for Wi-Fi + beam settings (feeds `rabble_setup_command`).
 5. Wake word (ESP-SR) and a `wake` turn mode; the puppet schema driving the face from sCoRE.
