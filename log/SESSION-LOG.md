@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-06 · S243 (pocket-gadget-port)
+## LATEST — 2026-10-06 · Session S244 (voice-vocoder-v4)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S243: Pocket = RaBbLE gadget (IDF v6), own face, voice beamed to sCoRE, e2e verified via beam-echo
+**This session:** S244: vocoder rebuilt (cascade formant synth + stress); Mark: far better
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-13/B-15 open.
-**Next:** sCoRE beam endpoint: STT + Groq LLM on Render + fast vocoder TTS, conversational
+**Next:** Voice: pick A/B/C source, CMUdict; sCoRE beam endpoint w/ vocoder TTS
 
 ---
 
@@ -36,6 +36,36 @@ Format: date, what was done, where things were left, what's next.
   scroll-workspace, `hdmi-hotplug.sh`, `upstudio3-launch.sh`, `audio-popup.sh`, zsh `hdis` alias + `movetoworkspace`
   fn, `Super+O` `hyprctl keyword` layout toggle. dotctl/ctl robustness proposal (wrappers over symlinks, shared root
   lib, fail loud on missing bundle, `dotctl doctor`, stale paths in Install.sh and RaBbLE-OS.ks:349) awaits Mark's call.
+
+---
+
+## 2026-10-06 · Session S244 (voice-vocoder-v4)
+
+- **Repos:** Xperimental (`rablets/RaBbLE-Voice`), Grimoire, Collective. Sonnet 5.5 → Opus 5.5. Mark: host the
+  vocoder demo, then make it more intelligible but still robotic; after v3, "still not very coherent, refine".
+- **Root cause (v2):** peaking Biquads only boosted formants (the raw sawtooth passed at 0 dB everywhere else, so
+  vowels sounded alike), every phoneme faded to silence (blip train, no transitions), pitch was a random
+  per-phoneme melody. Not tunable: replaced.
+- **v3:** new `src/vocoder/vocoder-synth.ts`, a Klatt-style cascade formant synth in pure JS (F1-F3 glide between
+  per-phoneme targets incl. obstruent loci, fixed F4/F5, parallel frication/burst path, closure/burst/aspiration
+  stops, seeded noise; same output in browser, Node, jest). G2P: ~200-word dictionary, apostrophe-lookup bug fixed,
+  silent-e/r-colored/suffix rules, punctuation phrase breaks. Effects: Metallic comb on all emotions; Downsampler
+  was 2× speed/octave up, now sample-and-hold.
+- **v4 (after spectrogram comparison with espeak-ng, local reference only, GPL, nothing copied):** lip radiation
+  (+6 dB/oct; vowels were muffled), 4-pole frication filters, lexical stress + Klatt-style durations (function words
+  reduced, stepped pitch accent per content word), word gaps 45→15 ms, F1 cutback in aspiration, voicing at release
+  for b/d/g, context-dependent velar locus, s/θ loci separated, soft final stops, affricate release burst, damped
+  nasal upper formants. Source = `GLOTTAL_MIX` blend of sawtooth + Rosenberg pulse (0.5).
+- **Scoring harness** (`RaBbLE-BaBbLE/tmp/voice-v3/`, gitignored): faster-whisper venv, `eval.sh <emotions>`
+  (conversational / Harvard / unrelated word lists), `spec.py` spectrograms, `levels.ts`. Whisper WER: v2 95% →
+  v4 conversational 5-11%, Harvard 23-27% (espeak-ng 33%), word lists 46-67% (espeak 25%).
+- **Gotcha:** Mark heard the UI differ from the WAVs. It was a stale cached bundle: `python -m http.server` sends no
+  cache headers. Browser and Node renders are bit-identical. Demo now served by `voice-v3/nocache-server.py 8765`.
+- **Verified:** 39/39 tests (was 32), Chromium demo clean. Mark on v4 in the UI: "sounds far better".
+- **Commit:** Xperimental `1c74ac3`.
+- **Next:** Mark picks source A/B/C (renders `RaBbLE-BaBbLE/tmp/vocoder-v4-*`); trimmed CMUdict (BSD-2, ~150-200 KB,
+  Mark's call on size) for G2P + stress; isolated-word clarity (word lists still behind espeak); wire into the sCoRE
+  beam endpoint as the fast TTS.
 
 ---
 

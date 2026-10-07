@@ -236,3 +236,4 @@ ae4118d8-6573-4f86-963d-778db64d5025	collective	auto: current state S241: face s
 commit-885ebcb	pocket-gadget-port	S243: gadget port
 a5cc84d6-8896-4305-8f8c-a5c52be6f0d9	collective	auto: current state S243: Pocket gadget + beam to sCoRE
 commit-ec6c340	os-hypr-lua-dispatch-fix	S244: hyprpaper 0.8, symlink-safe ctl scripts, Lua dispatch in movement scripts
+8b827241-7034-4892-bb97-72d68e24e1e8	voice-vocoder-v4	S244: vocoder v3+v4, intelligible + robotic
