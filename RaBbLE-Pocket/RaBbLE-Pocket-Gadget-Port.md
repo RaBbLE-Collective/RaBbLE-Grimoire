@@ -46,7 +46,8 @@ Toolchain: **ESP-IDF v6.0.1** (`firmware/.esp-idf-version`; ADR `planning/decisi
 - **Motion (QMI8658 accelerometer, own driver `components/rabble_qmi8658`):** the entity counter-rotates on a slightly underdamped spring to stay upright (eases home when flat); a shake (4 spikes past 1 g in 1 s) makes it dizzy (eyes orbit, portals flicker, wobble), chirps when idle and wakes it when asleep; **raise to wake** (screen tipped up towards the face by 0.35 of "up" in 1.5 s, then held still), on by default, Settings > Sleep or `>raise_wake=`. Axes: screen x = chip Y, screen up = chip X, screen out = -chip Z (vendor gravity demo; z verified with `>imu`). IMU INT2 is GPIO21: a future light-sleep wake without polling.
 - **Clock:** Settings > Clock opens the date/time screen (as does a long-press on the face's time).
 - **Voice:** Settings > Sound > Voice cycles sCoRE's Daniel / Austin / Troy (`>voice=`), sent per turn.
-- **sCoRE beam live** (`RaBbLE-sCoRE/server/beam.py`), replacing beam-echo for real conversation.
+- **sCoRE beam live** (`RaBbLE-sCoRE/server/beam.py`), replacing beam-echo for real conversation, and **deployed on Render**: firmware default `wss://rabble-score-x7qq.onrender.com/api/v1/beam`, device token set over the console (`>beam.token=`; the value lives in Render and `RaBbLE-sCoRE/server/.env`). The Pocket works away from the laptop on any known Wi-Fi.
+- **TLS gotcha:** Render (Google Trust Services) sends GTS Root R4 cross-signed by the retired GlobalSign Root CA, which ESP-IDF's bundle dropped: handshake failed (mbedTLS -0x3000) until `CONFIG_MBEDTLS_CERTIFICATE_BUNDLE_CROSS_SIGNED_VERIFY=y`.
 
 ## Open
 
@@ -64,7 +65,7 @@ Toolchain: **ESP-IDF v6.0.1** (`firmware/.esp-idf-version`; ADR `planning/decisi
 ## Next
 
 1. **Catch the mid-turn reboot** (core dump to flash, then read it after it happens).
-2. **Deploy the beam on Render:** set `BEAM_DEVICE_TOKEN` there, then on the device `>beam.url=wss://<service>/api/v1/beam` and `>beam.token=`. Render free sleeps when idle: the first press after a while waits out a cold start.
+2. **Rebuild text and keyboard input** on the Pocket (Mark: the current keypad entry isn't usable enough).
 3. A voice that is RaBbLE's own (Mark dislikes the stock ones): DSP in sCoRE to make it less human, or a self-hosted model (Kokoro, Apache-2.0).
 4. The checks under "Not verified yet".
 3. SNTP to set the RTC when Wi-Fi is up (needs a timezone setting).
