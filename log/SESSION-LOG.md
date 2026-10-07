@@ -102,6 +102,9 @@ Format: date, what was done, where things were left, what's next.
 - **Open:** device reboots seen twice mid-conversation (turn ids reset); upright direction unverified.
 - **Next:** core dump to catch the reboot; beam on Render (wss + device token); a voice of RaBbLE's own; stale
   chains fix.
+- **Voice went quiet later:** Groq free-plan Orpheus **daily token cap (3,600 TPD)** used up (~25 replies; long
+  answers burn it). Requests/day (58/100 left) and per-minute were fine: check the 429 body, not the headers.
+  Options: Dev tier, cap spoken length, or the S244 vocoder. Todo in beam.py: log the 429 reason, caption it.
 - **Cross-session:** S244 (voice-vocoder-v4) plans to wire its vocoder into "the sCoRE beam endpoint": that endpoint
   now exists; the seam is `synthesize()` in `RaBbLE-sCoRE/server/beam.py` (text in, 16 kHz mono PCM out).
 
