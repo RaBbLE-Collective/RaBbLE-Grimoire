@@ -109,6 +109,8 @@ Format: date, what was done, where things were left, what's next.
   Render API (also in sCoRE `server/.env`); 403 without it. Pocket default URL now the Render wss endpoint; token set
   over USB console. TLS needed `MBEDTLS_CERTIFICATE_BUNDLE_CROSS_SIGNED_VERIFY` (GTS R4 cross-signed by retired
   GlobalSign root). Pocket "Connected" to Render: no laptop needed. Mark next: rebuild text/keyboard input.
+- **Keep-warm:** Render stays awake via the `rabble-score` Cloudflare Worker's cron (`RaBbLE-sCoRE/wrangler.jsonc`
+  `*/10 * * * *` → `cf-proxy.js` `scheduled()` GETs `/health`; S234). Not verified firing this session.
 - **Cross-session:** S244 (voice-vocoder-v4) plans to wire its vocoder into "the sCoRE beam endpoint": that endpoint
   now exists; the seam is `synthesize()` in `RaBbLE-sCoRE/server/beam.py` (text in, 16 kHz mono PCM out).
 
