@@ -14,6 +14,31 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-06 · Session S244 (os-hypr-lua-dispatch-fix)
+
+- **Repos:** RaBbLE-OS, Grimoire. Sonnet 5.5. Mark booted into an empty background after the Hyprland 0.56 / hyprpaper
+  0.8.4 update, then reported window movement misbehaving.
+- **Wallpaper:** hyprpaper 0.8 treats a quoted `monitor = "*"` as a literal name (verbose log: `Monitor eDP-1 has no
+  target`). Unquoted `*` works; `preload` is gone in 0.8. Fixed in `config/hypr/hyprpaper.conf` (supersedes the
+  `monitor="*"` note under B-14) and deployed.
+- **dotctl / layerctl:** both derived `SCRIPT_DIR` from `BASH_SOURCE` without resolving symlinks, so via
+  `~/.local/bin/{dotctl,layerctl}` they looked for `config/` and `ansible/` under `~/.local/bin`. dotctl skipped
+  every bundle yet printed "deployed"; `layerctl status` showed an empty table. Both now use `readlink -f`
+  (vmctl already used `realpath`).
+- **Window movement:** `smart-movewindow.sh`, `smart-focus.sh`, `toggle-split.sh`, `split-dir-daemon.sh` used legacy
+  `hyprctl dispatch movewindow l`, a Lua syntax error now, hidden by `2>/dev/null`. Converted to `hl.dsp.*` forms.
+  Mark confirmed movement works.
+- **Commits (RaBbLE-OS, new-horizons):** ddee718 (hyprpaper + dotctl), 917b57d (layerctl), e1ecafa (hypr scripts).
+- **Left alone:** esp-idf `vars/main.yml` change and `assets/rabble-pocket-muse-bringup.md` (other sessions' work).
+- **Lesson:** after the Lua migration, any `hyprctl dispatch <legacy> <arg>` fails with an error; grep scripts for it
+  and never hide dispatch stderr.
+- **Next:** same legacy-dispatch breakage remains in `hypridle.conf` (dpms on/off, most likely to bite), waybar
+  scroll-workspace, `hdmi-hotplug.sh`, `upstudio3-launch.sh`, `audio-popup.sh`, zsh `hdis` alias + `movetoworkspace`
+  fn, `Super+O` `hyprctl keyword` layout toggle. dotctl/ctl robustness proposal (wrappers over symlinks, shared root
+  lib, fail loud on missing bundle, `dotctl doctor`, stale paths in Install.sh and RaBbLE-OS.ks:349) awaits Mark's call.
+
+---
+
 ## 2026-10-06 · Session S243 (pocket-gadget-port)
 
 - **Repos:** Pocket, Grimoire, Collective. Opus 5.5. Mark: port the SDK to his BSP, hardware usable, his own LVGL
