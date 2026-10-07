@@ -102,6 +102,8 @@ Format: date, what was done, where things were left, what's next.
 - **Open:** device reboots seen twice mid-conversation (turn ids reset); upright direction unverified.
 - **Next:** core dump to catch the reboot; beam on Render (wss + device token); a voice of RaBbLE's own; stale
   chains fix.
+- **Cross-session:** S244 (voice-vocoder-v4) plans to wire its vocoder into "the sCoRE beam endpoint": that endpoint
+  now exists; the seam is `synthesize()` in `RaBbLE-sCoRE/server/beam.py` (text in, 16 kHz mono PCM out).
 
 ## 2026-10-06 · Session S242 (pocket-muse-sdk-bringup)
 
