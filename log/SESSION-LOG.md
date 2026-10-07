@@ -82,7 +82,11 @@ Format: date, what was done, where things were left, what's next.
   errors. **NOT verified on a real iPhone** (keyboard/visualViewport path especially). Aether CDN + sCoRE
   unreachable locally, so shots were unstyled; boot needed the 45 s failsafe.
 - **Shipped:** World `f9ae6c7` on new-horizons; dev deploy Action green; live CSS confirmed. Prod untouched.
-- **Next:** Mark tests on iPhone (portrait, landscape, keyboard, rotate); tune depth (`-150px`, `.86`) if wanted;
+- **Follow-up (Mark tested on iPhone):** scrolling bad on long replies, the focus zone was too small so a reply
+  taller than the voice was tilted/faded top and bottom. `updateDepth` now measures `--d` from the NEAREST EDGE of a
+  readable band (h*.5) around the focus line, so any line touching it stays flat; softened to `-120px`/`.8`.
+  Verified in emulation, Mark confirmed on phone: "looks good for the scrolling atm". World `6466164`, dev green.
+- **Next:** Mark keeps testing keyboard/landscape on iPhone; maybe taller voice in portrait (~245px, ~5 lines);
   B-15 desktop verify and G7/G9/G10 still pending.
 
 ---
