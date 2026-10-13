@@ -308,6 +308,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [OS-ProArt-Power-Stack-Plan](log/plans/OS-ProArt-Power-Stack-Plan.md) — S194 plan → **S197 IMPLEMENTED** (Phases 1–4: profiling spell, look.conf GPU cut, nvidia D3cold, tuned+asusd 3-mode waybar); awaits Mark's on-hardware reboot verify
 - [OS-Boot-Chain-Seamless-Plan](log/plans/OS-Boot-Chain-Seamless-Plan.md) — S197: GRUB→Plymouth→SDDM seamless handoff — Phase 1 low-risk VM-verifiable fixes + Phase 2 real-HW root-cause recovery
 - [OS-Settings-App-Plan](log/plans/OS-Settings-App-Plan.md) — S197 SKETCH (deferred Phase 5): local Aether-themed web app for waybar/Hyprland/power tuning; cold-start handoff for a follow-up session
+- [OS-Display-Manager-Plan](log/plans/OS-Display-Manager-Plan.md) — S246 BUILT (phase 1 + editor + daemon): first first-party app; hybrid (Python core+CLI+hotplug daemon, GTK4 layer-shell overlay, web editor); profiles keyed by monitor description; compositor-portable backends (Hyprland, then wlroots)
 - [EP1-Liminal-Experience-Plan](log/plans/EP1-Liminal-Experience-Plan.md) — S190 ACTIVE: EP1 air bar = single-page Genesis passage (Acts 0–IV, sCoRE-live) + Three.js entity awakening; post-mortem + WS-A/B/C/D sub-agent decomposition
 - [Subdomain-Registry-and-Maintenance](log/plans/Subdomain-Registry-and-Maintenance.md) — S185: subdomain registry spec + Collective maintenance backlog
 - [Aether-Theming-Convergence](log/plans/Aether-Theming-Convergence.md) — palette sovereignty across web/editor/desktop/browser

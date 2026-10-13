@@ -14,6 +14,21 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-13 · Session S246 (os-display-manager)
+
+- **Repos:** RaBbLE-OS, Grimoire. Sonnet 5.5. Mark wants a first first-party app: display layout manager; later grows into settings.
+- **Decisions:** hybrid (Python core+CLI+daemon, GTK4 layer-shell overlay later, web editor); Python prototype; compositor-portable
+  backends (Hyprland now; GNOME/KDE/wlroots planned); profiles keyed by monitor description; v1 = editor + profiles + hotplug.
+- **Built (RaBbLE-OS/display-manager/):** core + Hyprland backend, CLI (list/mode/scale/place/save/apply/revert/gui/daemon), stdlib web
+  editor (drag canvas, Aether tokens), hotplug daemon (2s debounce, profile reapply, waybar restore, ws11 pin). Plan: `log/plans/OS-Display-Manager-Plan.md`.
+- **Live result:** external 2560x1440@75, scale 4/3 (logical 1920x1080), stacked above eDP-1 at 0x-1080; persisted in `monitors.lua`; autostart swapped from hdmi-hotplug.sh to the daemon.
+- **Gotchas:** `hyprctl keyword monitor` rejected on Lua config, use `hyprctl eval 'hl.monitor{...}'`; legacy `moveworkspacetomonitor` dispatch
+  is broken, use `hl.dsp.workspace.move({id,monitor})` (effect unverified); Hyprland keeps boot-time monitor rules until `hyprctl reload`, so
+  a deployed monitors.lua isn't live and any re-detect reverts to the old rule; stale eDP bar at 0,0 after layout shift (waybar vanished).
+- **144Hz:** monitor EDID over HDMI tops out at 1440p@75 (48-76Hz); suspect the KVM; test direct connect.
+- **Not verified:** real unplug/KVM event through daemon; `disabled=true`; revert timer firing. Not built: overlay, GNOME/KDE backends, Ansible role.
+- **Next:** daemon drift-watch (re-apply profile when mode/position drifts without events); overlay; KVM test for 144Hz.
+
 ## 2026-10-06 · Session S244 (os-hypr-lua-dispatch-fix)
 
 - **Repos:** RaBbLE-OS, Grimoire. Sonnet 5.5. Mark booted into an empty background after the Hyprland 0.56 / hyprpaper
