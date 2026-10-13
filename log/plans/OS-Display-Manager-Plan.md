@@ -1,6 +1,6 @@
 # Plan: RaBbLE-OS Display Manager — first first-party app
 
-**Status:** 🟢 Phase 1 + web editor built (S246, uncommitted): `RaBbLE-OS/display-manager/` (`python -m rdisplay list|apply|save|profiles|revert|gui`). Hotplug daemon, overlay, persistence still to do.
+**Status:** 🟢 Phase 1 + web editor built (S246, uncommitted): `RaBbLE-OS/display-manager/` (`python -m rdisplay list|apply|save|profiles|revert|gui`). Daemon (hotplug + drift-watch) and GTK overlay built. Still to do: dotctl-generated persistence from the editor, Ansible role, GNOME/KDE backends.
 **Repo:** RaBbLE-OS `new-horizons` · **Source home:** `RaBbLE-OS/display-manager/` (code in member, this doc in Grimoire)
 **Goal:** Graphically arrange monitors, set resolution / refresh / scale / rotation, save named profiles, and auto-apply them on hotplug. First module of the future Settings App (`OS-Settings-App-Plan.md`).
 
@@ -57,6 +57,10 @@ Waybar (running since boot) kept an eDP-1 layer at 0,0 while eDP-1 had moved to 
 4. **GTK4 overlay:** `XF86Display` / keybind quick switcher + confirm-or-revert prompt.
 5. **Persistence + dotctl generation**, Ansible role + `.desktop`, manifest entries (Mark runs the layerctl command; per Ansible-driven installs rule).
 6. **wlroots backend** (portability), when leaving Hyprland becomes real.
+
+## Overlay (S246)
+
+`rdisplay overlay`: GTK4 + gtk4-layer-shell, OVERLAY layer, Aether tokens read from `aether.css` into `@define-color`. Shows a mini layout map, profile buttons (current highlighted), keep/revert prompt after applying, Open editor, Esc closes; second call toggles it off (pidfile). Needs `LD_PRELOAD=libgtk4-layer-shell.so.0` (CLI re-execs itself). Bound to `XF86Display` and `Super+Shift+P` (replaced dead kanshictl bind). Verified: layer renders, toggle, command via Hyprland exec. Untested: physical key press, clicking a profile + keep/revert in the overlay.
 
 ## Open items
 
