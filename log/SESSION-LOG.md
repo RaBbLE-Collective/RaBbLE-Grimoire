@@ -14,6 +14,14 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-13 · Session S247 (os-waybar-workspace-click)
+
+- **Repos:** RaBbLE-OS. Sonnet 5.5. Waybar workspace numbers weren't clickable.
+- **Cause:** waybar `hyprland/workspaces` sends legacy `dispatch workspace N`; Hyprland 0.56 Lua config rejects it (also broke the scroll handlers).
+- **Fix:** replaced with `custom/ws1..ws10` modules + `scripts/workspace.sh` (1s poll, active/occupied/empty classes); click runs `hyprctl dispatch 'hl.dsp.focus({workspace=N})'`. Deployed via dotctl; commit fa85f6b.
+- **Tradeoffs:** all 10 always shown; highlight lags <=1s. Revert if waybar gains Lua-compatible dispatch.
+- **Next:** unchanged from S246.
+
 ## 2026-10-13 · Session S246 (os-display-manager)
 
 - **Repos:** RaBbLE-OS, Grimoire, Collective. Sonnet 5.5. Mark's first first-party app: a display layout manager (will grow into the Settings App). **Mark: "this is a working V1."**
