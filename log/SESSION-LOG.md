@@ -16,18 +16,23 @@ Format: date, what was done, where things were left, what's next.
 
 ## 2026-10-13 · Session S246 (os-display-manager)
 
-- **Repos:** RaBbLE-OS, Grimoire. Sonnet 5.5. Mark wants a first first-party app: display layout manager; later grows into settings.
-- **Decisions:** hybrid (Python core+CLI+daemon, GTK4 layer-shell overlay later, web editor); Python prototype; compositor-portable
-  backends (Hyprland now; GNOME/KDE/wlroots planned); profiles keyed by monitor description; v1 = editor + profiles + hotplug.
-- **Built (RaBbLE-OS/display-manager/):** core + Hyprland backend, CLI (list/mode/scale/place/save/apply/revert/gui/daemon), stdlib web
-  editor (drag canvas, Aether tokens), hotplug daemon (2s debounce, profile reapply, waybar restore, ws11 pin). Plan: `log/plans/OS-Display-Manager-Plan.md`.
-- **Live result:** external 2560x1440@75, scale 4/3 (logical 1920x1080), stacked above eDP-1 at 0x-1080; persisted in `monitors.lua`; autostart swapped from hdmi-hotplug.sh to the daemon.
-- **Gotchas:** `hyprctl keyword monitor` rejected on Lua config, use `hyprctl eval 'hl.monitor{...}'`; legacy `moveworkspacetomonitor` dispatch
-  is broken, use `hl.dsp.workspace.move({id,monitor})` (effect unverified); Hyprland keeps boot-time monitor rules until `hyprctl reload`, so
-  a deployed monitors.lua isn't live and any re-detect reverts to the old rule; stale eDP bar at 0,0 after layout shift (waybar vanished).
-- **144Hz:** monitor EDID over HDMI tops out at 1440p@75 (48-76Hz); suspect the KVM; test direct connect.
-- **Not verified:** real unplug/KVM event through daemon; `disabled=true`; revert timer firing. Not built: overlay, GNOME/KDE backends, Ansible role.
-- **Next:** daemon drift-watch (re-apply profile when mode/position drifts without events); overlay; KVM test for 144Hz.
+- **Repos:** RaBbLE-OS, Grimoire, Collective. Sonnet 5.5. Mark's first first-party app: a display layout manager (will grow into the Settings App). **Mark: "this is a working V1."**
+- **Decisions:** Python prototype stack; compositor-portable backends (Hyprland now; GNOME/KDE/wlroots planned, Mark wants a GNOME or KDE fallback);
+  profiles keyed by monitor description. Hybrid shape revised: Mark rejected the browser editor as "not desktop app like", so the editor is a native GTK4 window.
+- **Built (RaBbLE-OS/display-manager/):** core + Hyprland backend; CLI (list/mode/scale/place/save/apply/revert/app/gui/open/overlay/daemon);
+  native GTK4 editor window (`rdisplay app`, own floating applet centered on the screen it was summoned from, single instance);
+  GTK4 layer-shell quick switcher (`rdisplay overlay`, XF86Display + Super+Shift+P); hotplug daemon (2s debounce, profile reapply, waybar restore,
+  ws11 pin) with drift-watch (re-asserts last applied layout; intent records the compositor-settled scale); `.desktop` launcher + `~/.local/bin/rdisplay` wrapper
+  (manual symlinks, Ansible role pending); older web editor (`rdisplay gui`) kept. Plan: `log/plans/OS-Display-Manager-Plan.md`.
+- **Live result:** external 2560x1440@75, scale 4/3 (logical 1920x1080), stacked above eDP-1 at 0x-1080; persisted in `monitors.lua` (+ eDP-1 rule); autostart runs the daemon instead of hdmi-hotplug.sh;
+  XF86Display no longer calls kanshictl. Profile `desk-2screen`.
+- **Gotchas:** `hyprctl keyword monitor` rejected on Lua config, use `hyprctl eval 'hl.monitor{...}'`; legacy `moveworkspacetomonitor` is broken, use `hl.dsp.workspace.move({id,monitor})` (effect unverified);
+  Hyprland keeps boot-time monitor rules until `hyprctl reload` (a deployed monitors.lua isn't live; a re-detect reverts to the old rule, dropped res to 1080p once); Hyprland snaps a scale it can't divide evenly (1.5 -> 1.6);
+  stale eDP waybar layer at 0,0 after layout shift; layer-shell needs LD_PRELOAD of `libgtk4-layer-shell.so.0` (CLI re-execs); GTK4 WebKit not installed (only GTK3 webkit2gtk4.1), so no webview; `pkill -f` self-match killed the shell twice (use `[x]` bracket form, separate call).
+- **144Hz:** monitor EDID over HDMI tops out at 1440p@75 (48-76Hz); suspect the KVM; direct-connect test pending.
+- **Not verified:** real unplug/KVM event through the daemon; physical `Super+Shift+P`/XF86Display press; `disabled=true`; revert timer firing; hand-driving Apply/Keep/Revert in the native window and overlay.
+- **Not built:** editor-to-dotctl persistence, Ansible role (installs symlinks), GNOME/KDE/wlroots backends. Open: remove the web editor?
+- **Next:** editor save -> dotctl-generated monitors.lua; Ansible role; KVM 144Hz test; GNOME/KDE backend.
 
 ## 2026-10-06 · Session S244 (os-hypr-lua-dispatch-fix)
 
