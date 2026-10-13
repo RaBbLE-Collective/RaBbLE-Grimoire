@@ -58,6 +58,10 @@ Waybar (running since boot) kept an eDP-1 layer at 0,0 while eDP-1 had moved to 
 5. **Persistence + dotctl generation**, Ansible role + `.desktop`, manifest entries (Mark runs the layerctl command; per Ansible-driven installs rule).
 6. **wlroots backend** (portability), when leaving Hyprland becomes real.
 
+## Native editor window (S246)
+
+Mark: the browser-tab editor "is not desktop app like"; it must be its own applet on the screen it was summoned from. `rdisplay app` is now a native GTK4 window (`rdisplay/app.py`, app id `world.rabble.rdisplay`): drag canvas with edge/center snapping, mode/scale/rotation/position, profiles, keep/revert banner. Single instance; re-summon reopens it on the focused screen (unless a keep/revert prompt is pending). Hyprland `windowrules.lua` floats, sizes 1040x700 and centers it, so it opens on the screen it was launched from. WebKitGTK (GTK4) is not installed, so a webview wrapper was rejected rather than adding a package. The web editor (`rdisplay gui`, `web/`) remains for now; candidate for removal once the Settings App decides its own shell. Verified: launcher entry, placement from each screen, single instance. Untested: dragging/applying from the native window by hand.
+
 ## Overlay (S246)
 
 `rdisplay overlay`: GTK4 + gtk4-layer-shell, OVERLAY layer, Aether tokens read from `aether.css` into `@define-color`. Shows a mini layout map, profile buttons (current highlighted), keep/revert prompt after applying, Open editor, Esc closes; second call toggles it off (pidfile). Needs `LD_PRELOAD=libgtk4-layer-shell.so.0` (CLI re-execs itself). Bound to `XF86Display` and `Super+Shift+P` (replaced dead kanshictl bind). Verified: layer renders, toggle, command via Hyprland exec. Untested: physical key press, clicking a profile + keep/revert in the overlay.
