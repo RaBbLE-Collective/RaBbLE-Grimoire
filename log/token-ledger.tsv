@@ -238,4 +238,4 @@ a5cc84d6-8896-4305-8f8c-a5c52be6f0d9	collective	auto: current state S243: Pocket
 commit-ec6c340	os-hypr-lua-dispatch-fix	S244: hyprpaper 0.8, symlink-safe ctl scripts, Lua dispatch in movement scripts
 8b827241-7034-4892-bb97-72d68e24e1e8	voice-vocoder-v4	S244: vocoder v3+v4, intelligible + robotic
 commit-e09c128	score-beam-pocket-voice	S243: beam live
-5e37bf4c-a80a-48f0-b369-5c7d4c6cad39	os-display-manager	S246: rdisplay
+5e37bf4c-a80a-48f0-b369-5c7d4c6cad39	os-display-manager	S246: rdisplay V1

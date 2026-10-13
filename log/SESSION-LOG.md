@@ -8,9 +8,9 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-10-13 · Session S246 (os-display-manager)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S246: display manager built; external 1440p75 above panel
+**This session:** S246: rdisplay display manager V1 (native editor, overlay, daemon)
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-13/B-15 open.
-**Next:** daemon drift-watch; overlay; KVM 144Hz test
+**Next:** editor save->dotctl; Ansible role; KVM 144Hz test
 
 ---
 
