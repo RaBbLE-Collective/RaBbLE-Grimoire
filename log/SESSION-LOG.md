@@ -5,10 +5,10 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-13 · Session S246 (os-display-manager)
+## LATEST — 2026-10-13 · Session S247 (os-waybar-workspace-click)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S246: rdisplay display manager V1 (native editor, overlay, daemon)
+**This session:** S247: waybar workspace clicks fixed (custom/wsN)
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-13/B-15 open.
 **Next:** editor save->dotctl; Ansible role; KVM 144Hz test
 
