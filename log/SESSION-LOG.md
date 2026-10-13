@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-06 · Session S244 (voice-vocoder-v4)
+## LATEST — 2026-10-13 · Session S246 (os-display-manager)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S244: vocoder rebuilt (cascade formant synth + stress); Mark: far better
+**This session:** S246: display manager built; external 1440p75 above panel
 **Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-13/B-15 open.
-**Next:** Voice: pick A/B/C source, CMUdict; sCoRE beam endpoint w/ vocoder TTS
+**Next:** daemon drift-watch; overlay; KVM 144Hz test
 
 ---
 
