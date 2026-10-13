@@ -20,7 +20,9 @@ Format: date, what was done, where things were left, what's next.
 - **Cause:** waybar `hyprland/workspaces` sends legacy `dispatch workspace N`; Hyprland 0.56 Lua config rejects it (also broke the scroll handlers).
 - **Fix:** replaced with `custom/ws1..ws10` modules + `scripts/workspace.sh` (1s poll, active/occupied/empty classes); click runs `hyprctl dispatch 'hl.dsp.focus({workspace=N})'`. Deployed via dotctl; commit fa85f6b.
 - **Tradeoffs:** all 10 always shown; highlight lags <=1s. Revert if waybar gains Lua-compatible dispatch.
-- **Next:** unchanged from S246.
+- **QOL (same session):** per-monitor workspaces via `hypr/scripts/wsctl.sh` (monitor i owns i*10+1..10; eDP first, then by name; keybinds Super+N / Super+Shift+N / [ ] / wheel go through it; commit 175f9c3). Waybar buttons use `$WAYBAR_OUTPUT_NAME`, show only active/occupied workspaces (7c72a2a).
+- **Gotchas:** app->workspace windowrules only target the laptop's 1-10 and re-scatter windows (moved all to ws2 once, they re-scattered); hotplug daemon pins ws11 = external's "1"; a broad regex edit clobbered pulseaudio scroll handlers in waybar config (caught + restored, diff before deploy).
+- **Next:** unchanged from S246; decide whether to neutralize app->workspace rules.
 
 ## 2026-10-13 · Session S246 (os-display-manager)
 
