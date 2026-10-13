@@ -34,6 +34,18 @@ Format: date, what was done, where things were left, what's next.
 - **Not built:** editor-to-dotctl persistence, Ansible role (installs symlinks), GNOME/KDE/wlroots backends. Open: remove the web editor?
 - **Next:** editor save -> dotctl-generated monitors.lua; Ansible role; KVM 144Hz test; GNOME/KDE backend.
 
+## 2026-10-11 · Session S245 (os-proart-power-stack)
+
+- **Repos:** RaBbLE-OS, Grimoire. Mark: fans run too often and the machine runs hot in quiet-balanced; wants minimal power on simple tasks and silence.
+- **Found (measured on the P16):** asusd's stock `platform_profile_on_ac: Performance` overrode the repo's one-shot `profile set Balanced` every boot (27 W package power near idle, governor/EPP `performance`). Waybar `power-profile.sh` always read `quiet-balanced`: `powerprofilesctl` is not installed and `asusctl profile -P` does not exist, so neither half of the toggle worked. tuned-ppd never followed asusd's platform-profile changes. Stock Balanced PL1 = 80 W. The MID fan ignores its curve (`pwm3_enable` ENODEV, BIOS 319), 4400-5500 RPM at 45-59 C in every profile.
+- **Decision (Mark):** ProArt uses asusctl/asusd only and tuned is masked; generic x86_64 keeps tuned + tuned-ppd.
+- **Changed (RaBbLE-OS):** AC/battery pins via `asusctl profile set --ac/--battery`; Balanced PL1/PL2/PL3 tunings written into `asusd.ron` (18 W AC / 15 W battery, burst floor 35 W); Balanced gets its own low-duty fan curve; tuned masked on the ProArt and a new generic `tuned.yml` (manifest `platform: generic_x64`); waybar scripts read `/sys/firmware/acpi/platform_profile` and call `asusctl profile set`; AC-unplug udev rule restricted to the mains adapter.
+- **Not verified:** nothing applied. No sudo here, so `layerctl apply hardware` and `dotctl` are Mark's to run; the `asusd.ron` edit was only tested on a copy. PL values are unmeasured starting points; whether asusd applies tunings at startup is unconfirmed (fallback: cycle profile). `armoury set` alone only stores values (`Tuning is disabled`).
+- **Open:** MID fan (BIOS/kernel/asusctl update or asus-linux issue); retune Balanced fan curve toward silence once PL1 is confirmed; optional `interval` on the waybar module so it follows the Fn hotkey.
+- **Docs:** AgentGuide power-stack line, Hardware-ProArtP16 Power Management, power-stack plan S245 addendum.
+
+---
+
 ## 2026-10-06 · Session S244 (os-hypr-lua-dispatch-fix)
 
 - **Repos:** RaBbLE-OS, Grimoire. Sonnet 5.5. Mark booted into an empty background after the Hyprland 0.56 / hyprpaper

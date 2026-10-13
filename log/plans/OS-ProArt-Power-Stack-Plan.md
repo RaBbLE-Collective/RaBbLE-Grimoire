@@ -143,3 +143,9 @@ Not implementing this now — flagging the shape so Phase 4's design (composite 
 → `RaBbLE-Grimoire/RaBbLE-OS/fix/RaBbLE-OS-Fix-Suspend.md` — suspend/resume hooks (depends on Phase 3)
 → `RaBbLE-Grimoire/RaBbLE-OS/verify/RaBbLE-OS-Verify-PowerTesting.md` — power measurement protocol (Phase 1 wraps this)
 → `RaBbLE-Grimoire/RaBbLE-OS/RaBbLE-OS-AgentGuide.md` — canonical tuned+tuned-ppd power stack decision (line 64-66)
+
+---
+
+## S245 addendum (2026-10-11): asusd-only on the ProArt, tuned stays generic
+
+Measured on the P16 after the S197 stack landed: the machine booted in **Performance** (asusd's stock `platform_profile_on_ac: Performance` overrode the one-shot `profile set Balanced`), the waybar module always read `quiet-balanced` (`powerprofilesctl` is not installed; `asusctl profile -P` does not exist), tuned-ppd never followed asusd, Balanced's stock PL1 is 80 W, and the MID fan ignores its curve (pwm3 enable fails ENODEV). Changes: AC/battery pins via `asusctl profile set --ac/--battery`; Balanced PL tunings in `asusd.ron`; tuned masked on the ProArt and configured via `roles/hardware/x64/generic/tasks/tuned.yml` for generic hardware (manifest `platform: generic_x64`); waybar scripts rewritten to read `/sys/firmware/acpi/platform_profile`; AC-unplug udev rule restricted to `KERNEL=="AC*|ADP*"`. This supersedes Phase 4's "tuned-ppd is canonical" for the ProArt only. **Awaits on-hardware verification** after `layerctl apply hardware` + `dotctl`.

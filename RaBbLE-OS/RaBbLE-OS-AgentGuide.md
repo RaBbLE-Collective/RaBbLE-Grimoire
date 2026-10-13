@@ -64,12 +64,15 @@ historical/     Stale docs — KDE-spin era installs, branch diffs, implementati
   config (genesis lesson, 2026-04-14, still the working pattern behind today's
   layered/isolated config entry points).
 - **`s2idle` is the only valid sleep mode** for the AMD Strix Point HX 370 (no S3
-  support); **`tuned`+`tuned-ppd` is the canonical power stack — never install
-  `power-profiles-daemon`** (it conflicts; `tuned-ppd` already exposes the same D-Bus
-  API `asusctl` needs). *Implemented S197* (was `%DORMANT%`): the `tuned/asusd/asusctl/
-  arbitration.yml` hardware tasks now install+enable this stack, `arbitration.yml`
-  guards/masks `power-profiles-daemon`, and waybar's `custom/power-profile` exposes 3
-  composite modes. See `log/plans/OS-ProArt-Power-Stack-Plan.md`.
+  support); **power stack is per-hardware (S245, Mark's call):** generic x86_64 uses
+  `tuned`+`tuned-ppd` (never `power-profiles-daemon` — it conflicts with tuned-ppd).
+  The **ProArt P16 uses `asusctl`/`asusd` alone and tuned is masked** — measured: tuned-ppd
+  never followed asusd's platform-profile changes and was a second writer for the CPU
+  governor/EPP. asusd pins AC=Balanced/battery=Quiet (its stock AC=Performance silently
+  overrode the repo default every boot) and applies Balanced PL1/PL2/PL3 limits (stock PL1
+  is 80 W). `asusctl armoury set` only *stores* a tuning; it is applied only once the
+  group is `enabled: true` in `asusd.ron`, which Ansible edits. See
+  `log/plans/OS-ProArt-Power-Stack-Plan.md` (S245 addendum).
 - **Display is `3840×2400@60Hz`**, not `2560×1600@165Hz` — an early copy-paste error
   from an unrelated ASUS ROG G14 doc that had rippled into GRUB/TTY/kernel-cmdline font
   fixes before being caught (2026-04-13). If you see the wrong resolution anywhere, it's

@@ -129,17 +129,22 @@ Filesystem: **btrfs** (Fedora 43 default, CoW, native snapshots)
 
 ## Power Management
 
-**Stack:** `tuned` + `tuned-ppd` (never `power-profiles-daemon` — conflicts; see `RaBbLE-OS-AgentGuide.md:64-66`). `tuned-ppd` is a D-Bus-compatible shim: `powerprofilesctl` works unmodified against it, which is what `asusctl` and the waybar power module both consume. `asusd`/`asusctl` own the platform-profile + per-profile fan curve; `tuned` owns CPU/system tuning. The two are coupled only via the kernel `platform_profile` sysfs interface — there is no generic decoupling toggle between "CPU headroom" and "fan curve"; they're the same knob.
+**Stack (S245):** `asusd`/`asusctl` **only**. `tuned`/`tuned-ppd` are masked on this machine (they stay the stack on generic x86_64 hardware). asusd owns the kernel `platform_profile` (firmware power limits), CPU EPP/governor (`platform_profile_linked_epp`) and per-profile fan curves; tuned-ppd did not follow its changes and fought it for the same CPU knobs. `power-profiles-daemon` stays guarded off (`arbitration.yml`).
 
-Waybar exposes three **composite** modes (`config/waybar/scripts/power-profile.sh`), not the stock three PPD profiles — each sets tuned-ppd's profile and asusd's platform-profile together:
+asusd pins the profile per power source (`asusctl profile set --ac Balanced`, `--battery Quiet`; ansible vars `asus_power_profile_ac/_battery`). Its stock AC pin is Performance, which overrides the default on every boot/plug.
 
-| Mode | `powerprofilesctl` (via tuned-ppd) | asusd platform-profile | AC gate |
-|---|---|---|---|
-| Quiet · Low Power | `power-saver` | Quiet | any |
-| Quiet · Balanced | `balanced` | Balanced (**quiet fan curve**, not stock) | any |
-| Unbounded | `performance` | Performance (unrestricted fan curve) | **AC only** |
+Waybar exposes three modes (`config/waybar/scripts/power-profile.sh`), read from `/sys/firmware/acpi/platform_profile` and set with `asusctl profile set`:
 
-Balanced deliberately runs the *quiet* fan curve, not asusd's stock Balanced curve — that's the mechanism for "CPU headroom without fan noise" on this chassis (`ansible/roles/hardware/x64/asus_proart_p16/tasks/arbitration.yml`). Selecting Unbounded while on battery is blocked in the waybar script (notify-send warning); an AC-unplug udev rule (`/etc/udev/rules.d/90-rabble-power-ac.rules`) is the backstop if AC is pulled while Unbounded is already active — it drops back to Quiet · Balanced automatically.
+| Mode | asusd platform-profile | AC gate |
+|---|---|---|
+| Quiet · Low Power | Quiet | any |
+| Quiet · Balanced | Balanced (gentle low-duty fan curve, PL1 capped) | any |
+| Unbounded | Performance (unrestricted fan curve) | **AC only** |
+
+**Balanced power limits:** stock Balanced is `ppt_pl1_spl` = 80 W sustained (firmware range PL1 15–80, PL2/PL3 35–80). `group_vars/asus_proart_p16.yml: asus_balanced_ppt` sets 18 W sustained on AC / 15 W on battery (burst floor 35 W), written into `asusd.ron` `ac_/dc_profile_tunings` by `asusd.yml`. `asusctl armoury set ppt_*` alone only stores the value (`Tuning is disabled: skipping`); the group must be `enabled: true`. Starting values, not yet measured on-device. Verify after apply: `cat /sys/class/firmware-attributes/asus-armoury/attributes/ppt_pl1_spl/current_value`.
+
+**Known unresolved — MID fan:** the kernel exposes a MID curve (`pwm3`) and asusd writes it, but `pwm3_enable` fails with ENODEV and the fan stays 4400–5500 RPM at 45–59 °C. Cause unverified (BIOS 319). Options: BIOS/asusctl/kernel update, an asus-linux issue, or generating less heat.
+
 
 ```
 supergfxd → GPU mode control
