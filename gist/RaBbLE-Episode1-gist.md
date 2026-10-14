@@ -13,7 +13,7 @@ procedure. **The air gate is not pulled until every row is green.** Target tag:
 |---|---|---|
 | **G7** | RaBbLE-OS Developer-Preview FLOOR on generic x86_64 | 🟡 VM passed S236, bare metal S238; record + confirmation run deferred |
 | **G9** | `setup.sh` bootstrap end-to-end on a fresh machine | 🔴 B-17: SSH manifests + private NeBuLA/sCoRE |
-| **G10** | World face coherent, no `/chrysalis` on prod | 🔄 five-beat face live on dev; Mark's sign-off pending; `/chrysalis/` route open |
+| **G10** | World face coherent, no `/chrysalis` on prod | 🔄 five-beat face live on dev, needs more work before sign-off; `/chrysalis/` removed S249 |
 
 Path to air: `log/plans/EP1-Staging-and-Grimoire-Audit.md`. Open blockers: `log/BLOCKERS.md`
 (`ep1-gate` = B-17 only; B-16 OpenRouter credits = resilience, not gating).

@@ -100,7 +100,7 @@ focus:
     # allow_origin_regex), B-04 (Aether+NeBuLA CDN Workers) all resolved S153.
     # Durable open-blocker home is log/BLOCKERS.md (tag:ep1-gate) + log/EP1-AIR-CHECKLIST.md
     # §A — this note no longer drifts. Real open set: B-02 · B-09 · B-10.
-    blocker_note: "G10 (S248): Mark's sign-off on the dev face pending; /chrysalis/ path still resolves on the main domain (decision open). Spine gates G1-G6 green. Tracked in log/EP1-AIR-CHECKLIST.md."
+    blocker_note: "G10 (S249): dev face not signed off yet (needs more work, Mark); /chrysalis/ removed (dev router 301, prod clears at air merge). Spine gates G1-G6 green. Tracked in log/EP1-AIR-CHECKLIST.md."
 
   RaBbLE-sCoRE:
     priority: active

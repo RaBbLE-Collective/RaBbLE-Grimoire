@@ -26,6 +26,14 @@ This is not the genesis archive. That is [RaBbLE-Chrysalis](../RaBbLE-Chrysalis/
 | **Sandboxed experiments** | "What if we tried X?" — no commitment required |
 | **Dev parts not yet landed** | Components or scripts belonging to a member but not ready to merge |
 
+## Public Showcase: xperimental.joinrabble.world (S249)
+
+`Xperimental-Web/` in the repo is a gallery of drops (Claude artifacts, GPT exports, RaBbLE art, clips),
+deployed by `rabble-xperimental-web` on every push to `new-horizons`. It is the one sanctioned public
+deploy from Xperimental: it shows experiments, it is not a production service. Publish:
+`bash Xperimental-Web/drop.sh <file.html|png|mp4> --title "…" [--note …] [--by claude] [--tag art]`, commit, push.
+Self-contained HTML only (an artifact that relies on `window.claude` or a runtime capability won't run).
+
 ---
 
 ## Operating Rules

@@ -1,6 +1,6 @@
 # EP1 Staging + Grimoire Audit — S248
 
-> **Status:** 🟡 ACTIVE (S248, 2026-10-13) — Phase 1 + most of Phase 2.1/2.3 **done S248**. Mark's answers: D6 = rewrite (done); D2 + D5 deferred; D1 open (NeBuLA visibility not decided); D3 + D4 explained, awaiting Mark.
+> **Status:** 🟡 ACTIVE (S248, 2026-10-13) — Phase 1 + most of Phase 2.1/2.3 **done S248**. Mark's answers: D6 = rewrite (done); D2 + D5 deferred; D1 open (NeBuLA visibility not decided); D3 = not signed off, face needs more work (S249); D4 = remove `/chrysalis/` (done S249, router deploy pending).
 > Supersedes the unexecuted W3 ("Grimoire truth-alignment") in `EP1-Entity-Face-Plan.md`.
 > Air gate of record stays `log/EP1-AIR-CHECKLIST.md`; this plan is how we get it green and stay coherent after.
 
@@ -74,7 +74,7 @@ updates at the air merge. Consequence until then: the public bootstrap one-liner
 
 ## 2. Decisions — Mark's calls (nothing in Phase 3 runs without these)
 
-**Answers so far (S248):** D1 open (unsure NeBuLA goes public yet) · D2 **deferred** · D3 pending (= sign off the dev face) · D4 pending (= remove or keep `joinrabble.world/chrysalis/`) · D5 **deferred** (no log archiving yet) · D6 **(a), done S248**.
+**Answers so far (S248):** D1 open (unsure NeBuLA goes public yet) · D2 **deferred** · D3 **not yet** (S249: "the most polished version but still needs work"; G10 stays 🔄) · D4 **remove** (S249: dev router → 301 to the subdomain; prod clears at air merge) · D5 **deferred** (no log archiving yet) · D6 **(a), done S248**.
 
 
 | # | Decision | Options | Agent recommendation |
@@ -109,7 +109,7 @@ updates at the air merge. Consequence until then: the public bootstrap one-liner
 ### Phase 3 — Air staging (live infra — every step Mark-confirmed)
 - [ ] **3.1 G9 fix**: manifests `git@github.com:` → `https://github.com/`; apply D1 (visibility flip or skip-private in `spells/setup.sh`); then **fresh-VM run** of `curl …dev.joinrabble.world/setup.sh | bash` (dev, since prod redirect lands at air) — agent-driven via virt-install, Mark watches.
 - [ ] **3.2 G7 record** per D2 (confirmation run on final ISO incl. F2 recovery); confirm the rough-edges sheet (`world/os.html` + `RaBbLE-OS-KnownIssues.md`) lists B-15, B-13, Hyprland-0.56 Lua caveats, WiFi Installation-Source retry.
-- [ ] **3.3 G10** Mark sign-off on dev; remove `/chrysalis/` route per D4 (Cloudflare dashboard or wrangler routes — Mark).
+- [ ] **3.3 G10** Mark sign-off on dev (face still needs work, S249). `/chrysalis/` part **done S249**: it was never a zone route. Dev = `rabble-dev` router (`workers/dev/`), now a 301 to `chrysalis.joinrabble.world` (Mark deploys: wrangler login expired); prod = stale `chrysalis/` folder in the pre-233aeb9 World build, removed by the air merge.
 - [ ] **3.4 Public face**: org profile README (`RaBbLE-Collective/.github`), one-line descriptions for every repo in one voice, member READMEs refreshed to one short template (what it is · live link · status · Sovereign Accord · Grimoire pointer), Aether README → rc.2. All land on `new-horizons` so they reach `main` at the air merge.
 - [ ] **3.5 Air-merge prep**: `_redirects` repoint `RaBbLE-OS.ks` + `/roadmap` to `main` (comment already says so); `EPISODE-1-RELEASE.md` rewritten from the real Genesis (S234–S246 face, not the June draft); decide bundle versions (Aether `v0.0.0.1-rc.2` → `v0.0.0.1`, NeBuLA rc.1 → `v0.0.0.1`) and World `RaBbLE-config.js` pins.
 - [ ] **3.6 Dry run** of checklist §D on one member (backup tag + merge on a scratch clone) so air day has no surprises.

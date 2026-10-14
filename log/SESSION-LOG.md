@@ -14,6 +14,14 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-13 · Session S249 (xperimental-web-chrysalis-route)
+
+- **Repos:** Xperimental, Grimoire, Collective. Opus 5.5. Mark: remove the `/chrysalis/` route; dev face "the most polished version but still needs work"; wants a sandbox on joinrabble.world for Claude/GPT artifacts + RaBbLE art (Instagram); commit + push so the Collective is current online.
+- **D4 done:** `/chrysalis/` was never a zone route. Dev = `rabble-dev` router (`workers/dev/`) path mount → now a 301 to `chrysalis.joinrabble.world`, CHRYSALIS binding dropped. **Needs Mark's deploy** (wrangler OAuth expired; the Grimoire repo's CF secret is the stale July token). Prod = stale `chrysalis/` folder in the pre-233aeb9 World build; the air merge removes it.
+- **D3:** not signed off; G10 stays 🔄 (checklist, epoch, roadmaps, gists updated).
+- **Xperimental-Web (new):** `xperimental.joinrabble.world` (Mark picked the member name over "lab"), Worker `rabble-xperimental-web`, `deploy.yml` on push to Xperimental `new-horizons` (path `Xperimental-Web/**`; repo already had the Sept CF secrets). Gallery `index.html` reads `drops.json`; `drop.sh <file> --title …` (html/image/video), `--list`, `--remove`. Tested locally at 1280 + 390 px (Playwright), test drops removed; launches empty. Xperimental AGENT.md "no production deploys" rule amended with this one exception. Registered in `registry/subdomains.yml`.
+- **Next:** Mark deploys the dev router; first real drop; D1 visibility; face work toward G10.
+
 ## 2026-10-13 · Session S248 (grimoire-ep1-staging-audit)
 
 - **Repos:** Grimoire, Collective, NeBuLA (AGENT.md link), ScRiBbLE (README link). Opus 5.5. Mark: audit drift + bloat, make the roadmap coherent, stage EP1, public face.

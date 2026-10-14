@@ -1,43 +1,20 @@
 // rabble-dev router — dev.joinrabble.world
-// /chrysalis/*  → rabble-chrysalis-web (service binding, prefix stripped)
-// /*            → rabble-world-dev     (service binding, pass-through)
+// /*  → rabble-world-dev (service binding, pass-through)
+//
+// S249: the /chrysalis/* passage was removed (Mark, D4). The reliquary lives on its own
+// channel at chrysalis.joinrabble.world; dev and prod no longer mount it under a path.
+// /chrysalis now 301s to that channel so old links still land somewhere.
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const path = url.pathname;
 
-    // Redirect bare /chrysalis to /chrysalis/
-    if (path === '/chrysalis') {
-      return Response.redirect(url.origin + '/chrysalis/', 301);
+    if (path === '/chrysalis' || path.startsWith('/chrysalis/')) {
+      const rest = path.slice('/chrysalis'.length) || '/';
+      return Response.redirect('https://chrysalis.joinrabble.world' + rest + url.search, 301);
     }
 
-    if (path.startsWith('/chrysalis/')) {
-      const stripped = path.slice('/chrysalis'.length); // keeps leading /
-      const inner = new URL(request.url);
-      inner.pathname = stripped;
-
-      const resp = await env.CHRYSALIS.fetch(new Request(inner.toString(), {
-        method: request.method,
-        headers: request.headers,
-        body: request.body ?? undefined,
-        redirect: 'manual',
-      }));
-
-      // Rewrite any absolute-path redirects (e.g. /foo/ → /chrysalis/foo/)
-      if (resp.status >= 300 && resp.status < 400) {
-        const loc = resp.headers.get('Location');
-        if (loc && loc.startsWith('/') && !loc.startsWith('/chrysalis')) {
-          const headers = new Headers(resp.headers);
-          headers.set('Location', '/chrysalis' + loc);
-          return new Response(resp.body, { status: resp.status, headers });
-        }
-      }
-
-      return resp;
-    }
-
-    // Everything else → World new-horizons
     return env.WORLD_DEV.fetch(request);
   },
 };

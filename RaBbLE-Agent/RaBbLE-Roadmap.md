@@ -69,7 +69,7 @@ That boundary is stated in `log/episodes/EPISODE-1-RELEASE.md`, not hidden.
 1. **G9:** `setup.sh` must clone on a fresh machine. Manifests use SSH URLs, and NeBuLA + sCoRE are
    private; visibility is an open decision (B-17).
 2. **G7:** record the OS preview floor (evidence exists; confirmation run deferred by Mark, S248).
-3. **G10:** Mark signs off the dev face; decide the `/chrysalis/` path on the main domain.
+3. **G10:** the dev face still needs work before Mark signs off (S249). `/chrysalis/` removed (S249).
 4. **Public face:** repo descriptions, member READMEs, org profile; Genesis release record rewritten from what shipped.
 5. **Air procedure:** checklist §D (tag, merge `new-horizons → main`, prod deploys, seal).
 

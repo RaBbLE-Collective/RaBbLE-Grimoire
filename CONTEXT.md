@@ -64,7 +64,7 @@ Every design decision, character trait, protocol schema, and technical pattern l
 | Spells (`spells/`) | ~41 spells live (coordination, deploy, sessions, multi-agent); see `SPELLS.md` / `bash spells/help.sh` for the authoritative list |
 | Versioning spec (`RaBbLE-Versioning.md`) | Stable — Five Es locked |
 | Episode tracking (`registry/epochs/current.epoch.yml`) | Episode 1 pending — all members accumulating Events |
-| Episode 1 scope (`log/EP1-AIR-CHECKLIST.md`) | Canonical live gate table. S248: G1–G6 + G8 green; G7 evidence in (record deferred); G9 blocked (B-17); G10 awaits Mark's sign-off. Path to air: `log/plans/EP1-Staging-and-Grimoire-Audit.md` |
+| Episode 1 scope (`log/EP1-AIR-CHECKLIST.md`) | Canonical live gate table. S248: G1–G6 + G8 green; G7 evidence in (record deferred); G9 blocked (B-17); G10 dev face needs more work before sign-off (S249). Path to air: `log/plans/EP1-Staging-and-Grimoire-Audit.md` |
 | RaBbLE-sCoRE docs | Architecture + Roadmap present. DataCrawler RFC added. **LLM endpoint LIVE on Render** (`rabble-score-x7qq.onrender.com`, S106); local AI layer (Groq/OpenRouter/NVIDIA NIM) documented. Railway superseded. |
 | Grimoire MCP (`RaBbLE-Collective/RaBbLE-Grimoire-MCP.md`) | **Concept (S139)** — read-first remote MCP at `grimoire.joinrabble.world` (CF Worker); awaiting Mark on hosting/timing decisions (§7). Post-EP1. |
 | RaBbLE-World | **Active** — dev serves the S235 five-beat face ("wake RaBbLE" → boot → live sCoRE chat → Summon → Enter); prod deploys from `main` at the air merge. Roadmap: `RaBbLE-World/RaBbLE-World-Roadmap.md` |

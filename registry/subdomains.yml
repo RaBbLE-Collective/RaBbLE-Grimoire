@@ -35,8 +35,8 @@ subdomains:
     status: staging
     notes: |
       S234: unblocked (B-10/B-12 resolved, token re-minted). Router Worker rabble-dev
-      (Grimoire workers/dev/) → rabble-world-dev (World new-horizons) + /chrysalis/* →
-      rabble-chrysalis-web (legacy path; chrysalis.joinrabble.world is now the channel).
+      (Grimoire workers/dev/) → rabble-world-dev (World new-horizons). S249: /chrysalis/*
+      now 301s to chrysalis.joinrabble.world (D4; the path mount and CHRYSALIS binding removed).
       sCoRE CORS allows this origin (FRONTEND_URL, S234).
 
   - host: score.joinrabble.world
@@ -95,6 +95,17 @@ subdomains:
     status: live
     notes: |
       Bound S234 (78d174d). Reliquary index/timeline page still to build (Air-Push C1).
+
+  - host: xperimental.joinrabble.world
+    label: Xperimental — public sandbox showcase
+    owner: RaBbLE-Xperimental
+    tech: Cloudflare Workers static assets (Worker rabble-xperimental-web; deploy.yml on Xperimental new-horizons, path Xperimental-Web/**)
+    purpose: Claude/GPT artifacts, RaBbLE art and ideas, published as-is to play with and share (Instagram)
+    status: live
+    notes: |
+      S249. Independent of the EP1 lockstep: drops go live on push. Publish with
+      `bash Xperimental-Web/drop.sh <file> --title …`. Repo private, site public.
+      A subdomain, not a path, so G10's "no /xperimental on prod" holds.
 
   - host: scribble.joinrabble.world
     label: ScRiBbLE — neon note PWA

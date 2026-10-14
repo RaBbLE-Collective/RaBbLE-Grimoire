@@ -24,8 +24,8 @@ only from `main`). Gate G10 awaits Mark's sign-off. Plan of record: `log/plans/E
 - [x] iPhone pass: scrollable voice stack, 16px input, keyboard-aware dock (S241; keyboard/landscape still being tested)
 - [x] `world/os.html` OS Developer Preview install guide; `/setup.sh` + `/RaBbLE-OS.ks` redirects (S234)
 - [x] Aether rc.2 + NeBuLA rc.1 from CDN; deployed via Cloudflare Workers (dev auto-deploys from `new-horizons`)
-- [ ] Mark sign-off on dev (G10)
-- [ ] `/chrysalis/` path on the main domain resolved (remove vs keep; it has `chrysalis.joinrabble.world`)
+- [ ] Mark sign-off on dev (G10): not yet, the face is the most polished version but needs more work (S249)
+- [x] `/chrysalis/` removed (S249): dev router 301s to `chrysalis.joinrabble.world`; prod's stale folder goes at the air merge
 - [ ] At air: repoint `_redirects` (`RaBbLE-OS.ks`, `/roadmap`) to `main`; pin bundles to `v0.0.0.1`
 
 **Retired:** the "grimoire browser" deliverable (May plan) and the S190 liminal passage (frozen in Chrysalis).
