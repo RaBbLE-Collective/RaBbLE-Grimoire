@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-13 · Session S249 (xperimental-web-chrysalis-route)
+## LATEST — 2026-10-14 · Session S249 (chrysalis-reliquary-mend)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S249: /chrysalis/ → 301 (deployed); xperimental.joinrabble.world live (drop.sh)
+**This session:** S249: /chrysalis/ → 301; xperimental.joinrabble.world live w/ 4 drops; Chrysalis reliquary renders again
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-17 open.
-**Next:** first drop; D1 visibility; face polish toward G10
+**Next:** D1 repo visibility; face polish toward G10; public face (Phase 3)
 
 ---
 
