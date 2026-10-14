@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-13 · Session S247 (os-waybar-workspace-click)
+## LATEST — 2026-10-13 · Session S248 (grimoire-ep1-staging-audit)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S247: waybar workspace clicks fixed (custom/wsN)
-**Blockers:** → `log/BLOCKERS.md`. B-02/B-09/B-11/B-13/B-15 open.
-**Next:** editor save->dotctl; Ansible role; KVM 144Hz test
+**This session:** S248: Grimoire audit; Roadmap rewritten to reality; gates/blockers reconciled; entry docs gist-first
+**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-17 open.
+**Next:** Mark: D1 visibility, D3 dev sign-off, D4 /chrysalis/; then Phase 3 public face
 
 ---
 
