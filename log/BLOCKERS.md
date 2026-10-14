@@ -4,19 +4,21 @@
 > Do not hand-edit — use `blockers.sh add` / `resolve`. This is the durable
 > home for blockers so they survive the rewrite of the SESSION-LOG `## LATEST` box.
 >
-> Last synced: 2026-09-28  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
+> Last synced: 2026-10-13  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
 
 ## OPEN
 
-- **B-02** — OpenRouter $10 credits not purchased — free tier 429 caps the chat chain  ·  owner:Mark  ·  since:S106  ·  [ep1-gate]
 - **B-09** — Lemonade Server needs debug — not confirmed working after NPU validation in S160  ·  owner:Mark  ·  since:S161  ·  [runtime]
 - **B-11** — Cetus3D MK2 WiFi not provisioned — needs one-time USB+UP Studio handshake on real Windows (Wine's MsiInstallDrivers/WinusbFM driver install fails under both UP Studio 2 and 3, confirmed twice; Wand's connect UI is wireless-only so USB isn't a usable fallback path either). Plan: do the one-time SSID handshake booted into Windows 11 (dual-boot), then RaBbLE-OS only needs Wand's WiFi connect going forward. See RaBbLE-OS/hardware/RaBbLE-OS-Hardware-Cetus3D-MK2.md  ·  owner:Mark  ·  since:2026-07-28  ·  [hardware]
 - **B-13** — FreeCAD/LibreCAD Flatpak UI pixelated/blurry on HiDPI (3840x2400 @ Hyprland scale=2) — X11-only Flathub sandbox forces XWayland, Hyprland compositor bitmap-scales those surfaces unconditionally. QT_SCALE_FACTOR override alone makes it worse (compounds with compositor scaling, 4x too large + still blurry). Real fix needs xwayland:force_zero_scaling=true in Hyprland config paired with a Qt scale factor — NOT safe to toggle live (killed all running XWayland clients instantly when tried, S212). Needs a deliberate config/hypr/ + dotctl change applied at a restart Mark chooses.  ·  owner:Mark  ·  since:2026-08-08  ·  [hidpi, freecad]
 - **B-15** — ProArt hardware role (ansible/roles/hardware/x64/asus_proart_p16/) is being applied on Mark's non-ProArt Desktop bare-metal install — tries to install NVIDIA packages that don't exist on that hardware, causing Ansible task failures; install ends without Firefox and with 'a good number' of other failed recipes. Hardware auto-detection logic needs diagnosis — the role should not be matching this machine at all.  ·  owner:Mark  ·  since:2026-09-28  ·  [os-install,hardware-detection]
+- **B-16** — OpenRouter $10 credits not purchased — free-tier 429 caps the OpenRouter leg of the chat chain (resilience only; G5 met via Groq). Continues B-02.  ·  owner:Mark  ·  since:S106  ·  [resilience]
+- **B-17** — G9: setup.sh cannot complete on a fresh machine — every member manifest clones over SSH (git@github.com:), so machines without keys fail; NeBuLA + sCoRE are private so anonymous HTTPS also fails (verified git ls-remote S248). Fix: manifests to https:// + a visibility decision for NeBuLA/sCoRE (open), or setup.sh skips private members with a notice.  ·  owner:Mark  ·  since:S248  ·  [ep1-gate]
 
 ## RESOLVED
 
 - **B-01** — resolved: verified S153 LIVE: POST score.joinrabble.world/api/v1/chat (Origin joinrabble.world, tier fast) streams real RaBbLE SSE response end-to-end; guest chat path works in prod
+- **B-02** — resolved: reclassified S248: not an air gate (G5 met via Groq fast-chain override since S153); reopened as a resilience blocker
 - **B-03** — resolved: verified S153: web-demo CORS resolves — OPTIONS preflight + POST both return access-control-allow-origin: https://joinrabble.world. Per-user-type allow_origin_regex (web vs local BYOK) deferred until the local BYOK surface needs cross-origin — EP2 concern, not air-gating
 - **B-04** — resolved: verified S153: aether.joinrabble.world + nebula.joinrabble.world serve v0.0.0.1-rc.1 bundles HTTP 200 (aether.min.css 30KB, nebula.iife.js 69KB) at exact URLs World RaBbLE-config.js loads; G3 green
 - **B-05** — resolved: NIM key registered from sCoRE .env via fcc-ctl; renamed fcc layer to NVIDIA_NIM_API_KEY (upstream var); proxy smoke-tested 200 (S139)

@@ -59,23 +59,23 @@ Every design decision, character trait, protocol schema, and technical pattern l
 | Ethos layer (`RaBbLE/`) | **Active** — Ethos + Worldbuilding live; Genesis + Symbiosis to be authored (Phase 2C) |
 | Integration & Ethos Plan (`RaBbLE-Collective/RaBbLE-Integration-Ethos-Plan.md`) | **Active** — Phase 1A✓ 1B✓ 1C✓ 0A✓ 2A✓ 2B✓ 2D✓ 3✓ · Phase 2C (Mark authors), 4 pending |
 | Palette (`RaBbLE-Agent/RaBbLE-Palette.md`) | Stable |
-| Roadmap (`RaBbLE-Agent/RaBbLE-Roadmap.md`) | Current — Episode 1 streams visible, open questions documented |
-| Registry (`registry/`) | 10 manifests live (Collective, OS, sCoRE, Aether, NeBuLA, World, BaBbLE, Chrysalis, TaskViSoR, Xperimental) |
+| Roadmap (`RaBbLE-Agent/RaBbLE-Roadmap.md`) | Current (rewritten S248) — live position block, true member table, Genesis remaining-work; forward work in `RaBbLE-Post-EP1-Roadmap.md` |
+| Registry (`registry/`) | 12 manifests (Collective, OS, sCoRE, Aether, NeBuLA, World, BaBbLE, ScRiBbLE, Pocket, Chrysalis, Xperimental, TaskViSoR + template); epoch file reconciled S248 |
 | Spells (`spells/`) | ~41 spells live (coordination, deploy, sessions, multi-agent); see `SPELLS.md` / `bash spells/help.sh` for the authoritative list |
 | Versioning spec (`RaBbLE-Versioning.md`) | Stable — Five Es locked |
 | Episode tracking (`registry/epochs/current.epoch.yml`) | Episode 1 pending — all members accumulating Events |
-| Episode 1 scope (`log/EP1-AIR-CHECKLIST.md`) | Canonical scope + live gate table — exit criteria, blockers, tag convention. Only G7/G9 remain (both VM-verify, Mark-led). |
+| Episode 1 scope (`log/EP1-AIR-CHECKLIST.md`) | Canonical live gate table. S248: G1–G6 + G8 green; G7 evidence in (record deferred); G9 blocked (B-17); G10 awaits Mark's sign-off. Path to air: `log/plans/EP1-Staging-and-Grimoire-Audit.md` |
 | RaBbLE-sCoRE docs | Architecture + Roadmap present. DataCrawler RFC added. **LLM endpoint LIVE on Render** (`rabble-score-x7qq.onrender.com`, S106); local AI layer (Groq/OpenRouter/NVIDIA NIM) documented. Railway superseded. |
 | Grimoire MCP (`RaBbLE-Collective/RaBbLE-Grimoire-MCP.md`) | **Concept (S139)** — read-first remote MCP at `grimoire.joinrabble.world` (CF Worker); awaiting Mark on hosting/timing decisions (§7). Post-EP1. |
-| RaBbLE-World | **Active** — S190 liminal passage superseded the RC1 "Guided Realm" build: Acts 0–IV live on World `index.html`, Three.js entity awakened. Loaders (Aether + NeBuLA) + liminal, shell, grimoire-graph surfaces live. Remaining: Mark's Genesis copy, live Act IV check, deploy. |
-| World face | **Active** — S203 entity-forward, conversation-as-input face (Mark's brief) supersedes both the RC1 Guided Realm design and the S190 liminal passage, which retired to the Chrysalis reliquary. Design authority is now Studio-driven, not a fixed canon doc. Sign-off pending. |
-| RaBbLE-Aether | Active — component library complete, CDN delivery working, dev workflow documented. |
-| RaBbLE-NeBuLA | Active — Canvas2dBackend + BootSequence complete. `<rabble-entity>` now in NeBuLA. |
+| RaBbLE-World | **Active** — dev serves the S235 five-beat face ("wake RaBbLE" → boot → live sCoRE chat → Summon → Enter); prod deploys from `main` at the air merge. Roadmap: `RaBbLE-World/RaBbLE-World-Roadmap.md` |
+| World face | **Active** — S234 Entity-Face plan (`log/plans/EP1-Entity-Face-Plan.md`) superseded the S203 face and the S190 passage (both in the Chrysalis reliquary): five beats around `<rabble-entity backend="alive">`, live on dev, G10 sign-off pending |
+| RaBbLE-Aether | Active — `v0.0.0.1-rc.2` on CDN (`aether.joinrabble.world`); desktop/app themes consumed by OS |
+| RaBbLE-NeBuLA | Active — `<rabble-entity backend="alive">` (2D on WebGL + 3D), `setInsets`, effects, Studio MVP; `v0.0.0.1-rc.1` on CDN |
 | RaBbLE-BaBbLE | **Active** — formalized as Collective member (Phase 3). AGENT.md/CONTEXT.md/README.md live. Manifest registered. |
-| RaBbLE-ScRibLE | Defined — mobile PWA. Repo not yet created. Deferred to Epoch 1+. |
+| RaBbLE-ScRiBbLE | **Live** — neon note PWA at `scribble.joinrabble.world` (S234); independent track |
 | RaBbLE-Chrysalis | Genesis-archive — origin code from pre-Collective era. Reliquary for archived branches. Renamed from Xperimental S92. |
 | RaBbLE-Xperimental | Active sandbox — rablets in development, prototype members, experiments not yet emerged. New repo, created S92. |
-| RaBbLE-OS | Active — daily-driver substrate, Ep1 plots in progress, versioning diverged (deferred) |
+| RaBbLE-OS | Active — Fedora 44 + Hyprland 0.56; branded ISO + in-installer Bootstrap; VM (S236) + bare-metal (S238) installs passed; EP1 Developer Preview |
 | RaBbLE-TaskViSoR | Scaffold — Visual State Observer identity declared (S141); Layer 1 not yet built, ships as a World page. Manifest registered, no own repo yet. |
 
 ## Reading Order for a New Session

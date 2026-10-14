@@ -1,7 +1,7 @@
 # RaBbLE-NeBuLA-Studio.md
 
 > **Status:** MVP built + verified (S198), approved by Mark 2026-07-06. Live at `RaBbLE-NeBuLA/studio/`, served locally at `http://localhost:8080/studio/` via `dev-cdn.js`.
-> Build decisions + rationale: `log/plans/NeBuLA-Studio-Plan.md` (historical record — read this doc for current architecture, that one for *why*).
+> Build decisions + rationale: `log/plans/done/NeBuLA-Studio-Plan.md` (historical record — read this doc for current architecture, that one for *why*).
 > Phase 8 of `RaBbLE-NeBuLA-Roadmap.md` / `CONTEXT.md`.
 
 ---

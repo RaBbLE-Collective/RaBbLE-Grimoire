@@ -12,22 +12,38 @@ move to `done/`. Handoff docs (written mid-session for a fresh agent) live in `.
 
 ## Active plans
 
+Reconciled S248 against each plan's own status header and the session log. Status lives in the plan;
+this table is a one-line pointer. 🟡 = in flight / awaiting Mark · 🔵 = design only, not started · 🎯 = awaiting verify.
+
 | Plan | Status |
 |---|---|
-| `Collective-ICM-Conformance-Audit.md` | 🟢 2026-08-27 AUDIT COMPLETE — ICM/MWP (arXiv 2603.16021v2) conformance: Collective already ~70% there (L0/L1/L3 strong), gaps = L2 stage contracts + L3/L4 split; Phase 0 = do NOT restructure the ecosystem. Awaiting Mark's calls on the 3 open decisions |
-| `EP1-Air-Push-Plan.md` | 🟢 S203 ACTIVE — A4 DONE: entity-forward face built + verified (Mark sign-off pending), passage retired to Chrysalis reliquary. B-10 mapped → `../handoffs/HANDOFF-S203-B10-Cloudflare-Token.md` (Mark-gated). Next: A5 (Chrysalis CI + deploy.sh wrapper + key inventory), C1 (reliquary garden), A1 |
-| `Collective-Architecture-Audit-2026-07-04.md` | 🟢 S193 RUN (findings). S196 — Batch 1 safe doc/drift fixes landed; decisions + restructures deferred. Live status → `Collective-Architecture-Audit-PROGRESS.md` |
-| `Collective-Architecture-Audit-PROGRESS.md` | 🟢 S196 — implementation ledger: what's done vs deferred across all audit findings |
-| `sCoRE-Extensibility-Refactor-Plan.md` | 🟡 S193 — 3 options (A/B/C) + preconditions; awaiting Mark's option choice, then post-G7/G9 |
-| `OS-ProArt-Power-Stack-Plan.md` | 🟡 S189 — Hyprland GPU load, NVIDIA D3cold, tuned+asusd 3-mode waybar, settings-app sketch; Opus-reviewed + corrected, ready to implement |
-| `OS-Boot-Chain-Seamless-Plan.md` | 🟢 S197 — Phase 1 DONE + VM-verified: 1D terminus-fonts-console kills the vconsole TTY flash (headline win, commit 5ad3b16), 1A retain-splash + 1C seamless-drop (b3c0b21), 1B GRUB no-change. NEXT SESSION: update boot-chain docs, fix vm-boot-iterate.sh bugs, Phase 2 real-HW (Mark-driven) |
-| `Subdomain-Registry-and-Maintenance.md` | 🟡 S185 — subdomain registry spec + Collective maintenance backlog |
-| `OS-Theming-Variants-Plan.md` | 🟡 S204 designed — token canon + variants (void/dawn) + profiles (surge/drift/still), Firefox dropdown root cause, contrast QA gate; awaiting Mark's calls on defaults/naming/dawn hues |
-| `Aether-Theming-Convergence.md` | 🟡 Not started — palette sovereignty across web/editor/desktop/browser. Tracks A1–A3 absorbed by `OS-Theming-Variants-Plan.md` Phase 2 |
-| `OS-VM-Dev-Flow.md` | 🟡 VM install unblocked; cast VM + boot-theme loop pending |
-| `OS-Plymouth-Black-Screen.md` | 🎯 Root cause found (S166 ternary); awaiting visual verify |
-| `OS-Dolphin-Grey-Text.md` | 🔴 Dim labels; stack confirmed; fix path A/B pending |
+| `EP1-Staging-and-Grimoire-Audit.md` | 🟡 S248 — the path to air: gate truth, roadmap rewrite (done), de-bloat, public face, post-air user scaffold. Supersedes Entity-Face W3 |
+| `EP1-Entity-Face-Plan.md` | 🟡 S234 — W0–W2 done + live on dev (five-beat face, "wake RaBbLE"); G10 sign-off pending; W3 → Staging plan; W4 (accounts direction) open |
+| `EP1-Air-Push-Plan.md` | 🟡 S202/S203 — A4 superseded by Entity-Face; A5 (deploy wrapper, CI, key inventory) + C1 (reliquary garden) remain |
+| `OS-Display-Manager-Plan.md` | 🟡 S246 — `rdisplay` V1 working; next: editor save → dotctl, Ansible role, KVM 144Hz test, GNOME/KDE backend |
+| `OS-Settings-App-Plan.md` | 🔵 sketch — the display manager is its first piece |
+| `OS-ProArt-Power-Stack-Plan.md` | 🟡 implemented S197, reworked S245 (asusd only, tuned masked); awaiting on-hardware verify |
+| `OS-Boot-Chain-Seamless-Plan.md` | 🎯 Phase 1 VM-verified; S200 real-HW fix awaits Mark's reboot verify |
+| `OS-Plymouth-Black-Screen.md` | 🎯 root cause found (S166 ternary); awaiting visual verify |
+| `OS-VM-Dev-Flow.md` | 🟡 Part 1 done; cast VM + build-loop spell pending (S236 drove virt-install directly) |
+| `OS-Theming-Variants-Plan.md` | 🔵 S204 design — variants + profiles + contrast QA; awaiting Mark's calls |
+| `Aether-Theming-Convergence.md` | 🔵 S184 — tracks A1–A3 absorbed by OS-Theming-Variants Phase 2; remainder not started |
+| `EP2-Accounts-Encryption-Spec.md` | 🔵 EP2 draft — the user scaffold: accounts/sessions first, then encrypted ingestion |
+| `NeBuLA-Pocket-Puppet-Rendering-Pipeline.md` | 🔵 research — shared rig/animation pipeline for NeBuLA + Pocket |
+| `sCoRE-Extensibility-Refactor-Plan.md` | 🔵 S193 — options A/B/C, awaiting Mark's choice; post-air |
+| `Subdomain-Registry-and-Maintenance.md` | 🔵 S185 — subdomain registry spec + maintenance backlog |
+| `Collective-ICM-Conformance-Audit.md` | 🟡 audit complete 2026-08-27; 3 open decisions for Mark |
+| `Collective-Architecture-Audit-2026-07-04.md` | reference — S193 findings; open items tracked in the PROGRESS ledger below |
+| `Collective-Architecture-Audit-PROGRESS.md` | 🟡 S196 ledger — Batch 1 landed; decisions + restructures deferred |
 
 ## Completed plans
 
 Finished work in `done/` — kept for historical context on decisions made.
+
+| Plan | Closed |
+|---|---|
+| `done/EP1-Liminal-Experience-Plan.md` | implemented S190, retired S203 (frozen in Chrysalis) |
+| `done/NeBuLA-Studio-Plan.md` | built + Playwright-verified S198 |
+| `done/OS-Dolphin-Grey-Text.md` | resolved S201 (KColorScheme) |
+| `done/Collective-Architecture-Audit-Plan.md` | run S193 |
+| `done/World-Framework-Refactor*.md`, `done/harvest-map*.md` | S182 |

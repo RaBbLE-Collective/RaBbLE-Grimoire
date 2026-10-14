@@ -1,27 +1,18 @@
 # RaBbLE-Roadmap — gist
 
-> Source: `RaBbLE-Agent/RaBbLE-Roadmap.md` | ~2746 → ~242 tokens
-> Regenerate: `bash spells/distill-gists.sh`
+> Source: `RaBbLE-Agent/RaBbLE-Roadmap.md` | ~1700 → ~260 tokens
+> Regenerate: `bash spells/distill-gists.sh` (hand-distilled S248 after the rewrite)
 
-**What this is:** Collective-level roadmap — which members work toward which Episode, and what blocks Episode 1 air.
+**What this is:** the one Collective map: where each member stands, what Episode 1 (Genesis) ships, the arc after. It points; it doesn't restate. Air gate = `log/EP1-AIR-CHECKLIST.md` (wins any disagreement). Forward work = `RaBbLE-Post-EP1-Roadmap.md`. Path to air = `log/plans/EP1-Staging-and-Grimoire-Audit.md`.
 
-**Position:** Epoch 0 (Foundation, active) · Episode 1 "Genesis" target 2026-Q2. All active members tag `v0.0.0.1` simultaneously when Ep1 airs. Until then version strings stay `v0.0.0`.
+**Position (S248):** Epoch 0 Foundation · Episode 1 Genesis **staging, no date** (airs when the checklist is green, Mark's call). G1–G6 + G8 green · G7 evidence in, not recorded · G9 blocked (B-17: SSH manifests + private NeBuLA/sCoRE) · G10 awaits Mark's sign-off of the dev face.
 
-**Episode 1 deliverables & status:**
+**Members:** sCoRE LIVE (Render, guest chat, `/beam` for Pocket) · World prod = older build, dev = five-beat "wake RaBbLE" face, prod updates at air merge · NeBuLA `<rabble-entity backend="alive">` CDN rc.1 · Aether CDN rc.2 · OS Fedora 44 + Hyprland Developer Preview (VM S236 + bare metal S238 passed) · Grimoire, BaBbLE, Collective lockstep · independents: ScRiBbLE (live), Pocket (gadget FW), Chrysalis, Xperimental · EnGrAm concept · TaskViSoR scaffold.
 
-| Member | Ep1 Deliverable | Blocker |
-|---|---|---|
-| OS | Daily-driver substrate + theming (Plots A+B) | None |
-| Aether | CSS design system + CDN bundle | None |
-| NeBuLA | Canvas2D Layer 1 @60 FPS + public API (Three.js → Ep2) | None |
-| sCoRE | LLM endpoint (Groq/OpenRouter), Render deploy | None |
-| World | Landing + grimoire browser + chat (CF Workers) | Aether CDN + sCoRE deployed |
-| Grimoire | Navigator + docs alignment + Ep1 map | None |
+**Genesis = expression:** face + voice, no observation/memory/unprompted speech (stated honestly in the release record).
 
-**Episode naming (Biblical arc):** 1 Genesis · 2 Exodus (user registration, persistence) · 3 Covenant (Sovereign Accord, invite-only) · 4+ Wilderness→Promised Land.
+**Arc:** EP2 **Exodus** = senses + a door for users (local harness, Watcher, EnGrAm, NeBuLA state machine, accounts/sessions first) · EP3 **Covenant** = Sovereign Accord surfaces · **Echo 1** = learning loop closes, first stable release. Biblical naming is intentional lore.
 
-**Sequence:** sCoRE(LIVE)→World→Aether→NeBuLA→OS(Ep1) → Memory(Echo 1)→ScRibLE(Echo 1)→BaBbLE(Echo 1+). Behavioral Learning Engine = Echo 1 / Ep2+. **Echo 1** = first stable production release (breaking changes allowed at Echo boundaries).
+**Cadence:** episodes air when a vertical slice closes, not weekly-by-calendar. Decide the post-air integration branch before air.
 
-**Post-Ep1 cadence:** weekly Episodes, all members lockstep to v0.0.0.N; same-Episode parts guaranteed compatible.
-
-→ Full doc for: per-member work-stream checklists, 8 open questions (Memory naming, observation ethics), context-optimization audit, full versioning transition table, revision history.
+→ Full doc for: member table detail, Genesis remaining-work list, 6 open questions, revision history.

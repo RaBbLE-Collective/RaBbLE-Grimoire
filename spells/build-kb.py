@@ -237,12 +237,12 @@ BUNDLES = [
      ]),
 
     ("14-Members-Registry-and-Spells.md", "Minor Members, Registry & Spells",
-     "BaBbLE / Chrysalis / Xperimental / ScRibLE overviews, the member registry + epoch definition + manifests, and the spell system.",
+     "BaBbLE / Chrysalis / Xperimental / ScRiBbLE overviews, the member registry + epoch definition + manifests, and the spell system.",
      [
         "RaBbLE-BaBbLE/RaBbLE-BaBbLE-Overview.md",
         "RaBbLE-Chrysalis/RaBbLE-Chrysalis-Overview.md",
         "RaBbLE-Xperimental/RaBbLE-Xperimental-Overview.md",
-        "RaBbLE-ScRibLE/RaBbLE-ScRibLE-Overview.md",
+        "RaBbLE-ScRiBbLE/RaBbLE-ScRiBbLE-Overview.md",
         "registry/RaBbLE-Collective-Registry.md",
         "registry/CONTEXT.md",
         ("registry/epochs/current.epoch.yml", "yaml"),

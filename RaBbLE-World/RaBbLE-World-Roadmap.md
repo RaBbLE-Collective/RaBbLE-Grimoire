@@ -11,33 +11,29 @@ transcribe ~ grimoire >> web presence and entity interaction surface mapped // %
 
 ## Episode 1 Commitment (This Member)
 
-**Ep1 Deliverable:** Public website with landing page, grimoire browser, and basic chat interface
+**Ep1 Deliverable:** the entity-forward face at `joinrabble.world`: a visitor meets RaBbLE and talks to it.
 
-**Status:** Planned (depends on Aether + sCoRE)
+**Status (S248):** built and live on **dev.joinrabble.world**; prod updates at the air merge (prod deploys
+only from `main`). Gate G10 awaits Mark's sign-off. Plan of record: `log/plans/EP1-Entity-Face-Plan.md` (W0–W2 done).
 
 **What ships:**
-- [ ] Landing page: introduces RaBbLE, invites to join
-- [ ] Grimoire browser: read-only documentation viewer (embedded or snapshot)
-- [ ] Chat interface: basic UI calling sCoRE endpoint
-- [ ] Aether CSS imported for styling
-- [ ] NeBuLA rendering integrated for visual coherence
-- [ ] Deployed to Cloudflare Workers
+- [x] Five-beat face: Arrive → Boot → Meet → Summon → Enter around `<rabble-entity backend="alive">` (S235); Arrive is the **"wake RaBbLE"** button, the entity answers "awake. hello." (Mark confirmed live on dev with the sCoRE connection, S248)
+- [x] Boot holds on real steps (Aether applied, NeBuLA upgraded, sCoRE health) so a cold Render start reads as boot
+- [x] Chat to sCoRE (guest SSE path, S153); typing/awaiting/streaming drive entity moods
+- [x] Summon = portal-colour preview, nothing persisted ("claim it in Exodus")
+- [x] iPhone pass: scrollable voice stack, 16px input, keyboard-aware dock (S241; keyboard/landscape still being tested)
+- [x] `world/os.html` OS Developer Preview install guide; `/setup.sh` + `/RaBbLE-OS.ks` redirects (S234)
+- [x] Aether rc.2 + NeBuLA rc.1 from CDN; deployed via Cloudflare Workers (dev auto-deploys from `new-horizons`)
+- [ ] Mark sign-off on dev (G10)
+- [ ] `/chrysalis/` path on the main domain resolved (remove vs keep; it has `chrysalis.joinrabble.world`)
+- [ ] At air: repoint `_redirects` (`RaBbLE-OS.ks`, `/roadmap`) to `main`; pin bundles to `v0.0.0.1`
 
-**Blockers:**
-- Aether CSS published to CDN (needed for styling)
-- sCoRE endpoint deployed and live (needed for chat to function)
-
-**Dependencies:**
-- Aether CSS bundle
-- NeBuLA IIFE script
-- sCoRE HTTP API endpoint
+**Retired:** the "grimoire browser" deliverable (May plan) and the S190 liminal passage (frozen in Chrysalis).
 
 **Deferred to Episode 2+:**
-- Real-time entity state binding
-- Advanced chat features
-- Interactive demos
-- User authentication / accounts
-- Grimoire graph view + liminal landing space (see vision below)
+- User accounts (EP2 Accounts spec) — Summon becomes real
+- `<rabble-entity-mini>` on every page; NeBuLA state machine driven by sCoRE streaming
+- Grimoire graph view (see vision below)
 
 ---
 

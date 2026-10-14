@@ -5,11 +5,11 @@ ingest ~ collective >> EnGrAm named and crystallized: photo/notes intake, unifie
 ```
 
 > **Document type:** Grimoire architecture doc · `RaBbLE-EnGrAm/`
-> **Status:** Proposed canonical · name + backing-store decided, pending PWA/ScRibLE scope decision (§8.2a)
+> **Status:** Proposed canonical · name + backing-store decided, pending PWA/ScRiBbLE scope decision (§8.2a)
 > **Purpose:** Define the architecture for **EnGrAm** — the Personal Cosmos's Memory member, resolving the previously-unnamed placeholder in `RaBbLE-Personal-Cosmos.md` and `RaBbLE-Agent-Roadmap.md` open question #4 ("Memory member name + scope").
 > **Author:** Mark McConachie (architect) + planning agent (claude.ai)
 > **Provenance:** Synthesized from two working-notes docs (Aug 2026) authored outside the canonical Grimoire; named and integrated here per session review.
-> **Related:** [RaBbLE-Personal-Cosmos.md](../RaBbLE-Collective/RaBbLE-Personal-Cosmos.md) · [RaBbLE-ScRibLE-Overview.md](../RaBbLE-ScRibLE/RaBbLE-ScRibLE-Overview.md) · [RaBbLE-sCoRE-Agent-Framework-Research.md](../RaBbLE-sCoRE/RaBbLE-sCoRE-Agent-Framework-Research.md) (three-tier memory, Mem0+Grimoire — see Open Questions §7) · [RaBbLE-Agent-Roadmap.md](../RaBbLE-Agent/RaBbLE-Roadmap.md) (open question #4 — **resolved by this doc**)
+> **Related:** [RaBbLE-Personal-Cosmos.md](../RaBbLE-Collective/RaBbLE-Personal-Cosmos.md) · [RaBbLE-ScRiBbLE-Overview.md](../RaBbLE-ScRiBbLE/RaBbLE-ScRiBbLE-Overview.md) · [RaBbLE-sCoRE-Agent-Framework-Research.md](../RaBbLE-sCoRE/RaBbLE-sCoRE-Agent-Framework-Research.md) (three-tier memory, Mem0+Grimoire — see Open Questions §7) · [RaBbLE-Agent-Roadmap.md](../RaBbLE-Agent/RaBbLE-Roadmap.md) (open question #4 — **resolved by this doc**)
 
 ---
 
@@ -31,7 +31,7 @@ Each stored unit is literally an *engram* — a discrete trace with its own embe
 |---|---|
 | **Personal Grimoire** (`RaBbLE-Personal-Cosmos.md`) | The curated *view* — what EnGrAm exposes once BaBbLE intake is sorted and approved |
 | **BaBbLE** (intake) | Upstream of EnGrAm — raw capture flows in; EnGrAm is where it becomes structured, queryable, linked |
-| **ScRibLE** | Primary capture surface feeding EnGrAm; `RaBbLE-ScRibLE-Overview.md` already states ScRibLE outputs are "the primary feed into the Memory member's behavioral profile" — that's EnGrAm |
+| **ScRiBbLE** | Primary capture surface feeding EnGrAm; `RaBbLE-ScRiBbLE-Overview.md` already states ScRiBbLE outputs are "the primary feed into the Memory member's behavioral profile" — that's EnGrAm |
 | **sCoRE** | Owns tagging/linking/synthesis compute tiers per the existing orchestrator-capacity principle (cheap models tag/link, top tier runs synthesis) |
 | **Canonical Grimoire** | Not touched. EnGrAm is per-user data, not Collective-wide knowledge. |
 
@@ -71,7 +71,7 @@ Synthesis digests (periodic pattern summaries) are written back as first-class I
 
 ## 4. Pipeline Stages
 
-1. **Ingest** — accept upload (photo, note, structured habit/achievement entry) from BaBbLE/ScRibLE
+1. **Ingest** — accept upload (photo, note, structured habit/achievement entry) from BaBbLE/ScRiBbLE
 2. **Extract metadata** — EXIF, timestamp, source
 3. **Tag/caption** — local vision-language inference for photos (component TBD — see Open Questions §6); text classification against canonical taxonomy for notes. This is the actual privacy pitch vs. cloud incumbents: no image leaves the user's infrastructure to get tagged.
 4. **Link** — propose relations to existing graph nodes (narrow, well-scoped — good fit for a small/cheap model per the orchestrator-capacity principle in `RaBbLE-sCoRE-Agent-Framework-Research.md`)
@@ -97,7 +97,7 @@ Rationale: the Grimoire already has a proven MD + JSON graph pattern (`spells/gr
 **Concretely:**
 - Backing store: EnGrAm-native — object storage (MinIO) + graph/vector DB, per the unified Item schema in §3. No Obsidian vault, no wrapper layer.
 - Link/graph tooling: extend the Grimoire's existing MD+JSON graph pattern rather than adopting Obsidian's backlink model — same spell-script discipline, applied to EnGrAm's Item graph instead of Grimoire docs.
-- Front end: **self-hosted PWA**, not a desktop-app-first design. This is the flow already in motion for `RaBbLE-ScRibLE` (mobile-native intake PWA) — EnGrAm's front end and ScRibLE's capture surface should likely be the same surface, or close cousins, rather than two separate PWAs. Worth confirming during build whether EnGrAm's browsing/query UI lives inside ScRibLE or as its own app that ScRibLE feeds into.
+- Front end: **self-hosted PWA**, not a desktop-app-first design. This is the flow already in motion for `RaBbLE-ScRiBbLE` (mobile-native intake PWA) — EnGrAm's front end and ScRiBbLE's capture surface should likely be the same surface, or close cousins, rather than two separate PWAs. Worth confirming during build whether EnGrAm's browsing/query UI lives inside ScRiBbLE or as its own app that ScRiBbLE feeds into.
 
 ---
 
@@ -115,7 +115,7 @@ Rationale: the Grimoire already has a proven MD + JSON graph pattern (`spells/gr
 
 1. ~~Naming~~ — **resolved: EnGrAm.**
 2. ~~Backing store decision~~ — **resolved (§6): EnGrAm-native store, extend Grimoire's MD+JSON graph pattern, no Obsidian.**
-2a. **PWA scope vs. ScRibLE** (new, from §6 resolution) — is EnGrAm's front end ScRibLE itself, a separate PWA ScRibLE feeds into, or a shared codebase with two entry points? Decide before front-end build starts, since ScRibLE is already the planned mobile PWA intake surface and duplicate build effort is exactly the kind of entropy the Collective avoids.
+2a. **PWA scope vs. ScRiBbLE** (new, from §6 resolution) — is EnGrAm's front end ScRiBbLE itself, a separate PWA ScRiBbLE feeds into, or a shared codebase with two entry points? Decide before front-end build starts, since ScRiBbLE is already the planned mobile PWA intake surface and duplicate build effort is exactly the kind of entropy the Collective avoids.
 3. **Canonical tag vocabulary/taxonomy** — who/what maintains it as it evolves?
 4. **Sharing scope for stage 4** — full items only, or per-tenant visibility rules on individual relations/tags too?
 5. **Collective-service stage pricing/resource-metering model** — given local-hardware compute constraints already discussed elsewhere in the Collective architecture.
@@ -126,5 +126,5 @@ Rationale: the Grimoire already has a proven MD + JSON graph pattern (`spells/gr
 ---
 
 ```
-transcribe ~ collective >> EnGrAm: own store, no Obsidian, self-hosted PWA front end — Roadmap Q4 + backing-store resolved, ScRibLE scope next // %ENGRAM_STORE_DECIDED%
+transcribe ~ collective >> EnGrAm: own store, no Obsidian, self-hosted PWA front end — Roadmap Q4 + backing-store resolved, ScRiBbLE scope next // %ENGRAM_STORE_DECIDED%
 ```

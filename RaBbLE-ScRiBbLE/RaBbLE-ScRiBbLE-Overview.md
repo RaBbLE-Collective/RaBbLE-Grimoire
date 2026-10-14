@@ -1,16 +1,16 @@
-# RaBbLE-ScRibLE — Grimoire Entry
+# RaBbLE-ScRiBbLE — Grimoire Entry
 
 ```
-transcribe ~ grimoire >> ScRibLE expanded: full digital intake surface // %SCRIBLE_EXPANDED%
+transcribe ~ grimoire >> ScRiBbLE expanded: full digital intake surface // %SCRIBLE_EXPANDED%
 ```
 
 ## Role
 
-`RaBbLE-ScRibLE` is the **digital intake surface** for the RaBbLE Collective. It is the boundary between the physical world and the Personal Cosmos — the place where written, drawn, voiced, and visual input enters the Pair's BaBbLE space and flows into the Personal Grimoire.
+`RaBbLE-ScRiBbLE` is the **digital intake surface** for the RaBbLE Collective. It is the boundary between the physical world and the Personal Cosmos — the place where written, drawn, voiced, and visual input enters the Pair's BaBbLE space and flows into the Personal Grimoire.
 
-ScRibLE is where thoughts enter the Collective. Field journal. Rapid-capture layer. Creative sketchbook. Voice memo surface. It is the physical membrane of the entity.
+ScRiBbLE is where thoughts enter the Collective. Field journal. Rapid-capture layer. Creative sketchbook. Voice memo surface. It is the physical membrane of the entity.
 
-ScRibLE operates in two forms:
+ScRiBbLE operates in two forms:
 - **Software surface** — a PWA and/or native app, running on any device the user has
 - **Hardware device** — the sCRibLE Rablet: a dedicated physical intake device (future; see Hardware section)
 
@@ -46,10 +46,10 @@ All modes feed into **BaBbLE** — the unsorted intake space in the Personal Cos
 
 ## Relationship to Personal Cosmos
 
-ScRibLE is the intake layer. It does not store things permanently — it receives and routes.
+ScRiBbLE is the intake layer. It does not store things permanently — it receives and routes.
 
 ```
-ScRibLE (capture) → BaBbLE (unsorted intake) → Personal Grimoire (curated truth)
+ScRiBbLE (capture) → BaBbLE (unsorted intake) → Personal Grimoire (curated truth)
 ```
 
 The entity watches the BaBbLE stream and surfaces what deserves to move into the Grimoire. The human makes the final call.
@@ -60,20 +60,20 @@ The entity watches the BaBbLE stream and surfaces what deserves to move into the
 
 | Member | Relationship |
 |---|---|
-| `RaBbLE-World` | ScRibLE is a separate surface — mobile-native and intake-focused; World is the public web presence |
-| Memory (future) | ScRibLE outputs are the primary feed into the Memory member's behavioral profile |
-| `RaBbLE-sCoRE` | Voice input may route through sCoRE for entity parsing; ScRibLE notes can become intents |
-| RaBbLE-OS-Pocket | ScRibLE is the primary app on the Pocket mobile OS |
+| `RaBbLE-World` | ScRiBbLE is a separate surface — mobile-native and intake-focused; World is the public web presence |
+| Memory (future) | ScRiBbLE outputs are the primary feed into the Memory member's behavioral profile |
+| `RaBbLE-sCoRE` | Voice input may route through sCoRE for entity parsing; ScRiBbLE notes can become intents |
+| RaBbLE-OS-Pocket | ScRiBbLE is the primary app on the Pocket mobile OS |
 
 ---
 
 ## The sCRibLE Rablet (Hardware)
 
-The **sCRibLE Rablet** is the dedicated physical hardware form of ScRibLE — a purpose-built intake device for the Pair.
+The **sCRibLE Rablet** is the dedicated physical hardware form of ScRiBbLE — a purpose-built intake device for the Pair.
 
 Not a tablet. Not a phone. A dedicated writing/drawing/voice surface that the human carries with them. It contains or connects to their entity and routes everything captured into their Personal Cosmos.
 
-Hardware design and production is a future epoch. The software stack (ScRibLE PWA + OS-Pocket) is designed and built first. The dedicated device follows when the software is stable and the Collective has the means to produce it.
+Hardware design and production is a future epoch. The software stack (ScRiBbLE PWA + OS-Pocket) is designed and built first. The dedicated device follows when the software is stable and the Collective has the means to produce it.
 
 ---
 
@@ -92,5 +92,5 @@ Defined in Epoch 0; active development deferred to EP2. Repo created when Phase 
 ---
 
 ```
-transcribe ~ grimoire >> ScRibLE expanded: multi-modal intake surface, hardware vision captured // %SCRIBLE_EXPANDED%
+transcribe ~ grimoire >> ScRiBbLE expanded: multi-modal intake surface, hardware vision captured // %SCRIBLE_EXPANDED%
 ```

@@ -14,6 +14,18 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-13 · Session S248 (grimoire-ep1-staging-audit)
+
+- **Repos:** Grimoire, Collective, NeBuLA (AGENT.md link), ScRiBbLE (README link). Opus 5.5. Mark: audit drift + bloat, make the roadmap coherent, stage EP1, public face.
+- **Renumbered:** started as "S247", collided with the concurrent waybar session; all refs now S248.
+- **Plan:** `log/plans/EP1-Staging-and-Grimoire-Audit.md` (+ Aether artifact). Decisions: D2 G7 confirm run deferred, D5 SESSION-LOG archive deferred, D6 roadmap rewrite done; D1 repo visibility, D3 dev face sign-off (G10), D4 prod `/chrysalis/` route open.
+- **Roadmap:** `RaBbLE-Roadmap.md` rewritten as a short episode map (position, true member table, Genesis remaining, Exodus/Covenant/Echo 1 pointers); World/Aether/NeBuLA/sCoRE roadmaps matched to shipped state; Dev-History canon note on the frozen May roadmap.
+- **Gates:** checklist G7 🟡 (S236/S238 evidence), G9 🔴 = **B-17** (SSH manifests + private NeBuLA/sCoRE break `setup.sh`), G10 🔄 (dev live: "wake RaBbLE" + sCoRE). OpenRouter credits = **B-16** (resilience). B-02 resolved (reclassified). Epoch YAML: Collective now `episode_1_blocker`.
+- **De-bloat:** 4 plans + B10 handoff → `done/`; plans/handoffs CONTEXT tables rebuilt; `RaBbLE-ScRibLE/` → `RaBbLE-ScRiBbLE/`; Pocket manifest active (repo stays TBD); EP2 Accounts spec unescaped; member tables (AGENT/CONTEXT/Collective) fixed; dead links mended.
+- **Live checks:** prod = old build (`setup.sh`/KS 404, agent docs public, `/chrysalis/` CF route 200); dev = five-beat face, `setup.sh`/KS 200; anon `git ls-remote` fails for NeBuLA/sCoRE/BaBbLE/Xperimental.
+- **Open gap:** Collective root has no `NOTICES.md` (Dependency-Policy links it).
+- **Next:** Mark's D1/D3/D4; plan Phase 3 public face (repo descriptions, member READMEs, org profile), air-merge prep + dry run; then Phase 5 user scaffold (EP2 Accounts phase 1).
+
 ## 2026-10-13 · Session S247 (os-waybar-workspace-click)
 
 - **Repos:** RaBbLE-OS. Sonnet 5.5. Waybar workspace numbers weren't clickable.

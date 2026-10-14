@@ -197,7 +197,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-World-Page-Template](RaBbLE-World/RaBbLE-World-Page-Template.md) — minimal page template, CDN integration pattern
 - [RaBbLE-World-README](RaBbLE-World/RaBbLE-World-README.md) — World member overview (joinrabble.world)
 - **[RaBbLE-World-EP1-Unification](RaBbLE-World/RaBbLE-World-EP1-Unification.md)** — **EP1 site spine (prior canon):** liminal as front door, door→surface map, shared threshold nav, Aether-first alignment
-- [RaBbLE-World-RC1-Emergence-Plan](RaBbLE-World/RaBbLE-World-RC1-Emergence-Plan.md) — Superseded (prior canon) — S190's liminal passage (`log/plans/EP1-Liminal-Experience-Plan.md`) is the ACTIVE build; this plan's chrysalis-archive/RC1 approach was carried forward there.
+- [RaBbLE-World-RC1-Emergence-Plan](RaBbLE-World/RaBbLE-World-RC1-Emergence-Plan.md) — Superseded (prior canon) — S190's liminal passage (`log/plans/done/EP1-Liminal-Experience-Plan.md`) is the ACTIVE build; this plan's chrysalis-archive/RC1 approach was carried forward there.
 - [RaBbLE-Grimoire-Browser-Plan](RaBbLE-World/RaBbLE-Grimoire-Browser-Plan.md) — agent handoff: grimoire summoning-circle applet integration into World
 - [RaBbLE-World-MAINTAINING](RaBbLE-World/RaBbLE-World-MAINTAINING.md) — RaBbLE-Chat maintenance map: where the chat surface lives and how to keep it running
 - [REGRESSION-AUDIT-2026-05-15](RaBbLE-World/REGRESSION-AUDIT-2026-05-15.md) — Aether CDN regression post-mortem (resolved)
@@ -238,9 +238,9 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 
 ---
 
-## RaBbLE-ScRibLE
+## RaBbLE-ScRiBbLE
 
-- [README](RaBbLE-ScRibLE/RaBbLE-ScRibLE-Overview.md) — mobile PWA notes surface, iPhone/iPad + Apple Pencil, Echo 1+ candidate
+- [README](RaBbLE-ScRiBbLE/RaBbLE-ScRiBbLE-Overview.md) — mobile PWA notes surface, iPhone/iPad + Apple Pencil; v1 live at scribble.joinrabble.world (S234)
 
 ---
 
@@ -299,9 +299,10 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 ### Plans (active)
 
 - [Collective-ICM-Conformance-Audit](log/plans/Collective-ICM-Conformance-Audit.md) — 2026-08-27: audit of the Collective against ICM/MWP (arXiv 2603.16021v2, Van Clief & McDermott). Finding: already ~70% conformant (L0/L1/L3 strong, context-scoping stronger than the paper), gaps = L2 stage contracts (I/P/O) + L3/L4 handoff split. Phase 0 = do NOT restructure the branching ecosystem (§5.2 anti-patterns); ICM applies to linear internal workflows (session lifecycle, plan→handoff→execute) where the clobber pain lives. 5 phases + 3 open decisions
+- **[EP1-Staging-and-Grimoire-Audit](log/plans/EP1-Staging-and-Grimoire-Audit.md)** — **S248 PROPOSED.** Grimoire audit + EP1 staging plan: gate truth (G7 met-ish, G9 blocked by SSH manifests + private repos, G10 sign-off), Roadmap rewrite, de-bloat, public face, post-air user scaffold. Decisions D1–D6 pending Mark.
 - **[EP1-Entity-Face-Plan](log/plans/EP1-Entity-Face-Plan.md)** — **S234 ACTIVE.** Supersedes Air-Push A4: the "alive" 2D/3D entity + SVG-rig moods ported into NeBuLA `<rabble-entity>`; World rebuilt as Arrive→Boot→Meet→Summon→Enter (boot masks sCoRE cold start); Cloudflare B-12 unblock + setup.sh/KS redirects + keep-warm; accounts plan-only (EP2). Handoff: [HANDOFF-S234-EP1-Entity-Face](log/handoffs/HANDOFF-S234-EP1-Entity-Face.md)
 - [EP1-Air-Push-Plan](log/plans/EP1-Air-Push-Plan.md) — S202 PROPOSED: multi-session push to bring EP1 close to air. Decisions locked (Studio matured not World redesigned; OS netinstall+KS now / ISO later; restructures deferred). Air-critical vs coherence tracks; resolves the S193 audit contradictions + net-new (Chrysalis reliquary, OS download page, Studio inspector/nesting/export)
-- [Collective-Architecture-Audit-Plan](log/plans/Collective-Architecture-Audit-Plan.md) — S192 PROPOSED plan; RUN S193 — see the two deliverables below
+- [Collective-Architecture-Audit-Plan](log/plans/done/Collective-Architecture-Audit-Plan.md) — S192 PROPOSED plan; RUN S193 — see the two deliverables below
 - [Collective-Architecture-Audit-2026-07-04](log/plans/Collective-Architecture-Audit-2026-07-04.md) — S193 RUN: cross-repo synthesis, all 10 members audited, drift findings + per-member improvement plans, open decisions for Mark
 - [sCoRE-Extensibility-Refactor-Plan](log/plans/sCoRE-Extensibility-Refactor-Plan.md) — S193: sCoRE `server/` restructuring deep-dive, 3 options, companion to the audit above
 - [Collective-Architecture-Audit-PROGRESS](log/plans/Collective-Architecture-Audit-PROGRESS.md) — S196 implementation ledger: which audit findings landed (Batch 1 doc/drift fixes) vs deferred (decisions + restructures)
@@ -309,13 +310,13 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [OS-Boot-Chain-Seamless-Plan](log/plans/OS-Boot-Chain-Seamless-Plan.md) — S197: GRUB→Plymouth→SDDM seamless handoff — Phase 1 low-risk VM-verifiable fixes + Phase 2 real-HW root-cause recovery
 - [OS-Settings-App-Plan](log/plans/OS-Settings-App-Plan.md) — S197 SKETCH (deferred Phase 5): local Aether-themed web app for waybar/Hyprland/power tuning; cold-start handoff for a follow-up session
 - [OS-Display-Manager-Plan](log/plans/OS-Display-Manager-Plan.md) — S246 BUILT (phase 1 + editor + daemon): first first-party app; hybrid (Python core+CLI+hotplug daemon, GTK4 layer-shell overlay, web editor); profiles keyed by monitor description; compositor-portable backends (Hyprland, then wlroots)
-- [EP1-Liminal-Experience-Plan](log/plans/EP1-Liminal-Experience-Plan.md) — S190 ACTIVE: EP1 air bar = single-page Genesis passage (Acts 0–IV, sCoRE-live) + Three.js entity awakening; post-mortem + WS-A/B/C/D sub-agent decomposition
+- [EP1-Liminal-Experience-Plan](log/plans/done/EP1-Liminal-Experience-Plan.md) — S190 ACTIVE: EP1 air bar = single-page Genesis passage (Acts 0–IV, sCoRE-live) + Three.js entity awakening; post-mortem + WS-A/B/C/D sub-agent decomposition
 - [Subdomain-Registry-and-Maintenance](log/plans/Subdomain-Registry-and-Maintenance.md) — S185: subdomain registry spec + Collective maintenance backlog
 - [Aether-Theming-Convergence](log/plans/Aether-Theming-Convergence.md) — palette sovereignty across web/editor/desktop/browser
-- [NeBuLA-Studio-Plan](log/plans/NeBuLA-Studio-Plan.md) — S198: WYSIWYG page-layout builder (drag Aether/NeBuLA components, breakpoint preview, JSON save/load), lives in `RaBbLE-NeBuLA/studio/`; also establishes Aether+NeBuLA as the frontend framework for all RaBbLE web apps, not just World
+- [NeBuLA-Studio-Plan](log/plans/done/NeBuLA-Studio-Plan.md) — S198: WYSIWYG page-layout builder (drag Aether/NeBuLA components, breakpoint preview, JSON save/load), lives in `RaBbLE-NeBuLA/studio/`; also establishes Aether+NeBuLA as the frontend framework for all RaBbLE web apps, not just World
 - [OS-VM-Dev-Flow](log/plans/OS-VM-Dev-Flow.md) — VM install unblocked; cast VM + boot-theme loop pending
 - [OS-Plymouth-Black-Screen](log/plans/OS-Plymouth-Black-Screen.md) — root cause found (S166 ternary); awaiting visual verify
-- [OS-Dolphin-Grey-Text](log/plans/OS-Dolphin-Grey-Text.md) — dim labels; stack confirmed; fix path A or B pending
+- [OS-Dolphin-Grey-Text](log/plans/done/OS-Dolphin-Grey-Text.md) — dim labels; stack confirmed; fix path A or B pending
 - [EP2-Accounts-Encryption-Spec](log/plans/EP2-Accounts-Encryption-Spec.md) — DRAFT, first EP2-scoped plan: accounts phase (OAuth/email+Argon2, summoning ceremony) decoupled from ingestion+encryption phase (client-side Web Crypto, two-layer DEK/KEK key management); OAuth-path key derivation + encrypted-embedding search open
 - [NeBuLA-Pocket-Puppet-Rendering-Pipeline](log/plans/NeBuLA-Pocket-Puppet-Rendering-Pipeline.md) — cross-repo research: Godot-as-authoring-studio (exports glTF, MIT), `esp_emote_gfx`/ThorVG Pocket rendering stack + dedicated flash partition, one locked puppet-parameter schema across Godot/NeBuLA/Pocket; Pocket-side decisions also recorded as an ADR in the `RaBbLE-Pocket` member repo's own `planning/decisions/` directory (dated 2026-09-26)
 
@@ -323,7 +324,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 
 - [HANDOFF-FCC-Free-Claude-Code](log/handoffs/HANDOFF-FCC-Free-Claude-Code.md) — FCC tuning for agentic output (NIM Mistral 400 fix, LiteLLM retry/backoff/failover)
 - [HANDOFF-S236-OS-ISO-VM-Run](log/handoffs/HANDOFF-S236-OS-ISO-VM-Run.md) — RaBbLE-OS branded ISO: interactive VM run recipe (UEFI CD, egl-headless 3D), success criteria, bare-metal failure hypotheses, S236 gotchas
-- [HANDOFF-S203-B10-Cloudflare-Token](log/handoffs/HANDOFF-S203-B10-Cloudflare-Token.md) — B-10: dashboard-mint CF Workers token + org-wide `gh secret set` (+ Chrysalis per-repo); wrangler OAuth cannot mint tokens
+- [HANDOFF-S203-B10-Cloudflare-Token](log/handoffs/done/HANDOFF-S203-B10-Cloudflare-Token.md) — B-10: dashboard-mint CF Workers token + org-wide `gh secret set` (+ Chrysalis per-repo); wrangler OAuth cannot mint tokens
 
 ### Episodes
 

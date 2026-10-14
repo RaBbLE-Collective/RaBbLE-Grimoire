@@ -7,18 +7,16 @@ Operational gate for airing Episode 1 (Genesis) — the live, member-by-member s
 procedure. **The air gate is not pulled until every row is green.** Target tag:
 `episode-1-v0.0.0.1`, applied to all lockstep members simultaneously (v0.0.0.0 → v0.0.0.1).
 
-**Gate state (S206):** G1–G6, G8, G10 ✅ (chat spine, CDN, CORS, lockstep, entity-forward
-World face built S203 — Mark's sign-off pending). **Only two gates remain, both Mark-led,
-VM-required:**
+**Gate state (S248):** G1–G6 + G8 ✅ (chat spine, CDN, CORS, lockstep). Remaining:
 
 | Gate | What | State |
 |---|---|---|
-| **G7** | RaBbLE-OS Developer-Preview FLOOR on generic x86_64 VM | ⏳ verify |
-| **G9** | `setup.sh` bootstrap end-to-end on fresh VM | ⏳ verify |
+| **G7** | RaBbLE-OS Developer-Preview FLOOR on generic x86_64 | 🟡 VM passed S236, bare metal S238; record + confirmation run deferred |
+| **G9** | `setup.sh` bootstrap end-to-end on a fresh machine | 🔴 B-17: SSH manifests + private NeBuLA/sCoRE |
+| **G10** | World face coherent, no `/chrysalis` on prod | 🔄 five-beat face live on dev; Mark's sign-off pending; `/chrysalis/` route open |
 
-Runbook for both: `log/G7-G9-Verification-Guide.md`. Open blockers: `log/BLOCKERS.md` (tag
-`ep1-gate`) — currently B-02/B-09/B-10 open, none block air (B-02 = resilience not gating;
-B-09/B-10 untagged `ep1-gate`).
+Path to air: `log/plans/EP1-Staging-and-Grimoire-Audit.md`. Open blockers: `log/BLOCKERS.md`
+(`ep1-gate` = B-17 only; B-16 OpenRouter credits = resilience, not gating).
 
 **Tag procedure once §A is green:** freeze + status.sh/blockers.sh clean → backup tags per
 member → finalize `log/episodes/EPISODE-1-RELEASE.md` (drop DRAFT) → tag all lockstep repos

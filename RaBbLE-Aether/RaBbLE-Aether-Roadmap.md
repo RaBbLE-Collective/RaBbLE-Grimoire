@@ -13,15 +13,18 @@ transcribe ~ grimoire >> design system and visual identity mapped // %AETHER_ROA
 
 **Ep1 Deliverable:** CSS design system bundle, versioned and CDN-ready
 
-**Status:** In progress
+**Status (S248):** shipped as a release candidate. `v0.0.0.1-rc.2` live at `aether.joinrabble.world`
+(rc.1 kept); World loads it in dev and prod.
 
 **What ships:**
 - [x] Component library defined (cards, buttons, grids, typography, utilities)
 - [x] Build pipeline configured (esbuild, versioning, minification)
 - [x] Repository is a git repo with remote
-- [ ] CSS bundle published to CDN staging
-- [ ] Palette fully integrated as CSS variables
-- [ ] Import test in World pages (verify loading and styling)
+- [x] CSS bundle published to CDN (Cloudflare Worker, S153; rc.2 S235 adds askbox/statusbar)
+- [x] Palette integrated as CSS variables
+- [x] Imported by World pages
+- [x] Desktop/app themes consumed by RaBbLE-OS (Firefox userChrome, VSCodium); Kvantum source moved to OS (S201)
+- [ ] At air: promote `rc.2` → `v0.0.0.1`; `package.json` version to match; README `rc.1` → current
 
 **Blocker:** None — straightforward implementation
 
@@ -43,8 +46,8 @@ transcribe ~ grimoire >> design system and visual identity mapped // %AETHER_ROA
 **CSS output:** `dist/aether.min.css` (production), `dist/aether.css` (unminified)  
 **Build tool:** esbuild  
 **Versioning:** Five Es (v0.0.0.1 at Episode 1 air)  
-**Distribution:** Cloudflare R2 CDN or static hosting  
-**Usage:** `<link rel="stylesheet" href="https://cdn/.../aether/v0.0.0/aether.min.css">`
+**Distribution:** Cloudflare Worker at `aether.joinrabble.world` (per-member subdomain; unified CDN cancelled S196)  
+**Usage:** `<link rel="stylesheet" href="https://aether.joinrabble.world/v0.0.0.1-rc.2/aether.min.css">`
 
 ---
 

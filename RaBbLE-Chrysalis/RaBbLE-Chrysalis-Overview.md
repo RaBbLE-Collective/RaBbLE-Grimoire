@@ -60,7 +60,7 @@ When RaBbLE-OS migrates to the Collective org and branches are pruned to `main /
 
 Mark decides which. The branches must be preserved somewhere before any pruning happens on the Collective remote.
 
-See [RaBbLE-OS Migration Plan](../RaBbLE-OS/RaBbLE-OS-Migration-Plan.md).
+**Resolved (S94):** Option B: the RaBbLE-OS reliquary branches were migrated into Chrysalis (see `registry/epochs/current.epoch.yml`, Chrysalis focus entry). The migration plan this section once linked was never filed in the Grimoire.
 
 ---
 

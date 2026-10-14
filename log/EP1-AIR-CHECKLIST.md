@@ -13,7 +13,7 @@
 
 **Target tag:** `episode-1-v0.0.0.1` — applied to all lockstep members **simultaneously**.
 **Version:** v0.0.0.0 → v0.0.0.1 (Epoch 0 · Evolution 0 · Echo 0 · Episode 1).
-**Last reconciled:** 2026-07-28 (S206 — G10 updated: entity-forward face per S203, sign-off pending; EP1 release-doc consolidation). See `log/handoffs/done/HANDOFF-S153-EP1-Coherence.md`.
+**Last reconciled:** 2026-10-13 (S248 — gate truth vs evidence; G9 blocker B-17 opened; B-02 reclassified non-gating → B-16). Staging plan: `log/plans/EP1-Staging-and-Grimoire-Audit.md`.
 
 ---
 
@@ -25,12 +25,12 @@
 | G2 | sCoRE deployed to Render and reachable | ✅ live (S106) | B-06 ✓ |
 | G3 | Aether + NeBuLA CDN Workers deployed so theme/entity bundles load on World | ✅ live (bundles HTTP 200, S153) | B-04 ✓ |
 | G4 | A visitor can talk to RaBbLE end-to-end on prod (guest/invite chat path) | ✅ live (SSE streams, S153) | B-01 ✓ |
-| G5 | Chat chain not capped by free-tier 429s (OpenRouter credits or chain override) | ✅ met via Groq fast-chain override (S153) | B-02 = resilience, non-gating |
+| G5 | Chat chain not capped by free-tier 429s (OpenRouter credits or chain override) | ✅ met via Groq fast-chain override (S153) | B-16 = resilience, non-gating |
 | G6 | CORS resolves for the web demo user-type (`allow_origin_regex`) | ✅ ACAO=joinrabble.world (S153) | B-03 ✓ |
-| G7 | RaBbLE-OS meets its **Developer-Preview FLOOR** (see §C) on a generic x86_64 VM | ⏳ verify | — |
+| G7 | RaBbLE-OS meets its **Developer-Preview FLOOR** (see §C) on a generic x86_64 VM | 🟡 evidence in, not signed: VM install PASSED S236 (207 ok / 0 failed, SDDM login), bare metal PASSED S238. Confirmation run on the air ISO (incl. F2 recovery) **deferred by Mark, S248** | B-15 = known edge |
 | G8 | All lockstep members on `new-horizons`, clean, ready to tag | ✅ in-step (status.sh) | B-08 ✓ |
-| G9 | Collective bootstrap (`setup.sh`) verified end-to-end on a fresh machine/VM | ⏳ verify | — |
-| G10 | World prod is a coherent unified EP1 experience (learns Collective + RaBbLE, frames EP1, episodic roadmap) — **no `/chrysalis` or `/xperimental` on prod** | 🔄 redesigned (S203): the S190 liminal passage retired to the Chrysalis reliquary; World now ships the entity-forward, conversation-as-input face built to Mark's brief — `log/plans/EP1-Air-Push-Plan.md` A4. **Mark's sign-off pending.** | — |
+| G9 | Collective bootstrap (`setup.sh`) verified end-to-end on a fresh machine/VM | 🔴 cannot pass yet: manifests clone over SSH; NeBuLA + sCoRE private (visibility undecided). `/setup.sh` redirect live on dev, prod at air merge | B-17 |
+| G10 | World prod is a coherent unified EP1 experience (learns Collective + RaBbLE, frames EP1, episodic roadmap) — **no `/chrysalis` or `/xperimental` on prod** | 🔄 S235 five-beat face live on **dev** ("wake RaBbLE" → boot → live sCoRE chat → Summon → Enter; Mark confirmed live, S248). **Mark's sign-off pending.** `/chrysalis/` still resolves on the main domain (Cloudflare route, decision open); `/xperimental` 404 ✓ | — |
 
 **Decision rule (set by Mark, S129):** the air call is Mark's once these rows are green.
 G4+G5+G6 are the "smallest end-to-end loop" — they are the spine of Genesis. G3 gates the
@@ -47,13 +47,16 @@ Lockstep members (`release_track: episode`) tag together; independent members ar
 |---|---|---|---|
 | **Grimoire** | source of truth | ✅ canonical, in-step | none — tag with the set |
 | **sCoRE** | LLM endpoint | ✅ LIVE on Render; chat verified | none — guest path streams (S153) |
-| **World** | public site | ✅ deployed; ✅ chat live (Groq) | none — G4/G5/G6 ✓ |
+| **World** | public site | ✅ prod deployed (older build); dev = EP1 face | G10 sign-off; prod updates at the air merge |
 | **Aether** | platform theme | ✅ bundle live on CDN | none — G3 ✓ |
 | **NeBuLA** | entity renderer | ✅ bundle live on CDN | none — G3 ✓ |
-| **OS** | substrate (Dev Preview) | ⏳ FLOOR verify | G7 (see §C) |
+| **OS** | substrate (Dev Preview) | 🟡 FLOOR evidence in (S236/S238) | G7 record (see §C) |
 | **BaBbLE** | intake/captures | reference — tagged, not changed | none |
 | **Chrysalis** | genesis archive | `independent` — not tagged in lockstep | none |
 | **Xperimental** | sandbox | `independent` — not tagged in lockstep | none |
+| **Collective** | root + `setup.sh` | ✅ in-step | G9 (B-17) |
+| **ScRiBbLE** | note PWA | `independent` — live at scribble.joinrabble.world | none |
+| **Pocket** | pendant firmware | `independent` — beam to sCoRE live (S243) | none |
 
 ---
 

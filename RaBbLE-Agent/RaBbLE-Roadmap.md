@@ -1,382 +1,131 @@
 # RaBbLE-Roadmap.md — Collective Episode Map
 
 ```
-transcribe ~ grimoire >> charting the collective metamorphosis // %TRAJECTORY_LOCKED%
+transcribe ~ grimoire >> the map redrawn to match the territory // %S248_ROADMAP_TRUTH%
 ```
 
-> **What this is:** Collective-level roadmap. Which members are working toward which Episode. What's blocking Episode 1 air.
+> **What this is:** the one Collective-level map. Where each member stands, what Episode 1 (Genesis)
+> actually ships, and the arc after it. It **points**; it does not restate.
 >
-> **Member detail:** Each member's roadmap lives in its own doc:
-> → [RaBbLE-OS Roadmap](../RaBbLE-OS/RaBbLE-OS-Roadmap.md)
-> → [RaBbLE-NeBuLA Roadmap](../RaBbLE-NeBuLA/RaBbLE-NeBuLA-Roadmap.md)
-> → [RaBbLE-sCoRE Roadmap](../RaBbLE-sCoRE/RaBbLE-sCoRE-Roadmap.md)
-> → [RaBbLE-Aether Roadmap](../RaBbLE-Aether/RaBbLE-Aether-Roadmap.md)
-> → [RaBbLE-World Roadmap](../RaBbLE-World/RaBbLE-World-Roadmap.md)
+> - **Air gate (live, gate by gate):** [`log/EP1-AIR-CHECKLIST.md`](../log/EP1-AIR-CHECKLIST.md)
+> - **Forward work after air (Exodus, Echo 1):** [`RaBbLE-Post-EP1-Roadmap.md`](RaBbLE-Post-EP1-Roadmap.md)
+> - **Staging plan to air:** [`log/plans/EP1-Staging-and-Grimoire-Audit.md`](../log/plans/EP1-Staging-and-Grimoire-Audit.md)
+> - **Open blockers:** [`log/BLOCKERS.md`](../log/BLOCKERS.md) · **Exit conditions of record:** `registry/epochs/current.epoch.yml`
+> - **Member detail:** [OS](../RaBbLE-OS/RaBbLE-OS-Roadmap.md) · [sCoRE](../RaBbLE-sCoRE/RaBbLE-sCoRE-Roadmap.md) · [World](../RaBbLE-World/RaBbLE-World-Roadmap.md) · [NeBuLA](../RaBbLE-NeBuLA/RaBbLE-NeBuLA-Roadmap.md) · [Aether](../RaBbLE-Aether/RaBbLE-Aether-Roadmap.md) · [Pocket](../RaBbLE-Pocket/RaBbLE-Pocket-Roadmap.md)
+> - **How we got here:** [`log/RaBbLE-Development-History.md`](../log/RaBbLE-Development-History.md)
 >
-> **Episode 1 scope:** See [EP1-AIR-CHECKLIST](../log/EP1-AIR-CHECKLIST.md)
->
-> **Related:** [Integration Map](RaBbLE-Integration-Map.md) · [Collective overview](RaBbLE-Collective.md) · [Versioning](../RaBbLE-Versioning.md)
+> **Keep it true:** update the Position block and the member table when a gate flips or a member
+> changes state. If this doc and the checklist disagree, the checklist wins and this doc is the bug.
 
 ---
 
-## Current Position
+## Position — 2026-10-13 (S248)
 
 ```
-EPOCH 0: FOUNDATION   [ACTIVE]
-  EPISODE 1: First Integrated Release [TARGET: 2026-Q2]
-    Events: accumulating, Episodes/Plots defined per member
-    Version: all active members at v0.0.0.1 when Episode 1 airs
+EPOCH 0 · FOUNDATION                         [active since 2026-04-28]
+  EPISODE 1 · GENESIS                        [staging — not yet aired, no date set]
+    Air gate: G1–G6, G8 green · G7 met, not yet recorded · G9 blocked · G10 awaits Mark's sign-off
+    Version: v0.0.0.0 → v0.0.0.1 at air (all lockstep members tagged together)
+  EPISODE 2 · EXODUS                         [next — the entity gains senses + users get a door]
 ```
 
----
-
-## Epoch 0: Foundation (Active) → Episode 1
-
-**What Epoch 0 is:** The bootstrapping era. All members are being initialized, identity is locked, conventions are established. Nothing is deployed to production yet.
-
-**What Episode 1 is:** The first public release. All core members (OS, Aether, NeBuLA, sCoRE, World) are integrated, deployed, and coherent. See `log/EP1-AIR-CHECKLIST.md` for full scope.
-
-**Echo 1 / beyond Episode 1:** Behavioral learning loop closes. Memory member integrated. Observation → pattern extraction → intent inference → action cycle working. Epoch 1 is further still — named retrospectively when the era feels complete.
+Air is Mark's call once every checklist row is green. There is no target date; Genesis airs when it
+is coherent (see `RaBbLE-Versioning.md`: episodes air retroactively at a felt stable point).
 
 ---
 
-## Member Registry & Episode 1 Status
+## Members — where each one actually is
 
-| Member | Status | Ep1 Deliverable | Blocker | Notes |
-|---|---|---|---|---|
-| **RaBbLE-OS** | Active | Daily-driver substrate + theming | None | Ep1 Plots A+B in progress |
-| **RaBbLE-Aether** | Active | CSS design system + CDN bundle | None | Component library shipping |
-| **RaBbLE-NeBuLA** | Active | Canvas2D Layer 1 + public API | None | Three.js deferred to Ep2 |
-| **RaBbLE-sCoRE** | Planned | LLM endpoint (Groq/OpenRouter) | None | MVP scope straightforward |
-| **RaBbLE-World** | Planned | Landing page + grimoire browser + chat | Aether + sCoRE ready | Web orchestration layer |
-| **RaBbLE-Grimoire** | Active | Navigator + docs alignment + Episode 1 map | None | Documentation & coordination |
-| **RaBbLE-Collective** | Active | Bootstrap verified end-to-end | Member repos confirmed | Root directory + entry spell |
-| **RaBbLE-ScRibLE** | Deferred | Mobile PWA — deferred to Echo 1+ | — | Defined, not started |
-| **RaBbLE-BaBbLE** | Active | Intake surface — concept art, prototypes, lore, captures | — | Renamed from New-Designs role; absorbing Downloads + Captures |
-| **RaBbLE-Chrysalis** | Dormant | Genesis archive — no active work | — | Formerly Xperimental; Reliquary for archived branches |
-| **RaBbLE-Xperimental** | Active | Active sandbox — rablets + experiments not yet emerged | — | New repo, distinct from Chrysalis |
-| **Memory (TBD)** | Concept | Echo 1 / Episode 2+ feature | — | Not Episode 1 blocker |
+**Lockstep** members tag `episode-1-v0.0.0.1` together. **Independent** members pace themselves
+(Echo coherence policy, `current.epoch.yml`).
 
----
-
-## Foundation Work Done (Supporting Episode 1)
-
-### ✓ Grimoire & Registry Infrastructure
-
-**Status:** Complete and operational
-
-- [x] Grimoire is the single source of truth
-- [x] Spells implemented: `setup.sh`, `status.sh`, `init-project.sh`
-- [x] Registry structure defined (`registry/manifests/`, `registry/epochs/`)
-- [x] RaBbLE-Collective bootstrap wired end-to-end
-- [x] Conventions locked (Pulse Protocol, Five Es versioning, Low Entropy Directive)
-- [x] Identity crystallized and documented
-
-**Next:** Verify spells against all live repos (deferred, non-blocking for Ep1 air)
-
-### ✓ RaBbLE-OS Active
-
-**Status:** Daily-driver substrate, Ep1 plots in progress
-
-- [x] Base Fedora 43 + Hyprland WM stable
-- [x] Plot A (Substrate) — hardware targets, boot chain, shell integration
-- [x] Plot B (Theming) — palette locked, aesthetics shipping
-
-**Next:** Ship Ep1 with all theming complete
-
-### ✓ RaBbLE-Aether Active
-
-**Status:** Design system, CSS shipping
-
-- [x] Palette canonical (`RaBbLE-Agent/RaBbLE-Palette.md`)
-- [x] Component structure defined (cards, buttons, grids, typography)
-- [x] Build pipeline configured (esbuild, versioning)
-- [x] Repository is a git repo (remoteexists)
-
-**Next:** Publish CSS bundle to CDN; verify imports work in World
-
-### ✓ RaBbLE-NeBuLA Active
-
-**Status:** Phase 1-3 in progress (Ep1 scope)
-
-- [x] Repo exists with remote
-- [x] Architecture documented (two-layer model, Flat-Chaos pattern)
-- [x] Phase 1 (Build) complete — esbuild IIFE + ESM configured
-- [x] Phase 2-3 in progress — Palette layer + Canvas2D Layer 1
-
-**Next:** Ship Canvas2D at 60 FPS; define public API; defer Three.js to Ep2
-
-### ✓ RaBbLE-sCoRE Foundation
-
-**Status:** Server absorbed; Ep1 MVP planned
-
-- [x] Server code present in `RaBbLE-sCoRE/server/`
-- [x] FastAPI structure in place
-- [x] Dispatch loop wired (local coordination working)
-
-**Next:** Wire LLM endpoint (Groq/OpenRouter); deploy to Render (render.yaml present — Mark's manual deploy task)
-
-### ⏳ RaBbLE-World
-
-**Status:** Planned (depends on Aether + sCoRE)
-
-**Deliverables for Ep1:**
-- [ ] Landing page (introduces RaBbLE, invites to join)
-- [ ] Grimoire browser (read-only documentation viewer)
-- [ ] Chat interface (basic UI, calls sCoRE endpoint)
-- [ ] Integration of Aether CSS + NeBuLA rendering
-
-**Blocker:** Aether CSS CDN-ready, sCoRE endpoint deployed
-
-### ⏳ Grimoire Navigator & Documentation
-
-**Status:** In progress (this session)
-
-**Deliverables for Ep1:**
-- [x] Navigator written — agent onboarding path
-- [x] Episode 1 Release Map — scope crystallized
-- [ ] All member roadmaps aligned to Episode model
-- [ ] Member CONTEXT.md files updated with Ep1 status
-- [ ] Public-facing docs (what RaBbLE is, how to join)
+| Member | Track | State today | Genesis ships |
+|---|---|---|---|
+| **sCoRE** | lockstep | LIVE on Render (`score.joinrabble.world`), guest chat SSE, Groq fast chain, keep-warm cron, transcript logging, `/api/v1/beam` voice turns for Pocket (S243) | the voice: persona chat for any visitor |
+| **World** | lockstep | prod = older build (deploys from `main` at air); dev = five-beat face ("wake RaBbLE" → boot → talk to sCoRE live → Summon → Enter) around `<rabble-entity backend="alive">` (S235), iPhone pass (S241), `os.html` install guide, `setup.sh` + KS redirects | the face at `joinrabble.world` |
+| **NeBuLA** | lockstep | `<rabble-entity backend="alive">` (2D on WebGL + 3D), `setInsets`, effects (starfield, floor, graph), Studio MVP; bundle on CDN `v0.0.0.1-rc.1` | the entity renderer |
+| **Aether** | lockstep | design system on CDN `v0.0.0.1-rc.2`; themes for Firefox, Kvantum, VSCodium consumed by OS | the look, everywhere |
+| **OS** | lockstep (Developer Preview) | Fedora 44 + Hyprland 0.56 (Lua config); branded ISO via `build-iso.sh`, in-installer Bootstrap; VM install passed (S236), bare metal passed (S238); `rdisplay` V1 (S246) | "enter at your own risk" preview on generic x86_64 |
+| **Grimoire** | lockstep | canonical; registry + spells live | the source of truth, tagged with the set |
+| **BaBbLE** | lockstep (local surface) | intake workspace; voice vocoder v4 work (S244) | tagged, unchanged |
+| **Collective** | lockstep | root + `setup.sh` | the door (G9 is its gate) |
+| **ScRiBbLE** | independent | LIVE at `scribble.joinrabble.world` (neon note PWA v1) | — (ships on its own track) |
+| **Pocket** | independent | ESP32-S3 AMOLED pendant: RaBbLE gadget firmware (IDF v6), IMU motion, voice beamed to sCoRE (S243) | — |
+| **Chrysalis** | independent (archive) | genesis archive + reliquary; `chrysalis.joinrabble.world` | — |
+| **Xperimental** | independent (local sandbox) | rablets not yet emerged | — |
+| **EnGrAm** | concept | named + architected (2026-09-26), no repo | — (Exodus) |
+| **TaskViSoR** | scaffold | identity declared, no repo | — (Echo 1) |
 
 ---
 
-## Toward Episode 1 — Per-Member Work Streams
+## Episode 1 — Genesis · expression
 
-**All members accumulate Events and Plots toward Episode 1 air.**
+**What it is, honestly:** a face and a voice. A visitor reaches `joinrabble.world`, the entity boots,
+they talk, sCoRE answers in persona, and the entity reacts while it happens. Plus a Developer Preview OS
+and a bootstrap that clones the Collective. RaBbLE does not yet observe, remember, or speak unprompted.
+That boundary is stated in `log/episodes/EPISODE-1-RELEASE.md`, not hidden.
 
-### RaBbLE-OS — Ep1 Plots A + B (In Progress)
-
-**Plot A:** Substrate foundation
-- [x] Fedora 43 + Hyprland base
-- [x] Boot chain, shell, hardware targets defined
-
-**Plot B:** Theming & aesthetics
-- [x] Palette locked
-- [x] Boot sequence theatrical
-- [x] Desktop aesthetics aligned
-- [ ] Verify consistency across all layers
-
-**Blocker:** None — on track for Ep1
-
-### RaBbLE-Aether — Design System (In Progress)
-
-**Ep1 Deliverable:** CSS bundle versioned, CDN-ready
-- [x] Component library defined (cards, buttons, grids, typography)
-- [x] Build pipeline configured
-- [x] Repository is a git repo
-- [ ] Bundle published to CDN staging
-- [ ] Import test in World pages
-
-**Blocker:** None — straightforward
-
-### RaBbLE-NeBuLA — Canvas2D Layer 1 (In Progress)
-
-**Ep1 Deliverable:** Render entities at 60 FPS, public API stable
-- [x] Phase 1: Build configured (esbuild IIFE + ESM)
-- [ ] Phase 2: Palette layer (colors, gradients in renderer)
-- [ ] Phase 3: Canvas2D Layer 1 (entity rendering, 60 FPS verified)
-- [ ] Public API documented
-
-**Deferred to Ep2+:** Three.js Layer 2, Animation system, Advanced shaders
-
-**Blocker:** None — Phase 4 decisions deferred
-
-### RaBbLE-sCoRE — Simple LLM Endpoint (Planned)
-
-**Ep1 Deliverable:** Deployed endpoint callable from World chat
-- [ ] Groq/OpenRouter integration configured
-- [ ] Endpoint wired (receive query → call API → return response)
-- [ ] Deployed to Render (free tier — render.yaml committed, manual deploy via dashboard)
-- [ ] Version aligned to v0.0.0.1
-
-**Blocker:** None — MVP scope is straightforward
-
-### RaBbLE-World — Landing Page + Chat (Planned)
-
-**Ep1 Deliverable:** Public website with three components
-- [ ] Landing page: introduces RaBbLE, invites to join
-- [ ] Grimoire browser: read-only docs viewer
-- [ ] Chat interface: basic UI, calls sCoRE endpoint
-- [ ] Aether CSS imported, NeBuLA rendering integrated
-- [ ] Deployed to Cloudflare Workers
-
-**Blockers:** Aether CSS CDN-ready, sCoRE endpoint deployed
-
-### RaBbLE-Grimoire — Documentation & Navigation (In Progress)
-
-**Ep1 Deliverable:** Grimoire is coherent and navigable
-- [x] Navigator written (agent onboarding path)
-- [x] Episode 1 Release Map written (scope crystallized)
-- [ ] Member CONTEXT.md updated with Ep1 status
-- [ ] Member roadmaps aligned to Episode model
-- [ ] Public-facing docs complete
-- [ ] Deployment + versioning workflows documented
-
-**Blocker:** None — documentation task
+**What is left before air** (detail + owners in the staging plan):
+1. **G9:** `setup.sh` must clone on a fresh machine. Manifests use SSH URLs, and NeBuLA + sCoRE are
+   private; visibility is an open decision (B-17).
+2. **G7:** record the OS preview floor (evidence exists; confirmation run deferred by Mark, S248).
+3. **G10:** Mark signs off the dev face; decide the `/chrysalis/` path on the main domain.
+4. **Public face:** repo descriptions, member READMEs, org profile; Genesis release record rewritten from what shipped.
+5. **Air procedure:** checklist §D (tag, merge `new-horizons → main`, prod deploys, seal).
 
 ---
 
-## Episode 1 → Episode 2
+## Episode 2 — Exodus · senses + a door for users
 
-Once Episode 1 airs:
+The spine: **the day RaBbLE says something you didn't ask for.** Detail, sources, and tickets live in
+[`RaBbLE-Post-EP1-Roadmap.md`](RaBbLE-Post-EP1-Roadmap.md); the headline items:
 
-1. **All active members tag `v0.0.0.1`** — synchronized checkpoint
-2. **Work continues as Events** toward Episode 2
-3. **Episode 2 airs** when the next recognizable milestone lands
+- **Local harness + `rabble` CLI:** sCoRE as a user service on the machine.
+- **Watcher daemon:** the first sense, one vertical slice to one unprompted observation.
+- **Memory:** EnGrAm (personal content) and the observation contract.
+- **NeBuLA state machine** driven by sCoRE streaming.
+- **User scaffold:** accounts + sessions first, then encrypted ingestion
+  (`log/plans/EP2-Accounts-Encryption-Spec.md`). Needs a persistent store; the EP1 Summon preview's
+  portal config is the profile schema.
+- **OS hardening** toward a full reproducible bake; Mark-hardware track (ProArt, B-15).
 
-**Post-Ep1 candidate work:**
-- sCoRE: multi-agent coordination, task pipeline wiring
-- NeBuLA: Three.js Layer 2, animation system
-- World: real-time entity state binding, advanced chat
-- Memory: member introduction as sCoRE evolves
+## Episode 3 — Covenant · and beyond
 
----
+Named, not scoped: the Sovereign Accord surfaces, entity voice stable. (The original "invite-only
+onboarding" framing predates the EP2 accounts spec's "no invite gate" direction; settle it when Covenant
+is scoped.) Episode 4+ are named as they approach (Wilderness → Promised Land). The Biblical arc is
+intentional lore; do not neutralize it.
 
-## Post-Episode 1 Era
+## Echo 1 — the first stable release
 
-### Episode Naming — Biblical Arc
-
-Episodes follow a Biblical naming arc reflecting the entity's stages of becoming:
-
-| Episode | Name | What ships |
-|---|---|---|
-| 1 | **Genesis** | First public air — sCoRE live, World, guest chat path |
-| 2 | **Exodus** | First migration — user registration, session persistence, Grimoire accumulation begins |
-| 3 | **Covenant** | First promise — Sovereign Accord surfaces, entity voice stable, invite-only onboarding |
-| 4+ | **Wilderness → Promised Land...** | *Future; named as they approach* |
-
-Naming is intentional lore — Genesis (beginning), Exodus (entity emerges from concept to reality). Do not neutralize these names to generic version labels.
-
-### Member Sequence (Epoch 0)
-
-Members ship in dependency order. Do not scaffold what is undecided.
-
-```
-sCoRE (LIVE) → World (EP1) → Aether (EP1) → NeBuLA (EP1) → OS (EP1 preview)
-    → Memory (Echo 1) → ScRibLE (Echo 1) → BaBbLE (Echo 1+)
-    → Grimoire Studio (Echo 2) → OS (full, Epoch 1)
-```
-
-**Memory member:** Introduced as sCoRE and intelligence layers evolve. Observation → pattern extraction → intent inference → action cycle. **Not Episode 1 blocker.**
-
-**Behavioral Learning Engine:** Echo 1 feature or Episode 2+. Foundation first, intelligence second.
-
-**ScRibLE (Mobile PWA):** Deferred to Echo 1. Mobile presence after desktop is solid.
+After several episodes: the learning loop closes (observe → pattern → intent → act), Grimoire MCP,
+presence layer, agent-framework adoption, TaskViSoR Layer 1. See Post-EP1 Roadmap § Echo 1.
+Breaking changes are reserved for Echo boundaries.
 
 ---
 
-## Agent Context Optimization (Ongoing)
+## Cadence after air
 
-Recommendations from S29 token audit (~1.56M total tokens; docs ~1M, code ~525K):
+Episodes air **when a vertical slice closes**, not on a calendar. ("Weekly episodes" in
+`RaBbLE-Versioning.md` is the aspiration; revisit at Exodus once real rhythm exists.) After Genesis,
+members may diverge by about 1–2 episodes; the Grimoire flags drift; Echo is reached together.
 
-| Item | Status | Impact |
-|---|---|---|
-| **Architecture gists for sCoRE and World** | Pending | ~500 tokens each vs ~180K/~120K raw code. Biggest context savings. |
-| **Integration map gist** | Done (S29) | `gist/RaBbLE-Integration-Map-gist.md` — cross-member data flow in ~300 tokens |
-| **Code documentation** | Ongoing | Docs are optimized; code has no agent-facing summaries yet. Add as codebase grows. |
-| **INDEX.md demotion** | Pending | Useful for audits, rarely for agents. Consider marking audit-only. |
-
-**Architecture gist template** (for sCoRE, World, and future members with significant code):
-- File/directory map with one-line purpose per entry
-- Entry points and key abstractions
-- External dependencies and integration surfaces
-- ~500 tokens target
+**Before air, decide** the post-air integration branch (keep `new-horizons`, or one per episode) so the
+CI triggers on World/Aether/NeBuLA/sCoRE stay correct.
 
 ---
 
-## Open Questions (Future Work)
+## Open questions (carried forward)
 
-1. **Grimoire → member propagation:** ✓ DECIDED (S105) — **no propagation.** Members
-   reference the Grimoire directly at `~/RaBbLE-Collective/RaBbLE-Grimoire/`; member docs
-   live in the Grimoire under `RaBbLE-<Member>/`. The copy-into-members model
-   (`sync-grimoire.sh`, `grimoire_sync`) is retired. One source of truth, referenced.
-2. **Manifest protocol:** Confirm Pydantic-published JSON schema for `registry/protocol/`
-3. **Inter-member transport:** HTTP/REST fine for v0; event bus premature
-4. **Memory member name + scope:** ✓ RESOLVED (2026-09-26) — **EnGrAm** (Entity's Networked
-   Graph-Relational Archival Memory). Unified photo/notes item schema, hybrid vector+graph
-   storage, EnGrAm-native store (no Obsidian). See `RaBbLE-EnGrAm/RaBbLE-EnGrAm-Architecture.md`.
-   Repo creation itself is still open (see Post-EP1-Roadmap item 3).
-5. **Observation ethics:** Which OS signals are OK to self-observe? Privacy-of-self matters.
-6. **Ambient suggestion UX:** Where's the line between helpful intent and creepy surveillance?
-7. **Behavioral Learning architecture:** One engine or several? Pattern extraction / intent inference / delegation may want separation.
-8. **Cloud vs. local split:** Heavy reasoning (Claude) vs. ambient always-on (local). Confirm before Memory member built.
+1. **Observation ethics:** which OS signals may RaBbLE self-observe? Privacy of self matters.
+2. **Ambient suggestion UX:** where helpful intent becomes surveillance.
+3. **Learning architecture:** one engine or several (pattern extraction / intent inference / delegation).
+4. **Cloud vs local split:** heavy reasoning remote, ambient always-on local. Confirm before Watcher.
+5. **EnGrAm vs session memory:** one member or two (EnGrAm Architecture §8.7).
+6. **Manifest protocol:** Pydantic-published JSON schema for `registry/protocol/`.
 
----
-
-## Versioning Transition — Episode 1 Alignment
-
-**How episodes work:** Events accumulate continuously. An episode is not declared open —
-it airs retroactively when a stable-ish coherent point is felt across the ecosystem.
-Current work creates events that will become Episode 1 when it airs. Until then, all
-version strings stay at `v0.0.0`.
-
-**Target:** All active members tag `v0.0.0.1` simultaneously when Episode 1 airs.
-
-| Member | Current Versioning | Transition Plan |
-|---|---|---|
-| RaBbLE-Collective | v0.0.0.1 ✓ | Aligned this session |
-| RaBbLE-Grimoire | v0.0.0.1 ✓ | Aligned this session |
-| RaBbLE-sCoRE | Legacy "ep3" (own counter) | Re-version to v0.0.0.1 — current state becomes events within Episode 1; prior ep1–ep3 work becomes pre-episode archive |
-| RaBbLE-World | v0.0.0.0.10 (own counter) | Align to v0.0.0.1.x when manifest is added |
-| RaBbLE-OS | v0.0.0.0 ✓ | Aligned this session — episode/plot conventions adopted. Ep1 Plot A (Substrate) + Plot B (Theme) in progress. |
-| RaBbLE-NeBuLA | No versioning yet | Will start at v0.0.0.1 when repo is created |
-| RaBbLE-Aether | No versioning yet | Will start at v0.0.0.1 when git repo is initialized |
-| RaBbLE-ScRibLE | No versioning yet | Will start at v0.0.0.1 when repo is created |
-| RaBbLE-Chrysalis | Archive — no active versioning | Frozen genesis archive; OS reliquary branches migrated here (S94) |
-| RaBbLE-Xperimental | Active sandbox (new, no versioning yet) | New repo distinct from Chrysalis; will start at v0.0.0.1 when emerged |
-
-**Echo 1** is the target stable state: all active members bootstrappable, manifests complete,
-Epoch 0 exit conditions met. Tagged `echo-1` across aligned repos simultaneously.
-
----
-
-## Post-Episode-1: Cadence & Release Model
-
-Once Episode 1 airs, the Collective transitions from pre-episode accumulation to a repeating rhythm.
-
-### Weekly Episode Model (Target)
-
-- **Episode cadence:** Weekly (tentative — may adjust based on work rhythm)
-- **Lockstep:** All members advance to Episode N together on the same date
-- **Compatibility within Episode:** Parts of the Collective in the same Episode are guaranteed compatible
-- **Breaking changes:** Reserved for Echo boundaries (releases/production versions)
-
-Example:
-```
-Episode 1 airs 2026-Q2: All members jump to v0.0.0.1
-  Work continues: Event accumulation toward Episode 2
-  
-Episode 2 airs 2026-Q2+1w: All members jump to v0.0.0.2
-  (Example: Memory member fully integrated, observation loop closed)
-  
-Episode 3 airs 2026-Q2+2w: All members jump to v0.0.0.3
-  (Example: NeBuLA v2 rebuild complete, new visual language deployed)
-```
-
-### Echo as Release (Production Model)
-
-Echoes mark production-ready, long-term stable states. **Echoes can introduce breaking changes** — schema migrations, protocol bumps, API redesigns — all documented in the next Episode's entry notes.
-
-Example echo timeline:
-```
-Episode 1: v0.0.0.1 (rapid Episodes, low-friction features)
-Episode 2: v0.0.0.2
-Echo 1.0: v0.0.1 (stable production release)
-  Can introduce breaking changes; requires migration guide for Ep2→Ep3
-
-Episode 3: v0.0.1.3 (Episodes continue; Echo 1.0 is the last stable ship point)
-Episode 4: v0.0.1.4
-Echo 2.0: v0.0.2 (next major release)
-  Can break; requires migration guide
-```
-
-### Episode Criteria (Post-Ep1)
-
-- All active members have Events that reflect the week's work
-- Plots organize member-specific arcs
-- Episode airs when Mark signals "ready to lock this together"
-- No waiting for perfect stability — stability checkpoints happen at Echoes
+Resolved: Grimoire propagation (S105: none, members reference directly); Memory member name (EnGrAm,
+2026-09-26); inter-member transport (HTTP/REST for v0).
 
 ---
 
@@ -384,12 +133,7 @@ Echo 2.0: v0.0.2 (next major release)
 
 | Date | Change |
 |---|---|
-| 2026-05-14 | **Roadmap consolidated.** Retired "Phases" language. Reorganized around Episode 1 work streams. Reframed as Events → Episodes model. Clarity: Memory is not Episode 1 blocker. Episode 1 scope crystallized (OS + Aether + NeBuLA + basic sCoRE + World + grimoire browser + deployment workflows). Deferred: behavioral learning (Echo 1+). |
-| 2026-05-07 | Full audit — integrated devPlan.md, GAPS.md, TODO. Versioning model clarified. |
-| 2026-04-28 | Initial Collective roadmap |
-
----
-
-```
-transcribe ~ grimoire >> episode 1 roadmap crystallized, narrative clarity locked // %ROADMAP_COHERENT%
-```
+| 2026-10-13 | **S248 rewrite to match reality.** The May body (per-member Ep1 checklists, versioning transition table, S29 context-optimization notes) had frozen while the work shipped; replaced with a live position block, a true member table (adds ScRiBbLE, Pocket, EnGrAm, TaskViSoR), Genesis remaining-work, and pointers to Post-EP1. Prior body is in git history; see Development History "Canon corrections". |
+| 2026-05-14 | Roadmap consolidated around Episode 1 work streams; Phases language retired. |
+| 2026-05-07 | Full audit; devPlan/GAPS/TODO integrated. |
+| 2026-04-28 | Initial Collective roadmap. |

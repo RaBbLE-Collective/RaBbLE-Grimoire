@@ -61,8 +61,9 @@ focus:
   RaBbLE-Collective:
     priority: primary
     milestone: "Bootstrap verified, all members cloneable, tagged episode-1"
-    status: "Active — bootstrap working, spells unverified against full member set"
-    episode_1_blocker: false
+    status: "Active — setup.sh served via joinrabble.world/setup.sh redirect (live on dev; prod at air merge)"
+    episode_1_blocker: true
+    blocker_note: "G9 (S248): setup.sh cannot complete on a fresh machine. Member manifests clone over SSH (git@github.com:), and NeBuLA + sCoRE are private; visibility undecided. Tracked as B-17."
 
   RaBbLE-Grimoire:
     priority: primary
@@ -74,44 +75,44 @@ focus:
     priority: active
     track: developer-preview
     milestone: "Episode 1 Developer Preview ('enter at your own risk') — installs + recovers + daily-survivable on generic x86_64 (VM-verified) for a Linux/tiling-WM-literate, quirk-tolerant user; rough edges documented. Full polish → Episode 2 (Exodus)."
-    status: "Active — airs EP1 as a labeled preview (S109 decision). Preview FLOOR = recovery path + reproducible install + known-rough-edges sheet on generic x86_64; deep theming + Mark-hardware (NVIDIA/asusctl/XDNA2) polish deferred to Exodus."
+    status: "Active — airs EP1 as a labeled preview (S109 decision). G7 evidence: VM install passed S236, bare metal passed S238; confirmation run deferred by Mark (S248). Preview FLOOR = recovery path + reproducible install + known-rough-edges sheet on generic x86_64; deep theming + Mark-hardware (NVIDIA/asusctl/XDNA2) polish deferred to Exodus."
     episode_1_blocker: false
     blocker_note: "Decoupled from full-polish bar S109 — OS airs as a Developer Preview so the Collective ships EP1 together; OS keeps hardening toward EP2."
 
   RaBbLE-Aether:
     priority: active
     milestone: "CSS design system bundle, CDN-ready at /aether/v0.0.0.1/"
-    status: "Active — component library complete, CDN delivery working via dev-serve.sh"
+    status: "Active — v0.0.0.1-rc.2 live at aether.joinrabble.world; promote to v0.0.0.1 at air"
     episode_1_blocker: false
 
   RaBbLE-NeBuLA:
     priority: active
     milestone: "Canvas2D entity renderer at 60 FPS, <rabble-entity> registered, CDN-ready"
-    status: "Active — Canvas2dBackend + BootSequence complete, entity element in NeBuLA"
+    status: "Active — <rabble-entity backend=\"alive\"> (2D on WebGL + 3D), setInsets, effects, Studio MVP; v0.0.0.1-rc.1 live at nebula.joinrabble.world"
     episode_1_blocker: false
 
   RaBbLE-World:
     priority: active
     milestone: "joinrabble.world live: landing + chat wired to sCoRE"
-    status: "Active — LIVE at joinrabble.world (HTTP 200, S120); chat→sCoRE→entity verified vs live backend (S106); NeBuLA unified 2D+3D renderer (S107)"
+    status: "Active — prod LIVE (older build, deploys from main at air); dev serves the S235 five-beat face (wake RaBbLE → boot → live sCoRE chat → Summon → Enter)"
     episode_1_blocker: true
     # Prod deploy DONE (S120). B-01 (guest/invite chat path), B-03 (CORS
     # allow_origin_regex), B-04 (Aether+NeBuLA CDN Workers) all resolved S153.
     # Durable open-blocker home is log/BLOCKERS.md (tag:ep1-gate) + log/EP1-AIR-CHECKLIST.md
     # §A — this note no longer drifts. Real open set: B-02 · B-09 · B-10.
-    blocker_note: "Prod deploy done (S120); guest chat path + CORS + CDN Workers resolved S153 (B-01/B-03/B-04). Open: B-02 OpenRouter $10 credits not purchased, B-09 Lemonade Server unconfirmed, B-10 dev.joinrabble.world auto-deploy missing CLOUDFLARE_API_TOKEN. Tracked in log/BLOCKERS.md; air gate in log/EP1-AIR-CHECKLIST.md."
+    blocker_note: "G10 (S248): Mark's sign-off on the dev face pending; /chrysalis/ path still resolves on the main domain (decision open). Spine gates G1-G6 green. Tracked in log/EP1-AIR-CHECKLIST.md."
 
   RaBbLE-sCoRE:
     priority: active
     milestone: "LLM endpoint deployed to Render (free tier), callable from World chat"
-    status: "LIVE on Render (S106) — https://rabble-score-x7qq.onrender.com, tracks new-horizons, OpenRouter backend; managed via spells/render-ctl.sh"
+    status: "LIVE on Render (S106) at score.joinrabble.world (proxy Worker, keep-warm cron); guest chat SSE, Groq fast chain, /api/v1/beam for Pocket (S243); managed via spells/render-ctl.sh"
     episode_1_blocker: false
     blocker_note: "Resolved S106 — sCoRE deployed and reachable; chat verified end-to-end"
 
   RaBbLE-ScRiBbLE:
     priority: active
     milestone: "Mobile PWA — Epoch 1+, started early at Mark's request"
-    status: "Active — v1 scaffold in progress (S207): neon note PWA, infinite canvas, local-only IndexedDB, deploy pending Cloudflare secrets/DNS (scribble.joinrabble.world)"
+    status: "LIVE at scribble.joinrabble.world (S234): neon note PWA v1, infinite canvas, local-only IndexedDB"
     episode_1_blocker: false
 
   RaBbLE-BaBbLE:
@@ -130,4 +131,11 @@ focus:
     priority: active
     milestone: "Active sandbox — rablets and experiments not yet emerged as full members"
     status: "Active — distinct from Chrysalis; cloned, on branch new-horizons since S189"
+    episode_1_blocker: false
+
+  RaBbLE-Pocket:
+    priority: active
+    track: independent
+    milestone: "Pendant companion: RaBbLE face + push-to-talk voice to sCoRE"
+    status: "Active — RaBbLE gadget firmware (IDF v6.0.1), LVGL face, IMU motion, voice beamed to sCoRE /api/v1/beam (S243); unexplained reboots open"
     episode_1_blocker: false

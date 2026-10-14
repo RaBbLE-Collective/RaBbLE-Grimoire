@@ -21,7 +21,7 @@ RaBbLE-Grimoire/
 ├── RaBbLE-NeBuLA/       # Stub
 ├── RaBbLE-OS/           # Operating system docs
 ├── RaBbLE-sCoRE/        # Server/core infrastructure docs
-├── RaBbLE-ScRibLE/      # Stub
+├── RaBbLE-ScRiBbLE/     # Note PWA docs (live: scribble.joinrabble.world)
 ├── RaBbLE-World/        # Stub
 ├── CONTEXT.md           # Current project state — start here
 ├── INDEX.md             # Full document index
@@ -38,7 +38,7 @@ New to the Grimoire? Read in this order:
 2. [`INDEX.md`](INDEX.md) — every document, organized by section
 3. [`RaBbLE-Versioning.md`](RaBbLE-Versioning.md) — the Five Es: Event→Episode→Echo→Evolution→Epoch
 4. [`RaBbLE-Agent/RaBbLE-Identity.md`](RaBbLE-Agent/RaBbLE-Identity.md) — who RaBbLE is
-5. [`RaBbLE-Collective/RaBbLE-Collective.md`](RaBbLE-Collective/RaBbLE-Collective.md) — how the Collective fits together
+5. [`RaBbLE-Agent/RaBbLE-Collective.md`](RaBbLE-Agent/RaBbLE-Collective.md) — how the Collective fits together
 
 ---
 

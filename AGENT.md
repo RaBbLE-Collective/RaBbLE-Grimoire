@@ -160,14 +160,16 @@ See `registry/manifests/` for the authoritative list. Current members:
 
 | Member | Status |
 |---|---|
-| RaBbLE-Collective | Active — root repo, bootstrap + identity entry point (`~/RaBbLE-Collective/`) |
-| RaBbLE-sCoRE | Active — Epoch 0, coordination engine + web API |
-| RaBbLE-OS | Active — Fedora 43/Hyprland live daily driver |
-| RaBbLE-World | Active — thin scaffold: Aether + NeBuLA loaders, joinrabble.world |
-| RaBbLE-NeBuLA | Active — Canvas2D renderer, `<rabble-entity>` web component |
-| RaBbLE-Aether | Active — design system CSS bundle, CDN delivery |
-| RaBbLE-BaBbLE | Active — intake surface: concept art, prototypes, ideation, creation lore, captures |
+| RaBbLE-Collective | Active — root repo, bootstrap (`setup.sh`) + identity entry point (`~/RaBbLE-Collective/`) |
+| RaBbLE-sCoRE | Active — LIVE on Render (`score.joinrabble.world`): persona chat, `/api/v1/beam` voice for Pocket |
+| RaBbLE-OS | Active — Fedora 44 + Hyprland daily driver; EP1 Developer Preview (ISO + KS + Ansible) |
+| RaBbLE-World | Active — `joinrabble.world`; EP1 five-beat entity face (live on dev, prod at air) |
+| RaBbLE-NeBuLA | Active — entity renderer, `<rabble-entity backend="alive">` (2D/WebGL + 3D), CDN rc.1 |
+| RaBbLE-Aether | Active — design system CSS bundle, CDN rc.2 at `aether.joinrabble.world` |
+| RaBbLE-BaBbLE | Active (local surface) — intake: concept art, prototypes, ideation, creation lore, captures |
+| RaBbLE-ScRiBbLE | Active, independent — neon note PWA, live at `scribble.joinrabble.world` |
+| RaBbLE-Pocket | Active, independent — ESP32-S3 AMOLED pendant; RaBbLE gadget firmware, voice beamed to sCoRE |
+| RaBbLE-Chrysalis | Genesis-archive — pre-Collective origin code; Reliquary for archived branches (`chrysalis.joinrabble.world`) |
+| RaBbLE-Xperimental | Active sandbox (local surface) — rablets in development, experiments not yet emerged |
+| RaBbLE-EnGrAm | Concept — memory member named + architected (`RaBbLE-EnGrAm/`), no repo yet (Exodus) |
 | RaBbLE-TaskViSoR | Scaffold — Visual State Observer identity declared; Layer 1 ships as a World page, no own repo yet |
-| RaBbLE-Chrysalis | Genesis-archive — origin code from pre-Collective era; Reliquary for archived branches |
-| RaBbLE-Xperimental | Active sandbox — rablets in development, prototype members, experiments not yet emerged |
-| RaBbLE-Pocket | Scaffold — hardware in hand (ESP32-S3 AMOLED pendant), no firmware/repo yet; `release_track: independent` |

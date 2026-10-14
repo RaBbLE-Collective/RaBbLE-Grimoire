@@ -12,14 +12,17 @@
 | Member | Role | Status |
 |---|---|---|
 | RaBbLE-Grimoire | Source of truth: identity, ethos, conventions, registry, spells | Active |
-| RaBbLE-sCoRE | FastAPI coordination server, intent→action engine | Epoch 0 active |
-| RaBbLE-OS | Fedora 43 + Hyprland, Ansible-driven substrate | Live, daily-driven |
-| RaBbLE-NeBuLA | Canvas2D animated frontend, entity expression | Canvas2D complete |
-| RaBbLE-World | Web presence + entity chat. joinrabble.world | Active |
-| RaBbLE-Aether | Design system, canonical assets, CDN delivery | CSS bundle live |
+| RaBbLE-sCoRE | FastAPI coordination server, intent→action engine | LIVE on Render |
+| RaBbLE-OS | Fedora 44 + Hyprland, Ansible-driven substrate | Daily-driven; EP1 Dev Preview |
+| RaBbLE-NeBuLA | Entity renderer, `<rabble-entity>` 2D + 3D | CDN rc.1 |
+| RaBbLE-World | Web presence + entity chat. joinrabble.world | EP1 face on dev |
+| RaBbLE-Aether | Design system, canonical assets, CDN delivery | CDN rc.2 |
 | RaBbLE-BaBbLE | Intake surface: concept art, prototypes, lore | Present intake |
+| RaBbLE-ScRiBbLE | Neon note PWA, scribble.joinrabble.world | Live, independent |
+| RaBbLE-Pocket | ESP32-S3 pendant, voice to sCoRE | Active, independent |
 | RaBbLE-Chrysalis | Genesis archive, origin code reliquary | Archive |
 | RaBbLE-Xperimental | Active sandbox, prototype members, experiments | High entropy |
+| RaBbLE-EnGrAm | Memory member (personal content) | Concept, Exodus |
 
 ---
 

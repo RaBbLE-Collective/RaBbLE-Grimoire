@@ -5,13 +5,13 @@ slug: RaBbLE-Pocket
 description: "AI companion pendant/wearable device, phone-tethered, wake-word driven"
 role: experimental
 
-repo: TBD
+repo: TBD                          # private repo exists (github.com/RaBbLE-Collective/RaBbLE-Pocket); kept TBD so setup.sh skips it until visibility is decided (S248, see B-17)
 branch: main
 worktree_root: ~/RaBbLE-Collective/RaBbLE-Pocket
 
 phase: 0
 epoch: 0
-status: scaffold                   # no repo yet — hardware bring-up phase, firmware not started
+status: active                     # RaBbLE gadget firmware (IDF v6.0.1) + voice beam to sCoRE live (S243)
 release_track: independent         # hardware/firmware prototyping, not part of EP1 web/OS lockstep
 
 palette_version: "1.0"

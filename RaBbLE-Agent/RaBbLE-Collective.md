@@ -34,16 +34,17 @@ Each member of the Collective is an independent project. Each is also an organ o
 | Member | Role | Status |
 |---|---|---|
 | **RaBbLE-Grimoire** | Source of truth: identity, ethos, lore, conventions, registry, spells | Active |
-| **RaBbLE-sCoRE** | Coordination server + web API (FastAPI). Intent → action engine, Railway-deployable. | Epoch 0 active |
-| **RaBbLE-OS** | Fedora 43 → Hyprland WM. The substrate everything runs on. | Live, daily-driven |
-| **RaBbLE-NeBuLA** | Frontend renderer / visual entity (Canvas2D + Flat-Chaos Runtime). | Active — Canvas2D complete |
-| **RaBbLE-World** | Web presence + entity chat surface. joinrabble.world. | Active |
-| **RaBbLE-Aether** | Visual design system and canonical asset library. CDN delivery. | Active — CSS bundle live |
+| **RaBbLE-sCoRE** | Coordination server + web API (FastAPI). Intent → action engine. | LIVE on Render (`score.joinrabble.world`) |
+| **RaBbLE-OS** | Fedora 44 + Hyprland WM. The substrate everything runs on. | Daily-driven; EP1 Developer Preview |
+| **RaBbLE-NeBuLA** | Frontend renderer / visual entity (`<rabble-entity>`, 2D + 3D, Flat-Chaos Runtime). | Active — CDN rc.1 |
+| **RaBbLE-World** | Web presence + entity chat surface. joinrabble.world. | Active — EP1 face on dev |
+| **RaBbLE-Aether** | Visual design system and canonical asset library. CDN delivery. | Active — CDN rc.2 |
 | **RaBbLE-BaBbLE** | Intake surface — concept art, prototypes, ideation, creation lore, captures. | Active — present intake |
 | **RaBbLE-Chrysalis** | Genesis archive — origin code from pre-Collective era. Reliquary for archived branches. | Genesis-archive |
 | **RaBbLE-Xperimental** | Active sandbox — rablets in development, prototype members, experiments not yet emerged. | Active — high entropy |
-| **RaBbLE-ScRibLE** | Mobile notes PWA (iPhone/iPad). | Defined — not started |
-| **Memory member (TBD)** | Observation store, pattern extraction, retrieval. | Concept — Epoch 1 blocker |
+| **RaBbLE-ScRiBbLE** | Mobile notes PWA (iPhone/iPad). | Live at scribble.joinrabble.world (S234); independent track |
+| **RaBbLE-Pocket** | ESP32-S3 AMOLED pendant: the entity off-screen, push-to-talk voice to sCoRE. | Active — independent track |
+| **RaBbLE-EnGrAm** | Memory member: personal-content store, hybrid vector + graph (`RaBbLE-EnGrAm/`). | Concept — Exodus |
 
 ---
 

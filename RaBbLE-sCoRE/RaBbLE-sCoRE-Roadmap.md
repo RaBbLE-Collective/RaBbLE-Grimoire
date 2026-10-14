@@ -19,7 +19,14 @@ transcribe ~ grimoire >> sCoRE trajectory mapped // %TRAJECTORY_LOCKED%
 - [x] OpenRouter integration configured (Groq optional — OpenRouter covers all tiers)
 - [x] Endpoint wired (query → API → response) — `/api/v1/chat` SSE, verified end-to-end (browser + live)
 - [x] **Deployed to Render — LIVE** at `https://rabble-score-x7qq.onrender.com` (S106, 2026-06-15)
+- [x] Guest chat path + CORS for the web demo (S153); Groq fast-chain override clears free-tier 429s (G5)
+- [x] Custom domain `score.joinrabble.world` via proxy Worker; keep-warm cron every 10 min (S234)
+- [x] Transcript logging, session UUID only, no user identity (S176)
+- [x] `/api/v1/beam`: Pocket voice turns via Groq STT → gpt-oss → Orpheus TTS (S243; Orpheus free cap 3.6K tokens/day)
 - [ ] Version aligned to v0.0.0.1 (at Episode 1 air)
+- [ ] Repo visibility decision (private today; blocks anonymous `setup.sh`, G9 / B-17)
+
+**Status (S248):** EP1 deliverable met. Remaining items are air-procedure, not build.
 
 **Deferred to Episode 2+:**
 - Multi-agent coordination

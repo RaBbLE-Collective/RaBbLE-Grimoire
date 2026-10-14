@@ -352,6 +352,13 @@ non-mysterious cause.**
 
 ## Canon corrections worth knowing (so you don't reintroduce stale framing)
 
+- **The May 2026 Collective Roadmap froze while the work shipped** (rewritten S248). If you
+  find older text saying EP1 targets "2026-Q2", sCoRE/World are "Planned", NeBuLA is
+  "Canvas2D Layer 1 with Three.js deferred to Ep2", World ships a "grimoire browser", or
+  ScRiBbLE is "deferred, not started": all stale. sCoRE went live S106, World S120, Three.js
+  landed S107, the World face became the five-beat alive entity (S235), ScRiBbLE went live S234.
+  EP1 has no date; it airs when the checklist is green.
+
 - **"Epoch 1 (future)"** is wrong phrasing — corrected at least twice. Epoch 1 is a
   far-future era change (years out); the near horizon beyond Episode 1 is **Echo 1**
   (first big stable release after several episodes). Hierarchy: Event < Episode < Echo

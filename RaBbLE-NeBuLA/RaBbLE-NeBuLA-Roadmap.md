@@ -11,24 +11,29 @@ transcribe ~ grimoire >> rearchitecture integrated, effects scope added, respons
 
 ## Episode 1 Commitment (This Member)
 
-**Ep1 Deliverable:** Canvas2D Layer 1 functional (modular systems, 60 FPS, public API stable) + effects engine role established
+**Ep1 Deliverable:** the entity renderer behind World's face, `<rabble-entity>`, delivered by script tag from CDN.
 
-**Status:** Phases 1-2 complete. Phase 3 (rearchitecture) in progress.
+**Status (S248):** shipped as a release candidate. `v0.0.0.1-rc.1` live at `nebula.joinrabble.world`; World consumes it.
 
 **What ships:**
-- [x] Phase 1: Build configured (esbuild IIFE + ESM)
-- [x] Phase 2: Palette layer (colors, gradients in renderer)
-- [ ] Phase 3: Canvas2D Layer 1 — modular systems architecture (rearchitecture)
-- [ ] Phase 3a: Effects systems — absorb bg.js into NeBuLA (ambient particles, grid, cursor trail, ripples)
-- [ ] Public API documented (`<rabble-entity>`, `<rabble-ambient>`, `window.NeBuLA`)
+- [x] Build configured (esbuild IIFE + ESM); palette layer
+- [x] Canvas2D rearchitecture (modular systems, spatial hash; see `RaBbLE-NeBuLA-Rearchitecture.md`)
+- [x] Three.js environment layer (S107); unified 2D+3D renderer
+- [x] Effects absorbed from World: starfield, `<rabble-floor>`, `<rabble-graph>` custom elements (S182)
+- [x] Studio MVP: WYSIWYG drag-drop page builder (S198)
+- [x] `<rabble-entity backend="alive">`: host-driven boot, moods + Aether states, 2D on WebGL by default (S234–S235)
+- [x] `setInsets()` so the entity settles above host UI (S235)
+- [x] Animation rig POC in `specs/rig/` (S233)
+- [ ] `setInsets` and the alive backend documented in `RaBbLE-NeBuLA-API.md`
+- [ ] At air: promote `rc.1` → `v0.0.0.1`; `package.json` version to match
+- [ ] Repo visibility decision (private today; blocks anonymous `setup.sh`, G9 / B-17)
 
-**Blocker:** Canvas2D rearchitecture must land before effects systems or Three.js work.
-
-**Prerequisite:** `RaBbLE-NeBuLA-Rearchitecture.md` — 7-phase plan for modular decomposition, frame budgeting, spatial hash, glow compositing, effects absorption, World template, Three.js decomposition.
+> **Note:** the Episode Tracker further down uses NeBuLA's **own pre-Collective episode numbering** and
+> describes the scaffold era. It is kept as design history; the checklist above is the current state.
 
 **Deferred to Episode 2+:**
-- Three.js Layer 2 rebuild (rearchitecture Phase 7 lays groundwork)
-- Animation system
+- Entity state machine driven by sCoRE streaming (Exodus)
+- Animation system on the rig (shared with Pocket's puppet pipeline)
 - Advanced shaders, WebGPU
 
 **Dependencies:**
@@ -46,7 +51,7 @@ transcribe ~ grimoire >> rearchitecture integrated, effects scope added, respons
 
 ---
 
-> **Status:** Core data layer (Entity, Stream, Runtime) implemented. Backends and puppet layer being built.
+> **Status (historical, pre-S107):** Core data layer (Entity, Stream, Runtime) implemented. Backends have since shipped; see Episode 1 Commitment above.
 > **NeBuLA-JS:** Archived in `RaBbLE-Xperimental/JS-Xperiments/NeBuLA-JS/` — reference only, do not build on that codebase.
 > **Implementation plan:** `RaBbLE-NeBuLA-Plan.md` — detailed step-by-step agent plan.
 
@@ -58,8 +63,8 @@ NeBuLA is the Collective's unified rendering engine. It does not target a single
 
 | Backend | Target | Status | Notes |
 |---|---|---|---|
-| **Canvas2D** | Web (2D entity persona) | Ep1 target | Replaces `rabble-entity.js` in World |
-| **Three.js / WebGL** | Web (3D Flat-Chaos env) | Ep1 target | Quantum visualization layer |
+| **Canvas2D** | Web (2D entity persona) | ✅ shipped (alive 2D runs on WebGL by default) | Replaces `rabble-entity.js` in World |
+| **Three.js / WebGL** | Web (3D Flat-Chaos env) | ✅ shipped (S107) | Quantum visualization layer |
 | **WebGPU** | Web (advanced shading) | Ep5+ | When browser support stabilises |
 | **C++ / OpenGL** | Native desktop | Future | Enables Qt/QML portability |
 | **Qt / QML** | Desktop app surface | Long-term | RaBbLE-OS native entity renderer |

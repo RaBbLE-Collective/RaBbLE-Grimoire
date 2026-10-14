@@ -6,7 +6,7 @@ transcribe ~ collective >> personal cosmos: per-user namespace, grimoire, babble
 
 > **What this is:** Defines the per-user namespace that every Pair member inhabits — a layered personal digital space owned and grown by the human+entity pair. Distinct from the shared Collective space.
 > **Status:** Defined in S92 brainstorm. Active development deferred to EP2+.
-> **Related:** [Membership Model](RaBbLE-Membership-Model.md) · [Service Plan](RaBbLE-Service-Plan.md) · [ScRibLE Overview](../RaBbLE-ScRibLE/RaBbLE-ScRibLE-Overview.md)
+> **Related:** [Membership Model](RaBbLE-Membership-Model.md) · [Service Plan](RaBbLE-Service-Plan.md) · [ScRiBbLE Overview](../RaBbLE-ScRiBbLE/RaBbLE-ScRiBbLE-Overview.md)
 
 ---
 
@@ -44,13 +44,13 @@ BaBbLE is the intake surface — the place where raw material enters the Cosmos 
 **Input modes (EP2+ full support):**
 - Voice — conversational capture, transcribed and timestamped
 - Text — notes, fragments, observations, URLs
-- Drawn — freehand sketches, diagrams (via ScRibLE)
+- Drawn — freehand sketches, diagrams (via ScRiBbLE)
 - Photo / video — visual capture
 - Screen clips — captured artifacts from other digital spaces
 
 BaBbLE does not judge. It does not organize. It receives. The entity's job is to help the human decide what in BaBbLE belongs in the Grimoire and what can be released.
 
-The physical intake device for BaBbLE is ScRibLE — see [RaBbLE-ScRibLE-Overview.md](../RaBbLE-ScRibLE/RaBbLE-ScRibLE-Overview.md).
+The physical intake device for BaBbLE is ScRiBbLE — see [RaBbLE-ScRiBbLE-Overview.md](../RaBbLE-ScRiBbLE/RaBbLE-ScRiBbLE-Overview.md).
 
 ---
 
@@ -105,7 +105,7 @@ The Cosmos is portable:
 | Session history as proto-Grimoire | EP1 |
 | Structured Personal Grimoire (Memory member — EnGrAm) | EP2 |
 | BaBbLE intake surface (text + voice) | EP2 |
-| ScRibLE drawn/visual intake | EP2–EP3 |
+| ScRiBbLE drawn/visual intake | EP2–EP3 |
 | Xperimental sandbox | EP2 |
 | Rablet authoring | EP2 |
 | Rablet publishing + Collective discovery | Echo 1 |
