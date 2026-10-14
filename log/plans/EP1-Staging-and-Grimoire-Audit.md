@@ -103,7 +103,7 @@ updates at the air merge. Consequence until then: the public bootstrap one-liner
 - [x] **2.1** (S248: moved Liminal, NeBuLA-Studio, Dolphin-Grey-Text, Architecture-Audit-Plan, B10 handoff; Air-Push + Architecture-Audit findings/PROGRESS kept active, they still hold open items; OS-ProArt untouched, another session owns it) Move finished plans → `log/plans/done/`, finished handoffs → `log/handoffs/done/`; rewrite `log/plans/CONTEXT.md` table.
 - [ ] **2.2** SESSION-LOG split per D5; head of file unchanged so `head -20` still works; `end-session.sh` untouched.
 - [x] **2.3** (also: Pocket manifest status → active, repo kept TBD so setup.sh skips the private repo; ScRiBbLE README link repointed in its own repo) `git mv RaBbLE-ScRibLE RaBbLE-ScRiBbLE` + repoint refs; `sync-symlinks.sh`.
-- [ ] **2.4** INDEX.md status-strip: one line per doc, no status essays (status lives in the doc).
+- [x] **2.4** INDEX.md status-strip: one line per doc, no status essays (status lives in the doc). *(S248: plans/handoffs/OS rows → one-liners, 4,235 → ~3,500 words; Grimoire AGENT.md 1,395 → ~1,080; Navigator + README gist-first; doctor skips gitignored `generated/`.)*
 - [ ] **2.5** Prune stale `log/agents` claims (`agent-register.sh`), commit the 8 untracked ones or drop them.
 
 ### Phase 3 — Air staging (live infra — every step Mark-confirmed)

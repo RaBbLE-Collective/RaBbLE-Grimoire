@@ -70,87 +70,53 @@ See `RaBbLE-Agent/RaBbLE-CommitStyle.md` (Pulse Protocol) for full spec.
 
 ## Workspaces
 
-**For quick reference, read `gist/*.md` first (~3,000 tokens total). Only load the full doc from the table below when you need implementation detail.**
+**Read `gist/*.md` first (~3,000 tokens). Load a full doc only when you need implementation detail.**
+Reading paths by budget: `RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md`.
 
-| Task | Go to | Read first |
-|---|---|---|
-| Entity identity, voice, behavior | `RaBbLE-Agent/RaBbLE-Identity.md` | — |
-| Palette / colors | `RaBbLE-Agent/RaBbLE-Palette.md` | — |
-| Commit format | `RaBbLE-Agent/RaBbLE-CommitStyle.md` | — |
-| Agent behavioral rules | `RaBbLE-Agent/RaBbLE-Agent-Protocols.md` | — |
-| Agent onboarding path | `RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md` | — |
-| Entity philosophy and ethos | `RaBbLE/` | `RaBbLE/RaBbLE-Overview.md` |
-| Stories and creative writing | `RaBbLE-Mythos/` | — |
-| Member registry / epoch status | `registry/` | `registry/epochs/current.epoch.yml` |
-| Member manifests | `registry/manifests/` | `registry/manifests/_template.manifest.yml` |
-| Coordination scripts | `spells/` | each script's header |
-| OS documentation | `RaBbLE-OS/` | `RaBbLE-OS/RaBbLE-OS-AgentGuide.md` |
-| sCoRE documentation | `RaBbLE-sCoRE/` | `RaBbLE-sCoRE/RaBbLE-sCoRE-Architecture.md` |
-| NeBuLA lore + roadmap | `RaBbLE-NeBuLA/` | `RaBbLE-NeBuLA/RaBbLE-NeBuLA-Roadmap.md` |
-| Collective ecosystem map | `RaBbLE-Agent/RaBbLE-Collective.md` | — |
-| Versioning spec | `RaBbLE-Versioning.md` | — |
-| Full document index | `INDEX.md` | — |
+| Task | Go to |
+|---|---|
+| Entity identity, voice, behavior | `RaBbLE-Agent/RaBbLE-Identity.md` · philosophy in `RaBbLE/` |
+| Where everything stands / what's next | `RaBbLE-Agent/RaBbLE-Roadmap.md` → `RaBbLE-Post-EP1-Roadmap.md` |
+| Air gates / blockers | `log/EP1-AIR-CHECKLIST.md` · `log/BLOCKERS.md` |
+| Palette / commits / agent rules | `RaBbLE-Agent/RaBbLE-Palette.md` · `-CommitStyle.md` · `-Agent-Protocols.md` |
+| Collective map / member wiring | `RaBbLE-Agent/RaBbLE-Collective.md` · `-Integration-Map.md` |
+| A member's docs | `RaBbLE-<Member>/` (OS: start at `RaBbLE-OS/RaBbLE-OS-AgentGuide.md`) |
+| Registry / epoch | `registry/manifests/` · `registry/epochs/current.epoch.yml` |
+| Plans / handoffs | `log/plans/CONTEXT.md` · `log/handoffs/CONTEXT.md` |
+| Spells | `SPELLS.md` · each script's header |
+| Versioning | `RaBbLE-Versioning.md` |
+| Anything else | `grep -i <term> INDEX.md` |
 
 ---
 
-## Getting Started
+## Session Ritual
 
-**New to the Grimoire?** Start with the gist/ for a full picture in ~3,000 tokens:
+**Start (returning agent):**
 ```bash
-cat gist/*.md                       # complete orientation — all key docs distilled (~3,000 tokens)
-cat RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md    # reading paths by time budget (5/15/30 min)
-```
-
-**Returning agent (picking up a session)?**
-```bash
-head -20 log/SESSION-LOG.md   # ## LATEST box — current state, last session, next steps
-cat log/BLOCKERS.md           # durable open blockers (the LATEST box only POINTS here)
-cat CONTEXT.md                # active tracks and structure
+head -20 log/SESSION-LOG.md   # ## LATEST box: last session + next step (never read the whole log)
+cat log/BLOCKERS.md           # durable open blockers (LATEST only points here)
 bash spells/status.sh         # live health + open-blocker count
-# cat INDEX.md                # only if you need to find a specific doc
 ```
 
-**Coordinate scope — REQUIRED whenever another session may be live** (Mark runs concurrent
-sessions; skip only if you are certain you are the sole agent). Clobbering happens *during
-editing*, so claim scope at the **start**, before you touch a file — the one ritual:
+**Claim scope before touching files** whenever another session may be live (Mark runs concurrent sessions):
 ```bash
-export RABBLE_SESSION_ID="S<NN>-<topic>"     # FIRST — pins a stable id (auto-resolve is a coin-flip
-                                             # under concurrency); all your spell calls then correlate.
-bash spells/session-start.sh "<glob>"... --task "…"   # reads lessons + blockers + who's live, claims
-                                             # your scope (loud conflict if overlap), and starts a
-                                             # self-terminating background heartbeat so the claim survives.
-# no scope yet? `bash spells/session-start.sh` alone prints context only.
+export RABBLE_SESSION_ID="S<NN>-<topic>"              # FIRST: stable id; check SESSION-LOG for the next free S-number
+bash spells/session-start.sh "<glob>"... --task "…"   # lessons + blockers + who's live; claims scope; starts heartbeat
 ```
-The pre-commit auto-register (built; spec in `log/handoffs/done/HANDOFF-PreCommit-AntiClobber.md`) is only a
-*backstop* for when this ritual is skipped — it warns at commit, after the damage. The ritual is
-the front line. Underlying spells if you need them à la carte: `agent-register.sh
-claim/check/status/release`, `promote-insight.sh ls`, `blockers.sh ls`.
+The pre-commit auto-register (`log/handoffs/done/HANDOFF-PreCommit-AntiClobber.md`) is only a backstop that warns at
+commit. À la carte: `agent-register.sh claim/check/status/release`, `promote-insight.sh ls`, `blockers.sh ls`.
 
-**End of session — do this before stopping:**
+**End, before stopping:**
 ```bash
-# 1. Blockers FIRST — keep the durable ledger current (it outlives the LATEST box):
-#    bash spells/blockers.sh add "<what's blocked>" --owner Mark --tag ep1-gate   # new blocker
-#    bash spells/blockers.sh resolve B-NN "<how it cleared>"                       # cleared one
-# 2. Add session entry below LATEST in log/SESSION-LOG.md (date, repos, work done, what's next)
-#    Do NOT hand-write ## LATEST — end-session.sh generates it from --synopsis (see step 4).
-# 3. git add <changed files>
-# 4. git commit -m "[impulse] ~ [organ] >> [revelation] // %STATE%"
-# 5. Tag token spend + auto-write ## LATEST (agent-agnostic; --synopsis is the clobber fix):
-#    bash spells/end-session.sh <feature-slug> [note] --synopsis "one-liner" --next "what's next"
-#    Examples:
-#      bash spells/end-session.sh token-tracking --synopsis "S184: session-tokens.sh done" --next "G7/G9 gates"
-#      bash spells/end-session.sh world-refactor "S182: Atlas" --synopsis "frameworks + Atlas live" --next "drop .rc-* aliases"
-#    Omit --synopsis to skip LATEST update (backward-compatible). Use kebab-case slugs.
-#    For cross-repo: prefix with system (os-*, score-*, world-*, etc.)
-# 6. If you ran session-start.sh (claimed scope this session):
-#    bash spells/promote-insight.sh auto    # crystallize this session's insights/stumbles into Lessons
-#    bash spells/agent-register.sh release   # free your scope — ALSO stops the background heartbeat
-# See RaBbLE-Agent/RaBbLE-CommitStyle.md (or gist/RaBbLE-CommitStyle-gist.md) for impulse vocab
+bash spells/blockers.sh add "<what's blocked>" --owner Mark --tag ep1-gate   # 1. ledger first: new…
+bash spells/blockers.sh resolve B-NN "<how it cleared>"                       #    …or cleared
+# 2. session entry below LATEST in log/SESSION-LOG.md (date, repos, work, next). Never hand-write LATEST.
+git add <changed files> && git commit -m "[impulse] ~ [organ] >> [revelation] // %STATE%"   # 3.
+bash spells/end-session.sh <feature-slug> [note] --synopsis "one-liner" --next "what's next"  # 4. tokens + LATEST
+bash spells/promote-insight.sh auto && bash spells/agent-register.sh release  # 5. if you claimed scope
 ```
-
-Each Collective member has its own AGENT.md as entry point.
-New member scaffolding: `bash spells/init-project.sh --slug RaBbLE-[Name]`
-Regenerate gists after major doc changes: `bash spells/distill-gists.sh`
+Slugs are kebab-case, cross-repo prefixed (`os-*`, `score-*`, `world-*`). After major doc changes:
+`bash spells/distill-gists.sh` (or hand-sync the gist). New member: `bash spells/init-project.sh --slug RaBbLE-[Name]`.
 
 ---
 

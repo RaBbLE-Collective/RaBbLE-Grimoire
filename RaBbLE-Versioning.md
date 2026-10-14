@@ -117,7 +117,7 @@ When Episode 1 airs (decided by Mark, typically quarterly or after major vertica
 ### Post-Episode-1 Evolution (Roadmap)
 
 After Episode 1, the cadence may shift:
-- **Weekly Episodes**: Rapid, coordinated releases. Members advance together on a weekly schedule. Same compatibility guarantees: parts of the Collective in Episode N can rely on each other.
+- **Weekly Episodes** (option, not adopted; S248 Roadmap: episodes air when a vertical slice closes): Rapid, coordinated releases. Members advance together on a weekly schedule. Same compatibility guarantees: parts of the Collective in Episode N can rely on each other.
 - **Echoes as releases**: Echoes become production-ready publications. A member might tag `echo-1.0` to mark a stable, deployable state. Echoes can break APIs if documented in the next Episode's entry notes.
 
 **Episode names follow Biblical arc — intentional lore, not arbitrary labels:**
@@ -129,7 +129,7 @@ After Episode 1, the cadence may shift:
 ```
 Episode 1 (current era) — Genesis: sCoRE + World + NeBuLA liftoff
   Plot A, Plot B, Plot C per member
-  Aired: 2026-Q2 (TBD)
+  Airs when log/EP1-AIR-CHECKLIST.md is green (no date)
   
 Episode 2 — Exodus: Entity emerges from concept to reality — memory member + cross-member observation loop
   Plot A per member

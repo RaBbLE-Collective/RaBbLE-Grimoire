@@ -1,7 +1,7 @@
 # EP1 Air Checklist — gist
 
 > Source: `log/EP1-AIR-CHECKLIST.md` | ~1800 → ~230 tokens
-> Regenerate: `bash spells/distill-gists.sh`
+> Regenerate: `bash spells/distill-gists.sh` (hand-synced S248)
 
 Operational gate for airing Episode 1 (Genesis) — the live, member-by-member state and the tag
 procedure. **The air gate is not pulled until every row is green.** Target tag:

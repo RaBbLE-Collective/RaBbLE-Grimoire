@@ -18,7 +18,7 @@ spark ~ grimoire >> mapping how the organs connect // %INTEGRATION_MAP%
 User → World (web UI) → sCoRE (intent routing) → Agent/LLM (delegation)
                 ↑                    ↑
             Aether (CSS)        OS (system state)
-            NeBuLA (renderer)   Memory (future — observation store)
+            NeBuLA (renderer)   EnGrAm (future — memory)
 ```
 
 **Read this as:** The user interacts through World. World routes intent to sCoRE. sCoRE delegates to LLMs or other members. Aether and NeBuLA feed visual assets into World via CDN. OS provides ambient system state to sCoRE. Memory (future) will close the observation loop.
@@ -33,8 +33,9 @@ Each pattern describes how one member's output becomes another member's input.
 |---|---|---|---|
 | **Visual theming** | Aether → World, NeBuLA | CDN CSS bundle (`aether.css` / `aether.min.css`) | Live |
 | **Entity rendering** | NeBuLA → World | CDN IIFE bundle (`nebula.iife.js`), `<rabble-entity>` web component | Live |
-| **Intent routing** | World → sCoRE | HTTP/REST — World chat UI calls sCoRE API endpoint | Planned (Ep1) |
-| **LLM delegation** | sCoRE → Claude/Groq | Subprocess (Claude Code CLI) or HTTP API (Groq/OpenRouter) | Planned (Ep1) |
+| **Intent routing** | World → sCoRE | HTTP/REST — World face chat calls `score.joinrabble.world` (guest token) | Live |
+| **LLM delegation** | sCoRE → Groq/OpenRouter | HTTP API, tiered chain (`LLM_FAST_CHAIN`); Claude CLI subprocess local only | Live |
+| **Voice beam** | Pocket → sCoRE | `/api/v1/beam`: audio in → STT → LLM → TTS out (Groq) | Live (S243) |
 | **System observation** | OS → sCoRE | Ambient data — system state queryable by sCoRE | Post-Ep1 |
 | **Knowledge distribution** | Grimoire → All | Direct filesystem reference — members read `~/RaBbLE-Collective/RaBbLE-Grimoire/` in place; no copying (sync model retired S105) | Live |
 | **Pattern store** | sCoRE ↔ Memory | Observation → storage → retrieval — the behavioral learning loop | Concept (Echo 1+) |
@@ -107,7 +108,7 @@ These integrations don't exist yet but are architecturally planned:
 | **Real-time entity state** | sCoRE → NeBuLA (via World) | Entity visual state reflects sCoRE's inference — mood, attention, activity |
 | **Observation loop** | OS → sCoRE → Memory | System signals (active window, typing cadence, idle state) become patterns |
 | **Intent suggestion** | Memory → sCoRE → World | Past patterns surface as suggested actions without being asked |
-| **ScRibLE sync** | ScRibLE → sCoRE | Mobile input (handwritten notes, sketches) becomes intent data |
+| **ScRiBbLE sync** | ScRiBbLE → sCoRE | Mobile input (handwritten notes, sketches) becomes intent data |
 
 ---
 

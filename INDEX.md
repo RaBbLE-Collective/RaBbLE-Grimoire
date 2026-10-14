@@ -69,15 +69,15 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 ## RaBbLE-Collective
 
 - **[RaBbLE-GTM-Content-Strategy](RaBbLE-Collective/RaBbLE-GTM-Content-Strategy.md)** — **GTM canon.** Three audience personas, five content pillars, five GTM plays, Instagram strategy, anti-vanity metrics. The entity broadcasts before it sells.
-- **[EP1-AIR-CHECKLIST](log/EP1-AIR-CHECKLIST.md)** — **CANONICAL Episode 1 scope and status.** Live gate table, member-by-member readiness, OS Developer-Preview FLOOR, tag procedure. The one place to check EP1 air state. (Episode-1-Release-Map / -RC-Scope / -Release-Brief / RC1-Experience / -Deployment-Runbook / Collective-Episode-1-Overview retired here 2026-07-28, S206 — each left a pointer stub at its old path.)
+- **[EP1-AIR-CHECKLIST](log/EP1-AIR-CHECKLIST.md)** — **canonical EP1 scope + air state**: gate table, member readiness, OS FLOOR, tag procedure. (Older EP1 scope docs retired here S206; pointer stubs remain.)
 - **[RaBbLE-Integration-Ethos-Plan](RaBbLE-Collective/RaBbLE-Integration-Ethos-Plan.md)** — **ACTIVE PLAN.** Four-phase integration: New-Designs → Ethos layer → BaBbLE member → Landing transformation. Agent handoff doc.
 - [RaBbLE-Collective-Plan](RaBbLE-Collective/RaBbLE-Collective-Plan.md) — Collective bootstrap architecture and coordination plan
 - [RaBbLE-Deployment-Architecture](RaBbLE-Collective/RaBbLE-Deployment-Architecture.md) — environments (local/staging/prod), CDN distribution, versioning, build pipeline
 - [RaBbLE-Cloudflare-Integration](RaBbLE-Collective/RaBbLE-Cloudflare-Integration.md) — Cloudflare setup, R2 buckets, Wrangler configuration, deployment workflow
-- **[RaBbLE-Grimoire-MCP](RaBbLE-Collective/RaBbLE-Grimoire-MCP.md)** — **CONCEPT.** Read-first remote MCP server at `grimoire.joinrabble.world` (Cloudflare Worker) exposing the Grimoire as live tools/resources to any agent — retires Mark-as-bridge between surfaces. Evolves the Post-EP1 "Grimoire MCP" item; proposes dedicated-Worker hosting over the earlier "Home: sCoRE."
+- **[RaBbLE-Grimoire-MCP](RaBbLE-Collective/RaBbLE-Grimoire-MCP.md)** — **concept**: read-first MCP server at `grimoire.joinrabble.world` exposing the Grimoire to any agent.
 - **[RaBbLE-TaskViSoR-Identity](RaBbLE-Collective/RaBbLE-TaskViSoR-Identity.md)** — **Member declaration.** *Visual State Observer of RaBbLE.* 3-layer surface: `/visor` World page (Echo 1) → OS native app (Echo 1/2) → rablet (Echo 2+). Relationships to sCoRE, World, NeBuLA, BaBbLE.
 - [RaBbLE-Plan-Surface](RaBbLE-Collective/RaBbLE-Plan-Surface.md) — **EP2 concept.** Plans/Grimoire docs rendered as living NeBuLA/Aether documents in World (`/plan/:slug`). Entity presence, animated diagrams, interactive checklists. RaBbLE renders its own knowledge.
-- **[RaBbLE-Work-Tracker-Concept](RaBbLE-Collective/RaBbLE-Work-Tracker-Concept.md)** — **Implementation plan for TaskViSoR Layer 1 (Echo 1).** sCoRE task store extensions (backlog/blocked dirs), `/api/v1/tasks` + `/api/v1/board` API, BaBbLE intake, `/visor` World page. Remaining open: board visibility + agent visualization (Layer 2).
+- **[RaBbLE-Work-Tracker-Concept](RaBbLE-Collective/RaBbLE-Work-Tracker-Concept.md)** — TaskViSoR Layer 1 plan (Echo 1): sCoRE task store, `/api/v1/tasks` + `/board`, `/visor` page.
 - [RaBbLE-CICD-Plan](RaBbLE-Collective/RaBbLE-CICD-Plan.md) — CI/CD pipeline plan: CF Workers (GitHub Actions + wrangler), Render auto-deploy, API key vault, logs intake agent
 - [RaBbLE-Secrets-and-Identity](RaBbLE-Collective/RaBbLE-Secrets-and-Identity.md) — how the Collective owns its own accounts/keys (proton root identity, two-tier secrets, GitHub org + role account, repo transfer, episode signing ceremony)
 - [RaBbLE-Personal-Cosmos](RaBbLE-Collective/RaBbLE-Personal-Cosmos.md) — per-user namespace: Personal Grimoire, BaBbLE intake, Xperimental sandbox, Rablet publishing (EP2+)
@@ -103,7 +103,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 ## RaBbLE — Entity Definition Layer
 
 - [RaBbLE-Overview](RaBbLE/RaBbLE-Overview.md) — what the entity definition layer is and how to read it
-- **[RaBbLE-PRD](RaBbLE/RaBbLE-PRD.md)** — **vision-altitude product requirements.** What RaBbLE *is* as an ambient AI peer; positioning, personas, the hosted/non-hosted duality, capability pillars. Sequenced into the build via World's live state + NeBuLA Studio (Studio-driven design, not a fixed experience-canon doc — see `feedback_world_design_studio_driven`).
+- **[RaBbLE-PRD](RaBbLE/RaBbLE-PRD.md)** — **vision-altitude product requirements**: positioning, personas, hosted/non-hosted duality, capability pillars.
 - **[RaBbLE-Vision-Arc](RaBbLE/RaBbLE-Vision-Arc.md)** — **Epoch/Echo/Episode narrative arc.** The arc of becoming — Epoch 0 Genesis through Epoch 1 Sovereignty. Architecture invariants. Member sequence. Open decisions.
 - **[RaBbLE-Stakeholder-Brief](RaBbLE/RaBbLE-Stakeholder-Brief.md)** — **Early stakeholder / investor brief.** Accessible pitch for humans encountering RaBbLE at a decision-making level. Market sizing, the case for joining, the arc in one page.
 - [RaBbLE-Ethos](RaBbLE/Ethos/RaBbLE-Ethos.md) — philosophy: Architecture of Self, Anti-Assistant Stance, Low Entropy Directive, On Memory
@@ -160,13 +160,13 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-OS-KnownRoughEdges](RaBbLE-OS/RaBbLE-OS-KnownRoughEdges.md) — the **F5 "enter at your own risk" sheet** shipped with the EP1 preview (recovery, quirks, hardware/display caveats)
 - [RaBbLE-OS-DevHistory](RaBbLE-OS/RaBbLE-OS-DevHistory.md) — pre-Collective genesis (2026-04-09 → 04-29): KDE→Sway pivots, palette/hardware corrections, SDDM/greetd arc — fills the founding-era gap with no local session transcripts
 
-**layers/** [Layers](RaBbLE-OS/layers/RaBbLE-OS-Layers.md) · [Layer-Core](RaBbLE-OS/layers/RaBbLE-OS-Layer-Core.md) · [Layer-Hardware](RaBbLE-OS/layers/RaBbLE-OS-Layer-Hardware.md) · [Layer-Boot](RaBbLE-OS/layers/RaBbLE-OS-Layer-Boot.md) · [Layer-Boot-Plymouth-EP1](RaBbLE-OS/layers/RaBbLE-OS-Layer-Boot-Plymouth-EP1.md) · **[Plymouth-Tweaking](RaBbLE-OS/layers/RaBbLE-OS-Plymouth-Tweaking.md)** — coordinate system, LAYOUT CONSTANTS block, testing without reboot, debug log reading, script language basics, common tweaks, initramfs workflow · [Layer-Desktop](RaBbLE-OS/layers/RaBbLE-OS-Layer-Desktop.md) · [Layer-Apps](RaBbLE-OS/layers/RaBbLE-OS-Layer-Apps.md) · **[Layer-AI-Harnesses](RaBbLE-OS/layers/RaBbLE-OS-Layer-AI-Harnesses.md)** — AI coding agents + LLM CLIs; EP1 state + post-EP1 system-wide migration plan · **[Layer-Bottles](RaBbLE-OS/layers/RaBbLE-OS-Layer-Bottles.md)** — opt-in Wine app compat (Bottles), reference impl of the layer/* pattern; UP Studio + planned Affinity Suite · **[Layer-Bottles-Debugging](RaBbLE-OS/layers/RaBbLE-OS-Layer-Bottles-Debugging.md)** — general playbook for Windows apps that hang/fail under Bottles (Wine debug logging, Flatpak sandbox filesystem gotcha, Z: drive-relative path bug, stale-process-tree gotcha) · **[Layer-Containers](RaBbLE-OS/layers/RaBbLE-OS-Layer-Containers.md)** — opt-in Docker CE + Podman, second layer/* reference impl · **[Layer-ESP-IDF](RaBbLE-OS/layers/RaBbLE-OS-Layer-ESP-IDF.md)** — opt-in Espressif embedded toolchain for RaBbLE-Pocket firmware, third layer/* reference impl · **[Layer-Arduino-CLI](RaBbLE-OS/layers/RaBbLE-OS-Layer-Arduino-CLI.md)** — opt-in arduino-cli + ESP32 core for the vendor's reference .ino examples only, fourth layer/* reference impl
-**hardware/** [Hardware-ProArtP16](RaBbLE-OS/hardware/RaBbLE-OS-Hardware-ProArtP16.md) · [Hardware-GenericX64](RaBbLE-OS/hardware/RaBbLE-OS-Hardware-GenericX64.md) · [Hardware-AddingTargets](RaBbLE-OS/hardware/RaBbLE-OS-Hardware-AddingTargets.md) · [Hardware-Partitions](RaBbLE-OS/hardware/RaBbLE-OS-Hardware-Partitions.md) · **[Hardware-Cyberdeck](RaBbLE-OS/hardware/RaBbLE-OS-Hardware-Cyberdeck.md)** — DIY/handheld target: x86_64 (works now) + aarch64/Pi roadmap; ambient entity in physical form · **[Hardware-NPU-XDNA2](RaBbLE-OS/hardware/RaBbLE-OS-Hardware-NPU-XDNA2.md)** — AMD NPU local inference research (2026-06-18, kernel 7.0): XRT COPR + FastFlowLM + Lemonade stack; known issues; sCoRE integration · **[Hardware-Cetus3D-MK2](RaBbLE-OS/hardware/RaBbLE-OS-Hardware-Cetus3D-MK2.md)** — USB peripheral not a target; proprietary firmware means UP Studio via Bottles, not a native slicer
+**layers/** [Layers](RaBbLE-OS/layers/RaBbLE-OS-Layers.md) · [Layer-Core](RaBbLE-OS/layers/RaBbLE-OS-Layer-Core.md) · [Layer-Hardware](RaBbLE-OS/layers/RaBbLE-OS-Layer-Hardware.md) · [Layer-Boot](RaBbLE-OS/layers/RaBbLE-OS-Layer-Boot.md) · [Layer-Boot-Plymouth-EP1](RaBbLE-OS/layers/RaBbLE-OS-Layer-Boot-Plymouth-EP1.md) · [Plymouth-Tweaking](RaBbLE-OS/layers/RaBbLE-OS-Plymouth-Tweaking.md) · [Layer-Desktop](RaBbLE-OS/layers/RaBbLE-OS-Layer-Desktop.md) · [Layer-Apps](RaBbLE-OS/layers/RaBbLE-OS-Layer-Apps.md) · [Layer-AI-Harnesses](RaBbLE-OS/layers/RaBbLE-OS-Layer-AI-Harnesses.md) · [Layer-Bottles](RaBbLE-OS/layers/RaBbLE-OS-Layer-Bottles.md) · [Layer-Bottles-Debugging](RaBbLE-OS/layers/RaBbLE-OS-Layer-Bottles-Debugging.md) · [Layer-Containers](RaBbLE-OS/layers/RaBbLE-OS-Layer-Containers.md) · [Layer-ESP-IDF](RaBbLE-OS/layers/RaBbLE-OS-Layer-ESP-IDF.md) · [Layer-Arduino-CLI](RaBbLE-OS/layers/RaBbLE-OS-Layer-Arduino-CLI.md)
+**hardware/** [Hardware-ProArtP16](RaBbLE-OS/hardware/RaBbLE-OS-Hardware-ProArtP16.md) · [Hardware-GenericX64](RaBbLE-OS/hardware/RaBbLE-OS-Hardware-GenericX64.md) · [Hardware-AddingTargets](RaBbLE-OS/hardware/RaBbLE-OS-Hardware-AddingTargets.md) · [Hardware-Partitions](RaBbLE-OS/hardware/RaBbLE-OS-Hardware-Partitions.md) · [Hardware-Cyberdeck](RaBbLE-OS/hardware/RaBbLE-OS-Hardware-Cyberdeck.md) · [Hardware-NPU-XDNA2](RaBbLE-OS/hardware/RaBbLE-OS-Hardware-NPU-XDNA2.md) · [Hardware-Cetus3D-MK2](RaBbLE-OS/hardware/RaBbLE-OS-Hardware-Cetus3D-MK2.md)
 **ops/** [Ops-Layerctl](RaBbLE-OS/ops/RaBbLE-OS-Ops-Layerctl.md) · [Ops-Dotctl](RaBbLE-OS/ops/RaBbLE-OS-Ops-Dotctl.md) · [Ops-Bootstrap](RaBbLE-OS/ops/RaBbLE-OS-Ops-Bootstrap.md) · [Ops-Vmctl](RaBbLE-OS/ops/RaBbLE-OS-Ops-Vmctl.md) · [Ops-ConfigFlow](RaBbLE-OS/ops/RaBbLE-OS-Ops-ConfigFlow.md) · [Ops-Install](RaBbLE-OS/ops/RaBbLE-OS-Ops-Install.md) · [Fedora44-Upgrade](RaBbLE-OS/ops/RaBbLE-OS-Fedora44-Upgrade.md)
-**fix/** [KnownIssues](RaBbLE-OS/fix/RaBbLE-OS-KnownIssues.md) · [BootChain-Anatomy](RaBbLE-OS/fix/RaBbLE-OS-BootChain-Anatomy.md) · [Fix-Nvidia](RaBbLE-OS/fix/RaBbLE-OS-Fix-Nvidia.md) · [Fix-BootChain](RaBbLE-OS/fix/RaBbLE-OS-Fix-BootChain.md) · [Fix-Suspend](RaBbLE-OS/fix/RaBbLE-OS-Fix-Suspend.md) · **[Fix-FastFlowLM](RaBbLE-OS/fix/RaBbLE-OS-Fix-FastFlowLM.md)** — S122–S125 debug: lib64/lib split, stale CMakeCache, add(run&&) shim (xdna-driver XRT pin = same version as COPR) · [Fix-LlamaCpp](RaBbLE-OS/fix/RaBbLE-OS-Fix-LlamaCpp.md) — llama.cpp build debug
+**fix/** [KnownIssues](RaBbLE-OS/fix/RaBbLE-OS-KnownIssues.md) · [BootChain-Anatomy](RaBbLE-OS/fix/RaBbLE-OS-BootChain-Anatomy.md) · [Fix-Nvidia](RaBbLE-OS/fix/RaBbLE-OS-Fix-Nvidia.md) · [Fix-BootChain](RaBbLE-OS/fix/RaBbLE-OS-Fix-BootChain.md) · [Fix-Suspend](RaBbLE-OS/fix/RaBbLE-OS-Fix-Suspend.md) · [Fix-FastFlowLM](RaBbLE-OS/fix/RaBbLE-OS-Fix-FastFlowLM.md) · [Fix-LlamaCpp](RaBbLE-OS/fix/RaBbLE-OS-Fix-LlamaCpp.md)
 **reference/** [Hyprland-0.55-Reference](RaBbLE-OS/Hyprland-0.55-Reference.md) — Hyprland 0.55 config reference for RaBbLE-OS
-**verify/** [Verify-PreviewFloor](RaBbLE-OS/verify/RaBbLE-OS-Verify-PreviewFloor.md) — **EP1 preview FLOOR gate (F1/F2/F4 VM runbook + F3 audit)** · [Verify-Checklist](RaBbLE-OS/verify/RaBbLE-OS-Verify-Checklist.md) · [Verify-PowerTesting](RaBbLE-OS/verify/RaBbLE-OS-Verify-PowerTesting.md) · [Verify-LayerState](RaBbLE-OS/verify/RaBbLE-OS-Verify-LayerState.md)
-**desktop/** [Desktop-Hyprland](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Hyprland.md) · [Desktop-Shell](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Shell.md) · [Desktop-Theming](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Theming.md) *(includes VSCodium Aether theme — CSS design, Ansible install, maintenance)* · [Desktop-BootFlow](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-BootFlow.md) · [Desktop-SDDM-Layout](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-SDDM-Layout.md) *(SDDM/Plymouth/GRUB layout tuning, void-zone math, screenshot spell)* · [Desktop-sCoRE-UsageTracker](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-sCoRE-UsageTracker.md) · [Desktop-Fastfetch](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Fastfetch.md) · [Desktop-Gnome](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Gnome.md) *(opt-in GNOME secondary DE — SDDM-only, zero extensions, system-wide Aether theming testbed)*
+**verify/** [Verify-PreviewFloor](RaBbLE-OS/verify/RaBbLE-OS-Verify-PreviewFloor.md) · [Verify-Checklist](RaBbLE-OS/verify/RaBbLE-OS-Verify-Checklist.md) · [Verify-PowerTesting](RaBbLE-OS/verify/RaBbLE-OS-Verify-PowerTesting.md) · [Verify-LayerState](RaBbLE-OS/verify/RaBbLE-OS-Verify-LayerState.md)
+**desktop/** [Desktop-Hyprland](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Hyprland.md) · [Desktop-Shell](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Shell.md) · [Desktop-Theming](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Theming.md) · [Desktop-BootFlow](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-BootFlow.md) · [Desktop-SDDM-Layout](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-SDDM-Layout.md) · [Desktop-sCoRE-UsageTracker](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-sCoRE-UsageTracker.md) · [Desktop-Fastfetch](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Fastfetch.md) · [Desktop-Gnome](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Gnome.md)
 **historical/** [ManualInstall](RaBbLE-OS/historical/RaBbLE-OS-ManualInstall.md) · [Epoch-I-Diff](RaBbLE-OS/historical/RaBbLE-OS-Epoch-I-Diff.md) · [Implementation-Plan](RaBbLE-OS/historical/RaBbLE-OS-Implementation-Plan.md)
 
 ---
@@ -232,7 +232,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-Aether-Design-Guide](RaBbLE-Aether/RaBbLE-Aether-Design-Guide.md) — palette, component prompts, and animation vocabulary for any AI design/image tool
 - [SYSTEM-PROMPT](RaBbLE-Aether/SYSTEM-PROMPT.md) — three-tier system prompt for pasting into Claude Design (quick card / short / full)
 - [RaBbLE-Aether-Effects-Bank](RaBbLE-Aether/RaBbLE-Aether-Effects-Bank.md) — saved CSS effects discovered accidentally, pending integration (cotton candy swirl, etc.)
-- **[Aether-Theming-Convergence](log/plans/Aether-Theming-Convergence.md)** — **ACTIVE PLAN.** 4 tracks: VSCodium theme → Aether `themes/vscodium/` (palette-driven JSON, naming unification, keyframe harvest), remaining Chrysalis CSS effects (glitch-veil, glitch-text, breathe, ring-states), 8 missing World pages, `.rc-*` alias cleanup. Aether as theming source of truth for web + editor + OS.
+- [Aether-Theming-Convergence](log/plans/Aether-Theming-Convergence.md) — plan: VSCodium theme into Aether, remaining Chrysalis effects, `.rc-*` cleanup (A1–A3 absorbed by OS-Theming-Variants)
 - [DEBUG-SESSION-2026-05-15](RaBbLE-Aether/DEBUG-SESSION-2026-05-15.md) — session debug log (ephemeral reference)
 - [Visual Assets](RaBbLE-Aether/assets/) — SVG, logos, icons
 
@@ -269,7 +269,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-Pocket-Firmware-BuildFlash](RaBbLE-Pocket/RaBbLE-Pocket-Firmware-BuildFlash.md) — verified config/build/flash walkthrough (hello_world smoke test + vendor LVGL demo), eim activation-script gotcha + fix, USB re-enumeration + headless-monitor gotchas
 - [RaBbLE-Pocket-Roadmap](RaBbLE-Pocket/RaBbLE-Pocket-Roadmap.md) — open questions and next steps; `release_track: independent`, not part of the EP1 lockstep
 - [RaBbLE-Pocket-Backplate-CAD](RaBbLE-Pocket/RaBbLE-Pocket-Backplate-CAD.md) — custom battery-bay backplate (v1) + reference assembly, built parametric in FreeCAD (headless via Flatpak); mount holes/board orientation sourced from vendor STEP + drawing cross-check
-- [RaBbLE-Pocket-Muse-SDK-Map](RaBbLE-Pocket/RaBbLE-Pocket-Muse-SDK-Map.md): Meta Muse Gadget SDK flashed on the -B (2026-10-06): bring-up record + backup hash, smoke test, why it's a smart-home bridge not a companion (text-only replies, slow turns), file-level map of board/audio/power/UI/backend seams to port, licensing (Jollybot excluded), EIM + board.sh gotchas
+- [RaBbLE-Pocket-Muse-SDK-Map](RaBbLE-Pocket/RaBbLE-Pocket-Muse-SDK-Map.md): Muse Gadget SDK bring-up record, why it's a bridge not a companion, file-level port map, gotchas
 - [RaBbLE-Pocket-Gadget-Port](RaBbLE-Pocket/RaBbLE-Pocket-Gadget-Port.md): S243 firmware rebuilt as a RaBbLE gadget on IDF v6.0.1: Apache-derived SDK parts isolated in `apache/`, own code in `accord/`, canvas-drawn face, push-to-talk beamed to sCoRE; layout, behaviour, what's verified, next
 - [RaBbLE-Pocket-Beam-Protocol](RaBbLE-Pocket/RaBbLE-Pocket-Beam-Protocol.md): v0 draft WebSocket contract between Pocket and sCoRE (`/api/v1/beam`): PCM up/down with a 4-byte header, JSON turn events; what the sCoRE endpoint must do; `ops/beam-echo.py` reference
 - [RaBbLE-Pocket-V1-Firmware-Plan](RaBbLE-Pocket/RaBbLE-Pocket-V1-Firmware-Plan.md) — first custom firmware: idle face (eyes/time/battery %), GIF-frame boot animation, touch settings, two-tier PMIC-gated sleep/wake; BSP/HAL file layout + 7-slice incremental verification plan
@@ -278,7 +278,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 
 ## RaBbLE-EnGrAm
 
-- **[RaBbLE-EnGrAm-Architecture](RaBbLE-EnGrAm/RaBbLE-EnGrAm-Architecture.md)** — **Personal Cosmos's Memory member** (resolves Roadmap open question #4). Entity's Networked Graph-Relational Archival Memory: unified photo/notes item schema, hybrid vector+graph storage, own store (no Obsidian), self-hosted PWA front end. No repo yet — architecture/planning only.
+- **[RaBbLE-EnGrAm-Architecture](RaBbLE-EnGrAm/RaBbLE-EnGrAm-Architecture.md)** — **the memory member**: unified item schema, hybrid vector+graph store, self-hosted PWA. Architecture only, no repo yet.
 
 ---
 
@@ -290,7 +290,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [Development History](log/RaBbLE-Development-History.md) — 5-minute narrative of the Collective's eras, pivots, and corrected-canon notes (distilled from SESSION-LOG + memory)
 - [DECISIONS](log/DECISIONS.md) — architectural decisions: member roles, versioning, onboarding, gist system
 - [AUDITS](log/AUDITS.md) — completed audits + open gaps: registry, onboarding, token reduction, Episode 1 blockers
-- [EP1-AIR-CHECKLIST](log/EP1-AIR-CHECKLIST.md) — **live EP1 air gate**: member-by-member readiness, blocker-linked gate rows, OS Developer-Preview FLOOR + World EP1 FLOOR (G10), tag procedure (reconciled S153)
+- [EP1-AIR-CHECKLIST](log/EP1-AIR-CHECKLIST.md) — live EP1 air gate (see Core Documents)
 - [G7-G9-Verification-Guide](log/G7-G9-Verification-Guide.md) — step-by-step guide for EP1 gates G7 (OS VM) and G9 (bootstrap fresh machine)
 - **lessons/** — durable lessons crystallized by `promote-insight.sh` (e.g. agent-register liveness, background sub-agent write limits, Hyprland 0.55 workspacerule)
 - [grimoire-graph.json](log/generated/grimoire-graph.json) — documentation link graph (generated by `graph-grimoire.sh`)
@@ -298,33 +298,35 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 
 ### Plans (active)
 
-- [Collective-ICM-Conformance-Audit](log/plans/Collective-ICM-Conformance-Audit.md) — 2026-08-27: audit of the Collective against ICM/MWP (arXiv 2603.16021v2, Van Clief & McDermott). Finding: already ~70% conformant (L0/L1/L3 strong, context-scoping stronger than the paper), gaps = L2 stage contracts (I/P/O) + L3/L4 handoff split. Phase 0 = do NOT restructure the branching ecosystem (§5.2 anti-patterns); ICM applies to linear internal workflows (session lifecycle, plan→handoff→execute) where the clobber pain lives. 5 phases + 3 open decisions
-- **[EP1-Staging-and-Grimoire-Audit](log/plans/EP1-Staging-and-Grimoire-Audit.md)** — **S248 PROPOSED.** Grimoire audit + EP1 staging plan: gate truth (G7 met-ish, G9 blocked by SSH manifests + private repos, G10 sign-off), Roadmap rewrite, de-bloat, public face, post-air user scaffold. Decisions D1–D6 pending Mark.
-- **[EP1-Entity-Face-Plan](log/plans/EP1-Entity-Face-Plan.md)** — **S234 ACTIVE.** Supersedes Air-Push A4: the "alive" 2D/3D entity + SVG-rig moods ported into NeBuLA `<rabble-entity>`; World rebuilt as Arrive→Boot→Meet→Summon→Enter (boot masks sCoRE cold start); Cloudflare B-12 unblock + setup.sh/KS redirects + keep-warm; accounts plan-only (EP2). Handoff: [HANDOFF-S234-EP1-Entity-Face](log/handoffs/HANDOFF-S234-EP1-Entity-Face.md)
-- [EP1-Air-Push-Plan](log/plans/EP1-Air-Push-Plan.md) — S202 PROPOSED: multi-session push to bring EP1 close to air. Decisions locked (Studio matured not World redesigned; OS netinstall+KS now / ISO later; restructures deferred). Air-critical vs coherence tracks; resolves the S193 audit contradictions + net-new (Chrysalis reliquary, OS download page, Studio inspector/nesting/export)
-- [Collective-Architecture-Audit-Plan](log/plans/done/Collective-Architecture-Audit-Plan.md) — S192 PROPOSED plan; RUN S193 — see the two deliverables below
-- [Collective-Architecture-Audit-2026-07-04](log/plans/Collective-Architecture-Audit-2026-07-04.md) — S193 RUN: cross-repo synthesis, all 10 members audited, drift findings + per-member improvement plans, open decisions for Mark
-- [sCoRE-Extensibility-Refactor-Plan](log/plans/sCoRE-Extensibility-Refactor-Plan.md) — S193: sCoRE `server/` restructuring deep-dive, 3 options, companion to the audit above
-- [Collective-Architecture-Audit-PROGRESS](log/plans/Collective-Architecture-Audit-PROGRESS.md) — S196 implementation ledger: which audit findings landed (Batch 1 doc/drift fixes) vs deferred (decisions + restructures)
-- [OS-ProArt-Power-Stack-Plan](log/plans/OS-ProArt-Power-Stack-Plan.md) — S194 plan → **S197 IMPLEMENTED** (Phases 1–4: profiling spell, look.conf GPU cut, nvidia D3cold, tuned+asusd 3-mode waybar); awaits Mark's on-hardware reboot verify
-- [OS-Boot-Chain-Seamless-Plan](log/plans/OS-Boot-Chain-Seamless-Plan.md) — S197: GRUB→Plymouth→SDDM seamless handoff — Phase 1 low-risk VM-verifiable fixes + Phase 2 real-HW root-cause recovery
-- [OS-Settings-App-Plan](log/plans/OS-Settings-App-Plan.md) — S197 SKETCH (deferred Phase 5): local Aether-themed web app for waybar/Hyprland/power tuning; cold-start handoff for a follow-up session
-- [OS-Display-Manager-Plan](log/plans/OS-Display-Manager-Plan.md) — S246 BUILT (phase 1 + editor + daemon): first first-party app; hybrid (Python core+CLI+hotplug daemon, GTK4 layer-shell overlay, web editor); profiles keyed by monitor description; compositor-portable backends (Hyprland, then wlroots)
-- [EP1-Liminal-Experience-Plan](log/plans/done/EP1-Liminal-Experience-Plan.md) — S190 ACTIVE: EP1 air bar = single-page Genesis passage (Acts 0–IV, sCoRE-live) + Three.js entity awakening; post-mortem + WS-A/B/C/D sub-agent decomposition
-- [Subdomain-Registry-and-Maintenance](log/plans/Subdomain-Registry-and-Maintenance.md) — S185: subdomain registry spec + Collective maintenance backlog
+Status lives in each plan; the one-line status table is [log/plans/CONTEXT.md](log/plans/CONTEXT.md).
+
+- [EP1-Staging-and-Grimoire-Audit](log/plans/EP1-Staging-and-Grimoire-Audit.md) — path to air: gate truth, roadmap rewrite, de-bloat, public face, post-air user scaffold
+- [EP1-Entity-Face-Plan](log/plans/EP1-Entity-Face-Plan.md) — the five-beat "alive" World face + NeBuLA entity (W0–W4)
+- [EP1-Air-Push-Plan](log/plans/EP1-Air-Push-Plan.md) — S202 air push: deploy wrapper, CI, key inventory, reliquary garden
+- [EP2-Accounts-Encryption-Spec](log/plans/EP2-Accounts-Encryption-Spec.md) — the user scaffold: accounts/sessions, then encrypted ingestion
+- [Collective-ICM-Conformance-Audit](log/plans/Collective-ICM-Conformance-Audit.md) — Collective vs the ICM/MWP paper: stage contracts, handoff split
+- [Collective-Architecture-Audit-2026-07-04](log/plans/Collective-Architecture-Audit-2026-07-04.md) — S193 cross-repo audit findings, per-member plans
+- [Collective-Architecture-Audit-PROGRESS](log/plans/Collective-Architecture-Audit-PROGRESS.md) — ledger of which S193 findings landed
+- [sCoRE-Extensibility-Refactor-Plan](log/plans/sCoRE-Extensibility-Refactor-Plan.md) — sCoRE `server/` restructure, options A/B/C
+- [Subdomain-Registry-and-Maintenance](log/plans/Subdomain-Registry-and-Maintenance.md) — subdomain registry spec + maintenance backlog
 - [Aether-Theming-Convergence](log/plans/Aether-Theming-Convergence.md) — palette sovereignty across web/editor/desktop/browser
-- [NeBuLA-Studio-Plan](log/plans/done/NeBuLA-Studio-Plan.md) — S198: WYSIWYG page-layout builder (drag Aether/NeBuLA components, breakpoint preview, JSON save/load), lives in `RaBbLE-NeBuLA/studio/`; also establishes Aether+NeBuLA as the frontend framework for all RaBbLE web apps, not just World
-- [OS-VM-Dev-Flow](log/plans/OS-VM-Dev-Flow.md) — VM install unblocked; cast VM + boot-theme loop pending
-- [OS-Plymouth-Black-Screen](log/plans/OS-Plymouth-Black-Screen.md) — root cause found (S166 ternary); awaiting visual verify
-- [OS-Dolphin-Grey-Text](log/plans/done/OS-Dolphin-Grey-Text.md) — dim labels; stack confirmed; fix path A or B pending
-- [EP2-Accounts-Encryption-Spec](log/plans/EP2-Accounts-Encryption-Spec.md) — DRAFT, first EP2-scoped plan: accounts phase (OAuth/email+Argon2, summoning ceremony) decoupled from ingestion+encryption phase (client-side Web Crypto, two-layer DEK/KEK key management); OAuth-path key derivation + encrypted-embedding search open
-- [NeBuLA-Pocket-Puppet-Rendering-Pipeline](log/plans/NeBuLA-Pocket-Puppet-Rendering-Pipeline.md) — cross-repo research: Godot-as-authoring-studio (exports glTF, MIT), `esp_emote_gfx`/ThorVG Pocket rendering stack + dedicated flash partition, one locked puppet-parameter schema across Godot/NeBuLA/Pocket; Pocket-side decisions also recorded as an ADR in the `RaBbLE-Pocket` member repo's own `planning/decisions/` directory (dated 2026-09-26)
+- [NeBuLA-Pocket-Puppet-Rendering-Pipeline](log/plans/NeBuLA-Pocket-Puppet-Rendering-Pipeline.md) — shared puppet rig/animation pipeline for NeBuLA + Pocket
+- [OS-Display-Manager-Plan](log/plans/OS-Display-Manager-Plan.md) — `rdisplay`: display layout manager (CLI, GTK4 editor, overlay, daemon)
+- [OS-Settings-App-Plan](log/plans/OS-Settings-App-Plan.md) — first-party settings app sketch
+- [OS-ProArt-Power-Stack-Plan](log/plans/OS-ProArt-Power-Stack-Plan.md) — ProArt power: asusd modes, waybar, GPU/D3cold
+- [OS-Boot-Chain-Seamless-Plan](log/plans/OS-Boot-Chain-Seamless-Plan.md) — GRUB→Plymouth→SDDM seamless handoff
+- [OS-Plymouth-Black-Screen](log/plans/OS-Plymouth-Black-Screen.md) — Plymouth black-screen root cause
+- [OS-VM-Dev-Flow](log/plans/OS-VM-Dev-Flow.md) — VM dev loop on the RaBbLE-VM partition
+- [OS-Theming-Variants-Plan](log/plans/OS-Theming-Variants-Plan.md) — theme variants + profiles + contrast QA
 
 ### Handoffs (pending)
 
-- [HANDOFF-FCC-Free-Claude-Code](log/handoffs/HANDOFF-FCC-Free-Claude-Code.md) — FCC tuning for agentic output (NIM Mistral 400 fix, LiteLLM retry/backoff/failover)
-- [HANDOFF-S236-OS-ISO-VM-Run](log/handoffs/HANDOFF-S236-OS-ISO-VM-Run.md) — RaBbLE-OS branded ISO: interactive VM run recipe (UEFI CD, egl-headless 3D), success criteria, bare-metal failure hypotheses, S236 gotchas
-- [HANDOFF-S203-B10-Cloudflare-Token](log/handoffs/done/HANDOFF-S203-B10-Cloudflare-Token.md) — B-10: dashboard-mint CF Workers token + org-wide `gh secret set` (+ Chrysalis per-repo); wrangler OAuth cannot mint tokens
+Status: [log/handoffs/CONTEXT.md](log/handoffs/CONTEXT.md).
+
+- [HANDOFF-S234-EP1-Entity-Face](log/handoffs/HANDOFF-S234-EP1-Entity-Face.md) — EP1 face build (pairs with the Entity-Face plan)
+- [HANDOFF-S236-OS-ISO-VM-Run](log/handoffs/HANDOFF-S236-OS-ISO-VM-Run.md) — branded ISO VM run recipe + leftover items
+- [HANDOFF-FCC-Free-Claude-Code](log/handoffs/HANDOFF-FCC-Free-Claude-Code.md) — FCC LiteLLM proxy tuning
+- [RaBbLE-Voice-Phase2-HANDOFF](log/handoffs/RaBbLE-Voice-Phase2-HANDOFF.md) — voice phase 2 (pre-vocoder-v4; check before resuming)
 
 ### Episodes
 
@@ -340,6 +342,11 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [HANDOFF-S153-EP1-Coherence](log/handoffs/done/HANDOFF-S153-EP1-Coherence.md) — S153 handoff (done): EP1 chat spine live, B-01/03/04 resolved
 - [HANDOFF-S116-Theme-and-Logging](log/handoffs/done/HANDOFF-S116-Theme-and-Logging.md) — S116 handoff (done): theme polish, Hyprland fixes, multi-agent logging
 - [HANDOFF-S176-G10-World-EP1-FLOOR](log/handoffs/done/HANDOFF-S176-G10-World-EP1-FLOOR.md) — S176 handoff (done): G10 World EP1 FLOOR (closed S177)
+- [EP1-Liminal-Experience-Plan](log/plans/done/EP1-Liminal-Experience-Plan.md) — S190 Genesis passage (retired S203, frozen in Chrysalis)
+- [NeBuLA-Studio-Plan](log/plans/done/NeBuLA-Studio-Plan.md) — S198 WYSIWYG page builder (built)
+- [OS-Dolphin-Grey-Text](log/plans/done/OS-Dolphin-Grey-Text.md) — KDE grey text (resolved S201)
+- [Collective-Architecture-Audit-Plan](log/plans/done/Collective-Architecture-Audit-Plan.md) — S192 plan for the S193 audit
+- [HANDOFF-S203-B10-Cloudflare-Token](log/handoffs/done/HANDOFF-S203-B10-Cloudflare-Token.md) — CF token mint (B-10 resolved S206)
 - [World-Framework-Refactor](log/plans/done/World-Framework-Refactor.md) — plan (done S182): Aether+NeBuLA as frameworks, World as assembler
 - [World-Framework-Refactor-HANDOFF](log/plans/done/World-Framework-Refactor-HANDOFF.md) — cold-start handoff (done S182+r2)
 - [S104-BABBLE-CAPTURES-GIT-REORG-PLAN](log/archive/S104-BABBLE-CAPTURES-GIT-REORG-PLAN.md) — S104 BaBbLE reorg plan (superseded by Chrysalis/Xperimental split)
@@ -363,6 +370,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 ### Ethos
 
 - [RaBbLE-Ethos](RaBbLE/Ethos/RaBbLE-Ethos.md) — philosophy + manifesto: anti-assistant stance, low entropy, curiosity, collective model, on memory, on forking
+- [RaBbLE-Personality](RaBbLE/Ethos/RaBbLE-Personality.md) — core character traits and how they show in behavior, speech, design
 - `RaBbLE-Symbiosis.md` — entity/collective relationship *(to be authored — Phase 2C)*
 
 ### Genesis

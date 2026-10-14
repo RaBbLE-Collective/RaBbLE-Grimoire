@@ -6,7 +6,23 @@ transcribe ~ grimoire >> soul made legible // %GRIMOIRE_OPEN%
 
 > The soul of the Collective. One grimoire. All knowledge.
 
-The RaBbLE-Grimoire is the canonical documentation repository for the RaBbLE Collective. Identity, ethos, lore, protocol contracts, and conventions all live here first. Member repos reference the Grimoire — they do not duplicate it.
+The canonical knowledge layer of the [RaBbLE Collective](https://joinrabble.world): identity, ethos, lore, conventions,
+member architecture and roadmaps, the member registry, and the spells that coordinate it all. Member repos hold code;
+they reference the Grimoire and never duplicate it.
+
+---
+
+## Start Here
+
+| You have | Read |
+|---|---|
+| 2 minutes | [`gist/`](gist/RaBbLE-Gist-Overview.md): every key doc distilled (~3,000 tokens for all of it) |
+| 10 minutes | [`CONTEXT.md`](CONTEXT.md) (current state) · [`RaBbLE-Agent/RaBbLE-Roadmap.md`](RaBbLE-Agent/RaBbLE-Roadmap.md) (where everything stands) |
+| a task | [`RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md`](RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md): reading paths and jump-to-task table |
+| a specific doc in mind | [`INDEX.md`](INDEX.md): every document, by section |
+
+Who RaBbLE is: [`RaBbLE-Agent/RaBbLE-Identity.md`](RaBbLE-Agent/RaBbLE-Identity.md). How the Collective fits together:
+[`RaBbLE-Agent/RaBbLE-Collective.md`](RaBbLE-Agent/RaBbLE-Collective.md).
 
 ---
 
@@ -14,42 +30,31 @@ The RaBbLE-Grimoire is the canonical documentation repository for the RaBbLE Col
 
 ```
 RaBbLE-Grimoire/
-├── RaBbLE-Agent/              # Cross-cutting concerns — flat, all files named RaBbLE-*.md
-├── RaBbLE/                # Narrative and creative lore — short stories, world-building
-├── RaBbLE-Aether/       # Visual identity — assets (SVG, icons)
-├── RaBbLE-Collective/   # Ecosystem map, member registry
-├── RaBbLE-NeBuLA/       # Stub
-├── RaBbLE-OS/           # Operating system docs
-├── RaBbLE-sCoRE/        # Server/core infrastructure docs
-├── RaBbLE-ScRiBbLE/     # Note PWA docs (live: scribble.joinrabble.world)
-├── RaBbLE-World/        # Stub
-├── CONTEXT.md           # Current project state — start here
+├── gist/                # Distilled orientation (also served at grimoire.joinrabble.world)
+├── RaBbLE-Agent/        # Cross-member canon: identity, palette, commit style, roadmap, protocols
+├── RaBbLE/              # The entity's inner life: ethos, genesis, worldbuilding, PRD
+├── RaBbLE-Mythos/       # Fiction and creative writing
+├── RaBbLE-Collective/   # Ecosystem-level plans: deployment, Cloudflare, membership, secrets
+├── RaBbLE-<Member>/     # Per-member architecture + roadmap (OS, sCoRE, World, NeBuLA, Aether, ...)
+├── registry/            # Member manifests + current epoch (machine-readable state)
+├── spells/              # Coordination scripts (see SPELLS.md)
+├── log/                 # Session log, air checklist, blockers, plans/, handoffs/, decisions
+├── CONTEXT.md           # Current state and active tracks
 ├── INDEX.md             # Full document index
-└── RaBbLE-Versioning.md # The Five Es versioning spec
+└── RaBbLE-Versioning.md # The Five Es: Event, Episode, Echo, Evolution, Epoch
 ```
-
----
-
-## Start Here
-
-New to the Grimoire? Read in this order:
-
-1. [`CONTEXT.md`](CONTEXT.md) — what we are building and why
-2. [`INDEX.md`](INDEX.md) — every document, organized by section
-3. [`RaBbLE-Versioning.md`](RaBbLE-Versioning.md) — the Five Es: Event→Episode→Echo→Evolution→Epoch
-4. [`RaBbLE-Agent/RaBbLE-Identity.md`](RaBbLE-Agent/RaBbLE-Identity.md) — who RaBbLE is
-5. [`RaBbLE-Agent/RaBbLE-Collective.md`](RaBbLE-Agent/RaBbLE-Collective.md) — how the Collective fits together
 
 ---
 
 ## Contributing
 
-Before committing anything, read:
+- [`RaBbLE-Agent/RaBbLE-CommitStyle.md`](RaBbLE-Agent/RaBbLE-CommitStyle.md): the Pulse Protocol
+- [`RaBbLE-Agent/RaBbLE-BranchStrategy.md`](RaBbLE-Agent/RaBbLE-BranchStrategy.md): branch topology
+- New docs go where `AGENT.md` § Adding New Docs says, and get a line in `INDEX.md`.
 
-- [`RaBbLE-Agent/RaBbLE-CommitStyle.md`](RaBbLE-Agent/RaBbLE-CommitStyle.md) — the Pulse Protocol
-- [`RaBbLE-Agent/RaBbLE-BranchStrategy.md`](RaBbLE-Agent/RaBbLE-BranchStrategy.md) — branch topology
+The Grimoire evolves through `transcribe` and `spark` impulses. One logical change per commit.
 
-The Grimoire evolves through `transcribe` and `spark` impulses. Keep commits precise. One logical change per commit.
+Licensed under the Sovereign Accord (source-available): see [`LICENSE`](LICENSE).
 
 ---
 

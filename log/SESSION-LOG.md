@@ -24,6 +24,7 @@ Format: date, what was done, where things were left, what's next.
 - **De-bloat:** 4 plans + B10 handoff → `done/`; plans/handoffs CONTEXT tables rebuilt; `RaBbLE-ScRibLE/` → `RaBbLE-ScRiBbLE/`; Pocket manifest active (repo stays TBD); EP2 Accounts spec unescaped; member tables (AGENT/CONTEXT/Collective) fixed; dead links mended.
 - **Live checks:** prod = old build (`setup.sh`/KS 404, agent docs public, `/chrysalis/` CF route 200); dev = five-beat face, `setup.sh`/KS 200; anon `git ls-remote` fails for NeBuLA/sCoRE/BaBbLE/Xperimental.
 - **Open gap:** Collective root has no `NOTICES.md` (Dependency-Policy links it).
+- **Readability pass (same session):** gists checked vs sources (Integration-Map + gist: World→sCoRE, sCoRE→LLM, Pocket beam now Live; Versioning: weekly cadence marked not adopted, no air date); Gist-Overview token table re-measured; README + Navigator rewritten gist-first; Grimoire AGENT.md condensed (1,395 → ~1,080 words); INDEX plan/handoff/OS essays → one-liners (4,235 → ~3,500); Personality doc indexed; doctor C2 skips gitignored `generated/`. `grimoire-doctor.sh`: healthy.
 - **Next:** Mark's D1/D3/D4; plan Phase 3 public face (repo descriptions, member READMEs, org profile), air-merge prep + dry run; then Phase 5 user scaffold (EP2 Accounts phase 1).
 
 ## 2026-10-13 · Session S247 (os-waybar-workspace-click)

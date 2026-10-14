@@ -23,4 +23,4 @@ RaBbLE is **evolutionary, not versioned** — thresholds are named retrospective
 
 **Current position:** `v0.0.0.0` — Epoch 0 (Foundation) · Evolution 0 (Scaffold) · Echo 0 (Establishing) · Episode 1 (Genesis, pending — not yet aired). Authoritative status: `registry/epochs/current.epoch.yml`.
 
-→ Full doc for: per-tier boundary definitions, impulse→tier verb map (`spark`/`evolve`/`crystallize`), short-form/CONTEXT.md rules, post-Episode-1 weekly-cadence roadmap, full example timeline.
+→ Full doc for: per-tier boundary definitions, impulse→tier verb map (`spark`/`evolve`/`crystallize`), short-form/CONTEXT.md rules, post-Episode-1 cadence options (weekly not adopted; slice-driven per Roadmap), full example timeline.

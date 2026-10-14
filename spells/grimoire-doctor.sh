@@ -121,7 +121,7 @@ while IFS= read -r f; do
     ((unindexed++)) || true
   fi
 done < <(find "$GRIMOIRE_ROOT" -name '*.md' -type f \
-            ! -path '*/.git/*' ! -name INDEX.md | sort)
+            ! -path '*/.git/*' ! -path "$GRIMOIRE_ROOT/generated/*" ! -name INDEX.md | sort)   # generated/ is gitignored build output
 [[ $unindexed -eq 0 ]] && ok "every doc is reachable from INDEX.md"
 [[ $unindexed -gt 0 ]] && say "  ${MUTED}fix: add a line under the right section in INDEX.md${RESET}"
 
