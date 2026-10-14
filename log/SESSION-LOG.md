@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-13 · Session S248 (grimoire-ep1-staging-audit)
+## LATEST — 2026-10-13 · Session S249 (xperimental-web-chrysalis-route)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S248: Grimoire audit; Roadmap rewritten to reality; gates/blockers reconciled; entry docs gist-first
+**This session:** S249: /chrysalis/ → 301 (deployed); xperimental.joinrabble.world live (drop.sh)
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-17 open.
-**Next:** Mark: D1 visibility, D3 dev sign-off, D4 /chrysalis/; then Phase 3 public face
+**Next:** first drop; D1 visibility; face polish toward G10
 
 ---
 
