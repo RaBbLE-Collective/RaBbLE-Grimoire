@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-16 · S253 (pocket-backplate-v4)
+## LATEST — 2026-10-16 · Session S252 (pocket-entity-60fps)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S253: Pocket backplate v4 (battery+speaker enclosed, stock screws) + FreeCAD podman sandbox
+**This session:** S252: Pocket entity 60 fps idle (2 cores + damage-skipped bands); settings-orientation + Meta clean-room plans filed
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16 open.
-**Next:** EP1 main: G9 fresh-VM bootstrap; face polish toward G10; public face. Pocket: Mark test-prints out/Backplate-v4.stl, then iterate (flush Ø51 option needs cover diameter); entity 60fps work (S252) in flight
+**Next:** EP1 main: G9 fresh-VM bootstrap; face polish toward G10; public face. Pocket: HANDOFF-S252 settings S1 (LVGL as texture) then S2 orientation + clean room W0; Mark test-prints Backplate-v4.stl (S253)
 
 ---
 
