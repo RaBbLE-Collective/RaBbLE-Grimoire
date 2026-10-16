@@ -275,3 +275,40 @@ proud of the OD. So the plate's only contact with the case is by design: its
 underside seats on the back rim, and the skirt clears the OD by 0.2mm per side.
 Not checkable from vendor data: the case wall thickness / inner bore (the bay and
 well overhang it), and the true rim-to-PCB depth (11.70 assumed).
+
+## v4.2: first-print fixes (2026-10-16, S255)
+
+Mark printed v4 (`Backplate-v4.stl`); it works and seats snug. Findings and the
+changes they drove (all Params cells in `scripts/build_backplate_v4.py`):
+
+| Finding from the print / photos | Change |
+|---|---|
+| Not enough cable room (battery lead end + MX1.25 plug, speaker lead ~15cm) | `wire_end` 2.0 -> 4.0, `wire_ch` 1.8 -> 3.5, `bat_tclr` 0.4 -> 1.2 (headroom over the cell) |
+| Speaker's protruding lead needed a side cutout (Mark burned one in with an iron, +X end) | `spk_notch_w` 6 x `spk_notch_d` 3 notches at BOTH X ends of the pocket (+X matches the dent, -X mirrors it) |
+| Speaker is ~5.1mm thick | `spk_t` 4.5 -> 5.1 |
+| Plate pressed on the side buttons (round caps on the case wall, lower/-Y edge, ~+-16.5mm either side of the slot) | skirt windows `btn_x` 18.1 / `btn_y` -21.3 / `btn_d` 10 (POSITION ESTIMATED from a photo; measure) |
+| USB-C plug body needs clearance | `usb_w` 16 x `usb_top` 0.8 window at the -X end (plug size assumed; measure) |
+| Too big / too much lip; wants flush, close to the case size | outer radius is now `case_r + skirt_wall` (1.2) = **OD 53.8**, no longer derived from the bay. `Pad_RimRing` restores the wall where bay/well corners poke past `r_in`, so the cavity is CLIPPED to the circle instead of growing the plate |
+| More rounded in hand | `chamfer` 1.5 on the bed-side edge (a true fillet there is an unsupported overhang), `round_r` 0.6 fillet on the skirt-end edge (applied before the window cuts, which would otherwise break the edge) |
+
+**Case diameter: 51.0 is confirmed.** Mark's ruler readings (48, then 49-50) were
+wrong; the v4 bore (51.4 = 51.0 + 2 x 0.2) fit "perfectly, snug". `case_d` is back
+to 51.0.
+
+Result: **OD 53.8 x 13.6mm** (12.1 above rim + 1.5 skirt; v4 was 54.6 x 12.2), fit
+check 0 overlap with board/battery/speaker. Files: `out/Backplate-v4.2.stl`
+(frozen copy) and the always-latest `out/Backplate-v4.{stl,step}`. Print grille
+face DOWN, 3+ perimeters (skirt wall is 1.2mm).
+
+**Not verified (no 3D case model exists, the fit check only covers board/battery/speaker):**
+- Flush seating: the 11.70 rim depth is from the vendor drawing. The drawing's 51
+  OD proved right, which makes 11.70 more credible, still unmeasured on the puck.
+- Button-cap and USB-C-plug clearance (positions from photos, sizes assumed).
+- Whether the clipped bay corners (up to a few mm at the -X/-Y corner) hurt the
+  battery lead routing.
+
+**Open:**
+- [ ] Print v4.2: seat on the rim with the 3 stock screws, check button/USB windows and cable room
+- [ ] Measure: button cap position along the edge + how far it protrudes, USB-C overmold W x H, rim-to-standoff depth (`standoff_gap` 1.27)
+- [ ] Mark may shorten the speaker lead (~15cm now): the cheapest way to win back cable room
+- [ ] Sinking the battery into the case still needs the inner bore measured

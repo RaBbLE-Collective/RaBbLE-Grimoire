@@ -12,6 +12,22 @@ Format: date, what was done, where things were left, what's next.
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16 open.
 **Next:** Pocket: Mark hand-tests settings + clock screen at tilts, then clean room W0; Mark test-prints Backplate-v4.stl (S253). EP1: G9 fresh-VM bootstrap; face polish; public face
 
+
+---
+
+## 2026-10-16 · Session S255 (pocket-backplate-v4-2)
+
+- **Repos:** Pocket, Grimoire. Sonnet 5.5. Mark printed Backplate-v4 ("it works, but has some issues"): cable room, speaker side cutout, buttons, USB-C, case size, hand feel.
+- **Result:** backplate v4.2 (`out/Backplate-v4.2.stl`): OD 53.8 x 13.6mm (was 54.6 x 12.2), outer radius fixed to case + 1.2mm wall with the cavity clipped to the circle (`Pad_RimRing`); more cable room (wire_end 4, wire_ch 3.5, +1.2 headroom); speaker pocket 5.1mm; side notches at both X ends; skirt windows for the lower-edge side buttons and the -X USB-C; chamfer 1.5 + skirt-end fillet 0.6. Details in `RaBbLE-Pocket/RaBbLE-Pocket-Backplate-CAD.md` (v4.2).
+- **Learned:**
+  - Case OD **51.0 is right** (v4 bore 51.4 fit snug); Mark's ruler readings of 48 and 49-50 were off. Don't re-derive it from a hand measurement.
+  - A big fillet on the bed-side edge is an unsupported overhang; use a 45 deg chamfer there and round only the free (skirt) end.
+  - Fillet the skirt edge BEFORE cutting windows (they split the circle into arcs and OCC refuses).
+  - To stop the plate growing with the cavity, fix r_out and re-pad a rim ring (clip) instead of deriving r_out from bay corners.
+  - No 3D case model exists, so the fit check cannot see the case wall, button caps or the USB plug. Button/USB window positions are photo estimates.
+- **Not done:** v4.2 untested on the puck. Needs: button-cap position/protrusion, USB-C overmold size, rim-to-standoff depth. Mark may shorten the ~15cm speaker lead.
+- **Next:** Mark prints v4.2 and reports fit; then tune btn_*/usb_*/cable params.
+
 ---
 
 ## 2026-10-16 · Session S254 (pocket-settings-texture)
