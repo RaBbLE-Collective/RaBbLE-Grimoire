@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-16 · Session S254 (pocket-settings-texture)
+## LATEST — 2026-10-16 · Session S254 (pocket-time-from-score)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S254: Pocket settings composited by the entity, slides + turns with the device (30+ fps)
+**This session:** S254: Pocket settings turn with the device; sCoRE serves the time (API, tool, beam), Pocket syncs on connect + picks its zone
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16 open.
-**Next:** Pocket: Mark hand-tests settings at tilts, then clean room W0; Mark test-prints Backplate-v4.stl (S253). EP1: G9 fresh-VM bootstrap; face polish; public face
+**Next:** Pocket: Mark hand-tests settings + clock screen at tilts, then clean room W0; Mark test-prints Backplate-v4.stl (S253). EP1: G9 fresh-VM bootstrap; face polish; public face
 
 ---
 
@@ -24,6 +24,11 @@ Format: date, what was done, where things were left, what's next.
   - The adapter passes exclusive area ends to `custom_draw_bitmap`; its default flush packs strides in place, so it can't serve a screen-sized DIRECT buffer (hence our own flush callback while direct).
 - **Not done:** visual and touch gates need Mark's hands (blank frame or pop, legibility turned, taps at 0/45/90/180, keypad, sleep/wake on settings). Old LVGL face keep-or-drop: Mark. Tearing (late bands) still unchecked. This session read and edited Meta-derived files: clean-room tainted like S252.
 - **Next:** Mark hand-tests settings on the gadget; then clean room W0 (seam spec, now including `ui_texture`).
+- **Then, time from sCoRE** (Mark: "add a setting to fetch the time from score, and allow for time zone selection to be picked on Device... resetting time should be standard"; then "change sCoRE to add a time tool/function to the API so that sCoRE serves the Pocket or app time"):
+  - **sCoRE** (`ff35fb1`, live on Render): `tools.server_time()` is the one source: `GET /api/v1/time[?tz=<IANA>]` (public, IP rate limited; 400 on an unknown zone), the `get_time` LLM tool, and `time` (UTC) in the beam's `ready`. `tzdata` added.
+  - **Pocket** (`90e8926`): `accord/rabble_time.c`: zone (29 POSIX rules with DST) and "Time from sCoRE" (default on) in their own NVS namespace; the RTC keeps local time; on every beam connect the clock is set to `time` plus half the hello round trip; a zone change keeps the instant. With no zone chosen, the first sync infers it from the hand-set clock (it picked New York). Clock screen (Settings > Clock) now scrolls: switch, zone roller, then the date and time by hand.
+  - **Verified:** on the gadget against prod: `set from sCoRE: 2026-10-16 05:36:05 New York (rtt 105 ms)`, matching the PC. Zone logic host-tested with stubs (inference, sync, London/Sydney/Chicago). Not seen: the clock screen layout on the glass.
+  - **Open:** the gadget rebooted once during testing (~05:33), in a gap between serial reads, so the cause wasn't captured; compare the S243 unexplained reboots. Local beam-echo testing needs TCP 8000 open (firewalld allows only SSH).
 
 ## 2026-10-16 · Session S252 (pocket-entity-60fps, then settings + clean-room plan)
 
