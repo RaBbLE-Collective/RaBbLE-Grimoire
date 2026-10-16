@@ -15,7 +15,7 @@ The strategy:
 - **Glow comes from a half-resolution soft layer** (233 x 233) upscaled under a full-resolution crisp layer. There is no runtime blur.
 - **Frames render in bands** into internal RAM while the previous band goes out by DMA. Each band is sent clipped to the circle and paced by the panel's TE pin.
 - **Gravity lock rotates geometry, never images.** The IMU angle is applied to every point before rasterising.
-- **Frame rate adapts:** 60 fps while listening or speaking, 30 fps when idle, about 1 fps for always-on. *(Superseded S251 by Mark: 60 fps idle, 22 fps floor in the busiest states; see `log/handoffs/HANDOFF-S251-Pocket-Entity-60fps.md`.)*
+- **Frame rate adapts:** 60 fps while listening or speaking, 30 fps when idle, about 1 fps for always-on. *(Superseded S251 by Mark: 60 fps idle, 22 fps floor in the busiest states; see `log/handoffs/done/HANDOFF-S251-Pocket-Entity-60fps.md`; met S252, results below Phase 1.)*
 
 The first gate is a short panel bench that decides whether 60 fps is physically available on this board's pins.
 
@@ -255,6 +255,29 @@ How it got there:
 - **Quarter-res haze layer:** void, both poles and rim baked at 120 by 118 only when the angle moves 0.5 deg or more, then doubled into the soft layer each frame by the same kernels. The soft layer is where Phase 2's dynamic stamps land. Host check: the interior is within 1 to 2 RGB565 steps of the original.
 - **Things that did not help:** IRAM placement of the hot loops (no change); PSRAM full-frame cache (354 KB copy costs 6.1 ms by CPU, 10.9 ms by GDMA, and async memcpy takes a GDMA channel the SPI driver wants). 16-row bands drop TE-paced rotation to 30 fps (command overhead pushes the frame past one TE period), so **32-row bands**.
 - **Open:** the haze rebake is 59 cycles per haze pixel, so a rotating frame is 4 ms of bake. Options if Phase 2 needs the room: spread the rebake over two frames with a second haze buffer (+30 KB), or an eighth-res haze (smooth enough by error estimate, but stacked floor averages darken it slightly, so it would need alternating floor and ceil averages). Internal heap free with the renderer loaded: 150 KB (largest block 57 KB).
+
+### Results on the gadget (S252): 60 fps idle
+
+The KISS entity (S251) in the gadget firmware, with Wi-Fi and the beam live. Pocket `074a07f`.
+
+| | S251 | S252 |
+|---|---|---|
+| Idle | ~20 fps | **60.0 fps** TE-locked |
+| Listening / speaking (held still) | 14 to 20 | 31 to 41 / ~34 |
+| Any state while turning | ~20 | ~30 (thinking 29.9) |
+| Line band visits at idle | ~1000 | ~260 |
+| Internal heap after `ready` | 18.4 KB | 37.5 KB |
+
+Steps, in the order measured:
+
+1. **Static RAM:** ring tables, `nz` cache, signal paths and haze tables into PSRAM BSS (`NL_EXT_BSS`); LVGL and direct mode share one buffer ring. 75 KB free before the extra buffers.
+2. **Sim before TE**, and timing per frame stage in `lcd_bands`. That showed ~5 ms per frame blocked inside the panel's draw call.
+3. **Line setup at push time** (16.16, once per primitive): only 8%; the per-pixel loop is the cost.
+4. **Sparse idle mesh** (skeleton edges always, the rest by activity, signals light the edges they walk): lines 13.9 to 2.9 ms, 30 fps. Activity now comes from FreeRTOS run-time stats less the renderer's own time per core.
+5. **Both cores** claim bands (a core-0 helper plus `lcd_send`): render split ~10/5 ms, but the wire became the limit (12.8 ms in draw calls: five polling SPI transactions per band, ~160 µs each even on an idle wire).
+6. **Damage:** per-band hash of the display list; only changed bands are rendered and sent. Plus the roll held still at rest (sensor jitter dirtied every band). About 18 of 30 bands drawn at idle: **60 fps**.
+
+Next: `log/handoffs/HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room.md`.
 
 ### Phase 2: Drawing primitives
 

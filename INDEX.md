@@ -270,6 +270,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-Pocket-Roadmap](RaBbLE-Pocket/RaBbLE-Pocket-Roadmap.md) — open questions and next steps; `release_track: independent`, not part of the EP1 lockstep
 - [RaBbLE-Pocket-Backplate-CAD](RaBbLE-Pocket/RaBbLE-Pocket-Backplate-CAD.md) — custom battery-bay backplate (v1) + reference assembly, built parametric in FreeCAD (headless via Flatpak); mount holes/board orientation sourced from vendor STEP + drawing cross-check
 - [RaBbLE-Pocket-Muse-SDK-Map](RaBbLE-Pocket/RaBbLE-Pocket-Muse-SDK-Map.md): Muse Gadget SDK bring-up record, why it's a bridge not a companion, file-level port map, gotchas
+- [RaBbLE-Pocket-Clean-Room-Plan](RaBbLE-Pocket/RaBbLE-Pocket-Clean-Room-Plan.md): two-team clean-room replacement of every Meta-derived (Apache) file, module by module in waves W0 to W7: inventory with upstream overlap, roles and firewall, clean workspace recipe, provenance and overlap gates
 - [RaBbLE-Pocket-Gadget-Port](RaBbLE-Pocket/RaBbLE-Pocket-Gadget-Port.md): S243 firmware rebuilt as a RaBbLE gadget on IDF v6.0.1: Apache-derived SDK parts isolated in `apache/`, own code in `accord/`, canvas-drawn face, push-to-talk beamed to sCoRE; layout, behaviour, what's verified, next
 - [RaBbLE-Pocket-Beam-Protocol](RaBbLE-Pocket/RaBbLE-Pocket-Beam-Protocol.md): v0 draft WebSocket contract between Pocket and sCoRE (`/api/v1/beam`): PCM up/down with a 4-byte header, JSON turn events; what the sCoRE endpoint must do; `ops/beam-echo.py` reference
 - [RaBbLE-Pocket-Entity-Port-Plan](RaBbLE-Pocket/RaBbLE-Pocket-Entity-Port-Plan.md): 60 fps procedural entity renderer ("NeBuLA-lite") for the CO5300 panel: band rendering + chord flush + TE pacing, half-res soft glow layer, gravity lock, 7 phases each with a gate; mock in Pocket `planning/mock/`
@@ -325,7 +326,8 @@ Status lives in each plan; the one-line status table is [log/plans/CONTEXT.md](l
 Status: [log/handoffs/CONTEXT.md](log/handoffs/CONTEXT.md).
 
 - [HANDOFF-S234-EP1-Entity-Face](log/handoffs/HANDOFF-S234-EP1-Entity-Face.md) — EP1 face build (pairs with the Entity-Face plan)
-- [HANDOFF-S251-Pocket-Entity-60fps](log/handoffs/HANDOFF-S251-Pocket-Entity-60fps.md) — Pocket entity on the gadget at ~20 fps: next is both cores, less FPU, sparse idle mesh, settings-slide fix; target 60 fps idle, 22 floor
+- [HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room](log/handoffs/HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room.md): Pocket entity at 60 fps idle; next is settings as a composited texture that turns with the device (fixes the blank slide), then the clean room off Meta's code
+- [HANDOFF-S251-Pocket-Entity-60fps](log/handoffs/done/HANDOFF-S251-Pocket-Entity-60fps.md) (done S252): Pocket entity from ~20 to 60 fps idle
 - [HANDOFF-S250-Pocket-Entity-Port-Phase1](log/handoffs/done/HANDOFF-S250-Pocket-Entity-Port-Phase1.md) — done S251: Phase 0 bench, Phase 1 renderer on device
 - [HANDOFF-S236-OS-ISO-VM-Run](log/handoffs/HANDOFF-S236-OS-ISO-VM-Run.md) — branded ISO VM run recipe + leftover items
 - [HANDOFF-FCC-Free-Claude-Code](log/handoffs/HANDOFF-FCC-Free-Claude-Code.md) — FCC LiteLLM proxy tuning

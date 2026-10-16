@@ -4,7 +4,9 @@ Open questions and next steps. Source: Mark's project rundown, 2026-08-07. Updat
 
 ## Open Questions / Next Steps
 
-- [ ] Entity port to 60 fps (S250): see `RaBbLE-Pocket-Entity-Port-Plan.md`. Phase 0 done (80 MHz + TE = 60 fps). Phase 1 done (PIE SIMD). S251: KISS entity (eyes, portals, NN mesh, mic strands, ring, glass) live in the gadget firmware at ~20 fps; next: `log/handoffs/HANDOFF-S251-Pocket-Entity-60fps.md` (60 fps idle). Fonts (Aether OFL) deferred.
+- [ ] Entity port to 60 fps (S250): see `RaBbLE-Pocket-Entity-Port-Plan.md`. Phase 0 done (80 MHz + TE = 60 fps). Phase 1 done (PIE SIMD). S251: KISS entity (eyes, portals, NN mesh, mic strands, ring, glass) live in the gadget firmware at ~20 fps. S252: **60 fps idle**, about 30 fps busy and turning. Next: `log/handoffs/HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room.md`. Fonts (Aether OFL) deferred.
+- [ ] Settings composited by the entity renderer, turning with the device (S252 handoff, settings track S1 to S3).
+- [ ] Clean room off Meta's code: `RaBbLE-Pocket-Clean-Room-Plan.md` (W0 seam after settings S1).
 
 - [x] v1 firmware (idle face, boot animation, settings, two-tier sleep/wake) — built + hardware-verified end to end 2026-08-08. See `RaBbLE-Pocket-V1-Firmware-Plan.md` and `RaBbLE-Pocket-Architecture.md`.
 - [ ] Root-cause the I2C transmit error seen once at a Tier 1 sleep entry (touch controller IRQ poll likely racing light-sleep transition) — non-fatal, not blocking, noted in `planning/decisions/2026-08-08-two-tier-sleep.md`

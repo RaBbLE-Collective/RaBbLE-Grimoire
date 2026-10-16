@@ -14,6 +14,31 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-16 · Session S252 (pocket-entity-60fps, then settings + clean-room plan)
+
+- **Repos:** Pocket (`074a07f`, not pushed), Grimoire. Opus 5.5. Mark: "pickup the RaBbLE-Pocket handoff, and begin on optimizing the app"; then "log and commit... plan a handoff that finishes the settings fix and makes the settings swipe respect the orientation of the device... move towards a clean room reimplementation of muse gadgets SDK".
+- **Result:** the gadget entity runs at **60 fps idle, TE-locked** (was ~20), with Wi-Fi and the beam live. Listening and speaking run at 31 to 41 fps, and about 30 fps while turning in any state; turning was measured with a throwaway roll sweep, not committed. Internal heap after `ready` is 37.5 KB (was 18.4). Every step was measured on the device; the table and the order of steps are in `RaBbLE-Pocket/RaBbLE-Pocket-Entity-Port-Plan.md` (Results on the gadget, S252).
+- **What did it:**
+  - **Static RAM:** big tables moved to PSRAM BSS; LVGL and direct mode share one band ring.
+  - **Sparse idle mesh:** skeleton edges always, the rest fill in with activity; signals light the edges they walk. Activity now comes from FreeRTOS run-time stats, because tickless idle broke the idle-hook count.
+  - **Both cores** claim bands: a core-0 helper plus `lcd_send`.
+  - **Damage skipping:** each band's display-list inputs are hashed, and only changed bands are rendered and sent.
+  - **Upright roll held at rest:** sensor jitter had been dirtying every band.
+  - **Line setup at push time:** only 8% faster.
+- **Learned:**
+  - Once two cores render, the panel link is the ceiling. `esp_lcd` draw costs ~160 µs per band even on an idle wire: five polling SPI transactions per band.
+  - Anything that changes every frame defeats damage skipping.
+  - Serial `d`/`u` drives push-to-talk from the host, which made the busy-state gates testable without hands (each turn spends Groq TTS quota).
+- **Decided (Mark):**
+  - Settings turns **continuously** with the device: LVGL becomes a texture composited by the entity renderer, which also fixes the blank-face slide at its root.
+  - The move off Meta's code is a **two-team clean room**: spec authors read the derived code; fresh implementers never do. Inventory: ~3,000 of 4,600 substantive lines in the Meta-derived files still match the SDK.
+- **Filed:**
+  - `log/handoffs/HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room.md` (settings track S1 to S3; S1 first);
+  - `RaBbLE-Pocket/RaBbLE-Pocket-Clean-Room-Plan.md` (waves W0 to W7, roles, clean workspace, overlap and provenance gates);
+  - S251 handoff moved to `done/`; roadmap and indexes updated.
+- **Next:** settings S1 (LVGL as texture, upright), then S2 orientation alongside clean room W0 (seam spec). Carry-overs: check late bands (tearing), push `new-horizons`.
+
+
 ## 2026-10-16 · Session S253 (pocket-backplate-v4, FreeCAD in podman)
 
 - **Repos:** Pocket, Grimoire. Opus 5.5. Mark: "create a Backplate in Freecad that can be 3D printed ... hold a battery inside it and not expose the battery wire, just the speaker should be external exposed", in a podman sandbox on Desktop 3; later "the design needs to support the small stock screws"; ends with "I'll print the part and see how I like fitment ... then we can iterate".
