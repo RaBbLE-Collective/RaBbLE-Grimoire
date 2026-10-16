@@ -14,6 +14,28 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-16 · Session S251 cont. (pocket-entity-port, KISS entity on the gadget)
+
+- **Repos:** Pocket, Grimoire. Opus 5.5. Mark, on seeing two blurred blobs: "port the simple parts of the UI: eyes, portals, with animation ... status ... sCoRE connection ... NN mesh ... spectrum wave going into the portals ... KISS"; keep the ring kernel and the optimization work; mic strands from the real mics, button icons at the buttons, turning with gravity; mesh fully connected and driven by real activity; later "defer the fonts, log this session, plan the next optimization step".
+- **Built:** `nebula_lite` is now a scene renderer (ported from the Pocket mock):
+  - band rasteriser: span-solved ellipses, capsule lines, A8 sprites, integer paths;
+  - display list in PSRAM, binned per 16-row band;
+  - the gadget glue is `accord/rabble_entity.c`;
+  - the BSP brings the panel up at 80 MHz with TE;
+  - `rabble_lcd_bands.c` has a direct mode;
+  - the board seam gained `display_direct`, `direct_stats`, `direct_rows` and `mic_deg[2]`.
+- **Placements:** mic and button positions are measured from the schematic board view (mirrored back side): MIC1 211°, MIC2 145°, PWR −33°, BOOT +34°.
+- **Mesh:** activity follows per-core CPU load, via idle hooks.
+- **Fixed along the way:**
+  - a stack overflow that crashed the device on listen;
+  - internal RAM exhaustion that kept the websocket from starting (static BSS: the haze buffer became lazy, the bins moved into the PSRAM list);
+  - LVGL spinning in its flush wait (task watchdog);
+  - the touch starvation behind the unreachable settings swipe.
+- **Speed:** about 20 fps on the gadget. This FPU is slow, and division, `sqrtf` and `floorf` are library calls; fast-math, fixed-point circles and lines and a sqrt table took circles 3x faster and orbs 2x. The full mesh then doubled line draws. Commits `f4156ae` (Pocket) plus the S251 Phase 1 commits; none pushed.
+- **Deferred:** fonts. Aether's are OFL, which is outside the permissive-only rule; Mark to decide.
+- **Open bug:** the slide to settings shows a blank face (the LVGL canvas is never drawn while direct mode runs).
+- **Handoff:** `log/handoffs/HANDOFF-S251-Pocket-Entity-60fps.md` (both cores, less FPU, sparse idle mesh, settings-slide fix). **Next:** that plan, with the target of 60 fps idle and a 22 fps floor.
+
 ## 2026-10-15 · Session S251 (pocket-entity-port, Phase 1 on device)
 
 - **Repos:** Pocket, Grimoire. Opus 5.5. Mark: "keep moving on the RaBbLE Pocket UI port."

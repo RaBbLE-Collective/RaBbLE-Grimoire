@@ -4,7 +4,7 @@ Open questions and next steps. Source: Mark's project rundown, 2026-08-07. Updat
 
 ## Open Questions / Next Steps
 
-- [ ] Entity port to 60 fps (S250): see `RaBbLE-Pocket-Entity-Port-Plan.md`. Phase 0 done (80 MHz + TE = 60 fps). Phase 1 renderer at 3.2 ms static, 59.6 fps TE-paced while rotating (S251, PIE SIMD); next: renderer behind the HAL, then Phase 2 primitives.
+- [ ] Entity port to 60 fps (S250): see `RaBbLE-Pocket-Entity-Port-Plan.md`. Phase 0 done (80 MHz + TE = 60 fps). Phase 1 done (PIE SIMD). S251: KISS entity (eyes, portals, NN mesh, mic strands, ring, glass) live in the gadget firmware at ~20 fps; next: `log/handoffs/HANDOFF-S251-Pocket-Entity-60fps.md` (60 fps idle). Fonts (Aether OFL) deferred.
 
 - [x] v1 firmware (idle face, boot animation, settings, two-tier sleep/wake) — built + hardware-verified end to end 2026-08-08. See `RaBbLE-Pocket-V1-Firmware-Plan.md` and `RaBbLE-Pocket-Architecture.md`.
 - [ ] Root-cause the I2C transmit error seen once at a Tier 1 sleep entry (touch controller IRQ poll likely racing light-sleep transition) — non-fatal, not blocking, noted in `planning/decisions/2026-08-08-two-tier-sleep.md`

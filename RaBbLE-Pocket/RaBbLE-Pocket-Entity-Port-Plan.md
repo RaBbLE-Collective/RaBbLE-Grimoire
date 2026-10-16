@@ -15,7 +15,7 @@ The strategy:
 - **Glow comes from a half-resolution soft layer** (233 x 233) upscaled under a full-resolution crisp layer. There is no runtime blur.
 - **Frames render in bands** into internal RAM while the previous band goes out by DMA. Each band is sent clipped to the circle and paced by the panel's TE pin.
 - **Gravity lock rotates geometry, never images.** The IMU angle is applied to every point before rasterising.
-- **Frame rate adapts:** 60 fps while listening or speaking, 30 fps when idle, about 1 fps for always-on.
+- **Frame rate adapts:** 60 fps while listening or speaking, 30 fps when idle, about 1 fps for always-on. *(Superseded S251 by Mark: 60 fps idle, 22 fps floor in the busiest states; see `log/handoffs/HANDOFF-S251-Pocket-Entity-60fps.md`.)*
 
 The first gate is a short panel bench that decides whether 60 fps is physically available on this board's pins.
 
