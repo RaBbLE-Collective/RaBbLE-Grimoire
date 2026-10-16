@@ -1,4 +1,4 @@
-# HANDOFF S250: Pocket entity port, Phase 0 done, Phase 1 on device next
+# HANDOFF S250: Pocket entity port, Phase 0 done, Phase 1 on device in progress
 
 Cold start for the next agent. Plan: `RaBbLE-Pocket/RaBbLE-Pocket-Entity-Port-Plan.md` (7 phases, one gate each). Repo: `RaBbLE-Pocket` branch `new-horizons` (pushed).
 
@@ -8,15 +8,31 @@ Cold start for the next agent. Plan: `RaBbLE-Pocket/RaBbLE-Pocket-Entity-Port-Pl
 - **The board currently runs the bench, not the gadget.** Reflash the gadget with `ops/build-flash.sh firmware` when done.
 - **Decisions the numbers support:** panel clock **80 MHz** (40 cannot reach 60 fps; 60 MHz rounds to 40); TE (GPIO13, 60.0 Hz) paces frames; chord windows at **16 to 32 row** bands (8 rows loses to command overhead); reset pin GPIO39.
 - **Phase 0 gate: one open visual item.** Mark saw the bench run fine at 80 MHz: one screen noisy, light tears only. Not yet attributed to the app or the display. Check: at 80 MHz, which mode was noisy; rerun the same mode at 40 MHz (known-good clock) and compare; try the tear in a TE-paced mode with a slower frame. If noise is 80 MHz only, try drive strength (`gpio_set_drive_capability` on CLK and D0..D3) before giving up the clock.
-- **Phase 1 skeleton exists on PC.** `firmware/components/nebula_lite/` (board-agnostic C: soft layer bake, 2x bilinear upscale, chord mask, rotated ring) and `sim/build.sh [gravity_deg]` (host harness, writes `sim/out/frame.png`). Host render is about 1 to 2.6 ms per frame; that is not a device number.
+- **Phase 1 skeleton** `firmware/components/nebula_lite/` and `sim/build.sh [gravity_deg]` (host harness, writes `sim/out/frame.png`). Device numbers below.
+
+## Phase 1 on device: first numbers (S250, before the rewrite)
+
+Bench modes `NL ...` render with `nebula_lite` and send chord-windowed bands (`nl_band_window` + `nl_render_band(dst,y0,rows,x0,x1)`, output byte-swapped for the panel via `NL_SWAP_BYTES`). First run at 40 MHz, single task, flash-XIP code:
+
+- Render about **100 ms per frame** (budget about 4 + 4 ms) and soft bake **130 ms** when the angle moves. 25x over. Cause: per-pixel `sinf`/`sqrtf`/divides and 12 multiplies per bilinear pixel on the LX7. Host timing (1 ms) was misleading, as warned.
+- Task-watchdog backtraces in the log are the bench task starving IDLE0, not a crash. `CONFIG_ESP_TASK_WDT_CHECK_IDLE_TASK_CPU0=n` is now in the bench `sdkconfig.defaults`.
+
+## Where the code is (commit 1b45192, `new-horizons`)
+
+The hot paths were rewritten right after those numbers, and **the rewrite has NOT been run on the device**:
+
+- Ring color: 256-entry LUT by angle (`nl_ring_lut`), index from the polynomial `nl_atan2`; no `sinf` per pixel.
+- Soft bake: integer and LUT falloff (`nl_haze_lut`, `nl_rim_lut`), no divides, no libm per pixel.
+- 2x upscale: SWAR RGB565 average (`avg565`), vertical blend into a soft-width row, then two outputs per soft pixel.
+- Host check: `sim/build.sh` still renders the same picture (0.9 ms host).
 
 ## Next (Phase 1 gate: background plus upscale under about 5 ms per frame on the device)
 
-1. Link `nebula_lite` into `panel_bench` and add a mode that renders each band with `nl_render_band` and sends it chord-clipped, TE-paced at 80 MHz. Log render ms per frame (soft bake, upscale, total) with `esp_timer`, and fps.
-2. Soft layer in internal RAM (106 KB); band buffers 2 x 30 KB internal. Render on core 1, send from core 0 (the bench is single-task today).
-3. Replace the placeholder per-pixel `sinf`/`sqrtf` in `compose.c` with LUTs where the on-device numbers demand it; keep float32 only.
-4. Wrap the bands into the LVGL custom widget (`entity_widget`) and `panel_flush` behind the HAL only after the bench numbers hold. `firmware/bsp/rabble_lcd_bands.c` is the existing PSRAM-band LVGL flusher and the base for `panel_flush`.
-5. Then Phase 2 primitives (AA line, stamps, rotated ellipse SDF, A8 mask blit), each micro-benchmarked in cycles per pixel on the device.
+1. Delete `firmware/panel_bench/sdkconfig` if present (it is gitignored), `ops/build-flash.sh firmware/panel_bench`, read `BENCH` lines. Look at the `NL ...` rows: `render_ms` and `bake_ms`. Run at 80 MHz (the 40 MHz block is for comparison; edit `clocks[]` to `{80}` to save time).
+2. If render is still over about 4 ms: profile ring (atan per pixel: try a coarser angle LUT or per-row incremental angle), then `upscale_row`; consider calling `nl_soft_bake` spread over several frames (4 row-chunks per frame) instead of all at once; try `IRAM_ATTR` on `upscale_row` and the ring loop, and check instruction-cache misses (the bench does not use `CONFIG_SPIRAM_FETCH_INSTRUCTIONS`).
+3. Then split cores: render on core 1, send from core 0 (the bench is a single task today), and confirm 60 fps TE-paced with render in flight.
+4. Resolve the open noise/tear question (see State above) before locking 80 MHz.
+5. Then `entity_widget` + `panel_flush` behind the HAL, then Phase 2 primitives, each micro-benchmarked in cycles per pixel on the device.
 
 ## Gotchas
 

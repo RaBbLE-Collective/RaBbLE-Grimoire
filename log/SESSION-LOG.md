@@ -14,6 +14,17 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-15 · Session S250 (pocket-entity-port, parallel to d1-public-repos)
+
+- **Repos:** Pocket, Grimoire, BaBbLE (read only). Sonnet 5.5. Mark: "read the port plan, file it and begin work", then "the HW should be connected", then asked to log and hand off.
+- **Pocket pushed:** the GitHub repo was empty; `main` and `new-horizons` are now on `RaBbLE-Collective/RaBbLE-Pocket` (private). An accidental commit of `firmware/panel_bench/build/` (1,588 files, 144 MB) was rewritten locally and force-pushed with `--force-with-lease` at Mark's go-ahead. `.gitignore` now covers the bench's `build/`, `managed_components/`, `sdkconfig`.
+- **Plan filed:** `RaBbLE-Pocket/RaBbLE-Pocket-Entity-Port-Plan.md` (from BaBbLE intake, left in place as the original), indexed; mock at Pocket `planning/mock/rabble-pocket-entity.html`; roadmap line added.
+- **Phase 0 done (`firmware/panel_bench/`):** 80 MHz plus TE pacing holds 59.7 fps with chord-windowed bands; 40 MHz cannot (best 49 fps); 60 MHz rounds to 40 (SPI divides an 80 MHz base). Chord windows save 16 percent of bytes; 8-row bands lose to command overhead; GPIO39 is the reset pin. Mark's visual check: looks good, one screen noisy and light tears, not yet attributed to app versus display. Results are in the plan, Phase 0.
+- **Phase 1 in progress:** `nebula_lite` component plus host harness `sim/build.sh`. First device run: render 100 ms and bake 130 ms per frame (budget 8 ms): hot paths rewritten with LUTs and SWAR blend, **not yet run on the device** (commit 1b45192).
+- **Left on the board:** the panel bench firmware, not the gadget. Reflash with `ops/build-flash.sh firmware`.
+- **Note:** an early "no board detected" was wrong (zsh aborted the `ls` on an unmatched glob).
+- **Handoff:** `log/handoffs/HANDOFF-S250-Pocket-Entity-Port-Phase1.md`. **Next:** device-run the rewrite, hit the 5 ms gate, split cores, settle the noise question.
+
 ## 2026-10-15 · Session S250 (d1-public-repos)
 
 - **Repos:** sCoRE, NeBuLA, Grimoire, Chrysalis (local tag only). Opus 5.5. Mark asked for the risk of going public, then: "clean up the repos, add licenses and strip the Render parts from public sCoRE and remove fallback secrets. Then we can flip them to public."
