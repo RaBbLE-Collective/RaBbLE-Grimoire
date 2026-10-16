@@ -272,6 +272,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-Pocket-Muse-SDK-Map](RaBbLE-Pocket/RaBbLE-Pocket-Muse-SDK-Map.md): Muse Gadget SDK bring-up record, why it's a bridge not a companion, file-level port map, gotchas
 - [RaBbLE-Pocket-Gadget-Port](RaBbLE-Pocket/RaBbLE-Pocket-Gadget-Port.md): S243 firmware rebuilt as a RaBbLE gadget on IDF v6.0.1: Apache-derived SDK parts isolated in `apache/`, own code in `accord/`, canvas-drawn face, push-to-talk beamed to sCoRE; layout, behaviour, what's verified, next
 - [RaBbLE-Pocket-Beam-Protocol](RaBbLE-Pocket/RaBbLE-Pocket-Beam-Protocol.md): v0 draft WebSocket contract between Pocket and sCoRE (`/api/v1/beam`): PCM up/down with a 4-byte header, JSON turn events; what the sCoRE endpoint must do; `ops/beam-echo.py` reference
+- [RaBbLE-Pocket-Entity-Port-Plan](RaBbLE-Pocket/RaBbLE-Pocket-Entity-Port-Plan.md): 60 fps procedural entity renderer ("NeBuLA-lite") for the CO5300 panel: band rendering + chord flush + TE pacing, half-res soft glow layer, gravity lock, 7 phases each with a gate; mock in Pocket `planning/mock/`
 - [RaBbLE-Pocket-V1-Firmware-Plan](RaBbLE-Pocket/RaBbLE-Pocket-V1-Firmware-Plan.md) — first custom firmware: idle face (eyes/time/battery %), GIF-frame boot animation, touch settings, two-tier PMIC-gated sleep/wake; BSP/HAL file layout + 7-slice incremental verification plan
 
 ---

@@ -4,6 +4,8 @@ Open questions and next steps. Source: Mark's project rundown, 2026-08-07. Updat
 
 ## Open Questions / Next Steps
 
+- [ ] Entity port to 60 fps (S250): see `RaBbLE-Pocket-Entity-Port-Plan.md`. Phase 0 (panel bench) needs the board; Phases 1 to 3 start on PC in the LVGL SDL simulator.
+
 - [x] v1 firmware (idle face, boot animation, settings, two-tier sleep/wake) — built + hardware-verified end to end 2026-08-08. See `RaBbLE-Pocket-V1-Firmware-Plan.md` and `RaBbLE-Pocket-Architecture.md`.
 - [ ] Root-cause the I2C transmit error seen once at a Tier 1 sleep entry (touch controller IRQ poll likely racing light-sleep transition) — non-fatal, not blocking, noted in `planning/decisions/2026-08-08-two-tier-sleep.md`
 - [ ] LVGL drag-and-drop UI simulator (Mark's ask, deferred out of v1) — build once real screen needs beyond idle/settings/boot become clearer
