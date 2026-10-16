@@ -5,14 +5,39 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-16 · Session S251 cont. (pocket-entity-60fps)
+## LATEST — 2026-10-16 · S253 (pocket-backplate-v4)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S251: Pocket KISS entity live in gadget (~20 fps); 60 fps handoff filed
+**This session:** S253: Pocket backplate v4 (battery+speaker enclosed, stock screws) + FreeCAD podman sandbox
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16 open.
-**Next:** EP1 main: G9 fresh-VM bootstrap run; face polish toward G10; public face. Pocket (parallel): HANDOFF-S251-Pocket-Entity-60fps (RAM budget, slide fix, sparse mesh, fixed-point prims, both cores)
+**Next:** EP1 main: G9 fresh-VM bootstrap; face polish toward G10; public face. Pocket: Mark test-prints out/Backplate-v4.stl, then iterate (flush Ø51 option needs cover diameter); entity 60fps work (S252) in flight
 
 ---
+
+## 2026-10-16 · Session S253 (pocket-backplate-v4, FreeCAD in podman)
+
+- **Repos:** Pocket, Grimoire. Opus 5.5. Mark: "create a Backplate in Freecad that can be 3D printed ... hold a battery inside it and not expose the battery wire, just the speaker should be external exposed", in a podman sandbox on Desktop 3; later "the design needs to support the small stock screws"; ends with "I'll print the part and see how I like fitment ... then we can iterate".
+- **Sandbox:** `hardware/cad/sandbox/` (Containerfile + `cad-sandbox.sh build|cmd|render|gui|shell`) runs FreeCAD 1.1.3 from the official AppImage, extracted and SHA256-checked, on Fedora 44 (which doesn't package FreeCAD).
+  - The GUI runs natively on Wayland on workspace 3 via a runtime window rule (`hyprctl eval`; legacy `dispatch exec [rules]` is a Lua syntax error on 0.56).
+  - Agents can watch it off-screen with `grim -T <stableId>`.
+  - Two fixes were needed: the AppRun forced xcb (blurry XWayland at 2x), and Qt-Wayland segfaulted until `xkeyboard-config` + `XKB_CONFIG_ROOT` were added.
+  - Navigation is preset to SolidWorks style. GPU init fails in the container, so rendering is software (llvmpipe).
+- **Design:** backplate v4 (`scripts/build_backplate_v4.py` -> `Backplate.FCStd`, `out/Backplate-v4.{stl,step}`). It is one support-free part, printed grille-face down, that replaces the stock -B back cover:
+  - a skirt over the 51mm case;
+  - a battery bay with a lead gap and wire channel;
+  - a connector well over BAT/SPK, so every wire stays inside;
+  - a face-out speaker pocket behind a hex grille;
+  - screw pads onto the brass standoffs, with deep counterbores so the **stock ~4.3mm screws** still get ~3mm of thread.
+  - All dimensions live in a `Params` spreadsheet bound by expressions.
+  - Result: Ø54.6 x 12.2mm (10.7 above the rim).
+  - `render_backplate_v4.py` runs a solid-interference fit check (all zero) and renders the exploded, section and screw-section views.
+  - The STL is checked watertight with no non-manifold edges or self-intersections.
+- **Facts re-derived from the vendor data:**
+  - The `Board.FCStd` Z=0 is the **display front**, not the back; the v3 doc had it backwards.
+  - The -B rim is at Board Z 11.70; the stock cover is ~1.27mm and sits on an inset rim (confirmed by Mark).
+  - Photos identified the battery as the EEMB LP402535 (35x25x4.3; Mark's eyeball estimate was 2x1x0.1in) and the speaker as a face-firing cavity speaker.
+- **Not yet verified:** the speaker dims (30x20x4.5 assumed), the ring wall/inset bore, and whether the print fits at all. Nothing is pushed.
+- **Next:** Mark prints `out/Backplate-v4.stl` (flip it grille-down in the slicer) and test-fits it. Then iterate. Options on the table: a flush Ø51 version (plug into the inset instead of a skirt; needs the cover diameter) and dropping the battery ~1.25mm into the old cover space.
 
 ## 2026-10-16 · Session S251 cont. (pocket-entity-port, KISS entity on the gadget)
 

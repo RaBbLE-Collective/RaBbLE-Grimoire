@@ -192,3 +192,86 @@ first version of the updated assembly script clobbered Board's baked-in
 raw STEP-import pose. Fix: use `shape.translate(vector)` for a pure
 positional offset on top of an already-correctly-oriented part; only
 reassign `.Placement` outright when you mean to replace the whole transform.
+
+---
+
+## v4: enclosed battery + face-out speaker (2026-10-16)
+
+Mark's brief: a printable backplate that holds the LiPo **inside**, never
+exposes a wire, and leaves only the speaker open to the outside. v2's open rim
+notch is gone. His first eyeball estimate (2.0 x 1.0 x 0.1 in) was replaced
+after a photo showed the cell is the same **EEMB LP402535** (35 x 25 x 4.3mm,
+leads out of one short end) and the speaker is a face-firing rounded-rect
+cavity speaker.
+
+Script `scripts/build_backplate_v4.py` -> `Backplate.FCStd` (+ `out/Backplate-v4.{step,stl}`),
+fit-check/renders `scripts/render_backplate_v4.py` -> `out/renders/backplate-v4-*.png`.
+Built and verified in the podman sandbox (`hardware/cad/sandbox/`, see the CAD README).
+
+**What the vendor data actually says (re-derived this session):**
+- `Board.FCStd` frame: **Z=0 is the display front**, back components rise in +Z
+  (display disc Z 0..3.4, PCB back ~5.4-5.7, standoffs to 10.43, MX1.25 tops 11.70,
+  8-pin header to 12.70). The v3 note "flat back face at local Z=0" is backwards;
+  the v2 assembly preview likely stacked the plate on the wrong face.
+- -B side view: 11.70 total depth. The back is **open**: the -B case is a
+  front bezel/ring, PCB back exposed. Rim plane = Board Z 11.70 (MX1.25 tops sit
+  exactly there; the header pokes ~1.0 past it, matching the drawing's bump).
+- Both MX1.25 headers (battery + speaker) are side-entry, at Y~-18, X +-(2.7..10.6),
+  plugs pointing at the board edge.
+- The 20x32 rectangle in the -B back view = the bundled 8 ohm 2W speaker
+  (2030-class cavity speaker assumed).
+
+**Design (single part, prints grille-face down, zero supports):**
+```
+z -1.5..0    skirt hugging the 51mm case OD (Ø51.4; 1.5 deep because the traced -B side
+             views show side features from ~1.9mm off the back edge)
+z 0..4.7     battery bay 37.8 x 25.8 (incl. 2.0 lead-turn gap at -X) + 1.8 wire
+             channel along -Y, connector well over both MX1.25s (boss kept round
+             the bottom screw)
+z 4.7..9.5   speaker pocket 30.6 x 20.6, face toward grille, battery is its retainer
+z 9.5..10.7  grille wall, hex hole field (Ø1.6 @ 2.6)
+```
+Screws: the **stock** short screws (Mark's requirement, 2026-10-16). The -B case
+ships with a thin flat back cover (photo IMG_0557): 3 holes onto the brass
+standoffs, two rectangular windows over BAT/SPK (wires exited the back, hence the
+dangling parts) and a slot for the 8-pin female header. v4 replaces that cover:
+a Ø6 pad under each hole drops to 0.1mm above the standoff top (`standoff_gap`
+1.27 from the STEP, MEASURE) and the Ø4 counterbore runs down to `cb_flange` 1.2mm
+above the pad bottom, so a stock screw clamps about what the cover did. Mark confirmed: the cover sits on a slightly inset rim inside the
+ring, is at most 2mm thick (STEP implies ~1.27: standoff tops 10.43, rim 11.70,
+MX1.25 tops flush with the rim through the cover windows), and the stock screws
+are ~4.3mm long, so ~3mm of thread engages the standoff. Bay moved
+to `bat_cy` -1.0 to keep 0.8mm wall beside the deep top counterbores.
+
+Battery-sink option (not applied): per the STEP, the cell could drop ~2.6mm into
+the ring cavity if shifted +2mm in X (USB-C blocks the -X end, a part at
+X14.7..19.5 Y8.8..13.8 tops out at Z8.70), saving ~2.6mm of plate height, but its
+corners then reach r~24mm against an unmeasured ring bore. Header relief 1.5 deep.
+Battery corners rest on the skirt shoulder. Fit-check: zero interference
+plate/board/battery/speaker.
+
+All main dims live in the `Params` spreadsheet, bound by expressions; outer
+diameter is derived (`r_out`) from the bay corners. For the LP402535 it is
+**Ø54.6 x 12.2mm** (10.7 above the rim + 1.5 skirt). The first-estimate 50.8mm cell had
+pushed it to Ø63.4. Possible slimming: the PCB-back cavity inside the -B ring
+(~5mm free over the bay footprint per the STEP) could take part of the battery
+thickness; unexplored until the real cavity is measured.
+
+Gotchas: spreadsheet cells must carry units (`=50.8 mm`, and `+ 0.5 mm` in
+formulas) or sketch-constraint expressions fail with unit mismatch; headless
+saves have no GuiDocument.xml, so the body opens hidden until a Gui pass sets
+visibility and saves (render script does this).
+
+**Open (needs Mark's calipers):**
+- [ ] Speaker footprint, thickness, sound-port face (front vs side)
+- [ ] Stock cover diameter (= inset bore): enables a cover-shaped plug that seats on
+      the inset rim and lets the battery drop ~1.25mm into the cover's old space
+- [ ] Print, fit, iterate
+
+**-B case vs the plate:** no -B case solid exists (vendor STEP = base 1.75 board
+only; `Case.FCStd` holds 2D traced views). Measured from those traces: the case is
+a plain Ø51.0 cylinder end to end (0.4mm narrower step at the display end), nothing
+proud of the OD. So the plate's only contact with the case is by design: its
+underside seats on the back rim, and the skirt clears the OD by 0.2mm per side.
+Not checkable from vendor data: the case wall thickness / inner bore (the bay and
+well overhang it), and the true rim-to-PCB depth (11.70 assumed).
