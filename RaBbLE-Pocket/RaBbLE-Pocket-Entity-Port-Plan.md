@@ -201,12 +201,32 @@ Phase 0's result sets the frame-rate ceiling for everything after it; the task l
 
 ### Phase 0: Bench the panel link
 
-- [ ] Bring up esp\_lcd with the CO5300 on the current base (Muse SDK or vendor BSP), with no LVGL.
-- [ ] Flush solid-color full frames with DMA at 40, 60 and 80 MHz; log fps and visual errors at each clock.
-- [ ] Add per-band circle-chord windows and confirm the CO5300 window alignment rule (expected 2-pixel even start and width).
-- [ ] Wire TE on GPIO13 and start band 0 on its edge; confirm no tearing on a moving test pattern.
-- [ ] Measure internal-RAM to QSPI DMA throughput with two 30 KB band buffers.
-- [ ] Gate: visible pixels reach 60 fps without tearing at a stable clock. If not, set the ceiling and adjust targets.
+Bench: `RaBbLE-Pocket/firmware/panel_bench/` (flash with `ops/build-flash.sh firmware/panel_bench`, read the `BENCH` lines on the USB console). Run S250 on the -B board, ESP-IDF v6.0.1, flushing from two internal 30 KB DMA buffers, no LVGL.
+
+- [x] Bring up esp\_lcd with the CO5300 on the current base, no LVGL.
+- [x] Flush at 40, 60 and 80 MHz. **60 MHz is not a real option:** it gave numbers identical to 40 MHz, because the S3 SPI divides an 80 MHz base clock (80/1, 80/2). The choice is 40 or 80.
+- [x] Per-band circle-chord windows work with 2-pixel aligned x0/x1. No visible rejection by the panel; confirm by eye.
+- [x] TE on GPIO13 fires at 60.0 Hz (the panel scans at 60 Hz, so 60 fps is also the hard ceiling).
+- [x] Throughput with two 30 KB internal band buffers (table below).
+- [ ] Gate: 60 fps without tearing at a stable clock. **Numbers say yes at 80 MHz; the visual check (no noise, no tearing) is Mark's, pending.**
+
+| Mode (link only, buffers prefilled) | 40 MHz | 80 MHz |
+| --- | --- | --- |
+| Full frame, 32-row bands | 41.7 fps | 76.9 fps |
+| Full frame + TE pacing | 29.8 fps | 59.6 fps |
+| Chord windows, 32-row bands (354 KB/frame) | 49.1 fps | 90.9 fps |
+| Chord windows, 16-row bands (344 KB/frame) | 46.7 fps | 79.9 fps |
+| Chord windows, 8-row bands (338 KB/frame) | 40.4 fps | 62.7 fps |
+| Chord 16-row + TE pacing | 29.8 fps | 59.7 fps |
+| Chord 16-row + TE, animated bars | 29.8 fps | 59.7 fps |
+
+What it means:
+
+- **40 MHz cannot reach 60 fps**, even circle-only (best 49 fps). TE pacing quantises it to 30 fps, because a frame longer than 16.7 ms misses the next TE edge.
+- **80 MHz reaches 60 fps TE-paced, with headroom** (90 fps unpaced). The GPIO-matrix worry did not stop the link from running; whether the picture is clean at 80 MHz is the open visual check.
+- **Chord windows save about 16 percent of bytes** at 32-row bands (354 KB against 424 KB), not the 21 percent the pi/4 model predicts, because a rectangular band window is as wide as its widest row. Smaller bands save more bytes but cost more per-band command overhead: **8-row bands are slower than 16 or 32.** Use 16 to 32 rows.
+- Link time per frame at 80 MHz is about 11 ms of the 16.7 ms, so rendering must fit while the previous band is in flight, as planned.
+- Reset pin: the vendor BSP uses GPIO39 and the panel resets and runs, so GPIO39 is right for the -B board. (The GPIO1 in the esp-hal issue is the SD-card CMD pin on this board.)
 
 ### Phase 1: Renderer skeleton
 
@@ -325,7 +345,7 @@ The biggest risk is the QSPI clock: if the GPIO matrix pins won't run reliably a
 - [x] Push the new-horizons branch of RaBbLE-Pocket. Done S250; the base is reviewable on GitHub.
 - [ ] Must listening hold 60 fps with the voice pipeline live, or is 45 acceptable there?
 - [ ] Does the Muse SDK expose esp\_lcd panel handles and TE, or its own display layer?
-- [ ] Which reset pin is correct, GPIO39 or GPIO1?
+- [x] Which reset pin is correct, GPIO39 or GPIO1? GPIO39 (S250 bench; GPIO1 is SD CMD on this board).
 - [ ] Is the 1.75C (aluminium, no TF slot, 32 MB flash) the shipping target? It changes asset placement and the battery figure.
 - [ ] Does the earlier esp\_emote\_gfx / ThorVG plan still apply for baked expression clips alongside this procedural renderer?
 
