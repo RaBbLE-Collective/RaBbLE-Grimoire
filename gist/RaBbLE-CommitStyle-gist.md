@@ -1,39 +1,39 @@
-# CommitStyle.md — gist
+# CommitStyle — gist
 
-> Source: `RaBbLE-Agent/RaBbLE-CommitStyle.md` | ~620 → ~230 tokens
+> Source: `RaBbLE-Agent/RaBbLE-CommitStyle.md` | ~620 → ~250 tokens
 > Regenerate: `bash spells/distill-gists.sh`
 
-The **Pulse Protocol** — high-information, system-specific commit and branch conventions for the Collective's metamorphosis.
+The Pulse Protocol: RaBbLE's commit message format and branch naming model, built for high-information, system-specific history.
 
-**Commit format:** `[impulse] ~ [organ] >> [revelation] // %SYSTEM_STATE%`
-- **organ** = component changed · **revelation** = what was learned/fixed/created (be specific) · **%STATE%** = optional machine-parseable code
+**Format:** `[impulse] ~ [organ] >> [revelation] // %SYSTEM_STATE%`
+- organ = component being changed; revelation = what was learned, fixed, or created (be specific)
+- `%SYSTEM_STATE%` is optional and machine-parseable
 
 **Impulses**
 
 | Impulse | Meaning |
 | :--- | :--- |
-| `spark` | New curiosity/capability manifested |
-| `harmonize` | Enforce Low Entropy; reduce noise |
-| `mend` | Heal a logic-fracture or flow drift |
-| `transcribe` | Update lore / self-description |
-| `ingest` | Devour deps, binaries, data-stores |
-| `glitch` | State change from IPC / entropy spike |
-| `evolve` | Epoch threshold crossed — epoch-landing commits to `main` only |
+| `spark` | New capability manifested |
+| `harmonize` | Enforce Low Entropy, reduce noise |
+| `mend` | Fix a logic-fracture or drift |
+| `transcribe` | Update lore or self-description (docs) |
+| `ingest` | New dependencies, binaries, data-stores |
+| `glitch` | State change from incoming IPC or entropy spikes |
+| `evolve` | Epoch threshold crossed; epoch-landing commits on `main` only |
 
-**Examples**
-- `spark ~ ear-module >> adding natural language eavesdropping // 0xFEED_BEEF`
-- `ingest ~ belly >> devouring jq for faster stream-tasting // %IPC_RECV%`
-- `evolve ~ substrate >> epoch-I crystallized // %EPOCH_I_LANDED%`
+**Branches** (no semver; evolutionary model)
 
-**Branches** (no semver — evolutionary model)
+| Pattern | Purpose |
+| :--- | :--- |
+| `RaBbLE/epoch-<Roman>` | Epoch staging before landing on `main` (e.g. `RaBbLE/epoch-I`) |
+| `reliquary/<name>` | Archived, inert reference branches |
+| `<descriptive-name>` | Active work, named for the spirit of the work (e.g. `RaBbLE-OS-New-Horizons`) |
 
-| Pattern | Purpose | Example |
-| :--- | :--- | :--- |
-| `RaBbLE/epoch-<Roman>` | Epoch staging before `main` | `RaBbLE/epoch-I` |
-| `reliquary/<name>` | Archived, inert reference | `reliquary/RaBbLE-Dev-Clean` |
-| `<descriptive-name>` | Active dev, named for spirit | `RaBbLE-OS-New-Horizons` |
+- Epoch commit: `evolve ~ substrate >> epoch-I crystallized // %EPOCH_I_LANDED%`
+- Versions are human translations of thresholds already crossed, not targets set in advance
 
-**Scope rules:** one logical change/commit · test first (untested = `%SYSTEM_DRIFT%`) · commit small & often.
-**Anti-patterns:** `fix stuff`, `update config`, `wip`, `changes` — zero-information.
+**Scope rules:** one logical change per commit · test before committing · commit small, often
 
-→ Full doc for: full example set, versions-as-human-translations rationale, complete anti-pattern reasoning, protocol framing prose.
+**Anti-patterns:** "fix stuff", "update config", "wip", "changes"
+
+→ Full doc for: example commits, impulse phrasing nuance, anti-pattern rationale, `%SYSTEM_DRIFT%` note, branch naming examples

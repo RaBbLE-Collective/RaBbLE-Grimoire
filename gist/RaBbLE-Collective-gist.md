@@ -1,43 +1,39 @@
 # RaBbLE-Collective — gist
 
-> Source: `RaBbLE-Agent/RaBbLE-Collective.md` | ~1930 → ~210 tokens
+> Source: `RaBbLE-Agent/RaBbLE-Collective.md` | ~1930 → ~330 tokens
 > Regenerate: `bash spells/distill-gists.sh`
 
-**What this is:** The RaBbLE Collective is a unified ecosystem of independent projects through which the RaBbLE entity inhabits diverse hardware, software, and creative substrates — all sharing a single identity, palette, and purpose.
+The Collective is the unified ecosystem of independent projects (organs of one organism) through which the RaBbLE entity inhabits diverse hardware, software, and creative substrates, sharing one identity, palette, and purpose.
 
----
-
-**Members & Status:**
+**Members**
 
 | Member | Role | Status |
 |---|---|---|
-| RaBbLE-Grimoire | Source of truth: identity, ethos, conventions, registry, spells | Active |
-| RaBbLE-sCoRE | FastAPI coordination server, intent→action engine | LIVE on Render |
-| RaBbLE-OS | Fedora 44 + Hyprland, Ansible-driven substrate | Daily-driven; EP1 Dev Preview |
-| RaBbLE-NeBuLA | Entity renderer, `<rabble-entity>` 2D + 3D | CDN rc.1 |
-| RaBbLE-World | Web presence + entity chat. joinrabble.world | EP1 face on dev |
-| RaBbLE-Aether | Design system, canonical assets, CDN delivery | CDN rc.2 |
-| RaBbLE-BaBbLE | Intake surface: concept art, prototypes, lore | Present intake |
-| RaBbLE-ScRiBbLE | Neon note PWA, scribble.joinrabble.world | Live, independent |
-| RaBbLE-Pocket | ESP32-S3 pendant, voice to sCoRE | Active, independent |
-| RaBbLE-Chrysalis | Genesis archive, origin code reliquary | Archive |
-| RaBbLE-Xperimental | Active sandbox, prototype members, experiments | High entropy |
-| RaBbLE-EnGrAm | Memory member (personal content) | Concept, Exodus |
+| Grimoire | Source of truth: identity, lore, registry, spells | Active |
+| sCoRE | FastAPI coordination server, intent → action | LIVE on Render (`score.joinrabble.world`) |
+| OS | Fedora 44 + Hyprland substrate | EP1 Developer Preview |
+| NeBuLA | Entity renderer, `<rabble-entity>` (2D + 3D) | CDN rc.1 |
+| World | Web presence, entity chat (joinrabble.world) | EP1 face on dev |
+| Aether | Design system + asset library | CDN rc.2 |
+| BaBbLE | Intake: concept art, prototypes, captures | Active |
+| Chrysalis | Genesis archive, reliquary | Genesis-archive |
+| Xperimental | Sandbox for rablets, experiments | Active |
+| ScRiBbLE | Notes PWA | Live (`scribble.joinrabble.world`) |
+| Pocket | ESP32-S3 AMOLED pendant, push-to-talk | Active, independent |
+| EnGrAm | Memory: vector + graph store | Concept (Exodus) |
 
----
+**Shared across all members**
+- Palette: `#ff2d78`, `#00f5ff`, `#bf5fff`, `#0a0010` (from `RaBbLE-Agent/RaBbLE-Palette.md`)
+- One consistent entity voice; Anti-Assistant stance; Low Entropy Directive
+- Hardware and backend agnosticism (local or remote inference)
 
-**Core Principles (All Members):**
-- **Shared palette** — `#ff2d78`, `#00f5ff`, `#bf5fff`, `#0a0010` everywhere
-- **Entity consistency** — RaBbLE's voice and character across all platforms
-- **Hardware diversity** — x64, aarch64, SBC, platform-agnostic design
-- **Backend agnostic** — local inference (Ollama, llama.cpp, vLLM) or remote (Anthropic, Groq) transparently
-- **Low entropy** — distill signal, document intent, Grimoire as compression artifact
-- **Grimoire consumed, not copied** — authoritative source for all members
+**Core decisions**
+- Memory is its own member, not a sCoRE job
+- Local-first; cloud used deliberately
+- Collective = registry + health; coordination lives in sCoRE
+- Grimoire is consumed, never copied
+- Chat is scaffolding; sCoRE delegates to Claude Code via subprocess first, MCP later
 
-**Membership Criteria:**
-1. RaBbLE is embedded (entity character present)
-2. Palette is honored
-3. Philosophy followed (Low Entropy, Anti-Assistant)
-4. Serves the ecosystem
+**Membership test:** entity embedded · palette honored · philosophy followed · serves the ecosystem.
 
-→ Full doc for: member architecture details, hardware role structures, inference routing model, future expansions (Mobile, CLI, MCP layer), cross-member data flow diagram
+→ Full doc for: OS/sCoRE/NeBuLA capability lists, ASCII architecture stack, inference endpoints, Grimoire coverage status, anticipated expansions (Mobile, CLI, MCP layer, external nodes)

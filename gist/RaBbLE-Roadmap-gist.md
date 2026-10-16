@@ -1,18 +1,34 @@
 # RaBbLE-Roadmap — gist
 
-> Source: `RaBbLE-Agent/RaBbLE-Roadmap.md` | ~1700 → ~260 tokens
-> Regenerate: `bash spells/distill-gists.sh` (hand-distilled S248 after the rewrite)
+> Source: `RaBbLE-Agent/RaBbLE-Roadmap.md` | ~2746 → ~560 tokens
+> Regenerate: `bash spells/distill-gists.sh`
 
-**What this is:** the one Collective map: where each member stands, what Episode 1 (Genesis) ships, the arc after. It points; it doesn't restate. Air gate = `log/EP1-AIR-CHECKLIST.md` (wins any disagreement). Forward work = `RaBbLE-Post-EP1-Roadmap.md`. Path to air = `log/plans/EP1-Staging-and-Grimoire-Audit.md`.
+The one Collective-level map: where each member stands, what Episode 1 (Genesis) ships, and the arc after it. It points to other docs rather than restating them. If it disagrees with `log/EP1-AIR-CHECKLIST.md`, the checklist wins.
 
-**Position (S248):** Epoch 0 Foundation · Episode 1 Genesis **staging, no date** (airs when the checklist is green, Mark's call). G1–G6 + G8 green · G7 evidence in, not recorded · G9 blocked (B-17: SSH manifests + private NeBuLA/sCoRE) · G10 dev face needs more work before Mark signs off (S249); `/chrysalis/` removed.
+**Position (2026-10-13, S248):** Epoch 0 · Episode 1 Genesis, staging, not yet aired, no date set. Version v0.0.0.0 → v0.0.0.1 at air. Gates G1–G6 and G8 are green. G7 is met but not recorded. G9 is blocked. G10 awaits Mark's sign-off. Air is Mark's call once every row is green.
 
-**Members:** sCoRE LIVE (Render, guest chat, `/beam` for Pocket) · World prod = older build, dev = five-beat "wake RaBbLE" face, prod updates at air merge · NeBuLA `<rabble-entity backend="alive">` CDN rc.1 · Aether CDN rc.2 · OS Fedora 44 + Hyprland Developer Preview (VM S236 + bare metal S238 passed) · Grimoire, BaBbLE, Collective lockstep · independents: ScRiBbLE (live), Pocket (gadget FW), Chrysalis, Xperimental · EnGrAm concept · TaskViSoR scaffold.
+**Members:**
 
-**Genesis = expression:** face + voice, no observation/memory/unprompted speech (stated honestly in the release record).
+| Track | Members |
+|---|---|
+| Lockstep (tag `episode-1-v0.0.0.1` together) | sCoRE (live on Render), World, NeBuLA (CDN `v0.0.0.1-rc.1`), Aether (CDN `v0.0.0.1-rc.2`), OS (Developer Preview), Grimoire, BaBbLE, Collective |
+| Independent | ScRiBbLE, Pocket, Chrysalis, Xperimental |
+| Not yet built | EnGrAm (concept, Exodus), TaskViSoR (scaffold, Echo 1) |
 
-**Arc:** EP2 **Exodus** = senses + a door for users (local harness, Watcher, EnGrAm, NeBuLA state machine, accounts/sessions first) · EP3 **Covenant** = Sovereign Accord surfaces · **Echo 1** = learning loop closes, first stable release. Biblical naming is intentional lore.
+**Genesis ships:** a face and a voice. A visitor reaches `joinrabble.world`, the entity boots, and sCoRE answers in persona. It also ships a Developer Preview OS and a bootstrap. RaBbLE does not yet observe, remember, or speak unprompted.
 
-**Cadence:** episodes air when a vertical slice closes, not weekly-by-calendar. Decide the post-air integration branch before air.
+**Left before air:**
+- G9: `setup.sh` must clone on a fresh machine (B-17).
+- G7: record the OS preview floor.
+- G10: face polish.
+- Public face.
+- Air procedure: checklist §D.
 
-→ Full doc for: member table detail, Genesis remaining-work list, 6 open questions, revision history.
+**After Genesis:**
+- **Episode 2, Exodus:** local harness and `rabble` CLI, Watcher daemon, EnGrAm memory, user accounts.
+- **Episode 3, Covenant:** named, not scoped.
+- **Echo 1:** the learning loop closes. It is the first stable release, and breaking changes are reserved for Echo boundaries.
+
+Episodes air when a vertical slice closes, not on a calendar.
+
+→ Full doc for: per-member state details, open questions (observation ethics, cloud/local split), cadence and branch decision, revision history, Exodus item list
