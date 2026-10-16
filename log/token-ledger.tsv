@@ -247,3 +247,4 @@ commit-7e47ade	xperimental-web-chrysalis-route	S249: /chrysalis/ removed + xperi
 commit-68a474e	chrysalis-reliquary-mend	S249: reliquary mend + first drops
 commit-536e39f	d1-public-repos	S250: repos public
 94d4f7e8-e2ae-4299-89ff-1f9c56277b37	pocket-entity-port	S250 Pocket entity port phase 0/1
+01f07a41-4cee-44ba-9d33-2ce8e69e9a4c	pocket-entity-60fps	S251 KISS entity on gadget

@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-15 · Session S250 (d1-public-repos)
+## LATEST — 2026-10-16 · Session S251 cont. (pocket-entity-60fps)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S250: NeBuLA + sCoRE public; Railway token purged from sCoRE history; B-17 resolved
+**This session:** S251: Pocket KISS entity live in gadget (~20 fps); 60 fps handoff filed
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16 open.
-**Next:** G9 fresh-VM bootstrap run; face polish toward G10; public face
+**Next:** EP1 main: G9 fresh-VM bootstrap run; face polish toward G10; public face. Pocket (parallel): HANDOFF-S251-Pocket-Entity-60fps (RAM budget, slide fix, sparse mesh, fixed-point prims, both cores)
 
 ---
 
