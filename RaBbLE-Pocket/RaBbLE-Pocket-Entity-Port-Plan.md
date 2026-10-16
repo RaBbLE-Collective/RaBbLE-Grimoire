@@ -231,10 +231,30 @@ What it means:
 ### Phase 1: Renderer skeleton
 
 - [ ] Custom LVGL widget whose draw callback hands band buffers to NeBuLA-lite.
-- [ ] Band loop with ping-pong buffers, chord flush and TE pacing.
-- [ ] Soft layer buffer, cached background bake and 2x bilinear upscale per band.
-- [ ] Build the same renderer for the LVGL SDL simulator on Fedora.
-- [ ] Gate: background plus upscale under about 5 ms per frame on the device.
+- [x] Band loop with ping-pong buffers, chord flush and TE pacing (in `panel_bench`; not yet behind the HAL).
+- [x] Soft layer buffer, cached background bake and 2x bilinear upscale per band.
+- [ ] Build the same renderer for the LVGL SDL simulator on Fedora (a headless host harness, `sim/build.sh`, stands in for now).
+- [x] Gate: background plus upscale under about 5 ms per frame on the device: **3.2 ms static** (bake 0.38 + render 2.83). While the angle moves the haze rebakes, so it costs **6.9 ms** (bake 4.1 + render 2.8). That is over 5 but still inside the frame budget table, and TE-paced output holds **59.6 fps** both ways.
+
+**Results (S251, 80 MHz, 32-row chord bands, one task):**
+
+| Stage | First C (S250) | LUT rewrite (S250) | Now (S251) |
+|---|---|---|---|
+| Render (upscale, ring, byte swap) | 100 ms | 37.6 ms | 2.83 ms |
+| Bake while rotating | 130 ms | 19.0 ms | 4.07 ms |
+| Bake when still (haze to soft doubling only) | n/a | 0 | 0.38 ms |
+| TE-paced fps, rotating | n/a | 14.9 | 59.6 |
+
+How it got there:
+
+- **Scalar C could not make it.** At about 5 cycles per pixel budget, a scalar RGB565 bilinear costs about 20 instructions per output pixel at -O2. The per-stage split before the rewrite was upscale 18.9 ms, ring 9.9 ms, byte swap 5.4 ms.
+- **PIE SIMD** (`src/simd_pie_esp32s3.S`, 8 pixels per 128-bit op): row average, horizontal doubling (`ee.src.q` for the neighbour, `ee.vzip.16` to interleave) and byte swap. The SWAR average needs a non-saturating add, which PIE lacks; biasing the AND term by 0x8000 keeps `ee.vadds.s16` from saturating. The C versions in `simd_c.c` are the contract, and the bench self-tests the PIE kernels against them on every boot.
+- **Phase-aligned upscale:** panel (2k, 2m) is soft (k, m), and odd rows and columns are neighbour averages. Soft samples are baked a quarter pixel off centre so geometry lands where it did with centred bilinear.
+- **Band windows** start on a 16-px boundary with widths a multiple of 8, so SIMD rows stay aligned (bytes per frame rose 354 to 361 KB). Pixels off the round panel are not zeroed. Only the equator band's rows are unaligned, and they stage through a line buffer.
+- **Ring:** each ring pixel's angle index is computed once; per frame it is one lookup minus the gravity index.
+- **Quarter-res haze layer:** void, both poles and rim baked at 120 by 118 only when the angle moves 0.5 deg or more, then doubled into the soft layer each frame by the same kernels. The soft layer is where Phase 2's dynamic stamps land. Host check: the interior is within 1 to 2 RGB565 steps of the original.
+- **Things that did not help:** IRAM placement of the hot loops (no change); PSRAM full-frame cache (354 KB copy costs 6.1 ms by CPU, 10.9 ms by GDMA, and async memcpy takes a GDMA channel the SPI driver wants). 16-row bands drop TE-paced rotation to 30 fps (command overhead pushes the frame past one TE period), so **32-row bands**.
+- **Open:** the haze rebake is 59 cycles per haze pixel, so a rotating frame is 4 ms of bake. Options if Phase 2 needs the room: spread the rebake over two frames with a second haze buffer (+30 KB), or an eighth-res haze (smooth enough by error estimate, but stacked floor averages darken it slightly, so it would need alternating floor and ceil averages). Internal heap free with the renderer loaded: 150 KB (largest block 57 KB).
 
 ### Phase 2: Drawing primitives
 

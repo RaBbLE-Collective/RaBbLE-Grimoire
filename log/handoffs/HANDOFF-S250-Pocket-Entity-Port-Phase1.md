@@ -1,5 +1,7 @@
 # HANDOFF S250: Pocket entity port, Phase 0 done, Phase 1 on device in progress
 
+> **S251 update:** the rewrite was measured and replaced. PIE SIMD upscale plus a quarter-res haze layer: render 2.83 ms, 59.6 fps TE-paced while rotating (commits 9fbdee2, ae1485e). Steps 1 and 2 under "Next" below are done; results and remaining options are in the plan's Phase 1 section. Still open: steps 3 to 5 (core split, the noise check, HAL widget, Phase 2). The board runs `panel_bench`, which now ends in a turning demo loop.
+
 Cold start for the next agent. Plan: `RaBbLE-Pocket/RaBbLE-Pocket-Entity-Port-Plan.md` (7 phases, one gate each). Repo: `RaBbLE-Pocket` branch `new-horizons` (pushed).
 
 ## State

@@ -14,6 +14,15 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-15 · Session S251 (pocket-entity-port, Phase 1 on device)
+
+- **Repos:** Pocket, Grimoire. Opus 5.5. Mark: "keep moving on the RaBbLE Pocket UI port."
+- **S250 rewrite measured first:** render 100 to 37.6 ms, bake 130 to 19 ms. A per-stage split (bench-only `nl_dbg_skip`) showed upscale 18.9, ring 9.9, byte swap 5.4 ms; codegen was fine at -O2, so scalar bilinear on 177k pixels cannot fit about 5 cycles per pixel.
+- **PIE SIMD kernels** (`nebula_lite/src/simd_pie_esp32s3.S`): row average, horizontal doubling, byte swap, 8 pixels per op. The C versions are the contract, and the bench self-tests PIE against them each boot (passed first try). Phase-aligned 2x upscale, 16-px-aligned band windows, ring angle table, quarter-res haze layer rebaked only on angle change.
+- **Result:** render **2.83 ms**, bake 0.38 ms still and 4.07 ms rotating; **59.6 fps TE-paced, static and rotating**, 32-row bands (16-row drops to 30). Phase 1 gate met for static (3.2 ms); rotating is 6.9 ms, over 5 ms but inside the frame budget. Numbers and dead ends (IRAM, PSRAM cache, GDMA) are in the plan's Phase 1 section.
+- **Left on the board:** `panel_bench`, which after the table loops the entity turning slowly at 60 fps for a visual check. Reflash the gadget with `ops/build-flash.sh firmware`.
+- **Next:** Mark's eyes on the demo (and the open 80 MHz noise item), renderer behind the HAL (`entity_widget` + `panel_flush`), core split, then Phase 2 primitives.
+
 ## 2026-10-15 · Session S250 (pocket-entity-port, parallel to d1-public-repos)
 
 - **Repos:** Pocket, Grimoire, BaBbLE (read only). Sonnet 5.5. Mark: "read the port plan, file it and begin work", then "the HW should be connected", then asked to log and hand off.
