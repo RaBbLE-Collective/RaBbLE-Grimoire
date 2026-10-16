@@ -29,7 +29,7 @@
 | G6 | CORS resolves for the web demo user-type (`allow_origin_regex`) | ✅ ACAO=joinrabble.world (S153) | B-03 ✓ |
 | G7 | RaBbLE-OS meets its **Developer-Preview FLOOR** (see §C) on a generic x86_64 VM | 🟡 evidence in, not signed: VM install PASSED S236 (207 ok / 0 failed, SDDM login), bare metal PASSED S238. Confirmation run on the air ISO (incl. F2 recovery) **deferred by Mark, S248** | B-15 = known edge |
 | G8 | All lockstep members on `new-horizons`, clean, ready to tag | ✅ in-step (status.sh) | B-08 ✓ |
-| G9 | Collective bootstrap (`setup.sh`) verified end-to-end on a fresh machine/VM | 🔴 cannot pass yet: manifests clone over SSH; NeBuLA + sCoRE private (visibility undecided). `/setup.sh` redirect live on dev, prod at air merge | B-17 |
+| G9 | Collective bootstrap (`setup.sh`) verified end-to-end on a fresh machine/VM | 🟡 unblocked S250: NeBuLA + sCoRE public, manifests on https, every member clones anonymously. Needs the fresh-VM end-to-end run. `/setup.sh` redirect live on dev, prod at air merge | — |
 | G10 | World prod is a coherent unified EP1 experience (learns Collective + RaBbLE, frames EP1, episodic roadmap) — **no `/chrysalis` or `/xperimental` on prod** | 🔄 S235 five-beat face live on **dev** ("wake RaBbLE" → boot → live sCoRE chat → Summon → Enter; Mark confirmed live, S248). **Not signed off (Mark, S249): the most polished version, still needs work.** `/chrysalis/` removed (D4, S249): dev router now 301s to `chrysalis.joinrabble.world` (deployed + verified S249); prod's copy is a stale folder in the old build, gone at the air merge. `/xperimental` 404 ✓ (the sandbox is its own subdomain, `xperimental.joinrabble.world`) | — |
 
 **Decision rule (set by Mark, S129):** the air call is Mark's once these rows are green.
@@ -54,7 +54,7 @@ Lockstep members (`release_track: episode`) tag together; independent members ar
 | **BaBbLE** | intake/captures | reference — tagged, not changed | none |
 | **Chrysalis** | genesis archive | `independent` — not tagged in lockstep | none |
 | **Xperimental** | sandbox | `independent` — not tagged in lockstep | none |
-| **Collective** | root + `setup.sh` | ✅ in-step | G9 (B-17) |
+| **Collective** | root + `setup.sh` | ✅ in-step | G9 (fresh-VM run) |
 | **ScRiBbLE** | note PWA | `independent` — live at scribble.joinrabble.world | none |
 | **Pocket** | pendant firmware | `independent` — beam to sCoRE live (S243) | none |
 

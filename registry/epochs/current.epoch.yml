@@ -63,7 +63,7 @@ focus:
     milestone: "Bootstrap verified, all members cloneable, tagged episode-1"
     status: "Active — setup.sh served via joinrabble.world/setup.sh redirect (live on dev; prod at air merge)"
     episode_1_blocker: true
-    blocker_note: "G9 (S248): setup.sh cannot complete on a fresh machine. Member manifests clone over SSH (git@github.com:), and NeBuLA + sCoRE are private; visibility undecided. Tracked as B-17."
+    blocker_note: "G9: unblocked S250 (B-17 resolved: all members public or skipped, manifests on https, anonymous clones verified). Still needs the end-to-end run on a fresh VM."
 
   RaBbLE-Grimoire:
     priority: primary

@@ -4,7 +4,7 @@
 > Do not hand-edit — use `blockers.sh add` / `resolve`. This is the durable
 > home for blockers so they survive the rewrite of the SESSION-LOG `## LATEST` box.
 >
-> Last synced: 2026-10-13  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
+> Last synced: 2026-10-16  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
 
 ## OPEN
 
@@ -13,7 +13,6 @@
 - **B-13** — FreeCAD/LibreCAD Flatpak UI pixelated/blurry on HiDPI (3840x2400 @ Hyprland scale=2) — X11-only Flathub sandbox forces XWayland, Hyprland compositor bitmap-scales those surfaces unconditionally. QT_SCALE_FACTOR override alone makes it worse (compounds with compositor scaling, 4x too large + still blurry). Real fix needs xwayland:force_zero_scaling=true in Hyprland config paired with a Qt scale factor — NOT safe to toggle live (killed all running XWayland clients instantly when tried, S212). Needs a deliberate config/hypr/ + dotctl change applied at a restart Mark chooses.  ·  owner:Mark  ·  since:2026-08-08  ·  [hidpi, freecad]
 - **B-15** — ProArt hardware role (ansible/roles/hardware/x64/asus_proart_p16/) is being applied on Mark's non-ProArt Desktop bare-metal install — tries to install NVIDIA packages that don't exist on that hardware, causing Ansible task failures; install ends without Firefox and with 'a good number' of other failed recipes. Hardware auto-detection logic needs diagnosis — the role should not be matching this machine at all.  ·  owner:Mark  ·  since:2026-09-28  ·  [os-install,hardware-detection]
 - **B-16** — OpenRouter $10 credits not purchased — free-tier 429 caps the OpenRouter leg of the chat chain (resilience only; G5 met via Groq). Continues B-02.  ·  owner:Mark  ·  since:S106  ·  [resilience]
-- **B-17** — G9: setup.sh cannot complete on a fresh machine — every member manifest clones over SSH (git@github.com:), so machines without keys fail; NeBuLA + sCoRE are private so anonymous HTTPS also fails (verified git ls-remote S248). Fix: manifests to https:// + a visibility decision for NeBuLA/sCoRE (open), or setup.sh skips private members with a notice.  ·  owner:Mark  ·  since:S248  ·  [ep1-gate]
 
 ## RESOLVED
 
@@ -28,4 +27,5 @@
 - **B-10** — resolved: CLOUDFLARE_API_TOKEN secret now wired via gh secret set across all 6 org repos (World/Aether/NeBuLA/sCoRE ×2 + Grimoire has none needed) S206, working around missing admin:org gh scope with per-repo sets. Missing-secret failure mode confirmed cleared via re-run. See B-12 for the narrower permission issue this surfaced.
 - **B-12** — resolved: S234: re-minted token w/ User Details:Read + Memberships:Read + Zone DNS:Edit/Read + Workers Routes:Edit; verified via CF API; secrets synced to World/Aether/NeBuLA/sCoRE/ScRiBbLE/Chrysalis; World dev Action green (63f8d3d), first since June
 - **B-14** — resolved: root cause found S237: hyprpaper.conf hardcoded monitor=eDP-1/HDMI-A-1 (this dev laptop's own outputs) instead of a wildcard, so hyprpaper matched no output on the VM or bare-metal desktop and applied no wallpaper anywhere; fixed with monitor="*" (confirmed real wildcard via hyprpaper's WallpaperMatcher.cpp), RaBbLE-OS 69f9a03
+- **B-17** — resolved: S250: NeBuLA + sCoRE public (D1), manifests on https, TaskViSoR repo TBD; every clonable manifest passes an anonymous git ls-remote. G9 still needs its end-to-end fresh-VM run.
 
