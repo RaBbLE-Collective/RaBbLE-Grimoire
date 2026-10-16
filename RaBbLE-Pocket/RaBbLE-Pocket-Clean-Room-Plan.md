@@ -3,6 +3,10 @@
 > Replace every Meta-derived (Apache-2.0) file in the Pocket firmware with RaBbLE's own code, written clean room, module by module, until `Meta Platforms` appears nowhere in RaBbLE-Pocket outside fetched or gitignored trees.
 > Decided S252 (2026-10-16), Mark: **two-team clean room**. Companion handoff: `log/handoffs/HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room.md`.
 > Review: the planned independent Opus review hit the session limit; S252 checked the riskiest claims against the code itself (touch wrapper, flush path, build coupling, tainted paths). Re-run an independent review before W0 starts.
+> **Status (S256, 2026-10-16): W0 seam done.** Seven files replaced on the gadget, record in `cleanroom/PROVENANCE.md`, specs in `cleanroom/w0-*.spec.md`, tests in Pocket `firmware/test/cleanroom/w0/`. Next: W1 leaf. Lessons from W0:
+> - Sonnet spec authors drift toward the original's structure (step lists, primitive choices, private names). F has to rewrite those as requirements.
+> - The implementer still reproduced private names the spec never gave (training recall, as predicted). The overlap gate caught it, and one "rewrite these lines of yours" round fixed it.
+> - The workspace export also needs `firmware/datasheets/*` and `firmware/managed_components/` copied in (both gitignored), and it must leave out `ops/cleanroom-overlap.py`.
 > Background: `RaBbLE-Pocket-Muse-SDK-Map.md` (what the SDK is, licensing), `RaBbLE-Pocket-Gadget-Port.md` (how `apache/` and `accord/` came to be).
 
 ## Why, and what this is not
@@ -69,7 +73,9 @@ git archive HEAD firmware sim ops \
   | tar -x -C ~/RaBbLE-Cleanroom/pocket \
       --exclude='firmware/components/rabble_gadget/apache' \
       --exclude='firmware/components/rabble_axp2101' \
-      --exclude='firmware/bsp'
+      --exclude='firmware/bsp' --exclude='ops/cleanroom-overlap.py'
+cp -r firmware/datasheets/* ~/RaBbLE-Cleanroom/pocket/firmware/datasheets/
+cp -r firmware/managed_components ~/RaBbLE-Cleanroom/pocket/firmware/
 cp ../RaBbLE-Grimoire/RaBbLE-Pocket/cleanroom/<module>.spec.md ~/RaBbLE-Cleanroom/pocket/SPEC.md
 cd ~/RaBbLE-Cleanroom/pocket && git init -q && git add -A && git commit -qm "clean room base"
 ```
