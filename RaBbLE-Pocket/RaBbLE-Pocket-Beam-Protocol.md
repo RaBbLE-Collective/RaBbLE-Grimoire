@@ -35,11 +35,21 @@ Audio of any turn but the current one is dropped on both sides. Frames may be an
 
 A voice turn can start before the socket is up: the device buffers up to 8 s of speech and sends it on connect. Out of reach entirely, it keeps the note in PSRAM (up to 4, 15 s each) and sends it as an ordinary turn once sCoRE is reachable, possibly while the screen is asleep. In that case it only waits for `sent` and cancels the rest, so **sCoRE should keep the reply** (for the user's next look) rather than tie it to the socket.
 
+## Time
+
+sCoRE is the time source for the Pocket and any app (S254). One function, `tools.server_time()` in sCoRE, serves:
+
+- the beam: `ready` carries `time`, so the device sets its clock every time it connects;
+- `GET /api/v1/time[?tz=<IANA zone>]` (public, IP rate limited): `{"time": 1792142822.691, "utc": "2026-10-16T09:27:02+00:00"}`, plus `tz`, `local`, `offset_s` and `abbr` with a zone; 400 for an unknown zone;
+- the `get_time` LLM tool, so RaBbLE never guesses the date or time.
+
+The device keeps its zone itself (Settings > Clock: a list of POSIX TZ rules with DST, `accord/rabble_time.c`) and its RTC holds local time. With no zone chosen yet, the first sync picks the zone whose offset the hand-set clock already shows.
+
 ## sCoRE to device
 
 | type | Fields | Device does |
 |---|---|---|
-| `ready` | `name` (optional, shown in Settings > sCoRE) | Marks the beam Connected |
+| `ready` | `name` (optional, shown in Settings > sCoRE), `time` (UTC seconds since the epoch, S254) | Marks the beam Connected; with "Time from sCoRE" on (default), sets its clock to `time` plus half the hello round trip, in its chosen zone |
 | `heard` | `turn`, `text`, `final` | Caption: the transcript so far, quoted |
 | `sent` | `turn` | sCoRE has the whole note: a saved note can be dropped |
 | `reply` | `turn`, `text` (a delta, appended) | Caption pages through the reply text, timed against the speech |
