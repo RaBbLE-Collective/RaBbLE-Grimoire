@@ -249,3 +249,7 @@ commit-536e39f	d1-public-repos	S250: repos public
 94d4f7e8-e2ae-4299-89ff-1f9c56277b37	pocket-entity-port	S250 Pocket entity port phase 0/1
 01f07a41-4cee-44ba-9d33-2ce8e69e9a4c	pocket-entity-60fps	S251 KISS entity on gadget
 94d4f7e8-e2ae-4299-89ff-1f9c56277b37	pocket-backplate-v4	S253: FreeCAD podman sandbox + backplate v4
+d0fc8066-2bb9-4072-851c-c378f51ab747	collective	auto: current state S253: pocket backplate v4, print pending
+98f03344-25be-462c-b4b8-322a0328a72b	collective	auto: current state S252: pocket 60 fps, settings + clean-room plans
+98f03344-25be-462c-b4b8-322a0328a72b	pocket-entity-60fps	S252: 60 fps idle; settings-orientation + clean-room plans
+4df439b5-44ba-4b9f-b557-9ba5bab4949e	pocket-settings-texture	S254
