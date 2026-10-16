@@ -86,6 +86,12 @@ Refer to the top-level workspace as "the Collective root" or "RaBbLE-Collective"
 
 The Grimoire does not need a `_template.manifest.yml` entry for itself. It is ensured to exist via `bootstrap.sh` / `setup.sh`. Don't create one.
 
+### Secret scans use gitleaks, tags included
+
+Before a repo goes public, or any time you call it secret-free, scan the full history with gitleaks (`gitleaks git <repo> --log-opts=--all`). If it isn't installed, fetch the release binary into a scratch dir. After a history rewrite, check tags too (`git ls-remote --tags`): a branch force push leaves old tags pointing at the dirty history. Then rescan a fresh `--mirror` clone of the remote. When printing a credential file, redact every token-shaped string, not just `KEY=` lines.
+
+**Why:** S250: a hand regex audit called sCoRE clean. Gitleaks then found a Railway token in `server/.railway/config.json`, and after the rewrite GitHub's `echo-3.0` tag still held it.
+
 ---
 
 ## Tooling & Automation
