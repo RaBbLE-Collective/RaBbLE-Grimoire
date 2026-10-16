@@ -325,6 +325,7 @@ Status lives in each plan; the one-line status table is [log/plans/CONTEXT.md](l
 Status: [log/handoffs/CONTEXT.md](log/handoffs/CONTEXT.md).
 
 - [HANDOFF-S234-EP1-Entity-Face](log/handoffs/HANDOFF-S234-EP1-Entity-Face.md) — EP1 face build (pairs with the Entity-Face plan)
+- [HANDOFF-S250-Pocket-Entity-Port-Phase1](log/handoffs/HANDOFF-S250-Pocket-Entity-Port-Phase1.md) — Pocket entity renderer: Phase 0 bench done (80 MHz + TE holds 60 fps), Phase 1 on-device next, open noise/tear check
 - [HANDOFF-S236-OS-ISO-VM-Run](log/handoffs/HANDOFF-S236-OS-ISO-VM-Run.md) — branded ISO VM run recipe + leftover items
 - [HANDOFF-FCC-Free-Claude-Code](log/handoffs/HANDOFF-FCC-Free-Claude-Code.md) — FCC LiteLLM proxy tuning
 - [RaBbLE-Voice-Phase2-HANDOFF](log/handoffs/RaBbLE-Voice-Phase2-HANDOFF.md) — voice phase 2 (pre-vocoder-v4; check before resuming)
