@@ -6,6 +6,8 @@ Two tracks, decided by Mark in S252:
 1. **Settings track** (this doc): finish the blank-face slide bug, and make the settings page and the swipe follow the device's orientation **continuously, like the entity** (not quarter-turn snapping).
 2. **Clean room** (`RaBbLE-Pocket/RaBbLE-Pocket-Clean-Room-Plan.md`): replace every Meta-derived file with RaBbLE's own code, **two-team clean room**. Read that plan's Roles section before touching anything: the S252 session and anyone who has read `apache/` can never be an implementer.
 
+> **Status (S254, Pocket `a41da48`):** settings S1 and S2 built and on the gadget, plus the S3 clock screen; fps gates met (results: port plan, "Results on the gadget (S254)"). The design changed in one place: LVGL renders straight into the two textures (its double-buffered DIRECT mode), not copied in `queue_band` (the copy cost 16 ms a frame). Left: the by-hand gates (S1 step 5, S2 step 5), S3 sleep/wake and keypad at a tilt, the old LVGL face decision, then clean room W0. The S254 session edited the Meta-derived files, so like S252 it is tainted for the clean room.
+
 Previous handoff (done): `done/HANDOFF-S251-Pocket-Entity-60fps.md`. Port plan with all results: `RaBbLE-Pocket/RaBbLE-Pocket-Entity-Port-Plan.md`.
 
 ## Where it stands (S252)

@@ -279,6 +279,28 @@ Steps, in the order measured:
 
 Next: `log/handoffs/HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room.md`.
 
+### Results on the gadget (S254): settings composited, turning with the device
+
+Settings track S1 and S2 of the S252 handoff, plus the clock screen from S3. Pocket `a41da48`. The fps gates are measured over serial; the visual and touch gates still need Mark's hands.
+
+| | Result |
+|---|---|
+| Slide face to settings and back | 31 to 34 fps per slide (gate 30) |
+| Settings tile while turning (test roll sweep) | ~30 fps (face ~35) |
+| Static settings tile | 0 prims, ~0.3 ms render: damage skips every band |
+| Face idle | 60.2 fps, unchanged |
+
+How:
+
+- **LVGL renders into the texture, no copy.** While direct, `rabble_lcd_bands` swaps LVGL onto two screen-sized PSRAM draw buffers (`lv_draw_buf_t` over 434 KB each) in LVGL's double-buffered DIRECT mode, native RGB565, with its own flush callback. LVGL keeps the pair in step itself (sync areas). The buffer it last finished is published (front), with per-16-row band versions and a tag. An `LV_EVENT_REFR_START` hook makes LVGL wait for direct frames to let go of a buffer before it writes it. The adapter's buffers, mode, format and flush come back when direct ends. All of it runs in LVGL's context.
+- **The first version copied** LVGL's bands into the texture with a byte swap: 16 ms per full screen (PSRAM to PSRAM, ~54 MB/s, bandwidth bound), so slides ran at 12 to 21 fps. Rendering straight into the texture is what reached 30.
+- **Seam** (`rabble_board.h`): `ui_texture(out)` (from `begin()`; holds the buffer until the next `begin()`; `out` NULL asks whether the board has one) and `ui_texture_tag(tag)` (LVGL context). `rabble_ui.c` tags each refresh at `LV_EVENT_RENDER_START` with the tileview's scroll x, or the full width on any other screen (the clock), so the slide boundary always matches the pixels.
+- **nebula_lite:** `nl_inputs_t.ui` (pixels, band versions, roll, slide). The scene slides left by `slide` in its own frame (`tx()`, upright sprites); fully slid in, no scene is built at all. The UI layer is drawn last in each band, clipped in its own frame to `x >= W - slide`. Within 0.6 degrees of a quarter turn the roll snaps exactly, so it samples on pixel centres (straight copy at 0). Otherwise bilinear (5-bit weights on spread RGB565), or nearest while the roll is still moving, then bilinear once at rest. Turned bands are walked in 32-column chunks: row-major sweeps a ~32 KB strip of texture per band and two cores thrashed the shared 64 KB dcache. Damage hashes the slide, the turn, the sampling mode and the band versions of the texture rows each band reads.
+- **Touch** is wrapped (`lv_indev_set_read_cb`) and turned back by the same snapped roll (`rabble_entity_ui_roll()`), so LVGL sees an upright screen: taps land under the finger and swipes follow the entity.
+- **The panel stays direct whenever awake**, so the blank-face slide is gone at its root. Boards without the texture (or out of PSRAM) keep the old hand-back.
+
+Not yet checked: everything by eye and by hand (no blank frame or pop, legibility turned, taps on every settings row and the keypad at 0/45/90/180 degrees, long-press clock at a tilt, sleep/wake on the settings tile). Open: keep or drop the old LVGL face (fallback for boards without direct mode); late bands (tearing) still unchecked.
+
 ### Phase 2: Drawing primitives
 
 - [ ] AA thin line (Wu style) and soft wide stroke into the soft layer.

@@ -14,6 +14,17 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-16 · Session S254 (pocket-settings-texture)
+
+- **Repos:** Pocket (`a41da48`), Grimoire. Opus 5.5. Mark: "could you implement the pocket settings handoff"; then "Log, commit, then push."
+- **Result:** HANDOFF-S252 settings track S1 and S2 (plus the S3 clock screen) on the gadget. The panel stays with the entity whenever awake; LVGL's screen is a texture the entity slides in and turns with gravity, and touch is turned back to match. Slides 31 to 34 fps, settings while turning ~30 fps, static settings 0 bands redrawn, face idle still 60 fps. Details: `RaBbLE-Pocket/RaBbLE-Pocket-Entity-Port-Plan.md` (Results on the gadget, S254).
+- **Learned:**
+  - Copying LVGL's output into a PSRAM texture costs 16 ms per screen (bandwidth bound, ~54 MB/s). Swap LVGL onto the texture buffers in its double-buffered DIRECT mode instead: it renders there and keeps the pair in step itself.
+  - Rotated sampling from PSRAM thrashes the shared 64 KB dcache when both cores read row-major; walk bands in 32-column chunks, nearest while moving.
+  - The adapter passes exclusive area ends to `custom_draw_bitmap`; its default flush packs strides in place, so it can't serve a screen-sized DIRECT buffer (hence our own flush callback while direct).
+- **Not done:** visual and touch gates need Mark's hands (blank frame or pop, legibility turned, taps at 0/45/90/180, keypad, sleep/wake on settings). Old LVGL face keep-or-drop: Mark. Tearing (late bands) still unchecked. This session read and edited Meta-derived files: clean-room tainted like S252.
+- **Next:** Mark hand-tests settings on the gadget; then clean room W0 (seam spec, now including `ui_texture`).
+
 ## 2026-10-16 · Session S252 (pocket-entity-60fps, then settings + clean-room plan)
 
 - **Repos:** Pocket (`074a07f`, not pushed), Grimoire. Opus 5.5. Mark: "pickup the RaBbLE-Pocket handoff, and begin on optimizing the app"; then "log and commit... plan a handoff that finishes the settings fix and makes the settings swipe respect the orientation of the device... move towards a clean room reimplementation of muse gadgets SDK".
