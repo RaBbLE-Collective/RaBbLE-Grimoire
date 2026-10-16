@@ -9,7 +9,7 @@ description: "Neon note-taking PWA — infinite canvas, glow-pen ink + text. scr
 role: frontend
 
 # Repository
-repo: git@github.com:RaBbLE-Collective/RaBbLE-ScRiBbLE.git
+repo: https://github.com/RaBbLE-Collective/RaBbLE-ScRiBbLE.git
 branch: main
 worktree_root: RaBbLE-ScRiBbLE
 

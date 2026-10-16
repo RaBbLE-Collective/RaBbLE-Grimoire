@@ -11,7 +11,7 @@ description: "Genesis archive — origin code from October 2025: RaBbLE.py, NeBu
 role: archive
 
 # Repository
-repo: git@github.com:markm1206/RaBbLE-Chrysalis.git
+repo: https://github.com/markm1206/RaBbLE-Chrysalis.git
 branch: main
 worktree_root: RaBbLE-Chrysalis
 

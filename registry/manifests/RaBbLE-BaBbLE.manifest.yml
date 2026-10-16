@@ -10,7 +10,7 @@ description: "High-entropy intake workspace — concept art, prototypes, ideatio
 role: experimental
 
 # Repository
-repo: git@github.com:RaBbLE-Collective/RaBbLE-BaBbLE.git
+repo: https://github.com/RaBbLE-Collective/RaBbLE-BaBbLE.git
 branch: main
 worktree_root: RaBbLE-BaBbLE
 surface_type: local

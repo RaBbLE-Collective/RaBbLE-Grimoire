@@ -10,7 +10,7 @@ description: "Visual State Observer of RaBbLE — sovereign Kanban HUD over sCoR
 role: frontend
 
 # Repository
-repo: git@github.com:RaBbLE-Collective/RaBbLE-TaskViSoR.git
+repo: TBD                          # no repo yet (S250 checked); Layer 1 ships as a World page
 branch: main
 worktree_root: RaBbLE-TaskViSoR
 

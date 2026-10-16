@@ -9,7 +9,7 @@ description: "Flat-Chaos quantum visual renderer — the entity's ambient visual
 role: frontend
 
 # Repository
-repo: git@github.com:RaBbLE-Collective/RaBbLE-NeBuLA.git
+repo: https://github.com/RaBbLE-Collective/RaBbLE-NeBuLA.git
 branch: main
 worktree_root: RaBbLE-NeBuLA
 

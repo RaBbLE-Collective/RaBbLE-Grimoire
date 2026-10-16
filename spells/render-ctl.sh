@@ -61,6 +61,7 @@ GRIMOIRE_ROOT="$(cd "$SPELL_DIR/.." && pwd)"
 COLLECTIVE_ROOT="$(cd "$GRIMOIRE_ROOT/.." && pwd)"
 SCORE_ROOT="$COLLECTIVE_ROOT/RaBbLE-sCoRE"
 RENDER_DIR="$GRIMOIRE_ROOT/.render"
+RENDER_YAML="$GRIMOIRE_ROOT/RaBbLE-sCoRE/render.reference.yaml"  # reference only; the live service is not a Blueprint
 API_KEY_FILE="$RENDER_DIR/api_key"
 SERVICE_ID_FILE="$RENDER_DIR/service_id"
 OWNER_ID_FILE="$RENDER_DIR/owner_id"
@@ -129,7 +130,7 @@ resolve_service_id() {
 
 verify_score_repo() {
   [ -d "$SCORE_ROOT" ]            || { err "RaBbLE-sCoRE not found at $SCORE_ROOT"; exit 1; }
-  [ -f "$SCORE_ROOT/render.yaml" ] || { err "render.yaml not found in $SCORE_ROOT"; exit 1; }
+  [ -f "$RENDER_YAML" ] || { err "render reference not found at $RENDER_YAML"; exit 1; }
 }
 
 # ─ Commands ──────────────────────────────────────────────────────────────────
@@ -178,7 +179,7 @@ cmd_link() {
 cmd_preflight() {
   header "Preflight — render.yaml"
   verify_score_repo
-  local yaml="$SCORE_ROOT/render.yaml"
+  local yaml="$RENDER_YAML"
   local issues=0
 
   if grep -qE '^\s*plan:\s*free' "$yaml" && grep -qE '^\s*disk:' "$yaml"; then

@@ -10,7 +10,7 @@ description: "Active sandbox — custom rablets, prototype members, and experime
 role: experimental
 
 # Repository
-repo: git@github.com:RaBbLE-Collective/RaBbLE-Xperimental.git
+repo: https://github.com/RaBbLE-Collective/RaBbLE-Xperimental.git
 branch: new-horizons
 worktree_root: RaBbLE-Xperimental
 surface_type: local

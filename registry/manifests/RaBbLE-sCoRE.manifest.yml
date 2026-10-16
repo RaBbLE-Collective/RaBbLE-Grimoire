@@ -9,7 +9,7 @@ description: "Coordination intelligence engine + FastAPI web API. Intent → dec
 role: server
 
 # Repository
-repo: git@github.com:RaBbLE-Collective/RaBbLE-sCoRE.git
+repo: https://github.com/RaBbLE-Collective/RaBbLE-sCoRE.git
 branch: main
 worktree_root: RaBbLE-sCoRE
 

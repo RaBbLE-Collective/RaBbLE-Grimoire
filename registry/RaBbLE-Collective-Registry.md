@@ -42,7 +42,7 @@ slug: RaBbLE-[Name]
 description: "One-line project description"
 role: substrate | server | frontend | tooling | experimental
 
-repo: git@github.com:RaBbLE-Collective/RaBbLE-[Name].git
+repo: https://github.com/RaBbLE-Collective/RaBbLE-[Name].git
 branch: main
 worktree_root: ~/RaBbLE-Collective/RaBbLE-[Name]
 
