@@ -24,3 +24,35 @@
 **Tests kept in Pocket:** `firmware/test/cleanroom/w0/`:
 - `state_test/run.sh`: host unit tests, plus a TSan build when libtsan is installed.
 - `seam_test/run.sh`: a host debounce test, and an Xtensa `-fsyntax-only` compile of every `accord/` and `main/` file against the new seam, using stub headers.
+
+**Transcript audit (W0):** I extracted every tool call from both implementer transcripts (51 calls) and matched it against the tainted paths: `RaBbLE-Collective`, `muse-gadget`, `apache/`, `rabble_axp2101`, `bsp/`, `backups`.
+- Nothing touched them. The two hits were the harness's saved copies of the implementers' own BRIEF and spec output.
+- Transcripts are archived privately in `~/RaBbLE-Cleanroom/transcripts/<wave>/`, outside every repo.
+- Script: Pocket `ops/cleanroom-audit.py`. Rerun it for each wave.
+
+**Branch:** clean-room waves land on Pocket branch `cleanroom`, which forks from `new-horizons` at `96225b0` (just before W0). Each wave is verified there before it merges back.
+
+## Wave W1: leaf (S256, 2026-10-16/17)
+
+Workspace: `~/RaBbLE-Cleanroom/pocket-w1`, exported from Pocket `cleanroom` at `096f695`. It also holds the golden vectors and `cleanroom/interfaces/` (declaration-only extracts of settings, wifi, beam and voice, with comments stripped).
+
+| Module | Spec (S) | Firewall (F) | Implementer (I) | Overlap after | Pocket commit |
+|---|---|---|---|---|---|
+| `rabble_adpcm.c/.h` | `w1-adpcm.spec.md` + `w1-adpcm-vectors/` (golden output of the original), Sonnet 5.5 sub-agent | S256 parent: approved; marked two unmeasured test thresholds as guidance only | fresh Sonnet 5.5 sub-agent, tables from the public IMA/DVI standard | 12.5% (7/56): header interface fields, plus `if (diff < 0)` and `diff = -diff` | `3916488` |
+| `rabble_console.c/.h`, `rabble_setup.c/.h` | `w1-console-setup.spec.md`, Sonnet 5.5 sub-agent | S256 parent: approved (behaviour tables and exact user-visible strings) | fresh Sonnet 5.5 sub-agent | 8.2% (19/231): the ESP-IDF USB-serial calls a thin wrapper must make, and generic idioms | `f1cc6fb` |
+| `rabble_text.c/.h`, `rabble_beam_text.c` (+ new `rabble_beam_text.h`) | `w1-text.spec.md` + `w1-text-vectors/`, Sonnet 5.5 sub-agent | S256 parent: approved; the mapping table is regrouped by output (the original indexes it by code point) | fresh Sonnet 5.5 sub-agent | 6.9% (32/461): generic idioms; no mapping-table line matches (sorted ranges + binary search) | `34cd63c` |
+
+**Gate judgment (W1):** every hit is an API-forced call, an interface declaration, or a one-token idiom. Accepted.
+
+**On the gadget:**
+- Clean builds.
+- Setup commands over serial: replies, `@setup` lines and the full `@status` JSON as specified, with secrets left out of the log.
+- A voice turn through the beam, and a `chat=` turn with ack, sent, text, done lines and correct escaping.
+- 60 fps idle. Heap at ready: internal 34,063, unchanged within 150 bytes.
+- ADPCM runs only on no-PSRAM builds. It is proven by the vectors, not on this gadget.
+
+**Tests in Pocket:** `firmware/test/cleanroom/w1/`. They read their golden vectors from the Grimoire. The ASan, UBSan and TSan passes are skipped on this machine because those runtimes aren't installed.
+
+**Transcript audit (W1):** `ops/cleanroom-audit.py` over the three implementers (50 tool calls): 0 flagged. Three calls wrote scratch files to the session scratchpad, which contains only integrator logs. Transcripts are archived in `~/RaBbLE-Cleanroom/transcripts/w1/`.
+
+**Spec erratum found by W1:** the W0 state spec's description of `rabble_text_to_ascii` was wrong; it is corrected there. The text spec's "first character" wording (5.2) has a vector-backed correction: it means the first character with width, so a zero-width character (an emoji) at the start of a line doesn't count. That is noted in the implementation.

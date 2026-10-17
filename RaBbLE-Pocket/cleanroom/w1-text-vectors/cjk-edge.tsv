@@ -1,0 +1,12 @@
+# rabble_text_cjk on raw byte strings (only the first character matters).
+# columns: note, input_hex, class
+empty	-	0
+ascii	61	0
+lone cont	80	0
+truncated E3 80	e380	0
+truncated E4 B8	e4b8	0
+overlong E0 83 80? 0x1C0	e08780	0
+valid ideograph	e4b8ad	1
+overlong ideograph in 4-byte	f084b8ad	1
+ideograph followed by ASCII	e4b8ad41	1
+FF	ff	0

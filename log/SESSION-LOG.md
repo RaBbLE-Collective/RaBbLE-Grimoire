@@ -15,6 +15,22 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-17 · Session S256 (pocket-cleanroom-w0-w1)
+
+- **Repos:** Pocket (branch `cleanroom`: `096f695` W0, `3916488` `f1cc6fb` `34cd63c` W1; not pushed), Grimoire. Opus 5.5 orchestrating, Sonnet 5.5 sub-agents for all spec and implementation work. Mark: "run the pocket clean room work, do implementation using sonnet agents to save tokens"; "continue into w1"; "branch from right before w0 so the clean room has one clean history".
+- **Result:** clean-room waves W0 (the seam) and W1 (the leaf modules) are done. 16 Meta-derived files are replaced by RaBbLE's own, and each one was checked on the gadget: 60 fps idle, unchanged heap, a voice turn, setup commands, chat. Branch `cleanroom` forks from `new-horizons` at `96225b0`, and `new-horizons` was moved back to that commit. The ledger is `RaBbLE-Pocket/cleanroom/PROVENANCE.md`.
+- **Pipeline:**
+  - Sonnet spec authors read the originals.
+  - The parent session is the firewall: it strips structure and private names from each spec.
+  - Fresh Sonnet implementers work in a plain export (`~/RaBbLE-Cleanroom/pocket-wN`).
+  - The parent integrates: build, overlap gate, flash, checklist, then one commit per module.
+- **Learned:**
+  - Implementers reproduce private names from training data (W0 first pass: 46% and 100% overlap). The gate plus a "rewrite these lines of yours" round fixed it.
+  - Golden vectors from the original made W1 exact on the first run (about 2.2M text vectors, all byte-exact).
+  - New integrator spells: `ops/cleanroom-overlap.py` and `ops/cleanroom-audit.py`. The audit checks every implementer tool call: 0 flagged across 101 calls.
+- **Not done:** hand checks of buttons, settings dispatch and turning. ASan, UBSan and TSan never ran here because the runtimes aren't installed; install them via the Ansible manifest. Possible ADPCM device check on a `RABBLE_LOW_MEM` build.
+- **Next:** W2 (power + input: `rabble_axp2101`, battery, input, keypad). It needs the CST9217 and AXP2101 datasheets (AXP2101 is on disk). Merge `cleanroom` into `new-horizons` when Mark is ready.
+
 ## 2026-10-16 · Session S255 (pocket-backplate-v4-2)
 
 - **Repos:** Pocket, Grimoire. Sonnet 5.5. Mark printed Backplate-v4 ("it works, but has some issues"): cable room, speaker side cutout, buttons, USB-C, case size, hand feel.

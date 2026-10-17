@@ -1,0 +1,17 @@
+# rabble_beam_unescape(s): in place. columns: note, input_hex (00 = empty string), returned_length, output_hex (- empty), shown_input, shown_output
+plain	616263	3	616263	abc	abc
+empty	00	0	-		
+newline	615c6e62	3	610a62	a\\nb	a\nb
+cr tab	5c725c74	2	0d09	\\r\\t	\r\t
+backslash	615c5c62	3	615c62	a\\\\b	a\\b
+quote	5c22785c22	3	227822	\\"x\\"	"x"
+unknown escape letter	5c715c7530303431	6	717530303431	\\q\\u0041	qu0041
+zero escape	5c30	1	30	\\0	0
+trailing backslash	61625c	3	61625c	ab\\	ab\\
+lone backslash	5c	1	5c	\\	\\
+double trailing	61625c5c	3	61625c	ab\\\\	ab\\
+triple	5c5c5c6e	2	5c0a	\\\\\\n	\\\n
+utf8	636166c3a95c6ee4bda0	9	636166c3a90ae4bda0	café\\n你	café\n你
+backslash then utf8	5cc3a9	2	c3a9	\\é	é
+real newline kept	610a62	3	610a62	a\nb	a\nb
+escaped escape n	5c5c6e	2	5c6e	\\\\n	\\n
