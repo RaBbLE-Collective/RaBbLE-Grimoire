@@ -5,13 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-16 · Session S254 (pocket-time-from-score)
+## LATEST — 2026-10-17 · Session S256 (pocket-cleanroom-w0-w1)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S254: Pocket settings turn with the device; sCoRE serves the time (API, tool, beam), Pocket syncs on connect + picks its zone
+**This session:** S256: Pocket clean room W0+W1 done on branch cleanroom (16 Meta files replaced)
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16 open.
-**Next:** Pocket: Mark hand-tests settings + clock screen at tilts, then clean room W0; Mark test-prints Backplate-v4.stl (S253). EP1: G9 fresh-VM bootstrap; face polish; public face
-
+**Next:** Pocket clean room W2 (power+input); merge cleanroom when Mark is ready; EP1 G9 fresh-VM
 
 ---
 
