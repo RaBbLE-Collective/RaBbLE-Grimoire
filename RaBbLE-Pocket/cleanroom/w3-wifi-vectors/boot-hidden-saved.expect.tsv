@@ -1,0 +1,10 @@
+0	radio.init
+0	task	rabble_wifi	6144	4
+0	ret	start	0
+0	radio.scan_cache
+2000	log	I	rabble_wifi	joining saved network Ghost
+2000	radio.connect	Ghost	gp
+2500	status	CONNECTING	Ghost		0	Joining...
+6000	radio.connect_result	Ghost	ok
+7000	status	CONNECTED	Ghost	192.168.1.50	-55	
+7000	saved	2	Ghost:1,Gone:0

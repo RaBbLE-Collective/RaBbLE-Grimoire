@@ -1,0 +1,13 @@
+0	radio.init
+0	task	rabble_wifi	6144	4
+0	ret	start	0
+0	radio.scan_cache
+0	status	CONNECTING	Home		0	Joining...
+500	status	CONNECTING	Home		0	Joining...
+2000	log	I	rabble_wifi	joining saved network Home
+2000	radio.connect	Home	homepass
+2500	status	CONNECTING	Home		0	Joining...
+5000	radio.connect_result	Home	ok
+5500	status	CONNECTED	Home	192.168.1.50	-55	
+5500	saved	2	Home:0,Cafe:0
+5500	connected	1

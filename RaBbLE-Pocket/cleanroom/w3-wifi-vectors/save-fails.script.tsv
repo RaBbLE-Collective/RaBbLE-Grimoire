@@ -1,0 +1,15 @@
+# the store refuses the write: warn, then continue with the list as it stands
+0	wifi_on	1
+0	preload	Old	op	0
+0	air	Old:-50:secure,New:-40:secure
+0	result	Old	ok:2000
+0	result	New	ok:2000
+0	start
+4000	store_fail	1
+4000	join	New	np
+4000	status
+6000	status
+6000	saved
+6000	forget	Old
+8000	saved
+20000	end

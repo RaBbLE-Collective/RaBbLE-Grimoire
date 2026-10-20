@@ -1,0 +1,32 @@
+0	scan_results	gen=0	0	
+0	ret	scan	259
+0	radio.init
+0	task	rabble_wifi	6144	4
+0	ret	start	0
+1000	scan_results	gen=0	0	
+1000	task	rabble_scan	4096	4
+1000	radio.scan
+1000	log	I	rabble_wifi	scan found 3 networks
+1000	ret	scan	0
+1000	scan_results	gen=1	3	Cafe:-50:secure,Open:-70:open,Far:-85:secure
+2000	task	rabble_scan	4096	4
+2000	radio.scan
+2000	log	I	rabble_wifi	scan found 0 networks
+2000	ret	scan	0
+2000	scan_results	gen=2	0	
+3000	task	rabble_scan	4096	4
+3000	radio.scan
+3000	log	I	rabble_wifi	no scan; the radio was busy
+3000	ret	scan	0
+3000	scan_results	gen=2	0	
+4000	store.remember	Home	pw	1
+4000	log	I	rabble_wifi	joining Home
+4000	radio.connect	Home	pw
+4000	ret	scan	259
+4000	scan_results	gen=2	0	
+20000	ret	scan	259
+24000	radio.connect_result	Home	fail
+29000	radio.scan_cache
+31000	log	I	rabble_wifi	joining saved network Home
+31000	radio.connect	Home	pw
+51000	radio.connect_result	Home	fail

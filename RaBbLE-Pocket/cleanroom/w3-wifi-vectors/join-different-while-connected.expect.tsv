@@ -1,0 +1,27 @@
+0	radio.init
+0	task	rabble_wifi	6144	4
+0	ret	start	0
+0	radio.scan_cache
+2000	log	I	rabble_wifi	joining saved network A
+2000	radio.connect	A	ap
+4000	radio.connect_result	A	ok
+4000	status	CONNECTED	A	192.168.1.50	-55	
+5000	store.remember	B	bp	1
+5000	log	I	rabble_wifi	joining a different network
+5000	radio.disconnect
+5000	log	I	rabble_wifi	joining B
+5000	radio.connect	B	bp
+5000	status	CONNECTING	B		0	Joining...
+6000	status	CONNECTING	B		0	Joining...
+10000	radio.connect_result	B	fail
+10500	status	FAILED	B		0	Can't join; retrying
+10500	saved	2	B:1,A:0
+15000	radio.scan_cache
+17000	log	I	rabble_wifi	joining saved network B
+17000	radio.connect	B	bp
+19000	radio.connect_result	B	ok
+20000	status	CONNECTED	B	192.168.1.50	-55	
+20000	saved	2	B:1,A:0
+30000	store.remember	B	bp2	1
+32000	saved	2	B:1,A:0
+32000	status	CONNECTED	B	192.168.1.50	-55	

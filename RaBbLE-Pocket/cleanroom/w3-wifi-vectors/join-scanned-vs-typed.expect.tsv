@@ -1,0 +1,35 @@
+0	radio.init
+0	task	rabble_wifi	6144	4
+0	ret	start	0
+1000	task	rabble_scan	4096	4
+1000	radio.scan
+1000	log	I	rabble_wifi	scan found 2 networks
+1000	ret	scan	0
+1000	scan_results	gen=1	2	Cafe:-50:secure,Open:-70:open
+2000	store.remember	Cafe	secret	0
+2000	log	I	rabble_wifi	joining Cafe
+2000	radio.connect	Cafe	secret
+2000	status	CONNECTING	Cafe		0	Joining...
+4000	radio.connect_result	Cafe	ok
+5000	status	CONNECTED	Cafe	192.168.1.50	-55	
+5000	saved	1	Cafe:0
+6000	store.remember	Ghost	boo	1
+6000	log	I	rabble_wifi	joining a different network
+6000	radio.disconnect
+6000	log	I	rabble_wifi	joining Ghost
+6000	radio.connect	Ghost	boo
+6000	status	CONNECTING	Ghost		0	Joining...
+6100	status	CONNECTING	Ghost		0	Joining...
+8500	radio.connect_result	Ghost	ok
+10000	status	CONNECTED	Ghost	192.168.1.50	-55	
+10000	saved	2	Ghost:1,Cafe:0
+11000	store.remember	Open		0
+11000	log	I	rabble_wifi	joining a different network
+11000	radio.disconnect
+11000	log	I	rabble_wifi	joining Open
+11000	radio.connect	Open	
+12500	radio.connect_result	Open	ok
+17000	status	CONNECTED	Open	192.168.1.50	-55	
+17000	saved	3	Open:0,Ghost:1,Cafe:0
+20000	store.remember	Open	newpass	0
+22000	saved	3	Open:0,Ghost:1,Cafe:0

@@ -1,0 +1,14 @@
+0	radio.init
+0	task	rabble_wifi	6144	4
+0	ret	start	0
+1000	status	OFF	Home		0	
+5000	radio.scan_cache
+5000	status	CONNECTING	Home		0	Joining...
+7000	log	I	rabble_wifi	joining saved network Home
+7000	radio.connect	Home	homepass
+8000	status	CONNECTING	Home		0	Joining...
+9000	radio.connect_result	Home	ok
+10000	log	I	rabble_wifi	wifi off; disconnecting
+10000	radio.disconnect
+11500	status	OFF	Home		0	
+11500	connected	0

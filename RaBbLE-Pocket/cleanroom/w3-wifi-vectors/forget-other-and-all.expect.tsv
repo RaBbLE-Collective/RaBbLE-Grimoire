@@ -1,0 +1,18 @@
+0	radio.init
+0	task	rabble_wifi	6144	4
+0	ret	start	0
+0	radio.scan_cache
+2000	log	I	rabble_wifi	joining saved network A
+2000	radio.connect	A	ap
+4000	radio.connect_result	A	ok
+4000	status	CONNECTED	A	192.168.1.50	-55	
+5000	store.forget	B
+5500	status	CONNECTED	A	192.168.1.50	-55	
+5500	saved	2	A:0,C:1
+6000	store.forget	Nope
+6500	saved	2	A:0,C:1
+7000	store.forget_all
+7000	log	I	rabble_wifi	forgot the network in use; leaving it
+7000	radio.disconnect
+7500	status	NO_NETWORK			0	
+7500	saved	0	

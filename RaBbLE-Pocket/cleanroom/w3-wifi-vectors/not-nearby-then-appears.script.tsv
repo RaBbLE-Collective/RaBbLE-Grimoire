@@ -1,0 +1,12 @@
+# NOT_NEARBY, then the network shows up and the user taps apply (the settings screen does this after a scan finds it)
+0	wifi_on	1
+0	preload	Home	homepass	0
+0	air	Other:-60:secure
+0	result	Home	ok:3000
+0	start
+5000	status
+40000	air	Home:-62:secure,Other:-60:secure
+40000	apply
+42000	status
+44500	status
+60000	end

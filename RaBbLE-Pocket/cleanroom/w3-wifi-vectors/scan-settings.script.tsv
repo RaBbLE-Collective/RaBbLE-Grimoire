@@ -1,0 +1,26 @@
+# settings scans: results replace each time, gen counts completed scans, a busy radio keeps the old list, scan during a join pass is refused
+0	wifi_on	1
+0	scan_busy	0
+0	power	full
+0	scan_results
+0	scan
+0	start
+1000	scan_results
+1000	air	Cafe:-50:secure,Open:-70:open,Far:-85:secure
+1000	scan
+1000	scan_results
+2000	air	-
+2000	scan
+2000	scan_results
+3000	air	Zed:-40:open
+3000	scan_busy	1
+3000	scan
+3000	scan_results
+4000	scan_busy	0
+4000	preload	Home	hp	0
+4000	result	Home	fail:20000
+4000	join	Home	pw
+4000	scan
+4000	scan_results
+20000	scan
+60000	end

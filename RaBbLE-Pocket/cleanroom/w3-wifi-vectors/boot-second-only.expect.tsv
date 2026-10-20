@@ -1,0 +1,12 @@
+0	radio.init
+0	task	rabble_wifi	6144	4
+0	ret	start	0
+0	radio.scan_cache
+1000	status	CONNECTING	Home		0	Joining...
+2000	log	I	rabble_wifi	joining saved network Cafe
+2000	radio.connect	Cafe	cafepass
+4000	status	CONNECTING	Cafe		0	Joining...
+4500	radio.connect_result	Cafe	ok
+4500	store.remember	Cafe	cafepass	-1
+6000	status	CONNECTED	Cafe	192.168.1.50	-55	
+6000	saved	2	Cafe:0,Home:0

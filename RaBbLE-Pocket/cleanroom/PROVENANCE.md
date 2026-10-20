@@ -83,3 +83,33 @@ Workspace: `~/RaBbLE-Cleanroom/pocket-w2`, exported from Pocket `cleanroom` at `
 **Still not done:** settings-page power off, on-battery auto-sleep and timed power-off, real low-power pause and the 2-minute Wi-Fi nap, raise/shake wake, and the 11-minute drain and 35-minute warm-reset battery runs. ASan/UBSan: runtimes now in the manifest, waiting on `layerctl apply esp-idf`.
 
 **Spec notes found by W2:** `rabble_battery` has no charge curve (the plan's description was wrong; see the battery spec section 0). The PWR power-off hold is about 1.5 s in loop passes, not 3 s; Mark keeps it (S258). The serial keys `d`/`u` don't wake the screen; Mark keeps that too.
+
+## Wave W3: network (S259, 2026-10-20)
+
+Workspace: `~/RaBbLE-Cleanroom/pocket-w3`, exported from Pocket `cleanroom` at `0415780`. It held the four specs, their vectors (READMEs stripped of the generator notes) and `cleanroom/interfaces/` (declaration-only extracts of settings, wifi and voice; an implementer never opened the extract of the module it was writing). Vector generators run original code and live privately in `~/RaBbLE-Cleanroom/gen/w3-*/`. The spec authors worked from a shared brief, `~/RaBbLE-Cleanroom/gen/W3-SPEC-AUTHOR-BRIEF.md` (also private). The radio spec author hit a session limit partway and was resumed with its context.
+
+| Module | Spec (S) | Firewall (F) | Implementer (I) | Overlap after | Pocket commit |
+|---|---|---|---|---|---|
+| `rabble_beam.c`, `rabble_beam.h`, `rabble_beam_priv.h` (status side; the session task and text helpers were already RaBbLE's own) | `w3-beam.spec.md` + `w3-beam-vectors/` (204 status rows), Sonnet 5.5 sub-agent | S259 parent (Opus 5.5): removed the original's synchronisation primitive and copy idiom; kept the status decision table, which for a 60-line module is the behaviour | fresh Sonnet 5.5 sub-agent | `.c` 15.3% (9/59): FreeRTOS critical-section calls and a `switch`; headers: fixed declarations and guards | `b3a4354` |
+| `rabble_wifi_known.c/.h` (saved-network store) | `w3-wifi-store.spec.md` + `w3-wifi-store-vectors/` (134 scenarios, 239 rows), Sonnet 5.5 sub-agent | S259 parent: replaced working-buffer sizes with a stack budget, dropped a caller's stack detail and a remark naming the original's log tag, corrected `wifi_channel` (no current writer: legacy, erased only) | fresh Sonnet 5.5 sub-agent | 13.8% (30/217): spec log strings, NVS open/close and lock idioms, `return false` | `2edd269` |
+| `rabble_settings.c/.h` | `w3-settings.spec.md` + `w3-settings-vectors/` (211 rows), Sonnet 5.5 sub-agent | S259 parent: rewrote the init order and token append as requirements, removed a suggested log line close to the original's format and a locking design note | fresh Sonnet 5.5 sub-agent, one rework round | first pass 11.8% with recalled private names (a clamp helper's name and body, a save helper's signature, the handle and open-flag names). Sent back as "rewrite these lines of yours". After: 9.9% (17/171), the ESP-IDF NVS bring-up idiom (as in ESP-IDF's examples), lock calls and a flag name | `cb7cb71` |
+| `rabble_wifi.c/.h` + `rabble_wifi_air.c/.h`, `rabble_wifi_priv.h`, `rabble_wifi_radio.c` (replace `rabble_wifi` and `rabble_wifi_mgr`) | `w3-wifi.spec.md` + `w3-wifi-vectors/` (20 station scenarios, 453 rows; 35 radio table rows), Sonnet 5.5 sub-agent | S259 parent: rewrote the start-up call sequence and the keeper pass step list as requirements, removed the radio teardown retry mechanics and a working-buffer size, freed the radio-layer log tags, dropped the unused scan-merge facility and the dead channel hint | fresh Sonnet 5.5 sub-agent; one round for the full build's `-Werror=stringop-truncation` (its own lines, passed back as compiler output) | keeper 7.5% (23/306, spec log strings and idioms), pure rules 2.2%, header 20.5% (interface), ESP-IDF side 18.2% (the station bring-up sequence of ESP-IDF's public-domain examples, event IDs, scan config initialisers) | `3d389f0` |
+
+**Gate judgment (W3):** no remaining hit is a private name or a body the spec never gave. The ESP-IDF side of the radio is above 5% only through the canonical station bring-up calls, which the plan allows (ESP-IDF examples are Unlicense/CC0). Accepted.
+
+**Transcript audit (W3):** `ops/cleanroom-audit.py` over the four implementers (beam 16, store 15, settings 17, radio 23 tool calls): 0 flagged. One implementer's report mentioned `apache/rabble_wifi_known.c`; that came from the spec's "file to be replaced" line, not from a read. Transcripts, including the four spec authors': `~/RaBbLE-Cleanroom/transcripts/w3/`.
+
+**On the gadget (serial, USB power):**
+- Clean builds after each swap; 60 fps idle, 45 to 50 during nap transitions.
+- Beam: `Connected`; a URL change to a dead port gives `Can't connect` (also after `beam.test`); an empty URL restores the default and reconnects; typed chat turns complete.
+- Settings: stored voice, token and Wi-Fi switch survive the swap; volume 35 and brightness 40 persist across a reset (restored afterwards).
+- Store and radio: the three saved networks load and the first joins at boot (IP at 6.9 s, as before); Wi-Fi off (`wifi off; disconnecting`, beam Offline) and on (rejoined in 4.4 s); a made-up typed network fails, is retried as hidden, and the station falls back to RaBbLE; forgetting it leaves the link up; nap leaves Wi-Fi and wake rejoins in 3.4 s.
+- NVS before and after (private dumps `~/RaBbLE-Cleanroom/nvs-{pre,post}-w3.bin`): saved networks, their order, passwords and the beam token are byte-identical after the join, forget and reorder churn. The only new key is `bright` (100) from the persistence test.
+
+**Still not done (needs hands or a bench):** settings-page scan, pick and join; a wrong password on a real network; out of range (NOT_NEARBY schedule); router reboot; DOZE/REST current; eight-plus networks; heap at ready (boot lines go out before USB serial re-enumerates).
+
+**Spec notes found by W3:**
+- `wifi_channel` and the channel hint are dead: nothing in RaBbLE writes or reads them; the store erases the key as legacy data.
+- The scan-merge facility was never called; settings scans and the nearby memory replace on each scan.
+- Behaviour kept for the same-behaviour-first rule, worth a later look (Mark's call): `beam.test` while already connected can stay on `Connecting...` (a fix belongs in `rabble_beam_score.c`); if saving a joined network fails, the station joins whatever is first instead; settings setters always write and notify, even unchanged; stored sleep/power-off are not clamped on load.
+- The new radio has no driver-level auto-reconnect racing the keeper (the original had one); the keeper's schedule is the only reconnect policy.

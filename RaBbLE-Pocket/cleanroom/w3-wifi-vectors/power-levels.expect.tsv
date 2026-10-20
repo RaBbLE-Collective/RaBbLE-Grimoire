@@ -1,0 +1,8 @@
+0	radio.init
+0	task	rabble_wifi	6144	4
+0	ret	start	0
+100	radio.ps	MIN
+200	radio.ps	MAX
+200	radio.ps	NONE
+200	radio.ps	MAX
+300	radio.ps	NONE

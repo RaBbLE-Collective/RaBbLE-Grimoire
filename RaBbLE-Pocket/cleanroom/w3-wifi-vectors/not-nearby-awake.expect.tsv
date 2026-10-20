@@ -1,0 +1,24 @@
+0	radio.init
+0	task	rabble_wifi	6144	4
+0	ret	start	0
+0	radio.scan_cache
+1000	status	CONNECTING	Home		0	Joining...
+2000	log	I	rabble_wifi	no saved wifi network nearby; looking again in 30 s
+4000	status	NOT_NEARBY	Home		0	No saved network nearby
+4000	saved	1	Home:0
+32000	radio.scan_cache
+34000	log	I	rabble_wifi	no saved wifi network nearby; looking again in 60 s
+94000	radio.scan_cache
+96000	log	I	rabble_wifi	no saved wifi network nearby; looking again in 60 s
+156000	radio.scan_cache
+158000	log	I	rabble_wifi	no saved wifi network nearby; looking again in 60 s
+218000	radio.scan_cache
+220000	log	I	rabble_wifi	no saved wifi network nearby; looking again in 60 s
+280000	radio.scan_cache
+282000	log	I	rabble_wifi	no saved wifi network nearby; looking again in 60 s
+342000	radio.scan_cache
+344000	log	I	rabble_wifi	no saved wifi network nearby; looking again in 60 s
+404000	radio.scan_cache
+406000	log	I	rabble_wifi	no saved wifi network nearby; looking again in 60 s
+466000	radio.scan_cache
+468000	log	I	rabble_wifi	no saved wifi network nearby; looking again in 60 s

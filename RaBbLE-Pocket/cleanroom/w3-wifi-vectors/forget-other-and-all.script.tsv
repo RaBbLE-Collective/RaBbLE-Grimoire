@@ -1,0 +1,18 @@
+# forgetting a network not in use keeps the link; forgetting all drops it
+0	wifi_on	1
+0	preload	A	ap	0
+0	preload	B	bp	0
+0	preload	C	cp	1
+0	air	A:-50:secure,B:-60:secure
+0	result	A	ok:2000
+0	start
+4000	status
+5000	forget	B
+5500	status
+5500	saved
+6000	forget	Nope
+6500	saved
+7000	forget	-
+7500	status
+7500	saved
+20000	end

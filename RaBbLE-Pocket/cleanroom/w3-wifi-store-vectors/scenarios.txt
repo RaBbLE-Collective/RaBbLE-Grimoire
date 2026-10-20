@@ -1,0 +1,591 @@
+scenario load_empty
+  load
+scenario load_legacy_ssid_pass
+  seed ssid Home
+  seed password pw1
+  load
+scenario load_legacy_ssid_only
+  seed ssid Cafe
+  load
+scenario load_legacy_empty_password
+  seed ssid Open
+  seed password @EMPTY
+  load
+scenario load_legacy_password_only
+  seed password x
+  load
+scenario load_legacy_ssid_empty_string
+  seed ssid @EMPTY
+  seed password x
+  load
+scenario load_hidden_value_1
+  seed ssid H
+  seed password p
+  seed wifi_hidden 1
+  load
+scenario load_hidden_value_0
+  seed ssid H
+  seed password p
+  seed wifi_hidden 0
+  load
+scenario load_hidden_value_11
+  seed ssid H
+  seed password p
+  seed wifi_hidden 11
+  load
+scenario load_hidden_value_empty
+  seed ssid H
+  seed password p
+  seed wifi_hidden @EMPTY
+  load
+scenario load_hidden_value_true
+  seed ssid H
+  seed password p
+  seed wifi_hidden true
+  load
+scenario load_hidden_value_2
+  seed ssid H
+  seed password p
+  seed wifi_hidden 2
+  load
+scenario load_hidden_without_ssid
+  seed wifi_hidden 1
+  load
+scenario load_ssid_32
+  seed ssid ssssssssssssssssssssssssssssssss
+  seed password pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp
+  seed wifi_hidden 1
+  load
+scenario load_ssid_33_ignored
+  seed ssid sssssssssssssssssssssssssssssssss
+  seed password p
+  load
+scenario load_ssid_33_with_others
+  seed ssid sssssssssssssssssssssssssssssssss
+  seed password p
+  seed wifi_others [{"s":"b","p":"q"}]
+  load
+scenario load_password_65_ignored
+  seed ssid A
+  seed password ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp
+  load
+scenario load_ssid_with_spaces_and_high_bytes
+  seed ssid My\x20Net\x20\xc3\xa9\xff
+  seed password pa\x20ss
+  load
+scenario load_others_only
+  seed wifi_others [{"s":"b","p":"q"},{"s":"c","p":"r","h":true}]
+  load
+scenario load_first_plus_others
+  seed ssid A
+  seed password p
+  seed wifi_others [{"s":"b","p":"q"},{"s":"c","p":"r","h":true}]
+  load
+scenario load_others_notjson
+  seed wifi_others hello
+  load
+scenario load_others_empty
+  seed wifi_others @EMPTY
+  load
+scenario load_others_object
+  seed wifi_others {"s":"a","p":"b"}
+  load
+scenario load_others_emptyarray
+  seed wifi_others []
+  load
+scenario load_others_number
+  seed wifi_others 5
+  load
+scenario load_others_truncated
+  seed wifi_others [{"s":"a","p":"b"
+  load
+scenario load_others_null
+  seed wifi_others null
+  load
+scenario load_others_string
+  seed wifi_others "abc"
+  load
+scenario load_others_trailing_garbage
+  seed wifi_others [{"s":"a","p":"b"}]xyz
+  load
+scenario load_others_leading_space
+  seed wifi_others \x20\x20[\x20{"s":"a"\x20,\x20"p":"b"}\x20]\x20
+  load
+scenario load_others_mixed
+  seed wifi_others [1,"x",null,[],{"s":1},{"p":"z"},{"s":"ok"},{"s":"ok2","p":7},{"s":"ok3","p":null,"h":true}]
+  load
+scenario load_others_h_values
+  seed wifi_others [{"s":"a","h":true},{"s":"b","h":false},{"s":"c","h":1},{"s":"d","h":"true"},{"s":"e","h":null},{"s":"f","h":[true]}]
+  load
+scenario load_others_case_sensitive
+  seed wifi_others [{"S":"a","P":"b"},{"s":"x","P":"y","H":true},{"s":"z","p":"w","h":true}]
+  load
+scenario load_others_extra_fields
+  seed wifi_others [{"s":"a","p":"b","x":1,"h":true,"s":"dup"}]
+  load
+scenario load_others_empty_ssid
+  seed wifi_others [{"s":"","p":"b"},{"s":"ok","p":"c"}]
+  load
+scenario load_others_ssid_33
+  seed wifi_others [{"s":"sssssssssssssssssssssssssssssssss","p":"b"},{"s":"ok","p":"c"}]
+  load
+scenario load_others_ssid_32
+  seed wifi_others [{"s":"ssssssssssssssssssssssssssssssss","p":"b"}]
+  load
+scenario load_others_pass_65
+  seed wifi_others [{"s":"a","p":"ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp"},{"s":"ok","p":"c"}]
+  load
+scenario load_others_pass_64
+  seed wifi_others [{"s":"a","p":"pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp"}]
+  load
+scenario load_others_escapes
+  seed wifi_others [{"s":"q\\"b\\\\s\\/","p":"t\\tn\\nr\\rf\\fb\\bu\\u0001"}]
+  load
+scenario load_others_unicode_escape
+  seed wifi_others [{"s":"caf\\u00e9","p":"\\u20ac\\ud83d\\ude00"}]
+  load
+scenario load_others_nul_escape
+  seed wifi_others [{"s":"ab\\u0000cd","p":"x"},{"s":"\\u0000","p":"y"}]
+  load
+scenario load_others_duplicate_in_others
+  seed wifi_others [{"s":"a","p":"1"},{"s":"b","p":"2"},{"s":"a","p":"3","h":true}]
+  load
+scenario load_others_case_distinct_ssid
+  seed wifi_others [{"s":"Net","p":"1"},{"s":"net","p":"2"}]
+  load
+scenario load_others_nested_object_item
+  seed wifi_others [{"s":{"x":1},"p":"b"},{"s":"ok"}]
+  load
+scenario load_others_dup_of_first
+  seed ssid A
+  seed password p0
+  seed wifi_others [{"s":"A","p":"p1","h":true},{"s":"B","p":"p2"}]
+  load
+scenario load_first_hidden_others_dup
+  seed ssid A
+  seed password p0
+  seed wifi_hidden 1
+  seed wifi_others [{"s":"A","p":"p1"}]
+  load
+scenario load_ten_others_cap8
+  seed wifi_others [{"s":"n0","p":"p0","h":true},{"s":"n1","p":"p1"},{"s":"n2","p":"p2","h":true},{"s":"n3","p":"p3"},{"s":"n4","p":"p4","h":true},{"s":"n5","p":"p5"},{"s":"n6","p":"p6","h":true},{"s":"n7","p":"p7"},{"s":"n8","p":"p8","h":true},{"s":"n9","p":"p9"}]
+  load
+scenario load_first_plus_ten_cap8
+  seed ssid F
+  seed password fp
+  seed wifi_others [{"s":"n0","p":"p0","h":true},{"s":"n1","p":"p1"},{"s":"n2","p":"p2","h":true},{"s":"n3","p":"p3"},{"s":"n4","p":"p4","h":true},{"s":"n5","p":"p5"},{"s":"n6","p":"p6","h":true},{"s":"n7","p":"p7"},{"s":"n8","p":"p8","h":true},{"s":"n9","p":"p9"}]
+  load
+scenario load_first_plus_nine_with_dups
+  seed ssid n3
+  seed password fp
+  seed wifi_others [{"s":"n0","p":"p0","h":true},{"s":"n1","p":"p1"},{"s":"n2","p":"p2","h":true},{"s":"n3","p":"p3"},{"s":"n4","p":"p4","h":true},{"s":"n5","p":"p5"},{"s":"n6","p":"p6","h":true},{"s":"n7","p":"p7"},{"s":"n8","p":"p8","h":true},{"s":"n9","p":"p9"}]
+  load
+scenario load_others_1535_chars_reads
+  seed wifi_others [{"s":"a","p":"b","z":"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"}]
+  load
+scenario load_others_1536_chars_ignored
+  seed ssid A
+  seed password p
+  seed wifi_others [{"s":"a","p":"b","z":"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"}]
+  load
+scenario load_others_1537_chars_ignored
+  seed ssid A
+  seed password p
+  seed wifi_others [{"s":"a","p":"b","z":"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"}]
+  load
+scenario rem_into_empty
+  remember Home pw -1
+scenario rem_into_empty_hidden1
+  remember Home pw 1
+scenario rem_into_empty_hidden0
+  remember Home pw 0
+scenario rem_hidden_other_positive
+  remember Home pw 2
+scenario rem_hidden_other_negative
+  remember Home pw -5
+scenario rem_null_password
+  remember Open @NULL 0
+scenario rem_empty_password
+  remember Open @EMPTY 0
+scenario rem_two_then_three
+  remember A 1 0
+  remember B 2 1
+  remember C 3 0
+  load
+scenario rem_move_up_keeps_hidden
+  remember A 1 1
+  remember B 2 0
+  remember A 1 -1
+scenario rem_move_up_explicit_unhide
+  remember A 1 1
+  remember B 2 0
+  remember A 1 0
+scenario rem_move_up_new_password
+  remember A 1 0
+  remember B 2 0
+  remember A changed -1
+scenario rem_same_first_idempotent
+  remember A 1 0
+  remember A 1 0
+  remember A 1 -1
+scenario rem_same_first_hidden_flip
+  remember A 1 0
+  remember A 1 1
+  remember A 1 0
+scenario rem_dup_hidden_keeps_when_minus1
+  remember A 1 1
+  remember A 2 -1
+scenario rem_nine_evicts_oldest
+  remember n0 p0 0
+  remember n1 p1 1
+  remember n2 p2 0
+  remember n3 p3 1
+  remember n4 p4 0
+  remember n5 p5 1
+  remember n6 p6 0
+  remember n7 p7 1
+  remember n8 p8 0
+  load
+scenario rem_existing_at_cap_moves_without_evicting
+  remember n0 p0 0
+  remember n1 p1 0
+  remember n2 p2 0
+  remember n3 p3 0
+  remember n4 p4 0
+  remember n5 p5 0
+  remember n6 p6 0
+  remember n7 p7 0
+  remember n3 p3 -1
+  remember n0 x 1
+scenario rem_invalid_empty_ssid
+  remember A 1 0
+  remember @EMPTY x 0
+scenario rem_invalid_null_ssid
+  remember A 1 0
+  remember @NULL x 0
+scenario rem_invalid_ssid_33
+  remember A 1 0
+  remember sssssssssssssssssssssssssssssssss x 0
+scenario rem_invalid_pass_65
+  remember A 1 0
+  remember B ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp 0
+scenario rem_max_sizes
+  remember ssssssssssssssssssssssssssssssss pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp 1
+  remember tttttttttttttttttttttttttttttttt qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq 1
+scenario chan_kept_same_first
+  seed ssid A
+  seed password 1
+  seed wifi_channel 6
+  remember A 1 -1
+scenario chan_kept_same_first_new_pass
+  seed ssid A
+  seed password 1
+  seed wifi_channel 6
+  remember A 2 -1
+scenario chan_erased_new_first
+  seed ssid A
+  seed password 1
+  seed wifi_channel 6
+  remember B 2 -1
+scenario chan_erased_when_ssid_key_absent
+  seed wifi_channel 11
+  remember A 1 -1
+scenario chan_kept_when_other_moves_up_but_first_same
+  seed ssid A
+  seed password 1
+  seed wifi_channel 6
+  seed wifi_others [{"s":"B","p":"2"}]
+  remember A 1 -1
+scenario chan_erased_other_moves_up
+  seed ssid A
+  seed password 1
+  seed wifi_channel 6
+  seed wifi_others [{"s":"B","p":"2"}]
+  remember B 2 -1
+scenario chan_kept_on_forget_non_first
+  seed ssid A
+  seed password 1
+  seed wifi_channel 6
+  seed wifi_others [{"s":"B","p":"2"}]
+  forget B
+scenario chan_erased_on_forget_first_promote
+  seed ssid A
+  seed password 1
+  seed wifi_channel 6
+  seed wifi_others [{"s":"B","p":"2"}]
+  forget A
+scenario chan_erased_on_forget_last
+  seed ssid A
+  seed password 1
+  seed wifi_channel 6
+  forget A
+scenario chan_erased_on_forget_all
+  seed ssid A
+  seed password 1
+  seed wifi_channel 6
+  seed wifi_others [{"s":"B","p":"2"}]
+  forgetall
+scenario chan_untouched_by_load
+  seed ssid A
+  seed password 1
+  seed wifi_channel 6
+  load
+  load
+scenario chan_only_forget_all_erases_orphan
+  seed wifi_channel 6
+  forgetall
+scenario norm_legacy_then_remember
+  seed ssid Old
+  seed password op
+  seed wifi_hidden 1
+  remember New np 0
+  load
+scenario norm_legacy_then_remember_same
+  seed ssid Old
+  seed password op
+  seed wifi_hidden 1
+  remember Old op -1
+scenario norm_legacy_no_password_key
+  seed ssid Old
+  remember Old @EMPTY -1
+scenario norm_malformed_others_dropped_on_remember
+  seed ssid A
+  seed password 1
+  seed wifi_others garbage
+  remember B 2 0
+scenario norm_malformed_others_dropped_on_forget_absent
+  seed ssid A
+  seed password 1
+  seed wifi_others garbage
+  forget zzz
+scenario norm_dups_collapsed
+  seed ssid A
+  seed password p0
+  seed wifi_others [{"s":"A","p":"p1"},{"s":"B","p":"p2"},{"s":"B","p":"p3"}]
+  remember C pc 0
+scenario norm_ten_others_trimmed
+  seed wifi_others [{"s":"n0","p":"p0","h":true},{"s":"n1","p":"p1"},{"s":"n2","p":"p2","h":true},{"s":"n3","p":"p3"},{"s":"n4","p":"p4","h":true},{"s":"n5","p":"p5"},{"s":"n6","p":"p6","h":true},{"s":"n7","p":"p7"},{"s":"n8","p":"p8","h":true},{"s":"n9","p":"p9"}]
+  remember Z pz 0
+scenario norm_others_only_promotes_first
+  seed wifi_others [{"s":"b","p":"q","h":true},{"s":"c","p":"r"}]
+  forget zzz
+scenario norm_hidden_garbage_cleared
+  seed ssid A
+  seed password 1
+  seed wifi_hidden 11
+  remember A 1 -1
+scenario norm_hidden_stale_erased_when_visible
+  seed ssid A
+  seed password 1
+  seed wifi_hidden 1
+  remember A 1 0
+scenario norm_hidden_stale_without_ssid
+  seed wifi_hidden 1
+  seed wifi_others [{"s":"b","p":"q"}]
+  forget zzz
+scenario fg_first_promotes_next
+  remember A 1 0
+  remember B 2 1
+  remember C 3 0
+  forget C
+  load
+scenario fg_first_promotes_hidden_next
+  remember A 1 0
+  remember B 2 1
+  forget B
+scenario fg_middle
+  remember A 1 0
+  remember B 2 1
+  remember C 3 0
+  forget B
+scenario fg_last_of_others_clears_key
+  remember A 1 0
+  remember B 2 1
+  forget A
+scenario fg_only_network_erases_all
+  remember A 1 1
+  forget A
+scenario fg_absent_normalises
+  remember A 1 0
+  remember B 2 1
+  forget zzz
+scenario fg_empty_arg_noop
+  remember A 1 0
+  forget @EMPTY
+  load
+scenario fg_null_arg_noop
+  remember A 1 0
+  forget @NULL
+  load
+scenario fg_on_empty_store
+  forget A
+scenario fg_twice
+  remember A 1 0
+  forget A
+  forget A
+scenario fg_case_sensitive
+  remember Net 1 0
+  forget net
+scenario fg_long_arg_absent
+  remember A 1 0
+  remember B 2 0
+  forget ssssssssssssssssssssssssssssssssssssssss
+scenario fg_legacy_first
+  seed ssid Old
+  seed password op
+  seed wifi_hidden 1
+  seed wifi_others [{"s":"B","p":"2"}]
+  forget Old
+scenario fg_all_then_remember
+  remember A 1 1
+  remember B 2 0
+  forgetall
+  remember C 3 -1
+scenario forgetall_empty
+  forgetall
+scenario forgetall_removes_everything
+  seed ssid A
+  seed password 1
+  seed wifi_hidden 1
+  seed wifi_others [{"s":"B","p":"2"}]
+  seed wifi_channel 6
+  forgetall
+  load
+scenario forgetall_malformed
+  seed wifi_others junk
+  seed ssid A
+  forgetall
+scenario json_plain
+  remember A 1 0
+  remember B 2 0
+  remember C 3 1
+  remember D @EMPTY 1
+  remember E 5 0
+scenario json_escapes
+  remember A 1 0
+  remember q"b\\s/ t\x09n\x0ar\x0df\x0cb\x08u\x01 0
+  remember del\x7f\x1f \xc3\xa9\xe2\x82\xac 1
+scenario json_space_and_unicode
+  remember A 1 0
+  remember Caf\xc3\xa9\x20Net pass\x20word 1
+scenario json_oversize_evicts_oldest
+  remember \x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01 \x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01 0
+  remember \x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02 \x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02 0
+  remember \x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03 \x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03 0
+  remember \x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04 \x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04 0
+  remember \x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05 \x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05 0
+  remember \x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06 \x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06\x06 0
+  remember \x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07 \x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07 0
+  remember \x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08 \x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08 0
+  load
+scenario json_quotes_backslashes_fit
+  remember """""""""""""""""""""""""""""""A \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ 0
+  remember """""""""""""""""""""""""""""""B \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ 0
+  remember """""""""""""""""""""""""""""""C \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ 0
+  remember """""""""""""""""""""""""""""""D \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ 0
+  remember """""""""""""""""""""""""""""""E \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ 0
+  remember """""""""""""""""""""""""""""""F \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ 0
+  remember """""""""""""""""""""""""""""""G \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ 0
+  remember """""""""""""""""""""""""""""""H \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ 0
+  load
+scenario json_oversize_then_forget
+  remember \x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01 \x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01 0
+  remember \x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02 \x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02 0
+  remember \x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03 \x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03 0
+  remember \x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04 \x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04\x04 0
+  remember \x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05 \x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05 0
+  forget \x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05\x05
+scenario json_oversize_first_always_kept
+  remember \x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09 \x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09\x09 1
+  remember \x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01 \x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01 0
+  remember \x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02 \x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02 0
+  remember \x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03 \x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03 0
+scenario fail_open_load
+  seed ssid A
+  seed password 1
+  failopen
+  load
+scenario fail_open_remember
+  seed ssid A
+  seed password 1
+  failopen
+  remember B 2 0
+  heal
+  load
+scenario fail_open_forget
+  seed ssid A
+  seed password 1
+  failopen
+  forget A
+  heal
+  load
+scenario fail_open_forgetall
+  seed ssid A
+  seed password 1
+  failopen
+  forgetall
+  heal
+  load
+scenario fail_set_ssid
+  seed ssid A
+  seed password 1
+  failset ssid
+  remember B 2 1
+  heal
+  load
+scenario fail_set_password
+  seed ssid A
+  seed password 1
+  failset password
+  remember B 2 1
+  heal
+  load
+scenario fail_set_others
+  seed ssid A
+  seed password 1
+  failset wifi_others
+  remember B 2 1
+  heal
+  load
+scenario fail_set_others_after_two
+  remember A 1 0
+  failset wifi_others
+  remember B 2 1
+  remember C 3 0
+  heal
+scenario fail_set_hidden_key_erase
+  seed ssid A
+  seed password 1
+  seed wifi_hidden 1
+  failerase wifi_hidden
+  remember A 1 0
+  heal
+scenario fail_erase_channel
+  seed ssid A
+  seed password 1
+  seed wifi_channel 6
+  failerase wifi_channel
+  remember B 2 0
+  heal
+scenario fail_erase_others
+  seed ssid A
+  seed password 1
+  seed wifi_others [{"s":"B","p":"2"}]
+  failerase wifi_others
+  forget B
+  heal
+scenario fail_erase_all_one_key
+  seed ssid A
+  seed password 1
+  seed wifi_hidden 1
+  seed wifi_others [{"s":"B","p":"2"}]
+  seed wifi_channel 6
+  failerase password
+  forgetall
+  heal
+scenario fail_set_hidden
+  seed ssid A
+  seed password 1
+  failset wifi_hidden
+  remember A 1 1
+  heal

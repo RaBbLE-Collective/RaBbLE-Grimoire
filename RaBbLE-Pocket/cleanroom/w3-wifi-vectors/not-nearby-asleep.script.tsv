@@ -1,0 +1,9 @@
+# same, asleep: up to ten minutes
+0	wifi_on	1
+0	asleep	1
+0	preload	Home	homepass	0
+0	air	Other:-60:secure
+0	start
+3000	status
+3000	saved
+2500000	end
