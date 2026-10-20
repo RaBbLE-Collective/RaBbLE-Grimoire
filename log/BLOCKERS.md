@@ -4,7 +4,7 @@
 > Do not hand-edit — use `blockers.sh add` / `resolve`. This is the durable
 > home for blockers so they survive the rewrite of the SESSION-LOG `## LATEST` box.
 >
-> Last synced: 2026-10-16  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
+> Last synced: 2026-10-20  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
 
 ## OPEN
 
@@ -13,6 +13,7 @@
 - **B-13** — FreeCAD/LibreCAD Flatpak UI pixelated/blurry on HiDPI (3840x2400 @ Hyprland scale=2) — X11-only Flathub sandbox forces XWayland, Hyprland compositor bitmap-scales those surfaces unconditionally. QT_SCALE_FACTOR override alone makes it worse (compounds with compositor scaling, 4x too large + still blurry). Real fix needs xwayland:force_zero_scaling=true in Hyprland config paired with a Qt scale factor — NOT safe to toggle live (killed all running XWayland clients instantly when tried, S212). Needs a deliberate config/hypr/ + dotctl change applied at a restart Mark chooses.  ·  owner:Mark  ·  since:2026-08-08  ·  [hidpi, freecad]
 - **B-15** — ProArt hardware role (ansible/roles/hardware/x64/asus_proart_p16/) is being applied on Mark's non-ProArt Desktop bare-metal install — tries to install NVIDIA packages that don't exist on that hardware, causing Ansible task failures; install ends without Firefox and with 'a good number' of other failed recipes. Hardware auto-detection logic needs diagnosis — the role should not be matching this machine at all.  ·  owner:Mark  ·  since:2026-09-28  ·  [os-install,hardware-detection]
 - **B-16** — OpenRouter $10 credits not purchased — free-tier 429 caps the OpenRouter leg of the chat chain (resilience only; G5 met via Groq). Continues B-02.  ·  owner:Mark  ·  since:S106  ·  [resilience]
+- **B-18** — Raspberry Pi 4 appears dead: steady ACT + red PWR, no HDMI even with bootloader-recovery/OS image on SD (S257). USB-C is power-only so no laptop UART. Needs multimeter (TP1/TP2 5V, PMIC rails), inline USB power meter, USB-UART adapter (CP2102N/FT232H) to confirm; likely replace board.  ·  owner:  ·  since:2026-10-20  ·  [hardware]
 
 ## RESOLVED
 

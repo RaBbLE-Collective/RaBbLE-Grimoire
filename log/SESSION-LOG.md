@@ -14,6 +14,16 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-20 · Session S257 (pi4-bringup-diagnosis)
+
+- **Repos:** Grimoire only (log + blockers). No code changed.
+- **Work:** Diagnosed a Raspberry Pi 4 for Mark. The laptop sees no serial device: the Pi 4 USB-C port is power-only (no data, no gadget mode, no rpiboot), so UART needs a 3.3 V USB-UART adapter on GPIO14/15. Mark's tests: steady ACT + red PWR, no HDMI, still nothing with the bootloader/OS image on SD. That means the EEPROM bootloader isn't running; likely dead PMIC/SoC/EEPROM or a power fault. Not conclusively dead.
+- **Next checks:** inline USB power meter (0.3-0.7 A running, <0.15 A unpowered, >1.2 A short), multimeter on TP1/TP2 (5 V) and PMIC rails, UART with `enable_uart=1` + `uart_2ndstage=1`, second supply/SD/monitor.
+- **Bench kit list (Mark is buying):** multimeter, CP2102N/FT232H UART x2, inline USB-C power meter, jumpers, microscope, then logic analyzer (sigrok), bench PSU, Debug Probe. Add sigrok via manifest.yml + layerctl when bought.
+- **Blocker:** B-18 opened (hardware).
+
+---
+
 ## 2026-10-17 · Session S256 (pocket-cleanroom-w0-w1)
 
 - **Repos:** Pocket (branch `cleanroom`: `096f695` W0, `3916488` `f1cc6fb` `34cd63c` W1; not pushed), Grimoire. Opus 5.5 orchestrating, Sonnet 5.5 sub-agents for all spec and implementation work. Mark: "run the pocket clean room work, do implementation using sonnet agents to save tokens"; "continue into w1"; "branch from right before w0 so the clean room has one clean history".
