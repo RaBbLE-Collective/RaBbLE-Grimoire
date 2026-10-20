@@ -1,0 +1,23 @@
+time 10000000
+init
+nodump
+power 90 4100 0 0 1
+rtc
+time 1000000000
+power 89 4090 0 0 1
+rtc
+time 1809000000
+power 88 4080 0 0 1
+rtc
+time 1810000000
+power 87 4070 0 0 1
+rtc
+time 3609000000
+power 86 4060 0 0 1
+rtc
+time 3610000000
+power 85 4050 0 0 1
+rtc
+time 3700000000
+power 85 4050 0 1 0
+rtc

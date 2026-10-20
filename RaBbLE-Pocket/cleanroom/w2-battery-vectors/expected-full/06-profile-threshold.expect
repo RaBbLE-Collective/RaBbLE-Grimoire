@@ -1,0 +1,14 @@
+STEP	1	time 1000000
+STEP	2	init
+STEP	3	power 40 3700 0 0 1
+LOG	I	on battery at 40% (3700 mV): measuring
+STEP	4	dump
+STEP	5	power 40 3700 0 0 1
+STEP	6	reset
+LOG	I	on battery at 40% (3700 mV): measuring
+STEP	7	dump
+STEP	8	time 1001000000
+STEP	9	read
+READ	started=1	running=1	secs=1000	pct=40,40	mv=3700,3700	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=300	awake=gamma 0.1%, alpha 0.1%
+STEP	10	json
+JSON	526	{"boot":"power on","uptime":1001,"started":true,"running":true,"secs":1000,"battery_pct":[40,40],"battery_mv":[3700,3700],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":30.0,"modes":{"SLEEP":50.0,"APB_MIN":10.0,"APB_MAX":10.0,"CPU_MAX":30.0},"sleep_rejects":0,"locks":[{"name":"rtos0","type":"CPU_FREQ_MAX","held":10.0,"taken":2},{"name":"alpha","type":"APB_FREQ_MAX","held":0.1,"taken":3},{"name":"beta","type":"APB_FREQ_MAX","held":0.0,"taken":3},{"name":"gamma","type":"NO_LIGHT_SLEEP","held":0.1,"taken":3}]}

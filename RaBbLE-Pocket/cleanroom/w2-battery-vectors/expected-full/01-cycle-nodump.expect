@@ -1,0 +1,59 @@
+STEP	1	time 5000000
+STEP	2	boot poweron
+STEP	3	init
+STEP	4	nodump
+STEP	5	power 80 4000 1 1 0
+STEP	6	read
+READ	started=0	running=0	secs=0	pct=-1,-1	mv=0,0	off_pm=0	rest_pm=0	slept_pm=-1	sleeps=0	busy_pm=-1	awake=
+STEP	7	json
+JSON	179	{"boot":"power on","uptime":5,"started":false,"running":false,"secs":0,"battery_pct":[-1,-1],"battery_mv":[0,0],"screen_off":0.0,"resting":0.0,"slept":null,"sleeps":0,"busy":null}
+STEP	8	saved
+SAVED	@null
+STEP	9	rtc
+RTC	none
+STEP	10	drain
+DRAIN	ok=0	rate10=-777	full_h=-777
+STEP	11	time 10000000
+STEP	12	power 80 4000 0 0 1
+LOG	I	on battery at 80% (4000 mV): measuring
+STEP	13	read
+READ	started=1	running=1	secs=0	pct=80,80	mv=4000,4000	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	14	time 70000000
+STEP	15	state 1 0
+STEP	16	time 130000000
+STEP	17	state 1 1
+STEP	18	time 190000000
+STEP	19	power 79 3985 0 0 1
+STEP	20	read
+READ	started=1	running=1	secs=180	pct=80,79	mv=4000,3985	off_pm=666	rest_pm=333	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	21	json
+JSON	188	{"boot":"power on","uptime":190,"started":true,"running":true,"secs":180,"battery_pct":[80,79],"battery_mv":[4000,3985],"screen_off":66.6,"resting":33.3,"slept":0.0,"sleeps":0,"busy":null}
+STEP	22	rtc
+RTC	valid	183	{"boot":"power on","uptime":10,"started":true,"running":true,"secs":0,"battery_pct":[80,80],"battery_mv":[4000,4000],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":null}
+STEP	23	time 250000000
+STEP	24	power 79 3980 0 1 0
+LOG	I	USB back after 240 s on battery: 80% -> 79% (4000 -> 3985 mV)
+STEP	25	read
+READ	started=1	running=0	secs=240	pct=80,79	mv=4000,3985	off_pm=750	rest_pm=500	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	26	json
+JSON	189	{"boot":"power on","uptime":250,"started":true,"running":false,"secs":240,"battery_pct":[80,79],"battery_mv":[4000,3985],"screen_off":75.0,"resting":50.0,"slept":0.0,"sleeps":0,"busy":null}
+STEP	27	drain
+DRAIN	ok=0	rate10=-777	full_h=-777
+STEP	28	time 900000000
+STEP	29	read
+READ	started=1	running=0	secs=240	pct=80,79	mv=4000,3985	off_pm=750	rest_pm=500	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	30	json
+JSON	189	{"boot":"power on","uptime":900,"started":true,"running":false,"secs":240,"battery_pct":[80,79],"battery_mv":[4000,3985],"screen_off":75.0,"resting":50.0,"slept":0.0,"sleeps":0,"busy":null}
+STEP	31	rtc
+RTC	valid	189	{"boot":"power on","uptime":250,"started":true,"running":false,"secs":240,"battery_pct":[80,79],"battery_mv":[4000,3985],"screen_off":75.0,"resting":50.0,"slept":0.0,"sleeps":0,"busy":null}
+STEP	32	time 1000000000
+STEP	33	power 79 3980 0 0 1
+LOG	I	on battery at 79% (3980 mV): measuring
+STEP	34	read
+READ	started=1	running=1	secs=0	pct=79,79	mv=3980,3980	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	35	time 1700000000
+STEP	36	power 78 3960 0 0 1
+STEP	37	read
+READ	started=1	running=1	secs=700	pct=79,78	mv=3980,3960	off_pm=1000	rest_pm=1000	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	38	drain
+DRAIN	ok=1	rate10=51	full_h=19

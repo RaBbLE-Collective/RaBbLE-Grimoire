@@ -1,0 +1,21 @@
+STEP	1	time 1000000
+STEP	2	init
+STEP	3	nodump
+STEP	4	power 50 3800 0 0 1
+LOG	I	on battery at 50% (3800 mV): measuring
+STEP	5	time 11000000
+STEP	6	power -1 0 0 0 1
+STEP	7	read
+READ	started=1	running=1	secs=10	pct=50,-1	mv=3800,0	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	8	json
+JSON	181	{"boot":"power on","uptime":11,"started":true,"running":true,"secs":10,"battery_pct":[50,-1],"battery_mv":[3800,0],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":null}
+STEP	9	time 21000000
+STEP	10	power 49 0 0 0 1
+STEP	11	read
+READ	started=1	running=1	secs=20	pct=50,49	mv=3800,0	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	12	json
+JSON	181	{"boot":"power on","uptime":21,"started":true,"running":true,"secs":20,"battery_pct":[50,49],"battery_mv":[3800,0],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":null}
+STEP	13	power 49 3770 0 0 0
+LOG	I	USB back after 20 s on battery: 50% -> 49% (3800 -> 0 mV)
+STEP	14	read
+READ	started=1	running=0	secs=20	pct=50,49	mv=3800,0	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=

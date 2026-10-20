@@ -1,0 +1,29 @@
+STEP	1	time 3000000
+STEP	2	init
+STEP	3	nodump
+STEP	4	power -1 0 0 1 0
+STEP	5	read
+READ	started=0	running=0	secs=0	pct=-1,-1	mv=0,0	off_pm=0	rest_pm=0	slept_pm=-1	sleeps=0	busy_pm=-1	awake=
+STEP	6	json
+JSON	179	{"boot":"power on","uptime":3,"started":false,"running":false,"secs":0,"battery_pct":[-1,-1],"battery_mv":[0,0],"screen_off":0.0,"resting":0.0,"slept":null,"sleeps":0,"busy":null}
+STEP	7	rtc
+RTC	none
+STEP	8	time 9000000
+STEP	9	power -1 0 0 1 1
+LOG	I	on battery at -1% (0 mV): measuring
+STEP	10	read
+READ	started=1	running=1	secs=0	pct=-1,-1	mv=0,0	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	11	json
+JSON	176	{"boot":"power on","uptime":9,"started":true,"running":true,"secs":0,"battery_pct":[-1,-1],"battery_mv":[0,0],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":null}
+STEP	12	time 10000000
+STEP	13	power -1 0 0 0 1
+STEP	14	read
+READ	started=1	running=1	secs=1	pct=-1,-1	mv=0,0	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	15	drain
+DRAIN	ok=0	rate10=-777	full_h=-777
+STEP	16	time 20000000
+STEP	17	power 50 0 0 0 1
+STEP	18	read
+READ	started=1	running=1	secs=11	pct=-1,50	mv=0,0	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	19	json
+JSON	178	{"boot":"power on","uptime":20,"started":true,"running":true,"secs":11,"battery_pct":[-1,50],"battery_mv":[0,0],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":null}

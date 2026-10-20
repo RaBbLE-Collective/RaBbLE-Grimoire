@@ -1,0 +1,28 @@
+# nap vectors: Wi-Fi nap decision. One fresh process per scenario; rows are consecutive calls (about every poll).
+# columns: scenario, now_ms, paused, cpu_low, asleep, bench_nap_request(set; never cleared except by the rule), voice_notes_waiting, napping_returned, bench_flag_after, expected_actions
+# bench_nap_request=1 sets the module's bench flag; 0 leaves it as it is.
+timer	1000	0	0	1	0	0	0	0	-
+timer	2000	1	1	1	0	0	0	0	-
+timer	60000	1	1	1	0	0	0	0	-
+timer	120999	1	1	1	0	0	0	0	-
+timer	121000	1	1	1	0	0	1	0	log:Wi-Fi napping|wifi_nap(1)
+timer	121500	1	1	1	0	1	0	0	log:Wi-Fi waking|wifi_nap(0)
+timer	122000	1	1	1	0	0	1	0	log:Wi-Fi napping|wifi_nap(1)
+timer	123000	0	0	0	0	0	0	0	log:Wi-Fi waking|wifi_nap(0)
+timer	124000	1	1	1	0	0	0	0	-
+timer	124500	1	0	1	0	0	0	0	-
+timer	125000	1	1	1	0	0	0	0	-
+timer_host_attached_never_naps	0	1	0	1	0	0	0	0	-
+timer_host_attached_never_naps	500000	1	0	1	0	0	0	0	-
+timer_requires_paused	0	0	1	1	0	0	0	0	-
+timer_requires_paused	200000	0	1	1	0	0	0	0	-
+bench_nap_immediate	0	1	0	1	1	0	1	1	log:Wi-Fi napping|wifi_nap(1)
+bench_nap_immediate	10	1	0	1	0	0	1	1	-
+bench_nap_immediate	20	1	0	0	0	0	0	0	as_if_battery(0)|log:Wi-Fi waking|wifi_nap(0)
+bench_nap_immediate	30	1	0	0	0	0	0	0	-
+bench_nap_not_paused_yet	0	0	0	1	1	0	0	1	-
+bench_nap_not_paused_yet	10	0	0	1	0	0	0	1	-
+bench_nap_not_paused_yet	20	1	0	1	0	0	1	1	log:Wi-Fi napping|wifi_nap(1)
+bench_nap_with_notes_waiting	0	1	0	1	1	1	0	1	-
+bench_nap_with_notes_waiting	10	1	0	1	0	1	0	1	-
+bench_nap_with_notes_waiting	20	1	0	1	0	0	1	1	log:Wi-Fi napping|wifi_nap(1)

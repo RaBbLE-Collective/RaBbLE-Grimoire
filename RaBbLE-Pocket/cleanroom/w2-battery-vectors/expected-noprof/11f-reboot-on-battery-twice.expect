@@ -1,0 +1,22 @@
+STEP	1	time 10000000
+STEP	2	init
+STEP	3	nodump
+STEP	4	power 90 4100 0 0 1
+LOG	I	on battery at 90% (4100 mV): measuring
+STEP	5	reboot
+STEP	6	time 5000000
+STEP	7	init
+@power.saved {"boot":"power on","uptime":10,"started":true,"running":true,"secs":0,"battery_pct":[90,90],"battery_mv":[4100,4100],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":null}
+STEP	8	saved
+SAVED	{"boot":"power on","uptime":10,"started":true,"running":true,"secs":0,"battery_pct":[90,90],"battery_mv":[4100,4100],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":null}
+STEP	9	power 88 4050 0 0 1
+LOG	I	on battery at 88% (4050 mV): measuring
+STEP	10	saved
+SAVED	{"boot":"power on","uptime":10,"started":true,"running":true,"secs":0,"battery_pct":[90,90],"battery_mv":[4100,4100],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":null}
+STEP	11	rtc
+RTC	valid	182	{"boot":"power on","uptime":5,"started":true,"running":true,"secs":0,"battery_pct":[88,88],"battery_mv":[4050,4050],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":null}
+STEP	12	reboot
+STEP	13	init
+@power.saved {"boot":"power on","uptime":5,"started":true,"running":true,"secs":0,"battery_pct":[88,88],"battery_mv":[4050,4050],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":null}
+STEP	14	saved
+SAVED	{"boot":"power on","uptime":5,"started":true,"running":true,"secs":0,"battery_pct":[88,88],"battery_mv":[4050,4050],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":null}

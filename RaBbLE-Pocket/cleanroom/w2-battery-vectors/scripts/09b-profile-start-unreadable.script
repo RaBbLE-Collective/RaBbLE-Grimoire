@@ -1,0 +1,29 @@
+time 1000000
+init
+nodump
+power 40 3700 0 0 1
+dump
+| Time since boot up: 110000000 us
+| Lock stats:
+| Name            Type            Arg    Active    Total_count    Time(us)        Time(%) 
+| rtos0           CPU_FREQ_MAX    0      0         10             100000          1  %
+| rtos1           CPU_FREQ_MAX    0      0         20             50000           1  %
+| wifi            APB_FREQ_MAX    0      0         5              10000           1  %
+| bt              NO_LIGHT_SLEEP  0      0         2              4000            1  %
+| esp_timer       CPU_FREQ_MAX    0      0         3              0               0  %
+|
+| Mode stats:
+| Mode      CPU_freq    Time(us)    Time(%)   
+| SLEEP     40 M        1000000     0 %
+| APB_MIN   40 M        500000      0 %
+| APB_MAX   80 M        200000      0 %
+| CPU_MAX   240M        300000      0 %
+|
+| Sleep stats:
+| light_sleep_counts:1  light_sleep_reject_counts:1
+time 101000000
+read
+json
+nodump
+read
+json

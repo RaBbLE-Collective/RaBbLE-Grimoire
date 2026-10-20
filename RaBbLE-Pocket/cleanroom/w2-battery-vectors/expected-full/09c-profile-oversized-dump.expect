@@ -1,0 +1,14 @@
+STEP	1	time 1000000
+STEP	2	init
+STEP	3	power 40 3700 0 0 1
+LOG	I	on battery at 40% (3700 mV): measuring
+STEP	4	dump
+STEP	5	reset
+LOG	I	on battery at 40% (3700 mV): measuring
+STEP	6	dump
+STEP	7	time 101000000
+STEP	8	jsoncap 2048
+STEP	9	read
+READ	started=1	running=1	secs=100	pct=40,40	mv=3700,3700	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=0	awake=lock06 6.0%, lock13 6.0%
+STEP	10	json
+JSON	1741	{"boot":"power on","uptime":101,"started":true,"running":true,"secs":100,"battery_pct":[40,40],"battery_mv":[3700,3700],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":0.0,"modes":{"SLEEP":0.0,"APB_MIN":0.0,"APB_MAX":0.0,"CPU_MAX":0.0},"sleep_rejects":0,"locks":[{"name":"lock00","type":"APB_FREQ_MAX","held":0.0,"taken":1},{"name":"lock01","type":"APB_FREQ_MAX","held":1.0,"taken":1},{"name":"lock02","type":"APB_FREQ_MAX","held":2.0,"taken":1},{"name":"lock03","type":"APB_FREQ_MAX","held":3.0,"taken":1},{"name":"lock04","type":"APB_FREQ_MAX","held":4.0,"taken":1},{"name":"lock05","type":"APB_FREQ_MAX","held":5.0,"taken":1},{"name":"lock06","type":"APB_FREQ_MAX","held":6.0,"taken":1},{"name":"lock07","type":"APB_FREQ_MAX","held":0.0,"taken":1},{"name":"lock08","type":"APB_FREQ_MAX","held":1.0,"taken":1},{"name":"lock09","type":"APB_FREQ_MAX","held":2.0,"taken":1},{"name":"lock10","type":"APB_FREQ_MAX","held":3.0,"taken":1},{"name":"lock11","type":"APB_FREQ_MAX","held":4.0,"taken":1},{"name":"lock12","type":"APB_FREQ_MAX","held":5.0,"taken":1},{"name":"lock13","type":"APB_FREQ_MAX","held":6.0,"taken":1},{"name":"lock14","type":"APB_FREQ_MAX","held":0.0,"taken":1},{"name":"lock15","type":"APB_FREQ_MAX","held":1.0,"taken":1},{"name":"lock16","type":"APB_FREQ_MAX","held":2.0,"taken":1},{"name":"lock17","type":"APB_FREQ_MAX","held":3.0,"taken":1},{"name":"lock18","type":"APB_FREQ_MAX","held":4.0,"taken":1},{"name":"lock19","type":"APB_FREQ_MAX","held":5.0,"taken":1},{"name":"lock20","type":"APB_FREQ_MAX","held":6.0,"taken":1},{"name":"lock21","type":"APB_FREQ_MAX","held":0.0,"taken":1},{"name":"lock22","type":"APB_FREQ_MAX","held":1.0,"taken":1},{"name":"lock23","type":"APB_FREQ_MAX","held":2.0,"taken":1}]}

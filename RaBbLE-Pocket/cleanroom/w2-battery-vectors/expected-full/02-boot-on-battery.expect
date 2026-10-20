@@ -1,0 +1,20 @@
+STEP	1	time 3000000
+STEP	2	boot brownout
+STEP	3	init
+STEP	4	nodump
+STEP	5	power 55 3800 0 0 1
+LOG	I	on battery at 55% (3800 mV): measuring
+STEP	6	read
+READ	started=1	running=1	secs=0	pct=55,55	mv=3800,3800	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	7	json
+JSON	182	{"boot":"brownout","uptime":3,"started":true,"running":true,"secs":0,"battery_pct":[55,55],"battery_mv":[3800,3800],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":null}
+STEP	8	rtc
+RTC	valid	182	{"boot":"brownout","uptime":3,"started":true,"running":true,"secs":0,"battery_pct":[55,55],"battery_mv":[3800,3800],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":null}
+STEP	9	time 603000000
+STEP	10	power 54 3790 0 0 1
+STEP	11	read
+READ	started=1	running=1	secs=600	pct=55,54	mv=3800,3790	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	12	drain
+DRAIN	ok=1	rate10=60	full_h=16
+STEP	13	json
+JSON	186	{"boot":"brownout","uptime":603,"started":true,"running":true,"secs":600,"battery_pct":[55,54],"battery_mv":[3800,3790],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":null}

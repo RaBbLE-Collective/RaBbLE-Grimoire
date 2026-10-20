@@ -1,0 +1,18 @@
+time 1000000
+boot jtag
+init
+nodump
+json
+jsoncap 1
+json
+jsoncap 10
+json
+jsoncap 60
+json
+jsoncap 4096
+time 2000000
+power 70 3900 0 0 1
+time 62000000
+json
+jsoncap 100
+json

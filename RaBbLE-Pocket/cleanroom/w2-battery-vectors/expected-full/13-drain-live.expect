@@ -1,0 +1,41 @@
+STEP	1	time 1000000
+STEP	2	init
+STEP	3	nodump
+STEP	4	power 100 4200 0 0 1
+LOG	I	on battery at 100% (4200 mV): measuring
+STEP	5	time 601000000
+STEP	6	power 100 4190 0 0 1
+STEP	7	read
+READ	started=1	running=1	secs=600	pct=100,100	mv=4200,4190	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	8	drain
+DRAIN	ok=0	rate10=-777	full_h=-777
+STEP	9	time 1801000000
+STEP	10	power 99 4150 0 0 1
+STEP	11	read
+READ	started=1	running=1	secs=1800	pct=100,99	mv=4200,4150	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	12	drain
+DRAIN	ok=1	rate10=20	full_h=50
+STEP	13	time 36001000000
+STEP	14	power 70 3800 0 0 1
+STEP	15	read
+READ	started=1	running=1	secs=36000	pct=100,70	mv=4200,3800	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	16	drain
+DRAIN	ok=1	rate10=30	full_h=33
+STEP	17	time 36601000000
+STEP	18	power 71 3810 0 0 1
+STEP	19	read
+READ	started=1	running=1	secs=36600	pct=100,71	mv=4200,3810	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	20	drain
+DRAIN	ok=1	rate10=28	full_h=35
+STEP	21	time 50000000000
+STEP	22	power 0 3300 0 0 1
+STEP	23	read
+READ	started=1	running=1	secs=49999	pct=100,0	mv=4200,3300	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	24	drain
+DRAIN	ok=1	rate10=72	full_h=13
+STEP	25	power 100 4200 1 1 0
+LOG	I	USB back after 49999 s on battery: 100% -> 0% (4200 -> 3300 mV)
+STEP	26	read
+READ	started=1	running=0	secs=49999	pct=100,0	mv=4200,3300	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	27	drain
+DRAIN	ok=1	rate10=72	full_h=13

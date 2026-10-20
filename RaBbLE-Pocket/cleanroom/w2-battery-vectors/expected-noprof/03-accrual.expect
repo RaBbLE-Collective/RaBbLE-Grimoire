@@ -1,0 +1,54 @@
+STEP	1	time 1000000
+STEP	2	init
+STEP	3	nodump
+STEP	4	state 1 1
+STEP	5	time 10000000
+STEP	6	power 90 4100 0 0 1
+LOG	I	on battery at 90% (4100 mV): measuring
+STEP	7	time 20000000
+STEP	8	state 1 0
+STEP	9	read
+READ	started=1	running=1	secs=10	pct=90,90	mv=4100,4100	off_pm=1000	rest_pm=1000	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	10	time 25000000
+STEP	11	state 1 0
+STEP	12	read
+READ	started=1	running=1	secs=15	pct=90,90	mv=4100,4100	off_pm=1000	rest_pm=666	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	13	time 30000000
+STEP	14	state 0 0
+STEP	15	read
+READ	started=1	running=1	secs=20	pct=90,90	mv=4100,4100	off_pm=1000	rest_pm=500	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	16	time 40000000
+STEP	17	state 1 1
+STEP	18	time 47000000
+STEP	19	state 0 1
+STEP	20	time 50000000
+STEP	21	read
+READ	started=1	running=1	secs=40	pct=90,90	mv=4100,4100	off_pm=675	rest_pm=500	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	22	time 60000000
+STEP	23	power 90 4100 0 1 0
+LOG	I	USB back after 50 s on battery: 90% -> 90% (4100 -> 4100 mV)
+STEP	24	read
+READ	started=1	running=0	secs=50	pct=90,90	mv=4100,4100	off_pm=540	rest_pm=600	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	25	time 70000000
+STEP	26	state 1 1
+STEP	27	time 80000000
+STEP	28	read
+READ	started=1	running=0	secs=50	pct=90,90	mv=4100,4100	off_pm=540	rest_pm=600	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	29	time 90000000
+STEP	30	power 90 4100 0 0 1
+LOG	I	on battery at 90% (4100 mV): measuring
+STEP	31	read
+READ	started=1	running=1	secs=0	pct=90,90	mv=4100,4100	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	32	time 100000000
+STEP	33	read
+READ	started=1	running=1	secs=10	pct=90,90	mv=4100,4100	off_pm=1000	rest_pm=1000	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	34	time 101000000
+STEP	35	reset
+LOG	I	on battery at 90% (4100 mV): measuring
+STEP	36	read
+READ	started=1	running=1	secs=0	pct=90,90	mv=4100,4100	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	37	time 111000000
+STEP	38	read
+READ	started=1	running=1	secs=10	pct=90,90	mv=4100,4100	off_pm=1000	rest_pm=1000	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	39	json
+JSON	189	{"boot":"power on","uptime":111,"started":true,"running":true,"secs":10,"battery_pct":[90,90],"battery_mv":[4100,4100],"screen_off":100.0,"resting":100.0,"slept":0.0,"sleeps":0,"busy":null}

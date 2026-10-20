@@ -1,0 +1,16 @@
+STEP	1	time 1000000
+STEP	2	init
+STEP	3	power 40 3700 0 0 1
+LOG	I	on battery at 40% (3700 mV): measuring
+STEP	4	dump
+STEP	5	reset
+LOG	I	on battery at 40% (3700 mV): measuring
+STEP	6	dump
+STEP	7	time 101000000
+STEP	8	jsoncap 2048
+STEP	9	read
+READ	started=1	running=1	secs=100	pct=40,40	mv=3700,3700	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=600	awake=l04 4.0%, l09 4.0%
+STEP	10	json
+JSON	1673	{"boot":"power on","uptime":101,"started":true,"running":true,"secs":100,"battery_pct":[40,40],"battery_mv":[3700,3700],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":60.0,"modes":{"SLEEP":100.0,"APB_MIN":0.0,"APB_MAX":0.0,"CPU_MAX":60.0},"sleep_rejects":1,"locks":[{"name":"l00","type":"APB_FREQ_MAX","held":0.0,"taken":1},{"name":"l01","type":"APB_FREQ_MAX","held":1.0,"taken":1},{"name":"l02","type":"APB_FREQ_MAX","held":2.0,"taken":1},{"name":"l03","type":"APB_FREQ_MAX","held":3.0,"taken":1},{"name":"l04","type":"APB_FREQ_MAX","held":4.0,"taken":1},{"name":"l05","type":"APB_FREQ_MAX","held":0.0,"taken":1},{"name":"l06","type":"APB_FREQ_MAX","held":1.0,"taken":1},{"name":"l07","type":"APB_FREQ_MAX","held":2.0,"taken":1},{"name":"l08","type":"APB_FREQ_MAX","held":3.0,"taken":1},{"name":"l09","type":"APB_FREQ_MAX","held":4.0,"taken":1},{"name":"l10","type":"APB_FREQ_MAX","held":0.0,"taken":1},{"name":"l11","type":"APB_FREQ_MAX","held":1.0,"taken":1},{"name":"l12","type":"APB_FREQ_MAX","held":2.0,"taken":1},{"name":"l13","type":"APB_FREQ_MAX","held":3.0,"taken":1},{"name":"l14","type":"APB_FREQ_MAX","held":4.0,"taken":1},{"name":"l15","type":"APB_FREQ_MAX","held":0.0,"taken":1},{"name":"l16","type":"APB_FREQ_MAX","held":1.0,"taken":1},{"name":"l17","type":"APB_FREQ_MAX","held":2.0,"taken":1},{"name":"l18","type":"APB_FREQ_MAX","held":3.0,"taken":1},{"name":"l19","type":"APB_FREQ_MAX","held":4.0,"taken":1},{"name":"l20","type":"APB_FREQ_MAX","held":0.0,"taken":1},{"name":"l21","type":"APB_FREQ_MAX","held":1.0,"taken":1},{"name":"l22","type":"APB_FREQ_MAX","held":2.0,"taken":1},{"name":"l23","type":"APB_FREQ_MAX","held":3.0,"taken":1}]}
+STEP	11	rtc
+RTC	valid	182	{"boot":"power on","uptime":1,"started":true,"running":true,"secs":0,"battery_pct":[40,40],"battery_mv":[3700,3700],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":null}

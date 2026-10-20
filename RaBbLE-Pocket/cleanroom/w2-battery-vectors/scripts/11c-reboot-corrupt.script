@@ -1,0 +1,10 @@
+time 10000000
+init
+nodump
+power 90 4100 0 0 1
+rtc
+reboot corrupt
+time 3000000
+init
+saved
+rtc

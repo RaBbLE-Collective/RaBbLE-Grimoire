@@ -1,0 +1,26 @@
+STEP	1	time 2000000
+STEP	2	init
+STEP	3	nodump
+STEP	4	power 60 3900 0 1 0
+STEP	5	dump
+STEP	6	time 2000000
+STEP	7	power 60 3900 0 0 1
+LOG	I	on battery at 60% (3900 mV): measuring
+STEP	8	dump
+STEP	9	time 102000000
+STEP	10	read
+READ	started=1	running=1	secs=100	pct=60,60	mv=3900,3900	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=300	awake=wifi 4.0%, bt 1.0%
+STEP	11	json
+JSON	588	{"boot":"power on","uptime":102,"started":true,"running":true,"secs":100,"battery_pct":[60,60],"battery_mv":[3900,3900],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":30.0,"modes":{"SLEEP":60.0,"APB_MIN":5.0,"APB_MAX":5.0,"CPU_MAX":30.0},"sleep_rejects":8,"locks":[{"name":"rtos0","type":"CPU_FREQ_MAX","held":20.0,"taken":40},{"name":"rtos1","type":"CPU_FREQ_MAX","held":9.0,"taken":40},{"name":"wifi","type":"APB_FREQ_MAX","held":4.0,"taken":20},{"name":"bt","type":"NO_LIGHT_SLEEP","held":1.0,"taken":10},{"name":"esp_timer","type":"CPU_FREQ_MAX","held":0.0,"taken":27}]}
+STEP	12	jsoncap 200
+STEP	13	json
+JSON	199	{"boot":"power on","uptime":102,"started":true,"running":true,"secs":100,"battery_pct":[60,60],"battery_mv":[3900,3900],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":30.0,"modes":{"SLE
+STEP	14	jsoncap 4096
+STEP	15	power 59 3890 0 1 0
+LOG	I	USB back after 100 s on battery: 60% -> 60% (3900 -> 3900 mV)
+STEP	16	read
+READ	started=1	running=0	secs=100	pct=60,60	mv=3900,3900	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=300	awake=wifi 4.0%, bt 1.0%
+STEP	17	json
+JSON	589	{"boot":"power on","uptime":102,"started":true,"running":false,"secs":100,"battery_pct":[60,60],"battery_mv":[3900,3900],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":30.0,"modes":{"SLEEP":60.0,"APB_MIN":5.0,"APB_MAX":5.0,"CPU_MAX":30.0},"sleep_rejects":8,"locks":[{"name":"rtos0","type":"CPU_FREQ_MAX","held":20.0,"taken":40},{"name":"rtos1","type":"CPU_FREQ_MAX","held":9.0,"taken":40},{"name":"wifi","type":"APB_FREQ_MAX","held":4.0,"taken":20},{"name":"bt","type":"NO_LIGHT_SLEEP","held":1.0,"taken":10},{"name":"esp_timer","type":"CPU_FREQ_MAX","held":0.0,"taken":27}]}
+STEP	18	rtc
+RTC	valid	589	{"boot":"power on","uptime":102,"started":true,"running":false,"secs":100,"battery_pct":[60,60],"battery_mv":[3900,3900],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":30.0,"modes":{"SLEEP":60.0,"APB_MIN":5.0,"APB_MAX":5.0,"CPU_MAX":30.0},"sleep_rejects":8,"locks":[{"name":"rtos0","type":"CPU_FREQ_MAX","held":20.0,"taken":40},{"name":"rtos1","type":"CPU_FREQ_MAX","held":9.0,"taken":40},{"name":"wifi","type":"APB_FREQ_MAX","held":4.0,"taken":20},{"name":"bt","type":"NO_LIGHT_SLEEP","held":1.0,"taken":10},{"name":"esp_timer","type":"CPU_FREQ_MAX","held":0.0,"taken":27}]}

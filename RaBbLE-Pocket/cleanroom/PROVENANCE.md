@@ -56,3 +56,28 @@ Workspace: `~/RaBbLE-Cleanroom/pocket-w1`, exported from Pocket `cleanroom` at `
 **Transcript audit (W1):** `ops/cleanroom-audit.py` over the three implementers (50 tool calls): 0 flagged. Three calls wrote scratch files to the session scratchpad, which contains only integrator logs. Transcripts are archived in `~/RaBbLE-Cleanroom/transcripts/w1/`.
 
 **Spec erratum found by W1:** the W0 state spec's description of `rabble_text_to_ascii` was wrong; it is corrected there. The text spec's "first character" wording (5.2) has a vector-backed correction: it means the first character with width, so a zero-width character (an emoji) at the start of a line doesn't count. That is noted in the implementation.
+
+## Wave W2: power and input (S258, 2026-10-20)
+
+Workspace: `~/RaBbLE-Cleanroom/pocket-w2`, exported from Pocket `cleanroom` at `10eb34a`, with the specs, the vectors (without their generators) and `cleanroom/interfaces/` (declaration-only extracts: battery, beam, beam_priv, settings, voice, wifi). The vector generators include original code, so they live privately in `~/RaBbLE-Cleanroom/gen/w2-*/`, outside every repo; they regenerate from the originals at Pocket `10eb34a`.
+
+| Module | Spec (S) | Firewall (F) | Implementer (I) | Overlap after | Pocket commit |
+|---|---|---|---|---|---|
+| `rabble_axp2101` (`.c`, `.h`, `CMakeLists.txt`) | `w2-axp2101.spec.md`, Sonnet 5.5 sub-agent. Treatment: own from datasheet (register end states with datasheet references) | S258 parent (Opus 5.5): removed a private constant name, an internal shorthand, per-call transaction counts, a first-read ordering hint and a log behaviour of the original | fresh Sonnet 5.5 sub-agent; inputs: spec, public AXP2101 datasheet, ESP-IDF `i2c_master` | `.c` 21.8% (31/142): ESP-IDF error-check idioms (`if (err != ESP_OK)` ×9 and the like), the `i2c_device_config_t` initialiser, datasheet register addresses. `.h` 29%: interface fields | `97312a3` |
+| `rabble_battery.c/.h` | `w2-battery.spec.md` + `w2-battery-vectors/`, Sonnet 5.5 sub-agent. Found that the module is a bench power meter, not a charge curve (percent lives in the AXP2101 gauge, power-off in input) | S258 parent: rewrote buffer layout, accounting bookkeeping, locking primitives and dump-buffer mechanics as requirements; removed a note about the original | fresh Sonnet 5.5 sub-agent, one rework round | first pass 11.7%, with private-looking names (helper names, a lock-count macro, a mode-array name). Sent back as "rewrite these lines of yours". After: 9.2% (37/401), all spec-given log strings, the reset-reason table the spec fixes, and one-token idioms | `1d0812e` |
+| `rabble_input.c/.h` | `w2-input.spec.md` + `w2-input-vectors/`, Sonnet 5.5 sub-agent | S258 parent: rewrote edge-ordering step lists and the aux-button state variables as behaviour; removed a note on the original's internals and a verbatim call expression | fresh Sonnet 5.5 sub-agent, one rework round | first pass 10.8%, with recalled private names (chat-buffer state, task-function and constant names). After the rework: 4.9% (19/384), spec log strings and idioms | `87841bc` |
+
+**Gate judgment (W2):** after the rework rounds every remaining hit is an API-forced call, an exact string the spec requires, or a one-token idiom. The AXP2101 is above 5% only through ESP-IDF error-check idioms and datasheet register addresses. Accepted.
+
+**Transcript audit (W2):** `ops/cleanroom-audit.py` over the three implementers (11 + 28 + 30 tool calls). AXP2101: 6 flagged, all false positives: the regex matches the module's own new directory name `rabble_axp2101` inside the workspace, and one read of the harness's saved copy of the implementer's own brief. Battery and input: 0 flagged. Transcripts: `~/RaBbLE-Cleanroom/transcripts/w2/`. Follow-up: teach the audit to ignore taint words inside the workspace path.
+
+**On the gadget (serial, USB power):**
+- Clean builds, no warnings from these files. `rabble_axp2101: ready (key irqs on)`. Heap after the three swaps: internal 123,531 after the UI build and 33,539 at ready (pre-W2: 124,023 and 34,191; about 0.5 KB less).
+- `@status`: battery 32 to 38%, USB and charging true, Wi-Fi connected.
+- Battery meter: `>nap` starts a measurement (`on battery at 35% (3940 mV): measuring`), `@power` shows live profiling and locks, `w` stops it (`USB back after 25 s ...`), and the record survived the next reset as `@power.saved`.
+- Input: `>imu`, `>face=` (incl. the exact error line), `z`/`z`/`w` (the second `z` silent), `d`/`u` with a full voice turn through the beam (reply after 2.46 s), `>chatty` falls through to setup, `>chat+=` ack with 6 bytes, `>nap` ladder (`display paused (USB host: CPU at full speed)`, `Wi-Fi napping`, then `full power`, `Wi-Fi waking`).
+- 60.1 fps idle once settled; 36 to 46 fps during voice and nap transitions.
+
+**Not done (needs Mark's hands):** BOOT tap/hold/wake, PWR click-sleep, PWR hold hint and power-off and power-on again, settings-page power off, on-battery auto-sleep and timed power-off, real low-power pause and the 2-minute Wi-Fi nap, raise/shake wake, and the 11-minute drain and 35-minute warm-reset battery runs. ASan/UBSan: runtimes now in the manifest, waiting on `layerctl apply esp-idf`.
+
+**Spec notes found by W2:** `rabble_battery` has no charge curve (the plan's description was wrong; see the battery spec section 0). The PWR power-off hold is about 1.5 s in loop passes, not 3 s; Mark keeps it (S258). The serial keys `d`/`u` don't wake the screen; Mark keeps that too.

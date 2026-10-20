@@ -1,0 +1,26 @@
+time 1000000
+init
+nodump
+wake 500000
+wake 100
+time 10000000
+power 70 3900 0 0 1
+wake 2000000
+wake 0
+wake -5
+wake 1500000
+time 20000000
+read
+wake 1000000
+time 30000000
+read
+json
+power 70 3900 0 1 0
+wake 7000000
+time 40000000
+read
+time 50000000
+power 69 3890 0 0 1
+wake 3000000
+time 60000000
+read

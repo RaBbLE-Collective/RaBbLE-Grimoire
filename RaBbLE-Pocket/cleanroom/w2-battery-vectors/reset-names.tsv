@@ -1,0 +1,17 @@
+# esp_reset_reason_t enumerator	boot string
+ESP_RST_UNKNOWN	other
+ESP_RST_POWERON	power on
+ESP_RST_EXT	other
+ESP_RST_SW	restart
+ESP_RST_PANIC	panic
+ESP_RST_INT_WDT	watchdog
+ESP_RST_TASK_WDT	watchdog
+ESP_RST_WDT	watchdog
+ESP_RST_DEEPSLEEP	deep sleep
+ESP_RST_BROWNOUT	brownout
+ESP_RST_SDIO	other
+ESP_RST_USB	usb
+ESP_RST_JTAG	jtag
+ESP_RST_EFUSE	other
+ESP_RST_PWR_GLITCH	other
+ESP_RST_CPU_LOCKUP	other

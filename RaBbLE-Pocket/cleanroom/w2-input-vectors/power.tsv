@@ -1,0 +1,196 @@
+# power vectors: the display-pause / CPU-low decision (update_power). Each row: prior state, then the inputs; expected actions and returned paused.
+# prior: none (full power) | rest (paused, CPU low) | host (paused, CPU full speed). inputs: has_display_pause, on_battery, asleep, ui_dark, voice_resting, usb_host.
+# columns: prior, has_pause, on_battery, asleep, dark, resting, host, returned_paused, expected_actions ('-' none)
+# actions: display_pause(1|0), cpu_low(1|0), log:<line>. Order within a row is the call order.
+none	0	0	0	0	0	0	0	-
+none	0	0	0	0	0	1	0	-
+none	0	0	0	0	1	0	0	-
+none	0	0	0	0	1	1	0	-
+none	0	0	0	1	0	0	0	-
+none	0	0	0	1	0	1	0	-
+none	0	0	0	1	1	0	0	-
+none	0	0	0	1	1	1	0	-
+none	0	0	1	0	0	0	0	-
+none	0	0	1	0	0	1	0	-
+none	0	0	1	0	1	0	0	-
+none	0	0	1	0	1	1	0	-
+none	0	0	1	1	0	0	0	-
+none	0	0	1	1	0	1	0	-
+none	0	0	1	1	1	0	0	-
+none	0	0	1	1	1	1	0	-
+none	0	1	0	0	0	0	0	-
+none	0	1	0	0	0	1	0	-
+none	0	1	0	0	1	0	0	-
+none	0	1	0	0	1	1	0	-
+none	0	1	0	1	0	0	0	-
+none	0	1	0	1	0	1	0	-
+none	0	1	0	1	1	0	0	-
+none	0	1	0	1	1	1	0	-
+none	0	1	1	0	0	0	0	-
+none	0	1	1	0	0	1	0	-
+none	0	1	1	0	1	0	0	-
+none	0	1	1	0	1	1	0	-
+none	0	1	1	1	0	0	0	-
+none	0	1	1	1	0	1	0	-
+none	0	1	1	1	1	0	0	-
+none	0	1	1	1	1	1	0	-
+none	1	0	0	0	0	0	0	-
+none	1	0	0	0	0	1	0	-
+none	1	0	0	0	1	0	0	-
+none	1	0	0	0	1	1	0	-
+none	1	0	0	1	0	0	0	-
+none	1	0	0	1	0	1	0	-
+none	1	0	0	1	1	0	0	-
+none	1	0	0	1	1	1	0	-
+none	1	0	1	0	0	0	0	-
+none	1	0	1	0	0	1	0	-
+none	1	0	1	0	1	0	0	-
+none	1	0	1	0	1	1	0	-
+none	1	0	1	1	0	0	0	-
+none	1	0	1	1	0	1	0	-
+none	1	0	1	1	1	0	0	-
+none	1	0	1	1	1	1	0	-
+none	1	1	0	0	0	0	0	-
+none	1	1	0	0	0	1	0	-
+none	1	1	0	0	1	0	0	-
+none	1	1	0	0	1	1	0	-
+none	1	1	0	1	0	0	0	-
+none	1	1	0	1	0	1	0	-
+none	1	1	0	1	1	0	0	-
+none	1	1	0	1	1	1	0	-
+none	1	1	1	0	0	0	0	-
+none	1	1	1	0	0	1	0	-
+none	1	1	1	0	1	0	0	-
+none	1	1	1	0	1	1	0	-
+none	1	1	1	1	0	0	0	-
+none	1	1	1	1	0	1	0	-
+none	1	1	1	1	1	0	1	display_pause(1)|cpu_low(1)|log:low power: display paused
+none	1	1	1	1	1	1	1	display_pause(1)|log:display paused (USB host: CPU at full speed)
+rest	0	0	0	0	0	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	0	0	0	0	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	0	0	0	1	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	0	0	0	1	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	0	0	1	0	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	0	0	1	0	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	0	0	1	1	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	0	0	1	1	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	0	1	0	0	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	0	1	0	0	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	0	1	0	1	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	0	1	0	1	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	0	1	1	0	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	0	1	1	0	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	0	1	1	1	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	0	1	1	1	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	1	0	0	0	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	1	0	0	0	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	1	0	0	1	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	1	0	0	1	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	1	0	1	0	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	1	0	1	0	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	1	0	1	1	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	1	0	1	1	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	1	1	0	0	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	1	1	0	0	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	1	1	0	1	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	1	1	0	1	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	1	1	1	0	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	1	1	1	0	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	1	1	1	1	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	0	1	1	1	1	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	0	0	0	0	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	0	0	0	0	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	0	0	0	1	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	0	0	0	1	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	0	0	1	0	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	0	0	1	0	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	0	0	1	1	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	0	0	1	1	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	0	1	0	0	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	0	1	0	0	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	0	1	0	1	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	0	1	0	1	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	0	1	1	0	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	0	1	1	0	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	0	1	1	1	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	0	1	1	1	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	1	0	0	0	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	1	0	0	0	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	1	0	0	1	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	1	0	0	1	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	1	0	1	0	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	1	0	1	0	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	1	0	1	1	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	1	0	1	1	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	1	1	0	0	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	1	1	0	0	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	1	1	0	1	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	1	1	0	1	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	1	1	1	0	0	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	1	1	1	0	1	0	cpu_low(0)|display_pause(0)|log:full power
+rest	1	1	1	1	1	0	1	-
+rest	1	1	1	1	1	1	1	cpu_low(0)|log:display paused (USB host: CPU at full speed)
+host	0	0	0	0	0	0	0	display_pause(0)|log:full power
+host	0	0	0	0	0	1	0	display_pause(0)|log:full power
+host	0	0	0	0	1	0	0	display_pause(0)|log:full power
+host	0	0	0	0	1	1	0	display_pause(0)|log:full power
+host	0	0	0	1	0	0	0	display_pause(0)|log:full power
+host	0	0	0	1	0	1	0	display_pause(0)|log:full power
+host	0	0	0	1	1	0	0	display_pause(0)|log:full power
+host	0	0	0	1	1	1	0	display_pause(0)|log:full power
+host	0	0	1	0	0	0	0	display_pause(0)|log:full power
+host	0	0	1	0	0	1	0	display_pause(0)|log:full power
+host	0	0	1	0	1	0	0	display_pause(0)|log:full power
+host	0	0	1	0	1	1	0	display_pause(0)|log:full power
+host	0	0	1	1	0	0	0	display_pause(0)|log:full power
+host	0	0	1	1	0	1	0	display_pause(0)|log:full power
+host	0	0	1	1	1	0	0	display_pause(0)|log:full power
+host	0	0	1	1	1	1	0	display_pause(0)|log:full power
+host	0	1	0	0	0	0	0	display_pause(0)|log:full power
+host	0	1	0	0	0	1	0	display_pause(0)|log:full power
+host	0	1	0	0	1	0	0	display_pause(0)|log:full power
+host	0	1	0	0	1	1	0	display_pause(0)|log:full power
+host	0	1	0	1	0	0	0	display_pause(0)|log:full power
+host	0	1	0	1	0	1	0	display_pause(0)|log:full power
+host	0	1	0	1	1	0	0	display_pause(0)|log:full power
+host	0	1	0	1	1	1	0	display_pause(0)|log:full power
+host	0	1	1	0	0	0	0	display_pause(0)|log:full power
+host	0	1	1	0	0	1	0	display_pause(0)|log:full power
+host	0	1	1	0	1	0	0	display_pause(0)|log:full power
+host	0	1	1	0	1	1	0	display_pause(0)|log:full power
+host	0	1	1	1	0	0	0	display_pause(0)|log:full power
+host	0	1	1	1	0	1	0	display_pause(0)|log:full power
+host	0	1	1	1	1	0	0	display_pause(0)|log:full power
+host	0	1	1	1	1	1	0	display_pause(0)|log:full power
+host	1	0	0	0	0	0	0	display_pause(0)|log:full power
+host	1	0	0	0	0	1	0	display_pause(0)|log:full power
+host	1	0	0	0	1	0	0	display_pause(0)|log:full power
+host	1	0	0	0	1	1	0	display_pause(0)|log:full power
+host	1	0	0	1	0	0	0	display_pause(0)|log:full power
+host	1	0	0	1	0	1	0	display_pause(0)|log:full power
+host	1	0	0	1	1	0	0	display_pause(0)|log:full power
+host	1	0	0	1	1	1	0	display_pause(0)|log:full power
+host	1	0	1	0	0	0	0	display_pause(0)|log:full power
+host	1	0	1	0	0	1	0	display_pause(0)|log:full power
+host	1	0	1	0	1	0	0	display_pause(0)|log:full power
+host	1	0	1	0	1	1	0	display_pause(0)|log:full power
+host	1	0	1	1	0	0	0	display_pause(0)|log:full power
+host	1	0	1	1	0	1	0	display_pause(0)|log:full power
+host	1	0	1	1	1	0	0	display_pause(0)|log:full power
+host	1	0	1	1	1	1	0	display_pause(0)|log:full power
+host	1	1	0	0	0	0	0	display_pause(0)|log:full power
+host	1	1	0	0	0	1	0	display_pause(0)|log:full power
+host	1	1	0	0	1	0	0	display_pause(0)|log:full power
+host	1	1	0	0	1	1	0	display_pause(0)|log:full power
+host	1	1	0	1	0	0	0	display_pause(0)|log:full power
+host	1	1	0	1	0	1	0	display_pause(0)|log:full power
+host	1	1	0	1	1	0	0	display_pause(0)|log:full power
+host	1	1	0	1	1	1	0	display_pause(0)|log:full power
+host	1	1	1	0	0	0	0	display_pause(0)|log:full power
+host	1	1	1	0	0	1	0	display_pause(0)|log:full power
+host	1	1	1	0	1	0	0	display_pause(0)|log:full power
+host	1	1	1	0	1	1	0	display_pause(0)|log:full power
+host	1	1	1	1	0	0	0	display_pause(0)|log:full power
+host	1	1	1	1	0	1	0	display_pause(0)|log:full power
+host	1	1	1	1	1	0	1	cpu_low(1)|log:low power: display paused
+host	1	1	1	1	1	1	1	-

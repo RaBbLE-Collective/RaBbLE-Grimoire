@@ -1,0 +1,26 @@
+STEP	1	time 2000000
+STEP	2	init
+STEP	3	nodump
+STEP	4	power 60 3900 0 1 0
+STEP	5	dump
+STEP	6	time 2000000
+STEP	7	power 60 3900 0 0 1
+LOG	I	on battery at 60% (3900 mV): measuring
+STEP	8	dump
+STEP	9	time 102000000
+STEP	10	read
+READ	started=1	running=1	secs=100	pct=60,60	mv=3900,3900	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	11	json
+JSON	186	{"boot":"power on","uptime":102,"started":true,"running":true,"secs":100,"battery_pct":[60,60],"battery_mv":[3900,3900],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":null}
+STEP	12	jsoncap 200
+STEP	13	json
+JSON	186	{"boot":"power on","uptime":102,"started":true,"running":true,"secs":100,"battery_pct":[60,60],"battery_mv":[3900,3900],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":null}
+STEP	14	jsoncap 4096
+STEP	15	power 59 3890 0 1 0
+LOG	I	USB back after 100 s on battery: 60% -> 60% (3900 -> 3900 mV)
+STEP	16	read
+READ	started=1	running=0	secs=100	pct=60,60	mv=3900,3900	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
+STEP	17	json
+JSON	187	{"boot":"power on","uptime":102,"started":true,"running":false,"secs":100,"battery_pct":[60,60],"battery_mv":[3900,3900],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":null}
+STEP	18	rtc
+RTC	valid	187	{"boot":"power on","uptime":102,"started":true,"running":false,"secs":100,"battery_pct":[60,60],"battery_mv":[3900,3900],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":null}
