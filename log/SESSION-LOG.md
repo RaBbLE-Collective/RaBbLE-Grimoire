@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-20 · Session S258 (pocket-cleanroom-w2)
+## LATEST — 2026-10-20 · Session S259 (pocket-cleanroom-w3)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S258: Pocket clean room W2 done (axp2101 from datasheet, battery, input); hand checks pass
+**This session:** S259: Pocket clean room W3 network done (settings, wifi store, wifi station, beam status); NVS byte-identical
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18 open.
-**Next:** Pocket: on-battery checks, push cleanroom, W3 network; Mark: layerctl apply esp-idf
+**Next:** Pocket: W4 voice; Mark: W3 hand checks, push cleanroom
 
 ---
 
