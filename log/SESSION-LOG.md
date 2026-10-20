@@ -14,6 +14,19 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-20 · Session S258 (xp-rabble-ball)
+
+- **Repos:** Xperimental (`54af724`, pushed: live), Grimoire (`0caf350` dev-cdn route + this log), Collective (state block).
+- **Work:** Mark dropped two RaBbLE Ball demos (3D and 2.5D) and the `rabble-ball.webp` sketch into BaBbLE intake, and asked for the 3D one with the 2.5D eye behavior. Built in `RaBbLE-Xperimental/experiments/rabble-ball/`:
+  - **Eyes:** viewer-facing ovals. Each portal's rim is projected to a screen-space conic every frame; the eye draws between the rim halves and is masked by the arc it recedes under, so a portal never covers its eye from any angle. Looking down, eyes settle into portal centers and shrink to fit. Shell seams and lips no longer write depth (they cut dark lines through the eyes); camera settles before the face step (no one-frame lag).
+  - **Infinity:** three fanned streams hug each tilted rim and sling across on tangent S-curves; counter-rotating accretion disks (inward spiral arms, photon ring, grain); everything fades out head on.
+  - Verified headless (6 elevations × 4 blink stages, close-ups), no console errors. Mark: "looks good, let's publish".
+- **Published:** `xperimental.joinrabble.world/drops/20261020-rabble-ball/` + `20261020-rabble-ball-sketch/` (both 200).
+- **dev-serve:** new `/xperimental/` route in `spells/dev-cdn.js` serves the sandbox (traversal still 403).
+- **Next:** none for the ball; possible later port of the conic-mask eye technique into NeBuLA's 3D entity.
+
+---
+
 ## 2026-10-20 · Session S257 (pi4-bringup-diagnosis)
 
 - **Repos:** Grimoire only (log + blockers). No code changed.
