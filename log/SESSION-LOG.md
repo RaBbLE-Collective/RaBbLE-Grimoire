@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-17 · Session S256 (pocket-cleanroom-w0-w1)
+## LATEST — 2026-10-20 · Session S256 (pocket-cleanroom-w0-w1)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S256: Pocket clean room W0+W1 done on branch cleanroom (16 Meta files replaced)
+**This session:** S256: Pocket clean room W0+W1 on branch cleanroom; backplate session cleanup
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16 open.
-**Next:** Pocket clean room W2 (power+input); merge cleanroom when Mark is ready; EP1 G9 fresh-VM
+**Next:** Mark: firmware learning session; IMU/rotation tuning; then clean room W2 (power+input); merge cleanroom when ready
 
 ---
 
@@ -28,7 +28,15 @@ Format: date, what was done, where things were left, what's next.
   - Golden vectors from the original made W1 exact on the first run (about 2.2M text vectors, all byte-exact).
   - New integrator spells: `ops/cleanroom-overlap.py` and `ops/cleanroom-audit.py`. The audit checks every implementer tool call: 0 flagged across 101 calls.
 - **Not done:** hand checks of buttons, settings dispatch and turning. ASan, UBSan and TSan never ran here because the runtimes aren't installed; install them via the Ansible manifest. Possible ADPCM device check on a `RABBLE_LOW_MEM` build.
-- **Next:** W2 (power + input: `rabble_axp2101`, battery, input, keypad). It needs the CST9217 and AXP2101 datasheets (AXP2101 is on disk). Merge `cleanroom` into `new-horizons` when Mark is ready.
+- **Next (Mark, 2026-10-20):**
+  - A session spent learning the firmware: a guided tour of the gadget (boot, the seam, tasks and cores, entity and direct mode, voice turn, beam). The W0/W1 specs in `RaBbLE-Pocket/cleanroom/` are a readable map of those modules.
+  - A session tuning the IMU and rotation (accord/ `rabble_motion.c`, `rabble_entity.c` `upright()`: the spring, the rest hold, the turn thresholds). That is RaBbLE-own code, so it is free to change during the clean room, but don't edit `apache/` files outside it.
+  - Then clean room W2 (power + input: `rabble_axp2101`, battery, input, keypad). It needs the CST9217 datasheet (AXP2101 is on disk). Merge `cleanroom` into `new-horizons` when Mark is ready.
+- **Session cleanup (Mark asked):**
+  - S253 and S255 (backplate) were both logged and committed (S255: `96225b0` + `e8d3ee2`), but neither ended cleanly. S255 never wrote its token-ledger row; it is added now, under its auto-claim id.
+  - Removed stale scope claims: S253 and S255, the two old August backplate claims, and the dead S251, S252 and S254 Pocket claims.
+  - S255 left untracked renders in Pocket `hardware/cad/out/_compare/` (6 PNGs, made by no script). Left in place for Mark.
+  - The token-ledger row end-session.sh wrote for S256 used the shared fallback id `94d4f7e8`, the same id as S250 and S253, and deleted their rows. The rows are restored and S256 is filed under its real id.
 
 ## 2026-10-16 · Session S255 (pocket-backplate-v4-2)
 

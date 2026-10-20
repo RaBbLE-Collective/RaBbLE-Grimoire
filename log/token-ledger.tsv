@@ -253,4 +253,5 @@ d0fc8066-2bb9-4072-851c-c378f51ab747	collective	auto: current state S253: pocket
 98f03344-25be-462c-b4b8-322a0328a72b	collective	auto: current state S252: pocket 60 fps, settings + clean-room plans
 98f03344-25be-462c-b4b8-322a0328a72b	pocket-entity-60fps	S252: 60 fps idle; settings-orientation + clean-room plans
 4df439b5-44ba-4b9f-b557-9ba5bab4949e	pocket-settings-texture	S254 (+ pocket-time-from-score)
-94d4f7e8-e2ae-4299-89ff-1f9c56277b37	pocket-cleanroom-w0-w1	S256
+c0393dc0-31bd-4f24-a4fb-b398ad48355b	pocket-backplate-v4-2	S255: backplate v4.2 first-print fixes (row added by S256 cleanup)
+7007b2eb-db2f-47a4-b581-2210d9c3311f	pocket-cleanroom-w0-w1	S256: clean room W0+W1
