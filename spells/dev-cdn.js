@@ -8,6 +8,7 @@ const RABBLE_ROOT = path.dirname(path.dirname(__dirname));
 const AETHER_ROOT = path.join(RABBLE_ROOT, 'RaBbLE-Aether');
 const NEBULA_ROOT = path.join(RABBLE_ROOT, 'RaBbLE-NeBuLA');
 const WORLD_ROOT = path.join(RABBLE_ROOT, 'RaBbLE-World');
+const XPERIMENTAL_ROOT = path.join(RABBLE_ROOT, 'RaBbLE-Xperimental');
 
 const PORT = parseInt(process.env.DEV_PORT || '8080', 10);
 const HOSTNAME = 'localhost';
@@ -31,6 +32,9 @@ const server = http.createServer((req, res) => {
   } else if (parsedUrl.pathname.startsWith('/studio/')) {
     const file = parsedUrl.pathname.replace(/^\/studio\//, '');
     filePath = path.join(NEBULA_ROOT, 'studio', file || 'index.html');
+  } else if (parsedUrl.pathname.startsWith('/xperimental/')) {
+    // Xperimental sandbox (experiments, Xperimental-Web drops), e.g. /xperimental/experiments/rabble-ball/RaBbLE-Ball.html
+    filePath = path.join(XPERIMENTAL_ROOT, decodeURIComponent(parsedUrl.pathname.replace(/^\/xperimental\//, '')));
   } else {
     // Everything else from World
     filePath = path.join(WORLD_ROOT, parsedUrl.pathname === '/' ? 'index.html' : parsedUrl.pathname);
@@ -38,7 +42,7 @@ const server = http.createServer((req, res) => {
 
   // Normalize path and prevent directory traversal
   filePath = path.normalize(filePath);
-  if (!filePath.startsWith(AETHER_ROOT) && !filePath.startsWith(NEBULA_ROOT) && !filePath.startsWith(WORLD_ROOT)) {
+  if (!filePath.startsWith(AETHER_ROOT) && !filePath.startsWith(NEBULA_ROOT) && !filePath.startsWith(WORLD_ROOT) && !filePath.startsWith(XPERIMENTAL_ROOT)) {
     res.writeHead(403);
     res.end('Forbidden');
     return;
