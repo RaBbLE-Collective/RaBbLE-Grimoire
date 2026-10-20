@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-20 · Session S256 (pocket-cleanroom-w0-w1)
+## LATEST — 2026-10-20 · Session S257 (pi4-bringup-diagnosis)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S256: Pocket clean room W0+W1 on branch cleanroom; backplate session cleanup
-**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16 open.
-**Next:** Mark: firmware learning session; IMU/rotation tuning; then clean room W2 (power+input); merge cleanroom when ready
+**This session:** S257: Pi 4 diagnosed (USB-C power-only, no UART); likely dead, B-18; bench kit list
+**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18 open.
+**Next:** Mark: buy multimeter/UART/power meter, retest Pi 4; Pocket firmware session, clean room W2
 
 ---
 
