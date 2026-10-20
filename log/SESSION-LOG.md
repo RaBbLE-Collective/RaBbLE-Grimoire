@@ -14,6 +14,27 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-20 · Session S261 (atlas-next, non-Collective)
+
+- **Repos:** none of the Collective. `~/ATLAS-next` (standalone, private, local, unpublished; supersedes `~/ATLAS`: `08d38f5`, `5198691`, `f2c93e2`) and the Personal-Grimoire folio (`02ba557`, `04b36e3`, `db75118`). Deployed to the working Pi 4 at `192.168.1.129` (not the dead one in B-18). LATEST and the Collective state block stay on Pocket: nothing in the Collective changed.
+- **Work:**
+  - Diff: the Pi adds `BT/`, `sentry_headless.py` and sensitivityX 0.15; the Arduino sketch is identical to upstream; the Dropbox SentryRobotV2 folder is CAD only.
+  - Consolidated into `~/ATLAS-next` under the Sovereign Accord (Mark's decision): Mark's code is Accord; Google-derived helpers are isolated in `NN/coral/` with the Apache-2.0 text and notice; Rahul's, the classmate's and mixed-authorship code sits in `legacy/` with no grant; darkflow dropped (likely GPL, not TPU-quantizable). Rewritten: the sentry loop, detector wrapper, `select_target` (the old one used width squared), and a CLI `python -m NN.utils`.
+  - Pi: deployed side by side as `atlas-sentry.service` (User=pi, no auto-restart, options in `/etc/default/atlas-sentry`); the `rc.local` launch is commented (backup `.bak-atlas`); reboot-tested. The Pi Cam now drives it live.
+  - Tools: `tools/bench.py`, `range_test.py`, `diag.py`, `calibrate.py`; `turret.json` clamps tilt 78 to 129 and pan 81 to 165.
+  - Numbers: ssd_mobilenet_v1 83 IPS on one TPU thread, 110 on two; Pi Cam 60 and 90 fps, C310 30; live Pi Cam 320x320 at 60 fps while aiming holds 60.2 IPS; two streams about 77 total, so 60 each is out of reach on this model. Full tables in `~/ATLAS-next/BENCHMARKS.md`.
+- **Learned:**
+  - Pi Cam sizes must be multiples of 32 by 16: 300x300 returned striped garbage at a perfect frame rate, so earlier 300x300 numbers were retracted. Check content, not just fps.
+  - V4L2 returns stale frames after a move (CSI queues more than USB). A test with too small a discard wrongly concluded the Pi Cam was fixed to the room; Mark corrected it.
+  - The Arduino `parseInt` waits 1 s for a terminator, so commands now end with a newline. `CAP_PROP_BUFFERSIZE=1` halves the V4L2 frame rate.
+  - The TPU wedged after a USB error and an under-voltage event; only a physical replug cleared it. The Pi runs 70 to 78 C and has hit the frequency cap.
+  - People score 0.3 to 0.6 in this scene, so the 0.6 threshold found nobody (now 0.4).
+  - A unit edited in the repo is not live until it is reinstalled and `daemon-reload`ed: the first 60 fps config ran at 30 for that reason.
+- **For Mark:** the classmate's name for `NOTICE.md`; check the copyright wording on the 2020 files; the Pi Cam image is dark when backlit; reboot test not repeated since the by-name camera config; Pi supply and heat.
+- **Next:** investigate the pan-left stop (the 78 "stall" may be an auto-exposure artifact; plan in the folio); Arduino firmware v2 (acks, reset cause) not written; GStreamer or C++ capture; lighter person-only model; rewrite `legacy/BT/` independently.
+
+---
+
 ## 2026-10-20 · Session S260 (atlas-revival, non-Collective)
 
 - **Repos:** none of the Collective. `~/ATLAS` (new standalone, private, local: `31b1024`, `aa2a588`, `5c1abb6`) and Personal-Grimoire (`folios/projects/atlas.md`, `83aa340`, `8f6bf30`, `05228df`). Logged here only because it may connect to the Collective later.
