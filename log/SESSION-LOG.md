@@ -14,6 +14,22 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-20 · Session S260 (atlas-revival, non-Collective)
+
+- **Repos:** none of the Collective. `~/ATLAS` (new standalone, private, local: `31b1024`, `aa2a588`, `5c1abb6`) and Personal-Grimoire (`folios/projects/atlas.md`, `83aa340`, `8f6bf30`, `05228df`). Logged here only because it may connect to the Collective later.
+- **What it is:** ATLAS (acronym undecided) is the revived Sentry Turret / SentryRobotV2 hardware: a Raspberry Pi 4 at `192.168.1.129` (a different Pi from the dead one in B-18), Coral USB TPU, Pi Camera Module, Logitech C310, and an Arduino pan-tilt. Mark's direction: a RaBbLE-OS Lite port to this Pi 4 first, then possibly a RaBbLE surface or a monitoring robot.
+- **Work:**
+  - Pi Cam: dead for a marginal ribbon contact at the Pi end. GPU firmware hangs and failed captures stack up in D state; only a power cycle clears it. After reseats it captures 7 of 7 stills and 30 of 30 V4L2 frames.
+  - Servos: the Arduino reset on every move (servo supply too weak); Mark fixed the power.
+  - Camera index: `/dev/video` numbering shifts between boots. Webcam is `video0`, the CSI node `video2` at last check. `sentry_headless.py` now reads `SENTRY_CAM`, default 0.
+  - FPS: the full loop with the C310 and TPU runs about 30 FPS, camera-bound (C310 caps at 30). Pi Cam does 60 FPS at 640x480. Raw TPU throughput not yet benchmarked; Mark expects 45-60 IPS.
+  - Licensing: Mark wants original code permissive with attribution to all authors. MIT for his code (`LICENSE`, `NOTICE.md`); co-author Rahul Shah credited, not relicensed (upstream has no license file). `BT/` is BlueZ-derived and mainly a classmate's, so it is carved out. `NN/utils.py` has Coral Apache-2.0 helpers whose notice needs restoring.
+  - Arduino "ARos" source recovered from the upstream repo into `~/ATLAS/arduino/`.
+- **Possible Collective connections (nothing decided):** the aarch64/Pi Ansible role is the next cyberdeck hardware milestone, and this Pi 4 is a ready test target for RaBbLE-OS Lite; a camera plus TPU is the first real sensing surface for a Watcher (EP2); `BT/` replacement and the license carve-outs follow the permissive-third-party rule.
+- **Next:** TPU bench suite and a survey of newer Edge TPU models; run the loop on the Pi Cam, then dual camera; diff the Pi's `~/Sentry_Turret` against the upstream; ask Rahul to confirm licensing before any publishing.
+
+---
+
 ## 2026-10-20 · Session S259 (pocket-cleanroom-w3)
 
 - **Repos:** Pocket (branch `cleanroom`: `0415780` audit spell, `b3a4354` beam, `2edd269` saved-network store, `cb7cb71` settings, `3d389f0` Wi-Fi station; not pushed), Grimoire (`908d8bb`: W3 specs, vectors, PROVENANCE, plan status). Opus 5.5 orchestrating and firewall; Sonnet 5.5 for specs and fresh implementers. Mark: "let's do the next set of clean room on the pocket".
