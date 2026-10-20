@@ -42,6 +42,12 @@ Format: date, what was done, where things were left, what's next.
   - A session spent learning the firmware: a guided tour of the gadget (boot, the seam, tasks and cores, entity and direct mode, voice turn, beam). The W0/W1 specs in `RaBbLE-Pocket/cleanroom/` are a readable map of those modules.
   - A session tuning the IMU and rotation (accord/ `rabble_motion.c`, `rabble_entity.c` `upright()`: the spring, the rest hold, the turn thresholds). That is RaBbLE-own code, so it is free to change during the clean room, but don't edit `apache/` files outside it.
   - Then clean room W2 (power + input: `rabble_axp2101`, battery, input, keypad). It needs the CST9217 datasheet (AXP2101 is on disk). Merge `cleanroom` into `new-horizons` when Mark is ready.
+- **Hybrid decision (Mark, 2026-10-20):** no Apache files kept in the repo. Permissive code only as managed components. Every file in the tree under the RaBbLE Sovereign Accord. Triage, in the plan's "Hybrid strategy" section:
+  - AXP2101 written from its datasheet (XPowersLib, MIT, is the fallback).
+  - Keypad (round, thumb-only) and settings UI redesigned by Mark, on their own track.
+  - Everything else clean room.
+  - Evidence gathered this session: the Meta SDK itself was partly agent-written (10 of 51 commits co-authored by Claude Opus 5.5). ESP-IDF's examples are mostly Unlicense/CC0.
+  - Open idea: a JPlag or Dolos structural similarity scan before W7.
 - **Session cleanup (Mark asked):**
   - S253 and S255 (backplate) were both logged and committed (S255: `96225b0` + `e8d3ee2`), but neither ended cleanly. S255 never wrote its token-ledger row; it is added now, under its auto-claim id.
   - Removed stale scope claims: S253 and S255, the two old August backplate claims, and the dead S251, S252 and S254 Pocket claims.
