@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-20 · Session S257 (pi4-bringup-diagnosis)
+## LATEST — 2026-10-20 · S258 (xp-rabble-ball)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S257: Pi 4 diagnosed (USB-C power-only, no UART); likely dead, B-18; bench kit list
+**This session:** S258: RaBbLE Ball 3D demo (2.5D-behaved eyes, black-hole infinity) + sketch live on Xperimental
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18 open.
-**Next:** Mark: buy multimeter/UART/power meter, retest Pi 4; Pocket firmware session, clean room W2
+**Next:** Mark: buy bench kit, retest Pi 4; Pocket firmware session, clean room W2
 
 ---
 
