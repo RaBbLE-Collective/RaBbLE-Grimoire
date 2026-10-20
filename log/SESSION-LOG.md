@@ -27,6 +27,21 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-20 · Session S258 (pocket-cleanroom-w2)
+
+- **Repos:** Pocket (branch `cleanroom`: `97312a3` axp2101, `1d0812e` battery, `87841bc` input; not pushed), Grimoire (W2 specs, vectors, PROVENANCE, plan status), OS (sanitizer runtimes added to `manifest.yml` + esp-idf role vars, uncommitted, `layerctl apply esp-idf` pending Mark). Opus 5.5 orchestrating and firewall; Sonnet 5.5 for specs and fresh implementers. Mark: "W2, and housekeeping".
+- **Result:** W2 done. `rabble_axp2101` (own from the datasheet), `rabble_battery` and `rabble_input` are RaBbLE's own; their originals and the axp2101 `LICENSE-APACHE` are gone. Host tests byte-exact against the golden vectors; serial checklist, a voice turn through the beam and Mark's button hand checks (BOOT, PWR sleep/wake, PWR hold power off/on, hint, goodbye, cancel) all pass. 60 fps idle, heap unchanged.
+- **Learned:**
+  - `rabble_battery` is a bench power meter, not a charge curve; the plan was wrong (percent comes from the AXP2101 gauge, power-off from input).
+  - Both battery and input needed one "rewrite these lines of yours" round for recalled private names (first pass about 11%); afterwards 9.2% and 4.9%.
+  - Vector generators include original code: keep them in `~/RaBbLE-Cleanroom/gen/`, never in a repo.
+  - Opening `/dev/ttyACM*` a second time resets the gadget: run one logger that also sends commands, and reopens the port after power-off.
+  - The audit spell flags the module's own `rabble_axp2101` directory: teach it to ignore taint words inside the workspace path.
+- **Mark's calls:** PWR power-off hold stays about 1.5 s (loop passes); `d`/`u` stay non-waking. Open: should a wake tap on BOOT only wake (today it records 0.3 s and sends a turn; that is the voice module, W4).
+- **Not done:** settings-page power off, on-battery auto-sleep/timed power-off/real low-power pause/Wi-Fi nap/raise and shake, the 11- and 35-minute battery runs, ASan/UBSan, push of `cleanroom`.
+
+---
+
 ## 2026-10-20 · Session S257 (pi4-bringup-diagnosis)
 
 - **Repos:** Grimoire only (log + blockers). No code changed.
