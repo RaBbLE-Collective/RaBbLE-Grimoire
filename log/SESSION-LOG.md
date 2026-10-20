@@ -14,6 +14,22 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-20 · Session S259 (pocket-cleanroom-w3)
+
+- **Repos:** Pocket (branch `cleanroom`: `0415780` audit spell, `b3a4354` beam, `2edd269` saved-network store, `cb7cb71` settings, `3d389f0` Wi-Fi station; not pushed), Grimoire (`908d8bb`: W3 specs, vectors, PROVENANCE, plan status). Opus 5.5 orchestrating and firewall; Sonnet 5.5 for specs and fresh implementers. Mark: "let's do the next set of clean room on the pocket".
+- **Result:** W3 network done. Settings, the saved-network store, the Wi-Fi station (old `wifi` + `wifi_mgr`) and the beam status side are RaBbLE's own; originals deleted. All host vectors exact (beam 204, settings 211, store 239, station 20 scenarios + 26 radio rows). On the gadget: boot join, Wi-Fi off/on, a made-up network failing then falling back, forget, nap/wake (3.4 s rejoin), beam config change and restore, chat turns, settings persistence; 60 fps idle. NVS dumps before/after: saved networks, passwords and the token byte-identical.
+- **Learned:**
+  - `wifi_channel` and the channel hint were dead code, and the scan-merge facility was never called: specs dropped both.
+  - Settings implementer recalled two private helper names; one "rewrite these lines" round (11.8% to 9.9%).
+  - `-fsyntax-only` misses `-Werror=stringop-truncation`: implementer compile checks must do a real optimised compile.
+  - A spec author hit the session limit mid-run; SendMessage resumed it with context intact.
+  - Audit spell: `rabble_axp2101` is no longer a taint word, and absolute workspace paths are the implementer's own tree.
+  - gitleaks isn't installed here; vectors were scanned by regex instead.
+- **For Mark:** hand checks (settings-page scan and join, wrong password on a real network, out of range, router reboot); and calls on kept behaviour: `beam.test` while connected can stick on `Connecting...`; a failed save on join joins the first saved network instead; setters always write even when unchanged.
+- **Next:** W4 voice (audio, voice), then push `cleanroom` when Mark says.
+
+---
+
 ## 2026-10-20 · Session S258 (xp-rabble-ball)
 
 - **Repos:** Xperimental (`54af724`, pushed: live), Grimoire (`0caf350` dev-cdn route + this log), Collective (state block).
