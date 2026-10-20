@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-20 · S258 (xp-rabble-ball)
+## LATEST — 2026-10-20 · Session S258 (pocket-cleanroom-w2)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S258: RaBbLE Ball 3D demo (2.5D-behaved eyes, black-hole infinity) + sketch live on Xperimental
+**This session:** S258: Pocket clean room W2 done (axp2101 from datasheet, battery, input); hand checks pass
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18 open.
-**Next:** Mark: buy bench kit, retest Pi 4; Pocket firmware session, clean room W2
+**Next:** Pocket: on-battery checks, push cleanroom, W3 network; Mark: layerctl apply esp-idf
 
 ---
 
