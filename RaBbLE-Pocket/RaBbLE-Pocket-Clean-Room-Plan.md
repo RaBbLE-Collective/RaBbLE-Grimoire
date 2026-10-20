@@ -95,6 +95,31 @@ Datasheets in `firmware/datasheets/` are public vendor documents and are fine fo
 4. **Overlap gate**: the S252 line-overlap measure, run by G only (it reads the SDK). Target: under 5% of substantive lines match upstream, and every match reviewed and judged unavoidable (an ESP-IDF call sequence, a register name). Anything else goes back to I as "rewrite these lines' behaviour your own way", without showing the original. The script belongs in `RaBbLE-Pocket/ops/cleanroom-overlap.py` (G writes it in W0, from the S252 one-off; it is integrator-only tooling).
 5. **Provenance**: one row per module in `RaBbLE-Grimoire/RaBbLE-Pocket/cleanroom/PROVENANCE.md`: spec path and commit, spec author session, firewall reviewer session, implementer session id and agent/model, inputs the implementer was given, overlap result, Pocket commit that swapped it in.
 
+## Hybrid strategy (S256, Mark, 2026-10-20)
+
+Mark: "I'm not against Apache 2.0 code, I just want to minimize how much I have and make more of my files have RaBbLE SA copyright... the SDK felt like a good foundation. Learning and tweaking as I go." The goal is therefore **no Apache-2.0 files vendored in the repo**. Permissive code is fine as **managed components** (fetched at build time and covered by the managed-components paragraph in NOTICE, as ESP-IDF, LVGL and the Waveshare board package already are). Every file in the tree carries the RaBbLE Sovereign Accord copyright.
+
+Each remaining module gets one of three treatments:
+- **Clean room:** spec, firewall, fresh implementer, as in W0 and W1.
+- **Own from source:** written from a datasheet or a public-domain example. It still goes through a spec, because the tainted writers know the original.
+- **Redesign:** a new design of Mark's. It needs only the interface contract plus Mark's brief, and no behaviour spec of the original, because the behaviour changes on purpose.
+
+| Module (lines) | Treatment | Notes |
+|---|---|---|
+| `rabble_axp2101` (245) | own from datasheet | `firmware/datasheets/X-power-AXP2101_SWcharge_V1.0.pdf`. Fallback if it proves costly: XPowersLib (MIT) as a managed component (`cube32esp/xpowerslib`). |
+| `battery` (584) | clean room | Charge-curve and power-off behaviour is ours to keep. |
+| `input` (632) | clean room | PTT, serial keys, sleep. Checklist needs Mark's hands. |
+| `keypad` (339) | **redesign** | Mark plans a round-display, small, thumb-only keypad. Keep the public interface that `settings_ui` calls (or change both together in W5); new layout from Mark's brief. |
+| `wifi`, `wifi_known`, `wifi_mgr` (1,580) | clean room | Implementers may use ESP-IDF's public-domain examples (Unlicense/CC0); NVS layout must stay compatible. |
+| `settings` (342) | clean room | NVS keys and formats unchanged (saved networks, beam token). |
+| `beam` (244) | clean room | |
+| `audio` (370), `voice` (953) | clean room | Highest risk; last among the core modules. |
+| `settings_ui` (1,334) | **redesign** | Already planned as W5. Pairs with the keypad redesign. |
+| `bsp_waveshare_175b.c` (383) | clean room, leaner | Lean on the Waveshare board package and `esp_lcd_co5300` (managed) for panel and touch bring-up; our file keeps only the board table and glue. |
+| `rabble_lcd_bands.c/.h` (550) | clean room | Mostly RaBbLE's own performance work already. |
+
+Order stays W2 to W7, with keypad and settings_ui moved into a redesign track Mark can run whenever the design is ready. Mark learns the firmware and tunes as the waves go: each spec is a readable map of the module before it is replaced.
+
 ## Waves
 
 Specs for a wave can be written in parallel (Sonnet sub-agents are fine for S; pin `model: "sonnet"` on fan-outs). Implementers of different modules in one wave run in parallel because they write disjoint new files. Integration is serial: one module per commit, the gadget flashed and checked each time.
