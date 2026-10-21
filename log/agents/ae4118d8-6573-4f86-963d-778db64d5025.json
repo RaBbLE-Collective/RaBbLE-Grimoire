@@ -1,0 +1,14 @@
+{
+  "session_id": "ae4118d8-6573-4f86-963d-778db64d5025",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-Grimoire",
+  "scopes": [
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/token-ledger.tsv",
+    "RaBbLE-World:world/css/RaBbLE-face.css",
+    "RaBbLE-World:world/js/RaBbLE-face.js"
+  ],
+  "started_at": "2026-10-06T21:33:15Z",
+  "heartbeat_at": "2026-10-07T01:00:30Z",
+  "auto": true
+}

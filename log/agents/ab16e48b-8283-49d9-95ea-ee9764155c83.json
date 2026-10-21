@@ -1,0 +1,25 @@
+{
+  "session_id": "ab16e48b-8283-49d9-95ea-ee9764155c83",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-Grimoire",
+  "scopes": [
+    "RaBbLE-Grimoire:RaBbLE-OS/RaBbLE-OS-AgentGuide.md",
+    "RaBbLE-Grimoire:RaBbLE-OS/hardware/RaBbLE-OS-Hardware-ProArtP16.md",
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/plans/OS-ProArt-Power-Stack-Plan.md",
+    "RaBbLE-Grimoire:log/token-ledger.tsv",
+    "RaBbLE-OS:ansible/inventory/group_vars/asus_proart_p16.yml",
+    "RaBbLE-OS:ansible/packages/manifest.yml",
+    "RaBbLE-OS:ansible/roles/hardware/x64/asus_proart_p16/tasks/arbitration.yml",
+    "RaBbLE-OS:ansible/roles/hardware/x64/asus_proart_p16/tasks/asusctl.yml",
+    "RaBbLE-OS:ansible/roles/hardware/x64/asus_proart_p16/tasks/asusd.yml",
+    "RaBbLE-OS:ansible/roles/hardware/x64/asus_proart_p16/tasks/tuned.yml",
+    "RaBbLE-OS:ansible/roles/hardware/x64/generic/tasks/main.yml",
+    "RaBbLE-OS:ansible/roles/hardware/x64/generic/tasks/tuned.yml",
+    "RaBbLE-OS:config/waybar/scripts/power-ac-fallback.sh",
+    "RaBbLE-OS:config/waybar/scripts/power-profile.sh"
+  ],
+  "started_at": "2026-10-13T06:56:56Z",
+  "heartbeat_at": "2026-10-13T06:57:04Z",
+  "auto": true
+}

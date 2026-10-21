@@ -1,0 +1,13 @@
+{
+  "session_id": "7007b2eb-db2f-47a4-b581-2210d9c3311f",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-Grimoire",
+  "scopes": [
+    "RaBbLE-Grimoire:RaBbLE-Pocket/RaBbLE-Pocket-Clean-Room-Plan.md",
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/token-ledger.tsv"
+  ],
+  "started_at": "2026-10-20T04:11:44Z",
+  "heartbeat_at": "2026-10-20T04:31:21Z",
+  "auto": true
+}

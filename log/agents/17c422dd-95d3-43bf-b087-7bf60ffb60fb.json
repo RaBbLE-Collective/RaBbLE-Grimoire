@@ -3,9 +3,11 @@
   "agent": "auto",
   "cwd": "/home/rabble/RaBbLE-Collective",
   "scopes": [
-    "RaBbLE-Collective:AGENT.md"
+    "RaBbLE-Collective:AGENT.md",
+    "RaBbLE-Grimoire:log/agents/17c422dd-95d3-43bf-b087-7bf60ffb60fb.json",
+    "RaBbLE-Grimoire:log/token-ledger.tsv"
   ],
   "started_at": "2026-10-20T17:39:00Z",
-  "heartbeat_at": "2026-10-20T17:39:00Z",
+  "heartbeat_at": "2026-10-20T17:41:21Z",
   "auto": true
 }

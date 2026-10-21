@@ -1,0 +1,22 @@
+{
+  "session_id": "8b827241-7034-4892-bb97-72d68e24e1e8",
+  "agent": "auto",
+  "cwd": "/home/rabble/RaBbLE-Collective/RaBbLE-Xperimental",
+  "scopes": [
+    "RaBbLE-Collective:AGENT.md",
+    "RaBbLE-Grimoire:log/SESSION-LOG.md",
+    "RaBbLE-Grimoire:log/token-ledger.tsv",
+    "RaBbLE-Xperimental:CONTEXT.md",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/CONTEXT.md",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/src/vocoder/README.md",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/src/vocoder/vocoder-effects.ts",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/src/vocoder/vocoder-engine.ts",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/src/vocoder/vocoder-formants.ts",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/src/vocoder/vocoder-phonemes.ts",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/src/vocoder/vocoder-synth.ts",
+    "RaBbLE-Xperimental:rablets/RaBbLE-Voice/tests/vocoder.test.ts"
+  ],
+  "started_at": "2026-10-07T01:11:05Z",
+  "heartbeat_at": "2026-10-07T01:11:59Z",
+  "auto": true
+}
