@@ -14,6 +14,27 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-21 · Session S262 (atlas-console, non-Collective)
+
+- **Repos:** `~/ATLAS-next` (standalone, private, unpublished; `07a564e` to `c286348`, 7 commits) and the Personal-Grimoire folio (`53469cc`). One Collective repo touched for Mark's dev machine: RaBbLE-OS `layer/atlas-sentry` (`bbc3bf8`; opt-in, not yet applied). The same sweep committed other sessions' pending work unchanged: OS float-top keybind (`a06c15f`) and Muse bring-up doc (`d4091df`), BaBbLE intake (`1562eab`), Pocket compare renders (`3f8cc8f`). LATEST and the Collective state block stay on Pocket. Deployed to the Pi 4 at `192.168.1.129`.
+- **Work:**
+  - Web control console served from the sentry process (it owns the camera and serial port): modes off/manual/auto with E-STOP, manual angles, click-to-aim, tuning sliders, presets, detector focus window, routines (sweep, perimeter, jitter, step response, FOV measure, idle demo, self-test), live model switching, per-camera on/off with a retry flow, settings save and `systemctl reload`. Token-gated; the service starts at boot disarmed.
+  - Both cameras inferenced together: capture thread per camera, two inference workers sharing the TPU, a 60 Hz control loop. Both cameras at 30 fps profiles (the Pi Cam 60 to 90 fps modes crop the sensor).
+  - Tracks (`tracks.py`): detections become pan/tilt bearings from the pose at capture time, so both cameras share one track per person; coasting through missed frames, quality-weighted memory, re-catch, duplicate merging, score and speed rules for new tracks, and yaw/pitch learned between cameras from single-person frames.
+  - PID aim (`tracker.py`) with braking limit, integral zone and reach so it undershoots; output hysteresis (`motion.py`). Stop-and-look scan over a coverage map, searching the last known bearing first. World map and track list in the console.
+  - Measured on the TPU (`tools/swapbench.py`): a model switch costs about 23 ms, so `person_v1` (84 IPS) stays the tracker and face or pose models run only in idle bursts of 32 or more. Pose models MoveNet Lightning and Thunder, and face, load and run live.
+- **Learned:**
+  - The Pi Cam wedges (MMAL timeout, ret -62) when a streaming process is killed without cleanup; only a power cycle clears it. Added a SIGTERM handler and `TimeoutStopSec`; a stop is now clean.
+  - My simulations were wrong three times (a person that teleported, a turret path with jumps, a flipped trim sign) and each gave convincing bad numbers. Trace one case by hand before trusting a result. The tracker's first real-hardware crash (numpy bool subtraction) was invisible in simulation with plain floats.
+  - A kill and a start in one ssh command with `pgrep -f` killed its own shell again; keep them in separate calls.
+  - Alternating models per frame is never worth it; a Python-side tracker reading only people throws away the 80 classes `person_v1` already sees (free input for mapping).
+  - The old tracker (whole-degree P steps at 60 Hz) overshot by 9 degrees on a 15 degree step in simulation; Mark's hand-tuned values needed a 5.8 degree deadband to avoid it.
+- **For Mark:** run `RaBbLE-OS-layerctl.sh apply atlas-sentry`; install `gitleaks` through the manifest (none on the laptop, so a pattern scan was used for this commit); press Save in the console once the tuning feels right (nothing is saved yet); the servo supply ground and ripple are still unmeasured, so the power question is open (the Pi never logged under-voltage, the Arduino never reset); measure both cameras' fields of view with `measure_fov` (scene still, other camera off); the second camera at 90 degrees needs its mount yaw set.
+- **Not verified on hardware:** a real walk-out-and-back re-catch, armed tracking through the new tracks, the cameras' true FOV, and the PID defaults against real backlash (tuned in simulation).
+- **Next:** measure FOVs; the re-catch test; face tracking in idle bursts; mapping from all COCO classes; the 90 degree camera; a Pi-side Ansible playbook in ATLAS-next; Arduino firmware v2.
+
+---
+
 ## 2026-10-20 · Session S261 (atlas-next, non-Collective)
 
 - **Repos:** none of the Collective. `~/ATLAS-next` (standalone, private, local, unpublished; supersedes `~/ATLAS`: `08d38f5`, `5198691`, `f2c93e2`) and the Personal-Grimoire folio (`02ba557`, `04b36e3`, `db75118`). Deployed to the working Pi 4 at `192.168.1.129` (not the dead one in B-18). LATEST and the Collective state block stay on Pocket: nothing in the Collective changed.

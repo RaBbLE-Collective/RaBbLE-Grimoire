@@ -264,3 +264,4 @@ b8152139-278a-4a09-b525-9d7649736aba	collective	auto: current state S258: pocket
 17c422dd-95d3-43bf-b087-7bf60ffb60fb	collective	auto: current state S259: pocket clean room W3 network
 03d5bab6-01e8-4cd8-b9cf-f76ffe82fd68	atlas-revival	ATLAS: Pi 4 turret revival, Pi Cam fix, MIT + NOTICE (non-Collective)
 e83cfcd1-dc26-4a05-b067-1f582e5d53d5	atlas-next	ATLAS-next: consolidated, deployed to the Pi, 60 FPS on the Pi Cam (non-Collective)
+1d66f0a2-f8a9-4762-93a6-7075854fb840	atlas-dual-camera-console	S262: ATLAS web console, dual-camera inference, tracks with memory, PID, scan
