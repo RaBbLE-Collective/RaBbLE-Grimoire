@@ -14,6 +14,7 @@
 - **B-15** — ProArt hardware role (ansible/roles/hardware/x64/asus_proart_p16/) is being applied on Mark's non-ProArt Desktop bare-metal install — tries to install NVIDIA packages that don't exist on that hardware, causing Ansible task failures; install ends without Firefox and with 'a good number' of other failed recipes. Hardware auto-detection logic needs diagnosis — the role should not be matching this machine at all.  ·  owner:Mark  ·  since:2026-09-28  ·  [os-install,hardware-detection]
 - **B-16** — OpenRouter $10 credits not purchased — free-tier 429 caps the OpenRouter leg of the chat chain (resilience only; G5 met via Groq). Continues B-02.  ·  owner:Mark  ·  since:S106  ·  [resilience]
 - **B-18** — Raspberry Pi 4 appears dead: steady ACT + red PWR, no HDMI even with bootloader-recovery/OS image on SD (S257). USB-C is power-only so no laptop UART. Needs multimeter (TP1/TP2 5V, PMIC rails), inline USB power meter, USB-UART adapter (CP2102N/FT232H) to confirm; likely replace board.  ·  owner:  ·  since:2026-10-20  ·  [hardware]
+- **B-19** — https://joinrabble.world/setup.sh returns 404 (found S263). It is the documented fresh-machine install path (`curl -fsSL https://joinrabble.world/setup.sh | bash`) and G9 depends on it. Not DNSSEC: DS/validation are fine and the domain answers. Unverified whether it ever served from this path or moved. Check how joinrabble.world is deployed (World Pages?) and where setup.sh should live.  ·  owner:Mark  ·  since:2026-10-21  ·  [bootstrap,g9]
 
 ## RESOLVED
 
