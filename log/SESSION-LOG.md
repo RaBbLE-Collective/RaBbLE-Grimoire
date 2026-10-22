@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-22 · Session S264 (pocket-face-motion-level)
+## LATEST — 2026-10-22 · Session S265 (pocket-capture-t3-t4)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S264: Pocket clean room W4 (hiss gone), freeze fixed, face feels motion+touch, Settings > Level, Capture plan + sCoRE capture
+**This session:** S265: Pocket notes store (OTA layout), Converse/Capture swipe w/ flipped portals, typed+voice captures live, sCoRE pushed
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18 open.
-**Next:** HANDOFF-S264: Capture T3 notes store (Mark: partition size), T4 swipe, W4 hand checks; Mark: apache/ name, push
+**Next:** HANDOFF-S265: T5 pocket-notes.py offload, Mark T4 hand check, T6 voice capture; push Pocket/Grimoire
 
 ---
 
