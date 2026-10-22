@@ -14,6 +14,22 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-22 · Session S265 (pocket-capture-t3-t4)
+
+- **Repos:** RaBbLE-Pocket (`new-horizons` `4529039`, `60e1c9a`, `02dcd93`, `678e335`, `fa2b9d5`; `cleanroom` `cc56f04`, `a7e2a2e` + merges up to `22a11be`, flashed; nothing pushed), RaBbLE-sCoRE (`663bc10` **pushed**, live on Render), Grimoire (`0514ad3`, `d65d4cb`, `c241420` + this entry, handoff `HANDOFF-S265-Pocket-Capture-T5.md`).
+- **Work:**
+  - Mark's calls: OTA-ready partitions (2 × 3.5 MB app, 8.9 MB LittleFS); notes stay on the device until `--prune`; push sCoRE; Capture looks different by flipping the portals' top/bottom ends; a swipe names the mode where RaBbLE answers; during writes "the NN mesh should be going wild".
+  - Capture T3: `accord/rabble_notes.c` (LittleFS store, PSRAM index rebuilt from frontmatter, 10% kept free, tmp + rename), beam saves `note` parts and answers `note.saved`; serial `>notes`, `.get` (base64 + sha256), `.done`, `.rm` (offloaded only), `.test`. Gates: survives reboot, refuses at 90%, sha256 round trip.
+  - Capture T4: `accord/rabble_capture.c` (mode in NVS), swipe up/down on the face (LVGL gesture via the indev), nebula_lite `in.flip` (portals mirror about their eyes over 0.7 s, eyes withdraw halfway, strands follow), glass `CAPTURE (n)` / `SAVED` / mode caption; turn.begin carries id, started, IANA tz (added to `rabble_time`). `>capture=TEXT`, `>mode=`. First typed capture and Mark's first voice capture both came back shaped and saved.
+  - Fixed: a stack overflow in `>notes.get` (buffers moved to the heap); the W2 input host test (S264 level stubs, `@imu` bias; spec updated).
+  - Logged Mark's ideas in the Pocket roadmap: shake swaps colours, settings swipe resistance + snap, settings ≥ 40 fps, round-screen settings, boot with rotating portal edges.
+- **Learned:**
+  - esp_flash busy-polls through erase/program (a tick's yield every 20 ms) and each access stops the other core's cache: flash work above the panel's priority cost 30+ late frames (200 to 300 ms) per MB. Holding the store at priority 1 brought real-size notes to 0. The LVGL timer never showed it; the entity's own late-frame log did.
+  - LVGL's simple gesture fires only when no scroll starts, so a tile that scrolls only sideways gets clean vertical swipes from an indev `LV_EVENT_GESTURE` callback.
+- **Next:** HANDOFF-S265: T5 host offload spell (two real notes waiting), Mark's T4 hand check, T6 voice capture; push Pocket/Grimoire/Collective when Mark says.
+
+---
+
 ## 2026-10-22 · Session S264 (pocket-capture-freeze-w4)
 
 - **Repos:** RaBbLE-Pocket (`new-horizons` `2712da5`, `23c6b30`, `490e0d3`, `6767bf7`, `44a2701`; `cleanroom` merges `6f2c414`, `e05a99d`, plus `7fe6f97` and W4 `94d7d0b`; nothing pushed), RaBbLE-sCoRE (`663bc10` on `new-horizons`, not pushed: pushing deploys to Render), Grimoire (`d975f43` + this entry).
