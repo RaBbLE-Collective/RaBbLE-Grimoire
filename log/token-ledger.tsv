@@ -271,3 +271,5 @@ e83cfcd1-dc26-4a05-b067-1f582e5d53d5	atlas-next	ATLAS-next: consolidated, deploy
 94d4f7e8-e2ae-4299-89ff-1f9c56277b37	pocket-face-motion-level	S264b
 94d4f7e8-e2ae-4299-89ff-1f9c56277b37	pocket-capture-t3-t4	S265
 bbaa642f-5f7d-49fc-be6c-aebc3896c507	collective	auto: current state S265: pocket notes store, Converse/Capture live, sCoRE capture pushed
+b248cb34-8c8c-4799-959e-42ee6e398a33	collective	auto: current state S266: Pocket gyro face, ring everywhere, W5 Orbit, merged onto new-horizons
+94d4f7e8-e2ae-4299-89ff-1f9c56277b37	pocket-gyro-orbit-w5	S266
