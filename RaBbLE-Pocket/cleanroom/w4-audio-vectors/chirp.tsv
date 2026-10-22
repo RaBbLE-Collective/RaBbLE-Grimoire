@@ -1,0 +1,5 @@
+case	rising	speaker_on	output_stereo	codec_writes	frames
+chirp_r1_s1	1	1	chirp_r1_s1.s16	5	1440
+chirp_r1_s0	1	0	chirp_r1_s0.s16	5	1440
+chirp_r0_s1	0	1	chirp_r0_s1.s16	5	1440
+chirp_r0_s0	0	0	chirp_r0_s0.s16	5	1440

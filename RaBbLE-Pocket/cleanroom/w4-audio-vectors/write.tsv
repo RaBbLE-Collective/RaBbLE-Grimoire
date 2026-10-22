@@ -1,0 +1,6 @@
+case	speaker_on	input	calls_frames	fail_after_writes	output_stereo	ret_codes	codec_write_bytes
+on_320	1	mono_tone.pcm	320	-1	write_on_320.s16	0	1280
+on_multi	1	mono_tone.pcm	700,1,0,320,479	-1	write_on_multi.s16	0,0,0,0,0	1280,1280,240,4,1280,1280,636
+off_multi	0	mono_tone.pcm	700,1,0,320,479	-1	write_off_multi.s16	0,0,0,0,0	1280,1280,240,4,1280,1280,636
+on_fail	1	mono_tone.pcm	700	1	write_on_fail.s16	-1	1280
+off_fail	0	mono_tone.pcm	700	1	write_off_fail.s16	-1	1280

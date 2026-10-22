@@ -1,0 +1,960 @@
+# scenario	t_ms	mode	caption  (captions in order, with the mode in force when set; t_ms not compared)
+turn_basic	1010	listening	LISTENING...
+turn_basic	1050	listening	LISTENING 0.3s
+turn_basic	1150	listening	LISTENING 0.4s
+turn_basic	1250	listening	LISTENING 0.5s
+turn_basic	1350	listening	LISTENING 0.6s
+turn_basic	1450	listening	LISTENING 0.7s
+turn_basic	1550	listening	LISTENING 0.8s
+turn_basic	1650	listening	LISTENING 0.9s
+turn_basic	1750	listening	LISTENING 1.0s
+turn_basic	1850	listening	LISTENING 1.1s
+turn_basic	1950	listening	LISTENING 1.2s
+turn_basic	2050	listening	LISTENING 1.3s
+turn_basic	2220	thinking	SENDING VOICE NOTE
+turn_basic	2420	thinking	NOTE SENT - RaBbLE IS THINKING
+turn_basic	2520	thinking	"hello there"
+turn_basic	3140	thinking	PAGE 0
+turn_basic	3720	speaking	PAGE 1
+turn_basic	4220	speaking	PAGE 2
+turn_basic	4420	idle	
+turn_partial_caption	1010	listening	LISTENING...
+turn_partial_caption	1050	listening	LISTENING 0.3s
+turn_partial_caption	1150	listening	LISTENING 0.4s
+turn_partial_caption	1250	listening	LISTENING 0.5s
+turn_partial_caption	1350	listening	LISTENING 0.6s
+turn_partial_caption	1450	listening	LISTENING 0.7s
+turn_partial_caption	1550	listening	LISTENING 0.8s
+turn_partial_caption	1610	listening	hello
+turn_partial_caption	2220	thinking	SENDING VOICE NOTE
+turn_partial_caption	2420	thinking	NOTE SENT - RaBbLE IS THINKING
+turn_partial_caption	2520	thinking	"hello there"
+turn_partial_caption	3140	thinking	PAGE 0
+turn_partial_caption	3720	speaking	PAGE 1
+turn_partial_caption	4220	speaking	PAGE 2
+turn_partial_caption	4420	idle	
+turn_long_reply_pages	1010	listening	LISTENING...
+turn_long_reply_pages	1050	listening	LISTENING 0.3s
+turn_long_reply_pages	1150	listening	LISTENING 0.4s
+turn_long_reply_pages	1250	listening	LISTENING 0.5s
+turn_long_reply_pages	1350	listening	LISTENING 0.6s
+turn_long_reply_pages	1450	listening	LISTENING 0.7s
+turn_long_reply_pages	1550	listening	LISTENING 0.8s
+turn_long_reply_pages	1650	listening	LISTENING 0.9s
+turn_long_reply_pages	1750	listening	LISTENING 1.0s
+turn_long_reply_pages	1850	listening	LISTENING 1.1s
+turn_long_reply_pages	1950	listening	LISTENING 1.2s
+turn_long_reply_pages	2050	listening	LISTENING 1.3s
+turn_long_reply_pages	2220	thinking	SENDING VOICE NOTE
+turn_long_reply_pages	2420	thinking	NOTE SENT - RaBbLE IS THINKING
+turn_long_reply_pages	2520	thinking	"hello there"
+turn_long_reply_pages	2940	thinking	PAGE 0
+turn_long_reply_pages	3520	speaking	PAGE 1
+turn_long_reply_pages	4020	speaking	PAGE 2
+turn_long_reply_pages	4520	speaking	PAGE 3
+turn_long_reply_pages	5020	speaking	PAGE 4
+turn_long_reply_pages	5520	speaking	PAGE 5
+turn_long_reply_pages	6020	speaking	PAGE 6
+turn_long_reply_pages	6520	speaking	PAGE 7
+turn_long_reply_pages	7020	speaking	PAGE 8
+turn_long_reply_pages	7520	speaking	PAGE 9
+turn_long_reply_pages	8020	speaking	PAGE 10
+turn_long_reply_pages	8520	speaking	PAGE 11
+turn_long_reply_pages	9020	speaking	PAGE 12
+turn_long_reply_pages	9020	idle	
+turn_no_tts	1010	listening	LISTENING...
+turn_no_tts	1050	listening	LISTENING 0.3s
+turn_no_tts	1150	listening	LISTENING 0.4s
+turn_no_tts	1250	listening	LISTENING 0.5s
+turn_no_tts	1350	listening	LISTENING 0.6s
+turn_no_tts	1450	listening	LISTENING 0.7s
+turn_no_tts	1550	listening	LISTENING 0.8s
+turn_no_tts	1650	listening	LISTENING 0.9s
+turn_no_tts	1750	listening	LISTENING 1.0s
+turn_no_tts	1850	listening	LISTENING 1.1s
+turn_no_tts	1950	listening	LISTENING 1.2s
+turn_no_tts	2050	listening	LISTENING 1.3s
+turn_no_tts	2220	thinking	SENDING VOICE NOTE
+turn_no_tts	2420	thinking	NOTE SENT - RaBbLE IS THINKING
+turn_no_tts	2520	thinking	"hello there"
+turn_no_tts	3140	thinking	PAGE 0
+turn_no_tts	5740	idle	
+turn_max_length	1010	listening	LISTENING...
+turn_max_length	1050	listening	LISTENING 0.3s
+turn_max_length	1150	listening	LISTENING 0.4s
+turn_max_length	1250	listening	LISTENING 0.5s
+turn_max_length	1350	listening	LISTENING 0.6s
+turn_max_length	1450	listening	LISTENING 0.7s
+turn_max_length	1550	listening	LISTENING 0.8s
+turn_max_length	1650	listening	LISTENING 0.9s
+turn_max_length	1750	listening	LISTENING 1.0s
+turn_max_length	1850	listening	LISTENING 1.1s
+turn_max_length	1950	listening	LISTENING 1.2s
+turn_max_length	2050	listening	LISTENING 1.3s
+turn_max_length	2150	listening	LISTENING 1.4s
+turn_max_length	2250	listening	LISTENING 1.5s
+turn_max_length	2350	listening	LISTENING 1.6s
+turn_max_length	2450	listening	LISTENING 1.7s
+turn_max_length	2550	listening	LISTENING 1.8s
+turn_max_length	2650	listening	LISTENING 1.9s
+turn_max_length	2750	listening	LISTENING 2.0s
+turn_max_length	2850	listening	LISTENING 2.1s
+turn_max_length	2950	listening	LISTENING 2.2s
+turn_max_length	3050	listening	LISTENING 2.3s
+turn_max_length	3150	listening	LISTENING 2.4s
+turn_max_length	3250	listening	LISTENING 2.5s
+turn_max_length	3350	listening	LISTENING 2.6s
+turn_max_length	3450	listening	LISTENING 2.7s
+turn_max_length	3550	listening	LISTENING 2.8s
+turn_max_length	3650	listening	LISTENING 2.9s
+turn_max_length	3750	listening	LISTENING 3.0s
+turn_max_length	3850	listening	LISTENING 3.1s
+turn_max_length	3950	listening	LISTENING 3.2s
+turn_max_length	4050	listening	LISTENING 3.3s
+turn_max_length	4150	listening	LISTENING 3.4s
+turn_max_length	4250	listening	LISTENING 3.5s
+turn_max_length	4350	listening	LISTENING 3.6s
+turn_max_length	4450	listening	LISTENING 3.7s
+turn_max_length	4550	listening	LISTENING 3.8s
+turn_max_length	4650	listening	LISTENING 3.9s
+turn_max_length	4750	listening	LISTENING 4.0s
+turn_max_length	4850	listening	LISTENING 4.1s
+turn_max_length	4950	listening	LISTENING 4.2s
+turn_max_length	5050	listening	LISTENING 4.3s
+turn_max_length	5150	listening	LISTENING 4.4s
+turn_max_length	5250	listening	LISTENING 4.5s
+turn_max_length	5350	listening	LISTENING 4.6s
+turn_max_length	5450	listening	LISTENING 4.7s
+turn_max_length	5550	listening	LISTENING 4.8s
+turn_max_length	5650	listening	LISTENING 4.9s
+turn_max_length	5750	listening	LISTENING 5.0s
+turn_max_length	5850	listening	LISTENING 5.1s
+turn_max_length	5950	listening	LISTENING 5.2s
+turn_max_length	6050	listening	LISTENING 5.3s
+turn_max_length	6150	listening	LISTENING 5.4s
+turn_max_length	6250	listening	LISTENING 5.5s
+turn_max_length	6350	listening	LISTENING 5.6s
+turn_max_length	6450	listening	LISTENING 5.7s
+turn_max_length	6550	listening	LISTENING 5.8s
+turn_max_length	6650	listening	LISTENING 5.9s
+turn_max_length	6750	listening	LISTENING 6.0s
+turn_max_length	6850	listening	LISTENING 6.1s
+turn_max_length	6950	listening	LISTENING 6.2s
+turn_max_length	7050	listening	LISTENING 6.3s
+turn_max_length	7150	listening	LISTENING 6.4s
+turn_max_length	7250	listening	LISTENING 6.5s
+turn_max_length	7350	listening	LISTENING 6.6s
+turn_max_length	7450	listening	LISTENING 6.7s
+turn_max_length	7550	listening	LISTENING 6.8s
+turn_max_length	7650	listening	LISTENING 6.9s
+turn_max_length	7750	listening	LISTENING 7.0s
+turn_max_length	7850	listening	LISTENING 7.1s
+turn_max_length	7950	listening	LISTENING 7.2s
+turn_max_length	8050	listening	LISTENING 7.3s
+turn_max_length	8150	listening	LISTENING 7.4s
+turn_max_length	8250	listening	LISTENING 7.5s
+turn_max_length	8350	listening	LISTENING 7.6s
+turn_max_length	8450	listening	LISTENING 7.7s
+turn_max_length	8550	listening	LISTENING 7.8s
+turn_max_length	8650	listening	LISTENING 7.9s
+turn_max_length	8750	listening	LISTENING 8.0s
+turn_max_length	8850	listening	LISTENING 8.1s
+turn_max_length	8950	listening	LISTENING 8.2s
+turn_max_length	9050	listening	LISTENING 8.3s
+turn_max_length	9150	listening	LISTENING 8.4s
+turn_max_length	9250	listening	LISTENING 8.5s
+turn_max_length	9350	listening	LISTENING 8.6s
+turn_max_length	9450	listening	LISTENING 8.7s
+turn_max_length	9550	listening	LISTENING 8.8s
+turn_max_length	9650	listening	LISTENING 8.9s
+turn_max_length	9750	listening	LISTENING 9.0s
+turn_max_length	9850	listening	LISTENING 9.1s
+turn_max_length	9950	listening	LISTENING 9.2s
+turn_max_length	10050	listening	LISTENING 9.3s
+turn_max_length	10150	listening	LISTENING 9.4s
+turn_max_length	10250	listening	LISTENING 9.5s
+turn_max_length	10350	listening	LISTENING 9.6s
+turn_max_length	10450	listening	LISTENING 9.7s
+turn_max_length	10550	listening	LISTENING 9.8s
+turn_max_length	10650	listening	LISTENING 9.9s
+turn_max_length	10750	listening	LISTENING 10.0s
+turn_max_length	10850	listening	LISTENING 10.1s
+turn_max_length	10950	listening	LISTENING 10.2s
+turn_max_length	11050	listening	LISTENING 10.3s
+turn_max_length	11150	listening	LISTENING 10.4s
+turn_max_length	11250	listening	LISTENING 10.5s
+turn_max_length	11350	listening	LISTENING 10.6s
+turn_max_length	11450	listening	LISTENING 10.7s
+turn_max_length	11550	listening	LISTENING 10.8s
+turn_max_length	11650	listening	LISTENING 10.9s
+turn_max_length	11750	listening	LISTENING 11.0s
+turn_max_length	11850	listening	LISTENING 11.1s
+turn_max_length	11950	listening	LISTENING 11.2s
+turn_max_length	12050	listening	LISTENING 11.3s
+turn_max_length	12150	listening	LISTENING 11.4s
+turn_max_length	12250	listening	LISTENING 11.5s
+turn_max_length	12350	listening	LISTENING 11.6s
+turn_max_length	12450	listening	LISTENING 11.7s
+turn_max_length	12550	listening	LISTENING 11.8s
+turn_max_length	12650	listening	LISTENING 11.9s
+turn_max_length	12750	listening	LISTENING 12.0s
+turn_max_length	12850	listening	LISTENING 12.1s
+turn_max_length	12950	listening	LISTENING 12.2s
+turn_max_length	13050	listening	LISTENING 12.3s
+turn_max_length	13150	listening	LISTENING 12.4s
+turn_max_length	13250	listening	LISTENING 12.5s
+turn_max_length	13350	listening	LISTENING 12.6s
+turn_max_length	13450	listening	LISTENING 12.7s
+turn_max_length	13550	listening	LISTENING 12.8s
+turn_max_length	13650	listening	LISTENING 12.9s
+turn_max_length	13750	listening	LISTENING 13.0s
+turn_max_length	13850	listening	LISTENING 13.1s
+turn_max_length	13950	listening	LISTENING 13.2s
+turn_max_length	14050	listening	LISTENING 13.3s
+turn_max_length	14150	listening	LISTENING 13.4s
+turn_max_length	14250	listening	LISTENING 13.5s
+turn_max_length	14350	listening	LISTENING 13.6s
+turn_max_length	14450	listening	LISTENING 13.7s
+turn_max_length	14550	listening	LISTENING 13.8s
+turn_max_length	14650	listening	LISTENING 13.9s
+turn_max_length	14750	listening	LISTENING 14.0s
+turn_max_length	14850	listening	LISTENING 14.1s
+turn_max_length	14950	listening	LISTENING 14.2s
+turn_max_length	15050	listening	LISTENING 14.3s
+turn_max_length	15150	listening	LISTENING 14.4s
+turn_max_length	15250	listening	LISTENING 14.5s
+turn_max_length	15350	listening	LISTENING 14.6s
+turn_max_length	15450	listening	LISTENING 14.7s
+turn_max_length	15550	listening	LISTENING 14.8s
+turn_max_length	15650	listening	LISTENING 14.9s
+turn_max_length	15750	listening	LISTENING 15.0s
+turn_max_length	15840	thinking	SENDING VOICE NOTE
+turn_max_length	16040	thinking	NOTE SENT - RaBbLE IS THINKING
+turn_max_length	16140	thinking	"hello there"
+turn_max_length	16760	thinking	PAGE 0
+turn_max_length	17340	speaking	PAGE 1
+turn_max_length	17840	speaking	PAGE 2
+turn_max_length	18040	idle	
+turn_dup_down_and_stray_up	1010	listening	LISTENING...
+turn_dup_down_and_stray_up	1050	listening	LISTENING 0.3s
+turn_dup_down_and_stray_up	1150	listening	LISTENING 0.4s
+turn_dup_down_and_stray_up	1250	listening	LISTENING 0.5s
+turn_dup_down_and_stray_up	1350	listening	LISTENING 0.6s
+turn_dup_down_and_stray_up	1450	listening	LISTENING 0.7s
+turn_dup_down_and_stray_up	1550	listening	LISTENING 0.8s
+turn_dup_down_and_stray_up	1650	listening	LISTENING 0.9s
+turn_dup_down_and_stray_up	1750	listening	LISTENING 1.0s
+turn_dup_down_and_stray_up	1850	listening	LISTENING 1.1s
+turn_dup_down_and_stray_up	1950	listening	LISTENING 1.2s
+turn_dup_down_and_stray_up	2050	listening	LISTENING 1.3s
+turn_dup_down_and_stray_up	2220	thinking	SENDING VOICE NOTE
+turn_dup_down_and_stray_up	2420	thinking	NOTE SENT - RaBbLE IS THINKING
+turn_dup_down_and_stray_up	2520	thinking	"hello there"
+turn_dup_down_and_stray_up	3140	thinking	PAGE 0
+turn_dup_down_and_stray_up	3720	speaking	PAGE 1
+turn_dup_down_and_stray_up	4220	speaking	PAGE 2
+turn_dup_down_and_stray_up	4420	idle	
+turn_mic_read_fails	1010	listening	LISTENING...
+turn_mic_read_fails	1050	listening	LISTENING 0.3s
+turn_mic_read_fails	1150	listening	LISTENING 0.4s
+turn_mic_read_fails	1250	listening	LISTENING 0.5s
+turn_mic_read_fails	1350	listening	LISTENING 0.6s
+turn_mic_read_fails	1450	listening	LISTENING 0.7s
+turn_mic_read_fails	1600	thinking	SENDING VOICE NOTE
+turn_mic_read_fails	1800	thinking	NOTE SENT - RaBbLE IS THINKING
+turn_mic_read_fails	1900	thinking	"hello there"
+turn_mic_read_fails	2520	thinking	PAGE 0
+turn_mic_read_fails	3100	speaking	PAGE 1
+turn_mic_read_fails	3600	speaking	PAGE 2
+turn_mic_read_fails	3800	idle	
+tap_short	1010	listening	LISTENING...
+tap_short	1050	listening	LISTENING 0.3s
+tap_short	1150	listening	LISTENING 0.4s
+tap_short	1230	idle	HOLD LONGER TO TALK
+tap_just_long_enough	1010	listening	LISTENING...
+tap_just_long_enough	1050	listening	LISTENING 0.3s
+tap_just_long_enough	1150	listening	LISTENING 0.4s
+tap_just_long_enough	1250	listening	LISTENING 0.5s
+tap_just_long_enough	1420	thinking	SENDING VOICE NOTE
+tap_just_long_enough	1620	thinking	NOTE SENT - RaBbLE IS THINKING
+tap_just_long_enough	1720	thinking	"hello there"
+tap_just_long_enough	2340	thinking	PAGE 0
+tap_just_long_enough	2920	speaking	PAGE 1
+tap_just_long_enough	3420	speaking	PAGE 2
+tap_just_long_enough	3620	idle	
+wake_held	1310	listening	LISTENING...
+wake_held	1390	listening	LISTENING 0.4s
+wake_held	1490	listening	LISTENING 0.5s
+wake_held	1590	listening	LISTENING 0.6s
+wake_held	1690	listening	LISTENING 0.7s
+wake_held	1790	listening	LISTENING 0.8s
+wake_held	1890	listening	LISTENING 0.9s
+wake_held	1990	listening	LISTENING 1.0s
+wake_held	2090	listening	LISTENING 1.1s
+wake_held	2190	listening	LISTENING 1.2s
+wake_held	2290	listening	LISTENING 1.3s
+wake_held	2390	listening	LISTENING 1.4s
+wake_held	2490	listening	LISTENING 1.5s
+wake_held	2590	listening	LISTENING 1.6s
+wake_held	2720	thinking	SENDING VOICE NOTE
+wake_held	2920	thinking	NOTE SENT - RaBbLE IS THINKING
+wake_held	3020	thinking	"hello there"
+wake_held	3640	thinking	PAGE 0
+wake_held	4220	speaking	PAGE 1
+wake_held	4720	speaking	PAGE 2
+wake_held	4920	idle	
+barge_in_playing	1010	listening	LISTENING...
+barge_in_playing	1050	listening	LISTENING 0.3s
+barge_in_playing	1150	listening	LISTENING 0.4s
+barge_in_playing	1250	listening	LISTENING 0.5s
+barge_in_playing	1350	listening	LISTENING 0.6s
+barge_in_playing	1450	listening	LISTENING 0.7s
+barge_in_playing	1550	listening	LISTENING 0.8s
+barge_in_playing	1650	listening	LISTENING 0.9s
+barge_in_playing	1750	listening	LISTENING 1.0s
+barge_in_playing	1850	listening	LISTENING 1.1s
+barge_in_playing	1950	listening	LISTENING 1.2s
+barge_in_playing	2050	listening	LISTENING 1.3s
+barge_in_playing	2220	thinking	SENDING VOICE NOTE
+barge_in_playing	2420	thinking	NOTE SENT - RaBbLE IS THINKING
+barge_in_playing	2520	thinking	"hello there"
+barge_in_playing	3140	thinking	PAGE 0
+barge_in_playing	3600	listening	LISTENING...
+barge_in_playing	3900	listening	LISTENING 0.1s
+barge_in_playing	4000	listening	LISTENING 0.2s
+barge_in_playing	4100	listening	LISTENING 0.3s
+barge_in_playing	4200	listening	LISTENING 0.4s
+barge_in_playing	4300	listening	LISTENING 0.5s
+barge_in_playing	4400	listening	LISTENING 0.6s
+barge_in_playing	4500	listening	LISTENING 0.7s
+barge_in_playing	4600	listening	LISTENING 0.8s
+barge_in_playing	4700	listening	LISTENING 0.9s
+barge_in_playing	4800	listening	LISTENING 1.0s
+barge_in_playing	4900	listening	LISTENING 1.1s
+barge_in_playing	5000	listening	LISTENING 1.2s
+barge_in_playing	5100	listening	LISTENING 1.3s
+barge_in_playing	5200	listening	LISTENING 1.4s
+barge_in_playing	5300	listening	LISTENING 1.5s
+barge_in_playing	5410	thinking	SENDING VOICE NOTE
+barge_in_playing	5610	thinking	NOTE SENT - RaBbLE IS THINKING
+barge_in_playing	5710	thinking	"hello there"
+barge_in_playing	6330	thinking	PAGE 0
+barge_in_playing	6910	speaking	PAGE 1
+barge_in_playing	7410	speaking	PAGE 2
+barge_in_playing	7610	idle	
+barge_in_thinking	1010	listening	LISTENING...
+barge_in_thinking	1050	listening	LISTENING 0.3s
+barge_in_thinking	1150	listening	LISTENING 0.4s
+barge_in_thinking	1250	listening	LISTENING 0.5s
+barge_in_thinking	1350	listening	LISTENING 0.6s
+barge_in_thinking	1450	listening	LISTENING 0.7s
+barge_in_thinking	1550	listening	LISTENING 0.8s
+barge_in_thinking	1650	listening	LISTENING 0.9s
+barge_in_thinking	1750	listening	LISTENING 1.0s
+barge_in_thinking	1850	listening	LISTENING 1.1s
+barge_in_thinking	1950	listening	LISTENING 1.2s
+barge_in_thinking	2050	listening	LISTENING 1.3s
+barge_in_thinking	2220	thinking	SENDING VOICE NOTE
+barge_in_thinking	2420	thinking	NOTE SENT - RaBbLE IS THINKING
+barge_in_thinking	2500	listening	LISTENING...
+barge_in_thinking	2800	listening	LISTENING 0.1s
+barge_in_thinking	2900	listening	LISTENING 0.2s
+barge_in_thinking	3000	listening	LISTENING 0.3s
+barge_in_thinking	3100	listening	LISTENING 0.4s
+barge_in_thinking	3200	listening	LISTENING 0.5s
+barge_in_thinking	3300	listening	LISTENING 0.6s
+barge_in_thinking	3400	listening	LISTENING 0.7s
+barge_in_thinking	3500	listening	LISTENING 0.8s
+barge_in_thinking	3600	listening	LISTENING 0.9s
+barge_in_thinking	3700	listening	LISTENING 1.0s
+barge_in_thinking	3800	listening	LISTENING 1.1s
+barge_in_thinking	3900	listening	LISTENING 1.2s
+barge_in_thinking	4000	listening	LISTENING 1.3s
+barge_in_thinking	4110	thinking	SENDING VOICE NOTE
+barge_in_thinking	4310	thinking	NOTE SENT - RaBbLE IS THINKING
+barge_in_thinking	4410	thinking	"hello there"
+barge_in_thinking	5030	thinking	PAGE 0
+barge_in_thinking	5610	speaking	PAGE 1
+barge_in_thinking	6110	speaking	PAGE 2
+barge_in_thinking	6310	idle	
+reply_error_after_sent	1010	listening	LISTENING...
+reply_error_after_sent	1050	listening	LISTENING 0.3s
+reply_error_after_sent	1150	listening	LISTENING 0.4s
+reply_error_after_sent	1250	listening	LISTENING 0.5s
+reply_error_after_sent	1350	listening	LISTENING 0.6s
+reply_error_after_sent	1450	listening	LISTENING 0.7s
+reply_error_after_sent	1550	listening	LISTENING 0.8s
+reply_error_after_sent	1650	listening	LISTENING 0.9s
+reply_error_after_sent	1750	listening	LISTENING 1.0s
+reply_error_after_sent	1850	listening	LISTENING 1.1s
+reply_error_after_sent	1950	listening	LISTENING 1.2s
+reply_error_after_sent	2050	listening	LISTENING 1.3s
+reply_error_after_sent	2220	thinking	SENDING VOICE NOTE
+reply_error_after_sent	2420	thinking	NOTE SENT - RaBbLE IS THINKING
+reply_error_after_sent	2520	thinking	"hello there"
+reply_error_after_sent	3020	idle	sCoRE ERROR
+reply_error	1010	listening	LISTENING...
+reply_error	1050	listening	LISTENING 0.3s
+reply_error	1150	listening	LISTENING 0.4s
+reply_error	1250	listening	LISTENING 0.5s
+reply_error	1350	listening	LISTENING 0.6s
+reply_error	1450	listening	LISTENING 0.7s
+reply_error	1550	listening	LISTENING 0.8s
+reply_error	1650	listening	LISTENING 0.9s
+reply_error	1750	listening	LISTENING 1.0s
+reply_error	1850	listening	LISTENING 1.1s
+reply_error	1950	listening	LISTENING 1.2s
+reply_error	2050	listening	LISTENING 1.3s
+reply_error	2220	thinking	SENDING VOICE NOTE
+reply_error	3020	idle	sCoRE ERROR
+reply_error	3020	idle	SAVED, WILL TRY AGAIN
+reply_silent	1010	listening	LISTENING...
+reply_silent	1050	listening	LISTENING 0.3s
+reply_silent	1150	listening	LISTENING 0.4s
+reply_silent	1250	listening	LISTENING 0.5s
+reply_silent	1350	listening	LISTENING 0.6s
+reply_silent	1450	listening	LISTENING 0.7s
+reply_silent	1550	listening	LISTENING 0.8s
+reply_silent	1650	listening	LISTENING 0.9s
+reply_silent	1750	listening	LISTENING 1.0s
+reply_silent	1850	listening	LISTENING 1.1s
+reply_silent	1950	listening	LISTENING 1.2s
+reply_silent	2050	listening	LISTENING 1.3s
+reply_silent	2220	thinking	SENDING VOICE NOTE
+chirp_then_press	1160	listening	LISTENING...
+chirp_then_press	1260	listening	LISTENING 0.1s
+chirp_then_press	1360	listening	LISTENING 0.2s
+chirp_then_press	1460	listening	LISTENING 0.3s
+chirp_then_press	1560	listening	LISTENING 0.4s
+chirp_then_press	1660	listening	LISTENING 0.5s
+chirp_then_press	1760	listening	LISTENING 0.6s
+chirp_then_press	1860	listening	LISTENING 0.7s
+chirp_then_press	1960	listening	LISTENING 0.8s
+chirp_then_press	2060	listening	LISTENING 0.9s
+chirp_then_press	2160	listening	LISTENING 1.0s
+chirp_then_press	2260	listening	LISTENING 1.1s
+chirp_then_press	2370	thinking	SENDING VOICE NOTE
+chirp_then_press	2570	thinking	NOTE SENT - RaBbLE IS THINKING
+chirp_then_press	2670	thinking	"hello there"
+chirp_then_press	3290	thinking	PAGE 0
+chirp_then_press	3870	speaking	PAGE 1
+chirp_then_press	4370	speaking	PAGE 2
+chirp_then_press	4570	idle	
+loopback_request	7010	listening	LISTENING...
+loopback_request	7090	listening	LISTENING 0.4s
+loopback_request	7190	listening	LISTENING 0.5s
+loopback_request	7290	listening	LISTENING 0.6s
+loopback_request	7390	listening	LISTENING 0.7s
+loopback_request	7490	listening	LISTENING 0.8s
+loopback_request	7590	listening	LISTENING 0.9s
+loopback_request	7690	listening	LISTENING 1.0s
+loopback_request	7790	listening	LISTENING 1.1s
+loopback_request	7890	listening	LISTENING 1.2s
+loopback_request	7990	listening	LISTENING 1.3s
+loopback_request	8090	listening	LISTENING 1.4s
+loopback_request	8220	thinking	SENDING VOICE NOTE
+loopback_request	8420	thinking	NOTE SENT - RaBbLE IS THINKING
+loopback_request	8520	thinking	"hello there"
+chirp_long_before_press	2500	listening	LISTENING...
+chirp_long_before_press	2580	listening	LISTENING 0.4s
+chirp_long_before_press	2680	listening	LISTENING 0.5s
+chirp_long_before_press	2780	listening	LISTENING 0.6s
+chirp_long_before_press	2880	listening	LISTENING 0.7s
+chirp_long_before_press	2980	listening	LISTENING 0.8s
+chirp_long_before_press	3080	listening	LISTENING 0.9s
+chirp_long_before_press	3180	listening	LISTENING 1.0s
+chirp_long_before_press	3280	listening	LISTENING 1.1s
+chirp_long_before_press	3380	listening	LISTENING 1.2s
+chirp_long_before_press	3480	listening	LISTENING 1.3s
+chirp_long_before_press	3580	listening	LISTENING 1.4s
+chirp_long_before_press	3710	thinking	SENDING VOICE NOTE
+chirp_long_before_press	3910	thinking	NOTE SENT - RaBbLE IS THINKING
+chirp_long_before_press	4010	thinking	"hello there"
+chirp_long_before_press	4630	thinking	PAGE 0
+chirp_long_before_press	5210	speaking	PAGE 1
+chirp_long_before_press	5710	speaking	PAGE 2
+chirp_long_before_press	5910	idle	
+note_offline_then_online	1010	listening	RECORDING...
+note_offline_then_online	1050	listening	RECORDING 0.3s
+note_offline_then_online	1150	listening	RECORDING 0.4s
+note_offline_then_online	1250	listening	RECORDING 0.5s
+note_offline_then_online	1350	listening	RECORDING 0.6s
+note_offline_then_online	1450	listening	RECORDING 0.7s
+note_offline_then_online	1550	listening	RECORDING 0.8s
+note_offline_then_online	1650	listening	RECORDING 0.9s
+note_offline_then_online	1750	listening	RECORDING 1.0s
+note_offline_then_online	1850	listening	RECORDING 1.1s
+note_offline_then_online	1950	listening	RECORDING 1.2s
+note_offline_then_online	2050	listening	RECORDING 1.3s
+note_offline_then_online	2220	idle	SAVED, SENDS WHEN ONLINE
+note_offline_then_online	30000	thinking	SENDING SAVED NOTE
+note_offline_then_online	30000	thinking	SENDING VOICE NOTE
+note_offline_then_online	30200	thinking	NOTE SENT - RaBbLE IS THINKING
+note_offline_then_online	30300	thinking	"hello there"
+note_offline_then_online	30920	thinking	PAGE 0
+note_offline_then_online	31500	speaking	PAGE 1
+note_offline_then_online	32000	speaking	PAGE 2
+note_offline_then_online	32200	idle	
+note_in_reach_midway	1010	listening	RECORDING...
+note_in_reach_midway	1050	listening	RECORDING 0.3s
+note_in_reach_midway	1150	listening	RECORDING 0.4s
+note_in_reach_midway	1250	listening	RECORDING 0.5s
+note_in_reach_midway	1350	listening	RECORDING 0.6s
+note_in_reach_midway	1450	listening	RECORDING 0.7s
+note_in_reach_midway	1550	listening	LISTENING 0.8s
+note_in_reach_midway	1650	listening	LISTENING 0.9s
+note_in_reach_midway	1750	listening	LISTENING 1.0s
+note_in_reach_midway	1850	listening	LISTENING 1.1s
+note_in_reach_midway	1950	listening	LISTENING 1.2s
+note_in_reach_midway	2050	listening	LISTENING 1.3s
+note_in_reach_midway	2150	listening	LISTENING 1.4s
+note_in_reach_midway	2250	listening	LISTENING 1.5s
+note_in_reach_midway	2350	listening	LISTENING 1.6s
+note_in_reach_midway	2450	listening	LISTENING 1.7s
+note_in_reach_midway	2550	listening	LISTENING 1.8s
+note_in_reach_midway	2650	listening	LISTENING 1.9s
+note_in_reach_midway	2750	listening	LISTENING 2.0s
+note_in_reach_midway	2850	listening	LISTENING 2.1s
+note_in_reach_midway	2950	listening	LISTENING 2.2s
+note_in_reach_midway	3050	listening	LISTENING 2.3s
+note_in_reach_midway	3220	thinking	SENDING VOICE NOTE
+note_in_reach_midway	3420	thinking	NOTE SENT - RaBbLE IS THINKING
+note_in_reach_midway	3520	thinking	"hello there"
+note_in_reach_midway	4140	thinking	PAGE 0
+note_in_reach_midway	4720	speaking	PAGE 1
+note_in_reach_midway	5220	speaking	PAGE 2
+note_in_reach_midway	5420	idle	
+note_url_unset	1010	idle	SET UP sCoRE FIRST
+note_srv_down_wifi_up	1010	listening	LISTENING...
+note_srv_down_wifi_up	1050	listening	LISTENING 0.3s
+note_srv_down_wifi_up	1150	listening	LISTENING 0.4s
+note_srv_down_wifi_up	1250	listening	LISTENING 0.5s
+note_srv_down_wifi_up	1350	listening	LISTENING 0.6s
+note_srv_down_wifi_up	1450	listening	LISTENING 0.7s
+note_srv_down_wifi_up	1550	listening	LISTENING 0.8s
+note_srv_down_wifi_up	1650	listening	LISTENING 0.9s
+note_srv_down_wifi_up	1750	listening	LISTENING 1.0s
+note_srv_down_wifi_up	1850	listening	LISTENING 1.1s
+note_srv_down_wifi_up	1950	listening	LISTENING 1.2s
+note_srv_down_wifi_up	2050	listening	LISTENING 1.3s
+note_srv_down_wifi_up	2150	listening	LISTENING 1.4s
+note_srv_down_wifi_up	2250	listening	LISTENING 1.5s
+note_srv_down_wifi_up	2350	listening	LISTENING 1.6s
+note_srv_down_wifi_up	2450	listening	LISTENING 1.7s
+note_srv_down_wifi_up	2550	listening	RECORDING 1.8s
+note_srv_down_wifi_up	2650	listening	RECORDING 1.9s
+note_srv_down_wifi_up	2750	listening	RECORDING 2.0s
+note_srv_down_wifi_up	2850	listening	RECORDING 2.1s
+note_srv_down_wifi_up	2950	listening	RECORDING 2.2s
+note_srv_down_wifi_up	3050	listening	RECORDING 2.3s
+note_srv_down_wifi_up	3150	listening	RECORDING 2.4s
+note_srv_down_wifi_up	3250	listening	RECORDING 2.5s
+note_srv_down_wifi_up	3350	listening	RECORDING 2.6s
+note_srv_down_wifi_up	3450	listening	RECORDING 2.7s
+note_srv_down_wifi_up	3550	listening	RECORDING 2.8s
+note_srv_down_wifi_up	3720	idle	SAVED, WILL TRY AGAIN
+note_srv_down_wifi_up	18720	thinking	SENDING SAVED NOTE
+note_srv_down_wifi_up	18720	thinking	SENDING VOICE NOTE
+note_srv_down_wifi_up	20220	idle	Can't connect
+note_srv_down_wifi_up	20220	idle	SAVED NOTE: WILL TRY AGAIN
+note_srv_down_wifi_up	50220	thinking	SENDING SAVED NOTE
+note_srv_down_wifi_up	50220	thinking	SENDING VOICE NOTE
+note_srv_down_wifi_up	50420	thinking	NOTE SENT - RaBbLE IS THINKING
+note_srv_down_wifi_up	50520	thinking	"hello there"
+note_srv_down_wifi_up	51140	thinking	PAGE 0
+note_srv_down_wifi_up	51720	speaking	PAGE 1
+note_srv_down_wifi_up	52220	speaking	PAGE 2
+note_srv_down_wifi_up	52420	idle	
+note_queue_full	1010	listening	RECORDING...
+note_queue_full	1050	listening	RECORDING 0.3s
+note_queue_full	1150	listening	RECORDING 0.4s
+note_queue_full	1250	listening	RECORDING 0.5s
+note_queue_full	1350	listening	RECORDING 0.6s
+note_queue_full	1450	listening	RECORDING 0.7s
+note_queue_full	1550	listening	RECORDING 0.8s
+note_queue_full	1650	listening	RECORDING 0.9s
+note_queue_full	1750	listening	RECORDING 1.0s
+note_queue_full	1850	listening	RECORDING 1.1s
+note_queue_full	2020	idle	SAVED, SENDS WHEN ONLINE
+note_queue_full	3000	listening	RECORDING...
+note_queue_full	3080	listening	RECORDING 0.4s
+note_queue_full	3180	listening	RECORDING 0.5s
+note_queue_full	3280	listening	RECORDING 0.6s
+note_queue_full	3380	listening	RECORDING 0.7s
+note_queue_full	3480	listening	RECORDING 0.8s
+note_queue_full	3580	listening	RECORDING 0.9s
+note_queue_full	3680	listening	RECORDING 1.0s
+note_queue_full	3780	listening	RECORDING 1.1s
+note_queue_full	3880	listening	RECORDING 1.2s
+note_queue_full	4010	idle	SAVED, SENDS WHEN ONLINE
+note_queue_full	5010	listening	RECORDING...
+note_queue_full	5090	listening	RECORDING 0.4s
+note_queue_full	5190	listening	RECORDING 0.5s
+note_queue_full	5290	listening	RECORDING 0.6s
+note_queue_full	5390	listening	RECORDING 0.7s
+note_queue_full	5490	listening	RECORDING 0.8s
+note_queue_full	5590	listening	RECORDING 0.9s
+note_queue_full	5690	listening	RECORDING 1.0s
+note_queue_full	5790	listening	RECORDING 1.1s
+note_queue_full	5890	listening	RECORDING 1.2s
+note_queue_full	6020	idle	SAVED, SENDS WHEN ONLINE
+note_queue_full	7000	listening	RECORDING...
+note_queue_full	7080	listening	RECORDING 0.4s
+note_queue_full	7180	listening	RECORDING 0.5s
+note_queue_full	7280	listening	RECORDING 0.6s
+note_queue_full	7380	listening	RECORDING 0.7s
+note_queue_full	7480	listening	RECORDING 0.8s
+note_queue_full	7580	listening	RECORDING 0.9s
+note_queue_full	7680	listening	RECORDING 1.0s
+note_queue_full	7780	listening	RECORDING 1.1s
+note_queue_full	7880	listening	RECORDING 1.2s
+note_queue_full	8010	idle	SAVED, SENDS WHEN ONLINE
+note_queue_full	9010	idle	NOTES STILL WAITING TO SEND
+note_queue_full	40010	thinking	SENDING SAVED NOTE
+note_queue_full	40010	thinking	SENDING VOICE NOTE
+note_queue_full	40210	thinking	NOTE SENT - RaBbLE IS THINKING
+note_queue_full	40310	thinking	"hello there"
+note_queue_full	40930	thinking	PAGE 0
+note_queue_full	41510	speaking	PAGE 1
+note_queue_full	42010	speaking	PAGE 2
+note_queue_full	42210	idle	
+note_queue_full	42210	thinking	SENDING SAVED NOTE
+note_queue_full	42210	thinking	SENDING VOICE NOTE
+note_queue_full	42410	thinking	NOTE SENT - RaBbLE IS THINKING
+note_queue_full	42510	thinking	"hello there"
+note_queue_full	43130	thinking	PAGE 0
+note_queue_full	43710	speaking	PAGE 1
+note_queue_full	44210	speaking	PAGE 2
+note_queue_full	44410	idle	
+note_queue_full	44410	thinking	SENDING SAVED NOTE
+note_queue_full	44410	thinking	SENDING VOICE NOTE
+note_queue_full	44610	thinking	NOTE SENT - RaBbLE IS THINKING
+note_queue_full	44710	thinking	"hello there"
+note_queue_full	45330	thinking	PAGE 0
+note_queue_full	45910	speaking	PAGE 1
+note_queue_full	46410	speaking	PAGE 2
+note_queue_full	46610	idle	
+note_queue_full	46610	thinking	SENDING SAVED NOTE
+note_queue_full	46610	thinking	SENDING VOICE NOTE
+note_queue_full	46810	thinking	NOTE SENT - RaBbLE IS THINKING
+note_queue_full	46910	thinking	"hello there"
+note_queue_full	47530	thinking	PAGE 0
+note_queue_full	48110	speaking	PAGE 1
+note_queue_full	48610	speaking	PAGE 2
+note_queue_full	48810	idle	
+note_server_errors_until_dropped	1010	listening	LISTENING...
+note_server_errors_until_dropped	1050	listening	LISTENING 0.3s
+note_server_errors_until_dropped	1150	listening	LISTENING 0.4s
+note_server_errors_until_dropped	1250	listening	LISTENING 0.5s
+note_server_errors_until_dropped	1350	listening	LISTENING 0.6s
+note_server_errors_until_dropped	1450	listening	LISTENING 0.7s
+note_server_errors_until_dropped	1550	listening	LISTENING 0.8s
+note_server_errors_until_dropped	1650	listening	LISTENING 0.9s
+note_server_errors_until_dropped	1750	listening	LISTENING 1.0s
+note_server_errors_until_dropped	1850	listening	LISTENING 1.1s
+note_server_errors_until_dropped	1950	listening	LISTENING 1.2s
+note_server_errors_until_dropped	2050	listening	LISTENING 1.3s
+note_server_errors_until_dropped	2220	thinking	SENDING VOICE NOTE
+note_server_errors_until_dropped	2520	idle	SERVER BUSY
+note_server_errors_until_dropped	2520	idle	SAVED, WILL TRY AGAIN
+note_server_errors_until_dropped	17520	thinking	SENDING SAVED NOTE
+note_server_errors_until_dropped	17520	thinking	SENDING VOICE NOTE
+note_server_errors_until_dropped	17820	idle	SERVER BUSY
+note_server_errors_until_dropped	17820	idle	SAVED NOTE: WILL TRY AGAIN
+note_server_errors_until_dropped	47820	thinking	SENDING SAVED NOTE
+note_server_errors_until_dropped	47820	thinking	SENDING VOICE NOTE
+note_server_errors_until_dropped	48120	idle	SERVER BUSY
+note_server_errors_until_dropped	48120	idle	SAVED NOTE: WILL TRY AGAIN
+note_server_errors_until_dropped	108120	thinking	SENDING SAVED NOTE
+note_server_errors_until_dropped	108120	thinking	SENDING VOICE NOTE
+note_server_errors_until_dropped	108420	idle	SERVER BUSY
+note_server_errors_until_dropped	108420	idle	SAVED NOTE: WILL TRY AGAIN
+note_server_errors_until_dropped	228420	thinking	SENDING SAVED NOTE
+note_server_errors_until_dropped	228420	thinking	SENDING VOICE NOTE
+note_server_errors_until_dropped	228720	idle	SERVER BUSY
+note_server_errors_until_dropped	228720	idle	SAVED NOTE: WILL TRY AGAIN
+note_server_errors_until_dropped	348720	thinking	SENDING SAVED NOTE
+note_server_errors_until_dropped	348720	thinking	SENDING VOICE NOTE
+note_server_errors_until_dropped	349020	idle	SERVER BUSY
+note_server_errors_until_dropped	349020	idle	SAVED NOTE: WILL TRY AGAIN
+note_server_errors_until_dropped	469020	thinking	SENDING SAVED NOTE
+note_server_errors_until_dropped	469020	thinking	SENDING VOICE NOTE
+note_server_errors_until_dropped	469320	idle	SERVER BUSY
+note_server_errors_until_dropped	469320	idle	SAVED NOTE: WILL TRY AGAIN
+note_server_errors_until_dropped	589320	thinking	SENDING SAVED NOTE
+note_server_errors_until_dropped	589320	thinking	SENDING VOICE NOTE
+note_server_errors_until_dropped	589620	idle	SERVER BUSY
+note_server_errors_until_dropped	589620	idle	COULDN'T SEND A SAVED NOTE
+note_stalled_beam	1010	listening	LISTENING...
+note_stalled_beam	1050	listening	LISTENING 0.3s
+note_stalled_beam	1150	listening	LISTENING 0.4s
+note_stalled_beam	1250	listening	LISTENING 0.5s
+note_stalled_beam	1350	listening	LISTENING 0.6s
+note_stalled_beam	1450	listening	LISTENING 0.7s
+note_stalled_beam	1550	listening	LISTENING 0.8s
+note_stalled_beam	1650	listening	LISTENING 0.9s
+note_stalled_beam	1750	listening	LISTENING 1.0s
+note_stalled_beam	1850	listening	LISTENING 1.1s
+note_stalled_beam	1950	listening	LISTENING 1.2s
+note_stalled_beam	2050	listening	LISTENING 1.3s
+note_stalled_beam	2220	thinking	SENDING VOICE NOTE
+note_stalled_beam	32320	idle	SAVED, WILL TRY AGAIN
+note_stalled_beam	47320	thinking	SENDING SAVED NOTE
+note_stalled_beam	77420	idle	SAVED NOTE: WILL TRY AGAIN
+note_stalled_beam	107420	thinking	SENDING SAVED NOTE
+note_stalled_beam	137520	idle	SAVED NOTE: WILL TRY AGAIN
+note_stalled_beam	197520	thinking	SENDING SAVED NOTE
+note_stalled_beam	227620	idle	SAVED NOTE: WILL TRY AGAIN
+note_stalled_beam	347620	thinking	SENDING SAVED NOTE
+note_stalled_beam	377720	idle	SAVED NOTE: WILL TRY AGAIN
+note_press_before_send	1010	listening	RECORDING...
+note_press_before_send	1050	listening	RECORDING 0.3s
+note_press_before_send	1150	listening	RECORDING 0.4s
+note_press_before_send	1250	listening	RECORDING 0.5s
+note_press_before_send	1350	listening	RECORDING 0.6s
+note_press_before_send	1450	listening	RECORDING 0.7s
+note_press_before_send	1550	listening	RECORDING 0.8s
+note_press_before_send	1650	listening	RECORDING 0.9s
+note_press_before_send	1750	listening	RECORDING 1.0s
+note_press_before_send	1850	listening	RECORDING 1.1s
+note_press_before_send	1950	listening	RECORDING 1.2s
+note_press_before_send	2050	listening	RECORDING 1.3s
+note_press_before_send	2220	idle	SAVED, SENDS WHEN ONLINE
+note_press_before_send	20000	thinking	SENDING SAVED NOTE
+note_press_before_send	21000	idle	
+note_press_before_send	21020	listening	RECORDING...
+note_press_before_send	21120	listening	RECORDING 0.1s
+note_press_before_send	21220	listening	RECORDING 0.2s
+note_press_before_send	21320	listening	RECORDING 0.3s
+note_press_before_send	21420	listening	RECORDING 0.4s
+note_press_before_send	21520	listening	RECORDING 0.5s
+note_press_before_send	21620	listening	RECORDING 0.6s
+note_press_before_send	21720	listening	RECORDING 0.7s
+note_press_before_send	21820	listening	RECORDING 0.8s
+note_press_before_send	21920	listening	RECORDING 0.9s
+note_press_before_send	22020	listening	RECORDING 1.0s
+note_press_before_send	22120	listening	RECORDING 1.1s
+note_press_before_send	22220	listening	RECORDING 1.2s
+note_press_before_send	22320	listening	RECORDING 1.3s
+note_press_before_send	22410	idle	SAVED, SENDS WHEN ONLINE
+note_press_before_send	22410	thinking	SENDING SAVED NOTE
+note_press_before_send	52510	idle	SAVED NOTE: WILL TRY AGAIN
+note_live_error_midway	1010	listening	LISTENING...
+note_live_error_midway	1050	listening	LISTENING 0.3s
+note_live_error_midway	1150	listening	LISTENING 0.4s
+note_live_error_midway	1250	listening	LISTENING 0.5s
+note_live_error_midway	1350	listening	LISTENING 0.6s
+note_live_error_midway	1450	listening	LISTENING 0.7s
+note_live_error_midway	1550	listening	RECORDING 0.8s
+note_live_error_midway	1650	listening	RECORDING 0.9s
+note_live_error_midway	1750	listening	RECORDING 1.0s
+note_live_error_midway	1850	listening	RECORDING 1.1s
+note_live_error_midway	1950	listening	RECORDING 1.2s
+note_live_error_midway	2050	listening	RECORDING 1.3s
+note_live_error_midway	2150	listening	RECORDING 1.4s
+note_live_error_midway	2250	listening	RECORDING 1.5s
+note_live_error_midway	2350	listening	RECORDING 1.6s
+note_live_error_midway	2450	listening	RECORDING 1.7s
+note_live_error_midway	2550	listening	RECORDING 1.8s
+note_live_error_midway	2720	idle	SAVED, WILL TRY AGAIN
+note_live_error_midway	17720	thinking	SENDING SAVED NOTE
+note_live_error_midway	17720	thinking	SENDING VOICE NOTE
+note_live_error_midway	17920	thinking	NOTE SENT - RaBbLE IS THINKING
+note_live_error_midway	18020	thinking	"hello there"
+note_live_error_midway	18020	idle	BAD AUDIO
+note_no_memory_live_error	1010	listening	LISTENING...
+note_no_memory_live_error	1050	listening	LISTENING 0.3s
+note_no_memory_live_error	1150	listening	LISTENING 0.4s
+note_no_memory_live_error	1250	listening	LISTENING 0.5s
+note_no_memory_live_error	1350	listening	LISTENING 0.6s
+note_no_memory_live_error	1450	listening	LISTENING 0.7s
+note_no_memory_live_error	1510	listening	BAD AUDIO
+no_memory_ok	1010	listening	LISTENING...
+no_memory_ok	1050	listening	LISTENING 0.3s
+no_memory_ok	1150	listening	LISTENING 0.4s
+no_memory_ok	1250	listening	LISTENING 0.5s
+no_memory_ok	1350	listening	LISTENING 0.6s
+no_memory_ok	1450	listening	LISTENING 0.7s
+no_memory_ok	1550	listening	LISTENING 0.8s
+no_memory_ok	1650	listening	LISTENING 0.9s
+no_memory_ok	1750	listening	LISTENING 1.0s
+no_memory_ok	1850	listening	LISTENING 1.1s
+no_memory_ok	1950	listening	LISTENING 1.2s
+no_memory_ok	2050	listening	LISTENING 1.3s
+no_memory_ok	2220	thinking	SENDING VOICE NOTE
+no_memory_ok	2420	thinking	NOTE SENT - RaBbLE IS THINKING
+no_memory_ok	2520	thinking	"hello there"
+no_memory_ok	3140	thinking	PAGE 0
+no_memory_ok	3720	speaking	PAGE 1
+no_memory_ok	4220	speaking	PAGE 2
+no_memory_ok	4420	idle	
+no_memory_offline	1010	idle	NO WI-FI
+notes_waiting_30min	1010	listening	RECORDING...
+notes_waiting_30min	1050	listening	RECORDING 0.3s
+notes_waiting_30min	1150	listening	RECORDING 0.4s
+notes_waiting_30min	1250	listening	RECORDING 0.5s
+notes_waiting_30min	1350	listening	RECORDING 0.6s
+notes_waiting_30min	1450	listening	RECORDING 0.7s
+notes_waiting_30min	1550	listening	RECORDING 0.8s
+notes_waiting_30min	1650	listening	RECORDING 0.9s
+notes_waiting_30min	1750	listening	RECORDING 1.0s
+notes_waiting_30min	1850	listening	RECORDING 1.1s
+notes_waiting_30min	1950	listening	RECORDING 1.2s
+notes_waiting_30min	2050	listening	RECORDING 1.3s
+notes_waiting_30min	2220	idle	SAVED, SENDS WHEN ONLINE
+rest_boot_tap_wake	5320	listening	LISTENING...
+rest_boot_tap_wake	5420	listening	LISTENING 0.4s
+rest_boot_tap_wake	5520	listening	LISTENING 0.5s
+rest_boot_tap_wake	5620	listening	LISTENING 0.6s
+rest_boot_tap_wake	5720	listening	LISTENING 0.7s
+rest_boot_tap_wake	5820	listening	LISTENING 0.8s
+rest_boot_tap_wake	5920	listening	LISTENING 0.9s
+rest_boot_tap_wake	6020	listening	LISTENING 1.0s
+rest_boot_tap_wake	6120	listening	LISTENING 1.1s
+rest_boot_tap_wake	6220	listening	LISTENING 1.2s
+rest_boot_tap_wake	6320	listening	LISTENING 1.3s
+rest_boot_tap_wake	6420	listening	LISTENING 1.4s
+rest_boot_tap_wake	6520	listening	LISTENING 1.5s
+rest_boot_tap_wake	6620	listening	LISTENING 1.6s
+rest_boot_tap_wake	6710	thinking	SENDING VOICE NOTE
+rest_boot_tap_wake	6910	thinking	NOTE SENT - RaBbLE IS THINKING
+rest_boot_tap_wake	7010	thinking	"hello there"
+rest_boot_tap_wake	7630	thinking	PAGE 0
+rest_boot_tap_wake	8210	speaking	PAGE 1
+rest_boot_tap_wake	8710	speaking	PAGE 2
+rest_boot_tap_wake	8910	idle	
+rest_note_sent_asleep	1010	listening	RECORDING...
+rest_note_sent_asleep	1050	listening	RECORDING 0.3s
+rest_note_sent_asleep	1150	listening	RECORDING 0.4s
+rest_note_sent_asleep	1250	listening	RECORDING 0.5s
+rest_note_sent_asleep	1350	listening	RECORDING 0.6s
+rest_note_sent_asleep	1450	listening	RECORDING 0.7s
+rest_note_sent_asleep	1550	listening	RECORDING 0.8s
+rest_note_sent_asleep	1650	listening	RECORDING 0.9s
+rest_note_sent_asleep	1750	listening	RECORDING 1.0s
+rest_note_sent_asleep	1850	listening	RECORDING 1.1s
+rest_note_sent_asleep	1950	listening	RECORDING 1.2s
+rest_note_sent_asleep	2050	listening	RECORDING 1.3s
+rest_note_sent_asleep	2220	idle	SAVED, SENDS WHEN ONLINE
+rest_note_sent_asleep	34200	idle	SAVED NOTE SENT
+battery_awake_doze	2010	listening	LISTENING...
+battery_awake_doze	2090	listening	LISTENING 0.4s
+battery_awake_doze	2190	listening	LISTENING 0.5s
+battery_awake_doze	2290	listening	LISTENING 0.6s
+battery_awake_doze	2390	listening	LISTENING 0.7s
+battery_awake_doze	2490	listening	LISTENING 0.8s
+battery_awake_doze	2590	listening	LISTENING 0.9s
+battery_awake_doze	2690	listening	LISTENING 1.0s
+battery_awake_doze	2790	listening	LISTENING 1.1s
+battery_awake_doze	2890	listening	LISTENING 1.2s
+battery_awake_doze	2990	listening	LISTENING 1.3s
+battery_awake_doze	3090	listening	LISTENING 1.4s
+battery_awake_doze	3220	thinking	SENDING VOICE NOTE
+battery_awake_doze	3420	thinking	NOTE SENT - RaBbLE IS THINKING
+battery_awake_doze	3520	thinking	"hello there"
+battery_awake_doze	4140	thinking	PAGE 0
+battery_awake_doze	4720	speaking	PAGE 1
+battery_awake_doze	5220	speaking	PAGE 2
+battery_awake_doze	5420	idle	
+nops_turn_basic	1010	listening	LISTENING...
+nops_turn_basic	1050	listening	LISTENING 0.3s
+nops_turn_basic	1150	listening	LISTENING 0.4s
+nops_turn_basic	1250	listening	LISTENING 0.5s
+nops_turn_basic	1350	listening	LISTENING 0.6s
+nops_turn_basic	1450	listening	LISTENING 0.7s
+nops_turn_basic	1550	listening	LISTENING 0.8s
+nops_turn_basic	1650	listening	LISTENING 0.9s
+nops_turn_basic	1750	listening	LISTENING 1.0s
+nops_turn_basic	1850	listening	LISTENING 1.1s
+nops_turn_basic	1950	listening	LISTENING 1.2s
+nops_turn_basic	2050	listening	LISTENING 1.3s
+nops_turn_basic	2220	thinking	SENDING VOICE NOTE
+nops_turn_basic	2420	thinking	NOTE SENT - RaBbLE IS THINKING
+nops_turn_basic	2520	thinking	"hello there"
+nops_turn_basic	3140	thinking	PAGE 0
+nops_turn_basic	3720	speaking	PAGE 1
+nops_turn_basic	4220	speaking	PAGE 2
+nops_turn_basic	4420	idle	
+nops_tap_short	1010	listening	LISTENING...
+nops_tap_short	1050	listening	LISTENING 0.3s
+nops_tap_short	1150	listening	LISTENING 0.4s
+nops_tap_short	1230	idle	HOLD LONGER TO TALK
+nops_wifi_down	1010	idle	NO WI-FI
+nops_url_unset	1010	idle	SET UP sCoRE FIRST
+nops_srv_down	1010	listening	LISTENING...
+nops_srv_down	1050	listening	LISTENING 0.3s
+nops_srv_down	1150	listening	LISTENING 0.4s
+nops_srv_down	1250	listening	LISTENING 0.5s
+nops_srv_down	1350	listening	LISTENING 0.6s
+nops_srv_down	1450	listening	LISTENING 0.7s
+nops_srv_down	1550	listening	LISTENING 0.8s
+nops_srv_down	1650	listening	LISTENING 0.9s
+nops_srv_down	1750	listening	LISTENING 1.0s
+nops_srv_down	1850	listening	LISTENING 1.1s
+nops_srv_down	1950	listening	LISTENING 1.2s
+nops_srv_down	2050	listening	LISTENING 1.3s
+nops_srv_down	2150	listening	LISTENING 1.4s
+nops_srv_down	2250	listening	LISTENING 1.5s
+nops_srv_down	2350	listening	LISTENING 1.6s
+nops_srv_down	2450	listening	LISTENING 1.7s
+nops_srv_down	2510	listening	Can't connect
+nops_barge_in	1010	listening	LISTENING...
+nops_barge_in	1050	listening	LISTENING 0.3s
+nops_barge_in	1150	listening	LISTENING 0.4s
+nops_barge_in	1250	listening	LISTENING 0.5s
+nops_barge_in	1350	listening	LISTENING 0.6s
+nops_barge_in	1450	listening	LISTENING 0.7s
+nops_barge_in	1550	listening	LISTENING 0.8s
+nops_barge_in	1650	listening	LISTENING 0.9s
+nops_barge_in	1750	listening	LISTENING 1.0s
+nops_barge_in	1850	listening	LISTENING 1.1s
+nops_barge_in	1950	listening	LISTENING 1.2s
+nops_barge_in	2050	listening	LISTENING 1.3s
+nops_barge_in	2220	thinking	SENDING VOICE NOTE
+nops_barge_in	2420	thinking	NOTE SENT - RaBbLE IS THINKING
+nops_barge_in	2520	thinking	"hello there"
+nops_barge_in	3140	thinking	PAGE 0
+nops_barge_in	3600	listening	LISTENING...
+nops_barge_in	3900	listening	LISTENING 0.1s
+nops_barge_in	4000	listening	LISTENING 0.2s
+nops_barge_in	4100	listening	LISTENING 0.3s
+nops_barge_in	4200	listening	LISTENING 0.4s
+nops_barge_in	4300	listening	LISTENING 0.5s
+nops_barge_in	4400	listening	LISTENING 0.6s
+nops_barge_in	4500	listening	LISTENING 0.7s
+nops_barge_in	4600	listening	LISTENING 0.8s
+nops_barge_in	4700	listening	LISTENING 0.9s
+nops_barge_in	4800	listening	LISTENING 1.0s
+nops_barge_in	4900	listening	LISTENING 1.1s
+nops_barge_in	5000	listening	LISTENING 1.2s
+nops_barge_in	5100	listening	LISTENING 1.3s
+nops_barge_in	5200	listening	LISTENING 1.4s
+nops_barge_in	5300	listening	LISTENING 1.5s
+nops_barge_in	5410	thinking	SENDING VOICE NOTE
+nops_barge_in	5610	thinking	NOTE SENT - RaBbLE IS THINKING
+nops_barge_in	5710	thinking	"hello there"
+nops_barge_in	6330	thinking	PAGE 0
+nops_barge_in	6910	speaking	PAGE 1
+nops_barge_in	7410	speaking	PAGE 2
+nops_barge_in	7610	idle	
+nops_rest_wake	5320	listening	LISTENING...
+nops_rest_wake	5420	listening	LISTENING 0.4s
+nops_rest_wake	5520	listening	LISTENING 0.5s
+nops_rest_wake	5620	listening	LISTENING 0.6s
+nops_rest_wake	5720	listening	LISTENING 0.7s
+nops_rest_wake	5820	listening	LISTENING 0.8s
+nops_rest_wake	5920	listening	LISTENING 0.9s
+nops_rest_wake	6020	listening	LISTENING 1.0s
+nops_rest_wake	6120	listening	LISTENING 1.1s
+nops_rest_wake	6220	listening	LISTENING 1.2s
+nops_rest_wake	6320	listening	LISTENING 1.3s
+nops_rest_wake	6420	listening	LISTENING 1.4s
+nops_rest_wake	6520	listening	LISTENING 1.5s
+nops_rest_wake	6620	listening	LISTENING 1.6s
+nops_rest_wake	6710	thinking	SENDING VOICE NOTE
+nops_rest_wake	6910	thinking	NOTE SENT - RaBbLE IS THINKING
+nops_rest_wake	7010	thinking	"hello there"
+nops_rest_wake	7630	thinking	PAGE 0
+nops_rest_wake	8210	speaking	PAGE 1
+nops_rest_wake	8710	speaking	PAGE 2
+nops_rest_wake	8910	idle	

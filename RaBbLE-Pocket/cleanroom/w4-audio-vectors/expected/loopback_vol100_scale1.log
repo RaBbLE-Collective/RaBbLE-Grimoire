@@ -1,0 +1,27 @@
+call	board_audio_init
+call	open spk rate=16000 ch=2 bits=16
+call	open mic rate=16000 ch=2 bits=16
+call	set_out_vol spk 70
+call	board_set_mic_gain 30
+log	audio ready: 16000 Hz, 2 ch, vol 70, mic gain 30 dB
+call	set_out_vol spk 100
+log	loopback: speaker vol 100, tone -12 dBFS; values = mic L/R tone level dBFS
+call	board_set_mic_gain 0
+log	gain  0: floor -100/-100 | 200:-12/-12 400:-12/-12 700:-12/-12 1000:-12/-12 2000:-12/-12 3000:-12/-12 4000:-12/-12 6000:-12/-12 | peak -12.0 dBFS
+call	board_set_mic_gain 6
+log	gain  6: floor -100/-100 | 200:-6/-6 400:-6/-6 700:-6/-6 1000:-6/-6 2000:-6/-6 3000:-6/-6 4000:-6/-6 6000:-6/-6 | peak -6.0 dBFS
+call	board_set_mic_gain 12
+log	gain 12: floor -100/-100 | 200:-0/-0 400:-0/-0 700:-0/-0 1000:-0/-0 2000:-0/-0 3000:-0/-0 4000:-0/-0 6000:-0/-0 | peak -0.0 dBFS
+call	board_set_mic_gain 18
+log	gain 18: floor -100/-100 | 200:2/2 400:2/2 700:2/2 1000:2/2 2000:2/2 3000:2/2 4000:0/0 6000:2/2 | peak 0.0 dBFS
+call	board_set_mic_gain 24
+log	gain 24: floor -100/-100 | 200:2/2 400:2/2 700:2/2 1000:2/2 2000:2/2 3000:2/2 4000:0/0 6000:2/2 | peak 0.0 dBFS
+call	board_set_mic_gain 30
+log	gain 30: floor -100/-100 | 200:2/2 400:2/2 700:2/2 1000:2/2 2000:2/2 3000:2/2 4000:-0/-0 6000:2/2 | peak 0.0 dBFS
+call	board_set_mic_gain 33
+log	gain 33: floor -100/-100 | 200:2/2 400:2/2 700:2/2 1000:2/2 2000:2/2 3000:2/2 4000:0/0 6000:2/2 | peak 0.0 dBFS
+call	board_set_mic_gain 36
+log	gain 36: floor -100/-100 | 200:2/2 400:2/2 700:2/2 1000:2/2 2000:2/2 3000:2/2 4000:0/0 6000:2/2 | peak 0.0 dBFS
+call	board_set_mic_gain 24
+call	set_out_vol spk 55
+count	reads	1440	writes	1440

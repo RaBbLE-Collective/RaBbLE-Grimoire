@@ -31,7 +31,7 @@ Tracks with no arrow between them run in parallel. Integration into the Pocket s
 | **T4** modes + swipe | Converse/Capture state, swipe up/down on the face, face and glass cues | `accord/rabble_state.c`, `accord/rabble_ui.c`, `accord/rabble_entity.c` | none (typed capture works before W4) | next |
 | **T5** offload | serial `>notes` commands + host spell, merge into Personal-Grimoire | `accord/rabble_input.c` (or a new console file), `ops/pocket-notes.py` | T3 | after T3 |
 | **T6** voice capture | long recordings, offline audio to flash, upload, ADPCM | `accord/` voice (after W4) | **W4**, T3 | after W4 |
-| **W4** voice clean room | same behaviour first, existing pipeline | `apache/` to `accord/` | clean room W0-W3 | per clean room plan |
+| **W4** voice clean room | same behaviour first, existing pipeline | `apache/` to `accord/` | clean room W0-W3 | **done S264** (`94d7d0b`); T6 can start |
 
 A typed capture (`>capture=...` on the serial console, `mode: "capture"` with `text`) exercises T2 to T5 end to end before W4 lands and spends no speech quota.
 
@@ -51,6 +51,10 @@ Diagnosis tool (not kept in the tree): a priority-22 watchdog task that snapshot
 Built and running (S264). In `upright()`: the spring now chases the **last good down**. Its follow rate scales with how much gravity lies in the screen plane: full from sin(tilt) 0.35, nothing at 0.12 and below. Lying flat it keeps the angle it had as it was laid down instead of swinging back upright, with no jump through the transition. Spring 55 to 110 (ω ≈ 10.5 rad/s), damping 0.55 to 0.72. The rest hold no longer steps 0.6° at a time on slow tilts: the spring stops at rest and starts again from where it stopped. In `motion_task`: up smoothing 0.25 to 0.10 s, readings far from 1 g (hand jolts) move "up" less (`UP_TRUST_G`), a failed IMU read retries in 100 ms instead of 1 s and is logged.
 
 Measured: idle 58-60.5 fps at rest, rest engaged 97-100% of frames. Mark's hand check (S264): "the rotation/IMU fixes feel nice".
+
+**Settings notches (S264):** settings and the other LVGL screens turn in 15-degree notches (switch 12 degrees past, ~0.3 s critically damped swing) and blend to the entity's own turn while sliding in or out, so they meet level at the edge. Mark: "feels good".
+
+**Accelerometer offset (S264):** this board read -0.074/+0.050 g lying flat, measured in two positions 180 degrees apart (the table sloped ~1 degree), which tilted the face's down ~4 degrees. The offset is subtracted before everything else and kept in NVS (`rabble_motion/bias`); `>imu.cal` measures it lying flat (single position, so it includes the table's slope), `>imu.bias=x,y` sets it. Mark: "close but not perfect". Next: a two-position calibration in firmware (flat, then turned 180 degrees), and check whether a residual is a mounting rotation (hold upright against a vertical edge); later a Settings item.
 
 Next performance target (separate from this plan): turning and busy run ~30-37 fps, wire-bound (~160 µs per band even on an idle wire). Mark: sub-30 feels laggy; 60 idle is right.
 

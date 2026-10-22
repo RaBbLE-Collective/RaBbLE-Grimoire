@@ -1,0 +1,80 @@
+scenario	kind	detail
+init_ok	call	board_audio_init
+init_ok	call	open spk rate=16000 ch=2 bits=16
+init_ok	call	open mic rate=16000 ch=2 bits=16
+init_ok	call	set_out_vol spk 70
+init_ok	call	board_set_mic_gain 30
+init_ok	log	audio ready: 16000 Hz, 2 ch, vol 70, mic gain 30 dB
+init_nohook	call	board_audio_init
+init_nohook	call	open spk rate=16000 ch=2 bits=16
+init_nohook	call	open mic rate=16000 ch=2 bits=16
+init_nohook	call	set_out_vol spk 70
+init_nohook	call	set_in_gain mic 30.0
+init_nohook	log	audio ready: 16000 Hz, 2 ch, vol 70, mic gain 30 dB
+init_board_fail	call	board_audio_init
+init_board_fail	ret	-1
+init_null_mic	call	board_audio_init
+init_null_mic	ret	-1
+init_open_spk_fail	call	board_audio_init
+init_open_spk_fail	call	open spk rate=16000 ch=2 bits=16
+init_open_spk_fail	ret	-1
+init_open_mic_fail	call	board_audio_init
+init_open_mic_fail	call	open spk rate=16000 ch=2 bits=16
+init_open_mic_fail	call	open mic rate=16000 ch=2 bits=16
+init_open_mic_fail	ret	-1
+power_cycle	call	board_audio_init
+power_cycle	call	open spk rate=16000 ch=2 bits=16
+power_cycle	call	open mic rate=16000 ch=2 bits=16
+power_cycle	call	set_out_vol spk 70
+power_cycle	call	board_set_mic_gain 30
+power_cycle	log	audio ready: 16000 Hz, 2 ch, vol 70, mic gain 30 dB
+power_cycle	step	settings volume 40 gain 12
+power_cycle	step	power off
+power_cycle	call	log_level i2s_common 0
+power_cycle	call	close spk
+power_cycle	call	close mic
+power_cycle	call	log_level i2s_common 3
+power_cycle	step	power off again
+power_cycle	step	set_volume 55 while off
+power_cycle	call	set_out_vol spk 55
+power_cycle	step	power on
+power_cycle	call	log_level i2s_common 0
+power_cycle	call	open spk rate=16000 ch=2 bits=16
+power_cycle	call	open mic rate=16000 ch=2 bits=16
+power_cycle	call	set_out_vol spk 40
+power_cycle	call	board_set_mic_gain 12
+power_cycle	call	log_level i2s_common 3
+power_cycle	step	power on again
+power_on_open_fail	call	board_audio_init
+power_on_open_fail	call	open spk rate=16000 ch=2 bits=16
+power_on_open_fail	call	open mic rate=16000 ch=2 bits=16
+power_on_open_fail	call	set_out_vol spk 70
+power_on_open_fail	call	board_set_mic_gain 30
+power_on_open_fail	log	audio ready: 16000 Hz, 2 ch, vol 70, mic gain 30 dB
+power_on_open_fail	call	log_level i2s_common 0
+power_on_open_fail	call	close spk
+power_on_open_fail	call	close mic
+power_on_open_fail	call	log_level i2s_common 3
+power_on_open_fail	step	power on, mic open fails
+power_on_open_fail	call	log_level i2s_common 0
+power_on_open_fail	call	open spk rate=16000 ch=2 bits=16
+power_on_open_fail	call	open mic rate=16000 ch=2 bits=16
+power_on_open_fail	call	log_level i2s_common 3
+before_init	note	no calls expected
+setters	call	board_audio_init
+setters	call	open spk rate=16000 ch=2 bits=16
+setters	call	open mic rate=16000 ch=2 bits=16
+setters	call	set_out_vol spk 70
+setters	call	board_set_mic_gain 30
+setters	log	audio ready: 16000 Hz, 2 ch, vol 70, mic gain 30 dB
+setters	step	set_volume 0, 100, 150, -5
+setters	call	set_out_vol spk 0
+setters	call	set_out_vol spk 100
+setters	call	set_out_vol spk 150
+setters	call	set_out_vol spk -5
+setters	step	set_mic_gain 0, 7, 36
+setters	call	board_set_mic_gain 0
+setters	call	board_set_mic_gain 7
+setters	call	board_set_mic_gain 36
+setters	step	no board hook
+setters	call	set_in_gain mic 7.0

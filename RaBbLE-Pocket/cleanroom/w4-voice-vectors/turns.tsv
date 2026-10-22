@@ -1,0 +1,764 @@
+# scenario	t_ms	action  (lane A: calls out of the voice module; t_ms informational, not compared)
+turn_basic	0	audio_selftest
+turn_basic	750	wifi_power(full)
+turn_basic	1010	mode=listening
+turn_basic	1010	beam_begin
+turn_basic	2130	beam_sent=22080:147d37d9
+turn_basic	2130	log:recorded 1.38s
+turn_basic	2130	beam_end
+turn_basic	2130	audio_chirp(0)
+turn_basic	2220	mode=thinking
+turn_basic	3220	mode=speaking
+turn_basic	4420	audio_play=19200
+turn_basic	4420	log:reply: 1.20s of audio
+turn_basic	4420	make_happy
+turn_basic	4420	mode=idle
+turn_partial_caption	0	audio_selftest
+turn_partial_caption	750	wifi_power(full)
+turn_partial_caption	1010	mode=listening
+turn_partial_caption	1010	beam_begin
+turn_partial_caption	2130	beam_sent=22080:147d37d9
+turn_partial_caption	2130	log:recorded 1.38s
+turn_partial_caption	2130	beam_end
+turn_partial_caption	2130	audio_chirp(0)
+turn_partial_caption	2220	mode=thinking
+turn_partial_caption	3220	mode=speaking
+turn_partial_caption	4420	audio_play=19200
+turn_partial_caption	4420	log:reply: 1.20s of audio
+turn_partial_caption	4420	make_happy
+turn_partial_caption	4420	mode=idle
+turn_long_reply_pages	0	audio_selftest
+turn_long_reply_pages	750	wifi_power(full)
+turn_long_reply_pages	1010	mode=listening
+turn_long_reply_pages	1010	beam_begin
+turn_long_reply_pages	2130	beam_sent=22080:147d37d9
+turn_long_reply_pages	2130	log:recorded 1.38s
+turn_long_reply_pages	2130	beam_end
+turn_long_reply_pages	2130	audio_chirp(0)
+turn_long_reply_pages	2220	mode=thinking
+turn_long_reply_pages	3020	mode=speaking
+turn_long_reply_pages	9020	audio_play=96000
+turn_long_reply_pages	9020	log:reply: 6.00s of audio
+turn_long_reply_pages	9020	make_happy
+turn_long_reply_pages	9020	mode=idle
+turn_no_tts	0	audio_selftest
+turn_no_tts	750	wifi_power(full)
+turn_no_tts	1010	mode=listening
+turn_no_tts	1010	beam_begin
+turn_no_tts	2130	beam_sent=22080:147d37d9
+turn_no_tts	2130	log:recorded 1.38s
+turn_no_tts	2130	beam_end
+turn_no_tts	2130	audio_chirp(0)
+turn_no_tts	2220	mode=thinking
+turn_no_tts	3240	log:reply: 0.00s of audio
+turn_no_tts	3240	delay(2500)
+turn_no_tts	5740	make_happy
+turn_no_tts	5740	mode=idle
+turn_max_length	0	audio_selftest
+turn_max_length	750	wifi_power(full)
+turn_max_length	1010	mode=listening
+turn_max_length	1010	beam_begin
+turn_max_length	15750	beam_sent=240000:aa24b30a
+turn_max_length	15750	log:recorded 15.00s (max)
+turn_max_length	15750	beam_end
+turn_max_length	15750	audio_chirp(0)
+turn_max_length	15840	mode=thinking
+turn_max_length	16840	mode=speaking
+turn_max_length	18040	audio_play=19200
+turn_max_length	18040	log:reply: 1.20s of audio
+turn_max_length	18040	make_happy
+turn_max_length	18040	mode=idle
+turn_dup_down_and_stray_up	0	audio_selftest
+turn_dup_down_and_stray_up	750	wifi_power(full)
+turn_dup_down_and_stray_up	1010	mode=listening
+turn_dup_down_and_stray_up	1010	beam_begin
+turn_dup_down_and_stray_up	2130	beam_sent=22080:147d37d9
+turn_dup_down_and_stray_up	2130	log:recorded 1.38s
+turn_dup_down_and_stray_up	2130	beam_end
+turn_dup_down_and_stray_up	2130	audio_chirp(0)
+turn_dup_down_and_stray_up	2220	mode=thinking
+turn_dup_down_and_stray_up	3220	mode=speaking
+turn_dup_down_and_stray_up	4420	audio_play=19200
+turn_dup_down_and_stray_up	4420	log:reply: 1.20s of audio
+turn_dup_down_and_stray_up	4420	make_happy
+turn_dup_down_and_stray_up	4420	mode=idle
+turn_mic_read_fails	0	audio_selftest
+turn_mic_read_fails	750	wifi_power(full)
+turn_mic_read_fails	1010	mode=listening
+turn_mic_read_fails	1010	beam_begin
+turn_mic_read_fails	1510	beam_sent=12160:aa8a0a6e
+turn_mic_read_fails	1510	log:recorded 0.76s (max)
+turn_mic_read_fails	1510	beam_end
+turn_mic_read_fails	1510	audio_chirp(0)
+turn_mic_read_fails	1600	mode=thinking
+turn_mic_read_fails	2600	mode=speaking
+turn_mic_read_fails	3800	audio_play=19200
+turn_mic_read_fails	3800	log:reply: 1.20s of audio
+turn_mic_read_fails	3800	make_happy
+turn_mic_read_fails	3800	mode=idle
+tap_short	0	audio_selftest
+tap_short	750	wifi_power(full)
+tap_short	1010	mode=listening
+tap_short	1010	beam_begin
+tap_short	1230	beam_sent=7680:8ef0c6a2
+tap_short	1230	log:recorded 0.48s
+tap_short	1230	beam_cancel
+tap_short	1230	mode=idle
+tap_just_long_enough	0	audio_selftest
+tap_just_long_enough	750	wifi_power(full)
+tap_just_long_enough	1010	mode=listening
+tap_just_long_enough	1010	beam_begin
+tap_just_long_enough	1330	beam_sent=9280:f1726637
+tap_just_long_enough	1330	log:recorded 0.58s
+tap_just_long_enough	1330	beam_end
+tap_just_long_enough	1330	audio_chirp(0)
+tap_just_long_enough	1420	mode=thinking
+tap_just_long_enough	2420	mode=speaking
+tap_just_long_enough	3620	audio_play=19200
+tap_just_long_enough	3620	log:reply: 1.20s of audio
+tap_just_long_enough	3620	make_happy
+tap_just_long_enough	3620	mode=idle
+wake_tap	0	audio_selftest
+wake_tap	750	wifi_power(full)
+wake_held	0	audio_selftest
+wake_held	750	wifi_power(full)
+wake_held	1310	mode=listening
+wake_held	1310	beam_begin
+wake_held	2630	beam_sent=26240:ab32208f
+wake_held	2630	log:recorded 1.64s
+wake_held	2630	beam_end
+wake_held	2630	audio_chirp(0)
+wake_held	2720	mode=thinking
+wake_held	3720	mode=speaking
+wake_held	4920	audio_play=19200
+wake_held	4920	log:reply: 1.20s of audio
+wake_held	4920	make_happy
+wake_held	4920	mode=idle
+barge_in_playing	0	audio_selftest
+barge_in_playing	750	wifi_power(full)
+barge_in_playing	1010	mode=listening
+barge_in_playing	1010	beam_begin
+barge_in_playing	2130	beam_sent=22080:147d37d9
+barge_in_playing	2130	log:recorded 1.38s
+barge_in_playing	2130	beam_end
+barge_in_playing	2130	audio_chirp(0)
+barge_in_playing	2220	mode=thinking
+barge_in_playing	3220	mode=speaking
+barge_in_playing	3600	audio_play=6080
+barge_in_playing	3600	log:reply interrupted
+barge_in_playing	3600	beam_cancel
+barge_in_playing	3600	mode=listening
+barge_in_playing	3600	beam_begin
+barge_in_playing	5320	beam_sent=24320:20bead80
+barge_in_playing	5320	log:recorded 1.52s
+barge_in_playing	5320	beam_end
+barge_in_playing	5320	audio_chirp(0)
+barge_in_playing	5410	mode=thinking
+barge_in_playing	6410	mode=speaking
+barge_in_playing	7610	audio_play=19200
+barge_in_playing	7610	log:reply: 1.20s of audio
+barge_in_playing	7610	make_happy
+barge_in_playing	7610	mode=idle
+barge_in_thinking	0	audio_selftest
+barge_in_thinking	750	wifi_power(full)
+barge_in_thinking	1010	mode=listening
+barge_in_thinking	1010	beam_begin
+barge_in_thinking	2130	beam_sent=22080:147d37d9
+barge_in_thinking	2130	log:recorded 1.38s
+barge_in_thinking	2130	beam_end
+barge_in_thinking	2130	audio_chirp(0)
+barge_in_thinking	2220	mode=thinking
+barge_in_thinking	2500	log:reply interrupted
+barge_in_thinking	2500	beam_cancel
+barge_in_thinking	2500	mode=listening
+barge_in_thinking	2500	beam_begin
+barge_in_thinking	4020	beam_sent=21120:53a8c58a
+barge_in_thinking	4020	log:recorded 1.32s
+barge_in_thinking	4020	beam_end
+barge_in_thinking	4020	audio_chirp(0)
+barge_in_thinking	4110	mode=thinking
+barge_in_thinking	5110	mode=speaking
+barge_in_thinking	6310	audio_play=19200
+barge_in_thinking	6310	log:reply: 1.20s of audio
+barge_in_thinking	6310	make_happy
+barge_in_thinking	6310	mode=idle
+reply_error_after_sent	0	audio_selftest
+reply_error_after_sent	750	wifi_power(full)
+reply_error_after_sent	1010	mode=listening
+reply_error_after_sent	1010	beam_begin
+reply_error_after_sent	2130	beam_sent=22080:147d37d9
+reply_error_after_sent	2130	log:recorded 1.38s
+reply_error_after_sent	2130	beam_end
+reply_error_after_sent	2130	audio_chirp(0)
+reply_error_after_sent	2220	mode=thinking
+reply_error_after_sent	3020	log:beam: sCoRE ERROR
+reply_error_after_sent	3020	mode=idle
+reply_error	0	audio_selftest
+reply_error	750	wifi_power(full)
+reply_error	1010	mode=listening
+reply_error	1010	beam_begin
+reply_error	2130	beam_sent=22080:147d37d9
+reply_error	2130	log:recorded 1.38s
+reply_error	2130	beam_end
+reply_error	2130	audio_chirp(0)
+reply_error	2220	mode=thinking
+reply_error	3020	log:beam: sCoRE ERROR
+reply_error	3020	mode=idle
+reply_error	3020	log:saved a 1.4s note to send later (1 waiting)
+reply_silent	0	audio_selftest
+reply_silent	750	wifi_power(full)
+reply_silent	1010	mode=listening
+reply_silent	1010	beam_begin
+reply_silent	2130	beam_sent=22080:147d37d9
+reply_silent	2130	log:recorded 1.38s
+reply_silent	2130	beam_end
+reply_silent	2130	audio_chirp(0)
+reply_silent	2220	mode=thinking
+chirp_then_press	0	audio_selftest
+chirp_then_press	750	wifi_power(full)
+chirp_then_press	1010	audio_chirp(1)
+chirp_then_press	1160	mode=listening
+chirp_then_press	1160	beam_begin
+chirp_then_press	2280	beam_sent=17920:1a395c55
+chirp_then_press	2280	log:recorded 1.12s
+chirp_then_press	2280	beam_end
+chirp_then_press	2280	audio_chirp(0)
+chirp_then_press	2370	mode=thinking
+chirp_then_press	3370	mode=speaking
+chirp_then_press	4570	audio_play=19200
+chirp_then_press	4570	log:reply: 1.20s of audio
+chirp_then_press	4570	make_happy
+chirp_then_press	4570	mode=idle
+loopback_request	0	audio_selftest
+loopback_request	750	wifi_power(full)
+loopback_request	1010	audio_loopback(70)
+loopback_request	7010	mode=listening
+loopback_request	7010	beam_begin
+loopback_request	8130	beam_sent=23040:0e20f2bc
+loopback_request	8130	log:recorded 1.44s
+loopback_request	8130	beam_end
+loopback_request	8130	audio_chirp(0)
+loopback_request	8220	mode=thinking
+chirp_long_before_press	0	audio_selftest
+chirp_long_before_press	750	wifi_power(full)
+chirp_long_before_press	1010	audio_chirp(1)
+chirp_long_before_press	2500	mode=listening
+chirp_long_before_press	2500	beam_begin
+chirp_long_before_press	3620	beam_sent=23040:54a0cfcb
+chirp_long_before_press	3620	log:recorded 1.44s
+chirp_long_before_press	3620	beam_end
+chirp_long_before_press	3620	audio_chirp(0)
+chirp_long_before_press	3710	mode=thinking
+chirp_long_before_press	4710	mode=speaking
+chirp_long_before_press	5910	audio_play=19200
+chirp_long_before_press	5910	log:reply: 1.20s of audio
+chirp_long_before_press	5910	make_happy
+chirp_long_before_press	5910	mode=idle
+note_offline_then_online	0	audio_selftest
+note_offline_then_online	750	wifi_power(full)
+note_offline_then_online	1010	wifi_apply
+note_offline_then_online	1010	mode=listening
+note_offline_then_online	2130	log:recorded 1.38s
+note_offline_then_online	2130	audio_chirp(0)
+note_offline_then_online	2220	log:saved a 1.4s note to send later (1 waiting)
+note_offline_then_online	2220	mode=idle
+note_offline_then_online	30000	log:sending a saved note: 1.4s, from 27s ago, try 1
+note_offline_then_online	30000	mode=thinking
+note_offline_then_online	30000	beam_begin
+note_offline_then_online	30000	beam_sent=22080:147d37d9
+note_offline_then_online	30000	beam_end
+note_offline_then_online	31000	mode=speaking
+note_offline_then_online	32200	audio_play=19200
+note_offline_then_online	32200	log:reply: 1.20s of audio
+note_offline_then_online	32200	make_happy
+note_offline_then_online	32200	mode=idle
+note_in_reach_midway	0	audio_selftest
+note_in_reach_midway	750	wifi_power(full)
+note_in_reach_midway	1010	wifi_apply
+note_in_reach_midway	1010	mode=listening
+note_in_reach_midway	1550	log:sCoRE in reach: streaming the note so far
+note_in_reach_midway	1550	beam_begin
+note_in_reach_midway	3130	beam_sent=38080:704e4933
+note_in_reach_midway	3130	log:recorded 2.38s
+note_in_reach_midway	3130	beam_end
+note_in_reach_midway	3130	audio_chirp(0)
+note_in_reach_midway	3220	mode=thinking
+note_in_reach_midway	4220	mode=speaking
+note_in_reach_midway	5420	audio_play=19200
+note_in_reach_midway	5420	log:reply: 1.20s of audio
+note_in_reach_midway	5420	make_happy
+note_in_reach_midway	5420	mode=idle
+note_url_unset	0	audio_selftest
+note_url_unset	750	wifi_power(full)
+note_srv_down_wifi_up	0	audio_selftest
+note_srv_down_wifi_up	750	wifi_power(full)
+note_srv_down_wifi_up	1010	mode=listening
+note_srv_down_wifi_up	1010	beam_begin
+note_srv_down_wifi_up	2510	beam_sent=28160:02ce38bc
+note_srv_down_wifi_up	2510	log:beam: Can't connect
+note_srv_down_wifi_up	2510	beam_cancel
+note_srv_down_wifi_up	3630	log:recorded 2.88s
+note_srv_down_wifi_up	3630	audio_chirp(0)
+note_srv_down_wifi_up	3720	log:saved a 2.9s note to send later (1 waiting)
+note_srv_down_wifi_up	3720	mode=idle
+note_srv_down_wifi_up	18720	log:sending a saved note: 2.9s, from 15s ago, try 2
+note_srv_down_wifi_up	18720	mode=thinking
+note_srv_down_wifi_up	18720	beam_begin
+note_srv_down_wifi_up	18720	beam_sent=46080:cddf14dc
+note_srv_down_wifi_up	18720	beam_end
+note_srv_down_wifi_up	20220	log:beam: Can't connect
+note_srv_down_wifi_up	20220	mode=idle
+note_srv_down_wifi_up	50220	log:sending a saved note: 2.9s, from 46s ago, try 3
+note_srv_down_wifi_up	50220	mode=thinking
+note_srv_down_wifi_up	50220	beam_begin
+note_srv_down_wifi_up	50220	beam_sent=46080:cddf14dc
+note_srv_down_wifi_up	50220	beam_end
+note_srv_down_wifi_up	51220	mode=speaking
+note_srv_down_wifi_up	52420	audio_play=19200
+note_srv_down_wifi_up	52420	log:reply: 1.20s of audio
+note_srv_down_wifi_up	52420	make_happy
+note_srv_down_wifi_up	52420	mode=idle
+note_queue_full	0	audio_selftest
+note_queue_full	750	wifi_power(full)
+note_queue_full	1010	wifi_apply
+note_queue_full	1010	mode=listening
+note_queue_full	1930	log:recorded 1.18s
+note_queue_full	1930	audio_chirp(0)
+note_queue_full	2020	log:saved a 1.2s note to send later (1 waiting)
+note_queue_full	2020	mode=idle
+note_queue_full	3000	wifi_apply
+note_queue_full	3000	mode=listening
+note_queue_full	3920	log:recorded 1.24s
+note_queue_full	3920	audio_chirp(0)
+note_queue_full	4010	log:saved a 1.2s note to send later (2 waiting)
+note_queue_full	4010	mode=idle
+note_queue_full	5010	wifi_apply
+note_queue_full	5010	mode=listening
+note_queue_full	5930	log:recorded 1.24s
+note_queue_full	5930	audio_chirp(0)
+note_queue_full	6020	log:saved a 1.2s note to send later (3 waiting)
+note_queue_full	6020	mode=idle
+note_queue_full	7000	wifi_apply
+note_queue_full	7000	mode=listening
+note_queue_full	7920	log:recorded 1.24s
+note_queue_full	7920	audio_chirp(0)
+note_queue_full	8010	log:saved a 1.2s note to send later (4 waiting)
+note_queue_full	8010	mode=idle
+note_queue_full	9010	wifi_apply
+note_queue_full	40010	log:sending a saved note: 1.2s, from 37s ago, try 1
+note_queue_full	40010	mode=thinking
+note_queue_full	40010	beam_begin
+note_queue_full	40010	beam_sent=18880:1b9d1b7b
+note_queue_full	40010	beam_end
+note_queue_full	41010	mode=speaking
+note_queue_full	42210	audio_play=19200
+note_queue_full	42210	log:reply: 1.20s of audio
+note_queue_full	42210	make_happy
+note_queue_full	42210	mode=idle
+note_queue_full	42210	log:sending a saved note: 1.2s, from 38s ago, try 1
+note_queue_full	42210	mode=thinking
+note_queue_full	42210	beam_begin
+note_queue_full	42210	beam_sent=19840:90e6b8ac
+note_queue_full	42210	beam_end
+note_queue_full	43210	mode=speaking
+note_queue_full	44410	audio_play=19200
+note_queue_full	44410	log:reply: 1.20s of audio
+note_queue_full	44410	make_happy
+note_queue_full	44410	mode=idle
+note_queue_full	44410	log:sending a saved note: 1.2s, from 38s ago, try 1
+note_queue_full	44410	mode=thinking
+note_queue_full	44410	beam_begin
+note_queue_full	44410	beam_sent=19840:63784e0c
+note_queue_full	44410	beam_end
+note_queue_full	45410	mode=speaking
+note_queue_full	46610	audio_play=19200
+note_queue_full	46610	log:reply: 1.20s of audio
+note_queue_full	46610	make_happy
+note_queue_full	46610	mode=idle
+note_queue_full	46610	log:sending a saved note: 1.2s, from 38s ago, try 1
+note_queue_full	46610	mode=thinking
+note_queue_full	46610	beam_begin
+note_queue_full	46610	beam_sent=19840:e4322e90
+note_queue_full	46610	beam_end
+note_queue_full	47610	mode=speaking
+note_queue_full	48810	audio_play=19200
+note_queue_full	48810	log:reply: 1.20s of audio
+note_queue_full	48810	make_happy
+note_queue_full	48810	mode=idle
+note_server_errors_until_dropped	0	audio_selftest
+note_server_errors_until_dropped	750	wifi_power(full)
+note_server_errors_until_dropped	1010	mode=listening
+note_server_errors_until_dropped	1010	beam_begin
+note_server_errors_until_dropped	2130	beam_sent=22080:147d37d9
+note_server_errors_until_dropped	2130	log:recorded 1.38s
+note_server_errors_until_dropped	2130	beam_end
+note_server_errors_until_dropped	2130	audio_chirp(0)
+note_server_errors_until_dropped	2220	mode=thinking
+note_server_errors_until_dropped	2520	log:beam: SERVER BUSY
+note_server_errors_until_dropped	2520	mode=idle
+note_server_errors_until_dropped	2520	log:saved a 1.4s note to send later (1 waiting)
+note_server_errors_until_dropped	17520	log:sending a saved note: 1.4s, from 15s ago, try 2
+note_server_errors_until_dropped	17520	mode=thinking
+note_server_errors_until_dropped	17520	beam_begin
+note_server_errors_until_dropped	17520	beam_sent=22080:147d37d9
+note_server_errors_until_dropped	17520	beam_end
+note_server_errors_until_dropped	17820	log:beam: SERVER BUSY
+note_server_errors_until_dropped	17820	mode=idle
+note_server_errors_until_dropped	47820	log:sending a saved note: 1.4s, from 45s ago, try 3
+note_server_errors_until_dropped	47820	mode=thinking
+note_server_errors_until_dropped	47820	beam_begin
+note_server_errors_until_dropped	47820	beam_sent=22080:147d37d9
+note_server_errors_until_dropped	47820	beam_end
+note_server_errors_until_dropped	48120	log:beam: SERVER BUSY
+note_server_errors_until_dropped	48120	mode=idle
+note_server_errors_until_dropped	108120	log:sending a saved note: 1.4s, from 105s ago, try 4
+note_server_errors_until_dropped	108120	mode=thinking
+note_server_errors_until_dropped	108120	beam_begin
+note_server_errors_until_dropped	108120	beam_sent=22080:147d37d9
+note_server_errors_until_dropped	108120	beam_end
+note_server_errors_until_dropped	108420	log:beam: SERVER BUSY
+note_server_errors_until_dropped	108420	mode=idle
+note_server_errors_until_dropped	228420	log:sending a saved note: 1.4s, from 225s ago, try 5
+note_server_errors_until_dropped	228420	mode=thinking
+note_server_errors_until_dropped	228420	beam_begin
+note_server_errors_until_dropped	228420	beam_sent=22080:147d37d9
+note_server_errors_until_dropped	228420	beam_end
+note_server_errors_until_dropped	228720	log:beam: SERVER BUSY
+note_server_errors_until_dropped	228720	mode=idle
+note_server_errors_until_dropped	348720	log:sending a saved note: 1.4s, from 346s ago, try 6
+note_server_errors_until_dropped	348720	mode=thinking
+note_server_errors_until_dropped	348720	beam_begin
+note_server_errors_until_dropped	348720	beam_sent=22080:147d37d9
+note_server_errors_until_dropped	348720	beam_end
+note_server_errors_until_dropped	349020	log:beam: SERVER BUSY
+note_server_errors_until_dropped	349020	mode=idle
+note_server_errors_until_dropped	469020	log:sending a saved note: 1.4s, from 466s ago, try 7
+note_server_errors_until_dropped	469020	mode=thinking
+note_server_errors_until_dropped	469020	beam_begin
+note_server_errors_until_dropped	469020	beam_sent=22080:147d37d9
+note_server_errors_until_dropped	469020	beam_end
+note_server_errors_until_dropped	469320	log:beam: SERVER BUSY
+note_server_errors_until_dropped	469320	mode=idle
+note_server_errors_until_dropped	589320	log:sending a saved note: 1.4s, from 586s ago, try 8
+note_server_errors_until_dropped	589320	mode=thinking
+note_server_errors_until_dropped	589320	beam_begin
+note_server_errors_until_dropped	589320	beam_sent=22080:147d37d9
+note_server_errors_until_dropped	589320	beam_end
+note_server_errors_until_dropped	589620	log:beam: SERVER BUSY
+note_server_errors_until_dropped	589620	mode=idle
+note_server_errors_until_dropped	589620	log:giving up on a saved note after 8 tries
+note_stalled_beam	0	audio_selftest
+note_stalled_beam	750	wifi_power(full)
+note_stalled_beam	1010	mode=listening
+note_stalled_beam	1010	beam_begin
+note_stalled_beam	2130	log:recorded 1.38s
+note_stalled_beam	2130	audio_chirp(0)
+note_stalled_beam	2220	mode=thinking
+note_stalled_beam	32320	log:sCoRE stopped taking the note
+note_stalled_beam	32320	beam_cancel
+note_stalled_beam	32320	log:saved a 1.4s note to send later (1 waiting)
+note_stalled_beam	32320	mode=idle
+note_stalled_beam	47320	log:sending a saved note: 1.4s, from 15s ago, try 2
+note_stalled_beam	47320	mode=thinking
+note_stalled_beam	47320	beam_begin
+note_stalled_beam	77420	log:sCoRE stopped taking the note
+note_stalled_beam	77420	beam_cancel
+note_stalled_beam	77420	mode=idle
+note_stalled_beam	107420	log:sending a saved note: 1.4s, from 75s ago, try 3
+note_stalled_beam	107420	mode=thinking
+note_stalled_beam	107420	beam_begin
+note_stalled_beam	137520	log:sCoRE stopped taking the note
+note_stalled_beam	137520	beam_cancel
+note_stalled_beam	137520	mode=idle
+note_stalled_beam	197520	log:sending a saved note: 1.4s, from 165s ago, try 4
+note_stalled_beam	197520	mode=thinking
+note_stalled_beam	197520	beam_begin
+note_stalled_beam	227620	log:sCoRE stopped taking the note
+note_stalled_beam	227620	beam_cancel
+note_stalled_beam	227620	mode=idle
+note_stalled_beam	347620	log:sending a saved note: 1.4s, from 315s ago, try 5
+note_stalled_beam	347620	mode=thinking
+note_stalled_beam	347620	beam_begin
+note_stalled_beam	377720	log:sCoRE stopped taking the note
+note_stalled_beam	377720	beam_cancel
+note_stalled_beam	377720	mode=idle
+note_press_before_send	0	audio_selftest
+note_press_before_send	750	wifi_power(full)
+note_press_before_send	1010	wifi_apply
+note_press_before_send	1010	mode=listening
+note_press_before_send	2130	log:recorded 1.38s
+note_press_before_send	2130	audio_chirp(0)
+note_press_before_send	2220	log:saved a 1.4s note to send later (1 waiting)
+note_press_before_send	2220	mode=idle
+note_press_before_send	20000	log:sending a saved note: 1.4s, from 17s ago, try 1
+note_press_before_send	20000	mode=thinking
+note_press_before_send	20000	beam_begin
+note_press_before_send	21000	beam_cancel
+note_press_before_send	21000	mode=idle
+note_press_before_send	21020	mode=listening
+note_press_before_send	22320	log:recorded 1.30s
+note_press_before_send	22320	audio_chirp(0)
+note_press_before_send	22410	log:saved a 1.3s note to send later (2 waiting)
+note_press_before_send	22410	mode=idle
+note_press_before_send	22410	log:sending a saved note: 1.4s, from 20s ago, try 1
+note_press_before_send	22410	mode=thinking
+note_press_before_send	22410	beam_begin
+note_press_before_send	52510	log:sCoRE stopped taking the note
+note_press_before_send	52510	beam_cancel
+note_press_before_send	52510	mode=idle
+note_live_error_midway	0	audio_selftest
+note_live_error_midway	750	wifi_power(full)
+note_live_error_midway	1010	mode=listening
+note_live_error_midway	1010	beam_begin
+note_live_error_midway	1510	beam_sent=12160:aa8a0a6e
+note_live_error_midway	1510	log:beam: BAD AUDIO
+note_live_error_midway	1510	beam_cancel
+note_live_error_midway	2630	log:recorded 1.88s
+note_live_error_midway	2630	audio_chirp(0)
+note_live_error_midway	2720	log:saved a 1.9s note to send later (1 waiting)
+note_live_error_midway	2720	mode=idle
+note_live_error_midway	17720	log:sending a saved note: 1.9s, from 15s ago, try 2
+note_live_error_midway	17720	mode=thinking
+note_live_error_midway	17720	beam_begin
+note_live_error_midway	17720	beam_sent=30080:fa7ac0ce
+note_live_error_midway	17720	beam_end
+note_live_error_midway	18020	log:beam: BAD AUDIO
+note_live_error_midway	18020	mode=idle
+note_no_memory_live_error	0	audio_selftest
+note_no_memory_live_error	750	wifi_power(full)
+note_no_memory_live_error	1010	log:no memory to keep a note
+note_no_memory_live_error	1010	mode=listening
+note_no_memory_live_error	1010	beam_begin
+note_no_memory_live_error	1510	beam_sent=12160:aa8a0a6e
+note_no_memory_live_error	1510	log:beam: BAD AUDIO
+note_no_memory_live_error	1510	beam_cancel
+note_no_memory_live_error	2630	log:recorded 1.88s
+note_no_memory_live_error	2630	mode=idle
+no_memory_ok	0	audio_selftest
+no_memory_ok	750	wifi_power(full)
+no_memory_ok	1010	log:no memory to keep a note
+no_memory_ok	1010	mode=listening
+no_memory_ok	1010	beam_begin
+no_memory_ok	2130	beam_sent=22080:147d37d9
+no_memory_ok	2130	log:recorded 1.38s
+no_memory_ok	2130	beam_end
+no_memory_ok	2130	audio_chirp(0)
+no_memory_ok	2220	mode=thinking
+no_memory_ok	3220	mode=speaking
+no_memory_ok	4420	audio_play=19200
+no_memory_ok	4420	log:reply: 1.20s of audio
+no_memory_ok	4420	make_happy
+no_memory_ok	4420	mode=idle
+no_memory_offline	0	audio_selftest
+no_memory_offline	750	wifi_power(full)
+no_memory_offline	1010	wifi_apply
+no_memory_offline	1010	log:no memory to keep a note
+notes_waiting_30min	0	audio_selftest
+notes_waiting_30min	750	wifi_power(full)
+notes_waiting_30min	1010	wifi_apply
+notes_waiting_30min	1010	mode=listening
+notes_waiting_30min	2130	log:recorded 1.38s
+notes_waiting_30min	2130	audio_chirp(0)
+notes_waiting_30min	2220	log:saved a 1.4s note to send later (1 waiting)
+notes_waiting_30min	2220	mode=idle
+rest_basic	0	audio_selftest
+rest_basic	750	audio_power(0)
+rest_basic	750	beam_resting(1)
+rest_basic	750	log:resting: codecs off, Wi-Fi modem sleep
+rest_basic	750	wifi_power(rest)
+rest_basic	750	wait_awake(60000)
+rest_basic	5000	audio_power(1)
+rest_basic	5000	beam_resting(0)
+rest_basic	5000	log:awake: codecs on
+rest_basic	5000	wifi_power(doze)
+rest_usb_asleep	0	audio_selftest
+rest_usb_asleep	750	wifi_power(full)
+rest_boot_tap_wake	0	audio_selftest
+rest_boot_tap_wake	750	audio_power(0)
+rest_boot_tap_wake	750	beam_resting(1)
+rest_boot_tap_wake	750	log:resting: codecs off, Wi-Fi modem sleep
+rest_boot_tap_wake	750	wifi_power(rest)
+rest_boot_tap_wake	750	wait_awake(60000)
+rest_boot_tap_wake	5000	audio_power(1)
+rest_boot_tap_wake	5000	beam_resting(0)
+rest_boot_tap_wake	5000	log:awake: codecs on
+rest_boot_tap_wake	5000	wifi_power(doze)
+rest_boot_tap_wake	5320	wifi_power(full)
+rest_boot_tap_wake	5320	mode=listening
+rest_boot_tap_wake	5320	beam_begin
+rest_boot_tap_wake	6620	beam_sent=25600:0d334760
+rest_boot_tap_wake	6620	log:recorded 1.60s
+rest_boot_tap_wake	6620	beam_end
+rest_boot_tap_wake	6620	audio_chirp(0)
+rest_boot_tap_wake	6710	mode=thinking
+rest_boot_tap_wake	7710	mode=speaking
+rest_boot_tap_wake	8910	audio_play=19200
+rest_boot_tap_wake	8910	log:reply: 1.20s of audio
+rest_boot_tap_wake	8910	make_happy
+rest_boot_tap_wake	8910	mode=idle
+rest_boot_tap_wake	8910	wifi_power(doze)
+rest_stale_presses	0	audio_selftest
+rest_stale_presses	750	audio_power(0)
+rest_stale_presses	750	beam_resting(1)
+rest_stale_presses	750	log:resting: codecs off, Wi-Fi modem sleep
+rest_stale_presses	750	wifi_power(rest)
+rest_stale_presses	750	wait_awake(60000)
+rest_stale_presses	5000	audio_power(1)
+rest_stale_presses	5000	beam_resting(0)
+rest_stale_presses	5000	log:awake: codecs on
+rest_stale_presses	5000	wifi_power(doze)
+rest_chirp_request	0	audio_selftest
+rest_chirp_request	750	audio_power(0)
+rest_chirp_request	750	beam_resting(1)
+rest_chirp_request	750	log:resting: codecs off, Wi-Fi modem sleep
+rest_chirp_request	750	wifi_power(rest)
+rest_chirp_request	750	wait_awake(60000)
+rest_chirp_request	5000	audio_power(1)
+rest_chirp_request	5000	beam_resting(0)
+rest_chirp_request	5000	log:awake: codecs on
+rest_chirp_request	5000	wifi_power(doze)
+rest_chirp_request	5000	audio_chirp(1)
+rest_chirp_request	5110	audio_power(0)
+rest_chirp_request	5110	beam_resting(1)
+rest_chirp_request	5110	log:resting: codecs off, Wi-Fi modem sleep
+rest_chirp_request	5110	wifi_power(rest)
+rest_chirp_request	5110	wait_awake(60000)
+rest_note_sent_asleep	0	audio_selftest
+rest_note_sent_asleep	750	wifi_power(full)
+rest_note_sent_asleep	1010	wifi_apply
+rest_note_sent_asleep	1010	mode=listening
+rest_note_sent_asleep	2130	log:recorded 1.38s
+rest_note_sent_asleep	2130	audio_chirp(0)
+rest_note_sent_asleep	2220	log:saved a 1.4s note to send later (1 waiting)
+rest_note_sent_asleep	2220	mode=idle
+rest_note_sent_asleep	4000	audio_power(0)
+rest_note_sent_asleep	4000	beam_resting(1)
+rest_note_sent_asleep	4000	log:resting: codecs off, Wi-Fi modem sleep
+rest_note_sent_asleep	4000	wifi_power(rest)
+rest_note_sent_asleep	4000	wait_awake(5000)
+rest_note_sent_asleep	9000	wait_awake(5000)
+rest_note_sent_asleep	14000	wait_awake(5000)
+rest_note_sent_asleep	19000	wait_awake(5000)
+rest_note_sent_asleep	24000	wait_awake(5000)
+rest_note_sent_asleep	29000	wait_awake(5000)
+rest_note_sent_asleep	34000	audio_power(1)
+rest_note_sent_asleep	34000	beam_resting(0)
+rest_note_sent_asleep	34000	log:awake: codecs on
+rest_note_sent_asleep	34000	wifi_power(full)
+rest_note_sent_asleep	34000	log:sending a saved note (asleep): 1.4s, from 31s ago, try 1
+rest_note_sent_asleep	34000	beam_begin
+rest_note_sent_asleep	34000	beam_sent=22080:147d37d9
+rest_note_sent_asleep	34000	beam_end
+rest_note_sent_asleep	34000	delay(50)
+rest_note_sent_asleep	34050	delay(50)
+rest_note_sent_asleep	34100	delay(50)
+rest_note_sent_asleep	34150	delay(50)
+rest_note_sent_asleep	34200	beam_cancel
+rest_note_sent_asleep	34200	audio_power(0)
+rest_note_sent_asleep	34200	beam_resting(1)
+rest_note_sent_asleep	34200	log:resting: codecs off, Wi-Fi modem sleep
+rest_note_sent_asleep	34200	wifi_power(rest)
+rest_note_sent_asleep	34200	wait_awake(60000)
+battery_awake_doze	0	audio_selftest
+battery_awake_doze	750	wifi_power(doze)
+battery_awake_doze	2010	wifi_power(full)
+battery_awake_doze	2010	mode=listening
+battery_awake_doze	2010	beam_begin
+battery_awake_doze	3130	beam_sent=23040:0e20f2bc
+battery_awake_doze	3130	log:recorded 1.44s
+battery_awake_doze	3130	beam_end
+battery_awake_doze	3130	audio_chirp(0)
+battery_awake_doze	3220	mode=thinking
+battery_awake_doze	4220	mode=speaking
+battery_awake_doze	5420	audio_play=19200
+battery_awake_doze	5420	log:reply: 1.20s of audio
+battery_awake_doze	5420	make_happy
+battery_awake_doze	5420	mode=idle
+battery_awake_doze	5420	wifi_power(doze)
+monitor_levels	0	audio_selftest
+monitor_levels	750	wifi_power(full)
+nops_turn_basic	0	audio_selftest
+nops_turn_basic	750	wifi_power(full)
+nops_turn_basic	1010	mode=listening
+nops_turn_basic	1010	beam_begin
+nops_turn_basic	2130	beam_sent=22080:46dcc97f
+nops_turn_basic	2130	log:recorded 1.38s
+nops_turn_basic	2130	beam_end
+nops_turn_basic	2130	audio_chirp(0)
+nops_turn_basic	2220	mode=thinking
+nops_turn_basic	3220	mode=speaking
+nops_turn_basic	4420	audio_play=19200
+nops_turn_basic	4420	log:reply: 1.20s of audio
+nops_turn_basic	4420	make_happy
+nops_turn_basic	4420	mode=idle
+nops_tap_short	0	audio_selftest
+nops_tap_short	750	wifi_power(full)
+nops_tap_short	1010	mode=listening
+nops_tap_short	1010	beam_begin
+nops_tap_short	1230	beam_sent=7680:85292460
+nops_tap_short	1230	log:recorded 0.48s
+nops_tap_short	1230	beam_cancel
+nops_tap_short	1230	mode=idle
+nops_wifi_down	0	audio_selftest
+nops_wifi_down	750	wifi_power(full)
+nops_wifi_down	1010	wifi_apply
+nops_url_unset	0	audio_selftest
+nops_url_unset	750	wifi_power(full)
+nops_srv_down	0	audio_selftest
+nops_srv_down	750	wifi_power(full)
+nops_srv_down	1010	mode=listening
+nops_srv_down	1010	beam_begin
+nops_srv_down	2510	beam_sent=28160:af0083a6
+nops_srv_down	2510	log:beam: Can't connect
+nops_srv_down	2510	beam_cancel
+nops_srv_down	3630	log:recorded 2.88s
+nops_srv_down	3630	mode=idle
+nops_barge_in	0	audio_selftest
+nops_barge_in	750	wifi_power(full)
+nops_barge_in	1010	mode=listening
+nops_barge_in	1010	beam_begin
+nops_barge_in	2130	beam_sent=22080:46dcc97f
+nops_barge_in	2130	log:recorded 1.38s
+nops_barge_in	2130	beam_end
+nops_barge_in	2130	audio_chirp(0)
+nops_barge_in	2220	mode=thinking
+nops_barge_in	3220	mode=speaking
+nops_barge_in	3600	audio_play=6080
+nops_barge_in	3600	log:reply interrupted
+nops_barge_in	3600	beam_cancel
+nops_barge_in	3600	mode=listening
+nops_barge_in	3600	beam_begin
+nops_barge_in	5320	beam_sent=24320:20bead80
+nops_barge_in	5320	log:recorded 1.52s
+nops_barge_in	5320	beam_end
+nops_barge_in	5320	audio_chirp(0)
+nops_barge_in	5410	mode=thinking
+nops_barge_in	6410	mode=speaking
+nops_barge_in	7610	audio_play=19200
+nops_barge_in	7610	log:reply: 1.20s of audio
+nops_barge_in	7610	make_happy
+nops_barge_in	7610	mode=idle
+nops_rest_wake	0	audio_selftest
+nops_rest_wake	750	audio_power(0)
+nops_rest_wake	750	beam_resting(1)
+nops_rest_wake	750	log:resting: codecs off, Wi-Fi modem sleep
+nops_rest_wake	750	wifi_power(rest)
+nops_rest_wake	750	wait_awake(60000)
+nops_rest_wake	5000	audio_power(1)
+nops_rest_wake	5000	beam_resting(0)
+nops_rest_wake	5000	log:awake: codecs on
+nops_rest_wake	5000	wifi_power(doze)
+nops_rest_wake	5320	wifi_power(full)
+nops_rest_wake	5320	mode=listening
+nops_rest_wake	5320	beam_begin
+nops_rest_wake	6620	beam_sent=25600:da512828
+nops_rest_wake	6620	log:recorded 1.60s
+nops_rest_wake	6620	beam_end
+nops_rest_wake	6620	audio_chirp(0)
+nops_rest_wake	6710	mode=thinking
+nops_rest_wake	7710	mode=speaking
+nops_rest_wake	8910	audio_play=19200
+nops_rest_wake	8910	log:reply: 1.20s of audio
+nops_rest_wake	8910	make_happy
+nops_rest_wake	8910	mode=idle
+nops_rest_wake	8910	wifi_power(doze)

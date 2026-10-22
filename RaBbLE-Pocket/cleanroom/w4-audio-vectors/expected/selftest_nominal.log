@@ -1,0 +1,9 @@
+call	board_audio_init
+call	open spk rate=16000 ch=2 bits=16
+call	open mic rate=16000 ch=2 bits=16
+call	set_out_vol spk 70
+call	board_set_mic_gain 30
+log	audio ready: 16000 Hz, 2 ch, vol 70, mic gain 30 dB
+log	self-test @ 30 dB: mic L -23.8 dBFS (peak 3140, dc 99), R -29.8 dBFS (peak 1599, dc 49), corr 1.00
+log	self-test: capture 16000 Hz, playback 16000 Hz (expected 16000)
+count	reads	38	writes	38

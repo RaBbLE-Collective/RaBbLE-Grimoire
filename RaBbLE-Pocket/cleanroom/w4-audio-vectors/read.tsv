@@ -1,0 +1,15 @@
+case	mic_slot	input	calls_frames	fail_after_reads	output	ret_codes	codec_read_bytes
+mix_avg	-1	stereo_mix	320	-1	read_mix_avg.pcm	0	1280
+mix_avg_multi	-1	stereo_mix	700,320,1,0,59	-1	read_mix_avg_multi.pcm	0,0,0,0,0	1280,1280,240,1280,4,236
+mix_avg_split	-1	stereo_mix	100,220,100,220	-1	read_mix_avg_split.pcm	0,0,0,0	400,880,400,880
+mix_slot0	0	stereo_mix	640	-1	read_mix_slot0.pcm	0	1280,1280
+mix_slot1	1	stereo_mix	640	-1	read_mix_slot1.pcm	0	1280,1280
+step_avg	-1	stereo_step	1600	-1	read_step_avg.pcm	0	1280,1280,1280,1280,1280
+edge_clamp	-1	stereo_edge	1200	-1	read_edge_clamp.pcm	0	1280,1280,1280,960
+lr_avg	-1	stereo_lr_distinct	1000	-1	read_lr_avg.pcm	0	1280,1280,1280,160
+lr_slot0	0	stereo_lr_distinct	1000	-1	read_lr_slot0.pcm	0	1280,1280,1280,160
+lr_slot1	1	stereo_lr_distinct	1000	-1	read_lr_slot1.pcm	0	1280,1280,1280,160
+noise_avg	-1	stereo_noise	2500	-1	read_noise_avg.pcm	0	1280,1280,1280,1280,1280,1280,1280,1040
+fail_second_chunk	-1	stereo_mix	700	1	read_fail_second_chunk.pcm	-1	1280
+fail_first_chunk	-1	stereo_mix	100	0	read_fail_first_chunk.pcm	-1	
+fail_then_ok	-1	stereo_mix	320,320	1	read_fail_then_ok.pcm	0,-1	1280

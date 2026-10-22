@@ -14,6 +14,25 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-22 · Session S264 (pocket-capture-freeze-w4)
+
+- **Repos:** RaBbLE-Pocket (`new-horizons` `2712da5`, `23c6b30`, `490e0d3`, `6767bf7`, `44a2701`; `cleanroom` merges `6f2c414`, `e05a99d`, plus `7fe6f97` and W4 `94d7d0b`; nothing pushed), RaBbLE-sCoRE (`663bc10` on `new-horizons`, not pushed: pushing deploys to Render), Grimoire (`d975f43` + this entry).
+- **Work:**
+  - Plan: `RaBbLE-Pocket/RaBbLE-Pocket-Capture-Plan.md` (Converse/Capture modes by swipe up/down, notes beamed back into an on-device Pocket Grimoire on LittleFS or SD, USB offload into Personal-Grimoire `babble/pocket/`); capture frames added to the beam protocol. Mark's calls: W4 first then Capture's voice side, LittleFS (size open), USB offload first, offline = keep audio and transcribe later, swipe up = Capture, tap or hold chosen in Settings.
+  - sCoRE capture turns (Sonnet sub-agent): `server/capture.py` + `run_capture` in `beam.py`, 20 tests; not run against live STT/LLM.
+  - Tilt: the face keeps the last good down when laid flat, faster up with jolt rejection, smooth rest. Settings turns in 15-degree notches and meets the entity level while sliding (Mark: "feels nice" / "feels good"). Accelerometer offset measured (-0.074/+0.050 g, two positions) and calibrated out, kept in NVS (Mark: close, not perfect).
+  - Face freeze root-caused with a stall watchdog: the websocket client holds its lock through the whole TLS handshake, so a brief tcpip/Wi-Fi wait boosts it to priority 18-23 for ~1.3 s of crypto above the panel. Fixes: TLS session resumption (reconnect ~200 ms when Render resumes) and the panel lifting a late band helper; 0 late frames over boot + 6 reconnects. Also fixed a shared static scratch row in `nl_render_band`.
+  - Clean room W4 voice + audio done (specs, firewall, two implementers, gate, audit 0 flagged, `94d7d0b`). The speaker amplifier now runs only while something plays: Mark's idle hiss is gone; barge-in and hold-longer confirmed by hand. Left in `apache/`: keypad, settings_ui (W5 redesign); `bsp/` (W6).
+- **Learned:**
+  - FreeRTOS returns an inherited priority only when the holder releases every mutex; a library task that holds its own lock across a long operation inherits the highest waiter's priority for all of it. Task priority and core choices can't fix that; find it by snapshotting `uxTaskGetSystemState` during the stall and reading `uxCurrentPriority`.
+  - `esp_transport_ssl` ticket SAVE frees the session the SSL config still points at: call USE right after it.
+  - ES8311 (`esp_codec_dev`): the amplifier pin follows the speaker device's open/close; mute alone leaves it on. Closing only the speaker device leaves mic reads running on the shared duplex bus.
+  - Never close a codec from an `esp_timer` callback: I2C on a shared bus stalls every other timer.
+  - S264 read `bsp/rabble_lcd_bands.c` and the W4 originals: tainted for the clean room (S/F/G only).
+- **Next:** W4 round 2 to the audio implementer: a cue or chirp after idle must be fully audible (amplifier settle lead-in); then the rest of the W4 checklist (full turn with pre-roll, speaker off, offline note, 15 s, fps while listening/speaking). Two-position IMU calibration. Capture T3 notes store (partition size still open), T4 swipe modes. Mark: rename `apache/` (pick a name), push when ready.
+
+---
+
 ## 2026-10-21 · Session S263 (domains-dnssec, mostly non-Collective)
 
 - **Repos:** none committed except this Grimoire log. Work was in Cloudflare/Spaceship dashboards plus one static page kept at `~/Dropbox/mcconachie-world/index.html` (outside any repo). LATEST and the Collective state block stay on Pocket.

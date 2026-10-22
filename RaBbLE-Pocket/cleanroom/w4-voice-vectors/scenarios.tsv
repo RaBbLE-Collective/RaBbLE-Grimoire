@@ -1,0 +1,48 @@
+# name	build	params (space separated key=value, passed to the fake world)	note
+turn_basic	psram	end=9000 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	beam live, full reply, back to idle
+turn_partial_caption	psram	end=9000 srv_part=hello srv_part_ms=600 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	live transcript becomes the caption
+turn_long_reply_pages	psram	end=14000 srv_audio_ms=6000 srv_reply_ms=700 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	caption follows speech via turn_caption
+turn_no_tts	psram	end=9000 srv_audio_ms=0 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	no reply audio: text stays up 2.5 s
+turn_max_length	psram	end=22000 at=1000:down at=1100:mic:8000	held past 15 s
+turn_dup_down_and_stray_up	psram	end=9000 at=500:up at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60 at=1500:down	duplicate DOWN while recording and stray UP idle ignored
+turn_mic_read_fails	psram	end=9000 mic_fail_at=1500 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	capture fails mid-recording
+tap_short	psram	end=5000 at=1000:down at=1100:mic:8000 at=1100:up at=1400:mic:60	release at 100 ms: HOLD LONGER TO TALK
+tap_just_long_enough	psram	end=9000 at=1000:down at=1100:mic:8000 at=1200:up at=1500:mic:60	see minlen.tsv
+wake_tap	psram	end=5000 at=1000:down_wake at=1100:up	press that woke the screen, released within a tap
+wake_held	psram	end=12000 at=1000:down_wake at=1100:mic:8000 at=2500:up at=2800:mic:60	held through the wake: records, pre-roll from before the press
+barge_in_playing	psram	end=16000 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60 at=3600:down at=3700:mic:8000 at=5200:up	press during reply speech
+barge_in_thinking	psram	end=16000 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60 at=2500:down at=2600:mic:8000 at=3900:up	press while waiting for the reply
+reply_error_after_sent	psram	end=9000 srv_err=sCoRE ERROR srv_err_ms=800 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	SENT arrived, then an error: the note counts as delivered
+reply_error	psram	end=9000 srv_err=sCoRE ERROR srv_err_ms=800 srv_nosent=1 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	sCoRE answers with an error after the note
+reply_silent	psram	end=90000 srv_silent=1 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	sCoRE never answers (beam fails it on its own; here nothing arrives)
+chirp_then_press	psram	end=9000 at=1000:chirp at=1150:down at=1250:mic:8000 at=2150:up at=2450:mic:60	pre-roll emptied by the chirp: only what was captured after the settle
+loopback_request	psram	end=9000 at=1000:loopback at=7000:down at=7100:mic:8000 at=8000:up at=8300:mic:60	
+chirp_long_before_press	psram	end=9000 at=1000:chirp at=2500:down at=2600:mic:8000 at=3500:up at=3800:mic:60	pre-roll refilled
+note_offline_then_online	psram	end=60000 wifi=0 at=30000:wifi:1 at=5000:probe at=29000:probe at=31000:probe at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	saved while out of reach, sent when Wi-Fi returns
+note_in_reach_midway	psram	end=15000 wifi=0 at=1500:wifi:1 at=1000:down at=1100:mic:8000 at=3000:up at=3300:mic:60	sCoRE comes in reach during the recording
+note_url_unset	psram	end=6000 url=0 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	
+note_srv_down_wifi_up	psram	end=60000 srv=0 at=40000:srv:1 at=1000:down at=1100:mic:8000 at=3500:up at=3800:mic:60	ready but unreachable: live attempt fails, note kept, retried
+note_queue_full	psram	end=120000 wifi=0 at=40000:wifi:1 at=1000:down at=1100:mic:8000 at=1800:up at=2100:mic:60 at=3000:down at=3100:mic:8000 at=3800:up at=4100:mic:60 at=5000:down at=5100:mic:8000 at=5800:up at=6100:mic:60 at=7000:down at=7100:mic:8000 at=7800:up at=8100:mic:60 at=9000:down at=9100:mic:8000 at=9800:up at=10100:mic:60 at=50000:probe	four saved, the fifth press refused, all four sent in order
+note_server_errors_until_dropped	psram	end=1200000 srv_err=SERVER BUSY srv_err_ms=300 srv_nosent=1 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	retry backoff 15,30,60,120... and drop after 8 tries
+note_stalled_beam	psram	end=400000 srv_stall=1 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	beam takes none of the note: give up after 30 s
+note_press_before_send	psram	end=60000 wifi=0 srv_stall=1 at=20000:wifi:1 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60 at=21000:down at=21100:mic:8000 at=22200:up at=22500:mic:60	a press during a saved-note send goes first
+note_live_error_midway	psram	end=60000 srv_err=BAD AUDIO srv_err_live_ms=500 at=1000:down at=1100:mic:8000 at=2500:up at=2800:mic:60	live turn fails while recording, kept note saved
+note_no_memory_live_error	psram	end=20000 alloc_fail=1 srv_err=BAD AUDIO srv_err_live_ms=500 at=1000:down at=1100:mic:8000 at=2500:up at=2800:mic:60	no kept note: failure is the caption
+no_memory_ok	psram	end=9000 alloc_fail=1 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	no memory to keep a note: live only
+no_memory_offline	psram	end=9000 alloc_fail=1 wifi=0 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	NO WI-FI
+notes_waiting_30min	psram	end=2400000 wifi=0 at=1700000:probe at=1790000:probe at=1815000:probe at=5000:probe at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	notes_waiting() clears after 30 min
+rest_basic	psram	end=20000 asleep=1 battery=1 at=5000:probe at=5000:asleep:0 at=5100:probe	asleep on battery: codecs off; then wake
+rest_usb_asleep	psram	end=5000 asleep=1 battery=0 at=4000:probe	asleep on USB: nothing changes
+rest_boot_tap_wake	psram	end=20000 asleep=1 battery=1 at=5000:asleep:0 at=5000:down_wake at=5100:mic:8000 at=6500:up at=6800:mic:60	BOOT press wakes from rest and is held: records
+rest_stale_presses	psram	end=20000 asleep=1 battery=1 at=700:down at=710:up at=720:down_wake at=5000:asleep:0 at=5200:up	only the press that woke is kept
+rest_chirp_request	psram	end=12000 asleep=1 battery=1 at=5000:chirp at=5000:probe at=6000:probe	bench chirp while resting
+rest_note_sent_asleep	psram	end=60000 wifi=0 at=4000:asleep:1 at=4000:battery:1 at=30000:wifi:1 at=3000:probe at=20000:probe at=40000:probe at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	saved note is sent while the screen is asleep
+battery_awake_doze	psram	end=8000 battery=1 at=2000:down at=2100:mic:8000 at=3000:up at=3300:mic:60	wifi doze on battery, full for a turn
+monitor_levels	psram	end=4000 at=0:monitor:1 at=1000:mic:5000 at=1500:mic:60 at=900:probe at=1000:probe at=1100:probe at=1200:probe at=1300:probe at=1400:probe at=1500:probe at=1600:probe at=1700:probe at=1800:probe at=1900:probe at=2000:probe at=2100:probe at=2200:probe at=2300:probe at=2400:probe at=2500:probe at=2600:probe at=2700:probe at=2800:probe at=2900:probe at=3000:probe	
+nops_turn_basic	no-psram	end=9000 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	
+nops_tap_short	no-psram	end=5000 at=1000:down at=1100:mic:8000 at=1100:up at=1400:mic:60	
+nops_wifi_down	no-psram	end=5000 wifi=0 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	
+nops_url_unset	no-psram	end=5000 url=0 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	
+nops_srv_down	no-psram	end=9000 srv=0 at=1000:down at=1100:mic:8000 at=3500:up at=3800:mic:60	
+nops_barge_in	no-psram	end=16000 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60 at=3600:down at=3700:mic:8000 at=5200:up	
+nops_rest_wake	no-psram	end=20000 asleep=1 battery=1 at=5000:asleep:0 at=5000:down_wake at=5100:mic:8000 at=6500:up	
