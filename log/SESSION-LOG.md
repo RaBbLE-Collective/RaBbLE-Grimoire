@@ -14,6 +14,21 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-21 · Session S263 (domains-dnssec, mostly non-Collective)
+
+- **Repos:** none committed except this Grimoire log. Work was in Cloudflare/Spaceship dashboards plus one static page kept at `~/Dropbox/mcconachie-world/index.html` (outside any repo). LATEST and the Collective state block stay on Pocket.
+- **Work:**
+  - mcconachie.world (personal family hub, separate from RaBbLE; Dad's Cloudflare): Mark accepted the Super Admin invite and switched to Dad's account. Built a coming-soon page in the Aether palette (exact hexes; sun, driving grid at 32px, starfield, drifting neural-network mesh; contrast panel behind the text). Diagnosed the Spaceship parking page still being served: proxied A records pointed at the parking origin; fixed by deleting them and attaching the Pages custom domain. Always Use HTTPS verified (301). Email still TODO (Email Routing forward-only recommended).
+  - DNSSEC: enabled in Cloudflare and DS added at Spaceship for mcconachie.world, and also for joinrabble.world. Verified with dig: DS published at the parent, same on 1.1.1.1 and 8.8.8.8, `ad` flag set, both sites still resolve.
+- **Found:** `https://joinrabble.world/setup.sh` returns 404 (the fresh-machine install path in AGENT.md). DNSSEC is not the cause since the domain resolves and answers; not yet investigated. Logged as B-19.
+- **Learned:**
+  - `dig +short DS <domain>` against the default resolver, 1.1.1.1 and 8.8.8.8, plus the `ad` flag, is a fast three-way check that a DS record has actually reached the registry; a DNSKEY at Cloudflare alone proves nothing.
+  - Cloudflare serving a registrar parking page usually means leftover proxied A records on `@`, not a Pages problem.
+  - Cache can make an HTTPS-redirect check lie: test with a unique query string.
+- **Next:** investigate the `setup.sh` 404 (B-19, relevant to the G9 fresh-VM run); Mark: pick the mcconachie.world email path; copy the real family-hub content over the placeholder.
+
+---
+
 ## 2026-10-21 · Session S262 (atlas-console, non-Collective)
 
 - **Repos:** `~/ATLAS-next` (standalone, private, unpublished; `07a564e` to `c286348`, 7 commits) and the Personal-Grimoire folio (`53469cc`). One Collective repo touched for Mark's dev machine: RaBbLE-OS `layer/atlas-sentry` (`bbc3bf8`; opt-in, not yet applied). The same sweep committed other sessions' pending work unchanged: OS float-top keybind (`a06c15f`) and Muse bring-up doc (`d4091df`), BaBbLE intake (`1562eab`), Pocket compare renders (`3f8cc8f`). LATEST and the Collective state block stay on Pocket. Deployed to the Pi 4 at `192.168.1.129`.
