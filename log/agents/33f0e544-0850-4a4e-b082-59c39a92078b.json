@@ -8,6 +8,7 @@
     "RaBbLE-Grimoire:RaBbLE-Pocket/RaBbLE-Pocket-Beam-Protocol.md",
     "RaBbLE-Grimoire:RaBbLE-Pocket/RaBbLE-Pocket-Capture-Plan.md",
     "RaBbLE-Grimoire:RaBbLE-Pocket/RaBbLE-Pocket-Clean-Room-Plan.md",
+    "RaBbLE-Grimoire:RaBbLE-Pocket/RaBbLE-Pocket-Entity-Port-Plan.md",
     "RaBbLE-Grimoire:RaBbLE-Pocket/RaBbLE-Pocket-Roadmap.md",
     "RaBbLE-Grimoire:RaBbLE-Pocket/cleanroom/PROVENANCE.md",
     "RaBbLE-Grimoire:RaBbLE-Pocket/cleanroom/w4-audio-vectors/README.md",
@@ -78,12 +79,15 @@
     "RaBbLE-Grimoire:RaBbLE-Pocket/cleanroom/w4-voice.spec.md",
     "RaBbLE-Grimoire:log/SESSION-LOG.md",
     "RaBbLE-Grimoire:log/agents/33f0e544-0850-4a4e-b082-59c39a92078b.json",
+    "RaBbLE-Grimoire:log/handoffs/CONTEXT.md",
+    "RaBbLE-Grimoire:log/handoffs/HANDOFF-S264-Pocket-Capture-W4-Face.md",
+    "RaBbLE-Grimoire:log/handoffs/done/HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room.md",
     "RaBbLE-Grimoire:log/token-ledger.tsv",
     "RaBbLE-sCoRE:server/beam.py",
     "RaBbLE-sCoRE:server/capture.py",
     "RaBbLE-sCoRE:tests/test_capture.py"
   ],
   "started_at": "2026-10-22T06:00:19Z",
-  "heartbeat_at": "2026-10-22T08:14:17Z",
+  "heartbeat_at": "2026-10-22T08:18:01Z",
   "auto": true
 }
