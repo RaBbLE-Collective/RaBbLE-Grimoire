@@ -248,3 +248,44 @@ The implementer may add functions; these are what `rabble_ui.c`, `rabble_entity.
 2. Build, flash, drive every page from the console (B8.7), read the fps and late-frame lines for each B7 gate.
 3. Mark's hand checks: entry resistance, peek and snap; dial feel; value drag; hold-to-fill timing; typing a real Wi-Fi password; join, forget; sCoRE test; Level and clock over the Orbit; power off; readability at rest and while turning.
 4. PROVENANCE row (W5: S = this spec, F = none (redesign, originals unread), I = the two implementers); delete the `apache/` settings_ui and keypad in the swap commit.
+
+---
+
+## 5. Revision 3: Orbit v2, after Mark's first hand check (S266)
+
+Mark, on the gadget: *"a good first step... feels cool but needs more text UI to guide the user and more clear input signals"*; too many taps for simple things; no easy way back; the NN mesh vanishing on the way in is wrong ("the mesh should actually be part of the transition"); he got stuck in Brightness's value mode. His calls: a **flat quick ring**, and **the mesh becomes the dial**. The Orbit is RaBbLE's own code now (W5 swapped in), so v2 is ordinary work on `accord/` and `nebula_lite/`, not a clean-room wave. Everything in sections 1 to 4 stands unless changed here.
+
+### 5.1 Flat Home ring
+
+Home holds the settings themselves, clockwise from the top: **Volume** (value), **Brightness** (value), **Speaker** (toggle), **Wi-Fi** (opens the Wi-Fi page), **sCoRE** (opens the sCoRE page), **Sleep** (choice: screen sleep), **Level** (opens Level), **Power off** (action), **More** (page). 9 items: the dial wraps. **More** holds Voice (choice), Mic gain (value), Raise to wake (toggle), Off when asleep (choice). The Sound, Display, Sleep and Power pages go. Volume is now two actions: turn to it, tap the centre (value mode opens directly).
+
+### 5.2 Text on the ring
+
+Every item carries a **label sprite** with its name and current value in words (`Vol 70`, `Bright 80`, `Speaker on`, `Wi-Fi RaBbLE`, `sCoRE ok`, `Sleep 2m`, `Level`, `Power off`, `More`), Montserrat 14, centred on the item's angle at radius 140 (inside the ring of discs), turning with the dial like the items (a referenced sprite, section 3 rule 2: so it is an item of its own with `disc_r` 0, or the implementer extends the item with a second sprite index: decide, keep the contract change minimal and note it). Not chosen: Muted, opa 200. Chosen: Primary Text, opa 255. Discs shrink to r 16 at radius 186 so labels fit; the label budget is 12 characters (cut with `...`).
+
+### 5.3 The centre always says what to do next
+
+Three lines, always present: **name** (Montserrat 20), **value** (Montserrat 32 for numbers, 20 for words; the accent), **hint** (Montserrat 14, Muted) with the exact next action for the state: `turn the rim to choose` (while turning), `tap to change` (a value or choice), `tap to open` (a page), `hold to turn off` / `hold to turn on` (a toggle), `hold to power off`, and in value mode `drag the rim · tap here when done`.
+
+### 5.4 A way back that is always visible
+
+A **back chip** at the bottom of the centre (centred at y 233 + 78 in the orbit frame): `‹ face` on Home, `‹ Home` on More, Wi-Fi and sCoRE, `‹ Wi-Fi` on Networks and Saved, `‹ back` in value mode and on the Text page. Montserrat 16, Cyan, with a Raised pill behind it (a disc pair or an arc primitive: implementer's choice) so it reads as a button. A tap within 40 px of its centre goes back (value mode: commits the value shown, then leaves; Text page: cancels). The swipe-right back (B4.2) also starts from anywhere outside the rim zone **and** from the rim's left half when the first 16 px are clearly rightward (dx > 2·|dy|), so a natural swipe right always works.
+
+### 5.5 Value mode never traps
+
+Value mode is left by any of: a tap on the centre (**done**: commits), the back chip (commits), the back swipe (commits), or **2 s after the last lift** with no new touch (commits). The setter is still called once per lift as before; leaving never calls it again. Brightness preview ends on leaving.
+
+### 5.6 Clear input signals
+
+- **Touch glow**: while a finger is down on the Orbit, a soft ring (r 26, 3 px, the page accent at opa 140) under it in the orbit frame.
+- **Rim lit while turning**: the track brightens to the accent (opa 200, 3 px) during a rim turn and in value mode, back to Border at rest.
+- **Detent flick**: each item passing the top during a turn makes the chosen ring flash (opa 255 for 80 ms) and the touch glow pulse once.
+- **Hold**: the fill ring is centred on the centre (not under the thumb) at r 74 so it's visible around the finger; the hint changes to `keep holding...` while it fills.
+
+### 5.7 The mesh becomes the dial
+
+On the way in (0 < slide < `NL_W`) the NN meshes keep drawing (undo the A1 rule that skipped them; keep the scene's primitive cap). As `k = slide / NL_W` grows, each mesh node moves from its own place toward an item position of the dial (node i to item i mod n, as the dial will sit when open), on a smoothstep of k, and its radius toward the item's disc radius; the links' alpha falls as (1 − k)²; the items' discs fade in as (k − 0.6)/0.4 clamped, so at k = 1 only the dial remains and at rest nothing animates (60 fps, every band repeated). Closing runs the same in reverse: the dial's items dissolve back into the meshes. The entity's eyes and portals slide left as before. Gate: the slide in and out ≥ 40 fps with the meshes drawn (the entity's own log).
+
+### 5.8 Tests
+
+Extend `firmware/test/cleanroom/w5/orbit_test/` for 5.1 (Volume in two actions), 5.4 (back chip on every page, swipe right from the rim's left half), 5.5 (each of the four exits of value mode commits once, never traps), 5.3 (hint text per state). Extend `sim/` with a v2 Home scene (labels and back chip) and three mesh-transition frames (k = 0.3, 0.6, 0.9). Keep every existing test passing and the `-O2 -Werror` compile clean.
