@@ -3,7 +3,7 @@
 > **Status (S264, 2026-10-22): T0 freeze fixed (both fixes, 0 late frames over boot + 6 reconnects), T1 tilt built (Mark: "feel nice"), T2 sCoRE capture built (20 tests, uncommitted). Next: T3 notes store, T4 modes + swipe.**
 > Mark's ask: give the Pocket two modes, **Converse** (today's push-to-talk conversation) and **Capture** (RaBbLE just listens, transcribes and builds notes files that are beamed back and kept on the device), switched by swiping up/down. Notes land in a **Pocket Grimoire** on the device and are offloaded or merged into a permanent home. Alongside: make the gravity tilt seamless, hold the last good angle when flat, and stop the face freezing.
 
-Related: [Beam protocol](RaBbLE-Pocket-Beam-Protocol.md) (capture frames are specified there) · [Clean room plan](RaBbLE-Pocket-Clean-Room-Plan.md) (voice is W4, display is W6) · [Gadget port](RaBbLE-Pocket-Gadget-Port.md).
+Handoff: [HANDOFF-S264](../log/handoffs/HANDOFF-S264-Pocket-Capture-W4-Face.md) · Related: [Beam protocol](RaBbLE-Pocket-Beam-Protocol.md) (capture frames are specified there) · [Clean room plan](RaBbLE-Pocket-Clean-Room-Plan.md) (voice is W4, display is W6) · [Gadget port](RaBbLE-Pocket-Gadget-Port.md).
 
 ## Decisions (Mark, 2026-10-22)
 

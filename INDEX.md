@@ -328,7 +328,8 @@ Status lives in each plan; the one-line status table is [log/plans/CONTEXT.md](l
 Status: [log/handoffs/CONTEXT.md](log/handoffs/CONTEXT.md).
 
 - [HANDOFF-S234-EP1-Entity-Face](log/handoffs/HANDOFF-S234-EP1-Entity-Face.md) — EP1 face build (pairs with the Entity-Face plan)
-- [HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room](log/handoffs/HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room.md): Pocket entity at 60 fps idle; next is settings as a composited texture that turns with the device (fixes the blank slide), then the clean room off Meta's code
+- [HANDOFF-S264-Pocket-Capture-W4-Face](log/handoffs/HANDOFF-S264-Pocket-Capture-W4-Face.md): Pocket after S264 (freeze fixed, clean room W4 done, motion/touch face, Settings > Level); next Capture T3 notes store, T4 swipe, T5 offload, T6 voice capture; W4 hand checks; push
+- [HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room](log/handoffs/done/HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room.md) (done S254/S264): settings composited; clean room continues in HANDOFF-S264
 - [HANDOFF-S251-Pocket-Entity-60fps](log/handoffs/done/HANDOFF-S251-Pocket-Entity-60fps.md) (done S252): Pocket entity from ~20 to 60 fps idle
 - [HANDOFF-S250-Pocket-Entity-Port-Phase1](log/handoffs/done/HANDOFF-S250-Pocket-Entity-Port-Phase1.md) — done S251: Phase 0 bench, Phase 1 renderer on device
 - [HANDOFF-S236-OS-ISO-VM-Run](log/handoffs/HANDOFF-S236-OS-ISO-VM-Run.md) — branded ISO VM run recipe + leftover items

@@ -277,7 +277,7 @@ Steps, in the order measured:
 5. **Both cores** claim bands (a core-0 helper plus `lcd_send`): render split ~10/5 ms, but the wire became the limit (12.8 ms in draw calls: five polling SPI transactions per band, ~160 µs each even on an idle wire).
 6. **Damage:** per-band hash of the display list; only changed bands are rendered and sent. Plus the roll held still at rest (sensor jitter dirtied every band). About 18 of 30 bands drawn at idle: **60 fps**.
 
-Next: `log/handoffs/HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room.md`.
+Next: `log/handoffs/done/HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room.md`.
 
 ### Results on the gadget (S254): settings composited, turning with the device
 

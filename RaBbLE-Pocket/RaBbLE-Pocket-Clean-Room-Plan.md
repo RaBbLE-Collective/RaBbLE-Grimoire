@@ -1,7 +1,7 @@
 # RaBbLE-Pocket-Clean-Room-Plan.md
 
 > Replace every Meta-derived (Apache-2.0) file in the Pocket firmware with RaBbLE's own code, written clean room, module by module, until `Meta Platforms` appears nowhere in RaBbLE-Pocket outside fetched or gitignored trees.
-> Decided S252 (2026-10-16), Mark: **two-team clean room**. Companion handoff: `log/handoffs/HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room.md`.
+> Decided S252 (2026-10-16), Mark: **two-team clean room**. Companion handoff: `log/handoffs/done/HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room.md`.
 > Review: the planned independent Opus review hit the session limit; S252 checked the riskiest claims against the code itself (touch wrapper, flush path, build coupling, tainted paths). Re-run an independent review before W0 starts.
 > **Status (S264, 2026-10-22): W4 voice and audio done** (Pocket `94d7d0b`, speaker amplifier now gated: the idle hiss is gone). Left in `apache/`: keypad and settings_ui (redesign track, W5); plus `bsp/` (W6). Open from W4: the chirp after idle isn't heard (amplifier settle). See `cleanroom/PROVENANCE.md`.
 > **Status (S258, 2026-10-20): W2 power + input done** (axp2101, battery, input; keypad moved to the redesign track). Hand checks pending; see `cleanroom/PROVENANCE.md`. Next: W3 network.
