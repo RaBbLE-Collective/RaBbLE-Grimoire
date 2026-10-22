@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-20 · Session S259 (pocket-cleanroom-w3)
+## LATEST — 2026-10-22 · Session S264 (pocket-capture-freeze-w4)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S259: Pocket clean room W3 network done (settings, wifi store, wifi station, beam status); NVS byte-identical
+**This session:** S264: Pocket clean room W4 voice+audio (hiss gone), face freeze fixed, tilt + notches + IMU offset, Capture plan + sCoRE capture
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18 open.
-**Next:** Pocket: W4 voice; Mark: W3 hand checks, push cleanroom
+**Next:** Pocket: chirp-after-idle W4 round, W4 checklist, two-position IMU cal, Capture T3 notes store; Mark: apache/ name, push
 
 ---
 

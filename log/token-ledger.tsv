@@ -266,3 +266,5 @@ b8152139-278a-4a09-b525-9d7649736aba	collective	auto: current state S258: pocket
 e83cfcd1-dc26-4a05-b067-1f582e5d53d5	atlas-next	ATLAS-next: consolidated, deployed to the Pi, 60 FPS on the Pi Cam (non-Collective)
 1d66f0a2-f8a9-4762-93a6-7075854fb840	atlas-dual-camera-console	S262: ATLAS web console, dual-camera inference, tracks with memory, PID, scan
 6c709250-e87c-4964-bc6e-0763375e0ac3	domains-dnssec	S263: DNSSEC on mcconachie.world + joinrabble.world, setup.sh 404 found (mostly non-Collective)
+33f0e544-0850-4a4e-b082-59c39a92078b	collective	auto: current state S264: pocket clean room W4, face freeze fixed, capture plan
+94d4f7e8-e2ae-4299-89ff-1f9c56277b37	pocket-capture-freeze-w4	S264
