@@ -14,6 +14,24 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-22 · Session S266 (pocket-gyro-orbit-w5)
+
+- **Repos:** RaBbLE-Pocket (`new-horizons` = `cleanroom` `80e4646`: `de59080` gyro motion, `92c8adf` face/ring/icon, `245bcc0` drift fix, `47adbb9` W5 Orbit, `80e4646` third_party; Orbit v2 commits `%S266_ORBIT_V2%` by a sub-agent in flight at handoff; flashed `47adbb9`; nothing pushed), Grimoire (`0826aef`, `c320f97`, `8809cf0`, `565dfbe` + this entry and `HANDOFF-S266-Pocket-Orbit-Pomodoro.md`), Collective (current state).
+- **Work:**
+  - Answered Mark's claude.ai "Ideas Pane" doc locally: offline audio isn't saved yet (T6 plans ADPCM to `/pending/`, ~18 min in 8.9 MB); Pocket/Grimoire unpushed; sCoRE pushed.
+  - Gyro on (QMI8658 125 Hz, ±2048 dps): the face follows spin with no lag, holds its heading flat on a table, sideways-spring shake, spin reactions scaled by speed (Mark: "feels good", "fluid"; dizzy shortened on his call). Flat drift: the gyro sits 11 deg/s off on X; fixed with accel-only stillness, fast-then-slow learning, NVS.
+  - Colour ring in every view (Capture violet, low battery yellow, error red, dim offline); mode icon under the clock, tap to switch (mode already persisted across reboots: tested on the gadget).
+  - W5 clean room = the **Orbit**: Settings as a native nebula_lite dial (Mark: orbit dial, hold to fill, NeBuLA-native, all orbit, sCoRE URL/token serial only). Spec by S266, independent Opus review (7 blockers), two fresh Sonnet implementers, overlap 4.2%, audit clean, `apache/` deleted, 60 fps on Home. Mark's hand check: "a good first step", v2 asks (mesh part of the transition, visible back, fewer taps, text guidance, clear signals; stuck in Brightness) → spec rev 3, sub-agent building.
+  - Merged `cleanroom` into `new-horizons`; non-RaBbLE code moved to `RaBbLE-Pocket/third_party/`.
+  - Logged Mark's next asks: Applets orbit + Pomodoro (fidget detection, check-in nudges), W6 BSP as a walkthrough of the docs/specs, then a Pocket SDK refactor into clearer components; sCoRE persona, "act on the Pocket" tools and the vocoder voice later.
+- **Learned:**
+  - A gyro "still" test against 1 g or the gyro-propagated up never fires on this board: judge stillness by the accelerometer against its own short average.
+  - Frame-rate jitter in turns came from the 50 Hz IMU stepping against 40-60 fps frames: feed the spring the gyro rate every frame.
+  - Clean-room parallel implementers work well when the integrator lands the shared contract in the workspace first.
+- **Next:** HANDOFF-S266: land Orbit v2 (verify, flash, Mark's hands), Applets + Pomodoro, W6 BSP walkthrough, SDK refactor; push Pocket/Grimoire/Collective when Mark says.
+
+---
+
 ## 2026-10-22 · Session S265 (pocket-capture-t3-t4)
 
 - **Repos:** RaBbLE-Pocket (`new-horizons` `4529039`, `60e1c9a`, `02dcd93`, `678e335`, `fa2b9d5`; `cleanroom` `cc56f04`, `a7e2a2e` + merges up to `22a11be`, flashed; nothing pushed), RaBbLE-sCoRE (`663bc10` **pushed**, live on Render), Grimoire (`0514ad3`, `d65d4cb`, `c241420` + this entry, handoff `HANDOFF-S265-Pocket-Capture-T5.md`).

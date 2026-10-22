@@ -16,7 +16,7 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 | `HANDOFF-FCC-Free-Claude-Code.md` | FCC LiteLLM proxy tuning — research done, implementation pending |
 | `HANDOFF-S236-OS-ISO-VM-Run.md` | RaBbLE-OS ISO: VM run passed S236, bare-metal retry passed S238; leftover open items inside (KS sudoers NOPASSWD revoke, GRUB secure-boot line, silent `%post`, Live ISO plan) |
 | `HANDOFF-S234-EP1-Entity-Face.md` | EP1 face: W0–W2 done + live on dev; G10 sign-off pending; W4 accounts direction open |
-| `HANDOFF-S265-Pocket-Capture-T5.md` | Pocket after S265: notes store (OTA layout), Converse/Capture swipe with flipped portals, typed and voice captures live, sCoRE capture pushed. Next: T5 host offload spell, Mark's T4 hand check, T6 voice capture |
+| `HANDOFF-S266-Pocket-Orbit-Pomodoro.md` | Pocket after S266: gyro face (heading hold, spin reactions), ring in every view, mode icon, W5 Orbit settings (clean room done but bsp/), merged onto new-horizons, third_party/. Next: land Orbit v2, Applets + Pomodoro, W6 BSP walkthrough, SDK refactor; S265's T5/T6 carried |
 | `RaBbLE-Voice-Phase2-HANDOFF.md` | Voice Phase 2 (authored 2026-07-03); the vocoder was rebuilt as v4 in S244, so check it before resuming |
 
 ## Done (reference only)
@@ -28,6 +28,7 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 | `done/HANDOFF-S153-EP1-Coherence.md` | Production — B-01/03/04 resolved |
 | `done/HANDOFF-S176-G10-World-EP1-FLOOR.md` | S177 — G10 closed (reopened S203 by the face redesign) |
 | `done/HANDOFF-S203-B10-Cloudflare-Token.md` | B-10 resolved S206, B-12 S234 |
+| `done/HANDOFF-S265-Pocket-Capture-T5.md` | S266: superseded (T5/T6 carried into HANDOFF-S266) |
 | `done/HANDOFF-S264-Pocket-Capture-W4-Face.md` | S265: T3 store, T4 modes, sCoRE pushed (continues in HANDOFF-S265) |
 | `done/HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room.md` | S254 settings composited; clean room W0-W4 by S264 (continues in HANDOFF-S264) |
 | `done/HANDOFF-S251-Pocket-Entity-60fps.md` | S252: 60 fps idle (both cores, damage-skipped bands, sparse mesh); settings slide carried into the S252 handoff |
