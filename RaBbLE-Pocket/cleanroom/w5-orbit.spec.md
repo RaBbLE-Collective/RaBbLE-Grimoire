@@ -289,3 +289,45 @@ On the way in (0 < slide < `NL_W`) the NN meshes keep drawing (undo the A1 rule 
 ### 5.8 Tests
 
 Extend `firmware/test/cleanroom/w5/orbit_test/` for 5.1 (Volume in two actions), 5.4 (back chip on every page, swipe right from the rim's left half), 5.5 (each of the four exits of value mode commits once, never traps), 5.3 (hint text per state). Extend `sim/` with a v2 Home scene (labels and back chip) and three mesh-transition frames (k = 0.3, 0.6, 0.9). Keep every existing test passing and the `-O2 -Werror` compile clean.
+
+---
+
+## 6. Applets orbit and the Pomodoro (S266 design, Mark's calls)
+
+Built on the Orbit after v2 (section 5). Ordinary work on RaBbLE's own code.
+
+### 6.1 The Applets orbit
+
+- **Swipe right** from the face opens it: the mirror of Settings' entry (B4.1 with dx > 0; the same resistance 0.35 until 140 px, then the snap; the dial comes in from the **left**, the entity slides right, the mesh streams into it as in 5.7). Back (chip or swipe left) closes it.
+- Same renderer, gestures, labels, hints and back chip as Settings. The contract gains only a sign: `nl_orbit_t.from_left` (0: from the right as today, 1: from the left), or the implementer's equivalent (keep it minimal).
+- Home ring today: **Pomodoro** (later applets join the ring). With one item the dial clamps (section 2), so the ring shows the applet's own items directly: opening Applets lands straight on the Pomodoro page.
+
+### 6.2 The Pomodoro page
+
+Items, clockwise from the top: **Focus** (choice: 15, 20, **25**, 30, 45, 50 min), **Break** (choice: 3, **5**, 10 min), **Long break** (choice: 10, **15**, 20 min, after every 4th focus round), **Start / Pause** (action), **Reset** (action, 0.6 s hold). Settings persist in NVS (`rabble_pomo`).
+
+Centre: name; the remaining time large (`24:13`, Montserrat 48 while running, else the chosen length); a dots line for the 4 rounds (`● ● ○ ○`); the hint (`hold to start`, `hold to pause`, `hold to resume`).
+
+### 6.3 The timer
+
+- States: `IDLE`, `FOCUS`, `BREAK`, `LONG_BREAK`, `PAUSED` (remembers which it paused). Runs on `esp_timer` time in its own small module (`rabble_pomo.c/.h`), not on the UI tick, so sleep doesn't stop it; it survives the screen sleeping (not a reboot: a reboot returns to IDLE with the round count kept).
+- Focus ends → chirp (`rabble_voice_request_chirp`), `rabble_state_make_happy()`, the round dot fills, the break starts on its own. Break ends → chirp, the next focus waits for a hold (Mark starts work deliberately). After the 4th focus, the long break, then the dots reset.
+- The device wakes the screen at each round's end (`rabble_input_wake("pomodoro")`).
+
+### 6.4 The ring carries it, in every view
+
+While a Pomodoro runs or is paused, the colour ring (section `compose.c` ring, already in every view) shows the round: a **draining arc** from the top, clockwise, of length remaining/total, in **violet** (focus) or **green** (break), over the dimmed normal ring; paused: the arc blinks slowly (1 Hz, opa 255/120). The ring's other signals (error red, low battery yellow) still win. Contract: add to `nl_inputs_t` a `ring_arc` (0..1, 0 = none) and `ring_arc_rgb`, `ring_arc_opa`; drawn by the arc primitive at the ring's radius. At rest between second ticks the inputs are constant (the arc steps once per second: 1 fps worth of bands, not 60).
+
+### 6.5 The watchful face and keeping Mark on task (his picks)
+
+- **Focus look**: during FOCUS the entity is calm and watchful: eyes narrowed (a new 0..1 `focus` input to nebula_lite: eye height × (1 − 0.35·focus), mesh activity × (1 − 0.5·focus)), eased in over 1 s.
+- **Fidget detection**: during FOCUS, picking it up (a raise: up's z climbing as in raise-to-wake), a shake, or a touch on the face counts a **fidget**: the entity gives a disapproving look (a short `sad`/error-tinted pose, 1.2 s: reuse `NL_STATE_ERROR`'s pose without the error colour, or a new `frown` input) and the ring arc flickers twice. Fidgets are counted per round and shown under the dots (`2 fidgets`); at the round's end the reward scales: 0 fidgets = a big happy hop, 1-2 = happy, 3+ = a flat "hm" (no hop). Touches on the Orbit itself (Mark operating the timer) don't count.
+- **Check-in nudges**: every 10 min of FOCUS (*tunable*), a soft chirp and the entity glances at the viewer (eyes to centre, a slow blink). A tap on the face within 30 s = "still on it" (a small nod: happy 0.3). No tap in 30 s: a concerned look (eyes droop, the ring arc dims to 50%) until the next touch, and it counts as a fidget. Nudges are skipped while Mark is mid-voice-turn.
+- Spoken nudges via sCoRE are deferred to the vocoder voice.
+
+### 6.6 Console and tests
+
+- `>pomo=start|pause|reset|state|skip` (skip ends the current round now; for testing), replying `@pomo {"state":…,"left_s":…,"round":…,"fidgets":…}`.
+- Host test of `rabble_pomo.c` with a fake clock: full cycle 4 × (focus + break) + long break, pause/resume keeps the remaining time, reset, fidget counting and the check-in timeout, NVS defaults.
+- sim: the ring arc at 0.25 / 0.75 in violet and green, and the focus look.
+- Gates: the ring arc in every view costs ≤ 1 band redraw per second at rest; 60 fps idle with a Pomodoro running.
