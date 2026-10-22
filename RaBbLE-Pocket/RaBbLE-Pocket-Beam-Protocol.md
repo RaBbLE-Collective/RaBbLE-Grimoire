@@ -71,6 +71,44 @@ The device fails a turn itself if the connection drops (`LOST sCoRE`) or nothing
 
 Local-first: STT and TTS on the home box (Whisper-class, Piper-class) by default, cloud only as a deliberate choice.
 
+## Capture turns
+
+Added S264 for the Pocket's Capture mode ([capture plan](RaBbLE-Pocket-Capture-Plan.md)). Additive: `proto` stays `rabble-beam/0`. A device that never sends `mode: "capture"` sees no change.
+
+A capture turn is a note, not a conversation: no entity reply, no speech back. sCoRE transcribes, shapes the transcript into a markdown note and sends the file back for the device to keep.
+
+**Device to sCoRE**
+
+| type | Fields | When |
+|---|---|---|
+| `turn.begin` | as voice/text, with `mode: "capture"`, `id` (the note id, made by the device: `YYYYMMDD-HHMM-<device suffix>-<turn>`, lower case), `started` (UTC seconds when recording began; older than now for a capture recorded offline), `tz` (optional IANA zone, for the note's local time), `text` (typed captures only) | Capture started, or a saved capture uploaded |
+| *(binary 0x01)* | speech, as voice turns | Live or uploaded. Up to 10 min a turn (sCoRE: `BEAM_CAPTURE_MAX_S`, default 600) |
+| `turn.end` | `turn` | Recording stopped (voice captures) |
+| `note.saved` | `id` | The device has the whole note on its storage; sCoRE drops its kept copy |
+
+`speak` and `voice` are ignored for captures.
+
+**sCoRE to device**
+
+| type | Fields | Device does |
+|---|---|---|
+| `sent` | `turn` | As voice: sCoRE has all the speech; a saved recording can be dropped once the note arrives |
+| `heard` | `turn`, `text`, `final` | Caption, as voice (final transcript) |
+| `note` | `turn`, `id`, `title`, `path` (suggested, `YYYY/MM/<id>.md`), `seq` (0, 1, ...), `last` (bool), `md` (this part of the file, UTF-8, at most 8 KB) | Appends the parts in `seq` order; on `last` writes the file, answers `note.saved` |
+| `done` | `turn` | Capture finished |
+| `error` | `turn`, `text` | As voice; a saved recording is kept and retried |
+
+**What sCoRE does for a capture**
+
+1. Collect speech (cap `BEAM_CAPTURE_MAX_S`); on `turn.end` send `sent`, transcribe (split into segments of at most 5 min for STT), send the final `heard`. Typed captures skip STT.
+2. Shape: one fast-tier LLM call returns `title` (≤ 60 chars), `tags` (≤ 5, kebab-case), `summary` (bullets) and `notes` (cleaned, structured, the speaker's words kept where they matter, nothing invented). If it fails or times out, the note still goes out with a title from the first words and the transcript alone.
+3. Assemble the file: YAML frontmatter (`id`, `type: pocket-note`, `title`, `created` (local ISO time with offset, from `started` and `tz`), `device`, `source: voice|text`, `duration_s` (voice), `tags`), then `## Summary`, `## Notes`, `## Transcript` (verbatim STT, never edited).
+4. Send it as `note` parts, then `done`.
+5. Keep the assembled note per user and device until `note.saved` arrives (in memory, newest 20, 24 h). After `ready` on a later connection, send any kept notes again (`turn` 0, no `done` after them).
+6. A capture never touches the conversation history.
+
+A long voice capture takes sCoRE well over a minute (STT in 5-min segments, then shaping), so the device's 60 s wait after `turn.end` doesn't apply to captures.
+
 ## Reserved for later versions
 
 - Codecs (byte 1): ADPCM (4:1, the firmware already has an IMA ADPCM codec) or Opus for slow links.
