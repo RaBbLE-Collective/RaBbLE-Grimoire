@@ -29,7 +29,7 @@ Tracks with no arrow between them run in parallel. Integration into the Pocket s
 | **T1** tilt | last-good angle when flat, faster up, jolt rejection, smooth rest | `accord/rabble_entity.c`, `accord/rabble_motion.c` | none | **done S264**, Mark's hand check passed |
 | **T2** sCoRE capture | `capture` turns: STT, note shaping, `note` frames, retention | `RaBbLE-sCoRE/server/beam.py`, `server/capture.py`, `tests/test_capture.py` | protocol below | **built S264**, 20 tests pass, no live STT/LLM run yet |
 | **T3** notes store | `rabble_notes`: LittleFS, layout, index, quota | `accord/rabble_notes.c/.h`, `partitions.csv` | partition decision | **done S265** (LittleFS; SD later) |
-| **T4** modes + swipe | Converse/Capture state, swipe up/down on the face, face and glass cues | `accord/rabble_state.c`, `accord/rabble_ui.c`, `accord/rabble_entity.c` | none (typed capture works before W4) | next |
+| **T4** modes + swipe | Converse/Capture state, swipe up/down on the face, face and glass cues | `accord/rabble_capture.c`, `accord/rabble_ui.c`, `accord/rabble_entity.c`, nebula_lite `scene.c` | none (typed capture works before W4) | **done S265** (typed capture live end to end) |
 | **T5** offload | serial `>notes` commands + host spell, merge into Personal-Grimoire | `accord/rabble_notes_console.c` (done S265), `ops/pocket-notes.py` | T3 | device side done; host spell next |
 | **T6** voice capture | long recordings, offline audio to flash, upload, ADPCM | `accord/` voice (after W4) | **W4**, T3 | after W4 |
 | **W4** voice clean room | same behaviour first, existing pipeline | `apache/` to `accord/` | clean room W0-W3 | **done S264** (`94d7d0b`); T6 can start |
@@ -106,6 +106,7 @@ Built S264 (`server/capture.py` pure functions + `run_capture` in `beam.py`; `te
 - `rabble_state` gains `rabble_capture_mode()` / `set` (persisted in settings, default Converse).
 - On the face tile, a vertical swipe toggles: **up = Capture, down = Converse** (Mark, S264). Settings stays one swipe left. The swipe is read in the upright frame (as taps already are), so it follows the turned face.
 - Cues: Capture tints the entity and the glass shows `CAPTURE` plus a note count; a saved note gets a small hop and `SAVED`. Colours from the palette only.
+- **Built S265** (Pocket `678e335` on `new-horizons`, console `a7e2a2e` on `cleanroom`; sCoRE `663bc10` pushed and live on Render). Mode lives in its own module `accord/rabble_capture.c` (NVS `rabble_capture/on`), not `rabble_state`, so the shared files build on both branches. Swipe = LVGL's simple gesture via an indev callback (fires only when no scroll started; the face tile scrolls only sideways). **Look (Mark, S265: "flip the top/bottom positions on the left/right portals"):** nebula_lite `in.flip` mirrors each portal about its eye over 0.7 s (smoothstep), the eyes withdraw into the portals halfway and come out the other way; arcs, orb clipping and listening strands follow. No tint. Glass: `CAPTURE (n)` in violet under the clock, `SAVED` in green for 3 s, and the meshes run wild while the store writes. A voice turn in Capture is a capture (15 s cap until T6; no speech back). Console: `>capture=TEXT`, `>mode=capture|converse`. `turn.begin` carries `id` (`YYYYMMDD-HHMM-<suffix>-<turn>`), `started`, `tz` (IANA, added to `rabble_time`'s zone table). First live typed capture: note back and saved in ~1 s.
 
 ## T5 · Offload to the Personal Grimoire
 
@@ -133,8 +134,8 @@ None open. Settled S265: OTA-ready partitions; prune only with `--prune`.
 - [x] T0: 0 late frames over boot + 6 nap/wake cycles (F2); reconnect ~200 ms resumed vs ~1.8 s full (F1)
 - [x] T1: Mark's hand check
 - [x] T2 (unit): typed capture over a test socket returns a well-formed note; retention and `note.saved` (tests)
-- [ ] T2 (live): a typed capture against Render with real shaping; a voice capture from a WAV
+- [x] T2 (live): a typed capture against Render with real shaping (S265, from the gadget); [ ] a voice capture
 - [x] T3: note survives reboot; full store refuses cleanly (`full` at 90%); no late frames while writing real-size notes (S265; 1 MB: ~1 per 10 s)
-- [ ] T4: swipe toggles mode in both orientations; settings swipe unaffected
+- [ ] T4: swipe toggles mode in both orientations; settings swipe unaffected (built S265; Mark's hand check)
 - [ ] T5: pull merges into Personal-Grimoire idempotently (second pull adds nothing)
 - [ ] T6 (after W4): 5-min capture live, 2-min capture offline then uploaded
