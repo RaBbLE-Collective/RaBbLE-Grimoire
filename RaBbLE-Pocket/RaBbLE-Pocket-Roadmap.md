@@ -8,6 +8,8 @@ Open questions and next steps. Source: Mark's project rundown, 2026-08-07. Updat
 - [ ] Settings composited by the entity renderer, turning with the device (S252 handoff, settings track S1 to S3). S254: S1, S2 and the clock screen built, fps gates met on the gadget (slide 31 to 34 fps, turning ~30); visual and touch gates pending Mark; old LVGL face keep-or-drop pending Mark.
 - [ ] Clean room off Meta's code: `RaBbLE-Pocket-Clean-Room-Plan.md` (W0 seam after settings S1: S1 merged in S254, seam now has `ui_texture`/`ui_texture_tag`).
 - [ ] Converse/Capture modes + Pocket Grimoire notes (S264): `RaBbLE-Pocket-Capture-Plan.md`. T0 freeze fix, T1 tilt, T2 sCoRE capture done; next T3 notes store, T4 swipe modes; voice capture after W4.
+- [ ] Level applet polish (S264, Mark: "still needs more work"): Settings > Level works (3 flats, a full turn, a trim by eye) but the flow and look need a pass; consider a face-visible fine tune and remembering when it was last done.
+- [ ] Face feel tuning (S264): motion sway, touch dent/lean/gaze and motion-driven mesh activity are in (`rabble_entity.c` SWAY_*/TOUCH_*, `scene.c` TOUCH_*); Mark to settle the amounts by hand.
 
 - [x] v1 firmware (idle face, boot animation, settings, two-tier sleep/wake) — built + hardware-verified end to end 2026-08-08. See `RaBbLE-Pocket-V1-Firmware-Plan.md` and `RaBbLE-Pocket-Architecture.md`.
 - [ ] Root-cause the I2C transmit error seen once at a Tier 1 sleep entry (touch controller IRQ poll likely racing light-sleep transition) — non-fatal, not blocking, noted in `planning/decisions/2026-08-08-two-tier-sleep.md`
