@@ -10,7 +10,8 @@ Handoff: [HANDOFF-S264](../log/handoffs/HANDOFF-S264-Pocket-Capture-W4-Face.md) 
 | Question | Decision |
 |---|---|
 | Capture vs the clean room | **W4 voice first, Capture's voice side on top**, in `accord/`. Everything that doesn't touch `apache/` (sCoRE, storage, swipe UI, offload, tilt) goes ahead now, in parallel. |
-| Internal store | **LittleFS** (MIT, managed component) on the flash `storage` partition; SD card first when one is in. Size still open (see Open questions). |
+| Internal store | **LittleFS** (MIT, managed component) on the flash `storage` partition; SD card first when one is in (later). **OTA-ready layout** (Mark, S265): 2 × 3.5 MB app slots + 8.9 MB storage. |
+| After offload | **Keep notes until `--prune`** (Mark, S265): pull marks them offloaded, deletion is explicit. |
 | Offload target | **USB to the host first**, merged into Personal-Grimoire `babble/pocket/`. Account sync through sCoRE comes later. |
 | Capture with sCoRE out of reach | **Save the audio, transcribe later.** The recording goes to flash and is beamed once sCoRE is reachable; the note comes back and replaces it. |
 | Freeze | **Both fixes**: TLS session resumption in the beam, and the panel never waiting on a stalled core. |
@@ -27,9 +28,9 @@ Tracks with no arrow between them run in parallel. Integration into the Pocket s
 | **T0** freeze | F1 TLS resumption; F2 panel never held by a stalled core | `accord/rabble_beam_score.c`; `bsp/rabble_lcd_bands.c`; `nebula_lite/src/compose.c` | none | **done S264**, on the gadget |
 | **T1** tilt | last-good angle when flat, faster up, jolt rejection, smooth rest | `accord/rabble_entity.c`, `accord/rabble_motion.c` | none | **done S264**, Mark's hand check passed |
 | **T2** sCoRE capture | `capture` turns: STT, note shaping, `note` frames, retention | `RaBbLE-sCoRE/server/beam.py`, `server/capture.py`, `tests/test_capture.py` | protocol below | **built S264**, 20 tests pass, no live STT/LLM run yet |
-| **T3** notes store | `rabble_notes`: SD or LittleFS, layout, index, quota | new `accord/rabble_notes.c/.h`, `partitions.csv` | partition decision | next |
+| **T3** notes store | `rabble_notes`: LittleFS, layout, index, quota | `accord/rabble_notes.c/.h`, `partitions.csv` | partition decision | **done S265** (LittleFS; SD later) |
 | **T4** modes + swipe | Converse/Capture state, swipe up/down on the face, face and glass cues | `accord/rabble_state.c`, `accord/rabble_ui.c`, `accord/rabble_entity.c` | none (typed capture works before W4) | next |
-| **T5** offload | serial `>notes` commands + host spell, merge into Personal-Grimoire | `accord/rabble_input.c` (or a new console file), `ops/pocket-notes.py` | T3 | after T3 |
+| **T5** offload | serial `>notes` commands + host spell, merge into Personal-Grimoire | `accord/rabble_notes_console.c` (done S265), `ops/pocket-notes.py` | T3 | device side done; host spell next |
 | **T6** voice capture | long recordings, offline audio to flash, upload, ADPCM | `accord/` voice (after W4) | **W4**, T3 | after W4 |
 | **W4** voice clean room | same behaviour first, existing pipeline | `apache/` to `accord/` | clean room W0-W3 | **done S264** (`94d7d0b`); T6 can start |
 
@@ -96,6 +97,9 @@ Built S264 (`server/capture.py` pure functions + `run_capture` in `beam.py`; `te
 - **Layout.** `/notes/YYYY/MM/<id>.md` (the Pocket Grimoire); `/pending/<id>.pcm|.adpcm` + `<id>.json` (captures not yet transcribed); `/notes/index.jsonl` (id, title, created, bytes, offloaded flag).
 - **Budget.** Keep 10% free; refuse a new capture with a clear glass message when full. Recording to flash streams in 4 KB writes from a PSRAM ring so the voice task never waits on flash; flash writes stall code fetch from flash/PSRAM briefly, so measure the frame-rate cost (gate: no late frames during a 60 s capture).
 - **API.** `rabble_notes_init/put/list/read/remove/pending_*`, safe from any task, one mutex, no LVGL.
+- **Built S265** (Pocket `new-horizons` `4529039`, `60e1c9a`, `02dcd93`; merged into `cleanroom`, flashed). `storage` is subtype `littlefs` at `0x720000`, 8.9 MB; mounted at `/pocket` from `rabble_ui_start`; index kept in PSRAM, rebuilt from frontmatter if the file is lost; writes go to `<id>.md.tmp` then rename. The beam reassembles `note` parts (any turn, including turn 0 resends), saves from the session task and answers `note.saved` only once the note is on flash; a refused note is not acknowledged, so sCoRE resends it. `pending_*` waits for T6. SD (`sd_mount`) not started: it touches `bsp/`.
+- **Flash cost, measured.** esp_flash busy-polls through erase and program (yielding one tick every 20 ms) and every flash access stops the other core's cache, so a writer at priority 5 cost 30+ late frames (200 to 300 ms) per MB. Whoever holds the store now drops to priority 1, under the panel's tasks: 0 late frames for 16 to 256 KB notes and their offload; a 1 MB write or read costs about one late frame per 10 s. Write speed is ~200 KB/s (slower as the store fills). T6's 4 KB audio writes should hold to the same rule.
+- **Face.** While the store works, both meshes run flat out (`rabble_notes_busy()` feeds `STORE_ACT` into the mesh activity: instant attack, ~1 s release, exactly 0 after) (Mark, S265).
 
 ## T4 · Modes and swipe
 
@@ -105,7 +109,7 @@ Built S264 (`server/capture.py` pure functions + `run_capture` in `beam.py`; `te
 
 ## T5 · Offload to the Personal Grimoire
 
-- Serial: `>notes` (list as JSON lines), `>notes.get=<id>` (base64 chunks with a length and sha256), `>notes.done=<id>` (mark offloaded), `>notes.rm=<id>`.
+- Serial: `>notes` (list as JSON lines), `>notes.get=<id>` (base64 chunks with a length and sha256), `>notes.done=<id>` (mark offloaded), `>notes.rm=<id>`. **Built S265** (`accord/rabble_notes_console.c`, wire format in its header): `@notes {...}` per note then `@notes {end,count,used,total}`; `@note {id,bytes}`, `@note.part {seq,b64}` (768 bytes each), `@note.end {id,bytes,sha256,ok}`; `rm` refuses a note not yet offloaded; `>notes.test=<kb>` writes a synthetic note for the gates. A 1 MB get takes ~2.5 min at the console's low priority; real notes are seconds.
 - Host: `ops/pocket-notes.py pull [--prune]` uses one serial logger (a second open of the port resets the board), writes into `~/Personal-Grimoire/babble/pocket/YYYY/MM/<id>.md`, skips ids already there with the same hash, keeps both if they differ, `git add` + commit in Personal-Grimoire, then marks them offloaded on the device. `--prune` deletes offloaded notes from the device after the hash check.
 - Curation from `babble/pocket/` into folios is a later, separate step.
 - Later: `notes.sync` over the beam to an account store in sCoRE (needs a persistent store; Render's disk is ephemeral).
@@ -122,8 +126,7 @@ Mark (S264): the settings pane feels more usable now; at some point make the sli
 
 ## Open questions for Mark
 
-1. **Partition size.** App slot 8 MB (app is 1.9 MB). Options: keep 7 MB storage; 4 MB app + ~11.9 MB storage; or OTA-ready 2 × 3.5 MB app + ~8.9 MB storage (recommended if over-the-air updates are ever wanted). Resizing reformats storage, so decide before T3 lands.
-2. After offload: keep notes on the device until `--prune`, or prune automatically once merged?
+None open. Settled S265: OTA-ready partitions; prune only with `--prune`.
 
 ## Checklist (gates)
 
@@ -131,7 +134,7 @@ Mark (S264): the settings pane feels more usable now; at some point make the sli
 - [x] T1: Mark's hand check
 - [x] T2 (unit): typed capture over a test socket returns a well-formed note; retention and `note.saved` (tests)
 - [ ] T2 (live): a typed capture against Render with real shaping; a voice capture from a WAV
-- [ ] T3: note survives reboot; full store refuses cleanly; no late frames while writing
+- [x] T3: note survives reboot; full store refuses cleanly (`full` at 90%); no late frames while writing real-size notes (S265; 1 MB: ~1 per 10 s)
 - [ ] T4: swipe toggles mode in both orientations; settings swipe unaffected
 - [ ] T5: pull merges into Personal-Grimoire idempotently (second pull adds nothing)
 - [ ] T6 (after W4): 5-min capture live, 2-min capture offline then uploaded

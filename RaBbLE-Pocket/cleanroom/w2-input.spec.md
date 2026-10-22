@@ -257,7 +257,7 @@ All replies go to standard output as single lines starting with `@`, followed by
 | `power` | If the battery module has a saved record: first `@power.saved <json>`. Then always `@power <json>` from `rabble_battery_json` (buffer 2048 bytes). If that buffer cannot be allocated, only the saved line is printed. |
 | `power.reset` | Calls `rabble_battery_reset()` first, then prints exactly as `power` (so the saved line, if any, reflects the reset). |
 | `nap` | No reply. Sets the state's battery override on, puts the screen to sleep (reason `serial`), and sets the bench nap request (7.5). The device then follows the normal ladder: pause when dark and voice resting, then Wi-Fi nap at once. Undo: `w`. |
-| `imu` | If the board has `imu_read` and it returns ok: `@imu {"accel":[x,y,z],"up":[x,y,z],"smoothed":true\|false}` with `accel` at 3 decimals, `up` at 2 decimals (`up` from `rabble_motion_up`, `smoothed` its return value). Otherwise `@imu {"error":"no IMU"}`. |
+| `imu` | If the board has `imu_read` and it returns ok: `@imu {"accel":[x,y,z],"bias":[x,y],"up":[x,y,z],"smoothed":true\|false}` with `accel` and `bias` (`rabble_motion_bias`, added S264) at 3 decimals, `up` at 2 decimals (`up` from `rabble_motion_up`, `smoothed` its return value). Otherwise `@imu {"error":"no IMU"}`. |
 | `face=NAME` | See below. |
 | `chat...` | See 9.4. |
 
