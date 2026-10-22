@@ -29,7 +29,8 @@ Format: date, what was done, where things were left, what's next.
   - ES8311 (`esp_codec_dev`): the amplifier pin follows the speaker device's open/close; mute alone leaves it on. Closing only the speaker device leaves mic reads running on the shared duplex bus.
   - Never close a codec from an `esp_timer` callback: I2C on a shared bus stalls every other timer.
   - S264 read `bsp/rabble_lcd_bands.c` and the W4 originals: tainted for the clean room (S/F/G only).
-- **Next:** W4 round 2 to the audio implementer: a cue or chirp after idle must be fully audible (amplifier settle lead-in); then the rest of the W4 checklist (full turn with pre-roll, speaker off, offline note, 15 s, fps while listening/speaking). Two-position IMU calibration. Capture T3 notes store (partition size still open), T4 swipe modes. Mark: rename `apache/` (pick a name), push when ready.
+- **Continued:** W4 audio round 2 (150 ms amplifier settle lead-in, `6eb79d9`); shake detector rewritten to count time above 1 g (hard shakes at 3-6 g never settled between strokes, so it rarely fired; `057c8f6`); two-position IMU calibration in firmware (offset -0.072/+0.053 g, 0.5 deg table slope cancelled). Mark: shake works well.
+- **Next (earlier):** W4 round 2 to the audio implementer: a cue or chirp after idle must be fully audible (amplifier settle lead-in); then the rest of the W4 checklist (full turn with pre-roll, speaker off, offline note, 15 s, fps while listening/speaking). Two-position IMU calibration. Capture T3 notes store (partition size still open), T4 swipe modes. Mark: rename `apache/` (pick a name), push when ready.
 
 ---
 
