@@ -72,10 +72,24 @@ W7 comes **after W6's overlap gate passes**: deleting the SDK retires the gate (
 
 Mark (S266, restated S267): once the clean room is done, reorganise the firmware into clear components with small public headers, all Sovereign Accord. **Plan the layout with Mark first**; the sketch below is a starting point for that conversation, not a decision.
 
-**Decisions to settle with Mark before any move:**
-1. **Name and home:** "RaBbLE-SDK" as components inside `RaBbLE-Pocket/firmware/components/` (simplest), or its own repo/member that the Pocket (and later boards: the 1.75C, a Cyberdeck) consume as an ESP-IDF component dependency? A new member needs a registry manifest and Grimoire docs (`spells/init-project.sh`).
-2. **Board scope:** stays one board (-B) for now, with the BSP file-per-board rule kept (`bsp_waveshare_175b.c`, later `_175c.c`).
-3. **What counts as SDK vs. app:** is the Orbit / face / Pomodoro "the app" on top of an SDK, or part of it?
+**Mark's decisions (S267):**
+1. **The SDK is RaBbLE-Pocket** (this repo; no new member). It targets **round ESP32-S3 boards**: Waveshare 1.75B now, 1.75C planned, and Mark wants **multiple and different targets** later.
+2. **Licensing:** most code, ideally all, under the Sovereign Accord or permissive licences, and **isolated** (permissive code in its own component with its LICENSE + NOTICE, RaBbLE copyright above the upstream notice kept verbatim; never copyleft).
+3. **SDK vs. app separation:** Mark isn't sure where the line goes. S267 proposed the layering below; **confirm it with Mark before moving files.**
+
+**Proposed layering (S267, pending Mark's ok).** Three layers, each depending only downward:
+
+| Layer | Holds | Rule |
+|---|---|---|
+| `app/` | RaBbLE itself: the entity face scene, the Orbit's **pages and items** (which settings exist), applets (Pomodoro), input routing (`rabble_input` as the router), console commands, `rabble_app.c` | swappable: a board-test app or a plain clock app could replace it |
+| `sdk/` | board-agnostic services: core (seam, state, settings, time, console, mem), power, motion, audio/voice, net/beam, store, the `nebula_lite` renderer, the Orbit **engine** (gestures, value mode, hold, dial drawing) | never includes `app/` headers; talks upward through the state hub, events or registered callbacks |
+| `boards/<board>/` | one folder per target (`waveshare_175b/`, later `waveshare_175c/`), picked by the `RABBLE_BOARD` Kconfig choice; chip drivers (`axp2101`, `qmi8658`, `pcf85063`, ...) are shared components that boards pull in | implements `rabble_board_t`; SDK code never names a chip |
+
+Two tests place every file: (1) a new board is **only** a new `boards/<name>/` folder, with no SDK edits; (2) a second, minimal app (board bring-up test) builds on the SDK **without editing SDK code**. Splits these imply: `rabble_orbit_logic.c` (2,246 lines) separates the engine (SDK) from the settings table and pages (app); `nebula_lite` separates the renderer (SDK) from the entity scene (`scene.c`, app). Licence layout: everything in `app/`, `sdk/`, `boards/` carries the SA header; third-party code only as managed components or `third_party/<name>/` components with their own LICENSE/NOTICE.
+
+**Portability debt (flag, don't fix before a second panel size exists):** the 466 px panel is compiled in (`NL_W`/`NL_H` in nebula_lite) and the Orbit uses fixed coordinates (`ORBIT_C` 233, chip y 324, radii). For different targets the board should report panel geometry through the seam and the SDK should derive from it.
+
+The component sketch below is the finer split inside `sdk/` and `boards/`.
 
 **Sketch** (from the S267 include graph of `accord/`, 68 files, 16,668 lines; Opus-reviewed):
 
@@ -92,7 +106,7 @@ Mark (S266, restated S267): once the clean room is done, reorganise the firmware
 | `rabble_orbit` | `rabble_orbit.*`, `rabble_orbit_logic.*` | **cycle with ui**: `rabble_orbit.c` includes `rabble_entity.h` + `rabble_ui.h` while `rabble_entity.c` + `rabble_ui.c` include `rabble_orbit.h`; `orbit_logic.c` reaches into input, beam, wifi. Merge into ui or invert through callbacks |
 | app (`main/` or `rabble_app`) | `rabble_app.c`, `rabble_input.*`, `rabble_setup.*`, `rabble_beam_text.*` | `input` is today's hub (includes 17 RaBbLE headers): it's the app router, not a driver |
 
-The real work is **cutting the upward includes** (motion → input/voice, voice → beam/input, entity and ui → beam/wifi/notes/capture, beam_score → capture/notes/audio, the orbit ↔ ui cycle) through the state hub or registered callbacks, so each component's `REQUIRES` is honest. **Hidden coupling that will mask missing REQUIRES:** the gadget CMakeLists adds `accord/` as a **PUBLIC** include dir on LVGL's target (for the assert hook), so every component that links LVGL sees every accord header. Point that hook at the new home of `rabble_lv_assert.h` only, early in the refactor. Do it in steps that keep the gadget building and flashing between each (one component per commit, the orbit and W0-W5 host tests green). Keep `WHOLE_ARCHIVE` on whichever component carries `rabble_lv_mem.c`. Get an Opus review of the final layout plan against the code before moving files. Write the plan to `RaBbLE-Grimoire/RaBbLE-Pocket/RaBbLE-Pocket-SDK-Plan.md` (index it) once Mark has picked.
+The real work is **cutting the upward includes** (motion → input/voice, voice → beam/input, entity and ui → beam/wifi/notes/capture, beam_score → capture/notes/audio, the orbit ↔ ui cycle) through the state hub or registered callbacks, so each component's `REQUIRES` is honest. **Hidden coupling that will mask missing REQUIRES:** the gadget CMakeLists adds `accord/` as a **PUBLIC** include dir on LVGL's target (for the assert hook), so every component that links LVGL sees every accord header. Point that hook at the new home of `rabble_lv_assert.h` only, early in the refactor. Do it in steps that keep the gadget building and flashing between each (one component per commit, the orbit and W0-W5 host tests green). Keep `WHOLE_ARCHIVE` on whichever component carries `rabble_lv_mem.c`. Get an Opus review of the final layout plan against the code before moving files. Write the plan to `RaBbLE-Grimoire/RaBbLE-Pocket/RaBbLE-Pocket-SDK-Plan.md` (index it) once Mark has confirmed the layering.
 
 ### 4. Carried (after the SDK, in Mark's earlier order)
 
