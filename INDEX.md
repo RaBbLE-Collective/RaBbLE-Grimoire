@@ -329,7 +329,8 @@ Status lives in each plan; the one-line status table is [log/plans/CONTEXT.md](l
 Status: [log/handoffs/CONTEXT.md](log/handoffs/CONTEXT.md).
 
 - [HANDOFF-S234-EP1-Entity-Face](log/handoffs/HANDOFF-S234-EP1-Entity-Face.md) — EP1 face build (pairs with the Entity-Face plan)
-- [HANDOFF-S267-Pocket-CleanRoom-Final-SDK](log/handoffs/HANDOFF-S267-Pocket-CleanRoom-Final-SDK.md): Pocket after S267 (Orbit v2 hand-checked); next W6 board-layer clean room as Mark's walkthrough, W7 close-out with a Sovereign Accord header sweep, then the RaBbLE-SDK component refactor
+- [HANDOFF-S268-Pocket-W6-Integrate](log/handoffs/HANDOFF-S268-Pocket-W6-Integrate.md): Pocket W6: spec + firewall done, fresh Sonnet implementer in ~/RaBbLE-Cleanroom/pocket-w6; next integrate, checklist, overlap gate, config trims, then W7 and the RaBbLE-SDK
+- [HANDOFF-S267-Pocket-CleanRoom-Final-SDK](log/handoffs/done/HANDOFF-S267-Pocket-CleanRoom-Final-SDK.md): Pocket after S267 (Orbit v2 hand-checked); next W6 board-layer clean room as Mark's walkthrough, W7 close-out with a Sovereign Accord header sweep, then the RaBbLE-SDK component refactor
 - [HANDOFF-S266-Pocket-Orbit-Pomodoro](log/handoffs/done/HANDOFF-S266-Pocket-Orbit-Pomodoro.md): done S267 (Orbit v2 landed)
 - [HANDOFF-S264-Pocket-Capture-W4-Face](log/handoffs/done/HANDOFF-S264-Pocket-Capture-W4-Face.md) (done S265; S265 handoff done S266)
 - [HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room](log/handoffs/done/HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room.md) (done S254/S264): settings composited; clean room continues in HANDOFF-S264
