@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-22 · Session S266 (pocket-gyro-orbit-w5)
+## LATEST — 2026-10-22 · Session S267 (pocket-orbit-v2-cleanroom-handoff)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S266: Pocket gyro face, ring in every view, W5 Orbit settings, merged onto new-horizons, third_party/
+**This session:** S267: Pocket Orbit v2 flashed + hand-checked (beam RAM fix, chip hit zone, top-only labels); final clean room + RaBbLE-SDK handoff
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18 open.
-**Next:** HANDOFF-S266: land Orbit v2, Applets + Pomodoro, W6 BSP walkthrough, SDK refactor; push when Mark says
+**Next:** HANDOFF-S267: W6 board clean room as Mark's walkthrough, W7 close-out, then RaBbLE-SDK; push when Mark says
 
 ---
 
