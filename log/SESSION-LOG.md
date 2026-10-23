@@ -14,6 +14,17 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-22 · Session S268 (pocket-w6-spec-pomodoro)
+
+- **Repos:** Grimoire (`w6-board.spec.md`, `RaBbLE-Pocket-Responsiveness.md`, HANDOFF-S268, S267 handoff to done/), RaBbLE-Pocket (`6fcd739` Pomodoro slice, flashed; datasheets README), Collective (current state). Clean workspace `~/RaBbLE-Cleanroom/pocket-w6` (W6 implementation `b98ad64`, not integrated). Nothing pushed.
+- **Work:**
+  - W6: CO5300 + ES7210 datasheets sourced (no public CST9217 one); boot measured (panel lit 2.8 s; 1.2 s is two padded vendor init waits); spec written as Mark's board map + contract; independent Opus firewall approved after 16 edits; fresh Sonnet implementer built the new `bsp/` (clean build, 2M-check host test, audit clean).
+  - Console finding: primary console is an unread UART0 at 115200; every log byte busy-waits it (~0.57 s at boot). 14 snappiness paths logged and ranked.
+  - Pomodoro slice (Sonnet agent, `w5-orbit.spec.md` 6 minus fidgets/nudges): Applets orbit on swipe right, timer module, ring arc, focus look, `>pomo`. Mark's first look: back to face goes the wrong direction.
+  - Offline voice notes on flash designed (outbox on LittleFS, keep only the transcript once heard); not started.
+  - Mark: W7 header sweep covers every tracked file.
+- **Learned:** a log line costs wire time on every console output; check which output is primary before tuning baud. Vendor init tables carry padding the datasheet doesn't ask for.
+
 ## 2026-10-22 · Session S267 (pocket-orbit-v2-cleanroom-handoff)
 
 - **Repos:** RaBbLE-Pocket (`new-horizons`: `c6c6e47` beam RAM fix, `ac2e9f9` Orbit v2 hand-check pass; flashed `ac2e9f9`; nothing pushed, 54 ahead), Grimoire (W5 spec 5.9 rev 4, clean-room plan status, roadmap, `HANDOFF-S267-Pocket-CleanRoom-Final-SDK.md`, S266 handoff to `done/`), Collective (current state).
