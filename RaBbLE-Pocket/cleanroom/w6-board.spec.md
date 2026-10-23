@@ -230,7 +230,7 @@ Called from LVGL's context. `d` non-NULL starts the direct path with that scene;
 
 The scene (`rabble_display_direct_t`, `accord/rabble_board.h`) gives `begin`, `window`, `render`, optional `same`, and `rows` (16).
 1. `begin()` runs on the send task before the TE wait, so the scene's preparation overlaps the wait. A TE edge that arrived before `begin()` must not count as this frame's edge.
-2. The frame's bands go to the panel after the next **TE rising edge** on GPIO 13, waiting at most 40 ms for it. **Every frame waits for its edge, including a frame with no band to draw** (S269: the first build skipped the wait when `same` left nothing to send, so a resting Orbit spun at ~4,000 frames/s and starved the UI core's idle task). Without TE (no TE GPIO configured, or its interrupt could not be installed), don't wait: frames run unpaced; a failed interrupt install warns once at setup.
+2. The frame's bands go to the panel after the next **TE rising edge** on GPIO 13, waiting at most 40 ms for it. **Every frame waits for its edge, including a frame with no band to draw** (S270: the first build skipped the wait when `same` left nothing to send, so a resting Orbit spun at ~4,000 frames/s and starved the UI core's idle task). Without TE (no TE GPIO configured, or its interrupt could not be installed), don't wait: frames run unpaced; a failed interrupt install warns once at setup.
 3. Bands to draw: band `n` covers rows `16n` to `16n + 15` (the last band is clipped at row 465). A band is drawn unless `same` exists and returns non-zero for the band's first row. Exception: when the panel holds something else (first frame after a switch, or a band failed to send in the previous frame), every band is drawn.
 4. Each band to draw is rendered exactly once per frame, on either core: `window(y, rows, &x0, &x1)` then `render(buf, y, rows, x0, x1)` into an internal DMA buffer. A buffer is never rendered into while its previous transfer is still pending. Work is shared so that the UI core never idles waiting on the helper while a band nobody has started is available.
 5. Bands are sent **in top-to-bottom order**, each as the window `[x0, x1) x [y, y + rows)` from its buffer, all from the send task. A failed draw makes the next frame a full frame.
@@ -367,9 +367,9 @@ The **whole firmware** builds in the clean workspace: the integrator writes a fr
 3. 30 fps hysteresis numbers (8.2) are a starting point; Mark may tune.
 4. The CST9217 deep-sleep write (5.4) is a chip fact without a public datasheet; it is kept as today's measured behaviour.
 
-## 13. S269 integration findings: inputs to revision 2 of 6.3/6.4 (not yet firewalled)
+## 13. S270 integration findings: inputs to revision 2 of 6.3/6.4 (not yet firewalled)
 
-> Written by S269 (integrator G, also S for the revision: read `firmware/bsp/` old and new). Five implementer rounds (Sonnet sub-agent, workspace `b98ad64` → `8558405`) were integrated and run on the gadget; W6 is **parked** on Pocket branch `w6-integration-wip` (`a3b436e`), and `new-horizons` stays on the old board layer. Everything below is behaviour, measured on the device; the revision must still pass a firewall before an implementer sees it.
+> Written by S270 (integrator G, also S for the revision: read `firmware/bsp/` old and new). Five implementer rounds (Sonnet sub-agent, workspace `b98ad64` → `8558405`) were integrated and run on the gadget; W6 is **parked** on Pocket branch `w6-integration-wip` (`a3b436e`), and `new-horizons` stays on the old board layer. Everything below is behaviour, measured on the device; the revision must still pass a firewall before an implementer sees it.
 
 **Passed on the gadget (keep):** board table (2, 5.1, 5.5-5.9), display bring-up (5.2: display up in 404 ms, panel init 294 ms, against 1,203 ms of panel init before), dark boot (no flash, reset and cold), brightness live, panel sleep/wake and touch everywhere after wake, PWR edges, long-hold power-off and click power-on, IMU tilt/spin, `>perf` (8.1), steady 30 fps on heavy frames (8.2). The PMU "chip not answering" at boot also shows on the old layer: not W6.
 

@@ -14,6 +14,16 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-23 · Session S270 (pocket-offline-notes-w6-parked)
+
+- **Repos:** RaBbLE-Pocket (`new-horizons`: `c27a91d` Pomodoro back chip, `c698884` offline voice notes on flash, `4624c56` datasheets README; flashed `c698884`; branch `w6-integration-wip` `a3b436e` = W6 parked; nothing pushed; Pocket commits tagged `%S269_*%` before the number clash was seen), Grimoire (`w6-board.spec.md` 6.3.2 + section 13, `HANDOFF-S270-Pocket-W6-Respec.md`, S268 handoff to done/). Clean workspace `~/RaBbLE-Cleanroom/pocket-w6` rounds 1-5.
+- **Work:**
+  - Pomodoro: the back chip's arrow pointed the wrong way in Applets; now `face >`.
+  - Offline voice notes on flash: `accord/rabble_outbox` (own task, internal stack, priority 1), ADPCM under `/pocket/outbox`, rebuilt at boot, reply still plays, only the transcript stays once sCoRE has heard it (`kind: voice-note`); beam keeps the whole transcript per turn; `>outbox`. 39 host checks; W4 vectors unchanged; hand-checked offline -> reboot -> online.
+  - W6 integrated over five Sonnet rounds: board table and display bring-up pass (display up 404 ms vs 1.2 s panel init), the two-core band engine fails (frame spin, then tearing while turning, then notify-assert crashes). Bisected on the device with Mark: render only after the TE edge removes the bands. Parked on a branch; findings in spec section 13.
+- **Learned:** don't name a cause before a one-change diagnostic confirms it (the odd-window F2 was wrong); A/B against the old layer with Mark as the eyes is the instrument. `git commit` after a `git rm` takes the staged deletions along. Console commands need the `>` prefix (bare letters are bench keys).
+- **Next:** Mark: local sCoRE on the laptop as an automatic Pocket option once paired and authenticated over BLE/LAN (S269 already bridged it by hand; draft spec `RaBbLE-sCoRE/RaBbLE-sCoRE-Local-Pocket-Beam.md`). Then HANDOFF-S270: W6 re-spec (Opus firewall, Opus implementer), Pomodoro hand check, config trims/console OK.
+
 ## 2026-10-23 · Session S269 (local-pocket-claude-bridge)
 
 - **Repos:** RaBbLE-sCoRE (`new-horizons`: local-only Beam bridge configuration and subprocess adapter); Grimoire (this session record and token ledger). No cloud deployment changed.
