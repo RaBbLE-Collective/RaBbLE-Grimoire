@@ -14,6 +14,7 @@
 
 ## Next, in order
 
+0. **Mesh render bug on swipe-out (Mark, end of S271):** the NN mesh misrenders when swiping back out of Pomodoro or Settings. Not yet seen by an agent: get a clip/photo first, then check whether it predates `a9f0799`/`e741ac4` (A/B flash `ac2e9f9`..`c698884` vs HEAD). Suspects in today's `scene.c` mesh_layer change: the leash (`MESH_HUG`, tightening over slide 0.6..0.85) and the Orbit-frame landing (`nl_orb_c/s` vs the entity turn while `ui_notch` blends back on the way out). Also add a `>mem` console command (per-task stack high-water marks, internal/PSRAM free, largest block): internal RAM is 14.7 KB free after boot and Mark reports stack pressure.
 1. Flash `28da7fa` and run the S1 device gate. Read the sCoRE fix agent's result (working tree), run the suite, commit sCoRE.
 2. Mark: firewall rule; Render env `DEMO_MODE_PUBLIC=true`, `SCORE_NODE_SECRET` (≥ 32 chars), plus register/CORS vars the fix agent lists; then deploy sCoRE; create `~/.local/share/rabble/beam-context` (gists only, not in a git tree); run `python -m node_client`; talk to the Pocket.
 3. Mark's decisions D1-D7 (beam spec §12) and SDK Q1-Q4 (plan §7).
