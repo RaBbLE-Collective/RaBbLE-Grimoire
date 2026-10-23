@@ -5,14 +5,27 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-23 · Session S270 (pocket-offline-notes-w6-parked)
+## LATEST — 2026-10-23 · Session S270 (score-local-pocket-beam)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S270: offline voice notes on flash, Pomodoro chip fixed, W6 band engine parked after 5 rounds
+**This session:** S269: Grimoire spec for Pocket→local sCoRE→Claude via rabble-os.local mDNS
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18 open.
-**Next:** Local sCoRE as auto Pocket option after BLE/LAN pairing; then HANDOFF-S270 W6 re-spec
+**Next:** Decide port 8000 vs 8083; manual quick-start with local sCoRE + Claude Code beam; EP2 Ansible role additions
 
 ---
+
+## 2026-10-23 · Session S271 (pocket-claude-node-sdk-orbs)
+
+- **Repos:** RaBbLE-Pocket (`7fc004f` SDK S0, `a9f0799` + `e741ac4` orb fixes, flashed; S1 uncommitted in tree), RaBbLE-sCoRE (P0/P1 + review fixes uncommitted in tree), Grimoire (beam spec v0.3, `RaBbLE-Pocket-SDK-Plan.md` v0.2 + INDEX, HANDOFF-S271).
+- **Work:**
+  - Security: the S269 laptop sCoRE on `0.0.0.0:8000` had `DEMO_MODE=true` and a fast chain led by `claude_code` in the Collective root; any LAN caller could run Claude and (verified) read files incl. `server/.env`. Process stopped; no sign of use in logs. Firewall rule removal left to Mark (sudo).
+  - Beam spec rewritten (v0.2 → v0.3): cloud is the Pocket's one door, the laptop dials out as a *node*; per-device pairing; Claude Code sandbox (`--tools`, `--`, scrubbed env, context dir); phases P0-P4; Opus review §14 (argv injection, members/beam reaching CLI providers, Render `DEMO_MODE_PUBLIC`, deadline/cancel).
+  - P0/P1 implemented by two parallel Sonnet agents; fixes from the review dispatched to a third (results in tree).
+  - Pocket firmware on device was `c698884`; Pocket pointed back at cloud sCoRE.
+  - SDK plan from the include graph, Opus-reviewed at link level (seam global in the app, beam_text → net, scene.c split, symbol-level gate); S0 committed; S1 by a Sonnet agent.
+  - Orbs: nodes landed beside their icons (late landing, then the face/Orbit turn mismatch when tilted); now land at 85% in the Orbit's frame and are leashed to 0.3 disc radii as a glow. Mark: "they match and look good". A 30° notch attempt made it worse and was reverted.
+- **Learned:** `--allowedTools` doesn't remove Read in headless Claude; `--tools` does. ESP-IDF's `--start-group` hides upward link dependencies, so layer gates need `nm`. Ask what a visual word means before tuning ("orbs" were the mesh nodes, not the Orbit's turn).
+- **Next:** HANDOFF-S271: verify + commit the two agents' trees; Mark: firewall, Render env, node client; decisions D1-D7, Q1-Q4; SDK S2.
 
 ## 2026-10-23 · Session S270 (pocket-offline-notes-w6-parked)
 
