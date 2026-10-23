@@ -274,3 +274,5 @@ bbaa642f-5f7d-49fc-be6c-aebc3896c507	collective	auto: current state S265: pocket
 b248cb34-8c8c-4799-959e-42ee6e398a33	collective	auto: current state S266: Pocket gyro face, ring everywhere, W5 Orbit, merged onto new-horizons
 94d4f7e8-e2ae-4299-89ff-1f9c56277b37	pocket-gyro-orbit-w5	S266
 a48f1d1d-9015-4986-9d2d-094cfd99273e	pocket-orbit-v2-cleanroom-handoff	S267
+5dc82cff-12e9-4d6e-bd7b-ec9883908498	collective	auto: current state S268: W6 board spec, console finding, implementer started
+5dc82cff-12e9-4d6e-bd7b-ec9883908498	pocket-w6-spec-pomodoro	S268
