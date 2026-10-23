@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-23 · Session S270 (score-local-pocket-beam)
+## LATEST — 2026-10-23 · Session S271 (pocket-claude-node-sdk-orbs)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S269: Grimoire spec for Pocket→local sCoRE→Claude via rabble-os.local mDNS
+**This session:** S271: :8000 hole closed; Pocket->cloud->laptop Claude node spec v0.3 + P0/P1 code; SDK S0+S1; orb glow fix
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18 open.
-**Next:** Decide port 8000 vs 8083; manual quick-start with local sCoRE + Claude Code beam; EP2 Ansible role additions
+**Next:** HANDOFF-S271: S1 device gate, commit sCoRE review fixes, Render env + node client, then SDK S2
 
 ---
 
