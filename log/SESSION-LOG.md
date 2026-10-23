@@ -5,12 +5,24 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-23 · Session S271 (pocket-claude-node-sdk-orbs)
+## LATEST — 2026-10-23 · S272 (pocket-mesh-edge-anchor)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S271: :8000 hole closed; Pocket->cloud->laptop Claude node spec v0.3 + P0/P1 code; SDK S0+S1; orb glow fix
+**This session:** S272: Pocket mesh anchors to its edge and stretches (no dial morph); handoff step 0 done
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18 open.
-**Next:** HANDOFF-S271: S1 device gate, commit sCoRE review fixes, Render env + node client, then SDK S2
+**Next:** HANDOFF-S271: >mem command, S1 device gate, Render env + node client, SDK S2, W6 re-spec
+
+---
+
+## 2026-10-23 · Session S272 (pocket-mesh-edge-anchor)
+
+- **Repos:** RaBbLE-Pocket (`e6c287b`, flashed), Grimoire (HANDOFF-S271 step 0 marked done).
+- **Work:**
+  - HANDOFF-S271 step 0 (mesh misrenders on swipe-out): cause was the S271 Orbit dial morph in `scene.c` `mesh_layer`. A Settings/Timer screen leaves the Orbit fully in underneath, so backing out then closing the Orbit started with every node at the dial (centre blob) and flew them out.
+  - Two narrower fixes (skip the morph after a UI screen, then while the slide falls) were flashed and rejected by Mark: the swipe-in also moved the mesh too much.
+  - Final (`e6c287b`): morph and leash removed. The mesh stays anchored to the screen edge the entity slides away from and only stretches (each node gives back the share of the slide it is nearer the anchored edge for). Links/nodes still fade as the items come in. Mark: "looks good".
+- **Learned:** "going to the centre" was the S271 design (mesh becomes the dial), not a regression; ask which moment (open vs close) before guessing, and pick the intended behaviour with Mark, not the narrowest patch.
+- **Next:** HANDOFF-S271 steps 0b (`>mem` console command), 1 (S1 device gate: flash `28da7fa`+), 2-4 unchanged.
 
 ---
 
