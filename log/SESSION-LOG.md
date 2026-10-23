@@ -25,7 +25,8 @@ Format: date, what was done, where things were left, what's next.
   - SDK plan from the include graph, Opus-reviewed at link level (seam global in the app, beam_text → net, scene.c split, symbol-level gate); S0 committed; S1 by a Sonnet agent.
   - Orbs: nodes landed beside their icons (late landing, then the face/Orbit turn mismatch when tilted); now land at 85% in the Orbit's frame and are leashed to 0.3 disc radii as a glow. Mark: "they match and look good". A 30° notch attempt made it worse and was reverted.
 - **Learned:** `--allowedTools` doesn't remove Read in headless Claude; `--tools` does. ESP-IDF's `--start-group` hides upward link dependencies, so layer gates need `nm`. Ask what a visual word means before tuning ("orbs" were the mesh nodes, not the Orbit's turn).
-- **Next:** HANDOFF-S271: verify + commit the two agents' trees; Mark: firewall, Render env, node client; decisions D1-D7, Q1-Q4; SDK S2.
+- **Close-out:** S1 committed (`28da7fa`, builds, host tests identical, device check pending); sCoRE node + review hardening committed (`e56808a`, 86 tests, not deployed; root-owned `.git/objects` chown'd by Mark). Ledger: restored 8 S250-S266 rows a stale end-session run had dropped (`cbcc661`). Mark reported at the end: a mesh render bug when swiping out of Pomodoro/Settings, and stack pressure (14.7 KB internal free) → handoff step 0.
+- **Next:** HANDOFF-S271 step 0 (swipe-out mesh bug, `>mem`), S1 device gate; Mark: smoke test, firewall, Render env, node client; decisions D1-D7, Q1-Q4; SDK S2.
 
 ## 2026-10-23 · Session S270 (pocket-offline-notes-w6-parked)
 
