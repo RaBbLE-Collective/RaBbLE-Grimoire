@@ -7,6 +7,7 @@ Firmware: `RaBbLE-Pocket/firmware/components/rabble_gadget/accord/rabble_beam_sc
 ## Endpoint
 
 - `ws://` or `wss://` URL, set on the device (Settings > sCoRE, or console `>beam.url=`). Firmware dev default: `ws://rabble-os.local:8000/api/v1/beam` (`CONFIG_RABBLE_BEAM_DEFAULT_URL` in `sdkconfig.defaults`), so the path sCoRE should serve is `/api/v1/beam`.
+- **Local-first routing:** when RaBbLE-OS is running on the home laptop, the Pocket connects to the local sCoRE instance at `rabble-os.local:8000` — backed by `claude_code` and the full local Grimoire — rather than the cloud service. Architecture and pairing: `RaBbLE-sCoRE/RaBbLE-sCoRE-Local-Pocket-Beam.md`. Port choice (8000 vs 8083) is an open question tracked in that doc.
 - Auth: `Authorization: Bearer <device token>` on the upgrade request when a token is set (console `>beam.token=`, chunked with `>beam.token+=`). sCoRE accepts `BEAM_DEVICE_TOKEN`, a member API key or a JWT, and refuses otherwise **even in DEMO_MODE** (the beam spends speech quota); `BEAM_ALLOW_GUEST=true` opens it for LAN bench testing only. Fits the Web=demo / Local=BYOK split.
 - wss uses the ESP-IDF certificate bundle, so public CAs work; a self-signed LAN cert would need its CA added to the firmware.
 - The device keeps the socket open while awake, pings every 15 s (gives up after 45 s without a pong), reconnects with backoff 5 s to 120 s, and closes it after 2 min of rest (screen off on battery) until the next wake or press.

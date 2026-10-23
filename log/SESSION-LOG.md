@@ -14,6 +14,14 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-23 · Session S269 (local-pocket-claude-bridge)
+
+- **Repos:** RaBbLE-sCoRE (`new-horizons`: local-only Beam bridge configuration and subprocess adapter); Grimoire (this session record and token ledger). No cloud deployment changed.
+- **Work:** Pointed Pocket at the laptop's local sCoRE Beam endpoint; ran the local server as desktop user `rabble`, whose Claude Code session is authenticated. Beam now sends Groq Whisper transcripts to local Claude Code (`sonnet`) from the Collective root, where the Grimoire and RaBbLE-OS are available; Groq remains speech-to-text and Orpheus speech output. Added narrow headless Claude permissions for `WebSearch` and `WebFetch`, support for an argv-style container wrapper, and `CC_WORKDIR` for Collective context. Verified Pocket WebSocket connections, local Claude subprocess dispatch, and Groq audio activity. Opened persistent LAN TCP 8000 access. Removed dev auto-reload from the running Beam service and stretched WebSocket keepalive to survive long Claude/audio turns after observed 1011 ping timeouts.
+- **Notes:** Local sCoRE supports Capture: it transcribes and shapes a markdown note, sends it to Pocket for durable storage, and retries unsaved delivery after reconnect. Laptop/Personal-Grimoire offload remains Pocket's serial pull path. Server logs show connections, transcripts, provider dispatch and timings; full reply text is not yet persisted.
+- **Next:** Hand-check a short Pocket capture and a current-web query on the retuned connection; add opt-in local transcripts only if wanted.
+- **S269 addendum (2026-10-23, AGY session):** Wrote the canonical Grimoire spec for the Pocket→local-sCoRE→Claude architecture (`RaBbLE-sCoRE/RaBbLE-sCoRE-Local-Pocket-Beam.md`). Documents: why the cloud path is wrong for this use case; the three-component architecture (mDNS + local sCoRE + claude_code subprocess); pairing via shared `BEAM_DEVICE_TOKEN`; the port 8000-vs-8083 open question; Claude Code as beam LLM with known latency caveat; Grimoire context injection (already works via grimoire.py auto-discover); Ansible role additions; manual quick-start steps. Updated `RaBbLE-Pocket-Beam-Protocol.md` with a local-first routing note. Added EP2 local beam checklist to `RaBbLE-Pocket-Roadmap.md`. No code changed — spec and docs only.
+
 ## 2026-10-22 · Session S268 (pocket-w6-spec-pomodoro)
 
 - **Repos:** Grimoire (`w6-board.spec.md`, `RaBbLE-Pocket-Responsiveness.md`, HANDOFF-S268, S267 handoff to done/), RaBbLE-Pocket (`6fcd739` Pomodoro slice, flashed; datasheets README), Collective (current state). Clean workspace `~/RaBbLE-Cleanroom/pocket-w6` (W6 implementation `b98ad64`, not integrated). Nothing pushed.

@@ -32,6 +32,15 @@ Open questions and next steps. Source: Mark's project rundown, 2026-08-07. Updat
 - [ ] Investigate RT700 EVK for future voice-pipeline validation (v2/v3 target)
 - [ ] Custom case design decision — build around -B/bare 1.75 board (keeps RTC + TF slot + pluggable header) vs. 1.75C form factor
 
+## EP2 — Local Beam (Pocket → Laptop sCoRE → Claude)
+
+- [ ] **Local beam auto-connects when at home** (S269 spec): Pocket points at `rabble-os.local:8000` by default; when RaBbLE-OS is running and local sCoRE is up, the beam routes to Claude Code on the laptop with the full local Grimoire. No URL change needed — the firmware default already points there. Architecture: `RaBbLE-sCoRE/RaBbLE-sCoRE-Local-Pocket-Beam.md`.
+  - [ ] Laptop: set hostname `rabble-os`, avahi running, port open in firewalld
+  - [ ] `BEAM_LLM_CHAIN=claude_code:claude-haiku-4-5-20251001` in local sCoRE env
+  - [ ] `BEAM_DEVICE_TOKEN` set in both local sCoRE env and on the Pocket (`>beam.token=`)
+  - [ ] Decide port: 8000 (matches firmware default) vs 8083 (avoids fcc collision) — tracked in beam spec
+  - [ ] Ansible role addition (beam token + avahi + firewalld) in RaBbLE-OS ai-harnesses
+
 ## Status Relative to Collective
 
 `release_track: independent` — not part of the Episode 1 web/OS lockstep. Paces on its own; Grimoire tracks divergence per the Echo coherence policy in `registry/epochs/current.epoch.yml`.
