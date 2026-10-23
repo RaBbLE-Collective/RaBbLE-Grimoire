@@ -14,6 +14,17 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-22 · Session S267 (pocket-orbit-v2-cleanroom-handoff)
+
+- **Repos:** RaBbLE-Pocket (`new-horizons`: `c6c6e47` beam RAM fix, `ac2e9f9` Orbit v2 hand-check pass; flashed `ac2e9f9`; nothing pushed, 54 ahead), Grimoire (W5 spec 5.9 rev 4, clean-room plan status, roadmap, `HANDOFF-S267-Pocket-CleanRoom-Final-SDK.md`, S266 handoff to `done/`), Collective (current state).
+- **Work:**
+  - Flashed Orbit v2 (`ba45af3`): beam could not connect (`Error create websocket task` every 500 ms). v2's controller state and text cache had grown internal-RAM `.bss` past the 6 KB websocket stack; moved `s_L` + `s_cache` to PSRAM (`EXT_RAM_BSS_ATTR`, ~11 KB back). Beam connects in 1.8 s.
+  - Mark's hand check ("looks good") and fixes: back-chip tap zone shrunk to the pill (the 40 px circle ate the centre's lower third and sent "tap to change" to the face); labels only near the top (`label_full` fade in nebula_lite, chosen ±2 built on every page, so Wi-Fi lists show neighbour names); hint up to y 284, chip down to y 324. 732 logic checks.
+  - Mark's new order: finish the clean room (W6 `bsp/` + W7 close-out), then the RaBbLE-SDK on the Sovereign Accord; Pomodoro and faster wake after. Handoff written with an SDK component sketch from the include graph; found 17 RaBbLE-own C files with no copyright header (W7 sweep); an independent Opus review corrected the W6 export recipe (bsp skeleton needed), the W7 list (stale apache test paths) and the SDK sketch (chip drivers stay with the board, orbit-ui cycle, LVGL include leak).
+- **Learned:**
+  - On this gadget a failed `xTaskCreate` (beam's websocket first) is how internal RAM exhaustion shows; check `.bss` in the map before adding static state, put UI-only state in PSRAM.
+  - A hit zone checked before another must not overlap it: the chip's circle silently stole centre taps. Hit zones for small buttons = their drawn bounds plus a few px.
+
 ## 2026-10-22 · Session S266 (pocket-gyro-orbit-w5)
 
 - **Repos:** RaBbLE-Pocket (`new-horizons` = `cleanroom` `80e4646`: `de59080` gyro motion, `92c8adf` face/ring/icon, `245bcc0` drift fix, `47adbb9` W5 Orbit, `80e4646` third_party; Orbit v2 commits `%S266_ORBIT_V2%` by a sub-agent in flight at handoff; flashed `47adbb9`; nothing pushed), Grimoire (`0826aef`, `c320f97`, `8809cf0`, `565dfbe` + this entry and `HANDOFF-S266-Pocket-Orbit-Pomodoro.md`), Collective (current state).

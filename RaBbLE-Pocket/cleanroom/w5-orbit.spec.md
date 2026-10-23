@@ -292,6 +292,14 @@ Extend `firmware/test/cleanroom/w5/orbit_test/` for 5.1 (Volume in two actions),
 
 ---
 
+### 5.9 Revision 4: Mark's hand check of v2 (S267, as built in Pocket `c6c6e47`, `ac2e9f9`)
+
+Mark: v2 "looks good"; text didn't overlap but felt cramped, the back chip was easy to mispress while changing a setting, the chip touched the hint above it, the Wi-Fi lists needed more text on the ring. Changes to 5.2 and 5.4:
+
+- **Back chip** centred at y 233 + 91 (324), not + 78; the hint line moves up to y 284. A tap goes back only **inside the pill** (within 44 px across and 17 px down of its centre), not within 40 px of it: the circle covered the centre's lower third and won over the centre tap.
+- **Labels only near the top.** Contract addition: `nl_orbit_t.label_full` (radians). The renderer draws a label at full opacity within `label_full` of 12 o'clock, fading to nothing at 1.5 x, from each item's angle every frame (so labels follow a turn); 0 means all labels shown (sim and tests). The gadget sets it to 1.15 x the item pitch: the chosen item and its two neighbours. The controller builds labels only for the chosen item and two each side (across the wrap), on every page: the old "more than 9 items: chosen only" rule is gone, so Networks and Saved show their neighbours' names.
+- Memory rule: Orbit state that only the UI task touches lives in PSRAM `.bss` (`EXT_RAM_BSS_ATTR`); v2 had pushed internal RAM past what beam's websocket task needs.
+
 ## 6. Applets orbit and the Pomodoro (S266 design, Mark's calls)
 
 Built on the Orbit after v2 (section 5). Ordinary work on RaBbLE's own code.
