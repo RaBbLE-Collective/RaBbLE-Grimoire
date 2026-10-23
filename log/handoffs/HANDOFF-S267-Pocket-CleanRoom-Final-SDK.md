@@ -75,9 +75,10 @@ Mark (S266, restated S267): once the clean room is done, reorganise the firmware
 **Mark's decisions (S267):**
 1. **The SDK is RaBbLE-Pocket** (this repo; no new member). It targets **round ESP32-S3 boards**: Waveshare 1.75B now, 1.75C planned, and Mark wants **multiple and different targets** later.
 2. **Licensing:** most code, ideally all, under the Sovereign Accord or permissive licences, and **isolated** (permissive code in its own component with its LICENSE + NOTICE, RaBbLE copyright above the upstream notice kept verbatim; never copyleft).
-3. **SDK vs. app separation:** Mark isn't sure where the line goes. S267 proposed the layering below; **confirm it with Mark before moving files.**
+3. **SDK vs. app separation:** S267 proposed the layering below and **Mark approved it** ("I like the proposed splits"). His framing: **RaBbLE-Pocket is a class of gadget**: the SDK serves any round ESP32-S3 gadget board, and RaBbLE is the app on it.
+4. **Clean-room note:** Mark compared the layering to the Muse gadget SDK. An app / services / board split is a common architecture idea, not expression, but derive every directory, component and header name from **our own** include graph and this table, never from the Muse SDK's tree, and keep `third_party/muse-gadget-sdk/` out of any refactor session's reading.
 
-**Proposed layering (S267, pending Mark's ok).** Three layers, each depending only downward:
+**Layering (S267, approved by Mark).** Three layers, each depending only downward:
 
 | Layer | Holds | Rule |
 |---|---|---|
@@ -106,7 +107,7 @@ The component sketch below is the finer split inside `sdk/` and `boards/`.
 | `rabble_orbit` | `rabble_orbit.*`, `rabble_orbit_logic.*` | **cycle with ui**: `rabble_orbit.c` includes `rabble_entity.h` + `rabble_ui.h` while `rabble_entity.c` + `rabble_ui.c` include `rabble_orbit.h`; `orbit_logic.c` reaches into input, beam, wifi. Merge into ui or invert through callbacks |
 | app (`main/` or `rabble_app`) | `rabble_app.c`, `rabble_input.*`, `rabble_setup.*`, `rabble_beam_text.*` | `input` is today's hub (includes 17 RaBbLE headers): it's the app router, not a driver |
 
-The real work is **cutting the upward includes** (motion → input/voice, voice → beam/input, entity and ui → beam/wifi/notes/capture, beam_score → capture/notes/audio, the orbit ↔ ui cycle) through the state hub or registered callbacks, so each component's `REQUIRES` is honest. **Hidden coupling that will mask missing REQUIRES:** the gadget CMakeLists adds `accord/` as a **PUBLIC** include dir on LVGL's target (for the assert hook), so every component that links LVGL sees every accord header. Point that hook at the new home of `rabble_lv_assert.h` only, early in the refactor. Do it in steps that keep the gadget building and flashing between each (one component per commit, the orbit and W0-W5 host tests green). Keep `WHOLE_ARCHIVE` on whichever component carries `rabble_lv_mem.c`. Get an Opus review of the final layout plan against the code before moving files. Write the plan to `RaBbLE-Grimoire/RaBbLE-Pocket/RaBbLE-Pocket-SDK-Plan.md` (index it) once Mark has confirmed the layering.
+The real work is **cutting the upward includes** (motion → input/voice, voice → beam/input, entity and ui → beam/wifi/notes/capture, beam_score → capture/notes/audio, the orbit ↔ ui cycle) through the state hub or registered callbacks, so each component's `REQUIRES` is honest. **Hidden coupling that will mask missing REQUIRES:** the gadget CMakeLists adds `accord/` as a **PUBLIC** include dir on LVGL's target (for the assert hook), so every component that links LVGL sees every accord header. Point that hook at the new home of `rabble_lv_assert.h` only, early in the refactor. Do it in steps that keep the gadget building and flashing between each (one component per commit, the orbit and W0-W5 host tests green). Keep `WHOLE_ARCHIVE` on whichever component carries `rabble_lv_mem.c`. Get an Opus review of the final layout plan against the code before moving files. Write the plan to `RaBbLE-Grimoire/RaBbLE-Pocket/RaBbLE-Pocket-SDK-Plan.md` (index it) with the approved layering (a finer component plan still gets an Opus review first).
 
 ### 4. Carried (after the SDK, in Mark's earlier order)
 
