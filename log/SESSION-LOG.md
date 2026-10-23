@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-22 · Session S268 (pocket-w6-spec-pomodoro)
+## LATEST — 2026-10-23 · Session S270 (pocket-offline-notes-w6-parked)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S268: W6 board spec + clean implementation (not integrated), console finding, Pomodoro flashed (back direction bug)
+**This session:** S270: offline voice notes on flash, Pomodoro chip fixed, W6 band engine parked after 5 rounds
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18 open.
-**Next:** HANDOFF-S268: fix Pomodoro back direction, offline notes on flash, integrate W6, W7, SDK
+**Next:** Local sCoRE as auto Pocket option after BLE/LAN pairing; then HANDOFF-S270 W6 re-spec
 
 ---
 
