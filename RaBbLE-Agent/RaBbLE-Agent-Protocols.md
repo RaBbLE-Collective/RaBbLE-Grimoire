@@ -305,6 +305,10 @@ bash RaBbLE-Grimoire/spells/dev-serve.sh
 
 HTML pages link to `aether.css` in dev — **NOT** `aether.min.css`. Linking to the min file means the watcher never updates what the browser loads — a silent failure.
 
+### Pocket visuals: render in the host sim before flashing
+
+Before flashing any visual change to the Pocket (face, Orbit, transitions), render it with `RaBbLE-Pocket/sim/build.sh` or `sim/transition.sh` and look at the frames. S274 spent three flash cycles guessing at colours one render showed. Run sequences the way a hand would (one Orbit after the other, in one process): state a transition latches must reset when it ends, and a sim that starts each case fresh hides that. Detail: `RaBbLE-Pocket/RaBbLE-Pocket-Orbit-Transition.md`.
+
 ---
 
 ## Visual Capture Workflow

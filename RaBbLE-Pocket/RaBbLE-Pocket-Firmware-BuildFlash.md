@@ -98,8 +98,18 @@ If it's noticeably nicer than what the board shipped with, that's `firmware/broo
 - Build in a scratch dir (e.g. this session used the Claude Code scratchpad), not inside `firmware/vendor/...` directly — keeps `build/`/`managed_components/` out of the vendor reference clone even though that tree is already gitignored.
 - **`esp-idf-select.sh` wasn't zsh-safe (fixed 2026-08-08).** Mark's shell is zsh, and the script is meant to be sourced into it directly — but it used `mapfile` (bash-4+ only, undefined in zsh) and `${versions[0]}` to grab a single-element array (zsh arrays are 1-indexed by default, bash's are 0-indexed, so a hardcoded index is wrong in one or the other). Both only surfaced when the interactive picker path ran (no `.esp-idf-version` pin above `$PWD` and no explicit version arg) — the common case, where the pin resolves without touching that code, masked it. Fixed: a portable `while read` loop instead of `mapfile`, and `${versions[*]}` (correct under both indexing schemes for a single element) instead of `${versions[0]}`.
 
+## Look before you flash: the host sim
+
+Anything visual in the gadget firmware (the face, the Orbit, transitions) can be rendered on the host before it goes to the board. `RaBbLE-Pocket/sim/` builds `nebula_lite` with gcc and writes PPM/PNG frames; there is no live window.
+
+- `sim/build.sh`: still scenes of the face and the Orbit, plus the renderer's assertion tests (`out/orbit_*.png`).
+- `sim/transition.sh` (S274): the Orbit's entry and return for both Orbits, Applets then Settings in one run, as GIFs and contact sheets (`out/tr_settings.gif`, `out/tr_*_sheet.png`). The per-frame fields are stepped the way `rabble_orbit_logic.c` steps them; if that stepper's constants change, change `sim/transition.c` with them.
+
+An agent can open the PNGs as images; Mark can `xdg-open` the GIFs. One render settles what several flash cycles of guessing don't (`RaBbLE-Pocket-Orbit-Transition.md`, Lessons).
+
 ## Related
 
+- `RaBbLE-Pocket-Orbit-Transition.md` — the face to Orbit transition the sim renders
 - `RaBbLE-Pocket-Architecture.md` — day-to-day command template, ESP-IDF-over-Arduino decision
 - `RaBbLE-Pocket/planning/decisions/2026-08-07-esp-idf-multiversion-and-eim.md` — per-project version pinning design
 - `RaBbLE-OS/layers/RaBbLE-OS-Layer-ESP-IDF.md` — machine-level layer that provisions EIM + ESP-IDF versions
