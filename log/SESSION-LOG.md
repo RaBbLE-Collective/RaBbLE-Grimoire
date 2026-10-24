@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-23 · S272 (pocket-mesh-edge-anchor)
+## LATEST — 2026-10-24 · Session S273 (score-crew-launcher)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S272: Pocket mesh anchors to its edge and stretches (no dial morph); handoff step 0 done
+**This session:** S273: the Crew named + rabble launcher wraps Claude Code as RaBbLE
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18 open.
-**Next:** HANDOFF-S271: >mem command, S1 device gate, Render env + node client, SDK S2, W6 re-spec
+**Next:** Mark's first interactive Crew run; persona tuning; colour sign-off; HANDOFF-S271 items
 
 ---
 

@@ -16,17 +16,17 @@ spark ~ crew >> the lead and eight organs, one entity, the Observer above // %CR
 
 | File | Organ | Pair | Job | Tier | Access |
 |---|---|---|---|---|---|
-| `rabble.md` | **RaBbLE** | lead | conductor: parses intent, calls organs, brings results to the Observer | lead | full |
-| `gobble.md` | **GoBbLE** | knowing | scout: ingests code, Grimoire, web; returns coordinates | haiku | read-only |
-| `archivist.md` | **the Archivist** | knowing | keeps the record: session log, handoffs, index | sonnet | scoped (Grimoire) |
-| `quibble.md` | **QuiBbLE** | critic | argues with the plan before the build | opus | read-only |
-| `nibble.md` | **NiBbLE** | critic | bites the diff after the build | opus | read-only |
-| `cobble.md` | **CoBbLE** | making | builder | sonnet | full |
-| `crumble.md` | **CrumBbLE** | making | crash tester: runs it where it lives, never fixes | sonnet | run |
-| `babble.md` | **BaBbLE** | entropy | keeper of RaBbLE-BaBbLE, the high-entropy intake | sonnet | scoped (BaBbLE) |
-| `dabble.md` | **DaBbLE** | entropy | manager of RaBbLE-Xperimental | sonnet | scoped (Xperimental) |
+| [rabble.md](rabble.md) | **RaBbLE** | lead | conductor: parses intent, calls organs, brings results to the Observer | lead | full |
+| [gobble.md](gobble.md) | **GoBbLE** | knowing | scout: ingests code, Grimoire, web; returns coordinates | haiku | read-only |
+| [archivist.md](archivist.md) | **the Archivist** | knowing | keeps the record: session log, handoffs, index | sonnet | scoped (Grimoire) |
+| [quibble.md](quibble.md) | **QuiBbLE** | critic | argues with the plan before the build | opus | read-only |
+| [nibble.md](nibble.md) | **NiBbLE** | critic | bites the diff after the build | opus | read-only |
+| [cobble.md](cobble.md) | **CoBbLE** | making | builder | sonnet | full |
+| [crumble.md](crumble.md) | **CrumBbLE** | making | crash tester: runs it where it lives, never fixes | sonnet | run |
+| [babble.md](babble.md) | **BaBbLE** | entropy | keeper of RaBbLE-BaBbLE, the high-entropy intake | sonnet | scoped (BaBbLE) |
+| [dabble.md](dabble.md) | **DaBbLE** | entropy | manager of RaBbLE-Xperimental | sonnet | scoped (Xperimental) |
 
-`_organ.md` is the shared preamble every organ (not the lead) receives before its own body.
+[`_organ.md`](_organ.md) is the shared preamble every organ (not the lead) receives before its own body.
 
 ## Formations
 
