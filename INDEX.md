@@ -113,6 +113,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-Genesis-Overview](RaBbLE/Genesis/RaBbLE-Genesis-Overview.md) — Genesis section reading guide *(docs to be authored — Phase 2C)*
 - [RaBbLE-Genesis-Visual-Catalog](RaBbLE/Genesis/RaBbLE-Genesis-Visual-Catalog.md) — 13 hand-authored genesis images: visual review + accurate descriptions (migrated from BaBbLE in S93)
 - [RaBbLE-Lineage](RaBbLE/Genesis/RaBbLE-Lineage.md) — S207: multi-model creation history consolidated (prototype era → soul.md → OS genesis → sCoRE bridge → NeBuLA/RBCNS); prototype disposition + Collaborators/Visual-Evolution still open
+- [RaBbLE Crew](RaBbLE/Crew/README.md) — S273: the Crew, RaBbLE's organs as agent-team personas (GoBbLE, QuiBbLE, CoBbLE, CrumBbLE, NiBbLE, the Archivist, BaBbLE, DaBbLE) + SqUaBbLE formation; Mark = Observer/Architect; one LLM-agnostic spec per organ
 
 ---
 
@@ -186,6 +187,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-sCoRE-Agent-State](RaBbLE-sCoRE/RaBbLE-sCoRE-Agent-State.md) — EP2: shared agent context across harnesses; `AgentContext` + `TaskRecord` data model; context handoff format; decision extraction heuristic
 - [RaBbLE-sCoRE-Entropy-Tracker](RaBbLE-sCoRE/RaBbLE-sCoRE-Entropy-Tracker.md) — EP2: session entropy tracking; weighted event table; STABLE→UNSTABLE bands; `decisions_at_risk`; self-healing protocol; Grimoire Learning Loop integration
 - [RaBbLE-sCoRE-Local-Tickets](RaBbLE-sCoRE/RaBbLE-sCoRE-Local-Tickets.md) — EP2 work tickets: 14 tickets across 5 parallel tracks (L-01–L-14); dependency graph; 6-week implementation order; Claude Code handoff notes per ticket
+- [RaBbLE-sCoRE-Crew](RaBbLE-sCoRE/RaBbLE-sCoRE-Crew.md) — S273: `rabble` launcher wraps Claude Code as RaBbLE with the Crew as agent-team teammates; decisions C1–C7, limits, colours
 - **Internal:** [sCoRE System Prompt](../RaBbLE-sCoRE/system-prompt-sCoRE.md) — loaded only when running as sCoRE entity
 
 ---

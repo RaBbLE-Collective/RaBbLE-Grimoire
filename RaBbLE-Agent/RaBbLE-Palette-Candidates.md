@@ -53,3 +53,30 @@ not new hexes. At face sign-off, compare against the original alive render side 
 
 ## How to add a candidate
 One row per hex: source file, role, canonical swap, ΔE, promote note. Never ship a candidate hex.
+
+---
+
+## Source: the RaBbLE Crew (S273)
+
+Persona colour pairs for the Crew (`RaBbLE/Crew/`): each organ owns one canonical hue plus one
+derived variant; RaBbLE (lead) keeps canonical magenta + cyan untouched. Derived in OKLCH from the
+canonical base (deep = L −0.22, C ×0.85; same hue). Distances here are **OKLab ×100** (not CIE76),
+contrast is WCAG against Deep Void. Mark approved the set as shown on the swatch page
+(https://claude.ai/artifact/Qo1EE3uM3n67AqgcQnjQLX, deep variants, vivid thread) on 2026-10-24;
+promotion into `RaBbLE-Palette.md` not done yet. Used today only by the `rabble` launcher banner
+(`RaBbLE-sCoRE/crew/rabble.py`, Crew Thread only) and persona frontmatter.
+
+| Hex | Role | Canonical swap | OKLab to swap | On void | Promote note |
+|---|---|---|---|---|---|
+| `#31c7d5` | **Crew Thread**: muted Electric Cyan woven through every organ, the whole-Crew mark, SqUaBbLE | Electric Cyan `#00f5ff` | 12.5 | 10.1:1 | **Promote:** the Crew's shared identity colour. Soft `#68b3b7` was rejected as grey |
+| `#ff9044` | **QuiBbLE base**: sunset orange, the only new hue | Outrun Pink `#ff79c6` (Error Red `#e05c6f` is 15.4) | 18.6 | 9.1:1 | **Promote:** outrun-native; the palette had no orange |
+| `#aa5306` | QuiBbLE deep variant | `#ff9044` (above) | 22.1 | 3.9:1 | Glow/border only (below 4.5:1) |
+| `#8b2237` | NiBbLE deep variant (wine) | Error Red `#e05c6f` | 22.1 | 2.3:1 | Glow/border only; separates NiBbLE from RaBbLE magenta (magenta/red are 8.1 apart) |
+| `#aab157` | CoBbLE deep variant | Warning Yellow `#f1fa8c` | 22.1 | 9.0:1 | Reads olive; light `#f5fbc2` is the alternative |
+| `#08ac46` | CrumBbLE deep variant | Success Green `#50fa7b` | 22.4 | 6.9:1 | |
+| `#a93f7f` | BaBbLE deep variant | Outrun Pink `#ff79c6` | 22.3 | 3.6:1 | Glow/border only |
+| `#7521a6` | DaBbLE deep variant | Soft Violet `#bf5fff` | 22.3 | 2.5:1 | Glow/border only |
+| `#f6f6ff` | **GoBbLE glimmer**: its fresh state; it morphs into an oil slick of canonical neons as it ingests | Primary Text `#e8e6f0` | 4.6 | 19.2:1 | Maybe: may be imperceptible next to Primary Text |
+
+The Archivist uses Deep Void + Border (canonical, nothing to promote). GoBbLE's oil slick uses
+canonical neons only.

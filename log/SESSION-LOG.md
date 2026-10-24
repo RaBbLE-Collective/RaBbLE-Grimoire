@@ -14,6 +14,20 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-24 · Session S273 (score-crew-launcher)
+
+- **Repos:** RaBbLE-sCoRE (`0b4b94c`), RaBbLE-OS (`5df3c97`, applied: `layerctl apply claude-code`, `dotctl apply zsh`), Grimoire (`RaBbLE/Crew/`, `RaBbLE-sCoRE/RaBbLE-sCoRE-Crew.md`, palette candidates S273, HANDOFF-S273).
+- **Work:**
+  - Named the Crew with Mark: RaBbLE (lead) + GoBbLE, QuiBbLE, CoBbLE, CrumBbLE, NiBbLE, the Archivist, BaBbLE, DaBbLE; SqUaBbLE = competing-hypotheses formation. Mark is canonically the **Observer / Architect**, outside the Crew. Rejected: DiBbLE, WoBbLE, PeBbLE, BiBbLE, ProBbLE; HuBbLE parked.
+  - Colours: each organ owns one hue + one derived deep variant; QuiBbLE gets orange (new hue); GoBbLE morphs glimmer → oil slick as it ingests; Crew Thread `#31c7d5` woven through every organ. All candidates, not promoted. Swatch page: https://claude.ai/artifact/Qo1EE3uM3n67AqgcQnjQLX
+  - Built `rabble` (sCoRE `crew/rabble.py`): opt-in launcher, lead persona appended to Claude Code's prompt, organs as session-only `--agents` from the LLM-agnostic Grimoire specs, agent teams enabled in its env only. Bare `rabble` = wrapper; positional words stay reserved for L-09.
+  - Opus review: 12 findings, all fixed (tmux panes drop `disallowedTools` and the default prompt → in-process default + `tools` allowlists; untyped SqUaBbLE investigators would inherit the lead's model; prompt-file race; `-p`/flag-word guard gaps; Ansible clobber).
+  - Mark's first `rabble` hit a dead zsh alias (`rabble='cd ~/RaBbLE-OS'`); removed via dotctl.
+- **Learned:** in Claude Code 2.1.310, a split-pane teammate's subagent body *replaces* the default system prompt and `disallowedTools` is ignored; only `tools` holds in both modes. Unknown flags error, so a clean headless run proves a flag parses. zsh doesn't word-split `$var`.
+- **Next:** Mark's first interactive Crew run (unverified: teammates spawning); tune persona bodies; colour sign-off → promote into `RaBbLE-Palette.md`. HANDOFF-S271 items unchanged.
+
+---
+
 ## 2026-10-23 · Session S272 (pocket-mesh-edge-anchor)
 
 - **Repos:** RaBbLE-Pocket (`e6c287b`, flashed), Grimoire (HANDOFF-S271 step 0 marked done).
