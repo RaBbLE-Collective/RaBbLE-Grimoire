@@ -280,3 +280,6 @@ a48f1d1d-9015-4986-9d2d-094cfd99273e	pocket-orbit-v2-cleanroom-handoff	S267
 94d4f7e8-e2ae-4299-89ff-1f9c56277b37	score-local-pocket-beam	
 2435f319-d2ed-4673-8122-2e790103ad54	pocket-claude-node-sdk-orbs	
 S272-pocket-mesh-edge-anchor	pocket-mesh-edge-anchor	S272: mesh anchored to edge
+711dcc63-86d4-4979-aca0-4f6608b1dc15	collective	auto: current state S272: Pocket mesh edge-anchored
+4230b148-c693-4b86-924c-f0c5d423f5c2	score-crew-launcher	S273: the Crew + rabble launcher
+4a0067f7-2edf-49c4-8012-51fd1ad5eb9b	pocket-orbit-pull-transition	S274: Orbit pull/snap, orbs from the mesh

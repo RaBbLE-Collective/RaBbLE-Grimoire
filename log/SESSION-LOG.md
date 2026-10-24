@@ -5,12 +5,27 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-24 · Session S273 (score-crew-launcher)
+## LATEST — 2026-10-24 · S274 (pocket-orbit-pull-transition)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S273: the Crew named + rabble launcher wraps Claude Code as RaBbLE
+**This session:** S274: Pocket face+Orbit one gesture; orbs gather from the mesh and go home round the rim
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18 open.
-**Next:** Mark's first interactive Crew run; persona tuning; colour sign-off; HANDOFF-S271 items
+**Next:** Mark's first Crew run (HANDOFF-S273); HANDOFF-S271: >mem, S1 gate, Render env, SDK S2, W6 re-spec
+
+---
+
+## 2026-10-24 · Session S274 (pocket-orbit-pull-transition)
+
+- **Repos:** RaBbLE-Pocket (`6d26a76`, flashed, hand-checked by Mark: "Great").
+- **Work:**
+  - Face and Orbit swipe made one gesture: the thumb grabs the face at the entry slide's rate (ENTRY_K), so the grab runs on into the pull; a touch that began as play becomes the pull once 40 px sideways; flick commit (700 px/s past 36 px, also on release); dragging back past the start switches to the other Orbit.
+  - Edge glow on the side the Orbit comes from, in that side's colour (cyan left, magenta right), brightening to the detent.
+  - Mesh stays put while the Orbit slides, pinned at the Orbit's edge both ways, stretching with the thumb.
+  - Orbs: on the snap the Orbit's half of the face mesh (Settings = magenta, Applets = cyan, chosen by where it lies on screen) gathers into one orb per item and travels round the rim onto the dial carrying its real links and signals; scene.c shares its mesh read-only and leaves that half to orbit.c while it has it. Closing is the same played backwards on its own 0.6 s clock (an exit drag scrubs it), from where the dial was, the mesh coming back out of the orbs.
+  - New `sim/transition.sh`: renders both Orbits in and out (Applets then Settings in one run) as GIFs + contact sheets in `sim/out/`.
+- **Learned:** render the transition in the sim and look before flashing; three flash cycles went on guessing colours that one render showed. Per-transition latches must reset whenever the Orbit isn't shown: a stale one put Applets' cyan on Settings on the device only (the sim ran each side fresh). Ask what a visual word means ("edges", "return colour") before tuning.
+- **Note:** about 2 KB more internal RAM (mesh share + orb buffers); move to PSRAM if internal memory pressure bites.
+- **Next:** HANDOFF-S271 items unchanged (`>mem`, S1 device gate, Render env + node client, SDK S2, W6 re-spec).
 
 ---
 
