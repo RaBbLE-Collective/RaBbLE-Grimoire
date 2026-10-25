@@ -14,6 +14,22 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-25 · Session S278 (pocket-w7-accord-press)
+
+- **Repos:** RaBbLE-Pocket (`new-horizons` `876f7d2`, `300cf7e`; W7 flashed, not pushed), Grimoire (`e8bcd04`, `9c7e4fe`, `df15123`, `3e8e683`), RaBbLE-Xperimental + Pocket README (press drafts, uncommitted).
+- **Work:**
+  - Pocket notes: 15 pulled over serial (sha256 verified), 9 into the Roadmap (shipped items ticked), 1 idea to BaBbLE intake, 5 test captures discarded; all deleted from the device. Capture/Converse mode survives an RTS reset (NVS, `678e335`).
+  - W6 watch items closed by Mark ("fast and fluid, only the occasional screen tear").
+  - W7 clean room closed: 154 headers, rewordings, test paths, `cleanroom-overlap.py` retired; CrumBbLE build identical to base `3b2c358` (2,055,136 bytes), 60 fps, ready 3.27 s; NiBbLE no blockers (the real `wifi_test` failure was a stale cached seam sdkconfig). Gate: "Meta Platforms" only in the `third_party/README.md` history row.
+  - Sovereign Accord v2: plan + parked drafts, two QuiBbLE rounds.
+  - Pocket press drafts (Getting Started guide, README, Instagram kit, private site) built and parked, first-draft quality.
+- **Decisions (Mark):** The RaBbLE Collective holds TM + copyright; PolyForm NC as reference; register entity face and colour brand; Ohio law; forks personal or contributed back; Entity under a limited-use licence; NeBuLA free to render your own effects; no LICENSE edits now; rest deferred. Registration not needed before posting: copyright-register entity art within 3 months of first post; name clearance soon after (RABBLE filed by others in class 9; blocker filed). Press drafts parked for his review.
+- **Learned:** scouts return reports as messages, not files; long reports truncate in idle notifications (ask for SendMessage or a scratch file). Crew: GoBbLE, QuiBbLE x2, CoBbLE (W7 + fixes), CoBbLE-Press, CrumBbLE, NiBbLE.
+- **Open, not W7:** free heap 12,367 (13.2 KB in S277), two boot `gpio_install_isr_service` E lines, 4 host test failures, `rabble_outbox.c:30` truncation under long `TMPDIR`. Press-draft gaps (no clock on renders, Settings dial shown for Applets, doc contradictions) are in the handoff.
+- **Next:** Mark reviews the press drafts (renders first), then RaBbLE-SDK, Orbit re-level, Accord v2. Cold start: `log/handoffs/HANDOFF-S278-Pocket-Press-Drafts-and-SDK.md`.
+
+---
+
 ## 2026-10-24 · Session S277 (pocket-w6-rev2-cleanroom)
 
 - **Repos:** RaBbLE-Pocket (`new-horizons` `2965c39` + `6c3b78b` W6 rev 2, `227f503`/`3b2c358` third_party notes; flashed `6c3b78b`, not pushed), Grimoire (`w6-board.spec.md` rev 2, PROVENANCE W6, HANDOFF-S277). Commits tagged `%S276_W6R2%`: S276 was taken by the concurrent EP1 face session.
