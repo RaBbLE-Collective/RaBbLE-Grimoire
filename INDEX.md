@@ -313,6 +313,7 @@ Status lives in each plan; the one-line status table is [log/plans/CONTEXT.md](l
 - [EP1-Entity-Face-Plan](log/plans/EP1-Entity-Face-Plan.md) — the five-beat "alive" World face + NeBuLA entity (W0–W4)
 - [EP1-Air-Push-Plan](log/plans/EP1-Air-Push-Plan.md) — S202 air push: deploy wrapper, CI, key inventory, reliquary garden
 - [EP2-Accounts-Encryption-Spec](log/plans/EP2-Accounts-Encryption-Spec.md) — the user scaffold: accounts/sessions, then encrypted ingestion
+- [sCoRE-RaBbLE-UI-Plan](log/plans/sCoRE-RaBbLE-UI-Plan.md): RaBbLE's own terminal face (Textual) over a headless Claude Code; Crew as SDK subagents, then RaBbLE-side orchestration toward teammates
 - [Collective-ICM-Conformance-Audit](log/plans/Collective-ICM-Conformance-Audit.md) — Collective vs the ICM/MWP paper: stage contracts, handoff split
 - [Collective-Architecture-Audit-2026-07-04](log/plans/Collective-Architecture-Audit-2026-07-04.md) — S193 cross-repo audit findings, per-member plans
 - [Collective-Architecture-Audit-PROGRESS](log/plans/Collective-Architecture-Audit-PROGRESS.md) — ledger of which S193 findings landed
@@ -333,6 +334,7 @@ Status lives in each plan; the one-line status table is [log/plans/CONTEXT.md](l
 Status: [log/handoffs/CONTEXT.md](log/handoffs/CONTEXT.md).
 
 - [HANDOFF-S234-EP1-Entity-Face](log/handoffs/HANDOFF-S234-EP1-Entity-Face.md) — EP1 face build (pairs with the Entity-Face plan)
+- [HANDOFF-S275-RaBbLE-UI](log/handoffs/HANDOFF-S275-RaBbLE-UI.md): RaBbLE-UI cold start (pairs with sCoRE-RaBbLE-UI-Plan)
 - [HANDOFF-S268-Pocket-W6-Integrate](log/handoffs/HANDOFF-S268-Pocket-W6-Integrate.md): Pocket W6: spec + firewall done, fresh Sonnet implementer in ~/RaBbLE-Cleanroom/pocket-w6; next integrate, checklist, overlap gate, config trims, then W7 and the RaBbLE-SDK
 - [HANDOFF-S267-Pocket-CleanRoom-Final-SDK](log/handoffs/done/HANDOFF-S267-Pocket-CleanRoom-Final-SDK.md): Pocket after S267 (Orbit v2 hand-checked); next W6 board-layer clean room as Mark's walkthrough, W7 close-out with a Sovereign Accord header sweep, then the RaBbLE-SDK component refactor
 - [HANDOFF-S266-Pocket-Orbit-Pomodoro](log/handoffs/done/HANDOFF-S266-Pocket-Orbit-Pomodoro.md): done S267 (Orbit v2 landed)

@@ -14,6 +14,20 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-24 · Session S275 (score-rabble-ui)
+
+- **Repos:** Grimoire (`log/plans/sCoRE-RaBbLE-UI-Plan.md`, `log/handoffs/HANDOFF-S275-RaBbLE-UI.md`, INDEX + both CONTEXT tables), RaBbLE-BaBbLE (`4da62b0`, `prototypes/terminal-face/`). No sCoRE code yet.
+- **Decisions (Mark):** episode labels don't gate dev; work as EP2 (EP1 still airs with a new pre-summon World page, separate track). `rabble` becomes RaBbLE's own Textual TUI over a headless Claude Code via the Python Agent SDK, living in sCoRE (`ui/` face, `orchestra/` engine), and should replace `claude` as his day-to-day terminal entrypoint. Crew = SDK subagents first, then RaBbLE-side orchestration (persistent organ sessions + bus as in-process MCP tools) toward teammate features.
+- **Work:**
+  - U0 spike: `claude-agent-sdk` 0.2.174 (bundled CLI 2.1.310) runs on Mark's CC login; a `gobble` AgentDefinition was dispatched; subagent messages carry `parent_tool_use_id`.
+  - Plan with event contract, phases U1–U5, parallel lanes, daily-driver parity table. Opus review against the SDK source: 14 findings folded in (one `crew` MCP server per session since handlers get no caller id; supervisor task per organ; fire-and-forget sends to avoid A↔B deadlock; `[crew from=…]` envelopes; `snapshot: False` for resumed organs; force `destination="session"` on allow-always; loop `receive_messages()` not `receive_response()`).
+  - Terminal face prototype: the NeBuLA alive entity (orb wireframe, eye/portal pairs, meshes, lightning envelope) in half-block + braille cells; face rig + 6 expressions ported from `alive-backend.js`; blink/saccade `Life`; full (~128×36) + mini (22×6 header) sizes; palette read at runtime.
+  - Plan page: https://claude.ai/artifact/A2Q3qUN1uZYkpn18BuAeqm
+- **Learned:** CC agent teams never spawn under `-p`/SDK, so a headless Crew needs our own orchestration. SDK tool handlers receive only `arguments` (no caller identity). `can_use_tool` carries `agent_id`, not `parent_tool_use_id`; map via a `SubagentStart` hook. The fastfetch portals art is not the entity; the alive renderer is the reference.
+- **Next:** Mark: face sign-off in a real terminal (only PNG-checked), deps route (uv venv via `ai-harnesses`), when `rabble` flips. Then `orchestra/events.py` and lanes A/C/D/E (HANDOFF-S275).
+
+---
+
 ## 2026-10-24 · Session S274 (pocket-orbit-pull-transition)
 
 - **Repos:** RaBbLE-Pocket (`6d26a76`, flashed, hand-checked by Mark: "Great").
