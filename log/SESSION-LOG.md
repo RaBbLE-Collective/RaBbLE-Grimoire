@@ -14,6 +14,18 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-24 · Session S277 (pocket-w6-rev2-cleanroom)
+
+- **Repos:** RaBbLE-Pocket (`new-horizons` `2965c39` + `6c3b78b` W6 rev 2, `227f503`/`3b2c358` third_party notes; flashed `6c3b78b`, not pushed), Grimoire (`w6-board.spec.md` rev 2, PROVENANCE W6, HANDOFF-S277). Commits tagged `%S276_W6R2%`: S276 was taken by the concurrent EP1 face session.
+- **Work:**
+  - W6 spec rev 2: 6.3/6.4 rewritten from rev 1's gadget failures (nothing but `begin()` before the frame's TE edge, which edge belongs to a frame, frames never overlap, no task notifications in the engine, RAM budget). Opus firewall: approved with changes, all applied (it caught a wrong FreeRTOS explanation of the rev 1 assert).
+  - Fresh Opus implementer in `~/RaBbLE-Cleanroom/pocket-w6r2`: band engine in one round, host test runs the real frame logic under ASan/UBSan. Overlap 11.4% → one rework of recalled private names → 10.5% (band engine 7.0%), every hit forced; accepted.
+  - On the gadget: display up 403 ms, ready 3.2 s (old 4.3 s), 60 fps idle, steady 30 under voice load with helper rescues and no freeze, free internal heap 13,207 vs 13,315 old, no crash. Mark: "feels great". Merged into `new-horizons`; the firmware now has no derived code (NOTICE updated, `bsp/LICENSE-APACHE` gone). Muse SDK copy deleted (Mark); transcripts stay on disk in `~/RaBbLE-Cleanroom/transcripts/w6r2/`.
+- **Learned:** an Opus implementer with the failure history as behaviour did in one round what five Sonnet rounds couldn't; a spec firewall that also reviews catches wrong root-cause claims before they steer the implementer. Workspaces and transcripts stay outside the Collective on purpose (Mark asked): the folder line is the firewall, and firewall transcripts quote the original.
+- **Next:** W6 watch items (full soak, Orbit-slide A/B), W7 close-out (header sweep, stale test paths, docs), then the RaBbLE-SDK; Pomodoro hand check. Cold start: `log/handoffs/HANDOFF-S277-Pocket-W7-Closeout.md`.
+
+---
+
 ## 2026-10-24 · Session S276 (world-ep1-face-v1)
 
 - **Repos:** RaBbLE-World (`e55636c`, new-horizons, pushed, dev deploy green), Grimoire (HANDOFF-S276, B-19/B-20).

@@ -2,7 +2,7 @@
 
 > Clean-room spec, wave W6. Author role: S (S268, Opus 5.5; read `firmware/bsp/` at Pocket `ac2e9f9`). Firewall: S268 F (Opus 5.5 sub-agent): rephrased passages that echoed the original's comments and log strings, rewrote the band-path, direct-frame and texture rules as outcomes rather than a walk of today's code, corrected the TE-missing and DMA-size facts, and added missing behaviour (LVGL-only slice size, texture hold window, sync-area reset, error pass-through). Files to be replaced: `firmware/bsp/bsp_waveshare_175b.c`, `firmware/bsp/rabble_lcd_bands.c`, `firmware/bsp/rabble_lcd_bands.h` (the last Meta-derived code in the firmware). New files go under `firmware/bsp/` with the header `Copyright (c) 2026 The RaBbLE Collective. RaBbLE Sovereign Accord.` and nothing else. Companion specs: `w0-seam.spec.md` (the board vtable, cores, priorities), `w2-axp2101.spec.md` (PMU driver), `w4-audio.spec.md` (the only caller of the codec handles).
 
-> **Revision 2** (S276, author S, Opus 5.5; read the old `firmware/bsp/rabble_lcd_bands.c` direct-frame path at Pocket `new-horizons` `6d26a76`): sections 6.3 and 6.4 rewritten from the gadget results of revision 1 (section 13); 10.1 item 18a and the revision-2 note in 11 added; 13 rewritten as behaviour. Firewall: S276 F (Opus 5.5 sub-agent): approved with changes, all applied; implemented in one Opus round, Pocket `w6r2-integration` (6.4.8 corrected: the notify assert is not explained by notifying a blocked task; steady-30 edge counting; no-TE resting floor; edge-to-band-0 timing in `>perf`; 6.6 on the direct path; RAM measurement). The seam headers now live in `firmware/sdk/rabble_core/` (SDK step S1); where this spec says `accord/rabble_board.h`, `rabble_mem.h` or `rabble_console.h`, read that folder.
+> **Revision 2** (S277, author S, Opus 5.5; read the old `firmware/bsp/rabble_lcd_bands.c` direct-frame path at Pocket `new-horizons` `6d26a76`): sections 6.3 and 6.4 rewritten from the gadget results of revision 1 (section 13); 10.1 item 18a and the revision-2 note in 11 added; 13 rewritten as behaviour. Firewall: S277 F (Opus 5.5 sub-agent): approved with changes, all applied; implemented in one Opus round, Pocket `w6r2-integration` (6.4.8 corrected: the notify assert is not explained by notifying a blocked task; steady-30 edge counting; no-TE resting floor; edge-to-band-0 timing in `>perf`; 6.6 on the direct path; RAM measurement). The seam headers now live in `firmware/sdk/rabble_core/` (SDK step S1); where this spec says `accord/rabble_board.h`, `rabble_mem.h` or `rabble_console.h`, read that folder.
 
 Treatment: clean room, **leaner** (hybrid strategy). The public interface is the `rabble_board_t` seam and nothing else. How the band renderer is organised inside, its file split, internal names and internal API are yours. Where a number is given it is a behaviour value. Section 8 lists the **deliberate behaviour changes**; everything else is "same as today".
 
@@ -228,7 +228,7 @@ Called from LVGL's context. `d` non-NULL starts the direct path with that scene;
 5. Send task priority changes with the path (4.4).
 6. While direct, any band LVGL still offers to the panel is reported done immediately and discarded, never queued: LVGL runs above the send task on this path and would otherwise spin waiting for it.
 
-### 6.3 One direct frame (revision 2, S276)
+### 6.3 One direct frame (revision 2, S277)
 
 The scene (`rabble_display_direct_t`, the seam header `rabble_board.h`) gives `begin`, `window`, `render`, optional `same`, and `rows` (16). Revision 1 of this section let work for a frame start before the frame's TE edge; on the gadget that tore moving content while the gadget turned (see 13). Revision 2 fixes **what may happen before the edge**, and **which edge belongs to a frame**.
 
@@ -389,7 +389,7 @@ The **whole firmware** builds in the clean workspace: the integrator writes a fr
 
 ## 13. Revision 1 on the gadget: what passed, what failed (behaviour)
 
-Revision 1 (S268) went through five implementer rounds (S268-S270), each run on the gadget and A/B'd against the old layer. Revision 2 (S276) rewrites 6.3 and 6.4 from the results below; everything else in this spec is unchanged.
+Revision 1 (S268) went through five implementer rounds (S268-S270), each run on the gadget and A/B'd against the old layer. Revision 2 (S277) rewrites 6.3 and 6.4 from the results below; everything else in this spec is unchanged.
 
 **Passed (keep as built):** board table (2, 5.1, 5.5-5.9), display bring-up (5.2: display up in 404 ms, panel init 294 ms, against 1,203 ms of panel init before), dark boot (no flash, reset and cold), brightness live, panel sleep/wake and touch everywhere after wake, PWR edges, long-hold power-off and click power-on, IMU tilt and spin, `>perf` (8.1), steady 30 fps on heavy frames (8.2). The PMU "chip not answering" at boot also shows on the old layer: not a W6 issue.
 

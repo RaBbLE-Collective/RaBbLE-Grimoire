@@ -16,7 +16,7 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 | `HANDOFF-FCC-Free-Claude-Code.md` | FCC LiteLLM proxy tuning — research done, implementation pending |
 | `HANDOFF-S236-OS-ISO-VM-Run.md` | RaBbLE-OS ISO: VM run passed S236, bare-metal retry passed S238; leftover open items inside (KS sudoers NOPASSWD revoke, GRUB secure-boot line, silent `%post`, Live ISO plan) |
 | `HANDOFF-S234-EP1-Entity-Face.md` | EP1 face: W0–W2 done + live on dev; G10 sign-off pending; W4 accounts direction open |
-| `HANDOFF-S268-Pocket-W6-Integrate.md` | Pocket W6: spec + firewall done, fresh Sonnet implementer running in `~/RaBbLE-Cleanroom/pocket-w6`; next integrate + checklist + overlap gate, config trims (Mark), then W7 and the RaBbLE-SDK (details still in done/HANDOFF-S267) |
+| `HANDOFF-S277-Pocket-W7-Closeout.md` | Pocket W6 rev 2 done + merged (no derived code left, Muse SDK deleted); next: W6 soak/Orbit A/B watch items, W7 close-out (header sweep, stale test paths, doc updates), then the RaBbLE-SDK (`HANDOFF-S271`) |
 | `HANDOFF-S276-EP1-Face-V1.md` | EP1 web face V1 live on dev (web-only EP1); next: Mark iPhone check, CF binding + Render env, first World main deploy |
 | `HANDOFF-S275-RaBbLE-UI.md` | RaBbLE-UI plan written + SDK spike verified; next: Mark's deps/swap calls, then `orchestra/events.py` and parallel lanes |
 | `HANDOFF-S273-Crew-Launcher.md` | RaBbLE Crew + `rabble` launcher built and unit-tested; first interactive team run, `layerctl apply claude-code`, colour promotion pending Mark |
@@ -26,6 +26,8 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 
 | File | Implemented |
 |---|---|
+| `done/HANDOFF-S270-Pocket-W6-Respec.md` | S277 (W6 rev 2) |
+| `done/HANDOFF-S268-Pocket-W6-Integrate.md` | S270 (parked), S277 |
 | `done/HANDOFF-PreCommit-AntiClobber.md` | S185 |
 | `done/HANDOFF-S116-Theme-and-Logging.md` | S116 era |
 | `done/HANDOFF-S153-EP1-Coherence.md` | Production — B-01/03/04 resolved |
