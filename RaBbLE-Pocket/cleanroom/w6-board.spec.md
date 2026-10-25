@@ -2,6 +2,8 @@
 
 > Clean-room spec, wave W6. Author role: S (S268, Opus 5.5; read `firmware/bsp/` at Pocket `ac2e9f9`). Firewall: S268 F (Opus 5.5 sub-agent): rephrased passages that echoed the original's comments and log strings, rewrote the band-path, direct-frame and texture rules as outcomes rather than a walk of today's code, corrected the TE-missing and DMA-size facts, and added missing behaviour (LVGL-only slice size, texture hold window, sync-area reset, error pass-through). Files to be replaced: `firmware/bsp/bsp_waveshare_175b.c`, `firmware/bsp/rabble_lcd_bands.c`, `firmware/bsp/rabble_lcd_bands.h` (the last Meta-derived code in the firmware). New files go under `firmware/bsp/` with the header `Copyright (c) 2026 The RaBbLE Collective. RaBbLE Sovereign Accord.` and nothing else. Companion specs: `w0-seam.spec.md` (the board vtable, cores, priorities), `w2-axp2101.spec.md` (PMU driver), `w4-audio.spec.md` (the only caller of the codec handles).
 
+> **Revision 2** (S276, author S, Opus 5.5; read the old `firmware/bsp/rabble_lcd_bands.c` direct-frame path at Pocket `new-horizons` `6d26a76`): sections 6.3 and 6.4 rewritten from the gadget results of revision 1 (section 13); 10.1 item 18a and the revision-2 note in 11 added; 13 rewritten as behaviour. Firewall: S276 F (Opus 5.5 sub-agent): approved with changes, all applied; implemented in one Opus round, Pocket `w6r2-integration` (6.4.8 corrected: the notify assert is not explained by notifying a blocked task; steady-30 edge counting; no-TE resting floor; edge-to-band-0 timing in `>perf`; 6.6 on the direct path; RAM measurement). The seam headers now live in `firmware/sdk/rabble_core/` (SDK step S1); where this spec says `accord/rabble_board.h`, `rabble_mem.h` or `rabble_console.h`, read that folder.
+
 Treatment: clean room, **leaner** (hybrid strategy). The public interface is the `rabble_board_t` seam and nothing else. How the band renderer is organised inside, its file split, internal names and internal API are yours. Where a number is given it is a behaviour value. Section 8 lists the **deliberate behaviour changes**; everything else is "same as today".
 
 ---
@@ -226,25 +228,39 @@ Called from LVGL's context. `d` non-NULL starts the direct path with that scene;
 5. Send task priority changes with the path (4.4).
 6. While direct, any band LVGL still offers to the panel is reported done immediately and discarded, never queued: LVGL runs above the send task on this path and would otherwise spin waiting for it.
 
-### 6.3 One direct frame
+### 6.3 One direct frame (revision 2, S276)
 
-The scene (`rabble_display_direct_t`, `accord/rabble_board.h`) gives `begin`, `window`, `render`, optional `same`, and `rows` (16).
-1. `begin()` runs on the send task before the TE wait, so the scene's preparation overlaps the wait. A TE edge that arrived before `begin()` must not count as this frame's edge.
-2. The frame's bands go to the panel after the next **TE rising edge** on GPIO 13, waiting at most 40 ms for it. **Every frame waits for its edge, including a frame with no band to draw** (S270: the first build skipped the wait when `same` left nothing to send, so a resting Orbit spun at ~4,000 frames/s and starved the UI core's idle task). Without TE (no TE GPIO configured, or its interrupt could not be installed), don't wait: frames run unpaced; a failed interrupt install warns once at setup.
-3. Bands to draw: band `n` covers rows `16n` to `16n + 15` (the last band is clipped at row 465). A band is drawn unless `same` exists and returns non-zero for the band's first row. Exception: when the panel holds something else (first frame after a switch, or a band failed to send in the previous frame), every band is drawn.
-4. Each band to draw is rendered exactly once per frame, on either core: `window(y, rows, &x0, &x1)` then `render(buf, y, rows, x0, x1)` into an internal DMA buffer. A buffer is never rendered into while its previous transfer is still pending. Work is shared so that the UI core never idles waiting on the helper while a band nobody has started is available.
-5. Bands are sent **in top-to-bottom order**, each as the window `[x0, x1) x [y, y + rows)` from its buffer, all from the send task. A failed draw makes the next frame a full frame.
-6. A band rendered for one frame is never sent in another.
+The scene (`rabble_display_direct_t`, the seam header `rabble_board.h`) gives `begin`, `window`, `render`, optional `same`, and `rows` (16). Revision 1 of this section let work for a frame start before the frame's TE edge; on the gadget that tore moving content while the gadget turned (see 13). Revision 2 fixes **what may happen before the edge**, and **which edge belongs to a frame**.
+
+1. **`begin()` first.** `begin()` runs on the send task before the frame waits for its edge, so the scene's own preparation overlaps the wait.
+2. **The frame's edge.** A frame's edge is the first rising edge of TE (GPIO 13) that arrives **after `begin()` is called**. An edge that arrives while `begin()` is still running counts; an edge that arrived before the call does not (it belongs to an earlier frame and must be forgotten before the call). The frame waits at most 40 ms; on timeout it carries on as if the edge had arrived. The 40 ms limit runs from the end of `begin()`. In the steady-30 mode (8.2) the frame's edge is the **second edge after the previous frame's edge**, counted whether or not anything was waiting; if `begin()` is called after that edge, it is the first edge after `begin()` is called. After a frame whose wait timed out, the timeout moment stands in for the previous edge.
+3. **Nothing else before the edge.** Until the frame's edge has arrived (or the wait has timed out), neither core calls `same`, `window` or `render` for that frame, and the other core is not released to work on it. Rendering ahead during the wait is not allowed, even into free buffers.
+4. **Every frame waits for its edge**, including a frame with no band to draw (revision 1 skipped the wait when `same` left nothing to send: a resting Orbit spun at about 4,000 frames/s and starved the UI core's idle task). Without TE (no TE GPIO configured, or its interrupt could not be installed), frames don't wait and run unpaced; a failed interrupt install warns once at setup. But without TE, a frame with no band to draw blocks for at least `frame_ms` (40 ms, 7.2) before the next `begin()`, so a resting scene can't spin.
+5. **Bands to draw**, decided after the edge: band `n` covers rows `16n` to `16n + 15` (the last band is clipped at row 465). A band is drawn unless `same` exists and returns non-zero for the band's first row. When the panel holds something else (first frame after a switch, or a band failed to send in the previous frame), every band is drawn and `same` is not consulted.
+6. **Each band to draw is rendered exactly once per frame**, on either core: `window(y, rows, &x0, &x1)`, then `render(buf, y, rows, x0, x1)` into an internal DMA buffer, after widening `[x0, x1)` to even bounds (4.7). A buffer is never rendered into while its previous transfer is still pending. Work is shared so that the UI core never sits idle waiting for the other core while a band nobody has started is available.
+7. **Bands are sent top to bottom**, each as the window `[x0, x1) x [y, y + rows)` from its buffer, all from the send task. A failed draw makes the next frame a full frame.
+8. **Frames don't overlap.** A band rendered for one frame is never sent in another, and no work for the next frame (not even `begin()`) starts before every band of this frame has been handed to the panel driver.
+9. **The first band of a frame** goes to the panel only after it has been rendered after the edge (rules 3 and 6); nothing prepared earlier may be sent in its place. Revision 1 also showed small dots at the **top edge** while turning, which the old layer never shows. Their cause was not settled. The implementer reports what in their engine decides when band 0 starts on the wire relative to the edge; the integrator measures the TE high time (the panel's vertical porch, CO5300 datasheet 5.3, mode `35h` = 00) on the gadget if the dots remain.
 
 ### 6.4 Rules the direct path must keep
 
-1. Four direct band buffers when the helper exists (so rendering can run ahead of the wire by about two bands); two when one core draws.
-2. `render` and `window` may run on either core, concurrently for different bands. `begin` runs only on the send task and never concurrently with a render.
-3. `direct_stats(&frames, us[2])`: frames drawn on the direct path since boot; `us[RABBLE_UI_CORE]` = the last frame's CPU time on the UI core (begin, its own renders, the time spent in draw calls; waits excluded), `us[other]` = the helper's render time for the last frame it finished.
-4. The entity gates still hold: **60 fps idle** on the face, **at least 30 fps** busy and turning, Orbit slide with meshes **at least 40 fps**.
+1. Four direct band buffers when the other core helps (rendering may run ahead of the wire **within** a frame, after its edge, never further than the buffers allow: a buffer whose transfer is pending is not reused, 6.3.6); two when one core draws.
+2. `render` and `window` may run on either core, concurrently for different bands. `begin` runs only on the send task and never concurrently with any `render`, `window` or `same` call.
+3. `direct_stats(&frames, us[2])`: frames drawn on the direct path since boot; `us[RABBLE_UI_CORE]` = the last frame's CPU time on the UI core (`begin`, its own renders, the time spent in draw calls; waits excluded), `us[other]` = the helper's render time for the last frame it finished.
+4. The entity gates still hold: **60 fps idle** on the face, **at least 30 fps** busy and turning, Orbit slide with meshes **at least 40 fps**. Holding bands back to dodge the panel's scan (a revision-1 experiment) kept the tearing and cost the idle gate (52 fps): no scheme may hold a rendered band back to avoid the scan.
 5. Flash work (NVS, LittleFS, OTA writes) runs under panel priority (S264/S265): nothing in the engine may hold a lock that flash work needs while waiting for TE or a band.
 6. If the helper core is not available (no room, 5.3), the send task renders every band itself.
-7. **A frame is never held by a stalled helper core** (S264 freeze fix). Higher-priority work on the helper's core can stall a band the helper has started (measured: a TLS handshake at priority 23, through priority inheritance, for more than a second). Requirement: once the send task has spent **6 ms** waiting on one such band, the helper runs at `configMAX_PRIORITIES - 2` (above Wi-Fi) until the end of that frame, then returns to 3. At most one lift per frame. Count frames that needed one (logged, 8.1).
+7. **A frame is never held by a stalled helper core** (S264 freeze fix). Higher-priority work on the helper's core can stall a band the helper has started (measured: a TLS handshake at priority 23, through priority inheritance, for more than a second). Once the send task has spent **6 ms** waiting on one such band, the helper runs at `configMAX_PRIORITIES - 2` (above Wi-Fi) until the end of that frame, then returns to 3. At most one lift per frame. Count frames that needed one (logged, 8.1).
+8. **How the engine's tasks block (revision 1 crashed here).** Revision 1 rebooted every few seconds while turning with a FreeRTOS assert in the notify path (`xTaskGenericNotify` / `vTaskGenericNotifyGiveFromISR`, `tasks.c`). FreeRTOS raises it when a task it believed was waiting for a notification is also queued on another object; correct API use can't produce that, so it points to corrupted task state (a stack overflow), a stale task handle, or a FreeRTOS call from the wrong context. The cause was not pinned down. Rules:
+   - (a) The engine's tasks use **no direct-to-task notifications** (no `xTaskNotify*`, `vTaskNotifyGive*`, `ulTaskNotifyTake`, `xTaskNotifyWait` on them); every hand-over between the engine's tasks and interrupts goes through a semaphore, queue or event group the waiting task blocks on.
+   - (b) Interrupt handlers (TE, colour-transfer-done) use only `FromISR` calls, and task code never does.
+   - (c) The engine's task handles stay valid for the life of the firmware (no engine task is deleted or re-created).
+   - (d) Stack canaries stay on, and 6.4.9's high-water gate is part of 10.1 item 18a.
+   - (e) No engine task busy-waits. A task waiting for a band, a free buffer or an edge is woken by the event it waits for; a timeout is only a backstop and must not set the pace in normal running.
+
+   The integrator decodes any assert's backtrace (which task, notifying whom) before sending it back as behaviour.
+9. **Memory budget.** Internal RAM is tight (a beam task that can't be created is the first symptom, S267). The send task's and helper's stacks live in internal RAM and together use **no more than 11 KB**; each keeps **at least 512 bytes unused** (high-water mark) through the 18a soak; the engine's internal DMA stays at 7.2's figure; any other internal `.bss` the board layer adds stays under 1 KB (UI-only state goes to PSRAM). Gate: free internal heap after boot within **1 KB** of the old layer's on the same build base (revision 1 lost 2.6 KB), measured as `heap_caps_get_free_size(MALLOC_CAP_INTERNAL)` 5 s after boot, same commit, old layer vs new, three boots each. While `>perf` is on, report both stacks' high-water marks (once when turned on is enough).
+10. **The Orbit slide looks as it does on the old layer** (Mark's eyes): the face's mesh keeps streaming into the dial during the slide, at 60 fps where the old layer holds 60. Revision 1 looked different. The gate is a side-by-side A/B on the gadget.
 
 ### 6.5 The UI texture (`ui_texture`, `ui_texture_tag`)
 
@@ -257,7 +273,7 @@ While the direct path runs, LVGL renders into two full-screen PSRAM RGB565 buffe
 
 ### 6.6 Running work on the send task
 
-An internal "run this on the send task" call: the function runs on the send task **between bands** (never mid-band), and the call returns only after it has run. Concurrent callers are served one at a time. Before the send task exists it runs the function directly. Brightness, panel sleep and any other panel command use it. Works on both paths (on the direct path it runs between frames).
+An internal "run this on the send task" call: the function runs on the send task **between bands** (never mid-band), and the call returns only after it has run. Concurrent callers are served one at a time. Before the send task exists it runs the function directly. Brightness, panel sleep and any other panel command use it. Works on both paths: on the direct path it runs only after a frame's last band has been handed over and before the next `begin()`, never mid-frame.
 
 ## 7. Timings and limits
 
@@ -294,7 +310,7 @@ Keep the panel dark until the UI lights it (5.2.3): trimming the waits must not 
 
 ### 8.1 Perf logs are opt-in
 
-Today the direct path logs a timing line every 10 s whatever happens. New: **silent by default**. A console command `>perf` toggles it (`>perf=on`, `>perf=off`, bare `>perf` toggles; one reply line stating the new state). While on, every 10 s, one info line with the averages per frame over the window: time in `begin`, time rendering on the UI core, time in draw calls, time waiting for the helper, the helper's render time, helper bands of all bands, and kilopixels sent per frame; plus a warning line with the rescue count if any rescue happened. The format is yours; keep it one line. The console command is registered through the existing console module's public interface (`rabble_console.h`): if that needs the board layer to include an `accord/` header beyond section 3's list, the integrator decides where the command lives (likely `accord/` calling a small board hook). Raise it, don't work around it.
+Today the direct path logs a timing line every 10 s whatever happens. New: **silent by default**. A console command `>perf` toggles it (`>perf=on`, `>perf=off`, bare `>perf` toggles; one reply line stating the new state). While on, every 10 s, one info line with the averages per frame over the window: time in `begin`, time rendering on the UI core, time in draw calls, time waiting for the helper, the helper's render time, helper bands of all bands, kilopixels sent per frame, and (6.3.9) the average and maximum time from the frame's edge to band 0 being handed to the driver, and from the end of `begin()` to that edge; plus a warning line with the rescue count if any rescue happened. The format is yours; keep it one line. The console command is registered through the existing console module's public interface (`rabble_console.h`): if that needs the board layer to include an `accord/` header beyond section 3's list, the integrator decides where the command lives (likely `accord/` calling a small board hook). Raise it, don't work around it.
 
 ### 8.2 Steady 30 fps when 60 can't hold
 
@@ -344,11 +360,13 @@ Today, if the TE interrupt cannot be installed, each direct frame still waits ou
 10. Button hints, mic angles and `frame_ms` unchanged (visual check of the hint icons).
 11. No panel transfers from PSRAM (5.3): Orbit and LVGL screens draw after Wi-Fi connects, with no allocation-failure warnings, through a beam turn.
 12. Band-send task and its SPI interrupt on `RABBLE_UI_CORE` (no stuck half-frames across 10 minutes of mixed LVGL and direct use).
-13. With TE disabled (test build with GPIO -1): frames unpaced, nothing hangs (8.5: no warning in this case).
+13. With TE disabled (test build with GPIO -1): frames unpaced, nothing hangs (8.5: no warning in this case), and the task watchdog stays quiet for 1 minute on a resting Orbit (6.3.4).
 14. Entity gates: 60 fps idle (the entity's `fps` lines), ≥ 30 busy/turning, Orbit slide with meshes ≥ 40.
 15. **S264 freeze repro:** flash work during a turn (notes store write, capture save) and a TLS reconnect while the face animates: the face never freezes; rescue count appears with `>perf` on.
 16. UI texture: Orbit opening/closing and LVGL screens sliding over the face show whole, current pictures (no stale band, no tearing).
 17. Audio: a full voice turn works (codec handles fine).
+
+18a. **Revision 2 gates:** no torn bands and no dots (top edge included) at any orientation, Orbit open or on the face; a soak with no crash or reboot (10 minutes of turning, Orbit open/close, three voice turns, five sleep/wake cycles); the Orbit slide A/B'd against the old layer (6.4.10); free internal heap within 1 KB of the old layer (6.4.9).
 
 ### 10.2 Deliberate changes
 
@@ -357,6 +375,8 @@ Today, if the TE interrupt cannot be installed, each direct frame still waits ou
 20. Load the face until it can't hold 60 (a busy turn): the rate settles at a steady 30 rather than flapping, and returns to 60 when idle.
 
 ## 11. Test vehicle
+
+**Revision 2:** the workspace starts with revision 1's board table, display bring-up, UI texture and `>perf` hook files under `bsp/` (they passed on the gadget; keep them unless the band engine needs a change in their internal interface, and say so). The band engine (both paths, 6.1-6.4 and 6.6) is written fresh.
 
 The **whole firmware** builds in the clean workspace: the integrator writes a fresh `bsp/` skeleton there first (a `CMakeLists.txt` with the REQUIRES list, an `idf_component.yml` with the Waveshare `^3.0.1` dependency, interface level only). The test vehicle is that build plus a flash to the gadget by the integrator. The implementer delivers the new `bsp/` sources, a clean build, and, where the band engine's ordering rules can be tested off-target (band list, each band rendered once and sent in order, buffer reuse, rescue timing with a fake clock), a small host test under `firmware/test/cleanroom/w6/`.
 
@@ -367,19 +387,17 @@ The **whole firmware** builds in the clean workspace: the integrator writes a fr
 3. 30 fps hysteresis numbers (8.2) are a starting point; Mark may tune.
 4. The CST9217 deep-sleep write (5.4) is a chip fact without a public datasheet; it is kept as today's measured behaviour.
 
-## 13. S270 integration findings: inputs to revision 2 of 6.3/6.4 (not yet firewalled)
+## 13. Revision 1 on the gadget: what passed, what failed (behaviour)
 
-> Written by S270 (integrator G, also S for the revision: read `firmware/bsp/` old and new). Five implementer rounds (Sonnet sub-agent, workspace `b98ad64` → `8558405`) were integrated and run on the gadget; W6 is **parked** on Pocket branch `w6-integration-wip` (`a3b436e`), and `new-horizons` stays on the old board layer. Everything below is behaviour, measured on the device; the revision must still pass a firewall before an implementer sees it.
+Revision 1 (S268) went through five implementer rounds (S268-S270), each run on the gadget and A/B'd against the old layer. Revision 2 (S276) rewrites 6.3 and 6.4 from the results below; everything else in this spec is unchanged.
 
-**Passed on the gadget (keep):** board table (2, 5.1, 5.5-5.9), display bring-up (5.2: display up in 404 ms, panel init 294 ms, against 1,203 ms of panel init before), dark boot (no flash, reset and cold), brightness live, panel sleep/wake and touch everywhere after wake, PWR edges, long-hold power-off and click power-on, IMU tilt/spin, `>perf` (8.1), steady 30 fps on heavy frames (8.2). The PMU "chip not answering" at boot also shows on the old layer: not W6.
+**Passed (keep as built):** board table (2, 5.1, 5.5-5.9), display bring-up (5.2: display up in 404 ms, panel init 294 ms, against 1,203 ms of panel init before), dark boot (no flash, reset and cold), brightness live, panel sleep/wake and touch everywhere after wake, PWR edges, long-hold power-off and click power-on, IMU tilt and spin, `>perf` (8.1), steady 30 fps on heavy frames (8.2). The PMU "chip not answering" at boot also shows on the old layer: not a W6 issue.
 
-**Failed, and what the revision must say:**
-1. **Every frame waits its edge** (now in 6.3.2): a frame with no band to draw still takes a TE period. Without it a resting Orbit spun at ~4,000 frames/s and the task watchdog fired.
-2. **Tearing on moving content while turning** (Orbit rim items, the face's ring): torn bands and edge dots. Bisect on the device: helper off, no change; every frame full, smaller; **nothing rendered until the frame's edge (begin still before the wait), bands gone**. The old layer renders only after the edge and is clean. Revision: 6.3.1 keeps `begin()` before the wait, and adds that **no band is rendered, by either core, before the frame's edge**; the helper starts at the edge. Render-ahead during the wait is not allowed.
-3. **Top-edge dots** remained with order (2) in the W6 engine (none on the old layer). Unresolved. Candidates: which edge counts for a frame (an edge that passed during a long `begin()`), and the first band's write against the panel's porch. CO5300 datasheet 5.3: with `35h` = 00 (mode 1) TE is high through the vertical porch; the rising edge is the end of a scan, the falling edge the start of the next. The porch length is in the datasheet's figures only: measure it on the device (both TE edges) before relying on it.
-4. **No scan-hold scheme:** holding bands back to dodge the scan (round 4) kept the bands and dropped the idle face to 52 fps (gate: 60).
-5. **One way to block:** the send task was notified (by the helper and by the colour-done ISR) while blocked on a semaphore or queue, which FreeRTOS forbids (`xTaskGenericNotify` / `vTaskGenericNotifyGiveFromISR` asserts at `tasks.c:5977/6213`); round 5's attempt crashed every few seconds. Revision: name the send task's only blocking primitive (task notifications, with distinct bits or indices per source), and require that nothing else (driver calls included) blocks it on an event list while others can notify it.
-6. **Orbit slide looks different** (Mark): the NN mesh streaming into the dial during the slide doesn't look like the old layer. Check it against the old layer side by side at 60 fps before and after the revision.
-7. **Internal RAM:** 12.1 KB free after boot with W6 and the offline-notes task, against 14.7 KB on the old layer with the same task. The revision should give the engine's task stacks a budget, with high-water marks reported.
-
-**How the next round runs:** keep round 3's board table and display bring-up as they are (they passed), revise 6.3/6.4 from this section, firewall it (Opus), and give the band engine to a fresh **Opus** implementer with the failure history as behaviour. The integrator's tools that worked: A/B against the old layer on the same gadget, and diagnostic builds (never committed) that change one thing.
+**Failed:**
+1. A frame with nothing to draw skipped its TE wait: a resting Orbit spun at ~4,000 frames/s and the task watchdog fired. Now 6.3.4.
+2. Torn bands and edge dots on moving content while turning (Orbit rim items, the face's ring). On the device: turning the helper off changed nothing; drawing every band every frame made it smaller; rendering nothing until the frame's edge made the torn bands go. Now 6.3.2-6.3.3 and 6.3.8.
+3. Small dots at the top edge remained even with rendering after the edge. Unresolved; 6.3.9.
+4. Holding bands back while the panel's scan crosses them kept the tearing and cost the idle gate (52 fps). Now 6.4.4.
+5. A notify assert rebooted the board every few seconds while turning. Now 6.4.8.
+6. The Orbit slide's mesh streaming into the dial looked different from the old layer (Mark). Now 6.4.10.
+7. Free internal heap after boot was 2.6 KB lower than the old layer's on the same base. Now 6.4.9.
