@@ -2,7 +2,7 @@
 
 The beam: how RaBbLE-Pocket talks to sCoRE. One WebSocket carries push-to-talk turns: speech up while the button is held, then the transcript, reply text and reply speech back down, speech playing as it arrives. **Status: v0, working end to end (2026-10-06).** Firmware: `RaBbLE-Pocket` `rabble_beam_score.c`. sCoRE: `RaBbLE-sCoRE/server/beam.py` (Groq Whisper STT, RaBbLE on Groq gpt-oss-20b, Groq Orpheus TTS; speech starts 1.5–2.2 s after release on the LAN). `RaBbLE-Pocket/ops/beam-echo.py` is a no-cloud stand-in that plays your speech back.
 
-Firmware: `RaBbLE-Pocket/firmware/components/rabble_gadget/accord/rabble_beam_score.c` (session) behind `apache/rabble_beam.h` (the seam the voice loop calls). Port record: [RaBbLE-Pocket-Gadget-Port](RaBbLE-Pocket-Gadget-Port.md).
+Firmware: `RaBbLE-Pocket/firmware/sdk/rabble_net/rabble_beam_score.c` (session) behind `sdk/rabble_net/rabble_beam.h` (the interface the voice loop calls; paths as of S280). Port record: [RaBbLE-Pocket-Gadget-Port](RaBbLE-Pocket-Gadget-Port.md).
 
 ## Endpoint
 

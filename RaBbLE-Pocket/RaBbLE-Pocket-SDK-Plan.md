@@ -5,7 +5,7 @@ spark ~ pocket/sdk >> the gadget firmware splits into an app, a board-agnostic S
 ```
 
 > **Document type:** Grimoire plan · `RaBbLE-Pocket/`
-> **Status:** v0.2 (S271). Layering approved by Mark in S267; component plan Opus-reviewed at link level (S271, `nm` over every component archive) and amended: §3a lists what the review found. S0 done (`7fc004f`); S1 in progress.
+> **Status:** v0.3 (S280). S0-S7 + S11 done and device-gated; S280 clean-up done (layout below is the real tree now). **Next: S8** (Orbit split, spec + Opus implementer), then S9, S10. Layering approved by Mark in S267; Opus-reviewed at link level in S271 (§3 findings). §3 is the S271 *starting* graph, kept as history.
 > **Purpose:** The step-by-step plan to reorganise `RaBbLE-Pocket/firmware` into the RaBbLE-SDK on the Sovereign Accord, so that a new round ESP32-S3 board is just a new folder and RaBbLE is one app on it.
 > **Sources:** `log/handoffs/done/HANDOFF-S267-Pocket-CleanRoom-Final-SDK.md` §3 (Mark's decisions, layering, first sketch), `HANDOFF-S270-Pocket-W6-Respec.md`, `RaBbLE-Pocket-Clean-Room-Plan.md`, the S271 include graph of `accord/` (below).
 
@@ -96,36 +96,49 @@ Elsewhere: `nebula_lite` (renderer **and** the entity scene `scene.c`), chip dri
 
 ```
 firmware/
-  main/                         app_main.c: picks the app, starts it
-  app/                          (ESP-IDF component dir, via EXTRA_COMPONENT_DIRS)
-    rabble_app/                 RaBbLE: app.c, input (router), setup, beam_text, entity + entity_face,
-                                the entity scene (from nebula_lite/scene.c), ui wiring, Orbit pages
-                                and items, applets/pomo, console commands
+  main/                         app_main.c: the composition root, the one place board and app meet
+                                (perf hook, board from the seam, app start on the UI core) + the
+                                RABBLE_BOARD Kconfig choice. Kept on purpose (Mark, S280); at S10 it
+                                is where the app is picked (RaBbLE or board_test)
+  app/                          scanned component dir (EXTRA_COMPONENT_DIRS), one folder per app
+    RaBbLE/                     component `RaBbLE` (S280): app.c, input (router), setup, entity +
+                                entity_face, the entity scene (scene.c, nl_scene.h), ui wiring, Orbit
+                                (until S8/S9), applets/pomo, console commands
   sdk/
     rabble_core/                board seam (rabble_board.h), mem, state, text, settings, console,
-                                palette, time, lv_assert (own include dir), lv_mem (WHOLE_ARCHIVE)
+                                palette, time, device (MAC-derived name, S4), Kconfig
+    rabble_lvgl_port/           lv_assert (own include dir), lv_mem (WHOLE_ARCHIVE)
     rabble_power/               battery
     rabble_motion/              motion (+ events)
     rabble_audio/               audio, adpcm
-    rabble_net/                 wifi, wifi_air, wifi_known, wifi_radio, beam, beam_score (+ note sink)
+    rabble_net/                 wifi, wifi_air, wifi_known, wifi_radio, beam, beam_score, beam_text
     rabble_store/               notes, notes_console, capture
     rabble_voice/               voice turns, outbox (needs audio, net, store)
-    rabble_render/              nebula_lite renderer: raster, compose, luts, simd, orbit drawing
+    rabble_render/              nebula_lite renderer: raster, compose, luts, simd, orbit drawing,
+                                display-list store (src/store.c, nl_push, nl_render_init); public
+                                include/nl_list.h
     rabble_ui/                  ui texture plumbing, a8, ui_theme, clock + level screens,
                                 the Orbit engine (orbit.c controller + orbit_logic engine half)
   boards/
-    waveshare_175b/             today's bsp/ (after W6: the clean board layer)
-    drivers/                    rabble_axp2101, rabble_qmi8658, rabble_pcf85063
+    rabble_waveshare_175b/      the clean W6 board layer (bsp_*.c keep their names)
+  drivers/                      rabble_axp2101, rabble_qmi8658, rabble_pcf85063 (board-agnostic chips,
+                                reused by 1.75C; a top-level dir, Mark S280)
+  test/<layer>/<x>_test/        host tests by layer (S280, from the clean room's test/cleanroom/wN/);
+                                entry point test/run.sh + KNOWN_FAILURES; see test/README.md
   third_party/<name>/           only if ever needed, own LICENSE + NOTICE
 ```
 
-Dependency rule (enforced by `ops/sdk-layers.py`, S0): `app → sdk → core`, `boards → core + drivers`; inside `sdk/`: core ← power, audio, store, motion ← net ← voice; render ← ui. Nothing in `sdk/` names a chip or includes an `app/` header.
+Dependency rule (enforced by `ops/sdk-layers.py`): `app → sdk → core`; inside `sdk/`: core ← power, audio, store, render ← motion ← net ← voice ← ui (ranks 0-5). **Drivers** (rank 6) may include other drivers only; **boards** (rank 8) may include {core, drivers, its own board files} only (explicit allow-sets, S280); app is rank 9. Nothing in `sdk/` names a chip or includes an `app/` header. Gate today: `--enforce core power audio store net motion voice render drivers boards --symbols`; `ui` joins at S8 (its 3 upward includes are `rabble_orbit.c` → entity, orbit_logic, ui).
+
+**Why boards and drivers sit beside `sdk/`, not in it (S280):** the SDK defines the seam and boards implement it (Zephyr's `boards/` beside the kernel is the same shape); a new board is one folder with no SDK edits (placement test 1); the folder boundary is what the checker enforces.
 
 **Portability debt (flag, don't fix yet):** 466 px is compiled in (`NL_W`/`NL_H`), Orbit coordinates are fixed (`ORBIT_C` 233, chip y 324, radii). When a second panel size exists, the board reports geometry through the seam and the SDK derives from it.
 
 ---
 
 ## 5. Steps (one component per commit; the gadget builds and flashes after every step)
+
+**Done (S271-S280):** S0 `7fc004f` · S1 `28da7fa` · S2 `107c601` · S3 `0aa266a` · S4 `1fe0ac3` (device name went to a new core `rabble_device`, not settings: it isn't stored) · S5 `b18a6b8` (`rabble_motion_start(&events)`, `on_wake`/`on_chirp`) · S6 `c8d761a` · S7 `98ec633` · S11 `52f72b9` (Kconfig choice left unwired: EXTRA_COMPONENT_DIRS is read before sdkconfig, so it needs a CMake variable; at S10). S280 clean-up `e2114a9`..`fa6f3c6`: accord → `app/RaBbLE`, drivers → `firmware/drivers/`, `boards/rabble_waveshare_175b`, tests by layer + `test/run.sh` (27 pass + `render/sim_test` XFAIL; battery LSan was the test harness), fail-closed layer gate (homed by directory, `<>` includes, no-home fatal), `ops/cleanroom-*.py` deleted, `rabble_ptt_event_t`, `nl_init`/`nl_simulate` in app `nl_scene.h`, allow-set gates, line-1 header sweep (23 files). Binary 2,055,232 B (baseline 2,055,136), `.bss` +16 B, free internal heap 12,351 B at ready (S278: 12,367). The S2-S11 commits are tagged `%S279_SDK%` (S279 was also taken by a concurrent session), the clean-up `%S280_SDK%`.
 
 | Step | Work | Gate |
 |---|---|---|
@@ -137,10 +150,10 @@ Dependency rule (enforced by `ops/sdk-layers.py`, S0): `app → sdk → core`, `
 | **S5** | `sdk/rabble_motion` with events; cut → input/voice | same + wake on lift, spin face |
 | **S6** | `sdk/rabble_voice` (voice, outbox); the PTT event type moves out of `rabble_input.h` | same + PTT turn, offline note → online |
 | **S7** | `sdk/rabble_render`: nebula_lite renderer **plus the primitive/sprite store split out of `scene.c`** (`nl_prims`, `nl_spr`, `nl_push`, …); the entity scene builder moves to the app. `sim/` builds against both. | same + sim scenes byte-identical to before |
-| **S8** | Orbit split: engine (orbit.c, gesture/dial/value/hold half of orbit_logic) → `sdk/rabble_ui`; pages/items table → app. Cut the orbit ↔ ui ↔ entity cycle. **Largest step: Opus implementer, spec first.** | same + the 875 orbit checks, Orbit hand check (pages, value mode, chip, back swipe, Applets) |
+| **S8** | Orbit split: engine (orbit.c, gesture/dial/value/hold half of orbit_logic, now in `app/RaBbLE/`) → `sdk/rabble_ui`; pages/items table stays in the app. Write orbit-engine tier-1 tests first (`HANDOFF-S280-Pocket-Firmware-Test-Suite.md` T4). Cut the orbit ↔ ui ↔ entity cycle. **Largest step: Opus implementer, spec first.** | same + the 875 orbit checks, Orbit hand check (pages, value mode, chip, back swipe, Applets) |
 | **S9** | `sdk/rabble_ui` rest: a8, theme, clock/level screens, and the texture plumbing **split out of the app's `rabble_ui.c`** (a file split, not a move) | same |
-| **S10** | What's left of `rabble_gadget` becomes `app/rabble_app`. Second app: `app/board_test` (panel, touch, IMU, PMU, audio loopback) builds with **no SDK edits**. | placement test (2) passes |
-| **S11** | After W6 lands clean: `git mv bsp boards/waveshare_175b`, chip drivers to `boards/drivers/`, make the existing `RABBLE_BOARD` Kconfig choice (`main/Kconfig.projbuild`) select the board folder | placement test (1) shape ready for 1.75C |
+| **S10** | (The rename to `app/RaBbLE` was done early, S280.) Second app: `app/board_test` (panel, touch, IMU, PMU, audio loopback) builds with **no SDK edits**; `main/` picks the app and a CMake variable picks the app + board folder (wires `RABBLE_BOARD`). `board_test` is also the on-device test app of the test-suite plan. | placement test (2) passes |
+| **S11** | **Done** `52f72b9` + S280: board in `boards/rabble_waveshare_175b`, drivers in `firmware/drivers/` | placement test (1) shape ready for 1.75C |
 | **W7** | Clean-room close-out (S267 handoff §2): delete Muse SDK, Apache files, header sweep of every tracked file | W7 gates |
 
 S0–S2 are mechanical (one session, Sonnet is fine). S3–S7 are mechanical with small API cuts (Sonnet, one step each, sequential: they touch shared CMake). S8 gets its own written spec and an Opus implementer.
@@ -152,9 +165,9 @@ S0–S2 are mechanical (one session, Sonnet is fine). S3–S7 are mechanical wit
 - Behaviour identical; any change is a separate commit with its own reason.
 - `REQUIRES` honest: no PUBLIC include of a whole source dir, no reach-through via LVGL.
 - Every new/moved file keeps or gets line 1 `/* Copyright (c) 2026 The RaBbLE Collective. RaBbLE Sovereign Accord. */`.
-- Internal RAM: measure free internal heap after boot before/after each step (14.7 KB today); a step that loses more than 512 B explains why.
+- `firmware/test/run.sh` exits 0 before every commit (S280).
+- Internal RAM: measure free internal heap after boot before/after each step (12,351 B at `52f72b9`); a step that loses more than 512 B explains why.
 - `.bss` creep breaks beam task creation (S267): check beam connects after every flash.
-- No reading `bsp/` contents or `third_party/muse-gadget-sdk/` in SDK sessions.
 - Commit per step on `new-horizons`; Pulse Protocol `harmonize ~ pocket/sdk >> …`.
 
 ---
@@ -163,7 +176,7 @@ S0–S2 are mechanical (one session, Sonnet is fine). S3–S7 are mechanical wit
 
 | # | Question | Suggestion |
 |---|---|---|
-| Q1 | Directory names `app/ sdk/ boards/` under `firmware/`, or one flat `components/` with prefixes? | Three dirs: the layers are visible in the tree |
+| Q1 | ~~Directory names~~ **Decided S280 (Mark):** `main/ app/ sdk/ boards/ drivers/`; app folder `RaBbLE`, board folders `rabble_`-prefixed, no dots | done |
 | Q2 | Is `rabble_palette.h` SDK (default theme) or app (RaBbLE's brand)? | SDK default theme, app may override: the Orbit engine needs colours |
 | Q3 | Clock and level screens: SDK or app? | SDK (generic, a board-test app can use them) |
 | Q4 | Pomodoro: app applet (as here) or an SDK "applets" service? | App for now; an applet API comes when a second applet exists |
@@ -175,4 +188,5 @@ S0–S2 are mechanical (one session, Sonnet is fine). S3–S7 are mechanical wit
 | Version | Date | Change |
 |---|---|---|
 | v0.1 | 2026-10-23 | S271: first component plan from the S271 include graph; W6-parallel reasoning; steps S0–S11 with gates. |
+| v0.3 | 2026-10-25 | S280: S2-S7 + S11 done and device-gated; clean-up (app/RaBbLE, top-level drivers/, rabble_ board folders, tests by layer + run.sh, allow-set gates); main/ kept as composition root; S8 gets tests first; S10 redefined; Q1 decided. |
 | v0.2 | 2026-10-23 | S271 Opus review (link level): seam global in the app, beam_text → net, scene.c split, symbol-level gate, host-test path helper, Kconfig + LVGL port into the SDK, voice→input is a type; S1/S4/S6/S7/S9/S11 amended. |

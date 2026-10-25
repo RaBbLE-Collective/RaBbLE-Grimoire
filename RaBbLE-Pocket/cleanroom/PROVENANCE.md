@@ -28,7 +28,7 @@
 **Transcript audit (W0):** I extracted every tool call from both implementer transcripts (51 calls) and matched it against the tainted paths: `RaBbLE-Collective`, `muse-gadget`, `apache/`, `rabble_axp2101`, `bsp/`, `backups`.
 - Nothing touched them. The two hits were the harness's saved copies of the implementers' own BRIEF and spec output.
 - Transcripts are archived privately in `~/RaBbLE-Cleanroom/transcripts/<wave>/`, outside every repo.
-- Script: Pocket `ops/cleanroom-audit.py`. Rerun it for each wave.
+- Script: Pocket `ops/cleanroom-audit.py`, rerun for each wave. Deleted in S280 (`984c554`) after W7 closed; recover it from git history to re-audit.
 
 **Branch:** clean-room waves land on Pocket branch `cleanroom`, which forks from `new-horizons` at `96225b0` (just before W0). Each wave is verified there before it merges back.
 

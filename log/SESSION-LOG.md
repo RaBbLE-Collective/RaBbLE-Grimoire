@@ -14,6 +14,23 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-25 · Session S280 (pocket-sdk-cleanup)
+
+- **Repos:** RaBbLE-Pocket (`new-horizons`: SDK steps `107c601`..S11, clean-ups 1-7, gate fixes `e2b5b06`..`fa6f3c6`; flashed `6889b52`, not pushed), Grimoire (SDK-Plan v0.3, Roadmap EP1 section, Beam-Protocol paths, PROVENANCE, HANDOFF-S280). S2-S11 commits tagged `%S279_SDK%` (S279 was taken by the concurrent RaBbLE-UI session); the rest `%S280_SDK%`. Close-out written afterwards: the session hit the usage limit at "goodnight".
+- **Work:**
+  - SDK S2-S7 + S11 (CoBbLE, one commit each, build + host tests identical to baseline): `sdk/rabble_{power,audio,store,net,motion,voice,render}`, device name to a new core `rabble_device`. Orbit, Orbit re-level and S8-S10 left for later (Mark).
+  - Clean-up, Mark's calls: the clean-room `accord/` folder flattened into `firmware/app/RaBbLE/` (component `RaBbLE`); host tests regrouped by layer (`test/cleanroom/wN/` → `test/<layer>/`); chip drivers to top-level `firmware/drivers/`; board to `boards/rabble_waveshare_175b` (no dot); `main/` kept as the composition root; `cleanroom-overlap.py` + `cleanroom-audit.py` deleted.
+  - `firmware/test/run.sh` is the suite entry point (PASS/FAIL table, KNOWN_FAILURES → XFAIL, an XPASS or a stale entry fails the run).
+  - NiBbLE on `52f72b9..0c14946`: no blockers, no firmware behaviour change; two mediums (the layer checker passed unlisted modules, voice_test passed on zero vectors) + four lows, all fixed by CoBbLE in 5 commits. Six planted violations (a 1.75C board including voice/ui, an unregistered SDK component…) all fail.
+  - Roadmap: new EP1 Pocket section (ship on the SDK firmware, publish firmware + SDK, 1.75C test build, novice installer). Comprehensive test suite parked for its own session (HANDOFF-S280).
+- **Gates:** `test/run.sh` 27 passed + `render/sim_test` expected failure (4 Orbit sprite assertions, pre-existing). CrumBbLE device gate on `6889b52` %HOLDS%: 2,055,232 B (-16 vs `52f72b9`), display 403 ms, ready 3.26 s, free internal heap 12,351 B (unchanged), beam ~1.75 s, 60.2-60.4 fps steady, 200 s soak clean.
+- **Found:** **B-22**: a saved voice note is dropped after 8 sends fail on an internal-RAM AES alloc under TLS; likely pre-existing, no A/B. Retries probably cause the 51-56 fps first 50 s.
+- **Learned:** unquoted `$E` doesn't word-split in zsh, so gate one-liners must run under bash. Opening `/dev/ttyACM0` resets the board. ESP-IDF's `--start-group`/`WHOLE_ARCHIVE` hides upward references: use the symbol gate. Crew: CoBbLE-2, NiBbLE-2, CrumBbLE-2.
+- **Open:** NiBbLE's re-review of `e2b5b06..fa6f3c6` was cut off by the usage limit.
+- **Next:** finish that review; Mark picks the B-22 fix; then the test suite (HANDOFF-S280: inventory → plan → QuiBbLE → T1-T4 for Mark) or SDK S8. Cold start: `log/handoffs/HANDOFF-S280-Pocket-Firmware-Test-Suite.md`.
+
+---
+
 ## 2026-10-25 · Session S279 (score-rabble-ui-u1-u2)
 
 - **Repos:** RaBbLE-sCoRE (`fb80966` U1 engine, `a6a46be` U2 face, `154e6c6` review fixes), RaBbLE-OS (`31285c7` UI venv), BaBbLE (`bd484ef`, `f42d414` mini face), Grimoire (plan `30c621e`, HANDOFF-S279). None pushed. Early commits tagged `%S278_RABBLE_UI%`: S278 was taken by the concurrent Pocket W7 session.
