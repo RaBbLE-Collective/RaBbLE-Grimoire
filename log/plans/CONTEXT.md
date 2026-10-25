@@ -33,6 +33,7 @@ this table is a one-line pointer. 🟡 = in flight / awaiting Mark · 🔵 = des
 | `sCoRE-Extensibility-Refactor-Plan.md` | 🔵 S193 — options A/B/C, awaiting Mark's choice; post-air |
 | `sCoRE-RaBbLE-UI-Plan.md` | 🔵 S275: `rabble` as RaBbLE's own Textual TUI over headless Claude Code (Agent SDK); Crew as subagents → RaBbLE orchestration; U0 spike verified, awaiting deps + swap-timing calls |
 | `Subdomain-Registry-and-Maintenance.md` | 🔵 S185 — subdomain registry spec + maintenance backlog |
+| `Sovereign-Accord-v2-Brand-and-Entity.md` | 🔵 S278: Accord v2: owner, scratch text (PolyForm ref), Ohio law decided; drafts in RaBbLE-Collective/; name clearance gates promo; rest deferred |
 | `Collective-ICM-Conformance-Audit.md` | 🟡 audit complete 2026-08-27; 3 open decisions for Mark |
 | `Collective-Architecture-Audit-2026-07-04.md` | reference — S193 findings; open items tracked in the PROGRESS ledger below |
 | `Collective-Architecture-Audit-PROGRESS.md` | 🟡 S196 ledger — Batch 1 landed; decisions + restructures deferred |

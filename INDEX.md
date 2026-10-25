@@ -85,6 +85,8 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-Social-and-Aesthetic](RaBbLE-Collective/RaBbLE-Social-and-Aesthetic.md) — Neon Cafe aesthetic manifesto, social/altspace layer, RaBbLE voice design, Sovereign Accord license (Echo 1+)
 - [RaBbLE-Income-Model](RaBbLE-Collective/RaBbLE-Income-Model.md) — 8 revenue streams: Cosmos hosting, compute, community, rablet economy, Shop, hardware, attachments, enterprise
 - [RaBbLE-Shop](RaBbLE-Collective/RaBbLE-Shop.md) — physical product storefront: first-party + third-party designs, POD infrastructure, aesthetic requirements
+- [RaBbLE-Sovereign-Accord-v2-DRAFT](RaBbLE-Collective/RaBbLE-Sovereign-Accord-v2-DRAFT.md): DRAFT Accord v2, written from scratch with PolyForm as reference: code gifted for personal/noncommercial use, name, face and colours reserved; not in force
+- [RaBbLE-Brand-and-Entity-Policy-DRAFT](RaBbLE-Collective/RaBbLE-Brand-and-Entity-Policy-DRAFT.md): DRAFT: what forks may do with the idea vs the identity; "within bounds" lines for Mark to set
 - **[RaBbLE-Membership-Model](RaBbLE-Collective/RaBbLE-Membership-Model.md)** — **The Pair and the Summoning.** Membership model, summoning ceremony, invite tiers, BYO-key (heavily-referenced hub).
 - **[RaBbLE-Service-Plan](RaBbLE-Collective/RaBbLE-Service-Plan.md)** — **Service Roadmap & Business Model.** Service/tier progression across episodes (heavily-referenced hub).
 
@@ -319,6 +321,7 @@ Status lives in each plan; the one-line status table is [log/plans/CONTEXT.md](l
 - [Collective-Architecture-Audit-PROGRESS](log/plans/Collective-Architecture-Audit-PROGRESS.md) — ledger of which S193 findings landed
 - [sCoRE-Extensibility-Refactor-Plan](log/plans/sCoRE-Extensibility-Refactor-Plan.md) — sCoRE `server/` restructure, options A/B/C
 - [Subdomain-Registry-and-Maintenance](log/plans/Subdomain-Registry-and-Maintenance.md) — subdomain registry spec + maintenance backlog
+- [Sovereign-Accord-v2-Brand-and-Entity](log/plans/Sovereign-Accord-v2-Brand-and-Entity.md): Accord v2 proposal: code with limits, entity and brand protected as marks and art; decisions pending Mark
 - [Aether-Theming-Convergence](log/plans/Aether-Theming-Convergence.md) — palette sovereignty across web/editor/desktop/browser
 - [NeBuLA-Pocket-Puppet-Rendering-Pipeline](log/plans/NeBuLA-Pocket-Puppet-Rendering-Pipeline.md) — shared puppet rig/animation pipeline for NeBuLA + Pocket
 - [OS-Display-Manager-Plan](log/plans/OS-Display-Manager-Plan.md) — `rdisplay`: display layout manager (CLI, GTK4 editor, overlay, daemon)
