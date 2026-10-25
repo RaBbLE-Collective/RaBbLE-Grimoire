@@ -18,7 +18,7 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 | `HANDOFF-S234-EP1-Entity-Face.md` | EP1 face: W0–W2 done + live on dev; G10 sign-off pending; W4 accounts direction open |
 | `HANDOFF-S278-Pocket-Press-Drafts-and-SDK.md` | Pocket W7 closed; next: Mark reviews parked press drafts (renders need the clock + real Applets view), then RaBbLE-SDK, Orbit re-level, `ops/pocket-notes.py`, Accord v2 |
 | `HANDOFF-S276-EP1-Face-V1.md` | EP1 web face V1 live on dev (web-only EP1); next: Mark iPhone check, CF binding + Render env, first World main deploy |
-| `HANDOFF-S275-RaBbLE-UI.md` | RaBbLE-UI plan written + SDK spike verified; next: Mark's deps/swap calls, then `orchestra/events.py` and parallel lanes |
+| `HANDOFF-S279-RaBbLE-UI-U3.md` | RaBbLE-UI U1 engine + U2 face live, `rabble` flipped (`--cc` = wrapper); next: U2 review fixes, Mark daily-drives, U3 Crew as subagents |
 | `HANDOFF-S273-Crew-Launcher.md` | RaBbLE Crew + `rabble` launcher built and unit-tested; first interactive team run, `layerctl apply claude-code`, colour promotion pending Mark |
 | `RaBbLE-Voice-Phase2-HANDOFF.md` | Voice Phase 2 (authored 2026-07-03); the vocoder was rebuilt as v4 in S244, so check it before resuming |
 
@@ -26,6 +26,7 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 
 | File | Implemented |
 |---|---|
+| `done/HANDOFF-S275-RaBbLE-UI.md` | S279 (U1 + U2 built, superseded by HANDOFF-S279) |
 | `done/HANDOFF-S277-Pocket-W7-Closeout.md` | S278 (W7 closed, W6 watch items closed by Mark) |
 | `done/HANDOFF-S270-Pocket-W6-Respec.md` | S277 (W6 rev 2) |
 | `done/HANDOFF-S268-Pocket-W6-Integrate.md` | S270 (parked), S277 |

@@ -1,6 +1,6 @@
 # Plan: RaBbLE-UI: RaBbLE's own terminal face over a headless Claude Code
 
-**Status:** 🔵 S275 design, Opus-reviewed (14 findings folded in). U0 spike verified. S278: **U1 done** (roster extract, `events.py`, `ClaudeCodeBackend` + `sdk_map.py` + `permissions.py`, `python -m orchestra.probe`, two live-recorded fixtures incl. an organ turn; venv built). U2 next.
+**Status:** 🔵 S275 design, Opus-reviewed (14 findings folded in). U0 spike verified. S279: **U1 + U2 done** (engine `fb80966`, face `a6a46be`; live haiku turn verified headless), `rabble` flipped to the UI (`--cc` = wrapper). U3 next: HANDOFF-S279.
 **Repo:** RaBbLE-sCoRE `new-horizons` · **Source home:** `RaBbLE-sCoRE/ui/` (face) + `RaBbLE-sCoRE/orchestra/` (engine). Code in the member, this doc in the Grimoire.
 **Goal:** `rabble` opens a terminal UI that is RaBbLE's own: portal glyph top left, Aether colours, organs shown as organs. Claude Code runs headless underneath through the Claude Agent SDK. The Crew starts as SDK subagents and grows toward teammate-level collaboration through RaBbLE's own orchestration, not Claude Code's experimental agent teams.
 

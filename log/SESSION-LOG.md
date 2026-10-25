@@ -14,6 +14,21 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-25 · Session S279 (score-rabble-ui-u1-u2)
+
+- **Repos:** RaBbLE-sCoRE (`fb80966` U1 engine, `a6a46be` U2 face, `154e6c6` review fixes), RaBbLE-OS (`31285c7` UI venv), BaBbLE (`bd484ef`, `f42d414` mini face), Grimoire (plan `30c621e`, HANDOFF-S279). None pushed. Early commits tagged `%S278_RABBLE_UI%`: S278 was taken by the concurrent Pocket W7 session.
+- **Work:**
+  - Mark's calls: deps via a uv venv built by Ansible (`ai-harnesses` claude-code task, `~/.local/share/RaBbLE/rabble-ui`); `rabble` flips to the UI as soon as U2 works; the header shows session cost as **API equiv**, on the subscription login too.
+  - U1 engine (lead-built): `crew/roster.py` extracted; `orchestra/events.py` contract; `ClaudeCodeBackend` + `sdk_map.py` (organs by `parent_tool_use_id`) + `permissions.py` (session-only rules, Bash fallback = exact command); `python -m orchestra.probe`. Two live haiku probes recorded as fixtures (a tool turn, an `Explore` organ turn), about $0.014 API equiv.
+  - Mini face: oval eyes, solid side rims, no glow, modal octant colours (no pastel tips), lids for angry/sad, palette-bg cells transparent. Mark: "close"; kitty's 0.92 opacity was what made the opaque bg block distracting.
+  - U2 face: three sonnet lanes (E theme+face, D1 app shell, D2 permission modal + session picker); two hit the usage limit and were resumed. Lead integration: UI tests skip in the server venv, face cells take the widget background. One live haiku turn driven through the UI headless: works. `rabble` = UI, `rabble --cc` = wrapper.
+  - Opus review: three blockers (engine calls crashing the app before `start()`, cwd shadowing `python -m ui`, a stray key answering a permission ask), all fixed and tested. Should-fix items are in the handoff.
+- **Tests:** UI venv 88 passed; server venv 126 passed (UI tests skip there).
+- **Learned:** Textual segments without a bgcolor fall back to the terminal default, not the widget's background. `python -m` puts cwd first on sys.path, so a launcher must use `-P`. The SDK's `total_cost_usd` is a session total and API-equivalent. Octant cells hold two colours, so averaging makes pastels: use the modal colour.
+- **Next:** Mark daily-drives `rabble`; review should-fixes (`/face` perf, Ctrl-C copy, modal quit, octant fallback, model on resume); then U3, the Crew as subagents. Cold start: `log/handoffs/HANDOFF-S279-RaBbLE-UI-U3.md`.
+
+---
+
 ## 2026-10-25 · Session S278 (pocket-w7-accord-press)
 
 - **Repos:** RaBbLE-Pocket (`new-horizons` `876f7d2`, `300cf7e`; W7 flashed, not pushed), Grimoire (`e8bcd04`, `9c7e4fe`, `df15123`, `3e8e683`), RaBbLE-Xperimental + Pocket README (press drafts, uncommitted).

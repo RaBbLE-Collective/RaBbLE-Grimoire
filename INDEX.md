@@ -339,7 +339,7 @@ Status: [log/handoffs/CONTEXT.md](log/handoffs/CONTEXT.md).
 - [HANDOFF-S234-EP1-Entity-Face](log/handoffs/HANDOFF-S234-EP1-Entity-Face.md) — EP1 face build (pairs with the Entity-Face plan)
 - [HANDOFF-S276-EP1-Face-V1](log/handoffs/HANDOFF-S276-EP1-Face-V1.md): EP1 web face V1 on dev; next iPhone check, CF binding + Render env, first main deploy
 - [HANDOFF-S278-Pocket-Press-Drafts-and-SDK](log/handoffs/HANDOFF-S278-Pocket-Press-Drafts-and-SDK.md): W7 done; Mark reviews the parked Pocket press drafts (renders need the clock), then the RaBbLE-SDK
-- [HANDOFF-S275-RaBbLE-UI](log/handoffs/HANDOFF-S275-RaBbLE-UI.md): RaBbLE-UI cold start (pairs with sCoRE-RaBbLE-UI-Plan)
+- [HANDOFF-S279-RaBbLE-UI-U3](log/handoffs/HANDOFF-S279-RaBbLE-UI-U3.md): RaBbLE-UI U1 engine + U2 face live, `rabble` flipped; review should-fixes, then U3 Crew as subagents (pairs with sCoRE-RaBbLE-UI-Plan)
 - [HANDOFF-S268-Pocket-W6-Integrate](log/handoffs/HANDOFF-S268-Pocket-W6-Integrate.md): Pocket W6: spec + firewall done, fresh Sonnet implementer in ~/RaBbLE-Cleanroom/pocket-w6; next integrate, checklist, overlap gate, config trims, then W7 and the RaBbLE-SDK
 - [HANDOFF-S267-Pocket-CleanRoom-Final-SDK](log/handoffs/done/HANDOFF-S267-Pocket-CleanRoom-Final-SDK.md): Pocket after S267 (Orbit v2 hand-checked); next W6 board-layer clean room as Mark's walkthrough, W7 close-out with a Sovereign Accord header sweep, then the RaBbLE-SDK component refactor
 - [HANDOFF-S266-Pocket-Orbit-Pomodoro](log/handoffs/done/HANDOFF-S266-Pocket-Orbit-Pomodoro.md): done S267 (Orbit v2 landed)
