@@ -23,6 +23,7 @@
 ## Next, in order
 
 1. **Mark:** answer plan "Open for Mark" #1 (deps route) and #3 (default swap timing), and sign off the face: run `python3 RaBbLE-BaBbLE/prototypes/terminal-face/face.py` (and `--mini`) in a real terminal. It has only been checked as PNG renders (`preview.py`), never in a live terminal.
+1a. **Mini header mark still needs work** (Mark, end of S275). Full face is approved. The 24×6 mini is octant-drawn with eyes at spread 1.3; open issues: pale blended eye tips (two colours per cell), ring/eye balance, overall legibility. Iterate with `preview.py` contact sheets *and* a live kitty check before moving it to `ui/face.py`.
 1b. Goal is daily-driver parity with `claude` (plan section "Target"): the must-have column gates flipping the default.
 2. Write `orchestra/events.py` first (lane B, small, lead-owned). It is the contract for lanes C and D.
 3. Fan out lanes A, C, D, E (sonnet/haiku pinned, never inherit the lead's model). Opus diff review per lane.

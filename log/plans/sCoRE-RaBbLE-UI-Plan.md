@@ -109,6 +109,7 @@ RaBbLE-sCoRE/
    - Two sizes from one renderer: **full** (splash/idle, ~128×36, shown when the transcript is empty or on `/face`) and **mini** (24×6 header mark, top left, animated; eyes spread 1.3× (one-cell gap; Mark: 1.0 touches, 1.9 far too wide); drawn in Unicode 16 octant glyphs (2×4 sub-pixels per cell) because half-blocks read too blocky at this size; needs a terminal that draws octants itself (kitty, foot, wezterm, ghostty), else fall back to half-blocks).
    - Engine state drives expression: awaiting the Observer → calm · Observer typing → listening · streaming text → speaking · tool/organ work → calm with fast gaze (a "process" mood is a later addition) · error → sad · permission denied → angry (brief). Expressions spring between poses like NeBuLA, not snap.
    - Truecolor required; degrade to 256-colour quantize, and to a static wordmark under `NO_COLOR` or non-UTF-8.
+   - Status (S275 end): full face approved by Mark; **mini still needs work** (blended tips, ring balance, legibility).
    - **Mark signs off the face** by running `python3 face.py` / `--mini` in his own terminal.
 3. Header: mini face · `RaBbLE` gradient wordmark · model · cwd · context % · rate-limit state.
 4. Transcript: streaming Markdown for text; collapsible tool cards (name, one-line input, result summary, red on error); thinking shown as a pulsing line, not content.

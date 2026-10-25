@@ -24,7 +24,9 @@ Format: date, what was done, where things were left, what's next.
   - Terminal face prototype: the NeBuLA alive entity (orb wireframe, eye/portal pairs, meshes, lightning envelope) in half-block + braille cells; face rig + 6 expressions ported from `alive-backend.js`; blink/saccade `Life`; full (~128×36) + mini (22×6 header) sizes; palette read at runtime.
   - Plan page: https://claude.ai/artifact/A2Q3qUN1uZYkpn18BuAeqm
 - **Learned:** CC agent teams never spawn under `-p`/SDK, so a headless Crew needs our own orchestration. SDK tool handlers receive only `arguments` (no caller identity). `can_use_tool` carries `agent_id`, not `parent_tool_use_id`; map via a `SubagentStart` hook. The fastfetch portals art is not the entity; the alive renderer is the reference.
-- **Next:** Mark: face sign-off in a real terminal (only PNG-checked), deps route (uv venv via `ai-harnesses`), when `rabble` flips. Then `orchestra/events.py` and lanes A/C/D/E (HANDOFF-S275).
+- **Face iteration (Mark):** full-size face approved ("I like the full res versions"). Mini header mark: eye spread tried 1.9 ("way too far apart"), settled 1.3 (one-cell gap); "too blocky" → redrawn in Unicode 16 octant glyphs (2×4 sub-pixels per cell, two colours per cell, quieter ring), BaBbLE `ecddc08`, `13b7997`. **The mini still needs work** (Mark): pale blended tips where three colours meet a cell, ring vs eye balance, legibility at 24×6; untested live in kitty.
+- **Learned:** mini spacing moves in whole cells, so small spread changes jump (1.15 = 1.3). kitty 0.49 draws octants itself; the 26 octant patterns Unicode 16 skips map to older block glyphs (table in `face.py`).
+- **Next:** Mark: tune the mini mark, deps route (uv venv via `ai-harnesses`), when `rabble` flips. Then `orchestra/events.py` and lanes A/C/D/E (HANDOFF-S275).
 
 ---
 
