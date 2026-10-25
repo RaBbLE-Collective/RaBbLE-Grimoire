@@ -14,6 +14,22 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-25 · Session S281 (pocket-shot-parity-sim)
+
+- **Repos:** RaBbLE-Pocket (`new-horizons`: `75ce308` `a14d129` `433eb58` `0c8e2e5` `%S281_SHOT%`; `7c792bd` `%S281_SIM%`; `01b515b` `%S281_GATE%`; not pushed), Grimoire (parity sim spec, HANDOFF-S281).
+- **Work:**
+  - NiBbLE re-reviewed the S280 gate fixes: 2 medium + 3 low holes (component dirs the layer checker never walked, a file-name-keyed layer table, scan blind spots, boards including boards, an XFAIL that hides every failure).
+  - GoBbLE mapped the Orbit for S8. The plan's S8 can't run as written: the Orbit draws through `rabble_a8` (S9), the engine half names pages about 25 times, and there are two include cycles.
+  - Mark's bar for promo renders: visual parity with the device (Time, sCoRE, every icon, matching fonts). Spec: the parity sim runs the real `app/RaBbLE` + SDK sources and the real LVGL 9.5.0 on a host board; scenes drive it with the device's own console commands.
+  - Mark approved a firmware `>shot` command (also for Pocket Remote Control). Built as `rabble_shot` (transport-agnostic capture into PSRAM) plus a console transport and `ops/pocket-shot.py`; image +2,832 B.
+  - Three builders (CoBbLE sim, CoBbLE-Shot, CoBbLE-Gate) wrapped up when Mark ended the session.
+- **State at close:** `>shot` built and host-tested, never flashed. The parity sim is a scaffold with no renders. Gate fixes 1 and 3 proven; 2 and 4 coded but not proven; 5 not started; the suite was not re-run on the new checker.
+- **Learned:** `firmware/sdkconfig` is gitignored, so anything generated from it depends on a local file. Planted test cases must be checked for validity (a fixture that doesn't exercise the rule passes silently). The orchestrator's context cost grows each turn: keep long sessions short and hand off.
+- **Open:** Mark's hand-authored Pocket content (which pieces, templates?); B-22 fix choice.
+- **Next:** CrumBbLE flashes `>shot` and checks heap/fps; finish parity sim phase 1 then 2; finish the gate fixes and have NiBbLE re-check; QuiBbLE attacks a re-cut S8 spec; then S8. Cold start: `log/handoffs/HANDOFF-S281-Pocket-Parity-Sim-Shot-Gate.md`.
+
+---
+
 ## 2026-10-25 · Session S280 (pocket-sdk-cleanup)
 
 - **Repos:** RaBbLE-Pocket (`new-horizons`: SDK steps `107c601`..S11, clean-ups 1-7, gate fixes `e2b5b06`..`fa6f3c6`; flashed `6889b52`, not pushed), Grimoire (SDK-Plan v0.3, Roadmap EP1 section, Beam-Protocol paths, PROVENANCE, HANDOFF-S280). S2-S11 commits tagged `%S279_SDK%` (S279 was taken by the concurrent RaBbLE-UI session); the rest `%S280_SDK%`. Close-out written afterwards: the session hit the usage limit at "goodnight".
