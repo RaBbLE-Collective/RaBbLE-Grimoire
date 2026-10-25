@@ -4,7 +4,7 @@
 > Do not hand-edit — use `blockers.sh add` / `resolve`. This is the durable
 > home for blockers so they survive the rewrite of the SESSION-LOG `## LATEST` box.
 >
-> Last synced: 2026-10-20  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
+> Last synced: 2026-10-25  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
 
 ## OPEN
 
@@ -14,7 +14,8 @@
 - **B-15** — ProArt hardware role (ansible/roles/hardware/x64/asus_proart_p16/) is being applied on Mark's non-ProArt Desktop bare-metal install — tries to install NVIDIA packages that don't exist on that hardware, causing Ansible task failures; install ends without Firefox and with 'a good number' of other failed recipes. Hardware auto-detection logic needs diagnosis — the role should not be matching this machine at all.  ·  owner:Mark  ·  since:2026-09-28  ·  [os-install,hardware-detection]
 - **B-16** — OpenRouter $10 credits not purchased — free-tier 429 caps the OpenRouter leg of the chat chain (resilience only; G5 met via Groq). Continues B-02.  ·  owner:Mark  ·  since:S106  ·  [resilience]
 - **B-18** — Raspberry Pi 4 appears dead: steady ACT + red PWR, no HDMI even with bootloader-recovery/OS image on SD (S257). USB-C is power-only so no laptop UART. Needs multimeter (TP1/TP2 5V, PMIC rails), inline USB power meter, USB-UART adapter (CP2102N/FT232H) to confirm; likely replace board.  ·  owner:  ·  since:2026-10-20  ·  [hardware]
-- **B-19** — https://joinrabble.world/setup.sh returns 404 (found S263). It is the documented fresh-machine install path (`curl -fsSL https://joinrabble.world/setup.sh | bash`) and G9 depends on it. Not DNSSEC: DS/validation are fine and the domain answers. Unverified whether it ever served from this path or moved. Check how joinrabble.world is deployed (World Pages?) and where setup.sh should live.  ·  owner:Mark  ·  since:2026-10-21  ·  [bootstrap,g9]
+- **B-19** — https://joinrabble.world/setup.sh returns 404 (found S263). It is the documented fresh-machine install path and G9 depends on it. Not DNSSEC. S276 root cause: prod is not deployed from World main (main is a 3-file stub e7bcca7, 155 commits behind; the air merge will be the FIRST deploy from main), nobody knows what serves joinrabble.world (worker rabble-collective vs a Pages project) and wrangler.jsonc declares no routes. Needs the CF domain binding found. G9 now deferred to a later Event (EP1 web-only, S276).  ·  owner:Mark  ·  since:2026-10-21  ·  [bootstrap, g9, ep1-gate]
+- **B-20** — EP1 prod launch: confirm the Cloudflare domain binding for joinrabble.world and the Render env (DEMO_MODE + DEMO_MODE_PUBLIC, /health, guest chat; commit e56808a not deployed; render-ctl.sh references missing render.reference.yaml) before the first World main deploy. Launch risks: Groq personal-key cap, Render free-tier cold start.  ·  owner:Mark  ·  since:S276  ·  [ep1-gate]
 
 ## RESOLVED
 
