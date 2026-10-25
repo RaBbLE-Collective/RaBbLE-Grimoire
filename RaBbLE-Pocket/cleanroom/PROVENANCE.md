@@ -1,6 +1,6 @@
 # PROVENANCE.md: Pocket clean room
 
-> One row per module swapped in. Process: `../RaBbLE-Pocket-Clean-Room-Plan.md`. Overlap measured with `RaBbLE-Pocket/ops/cleanroom-overlap.py` (integrator only) against `firmware/muse-gadget-sdk/esp32` at `b139b45`.
+> One row per module swapped in. Process: `../RaBbLE-Pocket-Clean-Room-Plan.md`. Overlap measured with `RaBbLE-Pocket/ops/cleanroom-overlap.py` (integrator only; retired in W7, re-clone the SDK to rerun it) against `third_party/muse-gadget-sdk/esp32` at `b139b45`.
 > Agents: "fresh sub-agent" means a Claude Code sub-agent started with no conversation context. Its brief is the spec plus `cleanroom/BRIEF.md`, in the plain-export workspace `~/RaBbLE-Cleanroom/pocket` (no `apache/`, `rabble_axp2101/`, `bsp/`, SDK or git history).
 
 ## Wave W0: seam (S256, 2026-10-16)
@@ -165,3 +165,47 @@ Revision 2 (S277, 2026-10-24; Pocket commits tagged `%S276_W6R2%`, the number wa
 **Transcript audit (W6 rev 2):** implementer 55 tool calls, 3 flagged, all the workspace's own `firmware/bsp` path (benign). Firewall and implementer transcripts archived in `~/RaBbLE-Cleanroom/transcripts/w6r2/` (on disk only, Mark S277).
 
 **On the gadget (S277):** display up 403 ms (panel 295), app ready 3.2 s (old layer 4.3 s); idle face 594-600 frames per 10 s; steady 30 under voice-turn load with 4 stalled-helper rescues and no freeze; free internal heap at boot 13,207 (old layer 13,315, three boots each); stacks unused: send 4,980 B, helper 1,724 B; no crash or assert through voice turns, a voice note and sleep/wake cycles. Mark, cursory hand check: "feels great". Merged on Mark's call before the full 18a soak and the Orbit-slide side-by-side; those stay open as watch items. The Muse Gadget SDK copy was deleted after the merge (re-clone to rerun the overlap gate).
+
+## Wave W7: close-out (2026-10-25)
+
+Mechanical, no behaviour change. Pocket working tree on `new-horizons`, written by the CoBbLE organ for review.
+
+| Item | Result |
+|---|---|
+| `bsp/LICENSE-APACHE`, the Apache section of `firmware/NOTICE` | Gone since W6 (`6c3b78b`). `firmware/NOTICE` states that all code is RaBbLE's own and keeps the managed-components paragraph |
+| Reference SDK | `third_party/muse-gadget-sdk` deleted S277 (`227f503`); noted in `third_party/README.md` and `.gitignore` |
+| Copyright header sweep | 154 tracked files gained `Copyright (c) 2026 The RaBbLE Collective. RaBbLE Sovereign Accord.` as the first comment line: nebula_lite 10, rabble_gadget 7, pcf85063 3, qmi8658 1, main 2, panel_bench 3, firmware build/config 3, `test/cleanroom` 95, `test/outbox_test` 1, `hardware/cad` 15, `ops` 3, `sim` 5, root `.gitignore` 1, `planning/mock` 1 (HTML comment after the doctype), three `partitions.csv` (`#` comment; the generated table is byte-identical), `w2/input_test/.gitignore` 1 (new). Skipped: images, CAD binaries, symlinks, `third_party/`, `planning/decisions/` (history), files that already had the line, and Markdown. `test/cleanroom/w2/input_test/build/` (a committed build output that `run.sh` overwrites) is untracked and git-ignored instead |
+| Wording | `firmware/CONTEXT.md`, `firmware/README.md`, `firmware/components/rabble_gadget/idf_component.yml`, `firmware/sdk/rabble_core/idf_component.yml` and `AGENT.md` describe the code as RaBbLE's own. The `.gitignore` comment keeps the one history note (SDK deleted S277, re-clone to rerun the gate) |
+| Test paths | Six scripts under `firmware/test/cleanroom/` pointed at the deleted `components/rabble_gadget/apache`; they now read `accord/` (`w1/console_setup_test/gen_ifc.sh`, `w2/input_test/{compile_check,run}.sh`, `w3/beam_test/run.sh`, `w3/wifi_test/compile_check.sh`) |
+| `ops/cleanroom-overlap.py` | Retired: exits early with a message unless the reference SDK is present. The logic stays for a future clean room; `ops/cleanroom-audit.py` is unchanged |
+| Gate | `grep -rn "Meta Platforms"` over the repo (minus `managed_components`, `third_party`, `build`) is empty. Tracked files: only the history row in `third_party/README.md`. NOTICE lists no redistributed third party |
+
+**Every formerly derived module has a row above** (W0 to W6): state, board seam and memory, text, adpcm, console, setup, axp2101, battery, input, beam status side, wifi store, settings, wifi (radio, air, priv), audio, voice, the Orbit settings UI (replaced by a redesign), keypad (retired), the board layer in `bsp/`.
+
+### RaBbLE's own from the start
+
+These modules never had a derived ancestor, so they have no wave row. Evidence is the first commit (`git log --diff-filter=A --follow`) and, for the S243 gadget commit, the layout table in [Gadget-Port](../RaBbLE-Pocket-Gadget-Port.md) and the `firmware/NOTICE` of that commit, which listed only `apache/`, `rabble_axp2101/` and `bsp/` as derived. The SDK copy is deleted, so there is no fresh diff against it; the claim rests on the history.
+
+| Module | First commit | Note |
+|---|---|---|
+| `rabble_entity.c/.h` | `f4156ae` 2026-10-15 (S251) | entity on nebula_lite; changed again in W5 Part B |
+| `entity_face.c/.h` | `12f7799` 2026-08-08 | v1 firmware, two months before the SDK study |
+| `rabble_clock_screen.c/.h`, `rabble_level_screen.c/.h` | `12f7799` 2026-08-08 (`.c`), `42ae6d9` 2026-10-06 (`.h`); level screen `51c110a` 2026-10-22 | screens |
+| `rabble_ui.c/.h`, `ui_theme.h`, `rabble_palette.h`, `lv_hook/rabble_lv_assert.h` | `42ae6d9` 2026-10-06 (S243) | "Accord only" in the Gadget-Port layout. `rabble_ui.c` carries an accepted overlap baseline of 13.9% (12.3% after W5), generic LVGL idioms, reviewed at W5 |
+| `rabble_beam_score.c` | `42ae6d9` 2026-10-06 | sCoRE session; the W3 beam row records that the session task and text helpers were already RaBbLE's own |
+| `rabble_motion.c/.h`, `components/rabble_qmi8658` | `21eb8c8` 2026-10-06 (S243) | IMU driver "own driver" per Gadget-Port |
+| `components/rabble_pcf85063` | `12f7799` 2026-08-08 | RTC |
+| `main/app_main.c` | `12f7799` 2026-08-08 | edited since (`bsp_perf.h` include etc.) |
+| `components/nebula_lite` (`scene.c`, `raster*.c`, `compose.c`, `luts.c`, `simd_*`, `nl_*.h`, `nebula_lite.h`) | `5f775ae` 2026-10-15 (S250), SIMD `9fbdee2` (S251) | `orbit.c` was written in W5 from a spec (row above) |
+| `rabble_capture.c/.h` | `678e335` 2026-10-22 (S265) | Converse and Capture |
+| `rabble_notes.c/.h`, `rabble_notes_console.c/.h` | `4529039`, `60e1c9a` 2026-10-22 (S265) | notes store |
+| `rabble_outbox.c/.h` | `c698884` 2026-10-23 | offline voice notes |
+| `rabble_pomo.c/.h` | `6fcd739` 2026-10-22 | Pomodoro applet |
+| `rabble_time.c/.h` (`sdk/rabble_core`) | `90e8926` 2026-10-16 (S254) | clock from sCoRE, zones |
+| `panel_bench/` | `a77437a` 2026-10-15 (S250) | Phase 0 QSPI bench. Own code, but the CO5300 register init values were taken from the Waveshare BSP (Apache-2.0); functional data, the same accepted overlap as the W6 `bsp/` |
+
+Not examined in this table: `sim/`, `ops/`, `hardware/` and `companion-app/` (outside `firmware/components`, none ever listed as derived).
+
+**Stale seam build found at W7 (fixed):** the cached seam project `firmware/test/cleanroom/w0/seam_test/idfproj/build/config/sdkconfig.h` dated from Oct 16 and lacked `CONFIG_ESP_TLS_CLIENT_SESSION_TICKETS`, added later in `firmware/sdkconfig.defaults`, so `w3/wifi_test/compile_check.sh` failed on undeclared `ESP_TRANSPORT_SESSION_TICKET_*`. The scripts reconfigured only when `sdkconfig.h` was missing; all ten now also reconfigure when `sdkconfig.defaults` is newer. On a fresh seam build `wifi_test/compile_check.sh` passes, and the `esp_littlefs.h` errors in the seam and beam Xtensa steps went away too.
+
+**Known stale checks after W7 (unrelated to the path fix, left as they are):** `w0/seam_test/run.sh` and `w3/beam_test/run.sh` (Xtensa step lacks the `bsp/` include path for `main/app_main.c`: `bsp_perf.h`), `w2/input_test/run.sh` (host step lacks `nebula_lite/include`), `w2/battery_test/run.sh` (LeakSanitizer reports and one persist scenario differs). All other scripts pass.

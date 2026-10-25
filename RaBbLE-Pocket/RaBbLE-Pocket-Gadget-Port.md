@@ -1,5 +1,7 @@
 # RaBbLE-Pocket-Gadget-Port.md
 
+> **Historical record (W7, 2026-10-25).** This page describes the S243 port, when the hardware layer was derived from the Apache-2.0 parts of Meta's gadget SDK. That code has since been replaced module by module through the clean room ([Clean-Room-Plan](RaBbLE-Pocket-Clean-Room-Plan.md), [PROVENANCE](cleanroom/PROVENANCE.md)). The firmware is RaBbLE's own, under the Sovereign Accord only: `apache/` and every `LICENSE-APACHE` are gone, `firmware/NOTICE` lists no derived code, and the reference SDK copy is deleted. The Layout table and the rules below are as of S243; the behaviour sections still describe the gadget.
+
 RaBbLE-Pocket's firmware rebuilt as a **RaBbLE gadget** (S243, 2026-10-06): the board, audio, power, Wi-Fi, settings and push-to-talk voice loop ported from the Apache-2.0 parts of Meta's gadget SDK (studied in [RaBbLE-Pocket-Muse-SDK-Map](RaBbLE-Pocket-Muse-SDK-Map.md)), with its cloud backend replaced by **the beam** to sCoRE ([RaBbLE-Pocket-Beam-Protocol](RaBbLE-Pocket-Beam-Protocol.md)) and its avatar replaced by RaBbLE's own LVGL face. Supersedes the v1 screens of [RaBbLE-Pocket-V1-Firmware-Plan](RaBbLE-Pocket-V1-Firmware-Plan.md) (their geometry and two-tier sleep carried over).
 
 ## Rules Mark set for the port

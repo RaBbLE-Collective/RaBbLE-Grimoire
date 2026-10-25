@@ -1,5 +1,7 @@
 # RaBbLE-Pocket-Muse-SDK-Map.md
 
+> **Historical reference (W7, 2026-10-25).** Study notes from the S242 bring-up, kept for the record. Nothing from the SDK remains in the current RaBbLE-Pocket tree (git history keeps the derived files by design): the clean room (W0 to W6) replaced every derived module, and the local copy at `third_party/muse-gadget-sdk` was deleted in S277. Re-clone it (`RaBbLE-Pocket/third_party/README.md`) only to rerun the overlap gate for a future clean room.
+
 Study notes from flashing Meta's open-source Muse Gadget SDK onto the Pocket v1 board (Waveshare ESP32-S3-Touch-AMOLED-1.75-B), 2026-10-06. Two goals: prove the hardware on drivers someone else already debugged, and map which parts of the SDK are worth porting into RaBbLE's own Pocket firmware. Both are met. Read-only study: nothing from the SDK has been copied into `RaBbLE-Pocket` yet.
 
 Source plan: `RaBbLE-BaBbLE/intake/rabble-pocket-muse-bringup.md`. Board spec: [RaBbLE-Pocket-Hardware](RaBbLE-Pocket-Hardware.md). Our own firmware: [RaBbLE-Pocket-V1-Firmware-Plan](RaBbLE-Pocket-V1-Firmware-Plan.md).
