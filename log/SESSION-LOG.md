@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-25 · S279 (score-rabble-ui)
+## LATEST — 2026-10-25 · S280 (pocket-sdk-cleanup)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S279: rabble is RaBbLE-UI (U1 engine + U2 face), review blockers fixed
-**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21 open.
-**Next:** Mark daily-drives rabble; U2 should-fixes, then U3 Crew as subagents (HANDOFF-S279)
+**This session:** S280: Pocket SDK S2-S7+S11 + layout clean-up, gates green; voice-note drop filed B-22
+**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22 open.
+**Next:** NiBbLE re-review e2b5b06..fa6f3c6, Mark picks B-22 fix; then test suite (HANDOFF-S280) or SDK S8; U3 still open (HANDOFF-S279)
 
 ---
 
