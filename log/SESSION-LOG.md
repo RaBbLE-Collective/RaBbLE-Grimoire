@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-25 · S280 (pocket-sdk-cleanup)
+## LATEST — 2026-10-25 · S281 (pocket-shot-parity-sim)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S280: Pocket SDK S2-S7+S11 + layout clean-up, gates green; voice-note drop filed B-22
+**This session:** S281: Pocket >shot built (not flashed), parity sim scaffold, gate-checker fixes 3 of 5 proven
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22 open.
-**Next:** NiBbLE re-review e2b5b06..fa6f3c6, Mark picks B-22 fix; then test suite (HANDOFF-S280) or SDK S8; U3 still open (HANDOFF-S279)
+**Next:** CrumBbLE flashes >shot; finish parity sim + gate fixes; QuiBbLE on re-cut S8; Mark: hand-authored content + B-22 fix
 
 ---
 
