@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-24 · S274 (pocket-orbit-pull-transition)
+## LATEST — 2026-10-24 · Session S275 (score-rabble-ui)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S274: Pocket face+Orbit one gesture; orbs gather from the mesh and go home round the rim
+**This session:** S275: rabble → own Textual face over headless CC (Agent SDK); Opus-reviewed plan; entity face prototype in terminal cells
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18 open.
-**Next:** Mark's first Crew run (HANDOFF-S273); HANDOFF-S271: >mem, S1 gate, Render env, SDK S2, W6 re-spec
+**Next:** Mark: face sign-off in a real terminal, deps route, flip timing; then orchestra/events.py + lanes (HANDOFF-S275)
 
 ---
 
