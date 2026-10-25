@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-24 · Session S276 (world-ep1-face-v1)
+## LATEST — 2026-10-24 · Session S277 (pocket-w6-rev2-cleanroom)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S276: EP1 web face V1 on dev (entity-first, Pocket teaser); first Crew run
+**This session:** S277: Pocket W6 clean room done and merged; firmware has no derived code
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20 open.
-**Next:** Mark: iPhone check dev; CF binding + Render env; first main deploy (HANDOFF-S276)
+**Next:** Pocket W6 soak/Orbit A/B, W7 close-out, SDK (HANDOFF-S277); EP1 prod launch (HANDOFF-S276)
 
 ---
 
