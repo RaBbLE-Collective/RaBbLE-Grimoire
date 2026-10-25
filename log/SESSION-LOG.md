@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-25 · Session S278 (pocket-w7-accord-press)
+## LATEST — 2026-10-25 · S279 (score-rabble-ui)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S278: Pocket W7 clean room closed, notes triaged, Accord v2 parked
+**This session:** S279: rabble is RaBbLE-UI (U1 engine + U2 face), review blockers fixed
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21 open.
-**Next:** Mark reviews Pocket press drafts (renders need the clock), then RaBbLE-SDK (HANDOFF-S278)
+**Next:** Mark daily-drives rabble; U2 should-fixes, then U3 Crew as subagents (HANDOFF-S279)
 
 ---
 
