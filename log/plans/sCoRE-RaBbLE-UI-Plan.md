@@ -1,6 +1,6 @@
 # Plan: RaBbLE-UI: RaBbLE's own terminal face over a headless Claude Code
 
-**Status:** 🔵 S275 design, Opus-reviewed (14 findings folded in). U0 spike verified; U1–U5 not started.
+**Status:** 🔵 S275 design, Opus-reviewed (14 findings folded in). U0 spike verified. S278: **U1 done** (roster extract, `events.py`, `ClaudeCodeBackend` + `sdk_map.py` + `permissions.py`, `python -m orchestra.probe`, two live-recorded fixtures incl. an organ turn; venv built). U2 next.
 **Repo:** RaBbLE-sCoRE `new-horizons` · **Source home:** `RaBbLE-sCoRE/ui/` (face) + `RaBbLE-sCoRE/orchestra/` (engine). Code in the member, this doc in the Grimoire.
 **Goal:** `rabble` opens a terminal UI that is RaBbLE's own: portal glyph top left, Aether colours, organs shown as organs. Claude Code runs headless underneath through the Claude Agent SDK. The Crew starts as SDK subagents and grows toward teammate-level collaboration through RaBbLE's own orchestration, not Claude Code's experimental agent teams.
 
@@ -111,7 +111,7 @@ RaBbLE-sCoRE/
    - Truecolor required; degrade to 256-colour quantize, and to a static wordmark under `NO_COLOR` or non-UTF-8.
    - Status (S275 end): full face approved by Mark; **mini still needs work** (blended tips, ring balance, legibility).
    - **Mark signs off the face** by running `python3 face.py` / `--mini` in his own terminal.
-3. Header: mini face · `RaBbLE` gradient wordmark · model · cwd · context % · rate-limit state.
+3. Header: mini face · `RaBbLE` gradient wordmark · model · cwd · context % · rate-limit state. Plus session cost labelled **API equiv** (Mark, S278: keep it on a subscription login too; it shows what the API would cost without the plan). Source: `ResultMessage.total_cost_usd`, computed by the CLI from tokens × API list price.
 4. Transcript: streaming Markdown for text; collapsible tool cards (name, one-line input, result summary, red on error); thinking shown as a pulsing line, not content.
 5. Composer: multiline input, Enter sends, Shift+Enter newline, Esc interrupts (`client.interrupt()`), Up recalls history. Slash commands: `/model`, `/organs`, `/resume`, `/clear`, `/quit`.
 6. Permission modal: tool + input preview + allow once / allow for session / deny with reason. Bash shows the full command; edits show the diff.
@@ -173,9 +173,9 @@ U3 and U4 are sequential after U1+U2 merge.
 
 ## Open for Mark
 
-1. **Dependencies:** `claude-agent-sdk` + `textual` need installing. Proposal: a sCoRE `ui/requirements.txt` and a uv-managed venv created by the RaBbLE-OS `ai-harnesses` role (Ansible-driven, per the install rule); `scripts/rabble` runs the venv's python. You apply with `layerctl`. The SDK bundles its own CLI (2.1.310 in 0.2.174); pin the SDK version, and if a system `claude` is used via `cli_path`, it must be ≥ 2.1.257 for `snapshot`/`verbatim_prompts`.
+1. ✅ **Answered 2026-10-25 (S278): uv venv via Ansible.** Built: sCoRE `ui/requirements.txt` + the `claude-code` task in `ai-harnesses` makes `~/.local/share/RaBbLE/rabble-ui` (`layerctl apply claude-code`). Original proposal: `claude-agent-sdk` + `textual` need installing. Proposal: a sCoRE `ui/requirements.txt` and a uv-managed venv created by the RaBbLE-OS `ai-harnesses` role (Ansible-driven, per the install rule); `scripts/rabble` runs the venv's python. You apply with `layerctl`. The SDK bundles its own CLI (2.1.310 in 0.2.174); pin the SDK version, and if a system `claude` is used via `cli_path`, it must be ≥ 2.1.257 for `snapshot`/`verbatim_prompts`.
 2. **Face sign-off** (U2.2): run the prototype in your terminal (`RaBbLE-BaBbLE/prototypes/terminal-face/`); tune before it moves to `ui/face.py`.
-3. **Default swap timing:** does `rabble` flip to the UI as soon as U2 works, or after U3?
+3. ✅ **Answered 2026-10-25 (S278): flip as soon as U2 works** (must-have column above still gates it). `rabble --cc` keeps the wrapper.
 4. **Terms:** fine for your personal use on your login. If `rabble` ships to other people, check Anthropic's terms first; users would likely bring their own API keys (fits the BYOK local tier).
 5. Crew colour candidates (S273) are still unpromoted; the UI reads whatever `RaBbLE-Palette.md` and the persona frontmatter hold.
 
