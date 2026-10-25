@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-24 · Session S277 (pocket-w6-rev2-cleanroom)
+## LATEST — 2026-10-25 · Session S278 (pocket-w7-accord-press)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S277: Pocket W6 clean room done and merged; firmware has no derived code
-**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20 open.
-**Next:** Pocket W6 soak/Orbit A/B, W7 close-out, SDK (HANDOFF-S277); EP1 prod launch (HANDOFF-S276)
+**This session:** S278: Pocket W7 clean room closed, notes triaged, Accord v2 parked
+**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21 open.
+**Next:** Mark reviews Pocket press drafts (renders need the clock), then RaBbLE-SDK (HANDOFF-S278)
 
 ---
 
