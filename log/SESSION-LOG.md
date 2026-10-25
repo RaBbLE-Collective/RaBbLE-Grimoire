@@ -14,6 +14,20 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-24 · Session S276 (world-ep1-face-v1)
+
+- **Repos:** RaBbLE-World (`e55636c`, new-horizons, pushed, dev deploy green), Grimoire (HANDOFF-S276, B-19/B-20).
+- **Work:** first interactive `rabble` Crew run (HANDOFF-S273 step 1), used to take the EP1 web face to a public-V1 candidate on https://dev.joinrabble.world.
+  - Face: no "wake" button (tap anywhere), Summon is a RaBbLE Pocket teaser (sim face in a CSS bezel, "Summon yours · coming soon"), colour-pole picker gone, no OS/roadmap doors, subtle "ep1 · genesis". Canned voice lines realigned off Exodus/poles (drafts for Mark).
+  - CrumBbLE headless Chromium at 1440 and 393, two rounds, pass. NiBbLE: nothing blocking; a11y fix landed (hint is the `role=button`, h1 + arrive line exposed).
+  - Crew verified: GoBbLE haiku, QuiBbLE/NiBbLE opus, CoBbLE/CrumBbLE sonnet, in-process teammates named after organs.
+- **Decisions (Mark):** EP1 airs **web-only**; G7 and G9 move to a later Event. Face treated as public V1 ready (answers G10 pending an iPhone look). **Pending Mark's OK:** the epoch exit text (`registry/epochs/current.epoch.yml` ~:49-54) still lists G7/G9; not edited.
+- **Learned:** idle_notification `result` truncates long reports (organs must SendMessage the full one). Read-only organs hold Bash, so read-only is instruction-level only (Mark to decide a deny-list). The critics changed the outcome (first-prod-launch risk, screen-reader bug).
+- **Findings:** World `main` is a 3-file stub (`e7bcca7`), 155 behind: the air merge is the first deploy ever from main. Nobody knows what serves joinrabble.world (worker vs Pages; `wrangler.jsonc` has no routes), likely B-19. OS `main` is a stub, Grimoire `main` 712 behind, so `_redirects` stays on new-horizons. Guest chat needs `DEMO_MODE` + `DEMO_MODE_PUBLIC` on Render (unverified; `e56808a` undeployed; `render-ctl.sh` references a missing yaml). Integration Map guest-token wording is stale. Desktop "white oval" in headless Chromium is a software-GL context loss, not a regression.
+- **Next:** Mark: iPhone + GPU-browser check on dev, copy rewrite, OS mentions; then CF binding + Render env, first main deploy (HANDOFF-S276).
+
+---
+
 ## 2026-10-24 · Session S275 (score-rabble-ui)
 
 - **Repos:** Grimoire (`log/plans/sCoRE-RaBbLE-UI-Plan.md`, `log/handoffs/HANDOFF-S275-RaBbLE-UI.md`, INDEX + both CONTEXT tables), RaBbLE-BaBbLE (`4da62b0`, `prototypes/terminal-face/`). No sCoRE code yet.
