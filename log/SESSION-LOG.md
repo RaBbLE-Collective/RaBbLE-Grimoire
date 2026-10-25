@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-24 · Session S275 (score-rabble-ui)
+## LATEST — 2026-10-24 · Session S276 (world-ep1-face-v1)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S275: rabble → own Textual face over headless CC (Agent SDK); Opus-reviewed plan; entity face prototype in terminal cells
-**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18 open.
-**Next:** Mark: face sign-off in a real terminal, deps route, flip timing; then orchestra/events.py + lanes (HANDOFF-S275)
+**This session:** S276: EP1 web face V1 on dev (entity-first, Pocket teaser); first Crew run
+**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20 open.
+**Next:** Mark: iPhone check dev; CF binding + Render env; first main deploy (HANDOFF-S276)
 
 ---
 
