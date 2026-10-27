@@ -4,7 +4,7 @@
 > Do not hand-edit — use `blockers.sh add` / `resolve`. This is the durable
 > home for blockers so they survive the rewrite of the SESSION-LOG `## LATEST` box.
 >
-> Last synced: 2026-10-25  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
+> Last synced: 2026-10-27  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
 
 ## OPEN
 
@@ -18,6 +18,7 @@
 - **B-20** — EP1 prod launch: confirm the Cloudflare domain binding for joinrabble.world and the Render env (DEMO_MODE + DEMO_MODE_PUBLIC, /health, guest chat; commit e56808a not deployed; render-ctl.sh references missing render.reference.yaml) before the first World main deploy. Launch risks: Groq personal-key cap, Render free-tier cold start.  ·  owner:Mark  ·  since:S276  ·  [ep1-gate]
 - **B-21** — RaBbLE name clearance: RABBLE filed by others in class 9 (Atreum 90042611, Rabble Digital 97739617, zuMedia IR classes 9/38); check live status + lawyer before heavy brand investment; copyright-register entity art within 3 months of first post  ·  owner:Mark  ·  since:2026-10-25  ·  [brand]
 - **B-22** — Pocket drops a saved voice note after 8 failed sends: esp-aes 'Failed to allocate memory' -> mbedtls write error -0x0084 with ~12.3 KB internal heap free at ready (rabble_voice.c:548 note_drop_oldest). Found by CrumBbLE on S280 HEAD 6889b52; heap is byte-identical to 52f72b9, so likely pre-existing (W6/W7 internal-RAM drop 14.7->12.3 KB), no A/B yet. Retry traffic likely explains 51-56 fps in the first ~50 s. Capture hand check fails until fixed. Fix options (Mark's call): smaller websocket chunks, mbedtls AES path without internal-RAM alloc, or free internal RAM; never drop a note silently.  ·  owner:Mark  ·  since:S280  ·  [pocket, voice]
+- **B-23** — No working backup: Dropbox maestral stopped (52G local copy, sync unverified); no external-disk backup tool or timer; Incenergy (154), RaBbLE-BaBbLE (59), ATLAS-next (10) have unpushed commits and no remote; RaBbLE-Cleanroom/FreelanceWebDev/esp are not git repos. Needs Mark: pick external disk + fs, start maestral. Plan: log/plans/OS-Install-Editions-Plan.md Part A  ·  owner:Mark  ·  since:S283  ·  [backup]
 
 ## RESOLVED
 
