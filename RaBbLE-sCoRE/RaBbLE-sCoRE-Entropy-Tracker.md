@@ -371,23 +371,28 @@ the context, so the sum is what resuming the session cold would cost). Park trig
 
 Mark's direction after the v0.4 build. Two corrections to what v0.4 does.
 
-**1. Entropy and stability are different things.** v0.4 folds both into one number, so the entity
-glitches the same way for "a weak model" and for "a degraded session". They are linked, not equal:
-a low-entropy model can be unstable (a frontier model with a bloated, compacted session), and a
-high-entropy model can be stable (a small local model, fresh and clean).
+**1. Entropy is the whole measure; capability and stability are the two things that move it.**
+RaBbLE is an entity of entropy: the score says how far this session can be trusted, in total.
+v0.4 computes it from one blended number (`capability = base - loss`), so the entity cannot show *why*
+it is uncertain. Two variables feed it, and they are linked but not the same: a high-capability model
+can be unstable (a frontier model in a bloated, compacted session), and a low-capability model can be
+stable (a small local model, fresh and clean).
 
-| | Entropy | Stability |
+| | Capability | Stability |
 |---|---|---|
-| Is | How much the model can do: `100 - capability(model)` | How healthy this session is: damage, pressure, bloat |
-| Changes | Only when the model changes | Every turn; recovers (decay, re-grounding) and resets on a park |
-| The entity shows it as | **Static**: a steady grain, constant while the model is the same | **Glitch and breaking**: tears, channel splits, dropped rows; worse as stability falls and as bloat rises |
-| Trust reads | the model's capability | the session's capability after loss (today's `capability(category)`) |
+| Is | What the model can do, per category, from benchmarks | How healthy this session is: damage, pressure, bloat |
+| Changes | When the model changes | Every turn; recovers (decay, re-grounding) and resets on a park |
+| The entity shows it as | **Noise and resolution**: a less capable model is drawn grainier and coarser | **Glitch and breaking**: tears, channel splits, dropped rows; worse as stability falls and as bloat rises |
+| Entropy | lower capability, higher entropy | lower stability, higher entropy |
 
-So an opus session is clean-grained at the start and starts to tear as it bloats; a local qwen
-session carries static from the first frame but does not break until the session itself degrades.
-Today `signal_level(score)` in `ui/face.py` is one curve over both; it becomes two inputs: a static
-level from model entropy and a break level from stability (including bloat as its own term, so a
-filling window breaks the entity before it costs trust).
+So a local qwen session is grainy and low-resolution from the first frame but holds together; a
+fresh opus session is crisp and starts to tear as it bloats. Today `signal_level(score)` in
+`ui/face.py` is one curve over the blended score; it becomes two inputs: a **noise/resolution level**
+from capability (the renderer already has a resolution parameter, the octant sub-pixel factor
+in `ui/eyes.py`, plus a grain and colour-quantisation step) and a **break level** from stability
+(bloat is its own term, so a filling window breaks the entity before it costs trust). The additive
+v0.4 maths stays the default for the combined entropy and for trust until a better combination is
+chosen.
 
 **2. Capability numbers come from benchmarks, and scale as models improve.** The v0.4 registry is
 estimates (`source: estimate`). The plan:
@@ -415,7 +420,8 @@ estimates (`source: estimate`). The plan:
 
 Open: which benchmarks per category; absolute vs frontier-relative (above); whether `recall` is
 benchmarked or measured in use; whether stability gets its own 0-100 number in the header next to
-the capability tier.
+the capability tier; how entropy combines the two (additive today; trust may read capability, stability
+or the combination); how coarse the resolution step may get before the face stops reading as a face.
 
 ## Revision History
 
@@ -425,7 +431,7 @@ the capability tier.
 | v0.2 | 2026-10-28 | Score split into baseline + cumulative damage + live pressure (context fill, rate limit, long session); frontier models incl. sonnet are low entropy; trust and glitch derived from the score. Implemented in `RaBbLE-sCoRE/orchestra/entropy.py` (S284/S285) |
 | v0.3 | 2026-10-28 | Glitch level is a piecewise curve on the score (`SIGNAL_CURVE` in `ui/face.py`): opus 0, sonnet 0.12, haiku 0.30, tuned by eye. Sonnet baseline 0.10 to 0.13 so a `/model` switch bump (+0.05) cannot make opus look like sonnet; still STABLE and trusted. (S287) |
 | v0.4 | 2026-10-28 | Capability model: per-model capability by category (general, coding, tools, recall) in an editable registry; entropy = 1 - capability/100; transient damage decays, structural damage earns partial credit from re-grounding, parking resets; bloat tracking drives the park point; trust tier read from capability (trusted >= 60, standard >= 40). (S287) |
-| v0.5 (planned) | 2026-10-28 | Direction only, nothing built: entropy (model capability, shown as static) split from stability (session health and bloat, shown as glitch and breaking); capability derived from benchmarks and rescalable as models evolve. (S287) |
+| v0.5 (planned) | 2026-10-28 | Direction only, nothing built: entropy stays the whole measure; capability (model, benchmark-derived, rescalable) shows as noise/resolution and stability (session health and bloat) shows as glitch and breaking. (S287) |
 
 ---
 

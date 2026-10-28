@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-28 · Session S288 (pocket-open-sdk)
+## LATEST — 2026-10-28 · S287 (rabble-ui-capability-park-face)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S288: E0 spec v0.2 + plan v0.3, Open SDK inventory, S10a board split (hw gates pending)
+**This session:** S287: park at 80%, capability model, fine eyes, scroll+modal+hypr fixes; fresh rabble test next
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25 open.
-**Next:** Open app skeleton, export spell, 1.75C licence check; S10a hw gates on a board
+**Next:** Mark tries HANDOFF-S287 in a fresh rabble; then entropy/stability split, benchmark capabilities, face phase 2
 
 ---
 
@@ -39,7 +39,7 @@ Format: date, what was done, where things were left, what's next.
   - Park (`3d33e99` `%S287_PARK%`): at 80% context (warn at 70%) the warm lead writes a handoff + session-log entry (commit only at a good commit point, never push), the engine checks the file, and a fresh session starts from it (entropy restarts at baseline + 0.05 handoff mark). `/park [now|continue] | auto|ask|off | continue on|off`. 14 tests (`tests/test_park.py`). Normal permission prompts still apply to the lead's writes.
   - Face v2 phase 1 (`%S287_FACE1%`): `ui/eyes.py` renders both sizes' eyes and portals analytically at octant resolution, anti-aliased, thin rim, soft halo, flat dark portals (target: `RaBbLE-NeBuLA/specs/rig/entity-rig.svg`); cached per rig (mini 5.9 ms, full 28.7 ms live average). Glitch curve re-anchored per model (`%S287_GLITCH%`). Not done: reactions (mouse, typing, drift, focus), speaking/thinking states, glitch states.
   - Capability model (`%S287_CAPABILITY%`, Entropy Tracker v0.4): `orchestra/capabilities.json` holds per-model capability by category (general/coding/tools/recall; estimates, user override at `~/.config/rabble/capabilities.json`); entropy = 1 - capability/100; trust tier read from `coding` (trusted >= 60, standard >= 40); transient damage decays 20% per clean turn, structural damage earns back at most half from re-reads (+0.02 each) and passing test runs (+0.03); park resets. `Bloat` tracks context tokens, fill rate, eta and token-reads, and parks early when one more turn could pass 95%. Header shows `trusted 85`, `code 88`, `park in ~N`. 161 tests pass. Placeholders to confirm: haiku 35, the category weights, the coding/tools/recall numbers.
-  - Direction recorded, not built (Entropy Tracker v0.5): entropy (model capability) shows as steady static, stability (session health + bloat) shows as glitch and breaking; capability numbers to come from benchmarks and rescale as models evolve (absolute vs frontier-relative is Mark's call). `RABBLE_PARK_AT=15 rabble` tries the park flow early (`38d5d3f`).
+  - Direction recorded, not built (Entropy Tracker v0.5): entropy stays the whole measure, capability (model) shows as noise/resolution and stability (session health + bloat) as glitch and breaking; capability numbers to come from benchmarks and rescale as models evolve (absolute vs frontier-relative is Mark's call). `RABBLE_PARK_AT=15 rabble` tries the park flow early (`38d5d3f`).
   - Hyprland: `smart-movewindow.sh` geometry-aware u/d and `split-dir-daemon.sh` fixed in RaBbLE-OS (`f144406`); the WS1 oddity was an accidental Super+P.
   - Picked up HANDOFF-S285; Mark's kitty pass still pending (Mark's kitty pass still pending). Inline-code "lsshows" not reproducible in Textual 8.2.8 (static or streamed); likely kitty rendering.
 - **State at close:** both scripts in the OS repo and deployed (dotctl status: 0 drifted). WS1 oddity was an accidental Super+P (pseudotile), not a bug.

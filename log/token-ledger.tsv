@@ -246,38 +246,29 @@ commit-f4cb959	grimoire-ep1-staging-audit	S248: audit + roadmap to reality + low
 commit-7e47ade	xperimental-web-chrysalis-route	S249: /chrysalis/ removed + xperimental zone
 commit-68a474e	chrysalis-reliquary-mend	S249: reliquary mend + first drops
 commit-536e39f	d1-public-repos	S250: repos public
-94d4f7e8-e2ae-4299-89ff-1f9c56277b37	pocket-entity-port	S250 Pocket entity port phase 0/1
 01f07a41-4cee-44ba-9d33-2ce8e69e9a4c	pocket-entity-60fps	S251 KISS entity on gadget
-94d4f7e8-e2ae-4299-89ff-1f9c56277b37	pocket-backplate-v4	S253: FreeCAD podman sandbox + backplate v4
 d0fc8066-2bb9-4072-851c-c378f51ab747	collective	auto: current state S253: pocket backplate v4, print pending
 98f03344-25be-462c-b4b8-322a0328a72b	collective	auto: current state S252: pocket 60 fps, settings + clean-room plans
 98f03344-25be-462c-b4b8-322a0328a72b	pocket-entity-60fps	S252: 60 fps idle; settings-orientation + clean-room plans
 4df439b5-44ba-4b9f-b557-9ba5bab4949e	pocket-settings-texture	S254 (+ pocket-time-from-score)
 c0393dc0-31bd-4f24-a4fb-b398ad48355b	pocket-backplate-v4-2	S255: backplate v4.2 first-print fixes (row added by S256 cleanup)
 7007b2eb-db2f-47a4-b581-2210d9c3311f	pocket-cleanroom-w0-w1	S256: clean room W0+W1
-94d4f7e8-e2ae-4299-89ff-1f9c56277b37	pi4-bringup-diagnosis	S257
 f037c37a-137d-4b81-8323-397b7e88ba7f	collective	auto: current state S258: RaBbLE Ball live on Xperimental
 f037c37a-137d-4b81-8323-397b7e88ba7f	xp-rabble-ball	S258: RaBbLE Ball 3D demo + sketch on Xperimental
 cb4705f8-6e83-400b-9c61-22da737a2e2f	pocket-cleanroom-w2	S258: W2 axp2101+battery+input
 b8152139-278a-4a09-b525-9d7649736aba	collective	auto: current state S258: pocket clean room W2
-94d4f7e8-e2ae-4299-89ff-1f9c56277b37	pocket-cleanroom-w3	S259: W3 network
 17c422dd-95d3-43bf-b087-7bf60ffb60fb	collective	auto: current state S259: pocket clean room W3 network
 03d5bab6-01e8-4cd8-b9cf-f76ffe82fd68	atlas-revival	ATLAS: Pi 4 turret revival, Pi Cam fix, MIT + NOTICE (non-Collective)
 e83cfcd1-dc26-4a05-b067-1f582e5d53d5	atlas-next	ATLAS-next: consolidated, deployed to the Pi, 60 FPS on the Pi Cam (non-Collective)
 1d66f0a2-f8a9-4762-93a6-7075854fb840	atlas-dual-camera-console	S262: ATLAS web console, dual-camera inference, tracks with memory, PID, scan
 6c709250-e87c-4964-bc6e-0763375e0ac3	domains-dnssec	S263: DNSSEC on mcconachie.world + joinrabble.world, setup.sh 404 found (mostly non-Collective)
 33f0e544-0850-4a4e-b082-59c39a92078b	collective	auto: current state S264: pocket clean room W4, face freeze fixed, capture plan
-94d4f7e8-e2ae-4299-89ff-1f9c56277b37	pocket-capture-freeze-w4	S264
-94d4f7e8-e2ae-4299-89ff-1f9c56277b37	pocket-face-motion-level	S264b
-94d4f7e8-e2ae-4299-89ff-1f9c56277b37	pocket-capture-t3-t4	S265
 bbaa642f-5f7d-49fc-be6c-aebc3896c507	collective	auto: current state S265: pocket notes store, Converse/Capture live, sCoRE capture pushed
 b248cb34-8c8c-4799-959e-42ee6e398a33	collective	auto: current state S266: Pocket gyro face, ring everywhere, W5 Orbit, merged onto new-horizons
-94d4f7e8-e2ae-4299-89ff-1f9c56277b37	pocket-gyro-orbit-w5	S266
 a48f1d1d-9015-4986-9d2d-094cfd99273e	pocket-orbit-v2-cleanroom-handoff	S267
 5dc82cff-12e9-4d6e-bd7b-ec9883908498	collective	auto: current state S268: W6 board spec, console finding, implementer started
 5dc82cff-12e9-4d6e-bd7b-ec9883908498	pocket-w6-spec-pomodoro	S268
 9ee39618-b294-47c5-aa27-27d3aee3f6ed	pocket-offline-notes-w6-parked	S270: offline notes on flash, W6 parked
-94d4f7e8-e2ae-4299-89ff-1f9c56277b37	score-local-pocket-beam	
 2435f319-d2ed-4673-8122-2e790103ad54	pocket-claude-node-sdk-orbs	
 S272-pocket-mesh-edge-anchor	pocket-mesh-edge-anchor	S272: mesh anchored to edge
 711dcc63-86d4-4979-aca0-4f6608b1dc15	collective	auto: current state S272: Pocket mesh edge-anchored
@@ -287,7 +278,6 @@ e3599c62-ad08-47cd-a8a6-1b6311c38cdd	score-rabble-ui	S275: RaBbLE-UI plan + term
 8d363bd3-660d-46d9-9fad-e2f4705c9b87	world-ep1-face-v1	S276
 cf79d728-f855-4e86-b649-8948f7ae6157	pocket-w6-rev2-cleanroom	S277
 f0f3cef5-089e-4c8d-a0db-1c2cc3b3d2c2	collective	auto: current state S278: Pocket W7 done, notes triaged, Accord v2 parked
-94d4f7e8-e2ae-4299-89ff-1f9c56277b37	pocket-w7-accord-press	
 f0f3cef5-089e-4c8d-a0db-1c2cc3b3d2c2	score-rabble-ui	S279: RaBbLE-UI U1 engine + U2 face, rabble flipped
 5979b2f4-8d68-4291-abb5-d5a51d7313d0	pocket-sdk-cleanup	S280: SDK S2-S11 + clean-up; closed out after usage limit
 0ff303d7-267c-4fd5-b3a9-b6862e4bd0e2	pocket-shot-parity-sim	S281: >shot, parity sim scaffold, gate fixes
@@ -295,3 +285,4 @@ f0f3cef5-089e-4c8d-a0db-1c2cc3b3d2c2	score-rabble-ui	S279: RaBbLE-UI U1 engine +
 b95c54c3-6fbb-4bab-8cbb-e0669b5860dd	rabble-ui-live-test	entropy damage+pressure, sonnet frontier, scroll follow
 1a2a0a41-c117-408d-950f-d639d8a62b0a	pocket-release-open-sdk	S286 design: Open SDK, Entity-transplant, E0 spec
 b132f9e9-a999-4fba-8793-1de5bbf10910	pocket-open-sdk	S288
+94d4f7e8-e2ae-4299-89ff-1f9c56277b37	rabble-ui-capability-park-face	S287: hypr tiling, scroll+modal fixes, glitch curve, park at 80%, fine eyes, capability model
