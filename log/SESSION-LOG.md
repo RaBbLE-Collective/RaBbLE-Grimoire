@@ -28,6 +28,16 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-28 · Session S286 (pocket-release)
+
+- **Repos:** Grimoire only (design). Nothing built in RaBbLE-Pocket. Numbered S286 after two collisions (first wrote S284, then S285; both already held by `rabble` sessions).
+- **Work:** Mark asked for releasable Pocket firmware, a Windows/macOS/Linux companion, entity customisation, an Open (neutral) SDK + companion beside the reserved RaBbLE entity/brand, and a first user: his dad's WillowClone on a Waveshare 1.75C. Wrote `log/plans/Pocket-Release-Entities-Companion-Plan.md` (Opus-reviewed: 4 blockers, 10 should-fix folded in) and the E0 spec `RaBbLE-Pocket/RaBbLE-Pocket-Entity-Format.md` v0.1 (unreviewed, 9 corrections to the plan). Decisions: Tauri companion + Open build; Entity-transplant, `.rbl`/`.rble`; sCoRE free open tier with persona in the entity config; Open SDK as a separate export with no backend; 1.75C from Waveshare code until Mark owns one, dad is the tester; entities live in the notes store (general disk); neutral SDK entity class; Familiar/Foundling as vocabulary, coined Open name pending. First-pass name search: Familiar crowded, Foundling empty.
+- **State at close:** design only. Plan, spec and two handoffs committed. INDEX.md, `log/plans/CONTEXT.md`, `log/handoffs/CONTEXT.md` rows NOT added (those files carry other sessions' uncommitted edits). S10a held: another session claims the SDK plan.
+- **Learned:** claim the session number before writing it anywhere (`SESSION-LOG` plus `agent-register.sh status`); the flash is not Pocket's limit (2.06 MB app in 3.5 MB slots, ~8.9 MiB storage), internal RAM is.
+- **Next:** Opus review of the E0 spec; sCoRE persona (K1); S10a once the SDK claim clears; M1 internal-RAM hunt (Mark). Cold start: `log/handoffs/HANDOFF-S286-Pocket-Release-Entities.md`.
+
+---
+
 ## 2026-10-28 · Session S284 (score-rabble-ui-entropy)
 
 - **Repos:** RaBbLE-sCoRE (`new-horizons`: `4f172de` `7bba871` `c255323`, `%S284_ENTROPY%`; not pushed), Grimoire (`HANDOFF-S284`, git repair).
