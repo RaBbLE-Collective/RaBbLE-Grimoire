@@ -14,6 +14,21 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-28 · Session S289 (score-entropy-split)
+
+- **Repos:** RaBbLE-sCoRE (`2eea3e1`), RaBbLE-Grimoire (`6468a04`). Local on `new-horizons`, nothing pushed.
+- **Work:**
+  - Face lag: envelope noise built a `random.Random` per sample; lattice and colours cached, eye cache key 1/3 px, full face ticks at 12 fps (`FULL_FPS`). Full 21-45 ms to ~12 ms average, mini 5.5 to 2.6.
+  - Full-face eyes spread 1.5x (`Face(spread=None)`: mini 1.3, full 1.5).
+  - Entropy Tracker v0.5 built: `Entropy.base_capability`, `stability`, `bloat` (context 40% to 85%, max 0.30); `EntropyChanged.base/.stability`. Face: `NOISE_CURVE` on capability (grain, drained colour, colour steps, coarser eyes via `eye_block`/`block` in `ui/eyes.py`), `BREAK_CURVE` on stability (tears, splits, dropout). Fresh sonnet no longer glitches. Header `stab N`, `/status` stability, `/face` receives the signal.
+  - Benchmarks: `orchestra/ingest.py` + `spells/ingest-capabilities.sh` (frontier-relative default, absolute mode, `capabilities.lock`, every row needs a source). Curated file `RaBbLE-sCoRE/RaBbLE-sCoRE-Capability-Benchmarks.json` has no rows yet.
+- **State at close:** suite 170 passed, 1 skipped. Not tried live in kitty; previews only (`RaBbLE-BaBbLE/tmp/face/split.py`, gitignored).
+- **Learned:** third-party benchmark tables (blogs, resellers) contradict each other (Sonnet 5.5 above Opus 5.5 on Terminal-Bench 4.0); not entered as rows.
+- **Open (Mark):** which benchmarks per category (recall has no candidate); frontier-relative scale + lock confirmed?; trust thresholds re-checked once real numbers land; eye spread 1.5 and noise/break curves by eye in a live `rabble`; combined entropy and trust still additive.
+- **Next:** Mark live-tests the face and sonnet glitch; enter benchmark rows from primary sources once chosen; then face phase 2.
+
+---
+
 ## 2026-10-28 · Session S288 (pocket-open-sdk)
 
 - **Repos:** RaBbLE-Grimoire (`774ba57`, `20e037a`), RaBbLE-Pocket (`8a423a9`, `%S288_S10A%`).
