@@ -50,7 +50,24 @@ the routing fabric. This makes sCoRE the natural entropy monitor.
 
 ## Entropy Score
 
-A cumulative float `0.0–1.0` updated after each routing event.
+A float `0.0–1.0` with three parts (v0.2, S285):
+
+```
+score = baseline(model) + damage + pressure
+```
+
+- **Baseline** is the model's own trust. Frontier models (fable, opus, sonnet, gpt) start at 0.05–0.10
+  (STABLE, `trusted`, near-clean entity). A weak model (haiku) starts at 0.55 (ELEVATED, `strict`):
+  a low-trust model *is* a high-entropy model. Unknown models start at 0.25.
+- **Damage** is cumulative and never recovers. It records where information or provenance was lost
+  (the event table below). A model that has forgotten the start of a session is not trustworthy
+  again because the window has space.
+- **Pressure** is the live state of the session. It rises and falls, so a fresh session is clean and a
+  nearly full one is not (table below).
+
+The score drives three signals together: the trust profile (auto-approve level), the entity's glitch,
+and the header band. They exist so the Observer can see how far to trust an answer and when to watch
+the model's behaviour more closely.
 
 ### Event Weights
 
@@ -64,8 +81,27 @@ A cumulative float `0.0–1.0` updated after each routing event.
 | `implicit_handoff` — no context doc | +0.25 | High drift risk |
 | `context_truncation` — auto-compact | +0.20 | Information permanently lost |
 | `retry_storm` — 3+ retries | +0.10 | Response may be partial |
-| Turn count > 20 | +0.02 per additional turn | Noise accumulation |
 | `provider_instability` | +0.10 | Unreliable response pattern |
+
+### Pressure (live, recovers)
+
+| Term | Contribution | Notes |
+|---|---|---|
+| Context fill | 0 up to 50% of the window, ramping linearly to +0.25 at 90% | Falls when the window frees. Compaction itself is `context_truncation` damage. |
+| Rate limit `warning` | +0.05 while it lasts | `rejected` adds +0.10 while it lasts, plus the one-time `provider_instability` damage on entry |
+| Long session | +0.01 per turn beyond 20, capped at +0.10 | Replaces the old per-turn damage |
+
+A notice appears when pressure moves the score into a worse band ("context 85% full"). Constants
+are guesses (`orchestra/entropy.py`: `CONTEXT_*`, `LONG_*`, `LIMIT_PRESSURE`), to be tuned from live use.
+Context pressure alone caps a frontier model at about NOMINAL; reaching ELEVATED needs damage or a
+weaker model. Raise `CONTEXT_MAX` (about 0.45) if a full window alone should read as ELEVATED.
+
+### Trust and glitch
+
+- **Trust profile** earned from the score: below 0.2 `trusted`, below 0.5 `standard`, else `strict`.
+  The Observer can override with `/trust`.
+- **Glitch** (`ui/face.py` `signal_level`): clean below 0.2, then linear to full signal loss at 1.0.
+  Frontier models stay clean; haiku shows visible static; UNSTABLE tears rows and drops signal.
 
 ### Entropy Bands
 
@@ -285,6 +321,7 @@ anti-assistant stance and avoids the entity taking unilateral action on prior wo
 | Version | Date | Change |
 |---|---|---|
 | v0.1 | 2026-06-21 | Initial — from planning session S138+ |
+| v0.2 | 2026-10-28 | Score split into baseline + cumulative damage + live pressure (context fill, rate limit, long session); frontier models incl. sonnet are low entropy; trust and glitch derived from the score. Implemented in `RaBbLE-sCoRE/orchestra/entropy.py` (S284/S285) |
 
 ---
 
