@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-28 · S287 (rabble-ui-capability-park-face)
+## LATEST — 2026-10-28 · Session S289 (score-entropy-split)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S287: park at 80%, capability model, fine eyes, scroll+modal+hypr fixes; fresh rabble test next
+**This session:** S289: entropy capability/stability split, benchmark ingest, face lag+eyes; live test + benchmark rows next
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25 open.
-**Next:** Mark tries HANDOFF-S287 in a fresh rabble; then entropy/stability split, benchmark capabilities, face phase 2
+**Next:** Mark live-tests face and sonnet glitch; picks benchmarks; face phase 2
 
 ---
 
