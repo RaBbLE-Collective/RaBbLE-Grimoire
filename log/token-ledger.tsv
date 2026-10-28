@@ -292,3 +292,4 @@ f0f3cef5-089e-4c8d-a0db-1c2cc3b3d2c2	score-rabble-ui	S279: RaBbLE-UI U1 engine +
 5979b2f4-8d68-4291-abb5-d5a51d7313d0	pocket-sdk-cleanup	S280: SDK S2-S11 + clean-up; closed out after usage limit
 0ff303d7-267c-4fd5-b3a9-b6862e4bd0e2	pocket-shot-parity-sim	S281: >shot, parity sim scaffold, gate fixes
 141be95e-1626-4dec-a631-d1f86edf610d	score-rabble-ui-entropy	S284: settings, entropy trust, entity glitch, git repair
+b95c54c3-6fbb-4bab-8cbb-e0669b5860dd	rabble-ui-live-test	entropy damage+pressure, sonnet frontier, scroll follow

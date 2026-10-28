@@ -5,12 +5,26 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-28 · S284 (score-rabble-ui-entropy)
+## LATEST — 2026-10-28 · Session S285 (rabble-ui-live-test)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S284: rabble /model /crew /trust, entropy-driven trust + entity glitch (untested live); Grimoire git repaired
+**This session:** S285: entropy = baseline+damage+pressure, sonnet frontier, transcript scroll fix; live kitty test next
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23 open.
-**Next:** Run rabble live per HANDOFF-S284; NiBbLE review of trust.py; Mark: tracker home (orchestra vs server)
+**Next:** Mark's kitty pass per HANDOFF-S285; NiBbLE on trust.py
+
+---
+
+## 2026-10-28 · Session S285 (rabble-ui-live-test)
+
+- **Repos:** RaBbLE-sCoRE (`new-horizons`: `63629e1` `%S285_ENTROPY%`, `d4ee53d` `%S285_SCROLL%`; not pushed), Grimoire (Entropy Tracker v0.2, HANDOFF-S285), RaBbLE-OS (uncommitted W1 edit, see Open).
+- **Work:**
+  - Pass A on the live engine (haiku, Pilot, real backend): permission modal fires for `rm`; `ModelUsed`/alias handling clean; face glitches at 0.90.
+  - Sonnet reclassified as frontier (baseline 0.10, tier strong): clean entity, `trusted`. Entropy is now baseline + cumulative damage + live pressure (context fill 50 to 90% = up to +0.25, rate-limit warning, long session); band-crossing notices; Entropy Tracker doc v0.2.
+  - Transcript scroll: follow new content within 3 lines of the bottom, submit jumps to bottom (Textual's anchor stays released after any scroll). The reported jump to mid-content was not reproduced.
+- **State at close:** UI/orchestra suites pass (143); headless scroll scenarios pass; nothing tried live in kitty.
+- **Learned:** Textual `anchor()` releases on any user scroll and only re-arms at the exact bottom; an assumed "entropy recovers" bug was really sonnet's baseline plus a switch bump; I misread the first request as the S283 handoff and ran W1 of the OS editions plan (check the handoff number with Mark when two sessions are in flight).
+- **Open:** inline-code spaces dropped in transcript Markdown; `can_use_tool` path only partly proven; NiBbLE review of `trust.py`; RaBbLE-OS `manifest.yml` `edition:` fields + `spells/edition-audit.sh` (OS Editions W1) sit uncommitted, keep or revert; entropy doc items not built (session-close record, `decisions_at_risk`, self-healing).
+- **Next:** Mark's kitty pass per `log/handoffs/HANDOFF-S285-RaBbLE-UI-Live-Test-2.md`.
 
 ---
 
