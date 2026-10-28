@@ -14,6 +14,21 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-28 · Session S284 (score-rabble-ui-entropy)
+
+- **Repos:** RaBbLE-sCoRE (`new-horizons`: `4f172de` `7bba871` `c255323`, `%S284_ENTROPY%`; not pushed), Grimoire (`HANDOFF-S284`, git repair).
+- **Work:**
+  - `rabble` UI settings: `/model` picker, `/crew on|off` (off by default; Crew only for significant parallel work), `/trust`, `/status`, `/help`, slash completion, saved prefs `~/.config/rabble/ui.json`, `--crew/--no-crew/--trust`. Lead prompt rewritten for subagents with a cost-discipline rule.
+  - Trust is an entropy question: `orchestra/entropy.py` implements the Entropy Tracker score (model baseline plus fallback, tier drop, fcc switch, implicit/explicit handoff, compaction, provider errors, retry storm, long session); trusted below 0.2, standard below 0.5, strict above. `orchestra/trust.py` auto-approves reads, read-only Bash, in-cwd edits, and non-dangerous Bash for `trusted`; danger list, secrets, outside-cwd edits and MCP always prompt.
+  - The entity's face degrades with the score (`ui/face.py degrade`: grey drain, static, row tears with a magenta/cyan split, dropouts).
+  - Repaired the Grimoire `.git`: the 2026-10-27 15:29 crash left 4 empty objects incl. `bcca6a8`. Rebuilt it byte-identical from reflog + index; fsck clean; backup in `~/git-repair-backup/`.
+- **State at close:** unit-tested only (UI suite 142 pass, server suite 172 pass); nothing run against a live Claude session. Trust danger list not reviewed by NiBbLE.
+- **Learned:** an interrupted commit can be rebuilt exactly (same hash) from reflog timestamp + message + index blobs; test the repair on a copy of `.git` with the empty objects deleted, because `hash-object -w` skips an object whose (empty) file exists. A restart that doesn't carry the entropy object launders the score.
+- **Open:** run `rabble` live; S279 should-fixes; session-close record, self-healing and the harness-switch event from the Entropy doc; where the tracker lives (`orchestra/` vs `server/`) is Mark's call. S282 (SiGiL) has no log entry.
+- **Next:** live test per `log/handoffs/HANDOFF-S284-RaBbLE-UI-Live-Test.md`; NiBbLE review of `trust.py`.
+
+---
+
 ## 2026-10-27 · Session S283 (os-editions)
 
 - **Repos:** Grimoire only (plan, index rows, blocker B-23). RaBbLE-OS untouched. Numbered S283 because another live session had claimed S282 (RaBbLE-SiGiL).
