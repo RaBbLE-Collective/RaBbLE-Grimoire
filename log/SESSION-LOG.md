@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-25 · S281 (pocket-shot-parity-sim)
+## LATEST — 2026-10-28 · S284 (score-rabble-ui-entropy)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S281: Pocket >shot built (not flashed), parity sim scaffold, gate-checker fixes 3 of 5 proven
-**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22 open.
-**Next:** CrumBbLE flashes >shot; finish parity sim + gate fixes; QuiBbLE on re-cut S8; Mark: hand-authored content + B-22 fix
+**This session:** S284: rabble /model /crew /trust, entropy-driven trust + entity glitch (untested live); Grimoire git repaired
+**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23 open.
+**Next:** Run rabble live per HANDOFF-S284; NiBbLE review of trust.py; Mark: tracker home (orchestra vs server)
 
 ---
 
