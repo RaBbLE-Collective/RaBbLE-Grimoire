@@ -14,6 +14,21 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-28 · Session S288 (pocket-open-sdk)
+
+- **Repos:** RaBbLE-Grimoire (`774ba57`, `20e037a`), RaBbLE-Pocket (`8a423a9`, `%S288_S10A%`).
+- **Work:**
+  - Opus review of the E0 entity spec folded in: spec v0.2 (blockers B1 to B4, renderer prerequisites R1 to R3, notes-store entity storage, fail-closed persona) and companion plan v0.3.
+  - Open SDK brand-coupling inventory written (63 rows). Decisions recorded: neutral pastel palette baked into the SDK, brand palette in `app/RaBbLE/RaBbLE_palette.h`, `rabble_` prefix kept, SDK is Sovereign Accord source-available non-commercial.
+  - Mark caught a stale 46 fps panel cap in the review; replaced in spec §5.5 (80 MHz reaches 60 fps, no band-count limit).
+  - S10a: `RABBLE_BOARD` CMake variable, per-board `sdkconfig.defaults` and `partitions.csv`, `CONFIG_BOOTLOADER_APP_ROLLBACK_ENABLE=y`. Fresh-config build OK; `test/run.sh` 29 pass, 1 expected fail.
+- **State at close:** S10a hardware gates NOT run (no board attached): free-heap within 512 B, beam connects, 1.75B flash (needs a full `idf.py flash` because the bootloader config changed). Tracked `firmware/sdkconfig` not regenerated.
+- **Learned:** `session-start.sh` claim conflicts can be the session's own pre-commit auto-registration (transcript id). Piping `pocket_idf_activate_for_script` into `tail` loses the env.
+- **Open:** neutral palette colour set and role names (Q10/Q9); sprite priority; `rabble-beam/1` adoption and K1 tier gate; Open SDK repo vs branch; Open product name (B-24); Waveshare 1.75C licence check; manual USPTO TSDR check of the three RABBLE filings; Mark's 80 MHz visual check.
+- **Next:** Open app skeleton `firmware/app/open/`, export spell with allow-list and leak check, 1.75C licence check, then E1 (interpreter).
+
+---
+
 ## 2026-10-28 · Session S287 (hypr-tiling-fix)
 
 - **Repos:** RaBbLE-OS (`f144406` `%CONFIG_APPLIED%`; config/hypr/scripts only, deployed with `dotctl apply hypr`).
