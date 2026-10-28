@@ -31,6 +31,8 @@ Spells are bash scripts in `spells/` that manage the RaBbLE Collective. Grimoire
 | `dev-serve.sh` | Launch local dev (Aether+NeBuLA+World on :8080) | Development — always use this, not manual servers |
 | `chat-local.sh` | Local World UI + `chat-bridge.py` proxy to LIVE Render sCoRE, with on-disk transcripts | Chatting/testing against prod sCoRE without redeploying |
 | `visual-screenshot.sh` | Capture browser screenshot for agent visual review | Verifying UI changes — agent sees the PNG |
+| `asset-ingest.sh` | Ingest art into the SiGiL store + tracked sidecar index (human/captured/ai), `inbox`, `pending`, `verify`, `reindex` | Adding or auditing visual assets |
+| `ingest-capabilities.sh` | Rewrite sCoRE's capability registry + `capabilities.lock` from curated benchmark rows (frontier-relative scale, `--check` previews) | Adding or rescaling model capabilities |
 | `install-theme.sh` | Install RaBbLE theme on OS | RaBbLE-OS theming setup |
 
 > sCoRE runs locally via its own `RaBbLE-sCoRE/spells/local-start.sh` (:8000) — a member

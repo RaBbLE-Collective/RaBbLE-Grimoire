@@ -367,9 +367,20 @@ per turn, an estimate of turns until the park point, and cumulative token-reads 
 the context, so the sum is what resuming the session cold would cost). Park triggers on context
 >= 80%, or earlier when the growth rate would pass 95% before the next check. See `/park`.
 
-## Direction (v0.5, planned, not built) (S287)
+## Capability and Stability (v0.5, built S288; Direction from S287)
 
-Mark's direction after the v0.4 build. Two corrections to what v0.4 does.
+Mark's direction after the v0.4 build, now built. Two corrections to what v0.4 did.
+
+**Built (S288).** `Entropy` exposes `base_capability` (the model's `general`), `stability` (0-100: 100 minus
+damage, pressure and `bloat`) and `bloat` (context fill from 40% to 85%, up to 0.30, its own term so a
+filling window tears the entity before it costs trust). `EntropyChanged` carries `base` and `stability`.
+The face maps them separately (`ui/face.py`): `NOISE_CURVE` on capability (opus 0, sonnet 0.06 faint grain,
+haiku 0.38, local 0.56) drives grain, drained colour, colour steps and a coarser eye resolution
+(`eye_block`, the `block` step in `ui/eyes.py`); `BREAK_CURVE` on stability (zero down to 90) drives tears,
+channel splits and dropped rows. A fresh session of any model is stable, so a fresh sonnet no longer
+glitches. The header shows `stab N`. Combined entropy and trust still use the additive v0.4 maths.
+The benchmark path is `orchestra/ingest.py` plus `spells/ingest-capabilities.sh`, reading
+`RaBbLE-sCoRE-Capability-Benchmarks.json` (no rows entered yet: Mark picks the benchmarks).
 
 **1. Entropy is the whole measure; capability and stability are the two things that move it.**
 RaBbLE is an entity of entropy: the score says how far this session can be trusted, in total.
@@ -431,7 +442,7 @@ or the combination); how coarse the resolution step may get before the face stop
 | v0.2 | 2026-10-28 | Score split into baseline + cumulative damage + live pressure (context fill, rate limit, long session); frontier models incl. sonnet are low entropy; trust and glitch derived from the score. Implemented in `RaBbLE-sCoRE/orchestra/entropy.py` (S284/S285) |
 | v0.3 | 2026-10-28 | Glitch level is a piecewise curve on the score (`SIGNAL_CURVE` in `ui/face.py`): opus 0, sonnet 0.12, haiku 0.30, tuned by eye. Sonnet baseline 0.10 to 0.13 so a `/model` switch bump (+0.05) cannot make opus look like sonnet; still STABLE and trusted. (S287) |
 | v0.4 | 2026-10-28 | Capability model: per-model capability by category (general, coding, tools, recall) in an editable registry; entropy = 1 - capability/100; transient damage decays, structural damage earns partial credit from re-grounding, parking resets; bloat tracking drives the park point; trust tier read from capability (trusted >= 60, standard >= 40). (S287) |
-| v0.5 (planned) | 2026-10-28 | Direction only, nothing built: entropy stays the whole measure; capability (model, benchmark-derived, rescalable) shows as noise/resolution and stability (session health and bloat) shows as glitch and breaking. (S287) |
+| v0.5 | 2026-10-28 | Capability and stability are separate inputs: capability draws noise and resolution, stability (damage, pressure, bloat) draws glitch and breaking; benchmark ingest with a frontier-relative scale and `capabilities.lock`. Direction S287, built S288. |
 
 ---
 
