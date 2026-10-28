@@ -14,6 +14,20 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-28 · Session S287 (hypr-tiling-fix)
+
+- **Repos:** RaBbLE-OS (`f144406` `%CONFIG_APPLIED%`; config/hypr/scripts only, deployed with `dotctl apply hypr`).
+- **Work:**
+  - `split-dir-daemon.sh`: preselect only when the new window is tiled and has a tiled sibling; no stale preselect left on a lone window.
+  - `smart-movewindow.sh`: u/d decided from geometry (move / togglesplit then re-check / edge no-op); native movewindow at an edge reshapes the tree, so it is no longer called there.
+  - Picked up HANDOFF-S285; no Rabble UI testing done (Mark's kitty pass still pending). Inline-code "lsshows" not reproducible in Textual 8.2.8 (static or streamed); likely kitty rendering.
+- **State at close:** both scripts in the OS repo and deployed (dotctl status: 0 drifted). WS1 oddity was an accidental Super+P (pseudotile), not a bug.
+- **Learned:** edit `RaBbLE-OS/config/` and `dotctl apply`, never `~/.config` directly (repo is SoT). Hyprland native `movewindow` at an edge re-shapes the tree. `pkill -f <script>` inside a command containing that name kills the calling shell.
+- **Open:** RaBbLE-OS manifest `edition:` edit and `spells/edition-audit.sh` still uncommitted (OS Editions W1).
+- **Next:** Mark's kitty pass per `log/handoffs/HANDOFF-S285-RaBbLE-UI-Live-Test-2.md`.
+
+---
+
 ## 2026-10-28 · Session S285 (rabble-ui-live-test)
 
 - **Repos:** RaBbLE-sCoRE (`new-horizons`: `63629e1` `%S285_ENTROPY%`, `d4ee53d` `%S285_SCROLL%`; not pushed), Grimoire (Entropy Tracker v0.2, HANDOFF-S285), RaBbLE-OS (uncommitted W1 edit, see Open).
