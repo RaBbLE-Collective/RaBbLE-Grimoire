@@ -56,7 +56,7 @@ A float `0.0–1.0` with three parts (v0.2, S285):
 score = baseline(model) + damage + pressure
 ```
 
-- **Baseline** is the model's own trust. Frontier models (fable, opus, sonnet, gpt) start at 0.05–0.10
+- **Baseline** is the model's own trust. Frontier models (fable, opus, sonnet, gpt) start at 0.05 (fable, opus, gpt) to 0.13 (sonnet)
   (STABLE, `trusted`, near-clean entity). A weak model (haiku) starts at 0.55 (ELEVATED, `strict`):
   a low-trust model *is* a high-entropy model. Unknown models start at 0.25.
 - **Damage** is cumulative and never recovers. It records where information or provenance was lost
@@ -322,6 +322,7 @@ anti-assistant stance and avoids the entity taking unilateral action on prior wo
 |---|---|---|
 | v0.1 | 2026-06-21 | Initial — from planning session S138+ |
 | v0.2 | 2026-10-28 | Score split into baseline + cumulative damage + live pressure (context fill, rate limit, long session); frontier models incl. sonnet are low entropy; trust and glitch derived from the score. Implemented in `RaBbLE-sCoRE/orchestra/entropy.py` (S284/S285) |
+| v0.3 | 2026-10-28 | Glitch level is a piecewise curve on the score (`SIGNAL_CURVE` in `ui/face.py`): opus 0, sonnet 0.12, haiku 0.30, tuned by eye. Sonnet baseline 0.10 to 0.13 so a `/model` switch bump (+0.05) cannot make opus look like sonnet; still STABLE and trusted. (S287) |
 
 ---
 
