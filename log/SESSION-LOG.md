@@ -14,6 +14,21 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-27 · Session S283 (os-editions)
+
+- **Repos:** Grimoire only (plan, index rows, blocker B-23). RaBbLE-OS untouched. Numbered S283 because another live session had claimed S282 (RaBbLE-SiGiL).
+- **Work:**
+  - Disk audit (read-only): `/` 171G of 222G used. The biggest item is `~/Dropbox` at 52G, a separate btrfs subvolume that `du -x` skips. Next: ESP toolchains 23.5G, caches 16G, podman 7.5G, flatpak 10G. No snapper config exists on this machine, so no snapshots and no rollback.
+  - Backup audit: maestral stopped, no backup tool or timer, three repos with unpushed commits and no remote. Logged as B-23.
+  - Package audit: 264 of 438 hand-installed packages are absent from the manifest or roles; `/opt` builds, ESP-IDF, global npm and pipx apps are unmanaged.
+  - Designed RaBbLE-OS editions in `log/plans/OS-Install-Editions-Plan.md` plus an Aether report page. Decided with Mark: core ⊂ user ⊂ dev/creative ⊂ full; core includes Hyprland; GNOME fallback goes in user (provisional); `full` is TBD (maybe both sessions selectable); default edition is `user`; no downgrades; one ISO; compositor swap (Sway) deferred.
+- **State at close:** design only, nothing implemented. No cleanup commands were run. The plan has had no Opus review.
+- **Learned:** `du -x` silently skips btrfs subvolumes, so a gap between `df` and `du` means look for subvolumes before blaming snapshots. A first-pass check can be invalid (the `dnf repoquery` output had no newlines and the comparison silently passed); read the counts before trusting the result.
+- **Open:** run the disk cleanup and start maestral (Mark); pick the external backup disk (B-23). Hyprland comes from a third-party COPR with no snapshots here: pin it and apply the snapper role.
+- **Next:** W1: add `edition:` to every `manifest.yml` entry and write `spells/edition-audit.sh`. Cold start: `log/plans/OS-Install-Editions-Plan.md`. INDEX.md and plans/CONTEXT.md carry my index rows alongside another session's uncommitted edits, so they are left for that session to commit whole.
+
+---
+
 ## 2026-10-25 · Session S281 (pocket-shot-parity-sim)
 
 - **Repos:** RaBbLE-Pocket (`new-horizons`: `75ce308` `a14d129` `433eb58` `0c8e2e5` `%S281_SHOT%`; `7c792bd` `%S281_SIM%`; `01b515b` `%S281_GATE%`; not pushed), Grimoire (parity sim spec, HANDOFF-S281).
