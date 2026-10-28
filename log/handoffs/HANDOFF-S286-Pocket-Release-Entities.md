@@ -25,6 +25,8 @@ Mark wants Pocket firmware releasable, installable on Windows/macOS/Linux throug
 - Product vocabulary **Familiar** (a user's own entity) and **Foundling** (a Familiar that joined the Collective) are lore words, not the brand. Open product needs a **coined name** (N1); "Open" in a name conflicts with the source-available rule.
 - Grimoire git was repaired by another entity; this session did not touch it.
 
+> **Next two jobs, in order:** `HANDOFF-S286-Pocket-Opus-Review-and-Open-SDK.md` (Opus review of the E0 spec, then the start of the Open SDK).
+
 ## Open items for the next session
 
 | Item | Owner | Notes |
@@ -32,7 +34,7 @@ Mark wants Pocket firmware releasable, installable on Windows/macOS/Linux throug
 | Opus review of the E0 spec, then fold its 9 corrections into the plan | agent | sprites unusable for entities (C2), gradients are two shared LUTs (C3), SDK class rename (done in plan), sCoRE ignores `proto` (C7) |
 | sCoRE persona change (K1) | agent + Mark | blocks any WillowClone voice: `server/beam.py:328-331,407` hard-codes the RaBbLE prompt; needs a versioned `hello.entity` field and an explicit `ready.persona` acknowledgement |
 | Open product name (N1) | Mark | coined; first-pass search found Familiar crowded (Familiar Machines & Magic, DeskFamiliar, familiar-agent) and Foundling empty; real clearance is a TSDR hand check |
-| S10a board-select CMake variable + per-board sdkconfig/partitions + rollback enabled | agent | **held**: another session claims the SDK plan; check claims first. Rollback (`BOOTLOADER_APP_ROLLBACK_ENABLE`) must be in dad's first image |
+| S10a board-select CMake variable + per-board sdkconfig/partitions + rollback enabled | agent | **not blocked**: the only claims on the SDK plan are DEAD (2435f319, commit-bf9cc15); see `HANDOFF-S286-Pocket-Opus-Review-and-Open-SDK.md`. Rollback (`BOOTLOADER_APP_ROLLBACK_ENABLE`) must be in dad's first image |
 | Waveshare 1.75C licence check, then B1 board layer | agent | stop and tell Mark if no licence or copyleft |
 | Open SDK export spell (O1), disk layer, E1/E1b, C1 flasher + diagnostic report | agents | see plan §3 tracks |
 | Copyright: register the entity art | Mark / lawyer | automatic copyright; 3-month rule after first *publication*; check what is truly public; keep dated proof |
