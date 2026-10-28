@@ -20,11 +20,12 @@ Format: date, what was done, where things were left, what's next.
 - **Work:**
   - `split-dir-daemon.sh`: preselect only when the new window is tiled and has a tiled sibling; no stale preselect left on a lone window.
   - `smart-movewindow.sh`: u/d decided from geometry (move / togglesplit then re-check / edge no-op); native movewindow at an edge reshapes the tree, so it is no longer called there.
-  - Picked up HANDOFF-S285; no Rabble UI testing done (Mark's kitty pass still pending). Inline-code "lsshows" not reproducible in Textual 8.2.8 (static or streamed); likely kitty rendering.
+  - Rabble UI (sCoRE `new-horizons`, `%S287_UIFIT%`, not pushed): permission modal clipped its buttons below ~22 rows (reproduced); now compact below 26 rows, drops title lines below 12, body scroll shrinks to fit, deny-reason input fits. Scroll: Mark's repro is "other window, rabble streams while unfocused, return shows top"; not reproducible headless, so added a reader-driven `_following` state, re-pin on content growth, a guard that re-pins a jump to top while blurred/just refocused, and `RABBLE_SCROLL_DEBUG=1` trace to `/tmp/rabble-scroll.log`. 135 UI/orchestra tests pass.
+  - Picked up HANDOFF-S285; Mark's kitty pass still pending (Mark's kitty pass still pending). Inline-code "lsshows" not reproducible in Textual 8.2.8 (static or streamed); likely kitty rendering.
 - **State at close:** both scripts in the OS repo and deployed (dotctl status: 0 drifted). WS1 oddity was an accidental Super+P (pseudotile), not a bug.
 - **Learned:** edit `RaBbLE-OS/config/` and `dotctl apply`, never `~/.config` directly (repo is SoT). Hyprland native `movewindow` at an edge re-shapes the tree. `pkill -f <script>` inside a command containing that name kills the calling shell.
 - **Open:** RaBbLE-OS manifest `edition:` edit and `spells/edition-audit.sh` still uncommitted (OS Editions W1).
-- **Next:** Mark's kitty pass per `log/handoffs/HANDOFF-S285-RaBbLE-UI-Live-Test-2.md`.
+- **Next:** Mark's kitty pass per `log/handoffs/HANDOFF-S285-RaBbLE-UI-Live-Test-2.md`; if the top-jump recurs run `RABBLE_SCROLL_DEBUG=1 rabble` and read `/tmp/rabble-scroll.log`.
 
 ---
 
