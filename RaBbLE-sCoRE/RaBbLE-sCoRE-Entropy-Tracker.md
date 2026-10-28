@@ -59,7 +59,7 @@ score = baseline(model) + damage + pressure
 - **Baseline** is the model's own trust. Frontier models (fable, opus, sonnet, gpt) start at 0.05 (fable, opus, gpt) to 0.13 (sonnet)
   (STABLE, `trusted`, near-clean entity). A weak model (haiku) starts at 0.55 (ELEVATED, `strict`):
   a low-trust model *is* a high-entropy model. Unknown models start at 0.25.
-- **Damage** is cumulative and never recovers. It records where information or provenance was lost
+- **Damage** is cumulative (v0.4: transient faults decay, structural loss is only partly recoverable; see Capability Model). It records where information or provenance was lost
   (the event table below). A model that has forgotten the start of a session is not trustworthy
   again because the window has space.
 - **Pressure** is the live state of the session. It rises and falls, so a fresh session is clean and a
@@ -316,6 +316,57 @@ anti-assistant stance and avoids the entity taking unilateral action on prior wo
 
 ---
 
+## Capability Model (v0.4, S287)
+
+Entropy is how much of a model's capability a session has lost. v0.4 makes the capability itself a
+number, so a session can say what it can still do, not only how worried to be.
+
+```
+capability(category) = base(model, category) - 100 * (damage(category) + pressure(category))      0..100
+score (entropy)      = 1 - capability(general) / 100                                          0..1, as before
+```
+
+**Categories.** `general`, `coding`, `tools` (agentic tool use) and `recall` (fidelity over a long
+context). A small model can be weak in `general` and strong in `coding`; a bloated session loses
+`recall` and `coding` before it loses `general`. The registry is `orchestra/capabilities.json`
+(override or extend at `~/.config/rabble/capabilities.json`); each entry carries a `source`
+(`estimate` until measured) so the numbers can be replaced by evidence without touching code.
+
+| Model | general | tier it earns | Notes |
+|---|---|---|---|
+| fable | 95 | trusted | |
+| opus | 85 | trusted | |
+| sonnet | 70 | trusted | |
+| haiku | 35 | strict | placeholder, Mark to confirm |
+| local (qwen, llama...) | 25 | strict, `local` | runs on this machine |
+| unknown cloud API | 25 | strict | the safe default for anything not in the registry |
+
+**Tier from capability.** `trusted` >= 60, `standard` >= 40, `strict` below. Tool gating (auto-approving
+Bash and edits) reads `coding`, not `general`, so a coding-strong small model can earn trust for the
+work it is good at. The header shows the tier with the numbers: `trusted - gen 70 - code 76`.
+
+**Damage now has two kinds.**
+
+| Kind | Events | Behaviour |
+|---|---|---|
+| Transient | `model_switch`, handoff, `quota_forced_fallback`, `fcc_backend_switch`, `provider_instability`, `retry_storm` | Decays 20% per clean turn (a turn with no failed request). A fault that has passed stops costing. |
+| Structural | `context_truncation`, `implicit_handoff`, `tier_degradation` | Information was lost. Never decays with time. |
+
+**Re-grounding earns structural damage back, partly.** After structural damage, reading a file the
+session has not read since (+0.02 each) or a passing test run (+0.03) restores capability, capped at
+half of the structural damage taken. The rest only a park recovers: a parked session starts fresh
+from its handoff at the model's base plus the 0.05 handoff mark. So re-grounding keeps a session
+useful, and parking stays the right move for a long or bloated one.
+
+**Category weighting.** Damage and pressure are scaled per category (`CATEGORY_WEIGHT`): context
+fill and compaction weigh 1.5x on `recall` and 1.2x on `coding`; provider faults weigh 1.3x on
+`tools`; a tier drop weighs the same everywhere. These are guesses to be tuned from live use.
+
+**Bloat.** The session tracks context tokens and fill per turn (`orchestra/park.py: Bloat`): growth
+per turn, an estimate of turns until the park point, and cumulative token-reads (each turn re-reads
+the context, so the sum is what resuming the session cold would cost). Park triggers on context
+>= 80%, or earlier when the growth rate would pass 95% before the next check. See `/park`.
+
 ## Revision History
 
 | Version | Date | Change |
@@ -323,6 +374,7 @@ anti-assistant stance and avoids the entity taking unilateral action on prior wo
 | v0.1 | 2026-06-21 | Initial — from planning session S138+ |
 | v0.2 | 2026-10-28 | Score split into baseline + cumulative damage + live pressure (context fill, rate limit, long session); frontier models incl. sonnet are low entropy; trust and glitch derived from the score. Implemented in `RaBbLE-sCoRE/orchestra/entropy.py` (S284/S285) |
 | v0.3 | 2026-10-28 | Glitch level is a piecewise curve on the score (`SIGNAL_CURVE` in `ui/face.py`): opus 0, sonnet 0.12, haiku 0.30, tuned by eye. Sonnet baseline 0.10 to 0.13 so a `/model` switch bump (+0.05) cannot make opus look like sonnet; still STABLE and trusted. (S287) |
+| v0.4 | 2026-10-28 | Capability model: per-model capability by category (general, coding, tools, recall) in an editable registry; entropy = 1 - capability/100; transient damage decays, structural damage earns partial credit from re-grounding, parking resets; bloat tracking drives the park point; trust tier read from capability (trusted >= 60, standard >= 40). (S287) |
 
 ---
 
