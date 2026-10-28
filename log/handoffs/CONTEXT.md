@@ -13,6 +13,7 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 
 | File | Scope |
 |---|---|
+| `HANDOFF-S287-RaBbLE-UI-Capability-Park-Face-Test.md` | RaBbLE-UI: capability model, park at 80%, fine eyes, scroll and modal fixes built and unit-tested; Mark tries them in a fresh `rabble`; next entropy-vs-stability split, benchmark-derived capabilities, face phase 2 |
 | `HANDOFF-FCC-Free-Claude-Code.md` | FCC LiteLLM proxy tuning — research done, implementation pending |
 | `HANDOFF-S236-OS-ISO-VM-Run.md` | RaBbLE-OS ISO: VM run passed S236, bare-metal retry passed S238; leftover open items inside (KS sudoers NOPASSWD revoke, GRUB secure-boot line, silent `%post`, Live ISO plan) |
 | `HANDOFF-S234-EP1-Entity-Face.md` | EP1 face: W0–W2 done + live on dev; G10 sign-off pending; W4 accounts direction open |

@@ -367,6 +367,56 @@ per turn, an estimate of turns until the park point, and cumulative token-reads 
 the context, so the sum is what resuming the session cold would cost). Park triggers on context
 >= 80%, or earlier when the growth rate would pass 95% before the next check. See `/park`.
 
+## Direction (v0.5, planned, not built) (S287)
+
+Mark's direction after the v0.4 build. Two corrections to what v0.4 does.
+
+**1. Entropy and stability are different things.** v0.4 folds both into one number, so the entity
+glitches the same way for "a weak model" and for "a degraded session". They are linked, not equal:
+a low-entropy model can be unstable (a frontier model with a bloated, compacted session), and a
+high-entropy model can be stable (a small local model, fresh and clean).
+
+| | Entropy | Stability |
+|---|---|---|
+| Is | How much the model can do: `100 - capability(model)` | How healthy this session is: damage, pressure, bloat |
+| Changes | Only when the model changes | Every turn; recovers (decay, re-grounding) and resets on a park |
+| The entity shows it as | **Static**: a steady grain, constant while the model is the same | **Glitch and breaking**: tears, channel splits, dropped rows; worse as stability falls and as bloat rises |
+| Trust reads | the model's capability | the session's capability after loss (today's `capability(category)`) |
+
+So an opus session is clean-grained at the start and starts to tear as it bloats; a local qwen
+session carries static from the first frame but does not break until the session itself degrades.
+Today `signal_level(score)` in `ui/face.py` is one curve over both; it becomes two inputs: a static
+level from model entropy and a break level from stability (including bloat as its own term, so a
+filling window breaks the entity before it costs trust).
+
+**2. Capability numbers come from benchmarks, and scale as models improve.** The v0.4 registry is
+estimates (`source: estimate`). The plan:
+
+- Each registry entry carries raw benchmark results per category, with the benchmark name, version,
+  date and source, and the category score is derived from them, never typed in. Candidate sources
+  by category (to be chosen and confirmed, none are recorded yet): `general` (broad knowledge and
+  reasoning suites, human-preference ratings), `coding` (SWE-style repo tasks, competitive and live
+  coding sets), `tools` (agentic tool-use and terminal suites), `recall` (long-context retrieval
+  and multi-needle sets).
+- A normalisation step maps raw scores to 0-100 per category against a reference that can move.
+  **Decision for Mark:** an absolute scale (numbers stay put, the frontier saturates near 100 and
+  thresholds like trusted >= 60 eventually mean less) or a frontier-relative scale (the reference is
+  the best known model at a registry revision; a new frontier rescales everyone, and thresholds
+  stay meaningful but old numbers shift, so entries record the reference version they were scaled
+  against). Recommendation: frontier-relative with the reference version stored, and a
+  `capabilities.lock` of the last published scale so a session does not change mid-flight.
+- An ingest spell (`spells/`) reads a curated benchmark file (JSON or CSV committed to the Grimoire)
+  and rewrites the registry. No scraping: a person (or a reviewed agent run) enters results with their
+  source, so every number can be traced.
+- A new model needs only its benchmark rows to get a tier. Local models are measured the same way,
+  on this machine's quantisation, since a local model's score depends on how it is run.
+- Measured-in-use signals (tool-call failure rate, test pass rate after edits) may later adjust a
+  session's capability, labelled as observed, never overwriting the benchmark.
+
+Open: which benchmarks per category; absolute vs frontier-relative (above); whether `recall` is
+benchmarked or measured in use; whether stability gets its own 0-100 number in the header next to
+the capability tier.
+
 ## Revision History
 
 | Version | Date | Change |
@@ -375,6 +425,7 @@ the context, so the sum is what resuming the session cold would cost). Park trig
 | v0.2 | 2026-10-28 | Score split into baseline + cumulative damage + live pressure (context fill, rate limit, long session); frontier models incl. sonnet are low entropy; trust and glitch derived from the score. Implemented in `RaBbLE-sCoRE/orchestra/entropy.py` (S284/S285) |
 | v0.3 | 2026-10-28 | Glitch level is a piecewise curve on the score (`SIGNAL_CURVE` in `ui/face.py`): opus 0, sonnet 0.12, haiku 0.30, tuned by eye. Sonnet baseline 0.10 to 0.13 so a `/model` switch bump (+0.05) cannot make opus look like sonnet; still STABLE and trusted. (S287) |
 | v0.4 | 2026-10-28 | Capability model: per-model capability by category (general, coding, tools, recall) in an editable registry; entropy = 1 - capability/100; transient damage decays, structural damage earns partial credit from re-grounding, parking resets; bloat tracking drives the park point; trust tier read from capability (trusted >= 60, standard >= 40). (S287) |
+| v0.5 (planned) | 2026-10-28 | Direction only, nothing built: entropy (model capability, shown as static) split from stability (session health and bloat, shown as glitch and breaking); capability derived from benchmarks and rescalable as models evolve. (S287) |
 
 ---
 
