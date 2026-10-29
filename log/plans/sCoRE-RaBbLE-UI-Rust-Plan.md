@@ -64,6 +64,8 @@ RaBbLE-sCoRE/
 
 Multi-client, multi-session, multi-agent, multi-user from the protocol up: one engine process, many sessions (each with many attached clients and its own Crew organs), every message addressed by `session`. The user picks a capability provider and converses with RaBbLE; RaBbLE + sCoRE own orchestration, session management and resource planning (model/provider choice per task, concurrency, budgets, parking, rate-limit routing) in the engine, so every client (Rust TUI, a GUI, Pocket, web) stays thin. R1 builds the session-multiplexed seam (`SessionManager`); the orchestration layer (E1) needs its own design and sign-off. Details: `../handoffs/HANDOFF-S295-RaBbLE-UI-Rust-R1-Seam.md`.
 
+**Hosting and identity (Mark, S295):** the same engine must also run as a hosted sCoRE service for non-local users; web and local are both users; a Pocket may or may not be its own user; one user's Pocket can lease compute from another user's RaBbLE-OS machine without being that machine's user. So the protocol separates principal, client/device, session (owner + participants) and compute provider; identity comes from the transport, never from the message; transports are pluggable (Unix socket first, WebSocket and the Pocket beam path later). Constraints and open questions are in the R1 handoff.
+
 ### Frame loop
 
 - One thread owns the terminal and draws; it never waits on the engine or the face.

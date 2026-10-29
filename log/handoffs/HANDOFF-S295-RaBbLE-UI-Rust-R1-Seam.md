@@ -32,6 +32,31 @@ Reading of that, to confirm with Mark:
 - **The orchestration layer (a later phase, call it E1, after R1 and R2):** the user picks a **capability provider** (which model/provider/tier, BYOK, local models via the existing fcc proxy) and just talks. The engine decides the rest: which session a message belongs to, when to spawn a Crew organ vs answer solo, which model per task, concurrency and budgets, parking and resuming, routing around rate limits. Inputs already in the engine: `entropy.py` (trust signal), `capabilities.py` (per-model capability by category), `park.py`, `usage.py` (provider windows), `trust.py`, and the Crew roster tiers. E1 is the session/resource planner on top of `SessionManager`; it needs a design doc and Mark's sign-off before code ("low entropy": do not scaffold what is not decided).
 - **Principle to hold in review:** clients stay thin. Sessions, resource decisions and routing live in the engine, so the Rust TUI, a future GUI, the Pocket gadget and a web face are all the same kind of client.
 
+## Identity, hosting and pairing model (Mark, S295): keep it flexible
+> sCoRE must also become a **hosted service** for non-local users. The local version is one logged-in user with many sessions and tons of agents. sCoRE treats **web and local both as users**. A **Pocket device may or may not register as its own user.** A different user's Pocket can **use a RaBbLE-OS machine to compute without being that machine's user.**
+
+That means four things must never be fused in the protocol or the engine, or each combination above becomes a rewrite:
+
+| Concept | Meaning | Examples |
+|---|---|---|
+| **Principal** | who is acting and accountable | a local login, a hosted web account, a Pocket registered as its own user, a service |
+| **Client / device** | the thing talking to the engine, on some transport | rabble-tui, a GUI, the web face, a Pocket over beam |
+| **Session** | a conversation + its agents; has an **owner** and a **participant list** | one user's work; a shared session |
+| **Compute provider** | whose resources run the model/tools | the user's own RaBbLE-OS box, sCoRE hosted, a paired machine, BYOK provider keys |
+
+Design constraints for R1 (cheap now, expensive to retrofit):
+1. **Identity comes from the transport, never from the message.** `hello.user` in the sketch above is a *claim only on trusted local transports*; the server derives the principal from the connection (Unix socket peer credentials locally, a bearer token over WebSocket/HTTPS, a device key for a Pocket). Messages never carry a self-asserted identity that the server believes.
+2. **Transport is pluggable.** `serve.py` takes a `Listener` abstraction; R1 ships the Unix socket. The same NDJSON frames must run over a WebSocket later (hosted web and remote clients) and over the Pocket beam path (`/api/v1/beam`, voice-in/text-out, already live on the sCoRE server) with no change to events or commands.
+3. **Sessions have an owner and an ACL**, not "the connected user". Actions are checked against the principal's role on that session (owner, participant, observer). Attach on a session you do not own is denied unless granted. This is what lets a second Pocket or a GUI join, and lets a stranger be refused.
+4. **Pairing / delegation is a grant, not an account merge.** A Pocket paired to a RaBbLE-OS machine gets a scoped, revocable *compute lease* (what it may run, budget, expiry) from the machine's owner. The Pocket's user is the session owner and bills/limits against their own identity; the machine only supplies compute. Do not make "Pocket" a special user type; a Pocket is a device that holds a principal's credential or a lease. A Pocket with no account may use the default anonymous/guest principal at the demo tier (see memory `project_auth_tiers_web_local`: Web = demo tier, Local = BYOK/login).
+5. **Compute provider is a session property** (`provider` on `create_session`, already sketched), chosen by the orchestrator (E1), with the owner's consent for third-party machines. The machine owner's own sessions and a leased guest's sessions are isolated: separate working directories, separate permission scope, separate trust profile (a guest never inherits the host's `trusted` level or the host's files).
+6. **Local-first stays the default (Collective rule).** The laptop offline runs the full loop with a local principal; hosted is deliberate, not required. The same engine binary serves local and hosted; only the listener and the auth provider differ.
+7. **Cost and limits are per principal**, not per process: `usage.py`, entropy and budgets key on the principal and session, so hosted multi-tenancy and leases can enforce them.
+
+What R1 builds from this: the `Listener` abstraction, a `Principal` object on every connection (local peer credentials only for now), the owner/participant fields on `SessionManager` sessions with an enforced check, and room in the envelope for `session` + the server-assigned `principal` on events the clients see (who said this). Not built in R1: tokens, accounts, the hosted listener, leases, pairing flows; they get an E1/E2 design doc each.
+
+Open questions for that design (not blocking R1): where principals live when hosted (the sCoRE server's existing auth vs a separate identity store, and how that squares with the Collective's "owns its own accounts" model in `RaBbLE-Secrets-and-Identity.md`); the pairing ceremony between a Pocket and a RaBbLE-OS box (QR/short code over the existing Wi-Fi path?); whether leases are priced or just limited; how session data is isolated and retained when hosted (privacy, deletion); and whether a guest session on a leased machine may reach that machine's tools/MCP servers at all (default: no).
+
 ## Lanes (disjoint files; builders `sonnet`, pin `model: "sonnet"` on every fan-out; an `opus` reviewer who did not write the lane)
 | Lane | Owns | Work | Gate |
 |---|---|---|---|
