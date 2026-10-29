@@ -292,4 +292,4 @@ S292-score-rabble-ui-rust-plan	score-rabble-ui-rust-plan	S292: scroll glide, sty
 2a6731f6-75cf-4dc3-9d87-6ca3d5796588	collective	auto: current state S292: scroll glide, Rust TUI plan; R0 spike next
 0e6ee42a-85cd-48f0-88b9-110e1dd7e6a4	anti-clobber-mechanism	S290: collective cleanup, licence, blockers, anti-clobber sessions	rabble	anthropic	claude-sonnet-5-5
 3ba2aead-dbb9-4236-b533-c0a3298bb7ec	anti-clobber-crew-log	S294: crew-log	rabble	anthropic	claude-sonnet-5-5
-722e2004-9011-46f8-9cae-5bc1a6728732	score-rabble-ui-rust-r0	S295: Rust TUI R0, engine config, cargo, R1 seam	claude	anthropic	claude-sonnet-5-5
+722e2004-9011-46f8-9cae-5bc1a6728732	score-rabble-ui-rust-r0	S295: Rust TUI R0+R1 seam, Opus review, phase-2 handoff	claude	anthropic	claude-sonnet-5-5
