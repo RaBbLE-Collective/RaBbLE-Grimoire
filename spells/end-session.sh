@@ -31,6 +31,9 @@ set -euo pipefail
 
 GRIMOIRE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 LEDGER="$GRIMOIRE_ROOT/log/token-ledger.tsv"
+# shellcheck source=lib/session-id.sh
+source "$GRIMOIRE_ROOT/spells/lib/session-id.sh"
+source "$GRIMOIRE_ROOT/spells/lib/session-log.sh"
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" || -z "${1:-}" ]]; then
   echo "end-session.sh — agent-agnostic end-of-session token breadcrumb + LATEST auto-write"
@@ -53,12 +56,14 @@ note=""
 synopsis=""
 next_actions=""
 session_label=""
+sid_override=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --synopsis) synopsis="${2:-}"; shift 2 ;;
     --next)     next_actions="${2:-}"; shift 2 ;;
     --session)  session_label="${2:-}"; shift 2 ;;
+    --sid)      sid_override="${2:-}"; shift 2 ;;
     --help|-h)  shift ;;  # handled above
     -*)         echo "Unknown flag: $1" >&2; exit 1 ;;
     *)
@@ -77,25 +82,44 @@ if [[ -z "$feature" ]]; then
 fi
 
 # --- Resolve session id -------------------------------------------------------
-projdir="$HOME/.claude/projects/$(pwd | tr '/' '-')"
-sf=$(ls -t "$projdir"/*.jsonl 2>/dev/null | head -1 || true)
-if [[ -n "$sf" ]]; then
-  SID=$(basename "$sf" .jsonl)
+# Exact, from the agent process ancestry (lib/session-id.sh). The old "newest transcript
+# for $(pwd)" guess filed rows under a stranger whenever two sessions were live.
+[[ -n "$sid_override" ]] && export RABBLE_SID="$sid_override"
+if SID=$(rabble_sid); then
+  :
 else
   SID="commit-$(git rev-parse --short HEAD 2>/dev/null || date +%Y%m%d%H%M%S)"
-  echo "No Claude transcript for $(pwd) — using fallback key '$SID'." >&2
-  echo "(Token join is Claude-only; the breadcrumb is still recorded.)" >&2
+  echo "No agent session found for this process — using fallback key '$SID'." >&2
+  echo "(Pass --sid <id> or set RABBLE_SESSION_ID. Token join is Claude-only.)" >&2
 fi
+[[ -z "$session_label" ]] && session_label=$(rabble_label "$SID" || true)
+rec=$(rabble_session_json 2>/dev/null || echo '{}')
+who_h=$(jq -r '.harness // "unknown"' <<<"$rec"); who_p=$(jq -r '.provider // "unknown"' <<<"$rec"); who_m=$(jq -r '.model // "unknown"' <<<"$rec")
+
+# One writer at a time for the shared files (ledger + SESSION-LOG).
+mkdir -p "$GRIMOIRE_ROOT/log"
+exec 9>"$GRIMOIRE_ROOT/log/.lock"
+flock -w 30 9 || { echo "Could not take log/.lock within 30s; another session is writing. Retry." >&2; exit 1; }
 
 [[ -f "$LEDGER" ]] || { echo "Ledger not found: $LEDGER" >&2; exit 1; }
 
 # --- Upsert (drop existing rows for SID, append the explicit one) -------------
+# Guard: at most our OWN row may disappear. If anything else would be lost, abort and
+# leave the ledger untouched (this is the clobber that recurred at S190/193/196/197/252/258/261/273/279).
 tmp=$(mktemp)
 awk -F'\t' -v s="$SID" '$1 != s' "$LEDGER" > "$tmp"
-printf '%s\t%s\t%s\n' "$SID" "$feature" "$note" >> "$tmp"
-mv "$tmp" "$LEDGER"
+before=$(wc -l < "$LEDGER"); after=$(wc -l < "$tmp")
+if (( before - after > 1 )); then
+  echo "REFUSED: writing this row would drop $((before - after)) ledger rows (expected at most 1)." >&2
+  echo "The id '$SID' matches several rows; the ledger is untouched. Pass --sid <your id>." >&2
+  rm -f "$tmp"; exit 1
+fi
+printf '%s\t%s\t%s\t%s\t%s\t%s\n' "$SID" "$feature" "$note" "$who_h" "$who_p" "$who_m" >> "$tmp"
+chmod --reference="$LEDGER" "$tmp"
+mv "$tmp" "$LEDGER"   # atomic for readers; appenders flock log/.lock
 
-echo "Breadcrumb recorded: $SID -> $feature${note:+  ($note)}"
+echo "Breadcrumb recorded: $SID -> $feature${note:+  ($note)}  [$who_h / $who_p / $who_m]"
+rabble_log_event end "feature=$feature" "note=$note" "synopsis=$synopsis" "next=$next_actions" "session=$session_label" 2>/dev/null || true
 
 # --- Auto-write ## LATEST in SESSION-LOG.md -----------------------------------
 # Only runs when --synopsis is given. This removes the manual "hand-write LATEST"
@@ -148,6 +172,17 @@ if [[ -z "$session_label" ]]; then
     | sed 's/[[:space:]]*$//' \
     || true)
   [[ -z "$session_label" ]] && session_label="SNN"
+fi
+
+
+# Never overwrite a NEWER session's LATEST box (S243: a late end-session clobbered S244's).
+snum() { grep -oE 'S[0-9]+' <<<"$1" | head -1 | tr -d S; }
+current_latest=$(grep -m1 '^## LATEST' "$SESSION_LOG" || true)
+cur_n=$(snum "$current_latest"); my_n=$(snum "$session_label")
+if [[ -n "$cur_n" && -n "$my_n" ]] && (( 10#$cur_n > 10#$my_n )); then
+  echo "LATEST belongs to S$cur_n, newer than this session ($session_label): left as is." >&2
+  echo "(Ledger row was recorded. Your session entry in SESSION-LOG is enough.)" >&2
+  exit 0
 fi
 
 today=$(date +%Y-%m-%d)

@@ -98,13 +98,15 @@ cat log/BLOCKERS.md           # durable open blockers (LATEST only points here)
 bash spells/status.sh         # live health + open-blocker count
 ```
 
-**Claim scope before touching files** whenever another session may be live (Mark runs concurrent sessions):
+**Claim scope before touching files** whenever another session may be live (Mark runs concurrent sessions, often 2-3):
 ```bash
-export RABBLE_SESSION_ID="S<NN>-<topic>"              # FIRST: stable id; check SESSION-LOG for the next free S-number
-bash spells/session-start.sh "<glob>"... --task "…"   # lessons + blockers + who's live; claims scope; starts heartbeat
+bash spells/session-start.sh "<Repo:path>"... --task "…"   # who you are (harness/provider/model), live peers, lessons, blockers; claims scope
+bash spells/session-number.sh claim <topic>               # atomic S-number (never pick max+1 by hand)
+bash spells/mine.sh                                        # before staging: which dirty files are YOURS vs another session's
 ```
-The pre-commit auto-register (`log/handoffs/done/HANDOFF-PreCommit-AntiClobber.md`) is only a backstop that warns at
-commit. À la carte: `agent-register.sh claim/check/status/release`, `promote-insight.sh ls`, `blockers.sh ls`.
+Identity is exact (read from the agent process, any harness); no `RABBLE_SESSION_ID` needed inside claude/rabble/codex/gemini.
+Never `git add -A` in a tree another session may be editing: stage `bash spells/mine.sh --paths <repo>`. Details:
+`log/handoffs/HANDOFF-S290-Anti-Clobber-Sessions.md`.
 
 **End, before stopping:**
 ```bash

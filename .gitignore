@@ -35,3 +35,7 @@ plans-app/
 
 # SiGiL visual asset BYTES — the index (RaBbLE-SiGiL/index/) is tracked, the store never is
 RaBbLE-SiGiL/store/
+
+# session mechanism runtime files
+log/.lock
+log/agents/

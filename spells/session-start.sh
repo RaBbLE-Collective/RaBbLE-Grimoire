@@ -39,7 +39,9 @@ set -euo pipefail
 
 GRIMOIRE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SPELLS="$GRIMOIRE_ROOT/spells"
-AGENTS_DIR="$GRIMOIRE_ROOT/log/agents"
+# shellcheck source=lib/session-log.sh
+source "$SPELLS/lib/session-log.sh"
+AGENTS_DIR="${RABBLE_AGENTS_DIR:-$RABBLE_RUNTIME/agents}"
 HEARTBEAT_INTERVAL="${HEARTBEAT_INTERVAL:-240}"
 mkdir -p "$AGENTS_DIR"
 
@@ -55,14 +57,8 @@ RESET='\033[0m'
 
 # Same resolution as the other spells (RABBLE_SESSION_ID → transcript → commit)
 resolve_session_id() {
-  if [[ -n "${RABBLE_SESSION_ID:-}" ]]; then echo "$RABBLE_SESSION_ID"; return; fi
-  local cand projdir sf
-  for cand in "$(dirname "$GRIMOIRE_ROOT")" "$GRIMOIRE_ROOT"; do
-    projdir="$HOME/.claude/projects/$(echo "$cand" | tr '/' '-')"
-    sf=$(ls -t "$projdir"/*.jsonl 2>/dev/null | head -1 || true)
-    if [[ -n "$sf" ]]; then basename "$sf" .jsonl; return; fi
-  done
-  local commit
+  local sid commit
+  if sid=$(rabble_sid 2>/dev/null) && [[ -n "$sid" ]]; then echo "$sid"; return; fi
   commit=$(git -C "$GRIMOIRE_ROOT" rev-parse --short HEAD 2>/dev/null || date +%Y%m%d)
   echo "commit-${commit}"
 }
@@ -90,13 +86,24 @@ echo -e "${MAGENTA}${BOLD}RaBbLE — Session Start${RESET}"
 echo -e "${MAGENTA}══════════════════════════════════════════════════════════════${RESET}"
 
 # --- 1. Session id stability --------------------------------------------------
-if [[ -n "${RABBLE_SESSION_ID:-}" ]]; then
-  echo -e "  ${GREEN}session id:${RESET} ${CYAN}${SID}${RESET} ${MUTED}(pinned via RABBLE_SESSION_ID — good)${RESET}"
+if rec=$(rabble_session_json 2>/dev/null); then
+  echo -e "  ${GREEN}you are:${RESET} ${CYAN}$(jq -r '.harness' <<<"$rec")${RESET} / $(jq -r '.provider' <<<"$rec") / ${TEXT}$(jq -r '.model' <<<"$rec")${RESET}  ${MUTED}(id ${SID:0:8}, $(jq -r '.confidence' <<<"$rec"))${RESET}"
+  lbl=$(rabble_label "$SID" || true)
+  if [[ -n "$lbl" ]]; then echo -e "  ${GREEN}number:${RESET} ${CYAN}${lbl}${RESET}"
+  else echo -e "  ${YELLOW}no S-number yet.${RESET} ${MUTED}Claim one atomically:${RESET} ${TEXT}bash spells/session-number.sh claim <topic>${RESET}  ${MUTED}(next free: $(bash "$SPELLS/session-number.sh" next))${RESET}"; fi
+  peers=$(rabble_live_peers 2>/dev/null || true)
+  if [[ -n "$peers" ]]; then
+    echo -e "  ${YELLOW}${BOLD}other live sessions:${RESET}"
+    while IFS=$'\t' read -r psid ppid pst pcwd ph pm; do
+      echo -e "    ${MUTED}-${RESET} ${ph} / ${pm}  ${MUTED}id ${psid:0:8}  since $(date -d "@$pst" +%H:%M)  ${pcwd}${RESET}"
+    done <<< "$peers"
+    echo -e "  ${MUTED}Files older than your session start may be theirs: run${RESET} ${TEXT}bash spells/mine.sh${RESET} ${MUTED}before staging.${RESET}"
+  else
+    echo -e "  ${MUTED}no other live sessions.${RESET}"
+  fi
+  rabble_log_event start "task=${task:-}" 2>/dev/null || true
 else
-  echo -e "  ${YELLOW}${BOLD}⚠ RABBLE_SESSION_ID is not set.${RESET}"
-  echo -e "  ${YELLOW}Under concurrent sessions the auto-resolved id is unreliable. Pin one:${RESET}"
-  echo -e "      ${TEXT}export RABBLE_SESSION_ID=\"S<NN>-<topic>\"${RESET}   ${MUTED}then re-run this${RESET}"
-  echo -e "  ${MUTED}continuing best-effort as:${RESET} ${CYAN}${SID}${RESET}"
+  echo -e "  ${YELLOW}${BOLD}No agent session detected${RESET} ${MUTED}(plain terminal?). Pin one: export RABBLE_SESSION_ID=\"S<NN>-<topic>\" RABBLE_HARNESS=<name> RABBLE_MODEL=<model>${RESET}"
 fi
 echo ""
 

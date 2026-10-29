@@ -24,7 +24,11 @@
 set -euo pipefail
 
 GRIMOIRE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-AGENTS_DIR="$GRIMOIRE_ROOT/log/agents"
+# shellcheck source=lib/session-id.sh
+source "$GRIMOIRE_ROOT/spells/lib/session-id.sh"
+# Claims are runtime state, not history: untracked, outside git, so they stop churning
+# 66 tracked files and stop being swept into other sessions' commits. (RABBLE_AGENTS_DIR overrides.)
+AGENTS_DIR="${RABBLE_AGENTS_DIR:-$RABBLE_RUNTIME/agents}"
 mkdir -p "$AGENTS_DIR"
 
 # --- Colors -------------------------------------------------------------------
@@ -43,24 +47,10 @@ HEARTBEAT_DEAD_SECS=900    # 15 min — agent is considered dead (slot auto-rele
 
 # --- Resolve session id (mirrors end-session.sh) ------------------------------
 resolve_session_id() {
-  # 1. Explicit override — most reliable for tool-driven / parallel agents. Each
-  #    agent passes RABBLE_SESSION_ID=<id> inline so its calls correlate.
-  if [[ -n "${RABBLE_SESSION_ID:-}" ]]; then
-    echo "$RABBLE_SESSION_ID"; return
-  fi
-  # 2. Claude transcript. Resolve the projects dir from the project ROOT, not the
-  #    current dir, so it works when invoked from any subdir. The Collective root
-  #    (parent of the Grimoire) is the usual Claude project; try it then the Grimoire.
-  local cand projdir sf
-  for cand in "$(dirname "$GRIMOIRE_ROOT")" "$GRIMOIRE_ROOT"; do
-    projdir="$HOME/.claude/projects/$(echo "$cand" | tr '/' '-')"
-    sf=$(ls -t "$projdir"/*.jsonl 2>/dev/null | head -1 || true)
-    if [[ -n "$sf" ]]; then basename "$sf" .jsonl; return; fi
-  done
-  # 3. Stable fallback: git-commit key, NO pid, so claim/heartbeat/release from
-  #    separate subshells correlate. Parallel non-Claude agents should set
-  #    RABBLE_SESSION_ID to stay distinct.
-  local commit
+  # Exact id from the agent process ancestry (lib/session-id.sh): claude, rabble, codex, gemini...
+  # An explicit RABBLE_SID / RABBLE_SESSION_ID still works for agents we cannot see.
+  local sid commit
+  if sid=$(rabble_sid 2>/dev/null) && [[ -n "$sid" ]]; then echo "$sid"; return; fi
   commit=$(git -C "$GRIMOIRE_ROOT" rev-parse --short HEAD 2>/dev/null || date +%Y%m%d)
   echo "commit-${commit}"
 }
@@ -110,6 +100,13 @@ is_live() {
   local file="$1"
   [[ -f "$file" ]] || return 1
   command -v jq &>/dev/null || { echo "jq required for agent-register.sh" >&2; exit 1; }
+
+  # Exact liveness first: a recognised agent's claim is live iff its process is running.
+  local csid; csid=$(basename "$file" .json)
+  rabble_session_alive "$csid" && return 0
+  # A claim keyed by a recognised harness id (claude uuid, codex-/gemini-/... process key)
+  # whose process is gone is dead NOW; no 15-minute heartbeat wait.
+  [[ "$csid" =~ ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}- || "$csid" =~ ^(codex|gemini|opencode|aider|antigravity)- ]] && return 1
 
   local heartbeat_at pid host now age
   heartbeat_at=$(jq -r '.heartbeat_at // .started_at' "$file" 2>/dev/null || echo "")

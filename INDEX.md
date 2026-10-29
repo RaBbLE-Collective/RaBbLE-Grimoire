@@ -341,6 +341,7 @@ Status lives in each plan; the one-line status table is [log/plans/CONTEXT.md](l
 
 Status: [log/handoffs/CONTEXT.md](log/handoffs/CONTEXT.md).
 
+- [HANDOFF-S290-Anti-Clobber-Sessions](log/handoffs/HANDOFF-S290-Anti-Clobber-Sessions.md): harness-agnostic session identity (claude, rabble, codex, gemini...), per-session event logs with harness/provider/model, atomic S-numbers, locked ledger, `mine.sh`, working pre-commit warning; installed, sandbox-tested; next a live second-session + codex/gemini test
 - [HANDOFF-S234-EP1-Entity-Face](log/handoffs/HANDOFF-S234-EP1-Entity-Face.md) — EP1 face build (pairs with the Entity-Face plan)
 - [HANDOFF-S276-EP1-Face-V1](log/handoffs/HANDOFF-S276-EP1-Face-V1.md): EP1 web face V1 on dev; next iPhone check, CF binding + Render env, first main deploy
 - [HANDOFF-S278-Pocket-Press-Drafts-and-SDK](log/handoffs/HANDOFF-S278-Pocket-Press-Drafts-and-SDK.md): W7 done; Mark reviews the parked Pocket press drafts (renders need the clock), then the RaBbLE-SDK

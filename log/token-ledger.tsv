@@ -287,7 +287,7 @@ b95c54c3-6fbb-4bab-8cbb-e0669b5860dd	rabble-ui-live-test	entropy damage+pressure
 b132f9e9-a999-4fba-8793-1de5bbf10910	pocket-open-sdk	S288
 94d4f7e8-e2ae-4299-89ff-1f9c56277b37	rabble-ui-capability-park-face	S287: hypr tiling, scroll+modal fixes, glitch curve, park at 80%, fine eyes, capability model
 S289-score-entropy-split	score-entropy-split	S289: entropy capability/stability split, benchmark ingest, face lag+eyes (shares transcript id 94d4f7e8 with S287)
-0e6ee42a-85cd-48f0-88b9-110e1dd7e6a4	collective-cleanup	
 eceae265-f9ce-4163-b825-4beede7ae966	score-rabble-ui-face-layers	S291: layered face, rig fidelity, provider aura, VS Code safe glyphs
 S292-score-rabble-ui-rust-plan	score-rabble-ui-rust-plan	S292: scroll glide, style cache, Rust plan (shares transcript id 94d4f7e8 with S287; end-session.sh keyed it by pwd)
 2a6731f6-75cf-4dc3-9d87-6ca3d5796588	collective	auto: current state S292: scroll glide, Rust TUI plan; R0 spike next
+0e6ee42a-85cd-48f0-88b9-110e1dd7e6a4	anti-clobber-mechanism	S290: collective cleanup, licence, blockers, anti-clobber sessions	rabble	anthropic	claude-sonnet-5-5

@@ -48,15 +48,17 @@ Format: date, what was done, where things were left, what's next.
 
 ## 2026-10-29 · Session S290 (collective-cleanup)
 
-- **Repos:** sCoRE (`edbad98`), OS (`532e704`), Pocket (`d3bbcba`), Xperimental (`99fd460`), Grimoire (`344efad`, `76fd95e`). All local on `new-horizons`, nothing pushed.
-- **Work:** catch-up commit of work that was never logged or committed by earlier sessions.
-  - sCoRE: `orchestra/usage.py` (provider quota from the OS tracker cache), `orchestra/fetch_benchmarks.py` (LMArena parquet, every row sourced), header/composer/transcript/face follow-ups after S289 (Oct 28 evening, no session entry). Suite 201 passed, 1 skipped (run `tests/` with the rabble-ui venv; `server/` and five `tests/` files need server deps and fail at collection under it).
-  - Grimoire: SiGiL asset store (S282, uncommitted for two days), INDEX entries for SiGiL / Editions plan / Pocket Getting-Started, `ingest-capabilities.sh --fetch`.
-  - OS: manifest `edition:` on all 171 entries + `spells/edition-audit.sh` (S283 W1 groundwork; audit passes).
-  - Pocket README rewrite and the Xperimental `pocket-promo` / `pocket-site` sources (S278 parked press drafts) committed locally; rendered `out/` and `build/` (31 MB) ignored.
-- **Left uncommitted on purpose:** `log/agents/*.json` (66 tracked, ~30 new, churned by agent-register: an anti-clobber design question, not noise to commit). BaBbLE tracked `__pycache__/*.pyc`.
-- **Found:** Grimoire pre-commit warns 41 docs not in INDEX (Crew personas, Pocket cleanroom specs, S284-S287 handoffs, Release-Entities plan). CLAUDE.md "Current State" said S285 while the log was at S289.
-- **Next:** anti-clobber session mechanism, history rebuild from transcripts, EP1 push, brand-vs-code licence split, blocker review.
+- **Repos:** sCoRE (`edbad98`), OS (`532e704`), Pocket (`d3bbcba`), Xperimental (`99fd460`), Grimoire (many), root. All local on `new-horizons`, nothing pushed.
+- **Work:**
+  - Catch-up commits for uncommitted work. **Correction:** the sCoRE part (`usage.py`, face/header changes) was S291's live work in progress, not unlogged earlier work; my `git add -A` swept it into `edbad98` under a wrong message (S291's entry records the same). My liveness check was a truncated `pgrep`.
+  - SiGiL (S282), Editions manifest + `edition-audit.sh` (S283), Pocket README, Xperimental `pocket-promo` sources, INDEX entries.
+  - Licence: canonical Sovereign Accord (`RaBbLE-Collective/RaBbLE-Sovereign-Accord.md`) synced into nine LICENSE files by `spells/sync-license.sh`; Collective as owner, personal mods + free resharing, name/Entity reserved, hosting = commercial, new-versions clause. v2 draft + plan record Mark's positions.
+  - Blockers: `blockers.sh update`; triage applied (B-15 OS, B-22/B-25 Pocket, B-16/B-09/B-18 low, B-21 deep-research, B-24 licence+launch). B-20 binding found via Cloudflare API (worker `rabble-collective`, June build; deploy on push to main or `v*` tag). `cloudflare-ctl.sh` `workers-list` and `status` fixed.
+  - Anti-clobber session mechanism: harness-agnostic identity, per-session event logs with harness/provider/model, atomic S-numbers, locked ledger, `mine.sh`, working pre-commit warning. See `log/handoffs/HANDOFF-S290-Anti-Clobber-Sessions.md`.
+  - DECISIONS.md: sCoRE independent of lockstep, Episode-level API contracts (proposal).
+- **State at close:** `spells/tests/anti-clobber.test.sh` 13 pass; sCoRE suite 201 pass at the time of `edbad98`. Hooks are live in all repos (symlinked).
+- **Open (Mark):** EP1 push order and `main` PR flow; B-23 backup (bundles + gitleaks first); sCoRE independence mechanism; v2 licence rewrite; Atreum goods wording (TSDR 90042611).
+- **Next:** live second-session test of the mechanism incl. codex/gemini; rabble `model` events; history rebuild; EP1 push.
 
 ---
 

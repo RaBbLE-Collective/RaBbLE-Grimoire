@@ -51,6 +51,8 @@ fi
 # Self-adopting: every commit auto-registers its scope so the NEXT session can
 # warn on overlap. Never aborts the commit. This is the backstop for when
 # session-start.sh was skipped; session-start.sh remains the front line.
+# NOTE: warnings go to fd 3. They used to go to fd 2, which the group's own 2>/dev/null
+# swallowed, so this backstop never actually warned anyone.
 # Entire block wrapped in || true — a buggy hook that blocks commits is worse
 # than the problem it solves.
 {
@@ -65,26 +67,19 @@ fi
   done
   [[ -z "$_HOOK_GRIMOIRE" ]] && exit 0
 
-  _HOOK_AGENTS="$_HOOK_GRIMOIRE/log/agents"
+  # claims are runtime state (untracked): they used to churn 66 tracked files in log/agents/
+  _HOOK_AGENTS="${RABBLE_AGENTS_DIR:-${RABBLE_RUNTIME_DIR:-${XDG_CACHE_HOME:-$HOME/.cache}/rabble}/agents}"
   mkdir -p "$_HOOK_AGENTS"
   _HOOK_REPO="$(basename "$_HOOK_ROOT")"
   _HOOK_NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
   _HOOK_NOW_SECS=$(date +%s)
 
-  # 2. Resolve session id + liveness-gate (same 15-min pattern as post-commit).
-  # Non-Claude agents get a git-commit key — still advisory, still useful.
-  _HOOK_SID=""
-  for _cand in "$(dirname "$_HOOK_ROOT")" "$_HOOK_ROOT" "$_HOOK_GRIMOIRE"; do
-    _projdir="$HOME/.claude/projects/$(echo "$_cand" | tr '/' '-')"
-    _sf=$(ls -t "$_projdir"/*.jsonl 2>/dev/null | head -1 || true)
-    if [[ -n "$_sf" ]]; then
-      [[ -n "$(find "$_sf" -mmin -15 2>/dev/null)" ]] || continue
-      _HOOK_SID=$(basename "$_sf" .jsonl)
-      break
-    fi
-  done
-  [[ -z "$_HOOK_SID" ]] && \
-    _HOOK_SID="commit-$(git rev-parse --short HEAD 2>/dev/null || date +%Y%m%d)"
+  # 2. Who am I? Exact, from the process tree (spells/lib/session-id.sh); works for
+  # claude, rabble, codex, gemini... A commit from a plain terminal has no session: skip.
+  # shellcheck source=/dev/null
+  source "$_HOOK_GRIMOIRE/spells/lib/session-id.sh" 2>/dev/null || exit 0
+  _HOOK_SID=$(rabble_sid 2>/dev/null) || exit 0
+  [[ -z "$_HOOK_SID" ]] && exit 0
 
   # 3. Collect staged paths as member-prefixed scopes (RaBbLE-World:world/js/foo.js)
   _HOOK_STAGED=$(git diff --cached --name-only 2>/dev/null)
@@ -94,6 +89,28 @@ fi
     [[ -z "$_path" ]] && continue
     _HOOK_SCOPES+=("${_HOOK_REPO}:${_path}")
   done <<< "$_HOOK_STAGED"
+
+  # 3b. Is this staged work mine? A file last written BEFORE this session started was not
+  # written by this session; if another session is live it may be that session's work in
+  # progress (S290 swept S291's sCoRE edits into one commit this way). Warn, never block.
+  _HOOK_START=$(rabble_session_started 2>/dev/null || true)
+  _HOOK_PEERS=$(rabble_live_peers 2>/dev/null || true)
+  if [[ -n "$_HOOK_START" && -n "$_HOOK_PEERS" ]]; then
+    _old=()
+    while IFS= read -r _path; do
+      [[ -f "$_HOOK_ROOT/$_path" ]] || continue
+      [[ "$(stat -c %Y "$_HOOK_ROOT/$_path" 2>/dev/null || echo "$_HOOK_START")" -lt "$_HOOK_START" ]] && _old+=("$_path")
+    done <<< "$_HOOK_STAGED"
+    if [[ ${#_old[@]} -gt 0 ]]; then
+      echo "" >&3
+      echo "  ⚠ pre-commit: ${#_old[@]} staged file(s) predate this session, and other sessions are live." >&3
+      echo "    This session did not write them; a live session may still be working on them:" >&3
+      printf '      %s\n' "${_old[@]:0:8}" >&3
+      [[ ${#_old[@]} -gt 8 ]] && echo "      ... and $(( ${#_old[@]} - 8 )) more" >&3
+      echo "    Live: $(cut -f5,6,1 <<<"$_HOOK_PEERS" | awk -F'\t' '{printf "%s(%s/%s) ", substr($1,1,8), $2, $3}')" >&3
+      echo "    Commit proceeds. Unstage with: git restore --staged <file>" >&3
+    fi
+  fi
 
   # 4. Check overlap with OTHER live sessions → print WARNING (never exit non-zero)
   command -v jq &>/dev/null && {
@@ -113,12 +130,12 @@ fi
           _my_path="${_my_scope#*:}"
           if [[ "$_my_path" == "$_their_path"* || "$_their_path" == "$_my_path"* \
              || "$_my_scope" == "$_their_scope" ]]; then
-            echo "" >&2
-            echo "  ⚠ pre-commit: CLOBBER WARNING — another live session holds overlapping scope" >&2
-            echo "    Other session : $_other_sid" >&2
-            echo "    Their scope   : $_their_scope" >&2
-            echo "    Your path     : $_my_scope" >&2
-            echo "    Commit proceeds — coordinate if this was unintentional." >&2
+            echo "" >&3
+            echo "  ⚠ pre-commit: CLOBBER WARNING — another live session holds overlapping scope" >&3
+            echo "    Other session : $_other_sid" >&3
+            echo "    Their scope   : $_their_scope" >&3
+            echo "    Your path     : $_my_scope" >&3
+            echo "    Commit proceeds — coordinate if this was unintentional." >&3
           fi
         done
       done < <(jq -r '.scopes[] // empty' "$_other" 2>/dev/null || true)
@@ -145,6 +162,6 @@ fi
         started_at:$t,heartbeat_at:$t,auto:true}' \
       > "$_HOOK_CLAIM"
   fi
-} 2>/dev/null || true
+} 3>&2 2>/dev/null || true   # fd 3 = the real stderr: warnings reach the terminal, internal noise does not
 
 exit 0

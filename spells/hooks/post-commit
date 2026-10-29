@@ -1,43 +1,43 @@
 #!/usr/bin/env bash
 # =============================================================================
-# RaBbLE post-commit hook — agent-agnostic auto-breadcrumb.
+# RaBbLE post-commit hook — agent-agnostic provenance + auto-breadcrumb.
 # Installed into each member repo's .git/hooks/ by spells/install-hooks.sh.
 # Fires for ANY agent that commits (git-level, not .claude-specific).
 #
-# Best-effort: if the current Claude session for this repo's cwd isn't yet in
-# the token ledger, append a provisional row using the commit's organ as the
-# feature. Never disturbs the commit (always exits 0). The explicit
-# end-session.sh spell overrides anything written here.
+# Who committed is resolved from the process tree (spells/lib/session-id.sh), not
+# from "the newest transcript for this cwd" (which filed commits under whichever
+# session wrote last). Records, best-effort and never failing the commit:
+#   1. a `commit` event in the committing session's own log/sessions/*.jsonl
+#      (repo, hash, subject, harness, provider, model)
+#   2. a provisional token-ledger row if the session has none yet
+# A commit made from a plain terminal (no agent ancestor) records nothing.
 # =============================================================================
 {
-  # Locate the Grimoire ledger relative to this repo
-  for p in ./RaBbLE-Grimoire/log/token-ledger.tsv \
-           ../RaBbLE-Grimoire/log/token-ledger.tsv \
-           ./log/token-ledger.tsv; do
-    [[ -f "$p" ]] && LEDGER="$p" && break
+  G=""
+  for p in ./RaBbLE-Grimoire ../RaBbLE-Grimoire .; do
+    [[ -f "$p/spells/lib/session-log.sh" && -f "$p/log/token-ledger.tsv" ]] && G="$(cd "$p" && pwd)" && break
   done
-  [[ -z "${LEDGER:-}" ]] && exit 0
+  [[ -z "$G" ]] && exit 0
+  GRIMOIRE_ROOT="$G"
+  # shellcheck source=/dev/null
+  source "$G/spells/lib/session-log.sh"
 
-  # Resolve the Claude session for this cwd; skip silently if none (no spam
-  # when one root session commits across many repos, or for non-Claude agents)
-  projdir="$HOME/.claude/projects/$(pwd | tr '/' '-')"
-  sf=$(ls -t "$projdir"/*.jsonl 2>/dev/null | head -1)
-  [[ -z "$sf" ]] && exit 0
-  # Only tag a session that is actually live — transcript touched in the last
-  # 15 min. Guards against attributing a commit to a stale session that merely
-  # happens to be the newest transcript for this cwd (e.g. a root session
-  # committing into a member repo that holds an old transcript).
-  [[ -n "$(find "$sf" -mmin -15 2>/dev/null)" ]] || exit 0
-  SID=$(basename "$sf" .jsonl)
-
-  # Already tagged? leave it (explicit tags win)
-  grep -q "^$SID	" "$LEDGER" 2>/dev/null && exit 0
+  rec=$(rabble_session_json 2>/dev/null) || exit 0
+  SID=$(jq -r .key <<<"$rec")
+  [[ -n "$SID" ]] || exit 0
 
   msg=$(git log -1 --pretty=%s 2>/dev/null)
-  organ=$(printf '%s' "$msg" | sed -n 's/.* ~ \([^ ]*\) >>.*/\1/p')
-  [[ -z "$organ" ]] && organ="(untagged)"
-  rev=$(printf '%s' "$msg" | sed -n 's/.*>> \(.*\) \/\/.*/\1/p')
+  hash=$(git rev-parse --short HEAD 2>/dev/null)
+  repo=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)")
+  rabble_log_event commit "repo=$repo" "hash=$hash" "subject=$msg"
 
-  printf '%s\t%s\t%s\n' "$SID" "$organ" "auto: ${rev:-$msg}" >> "$LEDGER"
+  # provisional ledger row (explicit end-session rows always win); serialised with end-session
+  exec 9>"$G/log/.lock"
+  flock -w 5 9 || exit 0
+  grep -q "^$SID	" "$G/log/token-ledger.tsv" 2>/dev/null && exit 0
+  organ=$(printf '%s' "$msg" | sed -n 's/.* ~ \([^ ]*\) >>.*/\1/p'); [[ -z "$organ" ]] && organ="(untagged)"
+  rev=$(printf '%s' "$msg" | sed -n 's/.*>> \(.*\) \/\/.*/\1/p')
+  printf '%s\t%s\t%s\t%s\t%s\t%s\n' "$SID" "$organ" "auto: ${rev:-$msg}" \
+    "$(jq -r .harness <<<"$rec")" "$(jq -r .provider <<<"$rec")" "$(jq -r .model <<<"$rec")" >> "$G/log/token-ledger.tsv"
 } >/dev/null 2>&1 || true
 exit 0
