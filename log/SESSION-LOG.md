@@ -5,12 +5,26 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-28 · Session S289 (score-entropy-split)
+## LATEST — 2026-10-29 · S290 (collective-cleanup)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S289: entropy capability/stability split, benchmark ingest, face lag+eyes; live test + benchmark rows next
+**This session:** S290: catch-up commits across 6 repos, session log repaired; next anti-clobber + history rebuild + EP1 push + licence split + blocker review
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25 open.
-**Next:** Mark live-tests face and sonnet glitch; picks benchmarks; face phase 2
+**Next:** Anti-clobber design; transcript history rebuild; EP1 push to remotes; brand/code licence split; blocker review
+
+---
+
+## 2026-10-29 · Session S290 (collective-cleanup)
+
+- **Repos:** sCoRE (`edbad98`), OS (`532e704`), Pocket (`d3bbcba`), Xperimental (`99fd460`), Grimoire (`344efad`, `76fd95e`). All local on `new-horizons`, nothing pushed.
+- **Work:** catch-up commit of work that was never logged or committed by earlier sessions.
+  - sCoRE: `orchestra/usage.py` (provider quota from the OS tracker cache), `orchestra/fetch_benchmarks.py` (LMArena parquet, every row sourced), header/composer/transcript/face follow-ups after S289 (Oct 28 evening, no session entry). Suite 201 passed, 1 skipped (run `tests/` with the rabble-ui venv; `server/` and five `tests/` files need server deps and fail at collection under it).
+  - Grimoire: SiGiL asset store (S282, uncommitted for two days), INDEX entries for SiGiL / Editions plan / Pocket Getting-Started, `ingest-capabilities.sh --fetch`.
+  - OS: manifest `edition:` on all 171 entries + `spells/edition-audit.sh` (S283 W1 groundwork; audit passes).
+  - Pocket README rewrite and the Xperimental `pocket-promo` / `pocket-site` sources (S278 parked press drafts) committed locally; rendered `out/` and `build/` (31 MB) ignored.
+- **Left uncommitted on purpose:** `log/agents/*.json` (66 tracked, ~30 new, churned by agent-register: an anti-clobber design question, not noise to commit). BaBbLE tracked `__pycache__/*.pyc`.
+- **Found:** Grimoire pre-commit warns 41 docs not in INDEX (Crew personas, Pocket cleanroom specs, S284-S287 handoffs, Release-Entities plan). CLAUDE.md "Current State" said S285 while the log was at S289.
+- **Next:** anti-clobber session mechanism, history rebuild from transcripts, EP1 push, brand-vs-code licence split, blocker review.
 
 ---
 

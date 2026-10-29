@@ -287,3 +287,4 @@ b95c54c3-6fbb-4bab-8cbb-e0669b5860dd	rabble-ui-live-test	entropy damage+pressure
 b132f9e9-a999-4fba-8793-1de5bbf10910	pocket-open-sdk	S288
 94d4f7e8-e2ae-4299-89ff-1f9c56277b37	rabble-ui-capability-park-face	S287: hypr tiling, scroll+modal fixes, glitch curve, park at 80%, fine eyes, capability model
 S289-score-entropy-split	score-entropy-split	S289: entropy capability/stability split, benchmark ingest, face lag+eyes (shares transcript id 94d4f7e8 with S287)
+0e6ee42a-85cd-48f0-88b9-110e1dd7e6a4	collective-cleanup	
