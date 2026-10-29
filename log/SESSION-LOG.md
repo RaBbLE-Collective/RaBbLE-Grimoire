@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-29 · S290 (collective-cleanup)
+## LATEST — 2026-10-29 · Session S291 (score-rabble-ui-face-layers)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S290: catch-up commits across 6 repos, session log repaired; next anti-clobber + history rebuild + EP1 push + licence split + blocker review
+**This session:** S291: layered 30 fps face, rig fidelity, provider aura, divider, crash fixes; visual test on kitty+VSCodium next
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25 open.
-**Next:** Anti-clobber design; transcript history rebuild; EP1 push to remotes; brand/code licence split; blocker review
+**Next:** visual test /face on kitty WS1 + VSCodium WS3 (HANDOFF-S291); R11 sphere aspect; Mark picks R3/R4
 
 ---
 
