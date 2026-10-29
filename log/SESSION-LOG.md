@@ -14,6 +14,21 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-29 · Session S295 (score-rabble-ui-rust-r0)
+
+- **Repos:** RaBbLE-sCoRE, RaBbLE-OS, RaBbLE-Grimoire. Local on `new-horizons`, nothing pushed. (Drafted as "S293" while two other sessions ran; the number was claimed late and everything renamed S295.)
+- **Work:** picked up HANDOFF-S292 after the S292 session died without closing (recovered its last unanswered message from the transcript: Mark confirmed Option A, Python engine stays, Rust inside sCoRE).
+  - **Engine fix:** "asdict() should be called on dataclass instances" then "Not connected": `crew: true` made `roster.build_agents` pass dicts and SDK 0.2.174 runs `asdict()` on them, which killed the message pump. `ClaudeCodeBackend.options()` now builds `AgentDefinition` objects.
+  - **Claude Code parity, config surface:** `orchestra/config.py` (`~/.config/rabble/engine.json` + per-project `.rabble/engine.json`: MCP, plugins, tool lists, add_dirs, thinking, effort, budget, turns, fallback, env), new `Capabilities` event from the init message (commands, skills, MCP status, plugin errors; composer completion + notices), `/status` summary. 13 of 46 SDK options were wired before; sandbox/skills/settings/checkpointing/fork/output_format still are not.
+  - **Cargo:** crates.io is blocked by the school's Securly filter (not the sandbox). Not circumvented: Fedora's `rust-*-devel` RPMs installed via `layerctl apply claude-code` (manifest + a dnf task in `ai-harnesses/tasks/claude-code.yml`); `tui/.cargo/config.toml` (untracked) points cargo at `/usr/share/cargo/registry`.
+  - **R0 Rust spike:** `RaBbLE-sCoRE/tui/` workspace builds offline. Glide passed ("feels good") but Mark wanted the 1:1 feel of Vim / cat, so wheel scroll is now instant whole lines, queued input drained per paint: input-to-paint p50 0.41 ms, p99 0.74 ms (`tui/bench/drive_latency.py`). Transcript frame p99 0.11 to 0.16 ms. Python baseline: 22 to 33 screen updates/s in a wheel burst.
+- **State at close:** tests: 170 engine + UI pass (64 UI, 106 engine); Rust glide tests 4 pass. The `layerctl` first run failed on a mistyped sudo password, the second applied.
+- **Learned:** Securly serves a block page for `index.crates.io` / `static.crates.io` (TLS cert `*.securly.com`): do not route around it, use Fedora crate RPMs or `cargo vendor` elsewhere. `layer/dev` in the manifest is not wired to any `layerctl` target. A crashed session is recoverable from `~/.claude/projects/<proj>/<sid>.jsonl` (last user row). Unknown `/commands` already pass through to Claude Code as typed.
+- **Open (Mark):** plain-English narration design (templated vs Haiku summariser); multi-client engine now or later; remaining Claude Code parity tiers; pixel-scroll spike (R5b); keep `rabble --py`; the Opus plan review owed since S292.
+- **Next:** R1 seam per `HANDOFF-S295-RaBbLE-UI-Rust-R1-Seam.md`.
+
+---
+
 ## 2026-10-29 · Session S294 (anti-clobber-crew-log)
 
 - **Repos:** RaBbLE-Grimoire. Local on `new-horizons`, nothing pushed.

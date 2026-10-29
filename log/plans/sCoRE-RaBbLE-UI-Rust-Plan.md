@@ -2,7 +2,7 @@
 
 > Status: **proposed, S292 (2026-10-29).** Mark chose Rust ("Python is not fast enough: snappy, native, fluid"). The shape in "Architecture" is RaBbLE's recommendation and needs Mark's sign-off before R1; the R0 spike is safe under any shape.
 > Parent plan: `sCoRE-RaBbLE-UI-Plan.md` (roadmap items R1, R3, R4, R11). This plan **retires R3** (a face render server only existed to dodge the GIL; Rust threads do not have one).
-> Cold start: `../handoffs/HANDOFF-S292-RaBbLE-UI-Rust-Rebuild.md`.
+> Cold start: `../handoffs/HANDOFF-S295-RaBbLE-UI-Rust-R0-Cargo.md` (supersedes S292's next steps). **S295: Mark confirmed Option A (Python engine stays, a non-user-facing server shared by native clients) and `tui/` inside sCoRE; open questions 1 and 2 below are settled.**
 
 ## Why Python stopped being enough (measured S291 to S292)
 
@@ -29,6 +29,17 @@ Shortening the thread switch interval improved the median lag but not the tail: 
 | T6 | Cell aspect read from the terminal, sphere round at any aspect | no correction (R11) |
 
 Targets are measured by one bench harness (R0), run against the Python UI first so the comparison is real.
+
+**R0 measurements (S295, headless, this laptop; Rust built offline from Fedora's packaged crates):**
+
+| Measure | Python (Textual) | Rust (ratatui) | Target |
+|---|---|---|---|
+| Wheel glide, screen updates delivered in 1 s burst, 196x50 | 22/s at `TEXTUAL_FPS=60`, 33/s at 120 (`scripts/bench/ui_scroll_fps.py`) | 120 Hz clock, not yet measured live | T2: 120/s |
+| Transcript frame cost (render + buffer diff), p99 | not isolated (a Textual frame also pays layout and compositing) | **0.12 ms at 120x40, 0.16 ms at 200x55, 0.11 ms at 260x70** render; diff 0.10 to 0.22 ms | <= 4 ms |
+
+The headless Rust number is the cost of building a frame, not of the terminal presenting it. **Scroll feel decision (S295, Mark):** the glide passed but "still feels off"; he wants the **1:1 response of Vim, `cat` and other CLI programs**. Wheel scrolling is therefore **instant line steps, no easing, no timer**: an input event repaints on the same loop turn, queued input is drained first so a burst costs one paint. Glide stays in the spike as modes 2 and 3 (A/B keys) and may serve keyboard paging only. Measured (pty, 200 wheel events 8 ms apart plus 800 queued): **input to paint p50 0.41 ms, p99 0.74 ms, max 0.80 ms** (`tui/bench/drive_latency.py`); T1 asks <= 8 ms. Kitty presents on its own cadence after that, same as Vim.
+
+**T2 live gate (S295): PASSED by feel.** Mark ran the spike on kitty: "feels good!!!" (no frame log captured, so no dropped-frame count; `--log` is there if a number is wanted). The earlier note, for reference: the live run on kitty (`cd tui && cargo run --release --offline -p rabble-tui -- --log /tmp/glide.csv`, scroll, q; then inspect frame gaps in the log) and Mark feeling the glide.
 
 ## Architecture (proposed)
 
