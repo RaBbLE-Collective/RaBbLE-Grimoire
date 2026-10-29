@@ -251,6 +251,8 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 ## RaBbLE-BaBbLE
 
 - [README](RaBbLE-BaBbLE/RaBbLE-BaBbLE-Overview.md) — intake surface: concept art, prototypes, creation lore, captures layer, knowledge graph
+- [RaBbLE-SiGiL-Overview](RaBbLE-SiGiL/RaBbLE-SiGiL-Overview.md) — visual asset store (S282): bytes outside git, tracked sidecar index; provenance human/captured/ai; `spells/asset-ingest.sh`
+- [RaBbLE-SiGiL-Index](RaBbLE-SiGiL/RaBbLE-SiGiL-Index.md) — generated browse table of every indexed asset
 
 ---
 
@@ -276,6 +278,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-Pocket-Muse-SDK-Map](RaBbLE-Pocket/RaBbLE-Pocket-Muse-SDK-Map.md): Muse Gadget SDK bring-up record, why it's a bridge not a companion, file-level port map, gotchas
 - [RaBbLE-Pocket-Clean-Room-Plan](RaBbLE-Pocket/RaBbLE-Pocket-Clean-Room-Plan.md): two-team clean-room replacement of every Meta-derived (Apache) file, module by module in waves W0 to W7: inventory with upstream overlap, roles and firewall, clean workspace recipe, provenance and overlap gates
 - [Pocket clean room: specs + provenance](RaBbLE-Pocket/cleanroom/PROVENANCE.md): per-module clean-room specs (`cleanroom/w0-*` to `w4-*.spec.md`, with golden vectors; spec author + firewall reviewed; `w5-orbit.spec.md` is the Settings redesign, the Orbit dial) and the provenance ledger (who saw what, overlap result, Pocket commit); W0-W4 done S256-S264, W5 in build S266
+- [RaBbLE-Pocket-Getting-Started](RaBbLE-Pocket/RaBbLE-Pocket-Getting-Started.md): build your own Pocket (parts, battery polarity warning, ESP-IDF v6.0.1 on RaBbLE-OS or generic, build/flash, Wi-Fi, sCoRE beam token) and living with it (gestures, Converse/Capture, notes off the console, Orbit, Pomodoro, console reference)
 - [RaBbLE-Pocket-Gadget-Port](RaBbLE-Pocket/RaBbLE-Pocket-Gadget-Port.md): S243 firmware rebuilt as a RaBbLE gadget on IDF v6.0.1: Apache-derived SDK parts isolated in `apache/`, own code in `accord/`, canvas-drawn face, push-to-talk beamed to sCoRE; layout, behaviour, what's verified, next
 - [RaBbLE-Pocket-Beam-Protocol](RaBbLE-Pocket/RaBbLE-Pocket-Beam-Protocol.md): v0 draft WebSocket contract between Pocket and sCoRE (`/api/v1/beam`): PCM up/down with a 4-byte header, JSON turn events, capture turns returning note files (S264); what the sCoRE endpoint must do; `ops/beam-echo.py` reference
 - [RaBbLE-Pocket-Responsiveness](RaBbLE-Pocket/RaBbLE-Pocket-Responsiveness.md): open paths to a snappy, alive Pocket (S268): measured boot breakdown, the UART0 console finding, ranked paths (panel waits, console, bootloader validate, memtest, first frames, power-off policy, time-to-talk)
@@ -331,6 +334,7 @@ Status lives in each plan; the one-line status table is [log/plans/CONTEXT.md](l
 - [OS-Plymouth-Black-Screen](log/plans/OS-Plymouth-Black-Screen.md) — Plymouth black-screen root cause
 - [OS-VM-Dev-Flow](log/plans/OS-VM-Dev-Flow.md) — VM dev loop on the RaBbLE-VM partition
 - [OS-Theming-Variants-Plan](log/plans/OS-Theming-Variants-Plan.md) — theme variants + profiles + contrast QA
+- [OS-Install-Editions-Plan](log/plans/OS-Install-Editions-Plan.md) — core/user/dev/creative/full editions, manifest `edition:` field, installer `--edition`, disk reclaim + backup actions (S283 design)
 
 ### Handoffs (pending)
 
@@ -339,9 +343,9 @@ Status: [log/handoffs/CONTEXT.md](log/handoffs/CONTEXT.md).
 - [HANDOFF-S234-EP1-Entity-Face](log/handoffs/HANDOFF-S234-EP1-Entity-Face.md) — EP1 face build (pairs with the Entity-Face plan)
 - [HANDOFF-S276-EP1-Face-V1](log/handoffs/HANDOFF-S276-EP1-Face-V1.md): EP1 web face V1 on dev; next iPhone check, CF binding + Render env, first main deploy
 - [HANDOFF-S278-Pocket-Press-Drafts-and-SDK](log/handoffs/HANDOFF-S278-Pocket-Press-Drafts-and-SDK.md): W7 done; Mark reviews the parked Pocket press drafts (renders need the clock), then the RaBbLE-SDK
-- [HANDOFF-S280-Pocket-Firmware-Test-Suite](log/handoffs/HANDOFF-S280-Pocket-Firmware-Test-Suite.md): comprehensive Pocket firmware tests (SDK, app, drivers, board) in five tiers; inventory, then plan + QuiBbLE, then layer-split builds; T1-T4 for Mark
 - [HANDOFF-S281-Pocket-Parity-Sim-Shot-Gate](log/handoffs/HANDOFF-S281-Pocket-Parity-Sim-Shot-Gate.md): Pocket `>shot` (built, not flashed), parity sim (scaffold), gate-checker fixes (3 of 5 proven), S8 re-cut facts; next steps per track
 - [Pocket-Parity-Sim-Spec](log/plans/Pocket-Parity-Sim-Spec.md): the sim runs the real app + LVGL 9.5.0 on a host board for visual parity (time, sCoRE, icons, fonts); scenes, goldens, `>shot` design
+- [HANDOFF-S280-Pocket-Firmware-Test-Suite](log/handoffs/HANDOFF-S280-Pocket-Firmware-Test-Suite.md): comprehensive Pocket firmware tests (SDK, app, drivers, board) in five tiers; inventory, then plan + QuiBbLE, then layer-split builds; T1-T4 for Mark
 - [HANDOFF-S279-RaBbLE-UI-U3](log/handoffs/HANDOFF-S279-RaBbLE-UI-U3.md): RaBbLE-UI U1 engine + U2 face live, `rabble` flipped; review should-fixes, then U3 Crew as subagents (pairs with sCoRE-RaBbLE-UI-Plan)
 - [HANDOFF-S268-Pocket-W6-Integrate](log/handoffs/HANDOFF-S268-Pocket-W6-Integrate.md): Pocket W6: spec + firewall done, fresh Sonnet implementer in ~/RaBbLE-Cleanroom/pocket-w6; next integrate, checklist, overlap gate, config trims, then W7 and the RaBbLE-SDK
 - [HANDOFF-S267-Pocket-CleanRoom-Final-SDK](log/handoffs/done/HANDOFF-S267-Pocket-CleanRoom-Final-SDK.md): Pocket after S267 (Orbit v2 hand-checked); next W6 board-layer clean room as Mark's walkthrough, W7 close-out with a Sovereign Accord header sweep, then the RaBbLE-SDK component refactor

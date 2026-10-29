@@ -1,5 +1,7 @@
 # RaBbLE-Pocket-Architecture.md
 
+> **Status (2026-10-25):** this is the original design (Aug 2026). What is built today: push-to-talk over Wi-Fi, a WebSocket "beam" to sCoRE (see [Beam Protocol](RaBbLE-Pocket-Beam-Protocol.md)), the gadget firmware on ESP-IDF **v6.0.1**, the board layer in `bsp/` (not Kconfig board select). **Wake word, BLE and the phone-as-hub design below are not built**; treat those sections as history. How to build and use it now: [RaBbLE-Pocket-Getting-Started](RaBbLE-Pocket-Getting-Started.md).
+
 Firmware and comms architecture for the pendant. Hardware inventory: `RaBbLE-Pocket-Hardware.md`. Source: Mark's project rundown, 2026-08-07.
 
 ## Firmware Architecture

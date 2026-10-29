@@ -2,10 +2,12 @@
 
 Worked build+flash walkthrough for the Waveshare ESP32-S3-Touch-AMOLED-1.75-B, verified end to end 2026-08-08. Toolchain/architecture background: `RaBbLE-Pocket-Architecture.md`. Board spec: `RaBbLE-Pocket-Hardware.md`.
 
+> **Status (2026-10-25):** the Pocket firmware now pins **ESP-IDF v6.0.1** (`firmware/.esp-idf-version`) and the vendor tree lives in `third_party/` (not `firmware/vendor/`). The worked examples below were verified on v5.5.4 on 2026-08-08; the vendor examples (and the Brookesia suite, which the vendor validates on v5.5.4) may still want that version. For building the RaBbLE Pocket firmware itself, start at [RaBbLE-Pocket-Getting-Started](RaBbLE-Pocket-Getting-Started.md).
+
 ## Prerequisites
 
 - RaBbLE-OS `layer/esp-idf` applied (`bash RaBbLE-OS-layerctl.sh apply esp-idf`) — installs EIM CLI + provisions ESP-IDF versions under `~/esp/esp-idf-eim/<version>/`.
-- `firmware/.esp-idf-version` pins the version this project uses (currently `v5.5.4`).
+- `firmware/.esp-idf-version` pins the version this project uses (currently `v6.0.1`).
 - Board connected over USB-C. It enumerates as **native USB-Serial/JTAG** (`303a:1001` in `lsusb`), device node `/dev/ttyACM0`. No external UART adapter needed.
 
 ## Activating the toolchain
@@ -53,10 +55,10 @@ Result: builds clean (~2 min), flashes in a few seconds. Confirmed chip identity
 
 ## Worked example 2 — board bring-up with LVGL (`02_lvgl_demo_v9`)
 
-Vendor example at `firmware/vendor/ESP32-S3-Touch-AMOLED-1.75/examples/esp-idf/02_lvgl_demo_v9`. This one actually drives the CO5300 AMOLED panel + CST9217 touch + renders LVGL — a real board bring-up test, not just a toolchain check.
+Vendor example at `third_party/ESP32-S3-Touch-AMOLED-1.75/examples/esp-idf/02_lvgl_demo_v9`. This one actually drives the CO5300 AMOLED panel + CST9217 touch + renders LVGL — a real board bring-up test, not just a toolchain check.
 
 ```sh
-cp -r firmware/vendor/ESP32-S3-Touch-AMOLED-1.75/examples/esp-idf/02_lvgl_demo_v9 /tmp/lvgl_demo_v9
+cp -r third_party/ESP32-S3-Touch-AMOLED-1.75/examples/esp-idf/02_lvgl_demo_v9 /tmp/lvgl_demo_v9
 cd /tmp/lvgl_demo_v9
 idf.py set-target esp32s3   # first run also fetches component-manager deps (network required)
 idf.py build
@@ -81,8 +83,8 @@ The vendor repo has **two** separate Brookesia builds — check which one you me
 Build/flash either with the one-shot wrapper (see below) — `idf.py flash` (which the wrapper calls) reads `flasher_args.json` and flashes every declared image automatically, srmodels/storage included, no special-casing needed:
 
 ```sh
-ops/build-flash.sh firmware/vendor/ESP32-S3-Touch-AMOLED-1.75/firmware/brookesia -m               # full app suite
-ops/build-flash.sh firmware/vendor/ESP32-S3-Touch-AMOLED-1.75/examples/esp-idf/03_esp-brookesia -m # framework demo only
+ops/build-flash.sh third_party/ESP32-S3-Touch-AMOLED-1.75/firmware/brookesia -m               # full app suite
+ops/build-flash.sh third_party/ESP32-S3-Touch-AMOLED-1.75/examples/esp-idf/03_esp-brookesia -m # framework demo only
 ```
 
 If it's noticeably nicer than what the board shipped with, that's `firmware/brookesia` — a fresh build from source is the natural "upgrade the stock image" path.
@@ -95,7 +97,7 @@ If it's noticeably nicer than what the board shipped with, that's `firmware/broo
   timeout 10 cat /dev/ttyACM0 | strings
   ```
 - **The board can drop off USB entirely between operations** — not just the `/dev/ttyACM0` node disappearing, but vanishing from `lsusb` altogether (native USB-Serial/JTAG re-enumeration quirk, possibly related to a raw-`cat` serial session not closing the port cleanly, or just a loose USB-C connection). Symptom: `esptool.py` fails with `Could not open /dev/ttyACM0, the port is busy or doesn't exist`. Fix: re-check `lsusb | grep -i esp` before flashing if the board has been idle since the last serial interaction; re-seat the cable if it's still missing.
-- Build in a scratch dir (e.g. this session used the Claude Code scratchpad), not inside `firmware/vendor/...` directly — keeps `build/`/`managed_components/` out of the vendor reference clone even though that tree is already gitignored.
+- Build in a scratch dir (e.g. this session used the Claude Code scratchpad), not inside `third_party/...` directly — keeps `build/`/`managed_components/` out of the vendor reference clone even though that tree is already gitignored.
 - **`esp-idf-select.sh` wasn't zsh-safe (fixed 2026-08-08).** Mark's shell is zsh, and the script is meant to be sourced into it directly — but it used `mapfile` (bash-4+ only, undefined in zsh) and `${versions[0]}` to grab a single-element array (zsh arrays are 1-indexed by default, bash's are 0-indexed, so a hardcoded index is wrong in one or the other). Both only surfaced when the interactive picker path ran (no `.esp-idf-version` pin above `$PWD` and no explicit version arg) — the common case, where the pin resolves without touching that code, masked it. Fixed: a portable `while read` loop instead of `mapfile`, and `${versions[*]}` (correct under both indexing schemes for a single element) instead of `${versions[0]}`.
 
 ## Look before you flash: the host sim

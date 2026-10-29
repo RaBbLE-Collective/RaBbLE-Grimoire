@@ -26,6 +26,7 @@ this table is a one-line pointer. 🟡 = in flight / awaiting Mark · 🔵 = des
 | `OS-Boot-Chain-Seamless-Plan.md` | 🎯 Phase 1 VM-verified; S200 real-HW fix awaits Mark's reboot verify |
 | `OS-Plymouth-Black-Screen.md` | 🎯 root cause found (S166 ternary); awaiting visual verify |
 | `OS-VM-Dev-Flow.md` | 🟡 Part 1 done; cast VM + build-loop spell pending (S236 drove virt-install directly) |
+| `OS-Install-Editions-Plan.md` | 🔵 S283 design — core/user/dev/creative/full editions, manifest `edition:` field, installer `--edition`, plus disk reclaim + backup actions; D1 to D5 decided, D6 deferred, ready for W1 |
 | `OS-Theming-Variants-Plan.md` | 🔵 S204 design — variants + profiles + contrast QA; awaiting Mark's calls |
 | `Aether-Theming-Convergence.md` | 🔵 S184 — tracks A1–A3 absorbed by OS-Theming-Variants Phase 2; remainder not started |
 | `EP2-Accounts-Encryption-Spec.md` | 🔵 EP2 draft — the user scaffold: accounts/sessions first, then encrypted ingestion |

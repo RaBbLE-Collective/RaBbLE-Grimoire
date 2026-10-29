@@ -7,7 +7,9 @@
 # row carries its source. Frontier-relative by default; a new frontier row
 # rescales everyone and the lock records the reference.
 #
-# Usage: bash spells/ingest-capabilities.sh [--check] [rows.json]
+# Usage: bash spells/ingest-capabilities.sh [--fetch] [--check] [rows.json]
+#   --fetch   first rewrite the rows from the open LMArena leaderboard dataset (needs uv + network;
+#             orchestra/fetch_benchmarks.py, every row carries its dataset URL and publish date)
 #   --check   print old -> new per model, write nothing
 # Maths and format: RaBbLE-sCoRE/orchestra/ingest.py (repo RaBbLE-sCoRE).
 # =============================================================================
@@ -17,6 +19,9 @@ score="$(cd "$here/../RaBbLE-sCoRE" && pwd)"
 py="$HOME/.local/share/RaBbLE/rabble-ui/bin/python"
 [ -x "$py" ] || py=python3
 rows="$here/RaBbLE-sCoRE/RaBbLE-sCoRE-Capability-Benchmarks.json"
-args=()
-for a in "$@"; do case "$a" in --check) args+=(--check) ;; *) rows="$a" ;; esac; done
+args=(); fetch=0
+for a in "$@"; do case "$a" in --check) args+=(--check) ;; --fetch) fetch=1 ;; *) rows="$a" ;; esac; done
+if [ "$fetch" = 1 ]; then
+  (cd "$score" && uv run --quiet --with pyarrow python -P -m orchestra.fetch_benchmarks -o "$rows")
+fi
 cd "$score" && exec "$py" -P -m orchestra.ingest "$rows" "${args[@]}"
