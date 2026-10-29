@@ -60,6 +60,10 @@ RaBbLE-sCoRE/
 
 **Rejected: embedding Python via PyO3.** It reintroduces the GIL inside the process we are trying to free.
 
+### Engine end state (Mark, S295)
+
+Multi-client, multi-session, multi-agent, multi-user from the protocol up: one engine process, many sessions (each with many attached clients and its own Crew organs), every message addressed by `session`. The user picks a capability provider and converses with RaBbLE; RaBbLE + sCoRE own orchestration, session management and resource planning (model/provider choice per task, concurrency, budgets, parking, rate-limit routing) in the engine, so every client (Rust TUI, a GUI, Pocket, web) stays thin. R1 builds the session-multiplexed seam (`SessionManager`); the orchestration layer (E1) needs its own design and sign-off. Details: `../handoffs/HANDOFF-S295-RaBbLE-UI-Rust-R1-Seam.md`.
+
 ### Frame loop
 
 - One thread owns the terminal and draws; it never waits on the engine or the face.
