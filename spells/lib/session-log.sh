@@ -12,7 +12,8 @@
 #   rabble_session_logfile          path of this session's file (stable for the session)
 #   rabble_log_event TYPE [k=v ...] append one JSON line (creates the file with a 'start')
 #
-# Event types in use: start, label, commit, end. Unknown types are fine; readers
+# Event types in use: start, label, commit, end, subagent (written by spells/crew-log.sh).
+# start/commit/end carry `peers` (key8:harness:model of every OTHER live session). Unknown types are fine; readers
 # must ignore what they do not know. Never edit these files by hand.
 # =============================================================================
 # shellcheck source=session-id.sh
@@ -38,6 +39,13 @@ rabble_log_event() {
     k=${kv%%=*}; v=${kv#*=}
     extra=$(jq -c --arg k "$k" --arg v "$v" '. + {($k): $v}' <<<"$extra")
   done
+  # who else was live at this moment (key8:harness:model), so blame can see concurrency
+  local peers='[]'
+  case "$type" in commit|end|start)
+    peers=$(rabble_live_peers 2>/dev/null | awk -F'\t' 'NF>=6{print substr($1,1,8)":"$5":"$6}' | jq -R . | jq -sc . 2>/dev/null) || peers='[]'
+    [[ -n "$peers" ]] || peers='[]' ;;
+  esac
+  extra=$(jq -c --argjson p "$peers" 'if ($p|length)>0 then . + {peers:$p} else . end' <<<"$extra")
   _emit() {
     jq -cn --argjson r "$rec" --arg type "$1" --arg label "$(rabble_label "$(jq -r .key <<<"$rec")" || true)" \
       --arg ts "$(date -u +%FT%TZ)" --argjson x "$2" \

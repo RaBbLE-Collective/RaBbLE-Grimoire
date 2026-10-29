@@ -119,6 +119,7 @@ chmod --reference="$LEDGER" "$tmp"
 mv "$tmp" "$LEDGER"   # atomic for readers; appenders flock log/.lock
 
 echo "Breadcrumb recorded: $SID -> $feature${note:+  ($note)}  [$who_h / $who_p / $who_m]"
+bash "$GRIMOIRE_ROOT/spells/crew-log.sh" sync >/dev/null 2>&1 || true   # subagents -> their own attributed events
 rabble_log_event end "feature=$feature" "note=$note" "synopsis=$synopsis" "next=$next_actions" "session=$session_label" 2>/dev/null || true
 
 # --- Auto-write ## LATEST in SESSION-LOG.md -----------------------------------

@@ -55,7 +55,7 @@ case "$cmd" in
     ;;
   show)
     sid=$(rabble_sid) || exit 1
-    rabble_label "$sid" || { echo "(no number claimed; run: bash spells/session-number.sh claim <topic>)" >&2; exit 1; }
+    rabble_label "$sid" || echo "(no number claimed; run: bash spells/session-number.sh claim <topic>)" >&2
     ;;
   *) echo "Usage: session-number.sh next|claim [topic]|show" >&2; exit 1 ;;
 esac

@@ -37,6 +37,14 @@ if [[ -n "$tf" ]]; then
          | if (.name=="Edit" or .name=="Write" or .name=="NotebookEdit") then "F\t\(.input.file_path // "")"
            elif .name=="Bash" then "B\t\(.input.command // "" | gsub("\n";" "))" else empty end' "$tf" 2>/dev/null \
     | awk -F'\t' -v e="$EDITS" -v b="$SHELL_TXT" '$1=="F"{print $2 > e} $1=="B"{print $2 > b}'
+  # subagents are threads of this session: their edits and shell commands are mine too
+  for sf in "$(dirname "$tf")/$native"/subagents/agent-*.jsonl; do
+    [[ -f "$sf" ]] || continue
+    jq -r 'select(.type=="assistant") | .message.content[]? | select(.type=="tool_use")
+           | if (.name=="Edit" or .name=="Write" or .name=="NotebookEdit") then "F\t\(.input.file_path // "")"
+             elif .name=="Bash" then "B\t\(.input.command // "" | gsub("\n";" "))" else empty end' "$sf" 2>/dev/null \
+      | awk -F'\t' '$1=="F"{print $2 >> "'"$EDITS"'"} $1=="B"{print $2 >> "'"$SHELL_TXT"'"}'
+  done
   evidence=transcript
 else evidence=none; fi
 peers=$(rabble_live_peers 2>/dev/null || true)
@@ -56,6 +64,7 @@ for r in "${repos[@]}"; do
   while IFS= read -r line; do
     f=${line:3}; f=${f#* -> }; f=${f//\"/}
     [[ "$f" == log/agents/* || "$f" == */__pycache__/* ]] && continue
+    [[ "$f" == log/sessions/*-"${native:0:8}".jsonl ]] && continue      # my own event log is not a dirty file to stage
     abs=$(readlink -f "$r/$f" 2>/dev/null || echo "$r/$f")
     m=$(stat -c %Y "$r/$f" 2>/dev/null || echo "$start")
     if (( m < start )); then older+=("$f")

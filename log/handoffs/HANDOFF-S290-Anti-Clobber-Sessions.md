@@ -33,6 +33,9 @@ New ritual: `bash spells/session-start.sh "<Repo:path>"... --task "…"` prints 
 5. Optional: `post-commit` could also stamp commits with a trailer (harness/model); not done, Mark's call (Pulse Protocol format).
 6. History rebuild (next big task) can read `log/sessions/*.jsonl` from now on; older sessions need transcript mining (`~/.claude/projects/*/*.jsonl`, `~/.codex/sessions`).
 
+## Update (post-S292 probe, Haiku subagents)
+Real subagents were run against the system. Found: subagents are threads of the parent process, so identity and `mine.sh` booked them to the parent (and `mine.sh` called their edits "another session's work"). Fixed: `spells/crew-log.sh` (subagent events with own model/files/commits), `peers` on start/commit/end events, peer model from transcript, `mine.sh` counts subagent edits and ignores its own event log, `session-number.sh show` exits 0, post-commit `RABBLE_HOOK_DEBUG` / `RABBLE_GRIMOIRE`. Tests T10-T13 (20 pass). Still open: real codex/gemini process test (needs Mark's approval to launch them), rabble `model` event, `mine.sh` substring false-positives.
+
 ## Disclosure
 S290's catch-up commits (`edbad98` etc.) swept S291's live sCoRE edits under a wrong message; S291's log entry records it. No work lost. Cause: truncated `pgrep` ("nothing else is running"). `mine.sh` + the pre-commit warning exist to prevent a repeat.
 

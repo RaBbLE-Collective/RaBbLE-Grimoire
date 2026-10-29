@@ -14,6 +14,20 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-29 · Session S294 (anti-clobber-crew-log)
+
+- **Repos:** RaBbLE-Grimoire. Local on `new-horizons`, nothing pushed.
+- **Work:** picked up HANDOFF-S290 (anti-clobber). Ran it with two real Haiku subagents; subagents are threads of the parent process, so process-tree identity booked them to the parent and `mine.sh` called their edits "another session's work".
+  - **Added:** `spells/crew-log.sh` mines each subagent's own transcript into `subagent` events in the parent's `log/sessions/*.jsonl` (own model, files, tool counts, commits matched by subject; idempotent). Called by post-commit and end-session.
+  - **Peers:** `start`/`commit`/`end` events carry `peers` (key8:harness:model); peer model now read from the peer's transcript (was `unknown`).
+  - **Fixed:** `mine.sh` counts subagent edits and ignores its own event log; `session-number.sh show` exits 0 when unclaimed; post-commit `RABBLE_HOOK_DEBUG=1` / `RABBLE_GRIMOIRE`.
+  - **Docs:** Agent-Protocols gotchas 3 and 4 marked superseded; HANDOFF-S290 updated.
+- **State at close:** `spells/tests/anti-clobber.test.sh` 20 passed (T10-T13 new). A real Haiku subagent was not re-run through the finished hook (tests simulate it).
+- **Learned:** auto-mode blocked launching `codex exec` / `gemini --yolo` as autonomous agents; the real codex/gemini process test still needs Mark's go-ahead or a manual run. Substring match in crew-log commit attribution can double-credit identical subjects.
+- **Next:** codex/gemini live test; rabble `model` event on `/model` switch (sCoRE ui, after the Rust move); Mark's call on a commit trailer.
+
+---
+
 ## 2026-10-29 · Session S292 (rabble-ui-rust-plan)
 
 - **Repos:** RaBbLE-sCoRE (`b98d727`), RaBbLE-Grimoire. Local on `new-horizons`, nothing pushed.

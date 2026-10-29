@@ -12,17 +12,20 @@
 #   2. a provisional token-ledger row if the session has none yet
 # A commit made from a plain terminal (no agent ancestor) records nothing.
 # =============================================================================
+# Silent by design (never fail or noise a commit). RABBLE_HOOK_DEBUG=1 shows why nothing was recorded.
+# RABBLE_GRIMOIRE=<path> overrides the cwd-relative Grimoire discovery.
+OUT=/dev/null; [[ -n "${RABBLE_HOOK_DEBUG:-}" ]] && OUT=/dev/stderr
 {
   G=""
-  for p in ./RaBbLE-Grimoire ../RaBbLE-Grimoire .; do
+  for p in ${RABBLE_GRIMOIRE:-} ./RaBbLE-Grimoire ../RaBbLE-Grimoire .; do
     [[ -f "$p/spells/lib/session-log.sh" && -f "$p/log/token-ledger.tsv" ]] && G="$(cd "$p" && pwd)" && break
   done
-  [[ -z "$G" ]] && exit 0
+  [[ -z "$G" ]] && { echo "post-commit: no Grimoire found (set RABBLE_GRIMOIRE); nothing recorded" >&2; exit 0; }
   GRIMOIRE_ROOT="$G"
   # shellcheck source=/dev/null
   source "$G/spells/lib/session-log.sh"
 
-  rec=$(rabble_session_json 2>/dev/null) || exit 0
+  rec=$(rabble_session_json 2>/dev/null) || { echo "post-commit: no agent in the process tree (plain terminal); nothing recorded" >&2; exit 0; }
   SID=$(jq -r .key <<<"$rec")
   [[ -n "$SID" ]] || exit 0
 
@@ -30,6 +33,7 @@
   hash=$(git rev-parse --short HEAD 2>/dev/null)
   repo=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)")
   rabble_log_event commit "repo=$repo" "hash=$hash" "subject=$msg"
+  bash "$G/spells/crew-log.sh" sync || true        # attribute subagent work to the subagent
 
   # provisional ledger row (explicit end-session rows always win); serialised with end-session
   exec 9>"$G/log/.lock"
@@ -39,5 +43,5 @@
   rev=$(printf '%s' "$msg" | sed -n 's/.*>> \(.*\) \/\/.*/\1/p')
   printf '%s\t%s\t%s\t%s\t%s\t%s\n' "$SID" "$organ" "auto: ${rev:-$msg}" \
     "$(jq -r .harness <<<"$rec")" "$(jq -r .provider <<<"$rec")" "$(jq -r .model <<<"$rec")" >> "$G/log/token-ledger.tsv"
-} >/dev/null 2>&1 || true
+} >"$OUT" 2>&1 || true
 exit 0

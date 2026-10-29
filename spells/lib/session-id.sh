@@ -208,7 +208,7 @@ rabble_live_peers() {
     h=claude; tr '\0' '\n' < "/proc/$pid/environ" 2>/dev/null | grep -q '^CLAUDE_CODE_ENTRYPOINT=sdk-py$' && h=rabble
     printf '%s\t%s\t%s\t%s\t%s\t%s\n' "$sid" "$pid" \
       "$(jq -r '(.startedAt // 0) / 1000 | floor' "$f")" "$(jq -r '.cwd // ""' "$f")" "$h" \
-      "$(_rabble_model_from_argv "$(_rabble_argv "$pid")" || echo unknown)"
+      "$(_rabble_claude_model_from_transcript "$sid" "$(jq -r '.cwd // ""' "$f")" || _rabble_model_from_argv "$(_rabble_argv "$pid")" || echo unknown)"
   done
   # other harnesses: any running process whose argv0 classifies, excluding our own ancestry
   while read -r p argv; do
