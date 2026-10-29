@@ -2,6 +2,8 @@
 
 > **DRAFT rev 2 for Mark, 2026-10-25 (S278), after two QuiBbLE critiques. Not in force. Not legal advice: lawyer review before it replaces any LICENSE.** Written from scratch; PolyForm Noncommercial 1.0.0 used only as a structural reference for definitions, patents, violations and liability. Plan: `log/plans/Sovereign-Accord-v2-Brand-and-Entity.md`. Bracketed notes are for review and get removed.
 >
+> **2026-10-29: an interim Accord is in force** (`RaBbLE-Sovereign-Accord.md`, synced to every LICENSE) with Mark's fork/name positions; this v2 draft is the longer lawyer-review track and predates them. See the plan, "Decisions 2026-10-29".
+>
 > **Parked 2026-10-25.** Mark's position since this draft: forks are for personal use or contributions back to the Collective (no public rebrands); the Entity is under a limited-use license; NeBuLA is free to use for rendering your own effects. Reshape the fork sections to that when v2 is picked up. See the plan.
 
 **Source-Available · Personal and Noncommercial Gifted · Commercial Reserved · The Name and the Face Reserved**

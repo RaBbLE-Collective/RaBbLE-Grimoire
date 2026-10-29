@@ -82,3 +82,14 @@ Also decided: **governing law Ohio** (2026-10-25).
 2. Spell to sync LICENSE into every member; update the `feedback_sovereign_accord_license` guidance and Agent-Protocols.
 3. Source headers stay as they are (`RaBbLE Sovereign Accord.` points at the repo LICENSE), so W7's header sweep doesn't need redoing.
 4. The assets tier for the entity is a NeBuLA + Pocket refactor; plan it after decision 2.
+
+## Decisions 2026-10-29 (S290) · interim Accord in force
+
+Mark's positions, folded into `RaBbLE-Collective/RaBbLE-Sovereign-Accord.md` (the canonical text, synced into every member LICENSE by `spells/sync-license.sh`, `--check` for drift):
+
+- **One licence, three parts:** the Gift (Software), the Reservation (name, Entity, face: not licensed), the Toll (commercial). No separate licences; a Brand and Entity Policy can come later and is not a licence.
+- **Owner is The RaBbLE Collective only**; Mark's name is out of the text (the d/b/a filing carries the legal side).
+- **Personal mods and free resharing granted**, public git forks included, under the Accord with credit and source link.
+- **Referring is open, presenting is reserved.** A fork may keep the repo name and code names and say "fork of RaBbLE-OS". Shared forks that show a name to users (boot, login, installer, app, site) use their own ("Sprocket, a RaBbLE mutation"). A mutation is a new entity in the lineage (`RaBbLE/Genesis/RaBbLE-Lineage.md`), not a second RaBbLE.
+- **Reserved without a pact:** RaBbLE as the name of a portal, site, service, account, domain, company or product; merch showing the Entity; confusingly similar registrations. A hosted service for others is Commercial Use.
+- **Still open for v2 / lawyer:** contributor agreement (no outside contributions until it exists; without it inbound = outbound would give the Collective noncommercial rights only), filings and classes, fan-content policy, creator/Shop licence, the Entity limited-use grant (reserved entirely for now), entity assets tier, Atreum RABBLE class 9 registration (6713996, goods wording unread: check TSDR 90042611). Chrysalis, BaBbLE and Xperimental have no LICENSE.
