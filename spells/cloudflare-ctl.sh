@@ -901,26 +901,32 @@ cmd_workers_list() {
     suggest_setup; exit 1
   fi
 
-  local CF_TOKEN
-  CF_TOKEN=$(_get_cf_auth_token)
-  if [ -z "$CF_TOKEN" ]; then
+  # Try the wrangler OAuth token first, then the API token: a stale OAuth file (logged out)
+  # must not shadow a working API token.
+  local RESULT="" tok url="https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts"
+  local -a toks=()
+  tok=$(_get_cf_auth_token); [ -n "$tok" ] && toks+=("$tok")
+  [ -n "${CLOUDFLARE_API_TOKEN:-}" ] && [ "${CLOUDFLARE_API_TOKEN:-}" != "$tok" ] && toks+=("$CLOUDFLARE_API_TOKEN")
+  if [ ${#toks[@]} -eq 0 ]; then
     err "No auth token available — run: bash spells/cloudflare-ctl.sh login"
     exit 1
   fi
-
-  RESULT=$(curl -s \
-    "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts" \
-    -H "Authorization: Bearer $CF_TOKEN")
+  for tok in "${toks[@]}"; do
+    RESULT=$(curl -s "$url" -H "Authorization: Bearer $tok")
+    echo "$RESULT" | grep -qE '"success"[[:space:]]*:[[:space:]]*true' && break
+  done
 
   if echo "$RESULT" | grep -qE '"success"[[:space:]]*:[[:space:]]*true'; then
     echo "$RESULT" | python3 -c "
 import sys,json
 scripts=json.load(sys.stdin).get('result',[])
 if not scripts: print('  (none)')
-for s in scripts: print(f'  {s[\"id\"]}')
+for s in sorted(scripts, key=lambda x: x['id']): print(f'  {s[\"id\"]:<24} modified {s.get(\"modified_on\",\"?\")[:10]}')
 " 2>/dev/null || warn "Could not parse response"
   else
-    err "API request failed — check CLOUDFLARE_API_TOKEN scope"
+    local msg
+    msg=$(echo "$RESULT" | python3 -c "import sys,json; print('; '.join(e.get('message','?') for e in json.load(sys.stdin).get('errors',[])))" 2>/dev/null)
+    err "API request failed: ${msg:-no response} (needs Account > Workers Scripts > Read)"
   fi
   echo ""
 }
@@ -933,15 +939,18 @@ cmd_status() {
   # ── Workers subdomain health ──────────────────────────────────────────────
   echo ""
   info "Workers subdomains:"
-  # Format: member:domain:healthpath — grimoire is an assets-only Worker with no
-  # root index (bare / is intentionally 404), so probe a known gist asset instead.
+  # Format: member:domain:healthpath — CDN and API Workers have no root index (bare / is
+  # intentionally 404), so probe a real asset or the health endpoint instead.
   for pair in \
-      "aether:aether.joinrabble.world:/" \
-      "nebula:nebula.joinrabble.world:/" \
+      "aether:aether.joinrabble.world:/aether.min.css" \
+      "nebula:nebula.joinrabble.world:/nebula.iife.js" \
       "grimoire:grimoire.joinrabble.world:/RaBbLE-Identity-gist.md" \
-      "score:score.joinrabble.world:/" \
+      "score:score.joinrabble.world:/health" \
       "world:joinrabble.world:/" \
-      "dev:dev.joinrabble.world:/"; do
+      "dev:dev.joinrabble.world:/" \
+      "scribble:scribble.joinrabble.world:/" \
+      "chrysalis:chrysalis.joinrabble.world:/" \
+      "xperimental:xperimental.joinrabble.world:/"; do
     local m="${pair%%:*}" rest="${pair#*:}"
     local domain="${rest%%:*}" path="${rest#*:}"
     HTTP=$(curl -s -o /dev/null -w "%{http_code}" "https://$domain$path" 2>/dev/null || echo "000")
