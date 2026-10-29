@@ -252,3 +252,20 @@ written into `current.epoch.yml`'s `episode_coherence_policy` (per-project Episo
 at ~1–2 episodes drift, Echo remains the coherence checkpoint not the sync point). **Mark set this
 aside to focus on shipping EP1 first — revisit after the tag.** If adopted, it changes how members
 interact and should be logged as an Evolution-level decision, not drift in quietly.
+
+---
+
+## sCoRE moves out of step; the version schema must not block progress (2026-10-29, S290)
+
+**Direction from Mark:** sCoRE is the most fluid system and runs more like CI/CD than the rest of the Collective. For EP1, sCoRE stays as it is today (chat serving + the RaBbLE TUI). Pocket and later features will move it out of step with World. **The version schema must never be the thing that blocks sCoRE progress.** Mark will define Episode-level APIs.
+
+**Why it connects to the deferred question above:** Episode lockstep is the only cross-member compatibility guarantee because nothing replaces it (`protocol/` contracts undefined). Episode-level APIs are that replacement. With a contract per Episode, compatibility is guaranteed by the contract, not by everyone sharing a version number.
+
+**Not yet decided (Mark's call), proposal for discussion:**
+- sCoRE becomes `release_track: independent` (as Pocket and ScRiBbLE already are), carrying its own version.
+- The Episode defines an API contract (EP1: `/api/v1/chat`, `/api/v1/beam` as served today). World and Pocket pin to the contract, not to a sCoRE version.
+- Within a contract: additive changes only. Breaking changes ship side by side as `/api/v2` and are adopted by members at their own pace.
+- The Episode tag records a compatibility pin ("sCoRE serving contract ep1 at tag X") instead of a lockstep version bump for sCoRE.
+- A contract test suite in sCoRE CI is the check; the lockstep rule "no breaking changes within the Episode" becomes "no breaking changes within a contract".
+
+Related: B-25 (persona/open tier is Pocket-track, not EP1), `registry/epochs/current.epoch.yml` `episode_coherence_policy`, `RaBbLE-Versioning.md` (Lockstep Model).

@@ -165,6 +165,49 @@ cmd_resolve() {
   cmd_sync >/dev/null
 }
 
+cmd_update() {
+  local id="${1:-}"; shift || true
+  [[ -n "$id" ]] || { echo -e "${RED}Blocker id required (e.g. B-03).${RESET}" >&2; exit 1; }
+  [[ "$id" == B-* ]] || id="B-$id"
+  local owner="" severity="" append="" settags=""
+  local -a addtags=() rmtags=()
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --owner)    owner="${2:-}"; shift 2 ;;
+      --severity) severity="${2:-}"; shift 2 ;;
+      --note)     append="${2:-}"; shift 2 ;;
+      --tag)      addtags+=("${2:-}"); shift 2 ;;
+      --untag)    rmtags+=("${2:-}"); shift 2 ;;
+      *) echo -e "${RED}Unknown option: $1${RESET}" >&2; exit 1 ;;
+    esac
+  done
+
+  local cur
+  cur=$(latest_by_id | jq -c --arg id "$id" '.[] | select(.id==$id)')
+  [[ -n "$cur" ]] || { echo -e "${RED}No blocker with id $id.${RESET}" >&2; exit 1; }
+  if [[ "$(echo "$cur" | jq -r .event)" != "open" ]]; then
+    echo -e "${RED}$id is resolved; update only applies to open blockers.${RESET}" >&2; exit 1
+  fi
+  # the original open event carries the true 'since'; the latest may be an earlier update
+  local sid now agent add_json rm_json
+  sid=$(resolve_session_id); now=$(date -u +"%Y-%m-%dT%H:%M:%SZ"); agent=$(detect_agent_kind)
+  add_json=$(printf '%s\n' "${addtags[@]:-}" | jq -R . | jq -s 'map(select(length>0))')
+  rm_json=$(printf '%s\n' "${rmtags[@]:-}" | jq -R . | jq -s 'map(select(length>0))')
+
+  echo "$cur" | jq -c \
+    --arg owner "$owner" --arg severity "$severity" --arg append "$append" \
+    --argjson add "$add_json" --argjson rm "$rm_json" \
+    --arg ts "$now" --arg session "$sid" --arg agent "$agent" --arg day "${now%%T*}" '
+      (if $owner    != "" then .owner = $owner else . end)
+    | (if $severity != "" then .severity = $severity else . end)
+    | (if $append   != "" then .summary = (.summary + "  ·  [" + $day + "] " + $append) else . end)
+    | .tags = (((.tags // []) + $add) | unique | map(select(. as $t | ($rm | index($t)) | not)))
+    | .timestamp = $ts | .session = $session | .agent = $agent' >> "$STREAM"
+
+  echo -e "${YELLOW}[updated] ${id}${RESET}"
+  cmd_sync >/dev/null
+}
+
 cmd_ls() {
   local show_all=false
   [[ "${1:-}" == "--all" ]] && show_all=true
@@ -259,6 +302,7 @@ shift || true
 case "$CMD" in
   add)        cmd_add "$@" ;;
   resolve)    cmd_resolve "$@" ;;
+  update)     cmd_update "$@" ;;
   ls|list)    cmd_ls "${1:-}" ;;
   sync)       cmd_sync ;;
   open-count) cmd_open_count "$@" ;;
@@ -269,6 +313,8 @@ case "$CMD" in
     echo "  add \"<summary>\" [--owner X] [--tag T]... [--severity S] [--since SNNN]"
     echo "                            Open a new blocker (prints its B-NN id)"
     echo "  resolve <id> [\"<note>\"]   Close a blocker"
+    echo "  update <id> [--note \"…\"] [--tag T]... [--untag T]... [--owner X] [--severity S]"
+    echo "                            Amend an open blocker (appends a dated note / retags; history kept)"
     echo "  ls [--all]                List OPEN blockers (--all also shows RESOLVED)"
     echo "  sync                      Regenerate log/BLOCKERS.md from the event stream"
     echo "  open-count [--tag T]      Print the number of open blockers (bare integer)"
