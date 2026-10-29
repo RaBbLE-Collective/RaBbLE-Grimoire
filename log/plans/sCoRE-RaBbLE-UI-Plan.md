@@ -152,6 +152,26 @@ Tools:
 - Session log to `~/RaBbLE-chats/rabble-YYYYMMDD-HHmm.jsonl`; entropy notices; routing transparency line (L-09 acceptance items).
 - Codex/Gemini backends reading the same Crew specs.
 
+## Roadmap: Mark's ideas for RaBbLE-UI (logged 2026-10-29)
+
+Ideas as Mark raised them, not scoped and not scheduled. Status is what exists in `RaBbLE-sCoRE/ui/` today. Nothing here changes the U1 to U5 order above until Mark picks it.
+
+| ID | Idea | Status | Notes |
+|---|---|---|---|
+| R1 | Face at 24-30 fps in the TUI | **Partly done** | Layered renderer: background (envelope, mesh, orb) at 8 fps on its own thread, eyes and halo on their own thread, assembly and noise every tick (30 fps) on the loop; only changed rows are repainted. Headless measure: display 27/24/21 per s at 120x40, 200x55, 260x70; eye layer 16/12/10 per s. **Pure Python cannot do 24-30 fps eye motion at fullscreen sizes**: one eye repaint costs 10 to 65 ms. Real fix is R3 or R4. |
+| R2 | Render HTML and other artifacts inside the TUI | Idea | Candidates: (a) headless-browser screenshot shown through the kitty graphics protocol (Playwright is already in the Collective), (b) text rendering of HTML in a pane (w3m/browsh style), (c) native cards for Markdown, SVG, images, PDF pages. Open: static or interactive; what counts as an artifact (a tool result, a file the model wrote, a served page); how it degrades in terminals without graphics (VS Code). |
+| R3 | **Face render server**: render the face outside the TUI and stream frames to it | Idea | Removes the face from the TUI's GIL entirely. A local server also gives the UI wider system access (files, processes, OS tracker, clipboard, browser for R2). Likely shares its shape with the sCoRE local server in U5 / L-09; decide whether they are one server. Frame format to settle: cell grid vs encoded image, and the transport. |
+| R4 | Move the TUI to Rust | Idea | Alternative or companion to R3 (ratatui class). Would take the render loop and the face out of Python. Open: keep Python for the engine (Claude Agent SDK) behind a socket, or port that too. |
+| R5 | Aura tinted by model provider | **Done** (tune by eye) | Anthropic orange, Google its four-colour ring, OpenAI green; sCoRE and local keep the RaBbLE poles. Muted toward palette violet (`PROVIDER_MUTE`), strengths `AURA_POLES`/`AURA_RING` in `ui/face.py`. Provider colours are third-party brand values, not palette values. |
+| R6 | Flowing cyan-to-magenta separator under the header | **Done** | `ui/widgets/divider.py`, 8 fps cosine bounce between the palette's cyan and magenta. |
+| R7 | Crisper, anti-aliased mini mark with less glow bleed | **Done** (tune by eye) | Tighter halo and sharper edge for the mini; lone faint sub-pixels flattened. |
+| R8 | Full face and mini match the Entity Rig spec | **Mostly done** | Proportions, gaze range, idle float, portal bob, halo ratios from `RaBbLE-NeBuLA/specs/rig/entity-rig.json`. Not drawn: tilt, breathe, heartbeat, portal energy-ring spin, blink lag of 40 ms on the right eye. |
+| R9 | Works in the VS Code terminal | **Partly done** | Safe glyph mode (Block Elements only, auto on `TERM_PROGRAM=vscode`, `RABBLE_GLYPHS=safe\|octant`). Not yet seen in VS Code by Mark. |
+| R10 | Image paste into the composer | Idea (asked 2026-10-29) | Ctrl+V with an image on the clipboard no longer crashes but pastes nothing. Needs the clipboard image sent to Claude Code as an image block; display depends on R2. |
+| R11 | Sphere looks squished at fullscreen | **Open, not diagnosed** | Probable cause: the renderer assumes cells 1:2 and the terminal's cell aspect is different. Needs Mark's terminal and cell size. Fix would read the cell aspect (`TIOCGWINSZ` pixel size, or `RABBLE_CELL_ASPECT`) and scale y for the whole face. |
+
+RaBbLE suggestion, not Mark's idea: make `/face` a dismissable full-screen overlay instead of a block in the transcript (the transcript block takes its height from the viewport, which is small in a short VS Code panel).
+
 ## Launcher change
 
 - `rabble` → the UI (once U2 ships). `rabble --cc` → today's Claude Code wrapper, unchanged.

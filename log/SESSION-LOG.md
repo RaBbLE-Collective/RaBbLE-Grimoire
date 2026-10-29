@@ -14,6 +14,23 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-29 · Session S291 (rabble-ui-face-layers)
+
+- **Repos:** RaBbLE-sCoRE (`4a89ae1`; the earlier part of this work was swept into S290's `edbad98`), RaBbLE-Grimoire. Local on `new-horizons`, nothing pushed.
+- **Work:** RaBbLE-UI face, started from "the face still lags and the eyes should match the Entity Rig spec".
+  - **Lag:** the eyes repainted on every gaze step (38 to 85 ms). Now layered: background (envelope, mesh, orb) at 8 fps on a thread, eye + halo layer on its own thread (flat-cell fast path, two-tap supersample on big eyes, cheap mode while travelling), assembly + noise at 30 fps on the loop, changed rows only. Jobs duty-cycled so the loop keeps its share. Headless: display 27/24/21 per s at 120x40 / 200x55 / 260x70, eye layer 16/12/10 per s, p95 loop stall 24/34/43 ms (was 57 ms at 260x70). `degrade` colour memo (7 ms to 1 ms). Pure Python cannot hold 24-30 fps eye motion at fullscreen: R3/R4 logged.
+  - **Rig spec:** spacing 2.1 / portal 2.7 / flatten 0.3 / offset 0.93 eye widths for full and mini, gaze +-26/+-12 (eyes only), idle float and portal bob, rim-inner-edge clip, halo ratios. `test_rig_baseline` replaces the prototype-parity test.
+  - **Aura:** halo around the eyes (violet orb wash removed), provider tint (anthropic orange, google ring, openai green; sCoRE and local = poles), muted toward palette violet; strengths lowered after "shadow too noticeable".
+  - **Rendering targets:** VS Code safe glyph mode (Block Elements only, auto on `TERM_PROGRAM=vscode`), crisper mini, `/face` sized to the transcript viewport (was the leftover rows), flowing cyan-to-magenta divider under the header.
+  - **Crashes fixed:** tool-card title with `[...]` raised a Textual `MarkupError` and killed the event pump (pump now survives per event); Ctrl+V with an image on the clipboard raised `UnicodeDecodeError`; my own freeze candidates (blocking `call_from_thread`, Textual worker cancelled before running) replaced with daemon threads and `call_soon_threadsafe`.
+  - Roadmap R1 to R11 added to `log/plans/sCoRE-RaBbLE-UI-Plan.md` (HTML/artifact rendering, face render server, Rust TUI, image paste, 24-30 fps).
+- **State at close:** `tests/test_ui_*.py` 63 passed. **Not seen live**: only headless measures and rendered previews.
+- **Learned:** Textual's and Rich's `escape()` both miss `[(Size(...), Region(...)]`; escape `[` with a backslash. `Strip(segs, n)` takes a cell length, not a segment count. Do not `git stash -- <file>` in a tree other sessions are editing.
+- **Open (Mark):** sphere looks squished (R11, needs terminal + cell size); choose R3 vs R4 for fullscreen fps; tune aura strengths and divider by eye; VS Code appearance unverified.
+- **Next:** HANDOFF-S291: visual test of `/face` on kitty (WS1) and VSCodium (WS3), fix what is off, then R11.
+
+---
+
 ## 2026-10-29 · Session S290 (collective-cleanup)
 
 - **Repos:** sCoRE (`edbad98`), OS (`532e704`), Pocket (`d3bbcba`), Xperimental (`99fd460`), Grimoire (`344efad`, `76fd95e`). All local on `new-horizons`, nothing pushed.
