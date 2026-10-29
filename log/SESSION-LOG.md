@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-29 · S294 (anti-clobber-crew-log)
+## LATEST — 2026-10-29 · S295 (score-rabble-ui-rust-r0)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S294: subagents + peers logged and attributed (crew-log), mine.sh sees subagent edits; 20 tests
+**This session:** S295: engine asdict fix + config surface + Capabilities; Rust TUI R0 built offline, 1:1 instant scroll (p99 0.74 ms); R1 seam handoff
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25 open.
-**Next:** codex/gemini live test (needs Mark go-ahead); Rust TUI R0 per HANDOFF-S292
+**Next:** R1 engine seam per HANDOFF-S295-R1-Seam; Opus plan review; narration design
 
 ---
 
