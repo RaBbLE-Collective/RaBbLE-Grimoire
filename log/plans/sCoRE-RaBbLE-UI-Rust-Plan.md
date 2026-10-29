@@ -2,7 +2,7 @@
 
 > Status: **proposed, S292 (2026-10-29).** Mark chose Rust ("Python is not fast enough: snappy, native, fluid"). The shape in "Architecture" is RaBbLE's recommendation and needs Mark's sign-off before R1; the R0 spike is safe under any shape.
 > Parent plan: `sCoRE-RaBbLE-UI-Plan.md` (roadmap items R1, R3, R4, R11). This plan **retires R3** (a face render server only existed to dodge the GIL; Rust threads do not have one).
-> Cold start: `../handoffs/HANDOFF-S295-RaBbLE-UI-Rust-R0-Cargo.md` (supersedes S292's next steps). **S295: Mark confirmed Option A (Python engine stays, a non-user-facing server shared by native clients) and `tui/` inside sCoRE; open questions 1 and 2 below are settled.**
+> Cold start: `../handoffs/HANDOFF-S295-RaBbLE-UI-Rust-Phase2-Parallel.md` (the parallel phase-2 plan; R0 cargo setup in `HANDOFF-S295-RaBbLE-UI-Rust-R0-Cargo.md`). **S295: Mark confirmed Option A (Python engine stays, a non-user-facing server shared by native clients) and `tui/` inside sCoRE; open questions 1 and 2 below are settled.**
 
 ## Why Python stopped being enough (measured S291 to S292)
 
@@ -22,7 +22,7 @@ Shortening the thread switch interval improved the median lag but not the tail: 
 | # | Target | Python today |
 |---|---|---|
 | T1 | Keystroke to painted echo, p99 **<= 8 ms idle, <= 16 ms with the face running** | p95 ~23 ms lag before any paint |
-| T2 | Wheel scroll: **120 fps glide, zero dropped frames in a 1 s burst**, transcript frame <= 4 ms | 60 fps cap, notched |
+| T2 | Wheel scroll is **1:1 like Vim / cat (Mark, S295)**: **wheel input-to-paint p99 <= 2 ms** (measured with `tui/bench/drive_latency.py`; S295 spike: p99 0.74 ms), whole-line steps, no easing, transcript frame <= 4 ms. (The 120 fps glide target is retired; the glide stays only for keyboard paging.) | 60 fps cap, notched, eased |
 | T3 | Face fullscreen (260x70): eyes **>= 30 fps (goal 60)**, background >= 15 fps, none of it on the input path | eyes 10 to 16/s |
 | T4 | Idle with the face: **<= 5 % of one core**, RSS <= 60 MB | 20 to 42 %, 147 to 204 MB |
 | T5 | Cold start to first paint <= 100 ms | not measured |
@@ -73,7 +73,7 @@ Multi-client, multi-session, multi-agent, multi-user from the protocol up: one e
 - Face frames cross to the render thread by a lock-free latest-value slot (triple buffer or `ArcSwap`), so a slow eye paint costs a stale eye, never a late keystroke.
 - **Synchronized output (CSI ?2026)** around every frame: no tearing, and the terminal can present on its own cadence.
 - Draw on a dirty flag, capped at 120 Hz; only changed cells are written (ratatui's buffer diff, with the face writing straight into the buffer).
-- Scroll: a float position with a spring/exponential glide (the S292 Python glide is the reference: `WHEEL_LINES 3`, rate 16/s, min speed 45 lines/s), driven by the frame clock.
+- Scroll: **1:1 instant whole-line steps on the input event, no timer and no easing** (Mark's decision, S295; see the scroll-feel note under Targets). Queued input is drained before one paint. The float-position glide in `rabble-tui/src/glide.rs` (ported from S292) is kept for keyboard paging and A/B only.
 - Cell aspect from `TIOCGWINSZ` pixel size (override `RABBLE_CELL_ASPECT`); the face scales y by it. Solves R11 at the source.
 - Hard limit to say out loud: cells are 44 px tall in kitty, so the transcript moves in whole-line steps. Evenly timed line steps at 120 fps is as smooth as a cell grid gets. **Pixel-smooth scrolling needs the kitty graphics protocol (transcript rendered to a bitmap)**; that is a separate, optional spike (R5b), not assumed.
 
@@ -109,12 +109,20 @@ Two lanes never edit the same file; builders are `sonnet` (pin the model on any 
 | Lane | Owns | Needs | Model |
 |---|---|---|---|
 | A: seam | `orchestra/serve.py`, schema generator, `tui/rabble-proto/`, fixtures | R0 decision on shape | sonnet |
-| B: shell | `tui/rabble-tui/` widgets, loop, input, glide | A for types (can start on fakes) | sonnet |
+| B: shell | `tui/rabble-tui/` widgets, loop, input (1:1 scroll) | A for types (can start on fakes) | sonnet |
 | C: face | `tui/rabble-face/`, golden dumper in `tests/` | nothing (pure functions) | sonnet |
 | D: bench | `tui/bench/`, Python baseline probes | nothing | haiku or sonnet |
 | Review | per-lane diff review, license check, gate numbers | each lane | opus |
 
 C and D can start in R0; A starts after Mark signs off the shape; B follows A. The face (C) is the long pole and the real reason for the move, so it is not deferred behind the shell if two lanes run at once.
+
+## Risks added by the S295 Opus review
+
+- **The engine is now a single point of failure for every session and nothing supervises it.** Decide before R4 who launches it: recommended a `systemd --user` unit installed by the `ai-harnesses` Ansible role (socket-activated or `Restart=on-failure`), and `rabble` starting it on demand if absent. Sessions must survive an engine restart via `create_session{resume: <sdk session id>}`; the engine's own session ids are therefore random and carry the SDK id.
+- **A late or restarted client sees no transcript** unless the protocol has `seq` + bounded replay (v1.1, Lane P).
+- **`serve.py` gets no daily use until the R4 flip**, so bugs hide. A small `RemoteBackend` (a `Backend` that speaks the socket) would let the Textual UI run on it now: engine-side, fits the no-new-Textual-features rule (Lane R, optional).
+- **Settings commands are privilege escalation** the moment a second principal exists (`set_permission_mode`, `set_trust`, `create_session` params including `cwd`/`resume` and a project `engine.json` that can inject `env`/`mcp_servers`). Owner-only now plus a single policy hook keyed on the principal (Lane P). The ACL/grant code is unreachable in production until identity is designed; do not extend it.
+- **Decorative randomness cannot match between Python and Rust** (`random.Random` is Mersenne Twister with its own `choice`/`sample`/`uniform` semantics). See the face lane for the decision.
 
 ## Risks
 

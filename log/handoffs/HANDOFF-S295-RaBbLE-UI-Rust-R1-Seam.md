@@ -3,6 +3,8 @@
 > Written 2026-10-29 end of S295 (this session's number was claimed late: first drafts said S293). R0 is done and committed; this is the next unit of work. Read in this order: this file, `../plans/sCoRE-RaBbLE-UI-Rust-Plan.md` (Architecture + Parity strategy), `HANDOFF-S295-RaBbLE-UI-Rust-R0-Cargo.md` (cargo setup, gotchas).
 > Claim your own session number first: `bash spells/session-number.sh claim <topic>` (S294 was taken by a concurrent session while this one ran).
 
+> **Superseded for next steps by `HANDOFF-S295-RaBbLE-UI-Rust-Phase2-Parallel.md`** (written after an Opus review of this protocol: it found 2 blockers, late-attach replay and owner-only settings, now scheduled there as Lane P).
+
 ## R1 STATUS (updated end of S295): the seam gate is MET; the rest of the split is open
 **Built and committed (sCoRE `65fd3a1`, `da4dcbc`):**
 - `orchestra/serve.py` (Lane A1): session-multiplexed multi-client engine server. NDJSON over a 0600 Unix socket; principal from `SO_PEERCRED` (never from a message); `SessionManager`; owner/participant/observer ACL with `grant`; first-answer-wins permission asks (`PermissionResolved`); attach replays caps/started/entropy/usage/open asks; sessions outlive clients; pluggable `Listener`; SIGTERM cleans the socket. `python -m orchestra.serve [--socket PATH] [--replay FILE]`. 9 socket tests (two clients, ACL, reattach, bad input, real `UnixListener`).
