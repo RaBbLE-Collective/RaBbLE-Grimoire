@@ -3,6 +3,22 @@
 > Written 2026-10-29 end of S295 (this session's number was claimed late: first drafts said S293). R0 is done and committed; this is the next unit of work. Read in this order: this file, `../plans/sCoRE-RaBbLE-UI-Rust-Plan.md` (Architecture + Parity strategy), `HANDOFF-S295-RaBbLE-UI-Rust-R0-Cargo.md` (cargo setup, gotchas).
 > Claim your own session number first: `bash spells/session-number.sh claim <topic>` (S294 was taken by a concurrent session while this one ran).
 
+## R1 STATUS (updated end of S295): the seam gate is MET; the rest of the split is open
+**Built and committed (sCoRE `65fd3a1`, `da4dcbc`):**
+- `orchestra/serve.py` (Lane A1): session-multiplexed multi-client engine server. NDJSON over a 0600 Unix socket; principal from `SO_PEERCRED` (never from a message); `SessionManager`; owner/participant/observer ACL with `grant`; first-answer-wins permission asks (`PermissionResolved`); attach replays caps/started/entropy/usage/open asks; sessions outlive clients; pluggable `Listener`; SIGTERM cleans the socket. `python -m orchestra.serve [--socket PATH] [--replay FILE]`. 9 socket tests (two clients, ACL, reattach, bad input, real `UnixListener`).
+- New events `UserSaid` (so a second client sees what the first typed) and `PermissionResolved`; 20 event kinds total.
+- `tui/rabble-proto` (Lane A2): typed `Down` (events + server replies) and `Up` (commands) enums, `Frame` with its session, tolerant of unknown types and fields (`Down::Unknown`), contract tests over every fixture. Strict round trip on `tests/fixtures/orchestra/all-events.jsonl` (generated from the Python `SAMPLES`; a pytest fails if it drifts), parse-only for older recordings.
+- `tui/rabble-tui` (Lane B start): `rabble-tui replay FILE` and `rabble-tui connect [--socket P] [--attach ID | --new [--cwd D --model M]] [--say TEXT]`, plus the plain-text `Printer`. No args = the 1:1 scroll spike.
+- **Verified live:** the Rust client created a session on a running Python engine, sent a message and printed the turn (replay fixture), and the same through the real `ClaudeCodeBackend` on a tiny haiku turn ($0.0024). A second client listed the session still alive after the first left. The live turn also showed `Capabilities` working: 69 commands, 30 skills, 6 MCP servers, two reporting `needs-auth` (`plan`, `claude.ai Google Drive`).
+
+**Not done (next session starts here):**
+- A3 schema: the generated JSON Schema from the dataclasses (`orchestra/schema.py`) was replaced for now by the fixture drift test; fine until a non-Rust client needs a schema.
+- More fixtures: only `organ-turn`, `tool-turn` and `all-events` exist; record a permission ask, an error, a park and an MCP-failure turn with `python -m orchestra.probe`.
+- Lane B proper: the shell (widgets, composer, transcript with Markdown and tool cards, header, divider, permission modal, pickers) on top of `Client`; the Client is blocking and single-threaded, so the shell needs its own reader thread handing frames over a channel. Keep the 1:1 input path.
+- Lane C (face) and Lane D (CPU/RSS bench, narration events `ThinkingText`/`Narration`, templates in `orchestra/narrate.py`): untouched.
+- Hardening: multi-client has no backpressure limit (a stalled client's queue grows); `claude_factory` builds the real backend from the `create_session` params (cwd, model, mode, crew, trust, resume, continue) but `provider` is carried and not yet used; no `ThinkingText` yet, so `thinking_display: "summarized"` data is requested but dropped by `sdk_map.py`.
+- The Opus review of the plan and of this protocol is still owed.
+
 ## Where things stand
 - **Shape settled (Mark):** Python engine stays as a non-user-facing server shared by every client; TUI, GUI and other native apps are Rust and talk to it; port only when needed; all of it inside `RaBbLE-sCoRE/`.
 - **R0 done.** `RaBbLE-sCoRE/tui/` builds offline (`cargo test --release --offline`) from Fedora's packaged crates. **Scroll feel decided by Mark: 1:1 like Vim / cat** (instant whole-line steps, no easing); measured input-to-paint p99 0.74 ms. Live gate passed ("feels good").

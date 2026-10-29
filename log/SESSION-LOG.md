@@ -8,9 +8,9 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-10-29 · S295 (score-rabble-ui-rust-r0)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S295: engine asdict fix + config surface + Capabilities; Rust TUI R0 built offline, 1:1 instant scroll (p99 0.74 ms); R1 seam handoff
-**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25 open.
-**Next:** R1 engine seam per HANDOFF-S295-R1-Seam; Opus plan review; narration design
+**This session:** S295: engine asdict fix + config + Capabilities; Rust TUI R0 (1:1 scroll); R1 seam built and live-verified (serve.py + rabble-proto + replay/connect)
+**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25/B-26 open.
+**Next:** R1 follow-ups per HANDOFF-S295-R1-Seam (shell on Client, face, narration events); Opus review
 
 ---
 
@@ -22,6 +22,7 @@ Format: date, what was done, where things were left, what's next.
   - **Claude Code parity, config surface:** `orchestra/config.py` (`~/.config/rabble/engine.json` + per-project `.rabble/engine.json`: MCP, plugins, tool lists, add_dirs, thinking, effort, budget, turns, fallback, env), new `Capabilities` event from the init message (commands, skills, MCP status, plugin errors; composer completion + notices), `/status` summary. 13 of 46 SDK options were wired before; sandbox/skills/settings/checkpointing/fork/output_format still are not.
   - **Cargo:** crates.io is blocked by the school's Securly filter (not the sandbox). Not circumvented: Fedora's `rust-*-devel` RPMs installed via `layerctl apply claude-code` (manifest + a dnf task in `ai-harnesses/tasks/claude-code.yml`); `tui/.cargo/config.toml` (untracked) points cargo at `/usr/share/cargo/registry`.
   - **R0 Rust spike:** `RaBbLE-sCoRE/tui/` workspace builds offline. Glide passed ("feels good") but Mark wanted the 1:1 feel of Vim / cat, so wheel scroll is now instant whole lines, queued input drained per paint: input-to-paint p50 0.41 ms, p99 0.74 ms (`tui/bench/drive_latency.py`). Transcript frame p99 0.11 to 0.16 ms. Python baseline: 22 to 33 screen updates/s in a wheel burst.
+- **R1 seam built and verified live (same session, after the handoff was written):** `orchestra/serve.py` (session-multiplexed, multi-client, 0600 Unix socket, principal from SO_PEERCRED, owner/participant/observer ACL, first-answer-wins asks, attach replay, sessions outlive clients, pluggable Listener), `UserSaid` + `PermissionResolved` events, `tui/rabble-proto` typed enums + fixture contract tests, `rabble-tui replay|connect` with a plain-text renderer. A Rust client drove a live Python engine through a real haiku turn ($0.0024). Python engine tests 118 pass, Rust 13 pass. Thinking is empty by default (`display: summarized` fixes it, `thinking_display` in engine.json); Mark's design decisions: multi-client/session/agent/user, templated narration, usage + entropy per session, provider = cost + capability, accounts/identity/pairing undecided, privacy register deferred (blocker hosting-gate).
 - **State at close:** tests: 170 engine + UI pass (64 UI, 106 engine); Rust glide tests 4 pass. The `layerctl` first run failed on a mistyped sudo password, the second applied.
 - **Learned:** Securly serves a block page for `index.crates.io` / `static.crates.io` (TLS cert `*.securly.com`): do not route around it, use Fedora crate RPMs or `cargo vendor` elsewhere. `layer/dev` in the manifest is not wired to any `layerctl` target. A crashed session is recoverable from `~/.claude/projects/<proj>/<sid>.jsonl` (last user row). Unknown `/commands` already pass through to Claude Code as typed.
 - **Open (Mark):** plain-English narration design (templated vs Haiku summariser); multi-client engine now or later; remaining Claude Code parity tiers; pixel-scroll spike (R5b); keep `rabble --py`; the Opus plan review owed since S292.
