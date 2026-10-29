@@ -13,6 +13,8 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 
 | File | Scope |
 |---|---|
+| `HANDOFF-S292-RaBbLE-UI-Rust-Rebuild.md` | RaBbLE-UI to Rust: start at R0 (cargo workspace, 120 fps glide spike, bench vs Python baselines); shape sign-off + Opus plan review owed; S291 visual-test results folded in |
+| `HANDOFF-S291-RaBbLE-UI-Face-Visual-Test.md` | Mostly superseded by S292 (visual test run: halo fails, cell aspect 2.32); remaining unchecked items listed in HANDOFF-S292 |
 | `HANDOFF-S287-RaBbLE-UI-Capability-Park-Face-Test.md` | RaBbLE-UI: capability model, park at 80%, fine eyes, scroll and modal fixes built and unit-tested; Mark tries them in a fresh `rabble`; next entropy-vs-stability split, benchmark-derived capabilities, face phase 2 |
 | `HANDOFF-FCC-Free-Claude-Code.md` | FCC LiteLLM proxy tuning — research done, implementation pending |
 | `HANDOFF-S236-OS-ISO-VM-Run.md` | RaBbLE-OS ISO: VM run passed S236, bare-metal retry passed S238; leftover open items inside (KS sudoers NOPASSWD revoke, GRUB secure-boot line, silent `%post`, Live ISO plan) |

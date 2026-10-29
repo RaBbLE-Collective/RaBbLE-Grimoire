@@ -14,6 +14,21 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-10-29 · Session S292 (rabble-ui-rust-plan)
+
+- **Repos:** RaBbLE-sCoRE (`b98d727`), RaBbLE-Grimoire. Local on `new-horizons`, nothing pushed.
+- **Work:** picked up HANDOFF-S291 on Mark's ask "make the app less laggy, scroll much more fluid"; ended with Mark choosing Rust.
+  - **Scroll:** wheel notches used to restart Textual's eased animation at full speed (the ratchet). Now notches move a target and one 120 Hz timer closes a fraction of the gap with a minimum speed so the tail does not crawl; `TEXTUAL_FPS=120` set before Textual loads (60 fps was the hard cap). Test `test_wheel_burst_accumulates_into_one_glide`.
+  - **Lag:** loop lag with the full face at 200x55 measured p95 53 ms, max ~120 ms. `render_line` was half the loop (a `Style`/`Color` per run); cached, p95 ~23 ms. Remaining tail is the eye thread's lock contention; shortening the switch interval did not help. `PAUSE_GC_ON_SCROLL` on.
+  - **Visual test (S291 list):** `/face` fills the viewport, VSCodium has no tofu and the divider flows; **halo fails** (dark stair-stepped block, black portal fill); **kitty cell aspect 2.32** (19x44 px) vs the assumed 2.0 = R11's number.
+  - **Plan:** `log/plans/sCoRE-RaBbLE-UI-Rust-Plan.md` (targets T1-T6, Option A Rust UI + Python engine sidecar, phases R0-R5, golden-dump parity, lanes). R3 (render server) retired. Handoff `HANDOFF-S292`. Baseline probes kept in `RaBbLE-sCoRE/scripts/bench/`.
+- **State at close:** `tests/test_ui_*.py` 64 passed. **The 120 fps glide has not been felt live** (needs a full `rabble` restart); Mark's last words were on the 60 fps version: "more flowing, still notched".
+- **Learned:** Hyprland here needs Lua dispatch (`hyprctl dispatch "hl.dsp.focus({workspace=N})"`); `workspace N` errors silently and grim then captures the focused workspace. Textual reads `TEXTUAL_FPS` at import. cProfile in `run_test` profiles only the loop thread.
+- **Open (Mark):** sign off Option A shape; `tui/` in sCoRE vs own repo; pixel-scroll spike (R5b); keep `rabble --py` a release; the Opus plan review is owed (Crew was off).
+- **Next:** R0 per HANDOFF-S292: Cargo workspace, 120 fps glide spike on kitty, bench vs Python baselines; face lane (golden dumper + `rabble-face`) can start in parallel.
+
+---
+
 ## 2026-10-29 · Session S291 (rabble-ui-face-layers)
 
 - **Repos:** RaBbLE-sCoRE (`4a89ae1`; the earlier part of this work was swept into S290's `edbad98`), RaBbLE-Grimoire. Local on `new-horizons`, nothing pushed.

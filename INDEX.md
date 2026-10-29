@@ -319,6 +319,7 @@ Status lives in each plan; the one-line status table is [log/plans/CONTEXT.md](l
 - [EP1-Air-Push-Plan](log/plans/EP1-Air-Push-Plan.md) — S202 air push: deploy wrapper, CI, key inventory, reliquary garden
 - [EP2-Accounts-Encryption-Spec](log/plans/EP2-Accounts-Encryption-Spec.md) — the user scaffold: accounts/sessions, then encrypted ingestion
 - [sCoRE-RaBbLE-UI-Plan](log/plans/sCoRE-RaBbLE-UI-Plan.md): RaBbLE's own terminal face (Textual) over a headless Claude Code; Crew as SDK subagents, then RaBbLE-side orchestration toward teammates
+- [sCoRE-RaBbLE-UI-Rust-Plan](log/plans/sCoRE-RaBbLE-UI-Rust-Plan.md): RaBbLE-UI rebuilt in Rust (R4): measured Python limits, targets T1-T6, Rust UI + Python engine sidecar, phases R0-R5, golden-dump parity, lanes, open questions
 - [Collective-ICM-Conformance-Audit](log/plans/Collective-ICM-Conformance-Audit.md) — Collective vs the ICM/MWP paper: stage contracts, handoff split
 - [Collective-Architecture-Audit-2026-07-04](log/plans/Collective-Architecture-Audit-2026-07-04.md) — S193 cross-repo audit findings, per-member plans
 - [Collective-Architecture-Audit-PROGRESS](log/plans/Collective-Architecture-Audit-PROGRESS.md) — ledger of which S193 findings landed
@@ -344,6 +345,7 @@ Status: [log/handoffs/CONTEXT.md](log/handoffs/CONTEXT.md).
 - [HANDOFF-S276-EP1-Face-V1](log/handoffs/HANDOFF-S276-EP1-Face-V1.md): EP1 web face V1 on dev; next iPhone check, CF binding + Render env, first main deploy
 - [HANDOFF-S278-Pocket-Press-Drafts-and-SDK](log/handoffs/HANDOFF-S278-Pocket-Press-Drafts-and-SDK.md): W7 done; Mark reviews the parked Pocket press drafts (renders need the clock), then the RaBbLE-SDK
 - [HANDOFF-S281-Pocket-Parity-Sim-Shot-Gate](log/handoffs/HANDOFF-S281-Pocket-Parity-Sim-Shot-Gate.md): Pocket `>shot` (built, not flashed), parity sim (scaffold), gate-checker fixes (3 of 5 proven), S8 re-cut facts; next steps per track
+- [HANDOFF-S292-RaBbLE-UI-Rust-Rebuild](log/handoffs/HANDOFF-S292-RaBbLE-UI-Rust-Rebuild.md): RaBbLE-UI to Rust, start at R0; S292 scroll glide + style cache, visual test results, Hyprland Lua dispatch gotcha
 - [HANDOFF-S291-RaBbLE-UI-Face-Visual-Test](log/handoffs/HANDOFF-S291-RaBbLE-UI-Face-Visual-Test.md): RaBbLE-UI layered face (30 fps assembly, eye/background threads), rig fidelity, provider aura, VS Code safe glyphs; visual test of `/face` on kitty WS1 and VSCodium WS3, checklist, tuning knobs, open R11 sphere squish
 - [Pocket-Parity-Sim-Spec](log/plans/Pocket-Parity-Sim-Spec.md): the sim runs the real app + LVGL 9.5.0 on a host board for visual parity (time, sCoRE, icons, fonts); scenes, goldens, `>shot` design
 - [HANDOFF-S280-Pocket-Firmware-Test-Suite](log/handoffs/HANDOFF-S280-Pocket-Firmware-Test-Suite.md): comprehensive Pocket firmware tests (SDK, app, drivers, board) in five tiers; inventory, then plan + QuiBbLE, then layer-split builds; T1-T4 for Mark

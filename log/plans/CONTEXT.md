@@ -32,7 +32,8 @@ this table is a one-line pointer. 🟡 = in flight / awaiting Mark · 🔵 = des
 | `EP2-Accounts-Encryption-Spec.md` | 🔵 EP2 draft — the user scaffold: accounts/sessions first, then encrypted ingestion |
 | `NeBuLA-Pocket-Puppet-Rendering-Pipeline.md` | 🔵 research — shared rig/animation pipeline for NeBuLA + Pocket |
 | `sCoRE-Extensibility-Refactor-Plan.md` | 🔵 S193 — options A/B/C, awaiting Mark's choice; post-air |
-| `sCoRE-RaBbLE-UI-Plan.md` | 🔵 S275: `rabble` as RaBbLE's own Textual TUI over headless Claude Code (Agent SDK); Crew as subagents → RaBbLE orchestration; U0 spike verified, awaiting deps + swap-timing calls |
+| `sCoRE-RaBbLE-UI-Rust-Plan.md` | 🟡 S292 — RaBbLE-UI rebuilt in Rust (R4; Mark chose it for snappy/fluid): Rust TUI + Python engine sidecar proposed, targets T1-T6, phases R0-R5, parity by golden dumps; awaiting Mark's shape sign-off + Opus review; R0 spike is safe |
+| `sCoRE-RaBbLE-UI-Plan.md` | 🟡 S275 (U1+U2 live; face perf moved to the Rust plan): `rabble` as RaBbLE's own Textual TUI over headless Claude Code (Agent SDK); Crew as subagents → RaBbLE orchestration; U0 spike verified, awaiting deps + swap-timing calls |
 | `Subdomain-Registry-and-Maintenance.md` | 🔵 S185 — subdomain registry spec + maintenance backlog |
 | `Sovereign-Accord-v2-Brand-and-Entity.md` | 🔵 S278: Accord v2: owner, scratch text (PolyForm ref), Ohio law decided; drafts in RaBbLE-Collective/; name clearance gates promo; rest deferred |
 | `Collective-ICM-Conformance-Audit.md` | 🟡 audit complete 2026-08-27; 3 open decisions for Mark |
