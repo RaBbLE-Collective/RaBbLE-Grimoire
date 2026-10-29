@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-29 · Session S291 (score-rabble-ui-face-layers)
+## LATEST — 2026-10-29 · Session S292 (score-rabble-ui-rust-plan)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S291: layered 30 fps face, rig fidelity, provider aura, divider, crash fixes; visual test on kitty+VSCodium next
+**This session:** S292: 120 Hz scroll glide + style cache; Rust rebuild planned (R4), baselines kept
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25 open.
-**Next:** visual test /face on kitty WS1 + VSCodium WS3 (HANDOFF-S291); R11 sphere aspect; Mark picks R3/R4
+**Next:** R0 Rust spike per HANDOFF-S292; Mark signs off shape + Opus plan review
 
 ---
 
