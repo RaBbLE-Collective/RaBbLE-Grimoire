@@ -32,3 +32,6 @@ log/plans/**/.plan-url
 # Stray plan app scaffolds — belong in /opt/rabble/plans, not here
 rabble-plans/
 plans-app/
+
+# SiGiL visual asset BYTES — the index (RaBbLE-SiGiL/index/) is tracked, the store never is
+RaBbLE-SiGiL/store/

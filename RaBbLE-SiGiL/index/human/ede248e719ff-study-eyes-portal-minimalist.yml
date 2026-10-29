@@ -1,0 +1,28 @@
+id: ede248e719ff
+sha256: ede248e719ffe785028f3c1e9e10ee0dde84ebcced1143ab3b51d260a9ccf24a
+title: study-eyes-portal-minimalist
+provenance: human
+role: other
+status: draft
+store: human/2026/ede248e719ff-study-eyes-portal-minimalist.png
+kind: image
+format: png
+bytes: 25825
+width: 487
+height: 377
+alpha: true
+animated: false
+palette:
+- '#000000'
+- '#0f0e0e'
+- '#050505'
+- '#3f3c3c'
+- '#130000'
+tags: []
+description: ''
+origin_name: study-eyes-portal-minimalist.png
+ingested: '2026-10-27'
+rights: collective-original
+source: RaBbLE/Genesis/visual (S92 migration)
+medium: ''
+made: '2026'

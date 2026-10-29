@@ -1,0 +1,28 @@
+id: 1433f79d9551
+sha256: 1433f79d95513e8e77a0df85b024df18d0f22aaf105dc5e38e5c9582506419c4
+title: study-entity-data-states-cosmology
+provenance: human
+role: other
+status: draft
+store: human/2026/1433f79d9551-study-entity-data-states-cosmology.png
+kind: image
+format: png
+bytes: 3089851
+width: 3300
+height: 2550
+alpha: true
+animated: false
+palette:
+- '#ffffff'
+- '#f0f0f0'
+- '#cbc9d8'
+- '#fafafa'
+- '#fffffe'
+tags: []
+description: ''
+origin_name: study-entity-data-states-cosmology.png
+ingested: '2026-10-27'
+rights: collective-original
+source: RaBbLE/Genesis/visual (S92 migration)
+medium: ''
+made: '2026'

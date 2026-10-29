@@ -1,0 +1,28 @@
+id: 587f8dfdb03b
+sha256: 587f8dfdb03bd66c86918615deafc782c18dffa90d4534a4f36b0dcbbb4717bf
+title: logo-wordmark-iterations
+provenance: human
+role: other
+status: draft
+store: human/2026/587f8dfdb03b-logo-wordmark-iterations.png
+kind: image
+format: png
+bytes: 591597
+width: 2420
+height: 1668
+alpha: true
+animated: false
+palette:
+- '#ffffff'
+- '#a49fbb'
+- '#e0e6ef'
+- '#f8ffff'
+- '#fffffe'
+tags: []
+description: ''
+origin_name: logo-wordmark-iterations.png
+ingested: '2026-10-27'
+rights: collective-original
+source: RaBbLE/Genesis/visual (S92 migration)
+medium: ''
+made: '2026'
