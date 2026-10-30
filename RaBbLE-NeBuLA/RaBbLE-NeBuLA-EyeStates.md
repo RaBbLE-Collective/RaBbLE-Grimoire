@@ -23,9 +23,10 @@ Invariants carried from the entity design rules:
 - No pupils, ever.
 - The two pole colors are always opposite each other. Which side is cyan may change.
 - Portals sit on a diagonal. Eyes never carry lid cuts.
-- The interior is rigid. Portals and eyes never move relative to each other in this schema. They flip together around
-  an axis. Anything where an orb slides or recedes into a portal is continuous motion and belongs to the eye-system,
-  not to the glyph.
+- The states are energy levels and they stay balanced: in each pair of slots (the two eyes, the two portals), if one
+  is high the other is low. See Stable Forms and Balance.
+- Eye position (sliding along a portal, receding into it) is rendering only. It is not part of the binary map and
+  never changes a cell's word.
 - Idle is the baseline. Every state below is a reflection of it, never a motion away from it.
 
 ---
@@ -38,25 +39,48 @@ Three bits, written `set · MSB · LSB`.
 |---|---|---|---|
 | 2 | **set** | `[ ]` | `( )` |
 | 1 | **MSB** (interior) | magenta eye on the left | cyan eye on the left |
-| 0 | **LSB** (interior) | portals top-left and bottom-right | whole interior mirrored top to bottom |
+| 0 | **LSB** (interior) | portals top-left and bottom-right | portals top-right and bottom-left |
 
 The set bit does not touch the interior. The interior bits do not touch the set. Which delimiter a state wears carries
 no meaning of its own.
 
 ### The four interior states
 
-Reading order follows the sketch: top row first, then left to right. Portals and eye heights move together.
+The label is two digits: the left eye (cyan = 0, magenta = 1) and the left portal (1 = on top, 0 = on the bottom).
+The right slot is always the complement of the left, so the left pair says everything.
 
-| Label | Portals | Left eye | Right eye | Working name |
+| Label | Eyes (L R) | Portals (L R) | Drawn as | Working name |
 |---|---|---|---|---|
-| `01` | top-left, bottom-right | cyan, low | magenta, high | **Rest** (baseline idle) |
-| `11` | top-left, bottom-right | magenta, low | cyan, high | **Swap** |
-| `00` | top-right, bottom-left | cyan, high | magenta, low | **Mirror** |
-| `10` | top-right, bottom-left | magenta, high | cyan, low | **Swap-Mirror** |
+| `01` | 0 1 | 1 0 | cyan left, portals TL / BR | **Rest** (baseline idle) |
+| `11` | 1 0 | 1 0 | magenta left, portals TL / BR | **Swap** |
+| `00` | 0 1 | 0 1 | cyan left, portals BL / TR | **Mirror** |
+| `10` | 1 0 | 0 1 | magenta left, portals BL / TR | **Swap-Mirror** |
 
 Working names are placeholders. The labels are the schema.
 
-All four are legal idle poses. `01` is the baseline and the identity of the entity layer.
+All four are stable forms. `01` is the baseline and the identity of the entity layer.
+
+### Reading a glyph
+
+Read the bracket (set bit), then the color on the left (MSB), then which way the portals tilt (LSB). Eye position
+never enters the reading. One limit: an eye that has receded fully into its portal cannot be read from the picture,
+so the color bit has to come from the stored data in that case.
+
+---
+
+## Stable Forms and Balance
+
+Each interior has four slot digits: left eye, right eye, left portal, right portal. They are energy levels in two
+pairs, and each pair stays balanced: one high, one low. Balanced means the pair sums to 1.
+
+- **Stable (legal):** both pairs balanced. 4 of the 16 digit combinations, the four forms above.
+- **Unstable (illegal):** at least one pair is not balanced, so both slots are high (sum 2) or both are low (sum 0).
+  12 combinations: 4 with only the eyes out of balance, 4 with only the portals, 4 with both. The renderer can draw
+  them, but they violate the rules and never belong in a kernel.
+
+Swap flips both eyes together and mirror flips both portals together, so each keeps a legal state legal. Flipping a
+single slot is the move that breaks balance, so a transition between stable forms that flips one slot at a time
+passes through an unstable state.
 
 ---
 
@@ -64,8 +88,8 @@ All four are legal idle poses. `01` is the baseline and the identity of the enti
 
 The two swipe gestures generate every interior state from Rest.
 
-- **swap** trades the eye colors and leaves positions alone. It toggles the MSB.
-- **mirror** flips portals and eyes together, top to bottom. It toggles the LSB.
+- **swap** flips the eye pair: the two eyes trade colors. It toggles the MSB.
+- **mirror** flips the portal pair: each portal goes to the other height. It toggles the LSB.
 
 Both are involutions and they commute, so the interior is the Klein four-group, V₄ ≅ Z₂ × Z₂. With the set bit the
 whole cell is Z₂³, eight words, closed under XOR.
@@ -241,8 +265,13 @@ Not yet defined:
    sketch's black on white, which are not palette tokens. A version on `rabble_color_bg` (Deep Void) needs a decision on
    how portals read when they cannot be black.
 
-Settled: the brackets in the labeled state sketch were arbitrary, so set is independent of the interior. The interior is
-rigid (see Invariants).
+4. **Eye position.** Sliding along a portal and receding into it are rendering only. Still undecided: whether x and y
+   are one pair driving both eyes or one pair per eye, and whether y is a depth from 0 to 1 or can pass through.
+5. **Snapping unstable states.** An unstable pair (both high or both low) is equally far from both legal states, so
+   turning it back into a stable form needs a tie-break rule, for example keep the left slot.
+
+Settled: the brackets in the labeled state sketch were arbitrary, so set is independent of the interior. Eye position
+is not part of the binary map.
 
 ---
 
