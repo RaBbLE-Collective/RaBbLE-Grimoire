@@ -31,6 +31,8 @@
 - **Licensor:** The RaBbLE Collective is not a registered entity; it is Mark's DBA/public GitHub identity. Copyright-holder wording and who grants Apache go to the lawyer.
 - **SDK default face (Mark):** two white ellipses, no portals, rounder and less tall than RaBbLE's eyes, one uniform outline colour. True ellipses (not rounded rects), blinks, outline colour is user-defined from a pastel palette (Kconfig default plus runtime setting), colour changes only for warning/error, poses differ by eye position and size only. Plain LVGL, written fresh from this spec (not lifted from the `rabble_ui.c` canvas face). Nothing in the Apache tree should read as the RaBbLE entity.
 - **Driver provenance:** the SDK has no pcf85063 or qmi8658 driver (pcf85063 predates the SDK; qmi8658 has no Meta counterpart); only axp2101 has one (`muse_pmu.c`), and it was clean-roomed in W2. Any Meta line on these at `42ae6d9` was a blanket stamp. Verify qmi8658's header at `42ae6d9` before the manifest says so.
+- **Publication = tree export first** (D2 resolved): monorepo stays source of truth; `ops/export-sdk.sh` writes a lint-gated snapshot of the SDK tree per release; separate SDK repo only on promotion. Detail: HANDOFF-S298-Pocket-Split-Build-Plan.
+- **D5 resolved:** sCoRE beam protocol documented in the sCoRE docs; implementation app-side (SA); needs W8 clean room.
 - QuiBbLE review (S298) findings still to fold: hold Provenance Record out of the public Grimoire; P1 as a script join; Track L (clean room W8 beam, W9 face lifecycle, SDK derived set) before the licence sweep; vendor golden vectors; gitleaks `--all`; signing key; `firmware/NOTICE` is currently false.
 
 ## Workstreams

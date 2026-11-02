@@ -92,6 +92,18 @@ Rule: **the builder never verifies; fixes go back to the builder as behaviour.**
 
 **RaBbLE-Pocket stays the monorepo** supporting the gadget layer (SDK, middleware, app, sim, ops, companion app). The public SDK is an export of its SDK tree (D2 hybrid: monorepo = evidence repo with full history; export = `filter-repo` rewrite with new SHAs). Do not split the monorepo. Mark: the public SDK **may later become its own repo**, tracked separately; until then it lives in the monorepo. Keep the SDK tree self-contained so that move is mechanical: its own `LICENSE`, `NOTICE`, `README`, CI and vendored test vectors, no includes or paths pointing out of it, and a repeatable export script (`ops/export-sdk.sh`, to write in P6) that produces the same tree each run.
 
+## SDK publication: export first (Mark, 2026-11-02)
+
+Decision: start with a **tree export** from the monorepo; promote to a separate repo only if outside contribution justifies it.
+
+- **Source of truth:** RaBbLE-Pocket monorepo (full history, evidence repo, signed `pre-split` tag). Develop there; the public SDK repo is a published copy.
+- **`ops/export-sdk.sh` (write in P6):** takes the SDK tree list (drivers, boards, sdk/*, test, ops subset, panel_bench stub, SDK `LICENSE`/`NOTICE`/`README`/CI), runs lints (SPDX, no SA files or includes, no brand values, gitleaks), and writes a clean tree to a target dir. Idempotent: same input commit gives the same tree. Output is a snapshot commit tagged `sdk-<version>`; its message records the monorepo commit SHA it came from.
+- **History in the export:** default = one snapshot commit per release (no rewritten history, so no Apache-notice or header-compaction history is exposed or mangled). A `filter-repo` history export is an option only if Mark wants SDK history public (D4); it yields new SHAs and loses tag signatures.
+- **README provenance link:** the public SDK README and `PROVENANCE.md` point at the monorepo `pre-split` tag as the evidence record.
+- **Contributions:** until the SDK is promoted to its own repo, PRs to the public repo are applied back to the monorepo by hand (or issues only). State this in CONTRIBUTING. Decide DCO vs CLA before accepting any PR.
+- **Promotion trigger (later):** outside PRs become routine, or the app and SDK diverge in release cadence. Then the SDK repo becomes primary, Pocket consumes it as a pinned dependency, and the export script is retired.
+- **Gate (P6):** a fresh clone of the exported tree builds and flashes from its README alone and passes host tests with vendored vectors; two consecutive exports of the same commit are byte-identical.
+
 ## Bug to debug in the same effort: BOOT button does not start recording
 
 Mark: pressing the BOOT button does not trigger the firmware to record; unknown whether hardware or software. Do this early (it also gates every P7 hardware check), and before the split moves code around so the baseline is known.
