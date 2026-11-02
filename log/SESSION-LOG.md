@@ -5,12 +5,23 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-02 · S299 (rust-shell-parity-header-flow)
+## LATEST — 2026-11-02 · S301 (rust-shell-select-copy-clear-entropy)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S299: Rust shell gets Python header, flowing cyan-magenta divider+input, mouse no longer starves face
+**This session:** S301: Rust shell mouse select + Ctrl-C copy, /clear resets entropy in Rust and Python TUIs
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27 open.
-**Next:** Mark eyes rabble + /face; NiBbLE review 79d2f5e..a21ea39; CrumBbLE pty run
+**Next:** Mark tries select/copy and /clear; CrumBbLE pty run; NiBbLE review 7591533..449e721
+
+---
+
+## 2026-11-02 · Session S301 (rust-shell-select-copy-clear-entropy)
+
+- **Repos:** RaBbLE-sCoRE (`7591533`, `f56c401`, `449e721` on `new-horizons`, not pushed). Commits carry `%S300_STATE%`: S300 was taken by a concurrent session before this one claimed its number; the tag is a label only.
+- **Work:** done directly, no organs. Picked up the session that died on the rate limit: it had left `tui/rabble-tui/src/widgets/select.rs` (selection model) uncommitted and unwired. (1) Rust shell: mouse text selection in the transcript (drag, double-click word, triple-click line, edge auto-scroll), selection painted reversed; Ctrl-C copies the selection (OSC 52 + wl-copy/xclip) and does not count towards quit-twice, any other key drops it; Ctrl-V paste already worked. Fixed two wrong expectations in the old `select.rs` tests; selection is dropped on resize, card toggle and clear. (2) `/clear` did not reset session entropy: Rust left capability bars, stability, trust and the face's noise/breaking; Python left header entropy/stability and the face signal. Both fixed, one test each. 159 Rust tests, 69 `tests/test_ui_*.py` green.
+- **Answered, no change:** `/reload` works in the Rust shell (S299, exec of the rebuilt binary on `--attach`); the face does not follow the mouse in either UI (gaze is the seeded `Life` driver only).
+- **Not done:** no real-terminal run of selection (unit-tested only); no NiBbLE review of `7591533..449e721`; copied text keeps the transcript's hard wraps; mouse selection inside the input box; Rust capability bars show `--` after `/clear` until the first entropy report (Python shows the model baseline); `PARITY.md` not updated for selection. `-k ui` over the whole suite hits 5 unrelated collection errors (e.g. `test_security_hardening.py`), not investigated.
+- **Open question for Mark:** should the face's eyes follow the pointer (any-event mouse tracking, rate-limited, random saccades as fallback)? Header mark, `/face`, or both?
+- **Next:** Mark tries drag-select + Ctrl-C/Ctrl-V and `/clear` in `rabble` (`/reload` after `cargo build --release --offline`); CrumBbLE pty run of selection; NiBbLE review; HANDOFF-S297 items 4-6.
 
 ---
 
