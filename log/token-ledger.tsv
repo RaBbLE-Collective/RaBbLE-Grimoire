@@ -296,3 +296,4 @@ S292-score-rabble-ui-rust-plan	score-rabble-ui-rust-plan	S292: scroll glide, sty
 f44d4886-454b-48c5-b398-1bdaf6bf5846	score-rabble-ui-rust-phase2	S296: phase-2 lanes P/N/R/S built and reviewed, launcher	claude	anthropic	claude-sonnet-5-5
 fb36ca2b-d3b3-4c7a-9938-7a514dcb8d67	pocket-provenance-sdk-split	S298	rabble	anthropic	claude-sonnet-5-5
 a7b22a40-1bd6-47c6-95f8-2eea21b9f9d8	score-rabble-face-rust	S297 face	rabble	anthropic	claude-sonnet-5-5
+ad8c2976-3dab-4e09-839c-26fc08b22832	rust-shell-parity-header-flow	S299	rabble	anthropic	claude-sonnet-5-5

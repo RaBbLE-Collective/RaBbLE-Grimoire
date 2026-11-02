@@ -5,12 +5,21 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-02 · S298 (pocket-provenance-sdk-split)
+## LATEST — 2026-11-02 · S299 (rust-shell-parity-header-flow)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S298: Pocket provenance audited (59% to 8% overlap vs Muse), SDK/app split plan drafted, gitleaks in
+**This session:** S299: Rust shell gets Python header, flowing cyan-magenta divider+input, mouse no longer starves face
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27 open.
-**Next:** Re-run Opus review of HANDOFF-S298 plan; Mark decides D1-D5
+**Next:** Mark eyes rabble + /face; NiBbLE review 79d2f5e..a21ea39; CrumBbLE pty run
+
+---
+
+## 2026-11-02 · Session S299 (rust-shell-parity-header-flow)
+
+- **Repos:** RaBbLE-sCoRE (`a21ea39` on `new-horizons`, not pushed).
+- **Work:** picked up HANDOFF-S297 on Mark's three Rust-shell findings, done directly (no organs). (1) Mouse motion and clicks were treated as typing: each repainted and blocked the face tick, starving `/face`; `on_input` and the run-loop `note()` now ignore non-scroll mouse events. (2) Header now shows Python's six info lines beside the mark (wordmark+cwd, model/mode/tier/crew, capability bars, entropy/stab/ctx bar, 5h/week usage, limit+API-equiv cost); new `usage.rs` reads `~/.cache/rabble/llm-usage-latest.json` every 30 s. (3) Divider and focused input border flow cyan, magenta, cyan at 8 fps (`Theme::flow`, mirrors `ui/widgets/divider.py`). `cargo test --release --offline`: 148 in rabble-tui, all crates green; new tests for mouse, gradient, six lines, usage.
+- **Not done:** no NiBbLE review (this change nor `79d2f5e..4793800`), no real-terminal run, `PARITY.md` not updated, "park in ~N" hint not ported (Rust has no ETA), fps not re-measured.
+- **Next:** Mark checks `rabble` and `/face` by eye; NiBbLE review of `79d2f5e..a21ea39`; CrumBbLE pty run; then HANDOFF-S297 items 4-6.
 
 ---
 
