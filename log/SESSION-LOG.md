@@ -14,6 +14,17 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-11-02 · Session S300 (pocket-boot-button-hwtest)
+
+- **Repos:** RaBbLE-Pocket (`firmware/hw_test/`, new, uncommitted), RaBbLE-Grimoire (this entry, B-28). Claimed S300 before S301; entry lands below it.
+- **Work:** picked up HANDOFF-S298 (Pocket SDK split). QuiBbLE (opus) reviewed the v0.3 build plan: verdict REVISE. Findings: P-1 already breached (S298 docs committed locally in the PUBLIC Grimoire, ahead of origin, so do not push until Mark decides rewrite vs move to the private Pocket repo); the entity hook already exists as the board vtable (`rabble_board.h:37-81`), so P3.1 needs a written contract plus one shared band constant, not a registry; P2 and P3 both edit `rabble_board.h`; `nl_list.h` palette inversion; Apache-side clean rooms may cost more than a notice under Apache 4; SDK needs an example app; `panel_bench` moves whole. Not folded into the plan yet.
+- **BOOT button debug (Mark's device, 1.75-B):** built `firmware/hw_test` (raw GPIO poll, interrupt edge counter on GPIO0, on-screen disc/count/tally ring, auto-masks floating pins) and flashed it to ota_0 only (same partition table; NVS and notes store untouched; original ota_0 backed up to `~/RaBbLE-Cleanroom/hwtest-backup/`). Result: GPIO0 never goes low, interrupt count 0, and a power-up with BOOT held did not enter download mode. Host `rabble_input` tests pass. Conclusion: hardware, not firmware. Mark glued the standoff near the switch (plausible fault) and knocked off one part next to U5 (TCA9554PWR): by layout C21 (100nF) or R19 (10K); firmware has no expander code, so harmless. Switch still clicks; continuity test pending. GPIO11 chatters at ~100 Hz after boot (unidentified), GPIO13 is the TE line.
+- **Corrections:** ESP32-S3 ROM download mode enumerates as 303a:1001, same as normal boot; tell them apart by serial output, not lsusb. `pkill -f` and `pgrep -f` self-matched again (use `[x]` pattern).
+- **Not done:** device still runs hw_test, not RaBbLE (restore: `ops/build-flash.sh firmware`, or write the backup to 0x20000); no P0/P1 steps (branch, signing key, `pre-split` tag); plan not revised for QuiBbLE; D1-D5 still Mark's.
+- **Next:** Mark does the switch continuity test; flash RaBbLE back; Mark rules on rewrite-vs-move for the S298 commits and on Apache-side derived files; then P0/P1.
+
+---
+
 ## 2026-11-02 · Session S301 (rust-shell-select-copy-clear-entropy)
 
 - **Repos:** RaBbLE-sCoRE (`7591533`, `f56c401`, `449e721` on `new-horizons`, not pushed). Commits carry `%S300_STATE%`: S300 was taken by a concurrent session before this one claimed its number; the tag is a label only.
