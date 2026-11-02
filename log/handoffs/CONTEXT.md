@@ -13,7 +13,8 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 
 | File | Scope |
 |---|---|
-| `HANDOFF-S295-RaBbLE-UI-Rust-Phase2-Parallel.md` | **Start here** for the Rust TUI: Opus review of plan + seam (2 blockers, 12 should-fix), protocol v1.1 freeze, parallel lanes (protocol hardening, shell, face, narration, supervision, bench, RemoteBackend) with file ownership and gates |
+| `HANDOFF-S296-RaBbLE-UI-Rust-Phase2-Next.md` | **Start here** for the Rust TUI: lanes P/N/R/S built, Opus-reviewed and committed; `rabble` now opens the Rust shell (starts the engine on demand); Mark tests it; open: face (PRNG go), systemd + packaging, bench/CI, `RemoteBackend` wiring, shell gaps |
+| `HANDOFF-S295-RaBbLE-UI-Rust-Phase2-Parallel.md` | Lane definitions for the face (F), supervision (O), bench (B) still apply; the rest is done (see S296). Original: Rust TUI: Opus review of plan + seam (2 blockers, 12 should-fix), protocol v1.1 freeze, parallel lanes (protocol hardening, shell, face, narration, supervision, bench, RemoteBackend) with file ownership and gates |
 | `HANDOFF-S295-RaBbLE-UI-Rust-R1-Seam.md` | Start here for the Rust TUI: R1 engine seam (Unix socket NDJSON, `serve.py`, `rabble-proto`, fixtures/schema), lane table, wire protocol proposal, Mark's open asks (plain-English narration, CC parity) |
 | `HANDOFF-S295-RaBbLE-UI-Rust-R0-Cargo.md` | Next steps for the Rust TUI: enable cargo (crates.io blocked on school network; Fedora rust-*-devel RPMs via ai-harnesses claude-code task), compile + gate R0, Option A confirmed, engine config surface + Capabilities event done, plain-English narration ask |
 | `HANDOFF-S292-RaBbLE-UI-Rust-Rebuild.md` | RaBbLE-UI to Rust: start at R0 (cargo workspace, 120 fps glide spike, bench vs Python baselines); shape sign-off + Opus plan review owed; S291 visual-test results folded in |

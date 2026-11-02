@@ -14,6 +14,23 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-11-02 · Session S296 (score-rabble-ui-rust-phase2)
+
+- **Repos:** RaBbLE-sCoRE, RaBbLE-OS, RaBbLE-Grimoire. Local on `new-horizons`, nothing pushed.
+- **Work:** ran HANDOFF-S295 phase 2 with Sonnet builders and Opus reviewers (the builder never reviews its own lane; each review's findings went back to the builder, fix commits re-verified by running both suites).
+  - **Lane P** protocol v1.1 + engine hardening (`8018033`, `a36f2fe`): seq/ring/`since_seq`/gap, owner-only settings + `policy()`, flock'd socket, backpressure; review caught a wire collision (`Frame.id` vs event body `id`) and an organ snapshot that never emptied on real `sdk_map` output.
+  - **Lane N** narration (`3743dd7`, `e6439d7`): `Narration`/`ThinkingText` (22 kinds), masked templates, thinking batched so it cannot flush the replay ring.
+  - **Lane R** `RemoteBackend` (`f5588a9`, `3f6fccd`): review caught lost permission answers and a raising `set_trust` during reconnect; outbox added. Not wired to a flag yet.
+  - **Lane S** Rust shell (`eb417b9`, `ff76f4d`, `c725873`): review found 5 blockers (typing could answer a permission, asks hidden behind pickers, narrow-terminal panic, broken terminal after panic/kill) and 5 should-fixes; all fixed.
+  - **Launcher** (`7d4c01b`): `rabble` opens the Rust shell, connects to the engine socket or starts the engine detached; `--py`, `--cc` kept.
+  - **ansible** (RaBbLE-OS `cce5e69`): `ansible_facts[...]` migration and an empty `plans_server_disabled` group.
+- **State at close:** Python 237 passed, 1 skipped; Rust 128 + 10 + 4. pty p99: key 1.1 ms, wheel 1.0 to 1.6 ms.
+- **Learned:** zsh does not split unquoted `$files`; stage explicit paths (a `git add ansible/roles` swept in another session's file, undone by a soft reset of the unpushed commit); a rate-limited reviewer resumes with `SendMessage`.
+- **Open (Mark):** test `rabble` (Rust shell); go/no-go on the shared PRNG for the face; apply Lane O packaging via `layerctl`; whether to run the targeted Opus re-check of the permission fixes.
+- **Next:** `HANDOFF-S296-RaBbLE-UI-Rust-Phase2-Next.md`.
+
+---
+
 ## 2026-10-29 · Session S295 (score-rabble-ui-rust-r0)
 
 - **Repos:** RaBbLE-sCoRE, RaBbLE-OS, RaBbLE-Grimoire. Local on `new-horizons`, nothing pushed. (Drafted as "S293" while two other sessions ran; the number was claimed late and everything renamed S295.)
