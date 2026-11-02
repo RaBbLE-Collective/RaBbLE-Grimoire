@@ -88,6 +88,29 @@ Rule: **the builder never verifies; fixes go back to the builder as behaviour.**
 - **Extra third party:** motion/QMI8658 were modelled on Waveshare's Apache qmi8658 component and the CO5300 init data comes from Waveshare's board package: NOTICE rows (not Meta).
 - Next: Mark approves the manifest, then decide whether W8/W9/board-vtable/build-config clean rooms go ahead.
 
+## Repo shape (Mark, 2026-11-02)
+
+**RaBbLE-Pocket stays the monorepo** supporting the gadget layer (SDK, middleware, app, sim, ops, companion app). The public SDK is an export of its SDK tree (D2 hybrid: monorepo = evidence repo with full history; export = `filter-repo` rewrite with new SHAs). Do not split the monorepo.
+
+## Bug to debug in the same effort: BOOT button does not start recording
+
+Mark: pressing the BOOT button does not trigger the firmware to record; unknown whether hardware or software. Do this early (it also gates every P7 hardware check), and before the split moves code around so the baseline is known.
+
+Facts from the code (firmware at `new-horizons`, checked 2026-11-02):
+- BOOT is GPIO0 (`BOOT_GPIO`, `boards/rabble_waveshare_175b/bsp_waveshare_175b.c:25`), initialised with `rabble_gpio_button_init(&s_boot, BOOT_GPIO)` (line 36); board vtable `.talk_button = "boot"`, `.aux_button = "pwr"` (lines 242-243).
+- The talk handler is in `app/RaBbLE/rabble_input.c` (`change_asleep(false, rabble_board->talk_button)` near line 191 wakes on it). `rabble_input.c` and the whole board layer were rebuilt in clean-room waves W2/W6 and moved in the SDK steps S10a/S11 (2026-10-25/28), so a software regression is plausible.
+- GPIO0 is an ESP32-S3 strapping pin: fine at runtime, but anything that drives it or a pull config change can mask presses.
+
+Suspects, cheapest first:
+1. **Is it the press or the path?** Add or use a console command / log line that prints the raw GPIO0 level and the debounced button event. Hold BOOT and watch serial (keep the serial reader reading; see `project_pocket_gadget_port` memory). If the level never changes: hardware (switch, solder, strap resistor) or pin config. If the level changes but no event: the button driver. If the event fires but no recording: the input/voice/beam path.
+2. **Does PWR work?** The aux button shares the same code path; if PWR gives events and BOOT does not, it is GPIO0-specific (pull-up, strap, or init order).
+3. **Sleep/wake state:** `rabble_input.c` treats a talk press as wake first; check that a press while awake reaches `rabble_voice` (state machine in `rabble_state`), and that recording is not gated on beam/Wi-Fi/token state (a missing sCoRE token may silently refuse to start).
+4. **Bisect:** the voice path worked on the S243-S264 builds. Build and flash `42ae6d9`, `6c3b78b^` (just before W6 rev 2), `300cf7e` (W7) and `HEAD`; the first bad commit names the cause. Use `ops/build-flash.sh`; flash work must run under panel prio (see the S264 note).
+5. **Host test first:** `firmware/test` has input tests; add a case for BOOT press -> record start with the board vtable stubbed. A host test that passes while the device fails points at hardware or board init.
+6. **Hardware check:** continuity of BOOT to GPIO0 and GND with the case open; compare with a second 1.75-B if one exists. Holding BOOT through reset should still enter the ROM download mode (proves the switch and the strap).
+
+Acceptance: a recorded voice turn started by BOOT on the device, plus a host test that fails without the fix. CoBbLE fixes, CrumBbLE reproduces on the device (Mark's hands for the physical checks), NiBbLE reviews.
+
 ## Pending decisions (Mark)
 
 D1 Apache from day one (leaning yes); D2 one repo vs split (monorepo stays the evidence repo; SDK export is a rewrite); D3 SDK name and trademark policy for `rabble_` identifiers in an Apache SDK; D4 history: keep, or keep private as escrow plus a published hash commitment; D5 sCoRE protocol app-only vs SDK optional backend; signing key; DCO vs CLA; where the Provenance Record lives meanwhile.
