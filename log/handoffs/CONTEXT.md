@@ -13,6 +13,8 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 
 | File | Scope |
 |---|---|
+| `HANDOFF-S298-Pocket-Open-SDK-Split.md` | **Start here** for Pocket release: provenance audit done (59.4% to 8.0% overlap vs Muse SDK), Apache SDK / Accord app split plan drafted but not Opus-reviewed, decisions D1-D5 pending Mark, gitleaks installed, nothing committed |
+| `HANDOFF-S297-RaBbLE-UI-Rust-Face.md` | **Start here** for the Rust face: crate + shell wiring committed (79d2f5e..4793800), golden parity exact, 178 Rust tests green; pending Mark's eye (shared PRNG shifts the Python face), NiBbLE review, CrumBbLE real-terminal run. Other S296 items still open |
 | `HANDOFF-S296-RaBbLE-UI-Rust-Phase2-Next.md` | **Start here** for the Rust TUI: lanes P/N/R/S built, Opus-reviewed and committed; `rabble` now opens the Rust shell (starts the engine on demand); Mark tests it; open: face (PRNG go), systemd + packaging, bench/CI, `RemoteBackend` wiring, shell gaps |
 | `HANDOFF-S295-RaBbLE-UI-Rust-Phase2-Parallel.md` | Lane definitions for the face (F), supervision (O), bench (B) still apply; the rest is done (see S296). Original: Rust TUI: Opus review of plan + seam (2 blockers, 12 should-fix), protocol v1.1 freeze, parallel lanes (protocol hardening, shell, face, narration, supervision, bench, RemoteBackend) with file ownership and gates |
 | `HANDOFF-S295-RaBbLE-UI-Rust-R1-Seam.md` | Start here for the Rust TUI: R1 engine seam (Unix socket NDJSON, `serve.py`, `rabble-proto`, fixtures/schema), lane table, wire protocol proposal, Mark's open asks (plain-English narration, CC parity) |

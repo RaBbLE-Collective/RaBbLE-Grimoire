@@ -5,12 +5,34 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-02 · S296 (score-rabble-ui-rust-phase2)
+## LATEST — 2026-11-02 · S298 (pocket-provenance-sdk-split)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S296: Rust shell + protocol v1.1 + narration + RemoteBackend landed; rabble opens Rust
-**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25/B-26 open.
-**Next:** Mark tests rabble; face (PRNG go), systemd/packaging, bench; see HANDOFF-S296
+**This session:** S298: Pocket provenance audited (59% to 8% overlap vs Muse), SDK/app split plan drafted, gitleaks in
+**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27 open.
+**Next:** Re-run Opus review of HANDOFF-S298 plan; Mark decides D1-D5
+
+---
+
+## 2026-11-02 · Session S298 (pocket-provenance-sdk-split)
+
+- **Repos:** RaBbLE-Grimoire, RaBbLE-Pocket (README only), RaBbLE-OS (gitleaks). Nothing committed.
+- **Work:** filed Mark's Nov 2 open-layer notes into `log/plans/` (bLE casing fixed). Audited the Pocket clean room with three agents: fresh overlap run against Muse SDK `b139b45` (59.4% at port `42ae6d9`, 8.0% at HEAD, 3.5% net of ESP-IDF idioms, zero Muse tokens), a read of the Oct 6-7 port transcripts (mechanical `sed` port, headers compacted, base commit confirmed), and a firewall audit of 32 clean-room transcripts (no tool-level breach; W2/W6 minor; spec-author transcripts for W2/W5/W6 absent). Finding: `rabble_ui.c`, `rabble_beam_score.c` and the board vtable are derived by influence and never clean-roomed. Wrote `RaBbLE-Pocket-Provenance-Record.md` (+ `cleanroom/audit-2026-11-02/`), a README provenance section, installed gitleaks (manifest + `core` role), scanned Pocket history (126 commits, clean). Drafted `Pocket-Open-SDK-App-Separation-Plan.md` (Apache SDK holds all Meta-influenced code, Accord app Meta-free).
+- **Learned:** `layerctl` calls the layer `base`; the `core` role keeps its own package list, so a manifest-only entry does not install. Overlap % is SDK-commit-dependent. The first Opus plan review hit the session limit.
+- **Open (Mark):** D1-D5 (Apache SDK, repo layout, public name, history, sCoRE protocol app-only); lawyer review; B-27.
+- **Next:** `HANDOFF-S298-Pocket-Open-SDK-Split.md`: re-run the Opus review, then P0/P1.
+
+---
+
+## 2026-11-02 · Session S297 (rabble-face-rust)
+
+- **Repos:** RaBbLE-sCoRE (local on `new-horizons`, nothing pushed), RaBbLE-Grimoire.
+- **Work:** Lane F, the face, built by CoBbLE (Sonnet), Mark's go on the shared PRNG taken from the parity ask. `79d2f5e` SplitMix64 `ui/prng.py` replaces `random.Random` in `ui/face.py`; `e08f786` `rabble-face` crate + `tests/golden_face.py` (48 frames, exact cell-for-cell parity); `4793800` shell wiring (24x6 mark in a 6-row header in panes >= 56x22, `/face` full face, ticks only on loops with no key/wheel input, PARITY.md).
+- **State at close:** Rust 178 passed (re-run by me); Python 240 passed, 1 skipped (builder's report). Eyes 0.65 ms/frame at 260x70; idle 3.6% of a core (one pty run).
+- **Learned:** `/reload` has no Rust equivalent (compiled; rebuild and restart, `--attach` rejoins the engine session). Builder hit the 5h limit minutes in; `SendMessage` resumed it cleanly.
+- **Open (Mark):** test the Rust face by eye; the PRNG also shifts the Python mesh/dust/glitch, confirm or say fall back to dumped tables.
+- **Skipped:** NiBbLE review of `79d2f5e..4793800` and the CrumBbLE real-terminal run (rate limit).
+- **Next:** `HANDOFF-S297-RaBbLE-UI-Rust-Face.md`.
 
 ---
 
