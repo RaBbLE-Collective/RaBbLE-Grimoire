@@ -80,6 +80,14 @@ Rule: **the builder never verifies; fixes go back to the builder as behaviour.**
 | P6 | CoBbLE + Mark; Archivist logs |
 | P7 | Mark |
 
+## Progress since the first commit (S298, later)
+
+- **D5 ruled:** the sCoRE beam *protocol* is documented in the sCoRE docs (not the SDK docs); its implementation stays app-side (SA). The SDK keeps a generic transport. W8 (clean-room `rabble_beam_score.c`) is therefore required before it can sit under a clean SA header.
+- **P0 partly done:** `gitleaks git --log-opts="--all"` on Pocket: 126 commits scanned (137 refs-wide count = 10 merges + 1), no leaks, no tags. Still open: signing key, `sdk-split` branch, `pre-split` tag (Pocket has an uncommitted `README.md` change; branch after Mark decides).
+- **P1 draft generated** (held, untracked with the other provenance docs): `RaBbLE-Pocket/RaBbLE-Pocket-Split-Manifest.md` via `RaBbLE-Pocket/cleanroom/audit-2026-11-02/scripts/manifest.py`. 469 rows: 70 clean-roomed (W0-W6), 347 original, 15 `influence`, 17 `influence?` (CMakeLists added after the SDK date), 8 `original?` (>=15% overlap, review). The substantive influenced set is small: `rabble_ui.c` (lifecycle block), `rabble_beam_score.c`, `rabble_board.h` (+ test stub), and build config (`sdkconfig.defaults`, `Kconfig`, `idf_component.yml`, `partitions.csv`). Files still to eyeball: `rabble_device.h` (66.7%), `rabble_beam*.{c,h}` (15-33%), `rabble_notes.c`, `nl_scene.h`, `rabble_shot.h`.
+- **Extra third party:** motion/QMI8658 were modelled on Waveshare's Apache qmi8658 component and the CO5300 init data comes from Waveshare's board package: NOTICE rows (not Meta).
+- Next: Mark approves the manifest, then decide whether W8/W9/board-vtable/build-config clean rooms go ahead.
+
 ## Pending decisions (Mark)
 
 D1 Apache from day one (leaning yes); D2 one repo vs split (monorepo stays the evidence repo; SDK export is a rewrite); D3 SDK name and trademark policy for `rabble_` identifiers in an Apache SDK; D4 history: keep, or keep private as escrow plus a published hash commitment; D5 sCoRE protocol app-only vs SDK optional backend; signing key; DCO vs CLA; where the Provenance Record lives meanwhile.
