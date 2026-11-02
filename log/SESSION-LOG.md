@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-10-29 · S295 (score-rabble-ui-rust-r0)
+## LATEST — 2026-11-02 · S296 (score-rabble-ui-rust-phase2)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S295: engine fixes + config; Rust R0 + R1 seam live-verified; Opus review (2 blockers) folded into the parallel phase-2 handoff
+**This session:** S296: Rust shell + protocol v1.1 + narration + RemoteBackend landed; rabble opens Rust
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25/B-26 open.
-**Next:** Phase 2 lanes in parallel per HANDOFF-S295-Phase2-Parallel (protocol v1.1, shell, face, narration, supervision, bench)
+**Next:** Mark tests rabble; face (PRNG go), systemd/packaging, bench; see HANDOFF-S296
 
 ---
 
