@@ -90,7 +90,7 @@ Rule: **the builder never verifies; fixes go back to the builder as behaviour.**
 
 ## Repo shape (Mark, 2026-11-02)
 
-**RaBbLE-Pocket stays the monorepo** supporting the gadget layer (SDK, middleware, app, sim, ops, companion app). The public SDK is an export of its SDK tree (D2 hybrid: monorepo = evidence repo with full history; export = `filter-repo` rewrite with new SHAs). Do not split the monorepo.
+**RaBbLE-Pocket stays the monorepo** supporting the gadget layer (SDK, middleware, app, sim, ops, companion app). The public SDK is an export of its SDK tree (D2 hybrid: monorepo = evidence repo with full history; export = `filter-repo` rewrite with new SHAs). Do not split the monorepo. Mark: the public SDK **may later become its own repo**, tracked separately; until then it lives in the monorepo. Keep the SDK tree self-contained so that move is mechanical: its own `LICENSE`, `NOTICE`, `README`, CI and vendored test vectors, no includes or paths pointing out of it, and a repeatable export script (`ops/export-sdk.sh`, to write in P6) that produces the same tree each run.
 
 ## Bug to debug in the same effort: BOOT button does not start recording
 
