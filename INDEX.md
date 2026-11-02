@@ -326,6 +326,7 @@ Status lives in each plan; the one-line status table is [log/plans/CONTEXT.md](l
 - [sCoRE-Extensibility-Refactor-Plan](log/plans/sCoRE-Extensibility-Refactor-Plan.md) — sCoRE `server/` restructure, options A/B/C
 - [Subdomain-Registry-and-Maintenance](log/plans/Subdomain-Registry-and-Maintenance.md) — subdomain registry spec + maintenance backlog
 - [Sovereign-Accord-v2-Brand-and-Entity](log/plans/Sovereign-Accord-v2-Brand-and-Entity.md): Accord v2 proposal: code with limits, entity and brand protected as marks and art; decisions pending Mark
+- [Pocket-Open-SDK-App-Separation-Plan](log/plans/Pocket-Open-SDK-App-Separation-Plan.md): DRAFT plan to split the Pocket firmware into an Apache SDK (all Meta-influenced code) and an Accord-licensed RaBbLE app, then publish
 - [Aether-Theming-Convergence](log/plans/Aether-Theming-Convergence.md) — palette sovereignty across web/editor/desktop/browser
 - [NeBuLA-Pocket-Puppet-Rendering-Pipeline](log/plans/NeBuLA-Pocket-Puppet-Rendering-Pipeline.md) — shared puppet rig/animation pipeline for NeBuLA + Pocket
 - [OS-Display-Manager-Plan](log/plans/OS-Display-Manager-Plan.md) — `rdisplay`: display layout manager (CLI, GTK4 editor, overlay, daemon)
