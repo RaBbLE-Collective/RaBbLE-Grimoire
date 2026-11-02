@@ -87,6 +87,15 @@ rabble_palette:
   red:      "#e05c6f"   # Error / urgent
   green:    "#50fa7b"   # Success / clean
   yellow:   "#f1fa8c"   # Warning / staged
+
+  # Provider brand marks (third-party colours, not RaBbLE identity). Used only for the face's provider
+  # aura, each pulled toward violet before drawing. Google is a four-stop ring, clockwise from the right.
+  brand_anthropic:     "#d97757"
+  brand_google_right:  "#4285f4"
+  brand_google_bottom: "#34a853"
+  brand_google_left:   "#fbbc05"
+  brand_google_top:    "#ea4335"
+  brand_openai:        "#10a37f"
 ```
 
 ---
