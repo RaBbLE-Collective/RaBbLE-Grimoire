@@ -13,7 +13,8 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 
 | File | Scope |
 |---|---|
-| `HANDOFF-S301-RaBbLE-UI-Rust-Select-Clear.md` | **Start here** for the Rust shell: mouse selection + Ctrl-C copy and `/clear` entropy reset committed (7591533..449e721, 159 Rust + 69 Python UI tests green); pending Mark trying it, CrumBbLE pty run, NiBbLE review, eyes-follow-mouse decision |
+| `HANDOFF-S302-RaBbLE-UI-Face-Gaze-Selection.md` | **Start here** for the Rust shell: face void/portals/real cell aspect, gaze plumbing (pointer + entity attention), selection review fixes, commits 61e5332..eb82008; NiBbLE review and CrumBbLE pty run of eb82008 NOT done; Mark to eyeball /face and gaze |
+| `HANDOFF-S301-RaBbLE-UI-Rust-Select-Clear.md` | Superseded by S302 (read both): mouse selection + Ctrl-C copy and `/clear` entropy reset committed (7591533..449e721, 159 Rust + 69 Python UI tests green); pending Mark trying it, CrumBbLE pty run, NiBbLE review, eyes-follow-mouse decision |
 | `HANDOFF-S298-Pocket-Split-Build-Plan.md` | **Start here** for the Pocket split: build plan v0.3 (Mark's rulings, QuiBbLE-reviewed plan, P-1..P8, clean room reaches the SDK, nebula_lite as SA middleware, default pastel ellipse face); needs one more QuiBbLE pass, nothing committed |
 | `HANDOFF-S298-Pocket-Open-SDK-Split.md` | Audit background for the above: provenance audit done (59.4% to 8.0% overlap vs Muse SDK), Apache SDK / Accord app split plan drafted but not Opus-reviewed, decisions D1-D5 pending Mark, gitleaks installed, nothing committed |
 | `HANDOFF-S297-RaBbLE-UI-Rust-Face.md` | **Start here** for the Rust face: crate + shell wiring committed (79d2f5e..4793800), golden parity exact, 178 Rust tests green; pending Mark's eye (shared PRNG shifts the Python face), NiBbLE review, CrumBbLE real-terminal run. Other S296 items still open |

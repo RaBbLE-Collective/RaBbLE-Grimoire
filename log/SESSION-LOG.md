@@ -25,6 +25,17 @@ Format: date, what was done, where things were left, what's next.
 - **Not done:** no P0/P1 steps (branch, signing key, `pre-split` tag); plan not revised for QuiBbLE; D1-D5 still Mark's.
 - **Next:** Mark does the switch continuity test; flash RaBbLE back; Mark rules on rewrite-vs-move for the S298 commits and on Apache-side derived files; then P0/P1.
 
+
+---
+
+## 2026-11-02 · Session S302 (rui-face-gaze-selection-fixes)
+
+- **Repos:** RaBbLE-sCoRE (`61e5332`..`eb82008` on `new-horizons`, not pushed; tagged `%S302_STATE%`).
+- **Work:** Crew build loop on Mark's S301 follow-ups. NiBbLE reviewed S301 (2 medium, 6 low), CrumBbLE ran 7 pty checks (held). CoBbLE-A fixed selection findings; CoBbLE-B did face: void = terminal bg, foreground-only AA, `#000000` portals, `/face` uniform scale, `Life::set_gaze`. Second NiBbLE/CrumBbLE round found Esc on a blank selection interrupting the turn, `guard_selection` killing upward drags, `/face` crop and ~0.87 sphere aspect; CoBbLE-A2 fixed the selection bugs and built gaze plumbing (pointer steers both faces, entity picks focus: modal, typing, tool card, streaming text); CoBbLE-B2 made `/face` use the terminal's real cell aspect, handled NaN gaze and light-base void; the crop was `FACE_MIN_ROWS=12` in transcript.rs, set to 2 directly. Tests at `eb82008`: 175 rabble-tui, 26 rabble-face, 69 Python UI, green.
+- **Incident:** CoBbLE-B2 ran `git stash`/`checkout app.rs` in the shared tree and briefly reverted A2's edits; A2 verified all present once, no independent diff yet.
+- **Not done:** NiBbLE review and CrumBbLE pty run of `7eade68..eb82008` (both killed by a rate limit, then parked); nothing seen in a real terminal by Mark except select/copy/paste and `/clear` (confirmed working).
+- **Next:** Mark `/reload`s and checks `/face` roundness (`RABBLE_CELL_ASPECT=2.3` if oval) and gaze feel; NiBbLE + CrumBbLE on eb82008; HANDOFF-S302.
+
 ---
 
 ## 2026-11-02 · Session S301 (rust-shell-select-copy-clear-entropy)
