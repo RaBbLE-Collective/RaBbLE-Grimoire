@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-03 · S304 (pocket-w10-seam-tap-to-talk)
+## LATEST — 2026-11-03 · S306 (rui-micro-mark-portals-3row-header)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S304: Pocket W10 seam spec REVISE, tap-to-talk built (dfcb1d9, unverified)
+**This session:** S306: micro mark = builder glyph (9x3, gaze+blink, vscode grid), 3-row header; permission prompt broken
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** Mark answers HANDOFF-S304 questions; revise W10; review + device-test tap-to-talk
+**Next:** Mark /reloads mark; fresh session on permission prompt (HANDOFF-S306); Python twin
 
 ---
 
