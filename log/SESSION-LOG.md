@@ -28,6 +28,15 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-11-02 · Session S303 (rui-compact-mark-gaze-parity)
+
+- **Repos:** RaBbLE-sCoRE (`45315fa`..`2def318` on `new-horizons`, not pushed, tagged `%S303_STATE%`), RaBbLE-Grimoire (HANDOFF-S303).
+- **Work:** picked up HANDOFF-S302. CoBbLE fixed the stale-scene gaze bug (cached newest line, cell-aspect cache); CrumBbLE pty run held on regressions, stream-gaze provable only by unit test. Python TUI got the Rust gaze (`ui/gaze.py`), then both UIs got a three-tier header (full / compact / plain) and an animated magenta-cyan wordmark flowing in step with the divider. The compact mark first shipped as a downscaled 8x2 face; Mark's screenshot showed it as a smear, so it was redrawn as two eye pills (7x2, `rabble-face/src/micro.rs`) and ported to Python. Mark then judged the pills still wrong: no eye whites, portals invisible.
+- **Not done:** micro mark redesign (whites + visible portal rings, Rust then Python); crew viewer (roster strip + `/crew` overlay, Rust first; recommendation approved by Mark); thinking-words bank + thinking animation (`ui/thinking_words.txt` written); debug timing test decision (Mark undecided). Nothing eyeballed by Mark except gaze/responsiveness (feels responsive, works in VS Code) and the first micro mark via screenshot.
+- **Next:** see HANDOFF-S303: micro mark redesign, Mark `/reload` eyeball, crew viewer (GoBbLE protocol scout, QuiBbLE, CoBbLE), thinking animation.
+
+---
+
 ## 2026-11-02 · Session S302 (rui-face-gaze-selection-fixes)
 
 - **Repos:** RaBbLE-sCoRE (`61e5332`..`eb82008` on `new-horizons`, not pushed; tagged `%S302_STATE%`).
