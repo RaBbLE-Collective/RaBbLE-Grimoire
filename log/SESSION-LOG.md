@@ -14,6 +14,16 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-11-03 · Session S306 (rui-micro-mark-portals-3row-header)
+
+- **Repos:** RaBbLE-sCoRE (`28d73db`, `c2caf0d`, `2052401`, `%S306_STATE%`, nothing pushed), RaBbLE-BaBbLE (two reference files in `intake/`, uncommitted), RaBbLE-Grimoire (HANDOFF-S306, this entry). Picked up the S305 sCoRE session that hit the usage limit mid micro-mark and never logged (three other rate-limit stops last night were clean: S298 plan unreviewed by Opus, selection work already shipped).
+- **Work:** the Rust micro mark went through six rejected versions before it matched Mark's builder glyph. Root causes: a cell holds two colours, so ring and white may only share a cell as ring-over-white with no void; the safe-glyph (VSCodium) path merged row pairs and filled every portal hollow; I trusted my own pixel renders instead of screenshots. Final: 9x3 cells, 8 px portals on a diagonal, eye centred and crossing with the near edge yielding, gaze steps a cell, blinks retract, separate quadrant grid for `TERM_PROGRAM=vscode`, `every_pose_is_valid` sweep on both grids. Header is now 3 rows with a usage line. Mouse wheel scrolls permission prompts (S305 work, committed).
+- **Not done:** Mark has not seen the gaze/9-col mark live; Python twin (`ui/face.py`) still the old pills; thinking words and crew viewer (S303 backlog); my reading of "1 px separation" (one cell) and "portals up one block" (eyes use the free row) was an assumption since Mark did not answer.
+- **Mark's new ask:** the question/permission prompt box stops him giving permissions or answering questions; to be worked in its own session (prompt is in the handoff).
+- **Next:** Mark `/reload`s and looks; fresh session on the permission prompt; then Python port.
+
+---
+
 ## 2026-11-03 · Session S304 (pocket-w10-seam-tap-to-talk)
 
 - **Repos:** RaBbLE-Pocket (branch `tap-to-talk`, `dfcb1d9`, not merged/pushed), RaBbLE-Grimoire (W10 spec draft held untracked; this entry; HANDOFF-S304). The Pocket commit is tagged %S303_TAPTALK% (made before the number was claimed; S303 belongs to the RaBbLE-UI session).
