@@ -299,3 +299,7 @@ a7b22a40-1bd6-47c6-95f8-2eea21b9f9d8	score-rabble-face-rust	S297 face	rabble	ant
 ad8c2976-3dab-4e09-839c-26fc08b22832	rust-shell-parity-header-flow	S299	rabble	anthropic	claude-sonnet-5-5
 77fb5b2f-c835-4286-b5b7-b383da4d05a0	grimoire	auto: S298 Pocket split: plan v0.2 + rulings, build-plan handoff v0.3, QuiBbLE review folded; provenance record held back (public repo)	rabble	anthropic	claude-sonnet-5-5
 d20f041f-c96e-4f68-91e2-1d6c0f1f91f5	rust-shell-select-copy-clear-entropy	S301	rabble	anthropic	claude-sonnet-5-5
+f6522db6-ff6b-4f0c-b18d-6fb2b6320ef0	pocket-boot-button-hwtest	S300: BOOT hw test, QuiBbLE plan review, vtable header	rabble	anthropic	claude-sonnet-5-5
+8b32fcc0-59a6-403c-bd74-30da24c3156e	rui-face-gaze-selection-fixes	S302 parked degraded	rabble	anthropic	claude-sonnet-5-5
+1818f1e0-c453-4a60-8d33-d7e486cb2005	rui-compact-mark-gaze-parity	S303	rabble	anthropic	claude-sonnet-5-5
+9ad4ab99-bf6b-4eb1-be0f-0f282d3782ca	pocket-w10-seam-tap-to-talk		rabble	anthropic	claude-sonnet-5-5
