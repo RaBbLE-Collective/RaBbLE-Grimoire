@@ -8,9 +8,9 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-11-02 · S302 (rui-face-gaze-selection-fixes)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S302: Rust shell face void/portals/real cell aspect, gaze plumbing, selection fixes; gaze-on-stream bug + CrumBbLE pty pending
+**This session:** S302: Rust shell face void/portals/real cell aspect, gaze plumbing, selection fixes; NiBbLE+CrumBbLE reviewed eb82008
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** CoBbLE fixes stale-scene gaze bug; CrumBbLE pty run of eb82008; Mark eyeballs /face + gaze
+**Next:** CoBbLE fixes gaze-goes-dark-on-streaming bug; Mark eyeballs /face + gaze
 
 ---
 
