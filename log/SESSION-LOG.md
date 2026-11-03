@@ -14,6 +14,15 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-11-03 · Session S304 (pocket-w10-seam-tap-to-talk)
+
+- **Repos:** RaBbLE-Pocket (branch `tap-to-talk`, `dfcb1d9`, not merged/pushed), RaBbLE-Grimoire (W10 spec draft held untracked; this entry; HANDOFF-S304). The Pocket commit is tagged %S303_TAPTALK% (made before the number was claimed; S303 belongs to the RaBbLE-UI session).
+- **Work:** picked up HANDOFF-S298 (SDK + clean room). Mark ruled option A (capability groups) for the board seam; GoBbLE mapped 37 members / 8 groups / 9 unchecked callers; I drafted `w10-hardware-groups.spec.md`; QuiBbLE verdict REVISE (shape survives, accel unit g, invented mic-slot clause, UI-core bring-up, gaps). Mark's BOOT switch is broken, so CoBbLE built tap-to-talk: mic-icon hold = PTT, double tap = hands-free with silence auto-stop, tap = cancel (host tests green per CoBbLE, build clean, +32 B DIRAM; not re-run independently, never flashed). Rulings: 12:00 clock fallback, trigger injection point, boards in the SDK tree, BOOT stays default.
+- **Not done:** W10 spec revision and implementer; NiBbLE/CrumBbLE on `dfcb1d9`; device flash; stale `firmware/sdkconfig` fix; S298 public-commit rewrite-vs-move; signing.
+- **Next:** Mark answers the questions in HANDOFF-S304 first.
+
+---
+
 ## 2026-11-02 · Session S300 (pocket-boot-button-hwtest)
 
 - **Repos:** RaBbLE-Pocket (`firmware/hw_test/`, new, uncommitted), RaBbLE-Grimoire (this entry, B-28). Claimed S300 before S301; entry lands below it.
