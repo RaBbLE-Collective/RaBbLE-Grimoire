@@ -304,3 +304,6 @@ f6522db6-ff6b-4f0c-b18d-6fb2b6320ef0	pocket-boot-button-hwtest	S300: BOOT hw tes
 1818f1e0-c453-4a60-8d33-d7e486cb2005	rui-compact-mark-gaze-parity	S303	rabble	anthropic	claude-sonnet-5-5
 9ad4ab99-bf6b-4eb1-be0f-0f282d3782ca	pocket-w10-seam-tap-to-talk		rabble	anthropic	claude-sonnet-5-5
 4657c065-162d-452c-b191-e430cde062a5	rui-micro-mark-portals-3row-header	S306	rabble	anthropic	claude-sonnet-5-5
+31f4f36f-0a2b-4c82-8892-31b4962f4c09	rabble-tui/modal	auto: AskUserQuestion can finally be answered: pick-an-option prompt, answers ride back as updated_input	rabble	anthropic	claude-sonnet-5-5
+09a0f543-47c2-4866-af1b-b8be9a657a10	pocket	auto: S308: open entity default, Familiar app plan with done/not-done ledger, handoff	rabble	anthropic	claude-sonnet-5-5
+06684b17-a616-42c8-bd52-58cea348cdb6	rui-micro-mark-pills-gaze	S309	rabble	anthropic	claude-sonnet-5-5

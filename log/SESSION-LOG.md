@@ -5,12 +5,22 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-03 · S306 (rui-micro-mark-portals-3row-header)
+## LATEST — 2026-11-03 · S309 (rui-micro-mark-pills-gaze)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S306: micro mark = builder glyph (9x3, gaze+blink, vscode grid), 3-row header; permission prompt broken
+**This session:** S309: micro mark pills slide through portals (10 cols), glance up, pointer-exit gaze; S307 logged
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** Mark /reloads mark; fresh session on permission prompt (HANDOFF-S306); Python twin
+**Next:** Mark /reloads and looks; Python twin; sCoRE push
+
+---
+
+## 2026-11-03 · Session S309 (rui-micro-mark-pills-gaze)
+
+- **Repos:** RaBbLE-sCoRE (`0c14687`..`098ae9c`, 9 commits on `new-horizons`, not pushed), RaBbLE-Grimoire (this entry, HANDOFF-S309). The sCoRE commits are tagged `%S308_STATE%`: I used 308 before a concurrent Pocket session had claimed it and could not retag. They are this session's.
+- **Work:** picked up the usage-limited S307 session (picker, crew views, crew rules; all committed, never logged) and logged it (HANDOFF-S307; organ-spawn cap ruled prompt-rules-now, engine limit roadmapped under E1 in the Rust plan). Then Mark's micro-mark notes. Micro mark rebuilt (`rabble-face/src/micro.rs`): vertical gaze now slides the pill instead of stretching it; portals moved down so each far edge ends a cell (one black row inside the edge at rest, edge never cut, no notch); mark is 10 columns wide (two portals shared a cell column at 9); pills five rows; both eyes move together and stop together, 1 px each way, same screen direction (down: left out, right sinks onto its back edge; up: left sinks onto its top edge, right out). The VSCodium grid got the same layout with three-row pills. Gaze (`rabble-tui/src/app.rs`): eyes follow a pointer that leaves to the right, out along its heading, 4 s; eyes glance straight up now and then when idle (12-37 s gaps) and on a mood flash.
+- **Verified:** 246 Rust tests pass (every pose of both grids swept for cell validity). `a_face_frame_is_cheap_enough_to_sit_between_keys` is an existing timing flake (p99 15-23 ms vs 8 ms; fails the same on the commit before). Nothing seen live by Mark except via his notes; release build done.
+- **Not done:** Mark has not eyeballed the 10-col mark, pills, glance, or pointer-exit; the up-gaze centre shift (so upper transcript reads as "up") unanswered; more glance signals (organ finished, notice); fourth cell row for more vertical travel (declined for now: "keep the lower motion"); Python twin `ui/face.py` still the old 7x2 pills; thinking words; S307 items (picker and Ctrl-G live check, `y`/`a` question).
+- **Next:** Mark `/reload`s and looks; then Python twin; push decision on sCoRE.
 
 ---
 
