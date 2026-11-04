@@ -14,12 +14,11 @@ Worked example (an app): today `rabble_pomo.c` and the Pomodoro Orbit page are R
 
 ```
 firmware/
-  core/        shared base, open, in transition to Apache-2.0 (Mark: "core or common for now"; "OS" rejected: RaBbLE-OS is the distro)
-  nebula_lite/ SA renderer component (name and place open)
+  core/        component library, open; includes a generic open LVGL renderer, in transition to Apache-2.0 (Mark: "core or common for now"; "OS" rejected: RaBbLE-OS is the distro)
   drivers/     chip drivers
   boards/      board folders
   entities/
-    RaBbLE/      Sovereign Accord; owns its entry point, look and feel, sCoRE beam backend, voice profile
+    RaBbLE/      Sovereign Accord; owns its entry point, look and feel, sCoRE beam backend, voice profile; ships nebula_lite inside it (entities/RaBbLE/nebula_lite/)
     Foundling/   open; owns its entry point; LVGL
   apps/        portable app code entities host: pomodoro, log display, ... (licence per app)
   tools/       panel_bench, hw_test (or tests/)
@@ -36,7 +35,7 @@ Seam (`rabble_core`: board, state, settings, console, time, text, device, palett
 
 Also core (Mark, 2026-11-04): **voice**, because any entity should be able to speak. Core owns the push-to-talk loop, endpointing, outbox and a voice-backend interface; each entity brings its own voice profile and config for how it talks (RaBbLE has a custom one). The sCoRE beam is one backend; whether that backend lives in core or in the app is open (W8 put it app-side, D5).
 
-`rabble_render` IS nebula_lite: the display-list store, band rasteriser, composer, SIMD kernels and the Orbit's drawing (`src/orbit.c`). **Mark, 2026-11-04: the renderer is its own NeBuLA-lite (or NeBuLA-micro) component and is SA licensed**, so it is NOT in the open `core/`. It sits beside core as an SA sibling (working place `firmware/nebula_lite/`; the licence-by-directory rule holds). Apps opt in: RaBbLE does; Foundling would become SA if it did. The entity *art* (`scene.c`, `entity_face.c`, `nl_scene.h`) is the app's. Consequence for the Orbit: core cannot depend on it, so core's open default skin is plain LVGL and RaBbLE's skin is nebula_lite.
+`rabble_render` IS nebula_lite: the display-list store, band rasteriser, composer, SIMD kernels and the Orbit's drawing (`src/orbit.c`). **Mark, 2026-11-04: the renderer is a NeBuLA-lite (or NeBuLA-micro) component and is SA licensed; then (later the same day) ship it inside the RaBbLE entity** (`entities/RaBbLE/nebula_lite/`) and let core hold a generic open LVGL renderer. So nebula_lite is RaBbLE's, not shared; another entity that wants it would be a licence decision, not a build flag. The entity *art* (`scene.c`, `entity_face.c`, `nl_scene.h`) is the app's. Consequence for the Orbit: core cannot depend on it, so core's open default skin is plain LVGL and RaBbLE's skin is nebula_lite.
 
 Stays in `entities/RaBbLE`: the entity art and scene builder, RaBbLE's Orbit skin and voice profile, clock and levelling screens, tap-to-talk, and (for now) the sCoRE beam backend. Pomodoro becomes an app (below).
 Goes to `entities/Foundling`: `open_entity_default` (it is Foundling's face).
@@ -67,6 +66,6 @@ Goes to `entities/Foundling`: `open_entity_default` (it is Foundling's face).
 - Does the sCoRE beam backend live in core or in the app? (Foundling would speak through it.)
 - Rename of the old meaning of "app" in the code during the pure move: `RABBLE_APP`→`RABBLE_ENTITY`, `rabble_app_run`→`rabble_entity_run`, `rabble_app.c/.h`, `app/`→`entities/`.
 - The app interface (model, view data, needs, how an entity hosts and draws it): its own plan, after the Orbit object exists, since apps draw through the same seam.
-- Name of the SA renderer component (NeBuLA-lite or NeBuLA-micro) and its place.
+- Name of the SA renderer inside RaBbLE (NeBuLA-lite or NeBuLA-micro). Paths to fix at the move: `sim/` (host simulator) and `test/render/` build nebula_lite from `sdk/rabble_render`.
 - sCoRE coordination of entities: protocol open or SA? Not designed yet; beam client open vs SA is part of the same question (see S311 notes: the wire format is a plain WebSocket, the value is the sCoRE server).
 - Drag-wake rule settled: a drag or hold is never a tap (W9 rev 4).
