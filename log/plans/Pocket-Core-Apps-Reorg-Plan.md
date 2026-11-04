@@ -28,7 +28,7 @@ Seam (`rabble_core`: board, state, settings, console, time, text, device, palett
 
 Also core (Mark, 2026-11-04): **voice**, because any entity should be able to speak. Core owns the push-to-talk loop, endpointing, outbox and a voice-backend interface; each entity brings its own voice profile and config for how it talks (RaBbLE has a custom one). The sCoRE beam is one backend; whether that backend lives in core or in the app is open (W8 put it app-side, D5).
 
-`rabble_render` IS nebula_lite: the display-list store, band rasteriser, composer, SIMD kernels and the Orbit's drawing (`src/orbit.c`). It is board-agnostic and generic, so the engine can be core and any entity can use it; the entity *art* (`scene.c`, `entity_face.c`, `nl_scene.h`) is the app's, and the Orbit drawing is RaBbLE's skin.
+`rabble_render` IS nebula_lite: the display-list store, band rasteriser, composer, SIMD kernels and the Orbit's drawing (`src/orbit.c`). **Mark, 2026-11-04: the renderer is its own NeBuLA-lite (or NeBuLA-micro) component and is SA licensed**, so it is NOT in the open `core/`. It sits beside core as an SA sibling (working place `firmware/nebula_lite/`; the licence-by-directory rule holds). Apps opt in: RaBbLE does; Foundling would become SA if it did. The entity *art* (`scene.c`, `entity_face.c`, `nl_scene.h`) is the app's. Consequence for the Orbit: core cannot depend on it, so core's open default skin is plain LVGL and RaBbLE's skin is nebula_lite.
 
 Stays in `apps/RaBbLE`: the entity art and scene builder, RaBbLE's Orbit skin and voice profile, Pomodoro applet, clock and levelling screens, tap-to-talk, and (for now) the sCoRE beam backend.
 Goes to `apps/Foundling`: `open_entity_default` (it is Foundling's face).
@@ -54,5 +54,6 @@ Goes to `apps/Foundling`: `open_entity_default` (it is Foundling's face).
 
 - Core directory name: `core/` or `common/`, decide at the move.
 - Does the sCoRE beam backend live in core or in the app? (Foundling would speak through it.)
-- Does the nebula_lite engine move to core whole, with its Orbit drawing staying with RaBbLE's skin?
+- Name of the SA renderer component (NeBuLA-lite or NeBuLA-micro) and its place.
+- sCoRE coordination of entities: protocol open or SA? Not designed yet; beam client open vs SA is part of the same question (see S311 notes: the wire format is a plain WebSocket, the value is the sCoRE server).
 - Drag-wake rule settled: a drag or hold is never a tap (W9 rev 4).
