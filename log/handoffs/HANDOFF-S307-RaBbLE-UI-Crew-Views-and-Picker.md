@@ -6,7 +6,7 @@
 
 **Open questions for Mark:**
 - Do `y`/`a` on a plain allow/deny prompt still stay dead until the body is scrolled to the end? S307 found no fault there and changed nothing.
-- Hard cap on organ spawns in the engine, or is the prompt rule enough?
+- ~~Hard cap on organ spawns~~ RULED (Mark): prompt rules for now; engine/harness limit roadmapped under E1 in `log/plans/sCoRE-RaBbLE-UI-Rust-Plan.md`.
 - Push sCoRE `new-horizons`?
 
 **Then:** Python twin of the 9x3 micro mark (`ui/face.py`, `ui/gaze.py` exist); wire the thinking-words bank (`ui/thinking_words.txt`); micro-mark live check (HANDOFF-S306 context).
