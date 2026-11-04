@@ -21,6 +21,7 @@ this table is a one-line pointer. 🟡 = in flight / awaiting Mark · 🔵 = des
 | `EP1-Entity-Face-Plan.md` | 🟡 S234 — W0–W2 done + live on dev (five-beat face, "wake RaBbLE"); G10 sign-off pending; W3 → Staging plan; W4 (accounts direction) open |
 | `EP1-Air-Push-Plan.md` | 🟡 S202/S203 — A4 superseded by Entity-Face; A5 (deploy wrapper, CI, key inventory) + C1 (reliquary garden) remain |
 | `OS-Display-Manager-Plan.md` | 🟡 S246 — `rdisplay` V1 working; next: editor save → dotctl, Ansible role, KVM 144Hz test, GNOME/KDE backend |
+| `Pocket-Familiar-Open-App-Plan.md` | 🟡 S308 — open entity default built + flashed (panel unverified); Familiar app (Apache-2.0, SDK only) next; done/not-done ledger and roadmap inside |
 | `OS-Settings-App-Plan.md` | 🔵 sketch — the display manager is its first piece |
 | `OS-ProArt-Power-Stack-Plan.md` | 🟡 implemented S197, reworked S245 (asusd only, tuned masked); awaiting on-hardware verify |
 | `OS-Boot-Chain-Seamless-Plan.md` | 🎯 Phase 1 VM-verified; S200 real-HW fix awaits Mark's reboot verify |
