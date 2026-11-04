@@ -2,23 +2,31 @@
 
 > Status: DECISIONS RECORDED, nothing moved yet. Mark's rulings in his words where marked **Mark**. Open points at the end. Related: `Pocket-Foundling-Open-App-Plan.md`, `Pocket-Open-SDK-App-Separation-Plan.md`.
 
-## Shape
+## Shape: three layers (Mark, 2026-11-04)
 
-The Pocket firmware is a small entity OS: a shared open base (`core/`) that apps build on, plus drivers and boards. RaBbLE and Foundling are apps on it. The SDK is the whole tree and can build new apps.
+> "Apps can be split, so pomodoro can be put into any entity and rendered with the proper look/feel. Apps, entities and things are layers. Entities are the living OS app that can run things for the user like actual apps such as pomo or a log display, etc. The core entity functions may differ based on what's living on device."
+
+1. **core** (the base OS, open): seam, Wi-Fi, audio, voice, store, power, screen, motion, the Orbit toolkit, the entity slot.
+2. **entities** (the living app): RaBbLE, Foundling, later Familiars. An entity owns its entry point, its look and feel, its renderer, its voice profile, and *hosts* things. Which core functions an entity uses depends on what is on the device (board capabilities, W11: presence, not assumption).
+3. **things** (user-facing apps, working name; Mark may call them apps): Pomodoro, a log display, and so on. A thing is logic plus a model plus view data, with no renderer of its own. Any entity can host it and draws it in its own look: RaBbLE through nebula_lite, a Foundling through LVGL. Same seam as the Orbit (data out, entity renders). A thing declares what it needs (screen, mic, motion, storage) and the host checks it against the device.
+
+Worked example: today `rabble_pomo.c` and the Pomodoro Orbit page are RaBbLE's. As a thing, the timer and its rounds are the thing; the Orbit page and the clock-with-dots look are each entity's rendering of the thing's view data.
 
 ```
 firmware/
-  core/      shared base, open, in transition to Apache-2.0 (Mark, 2026-11-04: "core or common for now"; working name `core/`; "OS" rejected: RaBbLE-OS is the distro member)
-  drivers/   chip drivers
-  boards/    board folders
-  apps/
-    RaBbLE/      Sovereign Accord; owns its main.c, its look and feel, the sCoRE beam and voice turn
-    Foundling/   open; owns its main.c; only its own code
+  core/        shared base, open, in transition to Apache-2.0 (Mark: "core or common for now"; "OS" rejected: RaBbLE-OS is the distro)
+  nebula_lite/ SA renderer component (name and place open)
+  drivers/     chip drivers
+  boards/      board folders
+  entities/
+    RaBbLE/      Sovereign Accord; owns its entry point, look and feel, sCoRE beam backend, voice profile
+    Foundling/   open; owns its entry point; LVGL
+  things/      pomodoro, log display, ... (working name; licence per thing)
   tools/       panel_bench, hw_test (or tests/)
 ```
 
-- **Licence follows the directory** (Mark): `core/`, `drivers/`, `boards/`, `apps/Foundling` carry SA + the `Open-transition: Apache-2.0` marker now and flip together. `apps/RaBbLE` stays SA. No second "Foundling core": core holds nothing RaBbLE-specific, Foundling-only code lives in `apps/Foundling`.
-- **No `main/` folder** (Mark): each app holds its entry point (`main.c` or equivalent) and its own CMakeLists; `RABBLE_APP` selects the app.
+- **Licence follows the directory** (Mark): `core/`, `drivers/`, `boards/`, `entities/Foundling` carry SA + the `Open-transition: Apache-2.0` marker now and flip together. `entities/RaBbLE` stays SA; each thing carries its own. No second "Foundling core": core holds nothing RaBbLE-specific, Foundling-only code lives in `apps/Foundling`.
+- **No `main/` folder** (Mark): each entity holds its entry point (`main.c` or equivalent) and its own CMakeLists; `RABBLE_APP` selects the entity (and may later list the things it hosts).
 - `rabble_` prefixes stay (Mark, 2026-11-02). Names do not decide openness; the directory does.
 - Today everything is SA; only `open_entity_default`, `rabble_screen` and `app/Foundling` carry the marker. `rabble_board.h` is the one file with Meta's notice (W11 replaces it); until then the open core is not clean.
 
@@ -47,7 +55,7 @@ Goes to `apps/Foundling`: `open_entity_default` (it is Foundling's face).
 
 ## Order
 
-1. One commit, pure move: `sdk/`→`core/`, `app/`→`apps/`, `main/` into each app, bench apps to `tools/`. Sequence with the Foundling session (it edits CMakeLists and README).
+1. One commit, pure move: `sdk/`→`core/`, `app/`→`entities/`, `main/` into each app, bench apps to `tools/`. Sequence with the Foundling session (it edits CMakeLists and README).
 2. Split Wi-Fi from the beam code in `rabble_net`.
 3. `rabble_screen` into Foundling.
 4. Orbit as an object: in-place refactor in the RaBbLE app (tables and state into an instance), then lift the toolkit into core, open default renderer, Foundling builds its own Orbit and drops the panel.
@@ -57,6 +65,8 @@ Goes to `apps/Foundling`: `open_entity_default` (it is Foundling's face).
 
 - Core directory name: `core/` or `common/`, decide at the move.
 - Does the sCoRE beam backend live in core or in the app? (Foundling would speak through it.)
+- Names: `entities/` and `things/` (or `apps/`) for layers two and three.
+- The thing interface (model, view data, needs, how an entity hosts and draws it): its own plan, after the Orbit object exists, since things draw through the same seam.
 - Name of the SA renderer component (NeBuLA-lite or NeBuLA-micro) and its place.
 - sCoRE coordination of entities: protocol open or SA? Not designed yet; beam client open vs SA is part of the same question (see S311 notes: the wire format is a plain WebSocket, the value is the sCoRE server).
 - Drag-wake rule settled: a drag or hold is never a tap (W9 rev 4).
