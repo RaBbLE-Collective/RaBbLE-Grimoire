@@ -182,6 +182,21 @@ Mechanical, no behaviour change. Pocket working tree on `new-horizons`, written 
 
 **Every formerly derived module has a row above** (W0 to W6): state, board seam and memory, text, adpcm, console, setup, axp2101, battery, input, beam status side, wifi store, settings, wifi (radio, air, priv), audio, voice, the Orbit settings UI (replaced by a redesign), keypad (retired), the board layer in `bsp/`.
 
+## Wave W9: screen lifecycle (2026-11-04, session S311)
+
+Workspace `~/RaBbLE-Cleanroom/pocket-w9`: spec, four companion specs, `rabble_state.h`, `rabble_settings.h`, `rabble_mem.h`, generic stubs. No `rabble_board.h` (still the interim Meta-noticed header; the implementer wrote its own two-member test stub from `w0-seam.spec.md`) and no copy of the UI file.
+
+| Module | Spec (S) | Firewall (F) | Implementer (I) | Overlap after | Pocket commit |
+|---|---|---|---|---|---|
+| `sdk/rabble_screen/rabble_screen.c/.h` (own component, Kconfig for the double-tap wake) | `w9-ui-power-block.spec.md` rev 3, Sonnet 5.5 sub-agent | QuiBbLE (Opus 5.5) 2026-11-04: approve-with-edits, 13 edits applied by the integrator; second pass not needed per its report | fresh Sonnet 5.5 sub-agent, one rework round | first pass `.c` 17.7% (17/96): private names for the cover pointer and brightness helper, plus LVGL calls the interface forces. Sent back as "rewrite these lines of yours, names and split are yours" without showing the original. After rework `.c` 2.1% (2/97: `if (asleep) {`, `return false;`), `.h` 2/9 (`#ifdef __cplusplus` guards), total 3.8% | see session log |
+
+**Gate judgment (W9):** every remaining hit is a generic idiom. Accepted.
+**Host:** `firmware/test/power/screen_test/run.sh` (tests 1-17 in the 2-tap and 1-tap builds, xtensa and host `-Werror` compiles). Whole suite 33 pass, 1 known XFAIL.
+**Build:** RaBbLE app builds, 0x1f7270 bytes, 44% of the app partition free. Not flashed; no device check yet (spec section 8 checklist outstanding, including the double-tap feel).
+**Transcript audit:** the implementer made 14 tool calls; no path outside its workspace except ESP-IDF. Archived in `~/RaBbLE-Cleanroom/transcripts/w9/`.
+**Licence state:** headers are Sovereign Accord with the Open-transition marker (Mark, 2026-11-04), not Apache yet.
+**Provenance correction:** the sleep, brightness and touch-wake block of `rabble_ui.c`, and the matching comments in `rabble_ui.h`, were word-for-word or structurally Meta's (the "own from the start" row below overstated this). That block is removed and replaced by the W9 module; the rest of `rabble_ui.c` keeps its measured baseline.
+
 ### RaBbLE's own from the start
 
 These modules never had a derived ancestor, so they have no wave row. Evidence is the first commit (`git log --diff-filter=A --follow`) and, for the S243 gadget commit, the layout table in [Gadget-Port](../RaBbLE-Pocket-Gadget-Port.md) and the `firmware/NOTICE` of that commit, which listed only `apache/`, `rabble_axp2101/` and `bsp/` as derived. The SDK copy is deleted, so there is no fresh diff against it; the claim rests on the history.
