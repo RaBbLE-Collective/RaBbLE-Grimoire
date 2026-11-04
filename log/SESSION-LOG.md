@@ -14,6 +14,16 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-11-03 · Session S307 (rui-prompt-picker-crew-views)
+
+- **Repos:** RaBbLE-sCoRE (`885c271`, `a4eab6c`, `8d12cba` on `new-horizons`, tagged `%S307_STATE%`, 46 commits unpushed), RaBbLE-Grimoire (`ab47fb7`, this entry, HANDOFF-S307). Written by a pickup session: S307 hit the usage limit right after Mark said "this seems good" and never logged.
+- **Work:** (1) AskUserQuestion was arriving as an ordinary permission ask (raw JSON, allow/deny only, no way to return an answer); now a one-question-at-a-time picker, answers ride back as `updated_input`. (2) Crew model (`crew.rs`) built from existing events, roster side panel with FLOW list (needs 96+ cols), full-screen per-organ transcript viewer, Ctrl-G cycles, `x` stops an organ, approvals close the viewer. (3) Crew persona rules: one parallel wave, 3 organs max, independent briefs, verdicts of 10 lines or fewer with evidence in `/tmp/rabble-crew/`, one-line crosstalk; SqUaBbLE = 3 investigators. Prompt-level only, new sessions only.
+- **Verified:** 193 Rust tests pass, 63 Python engine/serve/remote tests pass (five unrelated Python test files fail to collect here); release build done. Nothing run in a live window or against a live engine.
+- **Not done:** Mark has not `/reload`ed to try the picker or crew views; ordinary allow/deny path unchanged (S307 found no fault; ask Mark if `y`/`a` still stay dead until the body is scrolled to the end); micro-mark live check; Python twin of the mark (`ui/face.py`); thinking words; hard cap on organ spawns in the engine (Mark to decide).
+- **Next:** Mark `/reload`s and tries the picker and Ctrl-G; then Python twin; push decision on sCoRE.
+
+---
+
 ## 2026-11-03 · Session S306 (rui-micro-mark-portals-3row-header)
 
 - **Repos:** RaBbLE-sCoRE (`28d73db`, `c2caf0d`, `2052401`, `%S306_STATE%`, nothing pushed), RaBbLE-BaBbLE (two reference files in `intake/`, uncommitted), RaBbLE-Grimoire (HANDOFF-S306, this entry). Picked up the S305 sCoRE session that hit the usage limit mid micro-mark and never logged (three other rate-limit stops last night were clean: S298 plan unreviewed by Opus, selection work already shipped).
