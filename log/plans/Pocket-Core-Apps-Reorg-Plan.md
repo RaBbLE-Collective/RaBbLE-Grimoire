@@ -26,7 +26,7 @@ firmware/
 
 - **Licence follows the directory** (Mark): `core/`, `drivers/`, `boards/`, `entities/Foundling` carry SA + the `Open-transition: Apache-2.0` marker now and flip together. `entities/RaBbLE` stays SA; each app carries its own. No second "Foundling core": core holds nothing RaBbLE-specific, Foundling-only code lives in `entities/Foundling`.
 - **No `main/` folder** (Mark): each entity holds its entry point (`main.c` or equivalent) and its own CMakeLists; `RABBLE_APP` selects the entity (and may later list the apps it hosts).
-- `rabble_` prefixes stay (Mark, 2026-11-02). Names do not decide openness; the directory does.
+- Prefixes: core drops `rabble_`, entity code keeps it (see Names below; supersedes the 2026-11-02 ruling). The directory, not the name, decides the licence.
 - Today everything is SA; only `open_entity_default`, `rabble_screen` and `app/Foundling` carry the marker. `rabble_board.h` is the one file with Meta's notice (W11 replaces it); until then the open core is not clean.
 
 ## core/ contents
@@ -53,13 +53,23 @@ Goes to `entities/Foundling`: `open_entity_default` (it is Foundling's face).
 - **Do it in place first.** The logic is RaBbLE's own code (W5 Part B), so no clean room is needed. Step one is an in-place refactor inside `apps/RaBbLE`: file-scope tables and state (`PG_*`, the item table, statics) become an `orbit_t` plus const tables passed at init, with the host tests green before and after. Only then lift the toolkit into `core/`. Watch internal RAM (about 14 KB free at boot): an instance's state size must be measured.
 - Foundling's plain settings panel (`open_entity_settings_init`) is retired when the open default renderer lands.
 
+## Names: the prefix says who owns it (Mark, 2026-11-04)
+
+> "The RaBbLE entity and the core have an orbit, but RaBbLE's is customized. The core should have an orbit.c. I am tempted to remove rabble names from core and leave components more generic. So rabble_orbit is RaBbLE's and orbit is open."
+
+- Core components and symbols drop the `rabble_` prefix; `rabble_` marks RaBbLE-entity code. Core has `orbit` (open, drawn by core's LVGL renderer); `entities/RaBbLE` has `rabble_orbit` (its nebula look, built on core's orbit toolkit). The logic already uses `orbit_` types (`orbit_view_t`, `orbit_ctl_t`), so the Orbit is nearly there.
+- This **supersedes Mark's 2026-11-02 ruling** that `rabble_` identifiers may stay in the SDK. It also serves the brand split: no brand in the open core.
+- It is a mechanical rename and must be its own late commit, after the moves and the Orbit refactor, with the whole host suite and both builds before and after. Rules: (1) keep persisted strings (NVS namespaces and keys) exactly as they are, or users lose their settings; (2) Kconfig symbols (`CONFIG_RABBLE_*`) rename with their code and stale `sdkconfig` regenerates; (3) the frozen clean-room specs name the old symbols, so record a name map in PROVENANCE and leave the specs as history; (4) one short neutral prefix is needed for components with no natural name (bare `state` or `settings` would collide with other libraries).
+- Open: the core prefix and the seam component's new name (today `rabble_core`).
+
 ## Order
 
 1. One commit, pure move: `sdk/`→`core/`, `app/`→`entities/`, `main/` into each app, bench apps to `tools/`. Sequence with the Foundling session (it edits CMakeLists and README).
 2. Split Wi-Fi from the beam code in `rabble_net`.
 3. `rabble_screen` into Foundling.
 4. Orbit as an object: in-place refactor in the RaBbLE app (tables and state into an instance), then lift the toolkit into core, open default renderer, Foundling builds its own Orbit and drops the panel.
-5. Licence flip of `core/` after W8/W11 and the overlap gates.
+5. Mechanical rename: strip `rabble_` from core (own commit, see Names).
+6. Licence flip of `core/` after W8/W11 and the overlap gates.
 
 ## Open points
 
