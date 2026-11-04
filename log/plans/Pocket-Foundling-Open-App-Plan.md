@@ -34,7 +34,7 @@ Wiring today is a hack: `app/RaBbLE/rabble_ui.c` (Sovereign Accord) switches to 
 1. `app/Foundling/` tree and a CMake selector (like `RABBLE_BOARD`): own `foundling_app_run`, own `main` entry. Boot order to cover (from `rabble_app.c`, 121 lines): settings init, board init, state and battery, UI start, input task, voice start, motion start, Wi-Fi start. Depends on SDK components only.
 2. Remove the `#if CONFIG_OPEN_ENTITY_DEFAULT` hooks from `rabble_ui.c`; it goes back to SA-only.
 3. Generic screens the app needs, as SDK `ui_kit` (plan P2 step 7): clock screen (and 12:00 rule), settings (Wi-Fi, sleep, brightness, volume, clock set), level screen, Pomodoro. Today these are `app/RaBbLE/*` SA files: SA for now, so Foundling may reuse generic app screens as they are; mark them for transition and never copy Meta-influenced parts into the flip set.
-4. Input without the Orbit: the settings panel is the stand-in. Tap-to-talk (`dfcb1d9`..`e131c18`, host-tested, never flashed) is an app feature, not entity-bound; its mic icon target needs an LVGL home.
+4. Input without the Orbit: the settings panel is the stand-in. Tap-to-talk (merged into `new-horizons` S308, device-checked by Mark, now a setting) is an app feature, not entity-bound; its mic icon target needs an LVGL home.
 5. Voice backend for a free open tier (B-25): persona from the entity config; sCoRE protocol stays app-side SA (D5), so Foundling needs a generic transport with a configurable protocol id.
 6. Entity hook (P2 step 1) so Foundling's face and RaBbLE's entity are the same plug-in point; the `#if` goes away.
 7. Entity-transplant (`.rble`) loader and the notes-store location (Entity-Format spec).
@@ -54,7 +54,7 @@ Wiring today is a hack: `app/RaBbLE/rabble_ui.c` (Sovereign Accord) switches to 
 
 **D. Hardware and known faults**
 - BOOT switch broken (GPIO0 never low); resolder, or rely on touch plus tap-to-talk once it has a home.
-- Tap-to-talk never flashed; the Open build has no mic icon.
+- Tap-to-talk is merged and works on the RaBbLE build; the Open build has no mic icon (needs an LVGL home).
 - 1.75-C may be ordered (WillowClone for dad; uses Waveshare code until clean-roomed).
 - Stale `firmware/sdkconfig` gotcha: the project CMake overrides `SDKCONFIG_DEFAULTS`, and an existing sdkconfig wins over defaults. Build the Open variant with `-DSDKCONFIG=/tmp/x` and set `CONFIG_OPEN_ENTITY_DEFAULT=y` in that file (S308 flashed the plain RaBbLE build once because of this). A `RABBLE_APP` selector (A1) removes the trick.
 
