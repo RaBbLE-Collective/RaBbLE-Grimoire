@@ -7,10 +7,10 @@
 > "Apps can be split, so pomodoro can be put into any entity and rendered with the proper look/feel. Apps, entities and things are layers. Entities are the living OS app that can run things for the user like actual apps such as pomo or a log display, etc. The core entity functions may differ based on what's living on device."
 
 1. **core** (the base OS, open): seam, Wi-Fi, audio, voice, store, power, screen, motion, the Orbit toolkit, the entity slot.
-2. **entities** (the living app): RaBbLE, Foundling, later Familiars. An entity owns its entry point, its look and feel, its renderer, its voice profile, and *hosts* things. Which core functions an entity uses depends on what is on the device (board capabilities, W11: presence, not assumption).
+2. **entities** (the living app): RaBbLE, Foundling, later Familiars. An entity owns its entry point, its look and feel, its renderer, its voice profile, and *hosts* apps. Which core functions an entity uses depends on what is on the device (board capabilities, W11: presence, not assumption).
 3. **apps** (Mark, 2026-11-04: the layer that holds the portable app code entities serve or execute; "apps" is not too generic): Pomodoro, a log display, and so on. An app is logic plus a model plus view data, with no renderer of its own. Any entity can host it and draws it in its own look: RaBbLE through nebula_lite, a Foundling through LVGL. Same seam as the Orbit (data out, entity renders). An app declares what it needs (screen, mic, motion, storage) and the host checks it against the device.
 
-Worked example (an app): today `rabble_pomo.c` and the Pomodoro Orbit page are RaBbLE's. As an app, the timer and its rounds are the thing; the Orbit page and the clock-with-dots look are each entity's rendering of the app's view data.
+Worked example (an app): today `rabble_pomo.c` and the Pomodoro Orbit page are RaBbLE's. As an app, the timer and its rounds are the app; the Orbit page and the clock-with-dots look are each entity's rendering of the app's view data.
 
 ```
 firmware/
@@ -25,8 +25,8 @@ firmware/
   tools/       panel_bench, hw_test (or tests/)
 ```
 
-- **Licence follows the directory** (Mark): `core/`, `drivers/`, `boards/`, `entities/Foundling` carry SA + the `Open-transition: Apache-2.0` marker now and flip together. `entities/RaBbLE` stays SA; each app carries its own. No second "Foundling core": core holds nothing RaBbLE-specific, Foundling-only code lives in `apps/Foundling`.
-- **No `main/` folder** (Mark): each entity holds its entry point (`main.c` or equivalent) and its own CMakeLists; `RABBLE_APP` selects the entity (and may later list the things it hosts).
+- **Licence follows the directory** (Mark): `core/`, `drivers/`, `boards/`, `entities/Foundling` carry SA + the `Open-transition: Apache-2.0` marker now and flip together. `entities/RaBbLE` stays SA; each app carries its own. No second "Foundling core": core holds nothing RaBbLE-specific, Foundling-only code lives in `entities/Foundling`.
+- **No `main/` folder** (Mark): each entity holds its entry point (`main.c` or equivalent) and its own CMakeLists; `RABBLE_APP` selects the entity (and may later list the apps it hosts).
 - `rabble_` prefixes stay (Mark, 2026-11-02). Names do not decide openness; the directory does.
 - Today everything is SA; only `open_entity_default`, `rabble_screen` and `app/Foundling` carry the marker. `rabble_board.h` is the one file with Meta's notice (W11 replaces it); until then the open core is not clean.
 
