@@ -33,21 +33,23 @@ Also core (Mark, 2026-11-04): **voice**, because any entity should be able to sp
 Stays in `apps/RaBbLE`: the entity art and scene builder, RaBbLE's Orbit skin and voice profile, Pomodoro applet, clock and levelling screens, tap-to-talk, and (for now) the sCoRE beam backend.
 Goes to `apps/Foundling`: `open_entity_default` (it is Foundling's face).
 
-## Orbit is a core UI component (Mark)
+## Orbit is an object apps build and render (Mark)
 
 > "I don't like the foundling settings panel, the done button is hard to click and it doesn't fit on circle display. Orbit should be a UI component that apps use to draw settings. Foundling and RaBbLE have similar UX but RaBbLE has its own look and feel, but shared DNA."
+> 2026-11-04: "Can we make orbit a structure or object that is used or built in an app. Apps could build and render the orbits themselves. RaBbLE uses nebula_lite and builds custom orbits, familiars or foundlings have their own orbits."
 
-- Core owns the Orbit's model (pages, items, actions), gestures, spring motion and a page registration call. Apps register their own pages (RaBbLE adds voice, beam, Pomodoro applet).
-- Each app brings a **skin**: how the Orbit looks. Core ships an open default skin (plain LVGL, drawn for the round panel: dial, large targets, no small Done button). RaBbLE's skin is the nebula_lite renderer.
-- The seam exists already: `nl_orbit_t` (items, sprites, label radii) is data that nebula_lite draws. The split is the model and logic (`rabble_orbit_logic.c` 2,449 lines, `rabble_orbit.c` 704) versus the draw backend. It needs a design pass and a clean-room look at the core half; it is not a file move.
-- Foundling's plain settings panel (`open_entity_settings_init`) is retired once the open default skin exists. Until then it stays as the stand-in, known bad on the round panel.
+- **Orbit = an instance, not a singleton.** Core ships the Orbit toolkit: the controller (gestures, springs, value and text entry, page stack) as an `orbit_t` an app creates from data it owns: the item table, the page table, the action callbacks, the panel geometry (today hard-coded 466 px round). It outputs the view and controls structs it already produces (pure data).
+- **The app renders.** Core ships an open default renderer (plain LVGL, round-panel friendly, large targets). RaBbLE renders with nebula_lite. A Foundling or Familiar app may write its own. The seam is the existing `orbit_view_t` / `orbit_ctl_t`; nebula_lite's `nl_orbit_t` is one consumer.
+- **Standard page builders are optional helpers** in core (Wi-Fi, display, sound), so a new app gets a settings Orbit in a few lines and adds its own pages. RaBbLE builds its own (sCoRE, Voice, Pomodoro, Level) and may build several (Settings and Applets are already two sides of one Orbit).
+- **Do it in place first.** The logic is RaBbLE's own code (W5 Part B), so no clean room is needed. Step one is an in-place refactor inside `apps/RaBbLE`: file-scope tables and state (`PG_*`, the item table, statics) become an `orbit_t` plus const tables passed at init, with the host tests green before and after. Only then lift the toolkit into `core/`. Watch internal RAM (about 14 KB free at boot): an instance's state size must be measured.
+- Foundling's plain settings panel (`open_entity_settings_init`) is retired when the open default renderer lands.
 
 ## Order
 
 1. One commit, pure move: `sdk/`→`core/`, `app/`→`apps/`, `main/` into each app, bench apps to `tools/`. Sequence with the Foundling session (it edits CMakeLists and README).
 2. Split Wi-Fi from the beam code in `rabble_net`.
 3. `rabble_screen` into Foundling.
-4. Orbit split: plan, then build; open default skin; Foundling drops the panel.
+4. Orbit as an object: in-place refactor in the RaBbLE app (tables and state into an instance), then lift the toolkit into core, open default renderer, Foundling builds its own Orbit and drops the panel.
 5. Licence flip of `core/` after W8/W11 and the overlap gates.
 
 ## Open points
