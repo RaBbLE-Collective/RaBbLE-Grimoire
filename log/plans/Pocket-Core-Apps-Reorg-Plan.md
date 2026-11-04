@@ -38,8 +38,8 @@ Also core (Mark, 2026-11-04): **voice**, because any entity should be able to sp
 
 `rabble_render` IS nebula_lite: the display-list store, band rasteriser, composer, SIMD kernels and the Orbit's drawing (`src/orbit.c`). **Mark, 2026-11-04: the renderer is its own NeBuLA-lite (or NeBuLA-micro) component and is SA licensed**, so it is NOT in the open `core/`. It sits beside core as an SA sibling (working place `firmware/nebula_lite/`; the licence-by-directory rule holds). Apps opt in: RaBbLE does; Foundling would become SA if it did. The entity *art* (`scene.c`, `entity_face.c`, `nl_scene.h`) is the app's. Consequence for the Orbit: core cannot depend on it, so core's open default skin is plain LVGL and RaBbLE's skin is nebula_lite.
 
-Stays in `apps/RaBbLE`: the entity art and scene builder, RaBbLE's Orbit skin and voice profile, Pomodoro applet, clock and levelling screens, tap-to-talk, and (for now) the sCoRE beam backend.
-Goes to `apps/Foundling`: `open_entity_default` (it is Foundling's face).
+Stays in `entities/RaBbLE`: the entity art and scene builder, RaBbLE's Orbit skin and voice profile, clock and levelling screens, tap-to-talk, and (for now) the sCoRE beam backend. Pomodoro becomes a thing (below).
+Goes to `entities/Foundling`: `open_entity_default` (it is Foundling's face).
 
 ## Orbit is an object apps build and render (Mark)
 
