@@ -1,4 +1,4 @@
-# Pocket core / apps reorganisation (decisions, 2026-11-04, S311)
+# Pocket core / entities / apps reorganisation (decisions, 2026-11-04, S311)
 
 > Status: DECISIONS RECORDED, nothing moved yet. Mark's rulings in his words where marked **Mark**. Open points at the end. Related: `Pocket-Foundling-Open-App-Plan.md`, `Pocket-Open-SDK-App-Separation-Plan.md`.
 
@@ -8,9 +8,9 @@
 
 1. **core** (the base OS, open): seam, Wi-Fi, audio, voice, store, power, screen, motion, the Orbit toolkit, the entity slot.
 2. **entities** (the living app): RaBbLE, Foundling, later Familiars. An entity owns its entry point, its look and feel, its renderer, its voice profile, and *hosts* things. Which core functions an entity uses depends on what is on the device (board capabilities, W11: presence, not assumption).
-3. **things** (user-facing apps, working name; Mark may call them apps): Pomodoro, a log display, and so on. A thing is logic plus a model plus view data, with no renderer of its own. Any entity can host it and draws it in its own look: RaBbLE through nebula_lite, a Foundling through LVGL. Same seam as the Orbit (data out, entity renders). A thing declares what it needs (screen, mic, motion, storage) and the host checks it against the device.
+3. **apps** (Mark, 2026-11-04: the layer that holds the portable app code entities serve or execute; "apps" is not too generic): Pomodoro, a log display, and so on. An app is logic plus a model plus view data, with no renderer of its own. Any entity can host it and draws it in its own look: RaBbLE through nebula_lite, a Foundling through LVGL. Same seam as the Orbit (data out, entity renders). An app declares what it needs (screen, mic, motion, storage) and the host checks it against the device.
 
-Worked example: today `rabble_pomo.c` and the Pomodoro Orbit page are RaBbLE's. As a thing, the timer and its rounds are the thing; the Orbit page and the clock-with-dots look are each entity's rendering of the thing's view data.
+Worked example (an app): today `rabble_pomo.c` and the Pomodoro Orbit page are RaBbLE's. As an app, the timer and its rounds are the thing; the Orbit page and the clock-with-dots look are each entity's rendering of the app's view data.
 
 ```
 firmware/
@@ -21,11 +21,11 @@ firmware/
   entities/
     RaBbLE/      Sovereign Accord; owns its entry point, look and feel, sCoRE beam backend, voice profile
     Foundling/   open; owns its entry point; LVGL
-  things/      pomodoro, log display, ... (working name; licence per thing)
+  apps/        portable app code entities host: pomodoro, log display, ... (licence per app)
   tools/       panel_bench, hw_test (or tests/)
 ```
 
-- **Licence follows the directory** (Mark): `core/`, `drivers/`, `boards/`, `entities/Foundling` carry SA + the `Open-transition: Apache-2.0` marker now and flip together. `entities/RaBbLE` stays SA; each thing carries its own. No second "Foundling core": core holds nothing RaBbLE-specific, Foundling-only code lives in `apps/Foundling`.
+- **Licence follows the directory** (Mark): `core/`, `drivers/`, `boards/`, `entities/Foundling` carry SA + the `Open-transition: Apache-2.0` marker now and flip together. `entities/RaBbLE` stays SA; each app carries its own. No second "Foundling core": core holds nothing RaBbLE-specific, Foundling-only code lives in `apps/Foundling`.
 - **No `main/` folder** (Mark): each entity holds its entry point (`main.c` or equivalent) and its own CMakeLists; `RABBLE_APP` selects the entity (and may later list the things it hosts).
 - `rabble_` prefixes stay (Mark, 2026-11-02). Names do not decide openness; the directory does.
 - Today everything is SA; only `open_entity_default`, `rabble_screen` and `app/Foundling` carry the marker. `rabble_board.h` is the one file with Meta's notice (W11 replaces it); until then the open core is not clean.
@@ -38,7 +38,7 @@ Also core (Mark, 2026-11-04): **voice**, because any entity should be able to sp
 
 `rabble_render` IS nebula_lite: the display-list store, band rasteriser, composer, SIMD kernels and the Orbit's drawing (`src/orbit.c`). **Mark, 2026-11-04: the renderer is its own NeBuLA-lite (or NeBuLA-micro) component and is SA licensed**, so it is NOT in the open `core/`. It sits beside core as an SA sibling (working place `firmware/nebula_lite/`; the licence-by-directory rule holds). Apps opt in: RaBbLE does; Foundling would become SA if it did. The entity *art* (`scene.c`, `entity_face.c`, `nl_scene.h`) is the app's. Consequence for the Orbit: core cannot depend on it, so core's open default skin is plain LVGL and RaBbLE's skin is nebula_lite.
 
-Stays in `entities/RaBbLE`: the entity art and scene builder, RaBbLE's Orbit skin and voice profile, clock and levelling screens, tap-to-talk, and (for now) the sCoRE beam backend. Pomodoro becomes a thing (below).
+Stays in `entities/RaBbLE`: the entity art and scene builder, RaBbLE's Orbit skin and voice profile, clock and levelling screens, tap-to-talk, and (for now) the sCoRE beam backend. Pomodoro becomes an app (below).
 Goes to `entities/Foundling`: `open_entity_default` (it is Foundling's face).
 
 ## Orbit is an object apps build and render (Mark)
@@ -65,8 +65,8 @@ Goes to `entities/Foundling`: `open_entity_default` (it is Foundling's face).
 
 - Core directory name: `core/` or `common/`, decide at the move.
 - Does the sCoRE beam backend live in core or in the app? (Foundling would speak through it.)
-- Names: `entities/` and `things/` (or `apps/`) for layers two and three.
-- The thing interface (model, view data, needs, how an entity hosts and draws it): its own plan, after the Orbit object exists, since things draw through the same seam.
+- Rename of the old meaning of "app" in the code during the pure move: `RABBLE_APP`→`RABBLE_ENTITY`, `rabble_app_run`→`rabble_entity_run`, `rabble_app.c/.h`, `app/`→`entities/`.
+- The app interface (model, view data, needs, how an entity hosts and draws it): its own plan, after the Orbit object exists, since apps draw through the same seam.
 - Name of the SA renderer component (NeBuLA-lite or NeBuLA-micro) and its place.
 - sCoRE coordination of entities: protocol open or SA? Not designed yet; beam client open vs SA is part of the same question (see S311 notes: the wire format is a plain WebSocket, the value is the sCoRE server).
 - Drag-wake rule settled: a drag or hold is never a tap (W9 rev 4).
