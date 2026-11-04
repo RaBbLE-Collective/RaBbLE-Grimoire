@@ -6,7 +6,7 @@
 
 > "Apps can be split, so pomodoro can be put into any entity and rendered with the proper look/feel. Apps, entities and things are layers. Entities are the living OS app that can run things for the user like actual apps such as pomo or a log display, etc. The core entity functions may differ based on what's living on device."
 
-1. **core** (the base OS, open): seam, Wi-Fi, audio, voice, store, power, screen, motion, the Orbit toolkit, the entity slot.
+1. **core** (a library of components, open; Mark, 2026-11-04: "entities use the core and run apps; the core is just components and is useless without an entity"). Core has no boot, no main loop and no policy of its own: an entity owns startup order, tasks and what to run, and composes the components it needs. Components must stay inert until an entity calls them (no self-starting tasks, no global side effects at link time): seam, Wi-Fi, audio, voice, store, power, screen, motion, the Orbit toolkit, the entity slot.
 2. **entities** (the living app): RaBbLE, Foundling, later Familiars. An entity owns its entry point, its look and feel, its renderer, its voice profile, and *hosts* apps. Which core functions an entity uses depends on what is on the device (board capabilities, W11: presence, not assumption).
 3. **apps** (Mark, 2026-11-04: the layer that holds the portable app code entities serve or execute; "apps" is not too generic): Pomodoro, a log display, and so on. An app is logic plus a model plus view data, with no renderer of its own. Any entity can host it and draws it in its own look: RaBbLE through nebula_lite, a Foundling through LVGL. Same seam as the Orbit (data out, entity renders). An app declares what it needs (screen, mic, motion, storage) and the host checks it against the device.
 
@@ -63,7 +63,7 @@ Goes to `entities/Foundling`: `open_entity_default` (it is Foundling's face).
 
 ## Open points
 
-- Core directory name: `core/` or `common/`, decide at the move.
+- Core directory name: `core/` or `common/`, decide at the move (since core is just a component library and not an OS, `common/` reads a little closer).
 - Does the sCoRE beam backend live in core or in the app? (Foundling would speak through it.)
 - Rename of the old meaning of "app" in the code during the pure move: `RABBLE_APP`→`RABBLE_ENTITY`, `rabble_app_run`→`rabble_entity_run`, `rabble_app.c/.h`, `app/`→`entities/`.
 - The app interface (model, view data, needs, how an entity hosts and draws it): its own plan, after the Orbit object exists, since apps draw through the same seam.
