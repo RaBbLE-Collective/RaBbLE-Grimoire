@@ -5,12 +5,23 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-03 · S309 (rui-micro-mark-pills-gaze)
+## LATEST — 2026-11-04 · Session S310 (pocket-foundling-skeleton)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S309: micro mark pills slide through portals (10 cols), glance up, pointer-exit gaze; S307 logged
+**This session:** S310: Foundling skeleton flashed, boots to face
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** Mark /reloads and looks; Python twin; sCoRE push
+**Next:** Mark looks at device; A3 clock/Wi-Fi/sleep
+
+---
+
+## 2026-11-04 · Session S310 (pocket-foundling-skeleton)
+
+- **Repos:** RaBbLE-Pocket (`4c992f9` on `new-horizons`, `%S310_STATE%`, not pushed), RaBbLE-Grimoire (this entry).
+- **Work:** Foundling plan steps A1+A2. New `firmware/app/Foundling/` (SDK deps only): `foundling_app.c` boot (settings, board, state, UI) and `foundling_ui.c` (Open default entity on black, tap opens the settings panel, mood from shared state, brightness). `RABBLE_APP` selector in `firmware/CMakeLists.txt` (default `RaBbLE`, or `-DRABBLE_APP=Foundling`): only the chosen `app/<name>` joins the build; `main` reads the name from the environment (ESP-IDF early expansion cannot see CMake variables).
+- **Verified:** both variants build (Foundling 794 KB with zero RaBbLE objects linked; RaBbLE 2.0 MB with zero Foundling objects). Flashed to the 1.75-B at 0x20000 (hash verified); serial shows `foundling: ready`, UI 466x466 at 40 ms frames. Backup before flash: `~/RaBbLE-backups/pocket-pre-foundling-20261104-0911/` (ota_0 + NVS). The idf.py recipe must be run from `firmware/`.
+- **Not verified:** what the screen shows (Mark has not looked), settings panel, colour persistence. No host tests re-run; no NiBbLE review.
+- **Not done:** no input, voice, motion, Wi-Fi or sleep in Foundling (plan A3-A5); `rabble_ui.c` still carries the `CONFIG_OPEN_ENTITY_DEFAULT` hooks; Mark's device check of the S308 build and the plan's open decisions. Device now runs Foundling; restore RaBbLE with esptool `write-flash 0x20000` of the backup `ota_0.bin`. Held untracked Grimoire files left alone.
+- **Next:** Mark looks at the device; then A3 (clock and Wi-Fi/sleep in the panel).
 
 ---
 

@@ -307,3 +307,4 @@ f6522db6-ff6b-4f0c-b18d-6fb2b6320ef0	pocket-boot-button-hwtest	S300: BOOT hw tes
 31f4f36f-0a2b-4c82-8892-31b4962f4c09	rabble-tui/modal	auto: AskUserQuestion can finally be answered: pick-an-option prompt, answers ride back as updated_input	rabble	anthropic	claude-sonnet-5-5
 06684b17-a616-42c8-bd52-58cea348cdb6	rui-micro-mark-pills-gaze	S309	rabble	anthropic	claude-sonnet-5-5
 09a0f543-47c2-4866-af1b-b8be9a657a10	pocket-open-entity-default	S308	rabble	anthropic	claude-sonnet-5-5
+1450adb7-91ff-4a6c-b911-7d890ff858d3	pocket-foundling-skeleton		rabble	anthropic	claude-sonnet-5-5
