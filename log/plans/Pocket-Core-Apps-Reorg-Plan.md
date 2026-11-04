@@ -8,7 +8,7 @@ The Pocket firmware is a small entity OS: a shared open base (`core/`) that apps
 
 ```
 firmware/
-  core/      shared base, open, in transition to Apache-2.0 (name: Mark leans "core"; "OS" rejected here: RaBbLE-OS is the distro member)
+  core/      shared base, open, in transition to Apache-2.0 (Mark, 2026-11-04: "core or common for now"; working name `core/`; "OS" rejected: RaBbLE-OS is the distro member)
   drivers/   chip drivers
   boards/    board folders
   apps/
@@ -26,9 +26,12 @@ firmware/
 
 Seam (`rabble_core`: board, state, settings, console, time, text, device, palette), `rabble_lvgl_port`, `rabble_screen` (W9), `rabble_power`, Wi-Fi (**Mark: Wi-Fi is a core service**; split from `rabble_net`), `rabble_audio`, `rabble_motion`, `rabble_store`, an entity slot (mood, level, tick interface that apps fill), and the Orbit component below.
 
-Stays in `apps/RaBbLE`: sCoRE beam (W8), voice turn (`rabble_voice`), the nebula_lite entity art, RaBbLE's Orbit skin, Pomodoro applet, clock and levelling screens, tap-to-talk.
+Also core (Mark, 2026-11-04): **voice**, because any entity should be able to speak. Core owns the push-to-talk loop, endpointing, outbox and a voice-backend interface; each entity brings its own voice profile and config for how it talks (RaBbLE has a custom one). The sCoRE beam is one backend; whether that backend lives in core or in the app is open (W8 put it app-side, D5).
+
+`rabble_render` IS nebula_lite: the display-list store, band rasteriser, composer, SIMD kernels and the Orbit's drawing (`src/orbit.c`). It is board-agnostic and generic, so the engine can be core and any entity can use it; the entity *art* (`scene.c`, `entity_face.c`, `nl_scene.h`) is the app's, and the Orbit drawing is RaBbLE's skin.
+
+Stays in `apps/RaBbLE`: the entity art and scene builder, RaBbLE's Orbit skin and voice profile, Pomodoro applet, clock and levelling screens, tap-to-talk, and (for now) the sCoRE beam backend.
 Goes to `apps/Foundling`: `open_entity_default` (it is Foundling's face).
-Unconfirmed by Mark: placement of `rabble_render` (leaning RaBbLE) and `rabble_voice`.
 
 ## Orbit is a core UI component (Mark)
 
@@ -49,6 +52,7 @@ Unconfirmed by Mark: placement of `rabble_render` (leaning RaBbLE) and `rabble_v
 
 ## Open points
 
-- Core directory name (Mark: "core" or something else; not "entity core").
-- `rabble_render`, `rabble_voice` placement.
+- Core directory name: `core/` or `common/`, decide at the move.
+- Does the sCoRE beam backend live in core or in the app? (Foundling would speak through it.)
+- Does the nebula_lite engine move to core whole, with its Orbit drawing staying with RaBbLE's skin?
 - Drag-wake rule settled: a drag or hold is never a tap (W9 rev 4).
