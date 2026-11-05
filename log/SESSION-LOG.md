@@ -14,6 +14,13 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+
+## 2026-11-05 · Session S312 (pocket-layers-review)
+
+- **Repos:** Grimoire, Pocket (`.gitignore` only).
+- **Work:** picked up HANDOFF-S311. Walked the layers plan with Mark (R0): core/ name, layers confirmed (core = kernel, entities = OS, apps on top), beam SA in entities/RaBbLE, input to core as mechanisms, LVGL a driver behind a seam, Apache-2.0 flip intended (clean room removes Meta code, not Apache), no lawyer review, Foundling not trademarked, slot kept, seam = board contract. Answers in plan section 13. Design note: panel/touch split adopted, LVGL out of the board contract. Pocket `.gitignore`: `firmware/**/build|managed_components|dependencies.lock|sdkconfig*`. Lost W8/W11 firewall reviews redone (QuiBbLE): both SEND BACK; CoBbLE revised the specs (W8 twice, W11 to rev 3, rev 4 in flight); Mark: W8 before R1, reword Meta-coincident strings, W11 simpler path.
+- **Not done:** W8 approvable after a one-string fix (applied); W11 rev 4 written, re-review pending; implementers; plan re-review; hold-outs uncommitted. Cold start: `log/handoffs/HANDOFF-S312-Pocket-Clean-Room-W8-W11-Implement.md`.
+
 ## 2026-11-04 · Session S311 (pocket-w9-screen-entity-layers)
 
 - **Repos:** RaBbLE-Pocket (`9b95e30`, `6abe8c9` on `new-horizons`, `%S311_STATE%`, not pushed), RaBbLE-Grimoire (`cd3f27d`, `d68b8a3`, `64392d5`).
