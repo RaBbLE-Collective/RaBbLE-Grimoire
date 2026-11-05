@@ -1,83 +1,167 @@
-# Pocket core / entities / apps reorganisation (decisions, 2026-11-04, S311)
+# Pocket entity layers: plan and roadmap
 
-> Status: DECISIONS RECORDED, nothing moved yet. Mark's rulings in his words where marked **Mark**. Open points at the end. Related: `Pocket-Foundling-Open-App-Plan.md`, `Pocket-Open-SDK-App-Separation-Plan.md`.
+> Status: DRAFT v2 (S311, 2026-11-04; v1 reviewed by QuiBbLE/Opus the same day: COHERENT-WITH-EDITS, 8 edits folded in, evidence `/tmp/rabble-crew/review-reorg-plan.md` and summarised in section 10). **Nothing is implemented.** Next session: review this plan with Mark and get his confirmation of the shape (section 11) before any phase starts. Rulings are Mark's (**Mark**) unless marked otherwise. Replaces the sdk/app split inside `Pocket-Open-SDK-App-Separation-Plan.md` (that plan's licence, publishing and gitleaks work stands); `Pocket-Foundling-Open-App-Plan.md` stays the Foundling ledger.
+> The filename keeps its old name so existing links hold.
 
-## Shape: three layers (Mark, 2026-11-04)
+## 1. Idea
 
-> "Apps can be split, so pomodoro can be put into any entity and rendered with the proper look/feel. Apps, entities and things are layers. Entities are the living OS app that can run things for the user like actual apps such as pomo or a log display, etc. The core entity functions may differ based on what's living on device."
+The Pocket firmware is an entity OS. The living thing is the **entity** (RaBbLE, Foundling, later Familiars). An entity is built from **core**, a library of components that is just functionality and is useless without an entity, and it runs **apps**: portable code such as Pomodoro or a log display, rendered in the entity's own look.
 
-1. **core** (a library of components, open; Mark, 2026-11-04: "entities use the core and run apps; the core is just components and is useless without an entity"). Core has no boot, no main loop and no policy of its own: an entity owns startup order, tasks and what to run, and composes the components it needs. Components must stay inert until an entity calls them (no self-starting tasks, no global side effects at link time): seam, Wi-Fi, audio, voice, store, power, screen, motion, the Orbit toolkit, the entity slot.
-2. **entities** (the living app): RaBbLE, Foundling, later Familiars. An entity owns its entry point, its look and feel, its renderer, its voice profile, and *hosts* apps. Which core functions an entity uses depends on what is on the device (board capabilities, W11: presence, not assumption).
-3. **apps** (Mark, 2026-11-04: the layer that holds the portable app code entities serve or execute; "apps" is not too generic): Pomodoro, a log display, and so on. An app is logic plus a model plus view data, with no renderer of its own. Any entity can host it and draws it in its own look: RaBbLE through nebula_lite, a Foundling through LVGL. Same seam as the Orbit (data out, entity renders). An app declares what it needs (screen, mic, motion, storage) and the host checks it against the device.
+> Mark: "The entity uses core, core is just functionality." "Entities are the living OS app that can run things for the user like actual apps such as pomo or a log display." "The core entity functions may differ based on what's living on device." "The layer and the core prefix are referring to the same concept of a living digital entity."
 
-Worked example (an app): today `rabble_pomo.c` and the Pomodoro Orbit page are RaBbLE's. As an app, the timer and its rounds are the app; the Orbit page and the clock-with-dots look are each entity's rendering of the app's view data.
+## 2. Layers and rules
+
+| Layer | Is | Licence | Rule |
+|---|---|---|---|
+| `drivers/`, `boards/` | chip drivers, board folders (the hardware seam, W11) | open core family | board resources are exposed as capabilities, presence not assumption |
+| `core/` (name: `core` or `common`, decide at the move) | component library: seam, state, settings, screen, power, Wi-Fi, audio, voice, store, motion, Orbit toolkit, generic LVGL renderer | open, in transition to Apache-2.0 | **inert until an entity calls it**: no boot, no main loop, no self-starting task, no link-time side effects; nothing RaBbLE-specific; no dependency on any entity or app |
+| `entities/<Name>/` | a living entity; owns its entry point (`main.c`), startup order, tasks, look and feel, renderer, voice profile, which apps it hosts | per entity: RaBbLE SA, Foundling open | composes core by *using* it (composition, not inheritance, closed); no `main/` folder anywhere |
+| `apps/<name>/` | portable app: logic + model + view data, no renderer of its own; declares what it needs (screen, mic, motion, storage) | per app | any entity may host it; the host checks needs against the device |
+| `tools/` | `panel_bench`, `hw_test` (bench builds) | SA | not part of the product build |
+
+Dependency direction: entity → core → drivers/boards; entity → app; app → core. Never core → entity, core → app, app → entity.
+
+**Licence follows the directory**, not the name, and the open directories flip to Apache-2.0 together once the clean-room track (section 8) is done. Until then every file there carries the Sovereign Accord header plus `Open-transition: Apache-2.0 (planned flip; see ...)`. Today only `open_entity_default`, `rabble_screen` and `app/Foundling` carry that marker; everything else in the firmware is plain SA.
+
+## 3. Target tree
 
 ```
-firmware/
-  core/        component library, open; includes a generic open LVGL renderer, in transition to Apache-2.0 (Mark: "core or common for now"; "OS" rejected: RaBbLE-OS is the distro)
-  drivers/     chip drivers
-  boards/      board folders
-  entities/
-    RaBbLE/      Sovereign Accord; owns its entry point, look and feel, sCoRE beam backend, voice profile; ships nebula_lite inside it (entities/RaBbLE/nebula_lite/)
-    Foundling/   open; owns its entry point; LVGL
-  apps/        portable app code entities host: pomodoro, log display, ... (licence per app)
-  tools/       panel_bench, hw_test (or tests/)
+RaBbLE-Pocket/
+  firmware/
+    core/            open component library
+    drivers/  boards/
+    entities/
+      RaBbLE/        SA; own main.c; nebula_lite inside it (entities/RaBbLE/nebula_lite/);
+                     rabble_orbit (its look), sCoRE beam backend, voice profile, clock/level screens, tap-to-talk
+      Foundling/     open; own main.c; LVGL; foundling_* face (was open_entity_default)
+    apps/            pomodoro, log_view, ... (portable)
+    tools/           panel_bench, hw_test
+    test/            host tests mirror the layers
+  companion-app/ hardware/ ops/ sim/ planning/ third_party/   unchanged in place (sim/ and test/render/ paths fixed at the move)
 ```
 
-- **Licence follows the directory** (Mark): `core/`, `drivers/`, `boards/`, `entities/Foundling` carry SA + the `Open-transition: Apache-2.0` marker now and flip together. `entities/RaBbLE` stays SA; each app carries its own. No second "Foundling core": core holds nothing RaBbLE-specific, Foundling-only code lives in `entities/Foundling`.
-- **No `main/` folder** (Mark): each entity holds its entry point (`main.c` or equivalent) and its own CMakeLists; `RABBLE_APP` selects the entity (and may later list the apps it hosts).
-- Prefixes: core drops `rabble_`, entity code keeps it (see Names below; supersedes the 2026-11-02 ruling). The directory, not the name, decides the licence.
-- Today everything is SA; only `open_entity_default`, `rabble_screen` and `app/Foundling` carry the marker. `rabble_board.h` is the one file with Meta's notice (W11 replaces it); until then the open core is not clean.
+## 4. What goes where (from the code as of S311)
 
-## core/ contents
+| Today | Becomes |
+|---|---|
+| `sdk/rabble_core` (board seam, state, settings, console, time, text, device, palette, mem) | `core/` seam components |
+| `sdk/rabble_lvgl_port`, `rabble_screen` (W9), `rabble_power` (battery), `rabble_audio`, `rabble_motion`, `rabble_store` | `core/` |
+| `sdk/rabble_net`: Wi-Fi half (`rabble_wifi*`) | `core/` (Wi-Fi is a core service, **Mark**) |
+| `sdk/rabble_net`: beam half (`rabble_beam*`, W8 target) | moves to `entities/RaBbLE` at R1 as its own component (D5) until Mark decides open client in core vs SA (section 11 Q3); `rabble_net` is split into a Wi-Fi component (core) and a beam component (entity) at R1. `rabble_capture.h` (core store) declares `rabble_beam_capture_text`, which the beam implements: that becomes a backend hook at R2 |
+| `sdk/rabble_voice` (push-to-talk loop, endpointing, outbox) | **target `core/`** (**Mark**: any entity can speak; each entity has its own voice profile and config), **but today it includes `rabble_beam.h` and makes about 30 beam calls** (`rabble_voice.c:16`), so it moves to `entities/RaBbLE` at R1 beside the beam and comes back to core at R5, once the backend interface exists |
+| `sdk/rabble_render` (nebula_lite: store, rasteriser, composer, SIMD, `src/orbit.c`) | `entities/RaBbLE/nebula_lite/` (**Mark**: SA, ships inside RaBbLE) |
+| `app/RaBbLE/rabble_orbit_logic.c` (2,449 lines, pure C brains, outputs `orbit_view_t` + `orbit_ctl_t`) + the spring stepping in `rabble_orbit.c` | `core/` Orbit toolkit (shared DNA) |
+| `app/RaBbLE/rabble_orbit.c` sprite rasteriser + `nl_orbit_t` + nebula `src/orbit.c` | `entities/RaBbLE/` as `rabble_orbit` (RaBbLE's look; welded to the entity's mesh orbs and colour ring) |
+| `app/RaBbLE/rabble_input.c` | **three modules in one file**: button and push-to-talk (entity), the power ladder and idle timer (board-level policy, `:327`, `:422`, `:443`; with swaps it cannot belong to one entity), and the serial console commands (`run_line`, `command_*`). Split decided at R0; pomo calls `rabble_input_wake` and the voice chirp (`rabble_pomo.c:94,98`), so apps need a small host interface for them |
+| `app/RaBbLE/rabble_pomo.c` + Pomodoro Orbit page | `apps/pomodoro` (logic + view data) + each entity's rendering |
+| `app/RaBbLE/entity_face.c`, `scene.c`, `nl_scene.h`, `rabble_entity.c`, clock, level, tap-talk, a8, shot, setup | `entities/RaBbLE/` (`entity_face*` becomes `rabble_face*`) |
+| `sdk/open_entity_default`, `app/Foundling` | `app/Foundling` to `entities/Foundling/`. **`open_entity_default` stays in core until R4**: RaBbLE requires it today (`app/RaBbLE/CMakeLists.txt:9`, used in `rabble_ui.c` under `CONFIG_OPEN_ENTITY_DEFAULT`) as its fallback face, and a build only sees the chosen entity's folder. It moves into Foundling (as `foundling_*`) only if Mark drops RaBbLE's fallback face or after a shared open face exists (section 11 Q4) |
+| `main/` (not just `app_main.c`: it also holds the board choice and `RABBLE_SHOT` in `Kconfig.projbuild`, the `bsp_perf.h` include at `app_main.c:10,25`, and the boot task's core pinning), `panel_bench`, `hw_test` | each entity's `main.c` plus its Kconfig and board-choice; benches to `tools/`. Where the board choice lives (project level, not per entity) is decided at R0 |
 
-Seam (`rabble_core`: board, state, settings, console, time, text, device, palette), `rabble_lvgl_port`, `rabble_screen` (W9), `rabble_power`, Wi-Fi (**Mark: Wi-Fi is a core service**; split from `rabble_net`), `rabble_audio`, `rabble_motion`, `rabble_store`, an entity slot (mood, level, tick interface that apps fill), and the Orbit component below.
+## 5. Orbit as an object (Mark)
 
-Also core (Mark, 2026-11-04): **voice**, because any entity should be able to speak. Core owns the push-to-talk loop, endpointing, outbox and a voice-backend interface; each entity brings its own voice profile and config for how it talks (RaBbLE has a custom one). The sCoRE beam is one backend; whether that backend lives in core or in the app is open (W8 put it app-side, D5).
+> "Orbit should be a UI component that apps use to draw settings. Foundling and RaBbLE have similar UX but RaBbLE has its own look and feel, but shared DNA." "Make orbit a structure or object that is used or built in an app. Apps could build and render the orbits themselves. RaBbLE uses nebula_lite and builds custom orbits; familiars or foundlings have their own orbits." "Core should have an orbit.c ... rabble_orbit is RaBbLE's and orbit is open."
 
-`rabble_render` IS nebula_lite: the display-list store, band rasteriser, composer, SIMD kernels and the Orbit's drawing (`src/orbit.c`). **Mark, 2026-11-04: the renderer is a NeBuLA-lite (or NeBuLA-micro) component and is SA licensed; then (later the same day) ship it inside the RaBbLE entity** (`entities/RaBbLE/nebula_lite/`) and let core hold a generic open LVGL renderer. So nebula_lite is RaBbLE's, not shared; another entity that wants it would be a licence decision, not a build flag. The entity *art* (`scene.c`, `entity_face.c`, `nl_scene.h`) is the app's. Consequence for the Orbit: core cannot depend on it, so core's open default skin is plain LVGL and RaBbLE's skin is nebula_lite.
+- An Orbit is an **instance**, not a singleton: built from data the entity owns (item table, page table, action callbacks, panel geometry; 466 px round is hard-coded today and becomes a parameter). It outputs the same view and controls data it already produces.
+- The **entity renders**: core ships a plain-LVGL Orbit renderer (the open default; Foundlings use it; large touch targets, built for the round panel, no small Done button); RaBbLE renders with nebula_lite (faster, more optimised, possibly less stable). The LVGL renderer can double as RaBbLE's fallback if nebula_lite fails to start or RAM is short (not decided).
+- Core may ship optional page builders (Wi-Fi, display, sound) so a new entity gets a settings Orbit in a few lines; entities add pages and can build several Orbits (Settings and Applets are two sides of one Orbit today).
+- Foundling's plain settings panel (hard to hit Done, does not fit the circle) is retired when the open default renderer exists.
+- File map (checked S311): `rabble_orbit_logic.c` 2,449 + `rabble_orbit.c` 704 + `rabble_render/src/orbit.c` 399 + `nl_orbit_t` in `nebula_lite.h`. The logic and the spring stepping are generic; the rest is nebula-specific.
+- Do it in place first: the logic is RaBbLE's own code (W5 Part B), so no clean room. **Facts (QuiBbLE, verified):** `orbit_logic` is already an instance (`orbit_logic_t`, `L->` throughout, `rabble_orbit_logic.h:129,226`); the singleton is `s_L` in `rabble_orbit.c:76`, in PSRAM. The logic is **not pure**: it includes and calls beam, input, pomo, ui and settings (`rabble_orbit_logic.c:10-17`), and its tables hold RaBbLE content (voice names, sCoRE page). So the real R3 is: hand the item/page tables and an ops table (host callbacks for pomo, ui, input, beam, voice) in at init so content and side effects come from the entity, then make `s_L` an instance the entity owns. The Pomodoro page therefore has to come from the host, so part of the app interface (a page provider) is designed in R3, ahead of R6. Measure one instance's internal RAM (about 14 KB free at boot) before any entity builds two.
 
-Stays in `entities/RaBbLE`: the entity art and scene builder, RaBbLE's Orbit skin and voice profile, clock and levelling screens, tap-to-talk, and (for now) the sCoRE beam backend. Pomodoro becomes an app (below).
-Goes to `entities/Foundling`: `open_entity_default` (it is Foundling's face).
+## 6. The slot and entity swaps (Mark)
 
-## Orbit is an object apps build and render (Mark)
+> "The slot is useful to have entity transplants or for entity swaps to have two creatures on one board."
 
-> "I don't like the foundling settings panel, the done button is hard to click and it doesn't fit on circle display. Orbit should be a UI component that apps use to draw settings. Foundling and RaBbLE have similar UX but RaBbLE has its own look and feel, but shared DNA."
-> 2026-11-04: "Can we make orbit a structure or object that is used or built in an app. Apps could build and render the orbits themselves. RaBbLE uses nebula_lite and builds custom orbits, familiars or foundlings have their own orbits."
+The **slot** is the seat an entity occupies on a board (name open; Mark: "we can rename the slot"): the hooks core calls into the entity (mood, level, tick, voice profile, Orbit pages). Consequences to design before it is built:
 
-- **Orbit = an instance, not a singleton.** Core ships the Orbit toolkit: the controller (gestures, springs, value and text entry, page stack) as an `orbit_t` an app creates from data it owns: the item table, the page table, the action callbacks, the panel geometry (today hard-coded 466 px round). It outputs the view and controls structs it already produces (pure data).
-- **Orbit file map (checked S311).** Four pieces make the round-display Orbit: `rabble_orbit_logic.c` (2,449 lines, pure C: pages, gestures, values, text entry; outputs `orbit_view_t` + `orbit_ctl_t`); `rabble_orbit.c` (704, RaBbLE-side glue: rasterises the view into `nl_orbit_t` glyph sprites with LVGL fonts, double-buffers it, and on the panel task steps the springs and fades toward the controls); `sdk/rabble_render/src/orbit.c` (399, draws `nl_orbit_t` as nebula display-list primitives: track, value arc, ring items, fill and pulse, and the mesh orbs, interlocked with `compose.c`'s colour ring and the entity's mesh); and `nl_orbit_t` in `nebula_lite.h`. Split: logic plus the spring stepping (generic motion, "shared DNA") go to core as the toolkit; the sprite rasteriser and `src/orbit.c` are nebula-specific, so they move with nebula_lite into `entities/RaBbLE/` as RaBbLE's Orbit look. `src/orbit.c` is the signature look, not generic UX, and it cannot be core because it is welded to the entity's mesh and colour ring.
-- **The app renders.** Core ships an open default renderer (plain LVGL, round-panel friendly, large targets). RaBbLE renders with nebula_lite. A Foundling or Familiar app may write its own. The seam is the existing `orbit_view_t` / `orbit_ctl_t`; nebula_lite's `nl_orbit_t` is one consumer.
-- **Renderers by app (Mark, 2026-11-04):** Foundlings render with LVGL (the open default renderer in core). RaBbLE renders with nebula_lite: much faster and more optimised, but possibly less stable. Because both consume the same view/controls data, the LVGL renderer can double as RaBbLE's safe fallback (for example if nebula_lite fails to start or RAM is short); whether to build that fallback is open.
-- **Standard page builders are optional helpers** in core (Wi-Fi, display, sound), so a new app gets a settings Orbit in a few lines and adds its own pages. RaBbLE builds its own (sCoRE, Voice, Pomodoro, Level) and may build several (Settings and Applets are already two sides of one Orbit).
-- **Do it in place first.** The logic is RaBbLE's own code (W5 Part B), so no clean room is needed. Step one is an in-place refactor inside `apps/RaBbLE`: file-scope tables and state (`PG_*`, the item table, statics) become an `orbit_t` plus const tables passed at init, with the host tests green before and after. Only then lift the toolkit into `core/`. Watch internal RAM (about 14 KB free at boot): an instance's state size must be measured.
-- Foundling's plain settings panel (`open_entity_settings_init`) is retired when the open default renderer lands.
+1. Per-entity state (settings, voice profile, Orbit pages, mood) is instance data keyed by the entity, never file-scope statics.
+2. Board resources (screen, mic, speaker, Wi-Fi, battery) are shared services and need arbitration if two entities are live: who owns the screen and the mic, who hears the wake.
+3. Device settings (Wi-Fi, brightness, sleep) belong to the board; entity settings (voice, look, Orbit pages) travel with the entity: the transplant format (`.rbl`/`.rble`, `Pocket-Release-Entities-Companion-Plan.md`, `RaBbLE-Pocket-Entity-Format.md`) will need that split.
+4. Swap one entity at a time first; two live creatures is a later step.
 
-## Names: the prefix says who owns it (Mark, 2026-11-04)
+## 7. Names
 
-> "The RaBbLE entity and the core have an orbit, but RaBbLE's is customized. The core should have an orbit.c. I am tempted to remove rabble names from core and leave components more generic. So rabble_orbit is RaBbLE's and orbit is open."
+> "The core should have an orbit.c, I am tempted to remove rabble names from core and leave components more generic." "Entity could replace rabble in core."
 
-- Core components and symbols drop the `rabble_` prefix; `rabble_` marks RaBbLE-entity code. Core has `orbit` (open, drawn by core's LVGL renderer); `entities/RaBbLE` has `rabble_orbit` (its nebula look, built on core's orbit toolkit). The logic already uses `orbit_` types (`orbit_view_t`, `orbit_ctl_t`), so the Orbit is nearly there.
-- This **supersedes Mark's 2026-11-02 ruling** that `rabble_` identifiers may stay in the SDK. It also serves the brand split: no brand in the open core.
-- It is a mechanical rename and must be its own late commit, after the moves and the Orbit refactor, with the whole host suite and both builds before and after. Rules: (1) persisted strings (NVS namespaces and keys, store names) are renamed with the code and settings reset from that point on (Mark, 2026-11-04: no migration; a device that takes the rename loses its Wi-Fi credentials, beam token and settings and is set up again through the console; back up NVS before flashing as usual); (2) Kconfig symbols (`CONFIG_RABBLE_*`) rename with their code and stale `sdkconfig` regenerates; (3) the frozen clean-room specs name the old symbols, so record a name map in PROVENANCE and leave the specs as history; (4) one short neutral prefix is needed for components with no natural name (bare `state` or `settings` would collide with other libraries).
-- **Core prefix: `entity_`** (Mark, 2026-11-04: "entity could replace rabble in core"): `entity_state`, `entity_settings`, `entity_board`, `entity_screen`, `entity_wifi`, `entity_orbit`, and so on. Checked against the code: `entity_face*` (nebula face parts, in the RaBbLE app) already uses the prefix and must become `rabble_face*`; `open_entity_*` (Foundling's face) becomes Foundling's own (`foundling_*`); `rabble_entity*` (RaBbLE's entity glue) stays RaBbLE's. **Layer and prefix are one concept** (Mark, 2026-11-04): a living digital entity. Core is the entity base; `entities/RaBbLE` and `entities/Foundling` extend it. The **slot is kept** (Mark, 2026-11-04): "the entity uses core, core is just functionality", so composition, not inheritance (that question is closed). The slot is the seat an entity occupies on a board; it is what makes entity transplants and swaps possible, and even two creatures on one board. Name open (Mark: "we can rename the slot"). Design consequences to settle in the Orbit-object and app-interface work: (1) per-entity state (settings, voice profile, Orbit pages, mood) is instance data keyed by the entity, never file-scope statics; (2) board-level resources (screen, mic, speaker, Wi-Fi, battery) stay shared services and need arbitration if two entities are live at once (who owns the screen and the mic, who hears the wake); (3) device settings (Wi-Fi, brightness, sleep) are the board's, entity settings (voice, look, Orbit pages) travel with the entity, which the entity-transplant format (`.rbl`/`.rble`, `Pocket-Release-Entities-Companion-Plan.md`) will need; (4) a swap loads one entity at a time first, two live creatures is a later step.
-- Open: the seam component's new name (today `rabble_core`; `entity_seam` is my suggestion, W0 called it the seam).
+- Core drops `rabble_` and takes the prefix **`entity_`** (`entity_state`, `entity_settings`, `entity_board`, `entity_screen`, `entity_wifi`, `entity_orbit`, ...). RaBbLE-owned code keeps `rabble_`. This **supersedes Mark's 2026-11-02 ruling** that `rabble_` identifiers may stay in the SDK.
+- Collisions found: `entity_face*` (nebula face parts in the RaBbLE app) becomes `rabble_face*`; `open_entity_*` becomes `foundling_*`; `rabble_entity*` stays RaBbLE's. "Entity" is the layer and the prefix (one concept, **Mark**); the slot is a separate noun.
+- The old meaning of "app" in the code is renamed: `RABBLE_APP` to `RABBLE_ENTITY`, `rabble_app_run` to an entity-run name, `rabble_app.c/.h`, folder `app/` to `entities/`. The word "app" now means layer 3.
+- Persisted strings (NVS namespaces and keys, store names) are renamed with the code and settings reset from that point (**Mark**, no migration). A device that takes the rename loses Wi-Fi credentials, beam token and settings and is set up again through the console; back up NVS before flashing.
+- Kconfig `CONFIG_RABBLE_*` (about 13 symbols) rename with their code; stale `sdkconfig` regenerates.
+- Frozen clean-room specs name the old symbols: leave them as history and record a **name map** in PROVENANCE.
+- The seam component's new name (today `rabble_core`) is open (`entity` or `entity_seam`).
 
-## Order
+## 8. Where the clean room sits (S311)
 
-1. One commit, pure move: `sdk/`→`core/`, `app/`→`entities/`, `main/` into each app, bench apps to `tools/`. Sequence with the Foundling session (it edits CMakeLists and README).
-2. Split Wi-Fi from the beam code in `rabble_net`.
-3. `rabble_screen` into Foundling.
-4. Orbit as an object: in-place refactor in the RaBbLE app (tables and state into an instance), then lift the toolkit into core, open default renderer, Foundling builds its own Orbit and drops the panel.
-5. Mechanical rename: strip `rabble_` from core (own commit, see Names).
-6. Licence flip of `core/` after W8/W11 and the overlap gates.
+Process, workspaces and rules: `RaBbLE-Pocket/RaBbLE-Pocket-Clean-Room-Plan.md`, `RaBbLE-Pocket/cleanroom/PROVENANCE.md`. Reference SDK for the overlap gate: `~/RaBbLE-Cleanroom/muse-ref` at `b139b45` (re-cloned S311, outside every repo). Overlap script is retired; recover with `git show 984c554^:ops/cleanroom-overlap.py` (needs `--sdk ~/RaBbLE-Cleanroom/muse-ref/esp32`).
 
-## Open points
+| Wave | Target | State |
+|---|---|---|
+| W0-W7 | seam, leaf modules, power/input, settings, audio/voice, Orbit, board, header sweep | **done**, merged, provenance rows in PROVENANCE |
+| **W9** | `rabble_screen` (screen sleep, brightness, black cover, double-tap wake) | **done S311, not flashed**. Spec rev 4 (a drag or hold is never a tap; five Kconfig knobs). Firewall (QuiBbLE, 13 edits applied), one implementer + one rework, overlap 2.8% (gate 5%), transcript audit clean, host tests 106-120 checks pass, RaBbLE app builds, full suite 33 pass + 1 known XFAIL. Pocket `9b95e30`, `6abe8c9`; Grimoire `cd3f27d`, `d68b8a3`. Device checklist (spec section 8) not run |
+| **W8** | `rabble_beam_score.c` session layer (flagged 15.4% by the 2026-11-02 audit) | spec revised after the first firewall review; **re-review lost** with the dead session (reviewer hit the usage limit, no output). Needs a fresh firewall review, then implementer |
+| **W11** | `rabble_board.h` rewrite (the one file with Meta's notice, interim Apache + Meta header) | spec exists (supersedes W10); **firewall review lost**. Needs review, then implementer |
+| W10 | hardware-groups seam | **superseded by W11**; spec draft 2 got QuiBbLE REVISE; its six questions were in HANDOFF-S304 and presumed settled by W11 (not confirmed) |
+| derived set | files with Meta ancestry that stay Apache-with-attribution | not yet decided by overlap; part of Track L in the Open SDK plan |
 
-- Core directory name: `core/` or `common/`, decide at the move (since core is just a component library and not an OS, `common/` reads a little closer).
-- Does the sCoRE beam backend live in core or in the app? (Foundling would speak through it.)
-- Rename of the old meaning of "app" in the code during the pure move: `RABBLE_APP`→`RABBLE_ENTITY`, `rabble_app_run`→`rabble_entity_run`, `rabble_app.c/.h`, `app/`→`entities/`.
-- The app interface (model, view data, needs, how an entity hosts and draws it): its own plan, after the Orbit object exists, since apps draw through the same seam.
-- Name of the SA renderer inside RaBbLE (NeBuLA-lite or NeBuLA-micro). Paths to fix at the move: `sim/` (host simulator) and `test/render/` build nebula_lite from `sdk/rabble_render`.
-- sCoRE coordination of entities: protocol open or SA? Not designed yet; beam client open vs SA is part of the same question (see S311 notes: the wire format is a plain WebSocket, the value is the sCoRE server).
-- Drag-wake rule settled: a drag or hold is never a tap (W9 rev 4).
+Uncommitted in the Grimoire: `w8`, `w10`, `w11` specs (untracked), `w0-state`, `w2-input`, `w3-settings` spec edits (modified), the Provenance Record and Split Manifest (held out of the public Grimoire until Mark rules where they live), `audit-2026-11-02/`. Held on purpose; do not `git add -A`.
+
+Open-core cleanliness: **the open core is not clean until W11 and W8 land** (`rabble_board.h` carries Meta's notice; `rabble_beam_score.c` is flagged). The licence flip waits on them.
+
+## 9. Roadmap (v2)
+
+Each phase is sized for one Opus session and ends with: host suite and builds green, a commit tagged with the session, and a short handoff. **Gate G0 first: nothing below starts until Mark confirms the shape in the review session (section 11).**
+
+| Phase | Work | Gate / check |
+|---|---|---|
+| R0 | **Review and confirm** this plan with Mark (section 11); fix what he changes | Mark signs off the shape |
+| R1 | **Move only code that already respects the layers.** `sdk/`→`core/` for seam, lvgl_port, screen, power, audio, motion, store, the Wi-Fi component and `open_entity_default` (stays in core until R4). `rabble_render` (nebula_lite), the beam component and `rabble_voice` move to `entities/RaBbLE/` as separate components; `rabble_net` is split into Wi-Fi (core) and beam (entity). `app/`→`entities/`, `main/` folded into the entities (board choice, `RABBLE_SHOT`, `bsp_perf.h`, core pinning placed per R0), benches to `tools/`, the old meaning of "app" renamed. **Port `ops/sdk-layers.py`** (it hard-codes `sdk/`, `app/`, `main/`, cannot resolve `${RABBLE_APP}`/`${RABBLE_BOARD_DIR}`, so it never scanned `app/` or `boards/`, and has no entry for `rabble_screen` or `open_entity_default`). **Fix every hard-wired path:** `test/paths.sh:18-37`, `test/*/input_test/compile_check.sh:12,24`, `panel_bench/main/CMakeLists.txt:2`, `sim/build.sh:9-10`, `sim/transition.sh:8-9`, `test/render/`. No behaviour changes | both entities build (`RABBLE_ENTITY` RaBbLE and Foundling), full host suite, every moved file `git mv`'d; image size delta explained (folding nebula_lite into the entity's whole-archive build can change it, so the old "within 100 B" gate is replaced by "symbol set identical, size delta accounted for"); Foundling session idle first |
+| R2 | **Core hygiene, lint enforced.** Core components inert until called; no core→entity dependency; `rabble_capture.h`'s beam declaration becomes a backend hook; move beam URL, token and `RABBLE_BEAM_DEFAULT_URL` out of core settings and Kconfig (they are RaBbLE content, `rabble_settings.c:28-30,186`, `rabble_core/Kconfig:19`); `rabble_lvgl_port` works by link-time side effects: exempt it or move it into `boards/` (section 11 Q6); add the Open-transition header to files entering core; fix `firmware/NOTICE:4-6` (false today) | the ported lint fails on any core→entity or core→app edge and passes; no RaBbLE-specific string in core tables |
+| R3 | **Orbit as an object, in place, plus the Pomodoro page hook.** Tables and an ops table passed at init, `s_L` becomes an entity-owned instance; the pomo page comes from the host (the first slice of the app interface); `entity_face` renamed `rabble_face` here (RaBbLE-internal); measure instance RAM | host tests identical before/after; internal RAM within 100 B at boot |
+| R4 | **Core Orbit toolkit + open LVGL renderer**; Foundling builds its own Orbit and drops the settings panel; `rabble_screen` into Foundling; `open_entity_default` moves into Foundling if Mark decided so | device check by Mark on the round panel (hit targets, fit) |
+| R5 | **Voice back into core** with a backend interface and a per-entity voice profile; the beam plugs in as RaBbLE's backend | one voice turn through the beam on device, behaviour unchanged |
+| R6 | **Apps layer**: finish the app interface (model, view data, needs, hosting), extract Pomodoro; apps get a host interface for input wake and the voice chirp | Pomodoro the same in RaBbLE; renders in a Foundling |
+| R7 | **Clean-room track**: fresh firewall reviews of W11 and W8 (the lost ones), implementers, overlap gates, the derived set | each wave's gate in PROVENANCE; `rabble_board.h` and `rabble_beam_score.c` clean |
+| R8 | **Mechanical `entity_` rename** of core, own commit, `ENTITY_*` and `CONFIG_OPEN_ENTITY_*` collisions handled, settings reset, name map in PROVENANCE | suite and builds before and after; stale `sdkconfig` regenerates; device re-setup through the console |
+| R9 | **Licence flip** to Apache-2.0 and publish. **Gate: R7 and R8 done, the lint enforced, the settings split done, core tables RaBbLE-free, NOTICE true**, gitleaks `--all` including tags, signing key, Mark approves the manifest | Mark's approval |
+| R10 | **Slot and swaps**: design the slot (instance state, shared-service arbitration, device vs entity settings), one-entity-at-a-time swap and the transplant format; two live creatures later | design review before code |
+
+Order notes: R7 and R8 could swap if W8/W11 implementers should write new files straight under `entity_` names; the cost is that clean-room specs freeze the old interface names. Default keeps W8/W11 on current names, then renames once. R3 precedes R4 and R5 because voice, apps and the core Orbit all need the entity-owned instance and host hooks.
+
+## 10. Risks and known tensions
+
+- **R1 Open core is not yet clean** (section 8): `rabble_board.h` Meta notice, `rabble_beam_score.c`, and the "derived set" decision. The directory licence rule is only true after R7.
+- **R2 Voice depends on the beam today** (about 30 calls): resolved in v2 by keeping voice and beam together in `entities/RaBbLE` from R1 until R5.
+- **R3 `rabble_input.c` is three modules** (button/push-to-talk, the power ladder, serial console commands). The power ladder and idle timer are board-level policy: with swaps or two creatures they cannot belong to one entity. Where each lives is decided at R0.
+- **R4 Orbit settings mix scopes**: `rabble_settings` holds device, entity and RaBbLE-only values (voice, beam URL) in one store; the device/entity split in section 6 needs a settings design before the rename and the transplant format.
+- **R5 Internal RAM** (about 14 KB free): per-entity instances and an LVGL Orbit renderer both cost internal RAM; measure at R3 and R4.
+- **R6 nebula_lite stability**: faster but possibly less stable; no fallback is decided.
+- **R7 Rename blast radius**: about 300 distinct `rabble_` symbols, 36-40 files each for the main ones; hence its own commit with a before/after suite.
+- **R8 Entity word load**: layer, prefix and concept are one idea by decision; keep the slot as a separate noun in docs.
+- **R10 Reviewer findings (QuiBbLE, S311)**: v1 R1 would have broken the RaBbLE build (it requires `open_entity_default`), v1 R2's lint gate could not pass before voice returns (voice includes the beam), v1 R3 was scoped from wrong facts (the logic is already an instance; the singleton is in `rabble_orbit.c`), `rabble_input` is three modules, the lint needs porting not extending, the licence-flip gate was too thin, `main/` holds more than `app_main.c`, and the collision and path lists were incomplete. All folded into v2.
+- **R11 The Apache flip changes the clean-room goal**: the Clean-Room plan line 106 states a "no Apache files" goal; flipping core to Apache reverses it. Intended? (section 11 Q7)
+- **R9 Concurrent sessions**: the Foundling session and others touch `CMakeLists.txt`, `README.md` and Pocket files; R1 needs an idle tree and `bash spells/mine.sh`.
+
+## 11. Review checklist for the confirmation session
+
+Mark and the reviewing Opus session go through these and record the answers here:
+
+1. Layers and dependency rules (section 2): correct and complete? Is `apps/` right for layer 3 and `entities/` for layer 2?
+2. Folder name: `core/` or `common/`.
+3. **Beam**: open client in core (a voice backend any entity can use against a `rabble-beam/0` server) or SA in `entities/RaBbLE`? W8 is the clean-room target either way.
+4. **Does RaBbLE keep the open fallback face** (`open_entity_default`, `CONFIG_OPEN_ENTITY_DEFAULT`)? Yes: it stays in core until a shared open face exists. No: it moves into Foundling at R4.
+5. Voice stays with the beam in `entities/RaBbLE` from R1 until R5 (v2 default): agreed, given it departs from "voice is core" for that stretch?
+6. `rabble_input` is three modules (button/push-to-talk, power ladder and idle timer, serial console): where does each live (the power ladder as a board-owned core service?) and where does the board choice (`main/Kconfig.projbuild`) live?
+7. `rabble_lvgl_port` works by link-time side effects, which the inert-core rule forbids: exempt it, or move it into `boards/`?
+8. The Apache flip reverses the Clean-Room plan's "no Apache files" goal (line 106): intended?
+9. Seam component name; slot name.
+10. Rename order (R7 before R8, or new files born as `entity_`); settings scope design (device vs entity vs RaBbLE-only) before R8; build the LVGL fallback for nebula_lite or not.
+11. Anything Mark wants cut, deferred or reordered; confirm the phase gates.
+12. Hold-outs (Provenance Record, Split Manifest, audit, W8/W10/W11 specs): where do they live?
+
+Cold start for that session: `log/handoffs/HANDOFF-S311-Pocket-Entity-Layers-Review.md`.
+
+## 12. Rulings ledger (Mark, 2026-11-04)
+
+Drag is never a tap (double-tap wake needs two clean taps) · `rabble_screen` its own component, not in `rabble_power` · header is SA + Open-transition marker, not Apache yet · open_entity into Foundling · benches to `apps`/`tests` (now `tools/`) · core, entities, apps layers · no `main/`, entities own entry points · licence follows the directory · Wi-Fi is core · voice is core with per-entity profile · renderer is SA, nebula_lite inside RaBbLE, LVGL renderer in core · Orbit is an instance apps build and render · core drops `rabble_`, prefix `entity_` · persisted strings may be renamed, settings reset · core is inert components, entity uses core (composition) · the slot is kept for swaps and two creatures.

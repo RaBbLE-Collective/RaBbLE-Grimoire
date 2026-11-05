@@ -13,6 +13,7 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 
 | File | Scope |
 |---|---|
+| `HANDOFF-S311-Pocket-Entity-Layers-Review.md` | **Start here** for Pocket: the new core / entities / apps layers plan (`log/plans/Pocket-Core-Apps-Reorg-Plan.md`), review and confirm with Mark before any code; W9 `rabble_screen` done (not flashed); W8/W11 firewall reviews to redo; clean-room status. |
 | `HANDOFF-S306-RaBbLE-UI-Micro-Mark-and-Permission-Prompt.md` | **Start here** for the Rust shell: micro mark rebuilt as the builder's glyph (9x3, gaze steps + blinks, own VSCodium grid) `28d73db`, 3-row header + usage line `c2caf0d`, wheel in permission prompt `2052401`; Mark must `/reload` and look; **permission/question prompt is broken for Mark: next session, ask him the symptom first**; Python twin not ported. |
 | `HANDOFF-S304-Pocket-W10-Seam-and-Tap-to-Talk.md` | Pocket hardware-seam redesign (W10 spec REVISE), tap-to-talk `dfcb1d9` unverified on device; questions for Mark first. |
 | `HANDOFF-S303-RaBbLE-UI-Compact-Mark-Crew-Viewer.md` | **Start here** for the Rust/Python shell: stream-gaze fix, Python gaze parity, compact tier + drawn micro mark, flowing wordmark (45315fa..2def318); NEXT: crew viewer (roster strip + /crew overlay, Rust first), thinking words + animation (`ui/thinking_words.txt` written, uncommitted); Mark says micro mark needs eye whites + visible portals (redesign first) |
