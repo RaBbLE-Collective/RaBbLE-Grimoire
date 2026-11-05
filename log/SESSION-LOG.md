@@ -14,6 +14,17 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
+## 2026-11-04 · Session S311 (pocket-w9-screen-entity-layers)
+
+- **Repos:** RaBbLE-Pocket (`9b95e30`, `6abe8c9` on `new-horizons`, `%S311_STATE%`, not pushed), RaBbLE-Grimoire (`cd3f27d`, `d68b8a3`, `64392d5`).
+- **Work:** picked up the usage-limited Open SDK clean-room session (battery death; three QuiBbLE firewall reviews cut off, only W9's written). Finished W9 solo: 13 firewall edits applied; Mark's rulings (own `rabble_screen` component, SA header with Open-transition marker not Apache, a drag or hold is never a tap: spec rev 4, five Kconfig knobs); one clean-room implementer plus a rework round (overlap 17.7% to 2.8%, gate 5%); integrated into `rabble_ui.c`; provenance row and transcript audit. Then Mark redesigned the firmware shape in conversation: core / entities / apps layers, `entity_` prefix for core, licence by directory, nebula_lite inside RaBbLE, Orbit as an instance apps build and render, the slot for swaps. Written up as the plan `log/plans/Pocket-Core-Apps-Reorg-Plan.md` (v2, QuiBbLE/Opus coherence review folded in: COHERENT-WITH-EDITS, 8 edits) with roadmap R0-R10.
+- **Verified:** W9 host tests (106 to 120 checks), xtensa and host `-Werror` compiles, RaBbLE app builds (0x1f73a0 bytes), full host suite 33 pass + 1 known XFAIL (render sim, pre-existing).
+- **Not verified:** W9 not flashed (device checklist in spec section 8 outstanding; the device runs Foundling since S310). Plan v2 not re-reviewed. W8 and W11 firewall reviews were lost with the old session and not redone; no NiBbLE or CrumBbLE run.
+- **Not done:** nothing moved or renamed in the code; Foundling still uses its plain settings panel; held Grimoire files left alone (Provenance Record, Split Manifest, audit, W8/W10/W11 specs, w0/w2/w3 spec edits, `HANDOFF-parked-*` placeholders).
+- **Next:** Mark reviews and confirms the plan (checklist in its section 11, `HANDOFF-S311-Pocket-Entity-Layers-Review.md`); redo the W8/W11 firewall reviews; then R1.
+
+---
+
 ## 2026-11-04 · Session S310 (pocket-foundling-skeleton)
 
 - **Repos:** RaBbLE-Pocket (`4c992f9` on `new-horizons`, `%S310_STATE%`, not pushed), RaBbLE-Grimoire (this entry).
