@@ -103,7 +103,7 @@ Datasheets in `firmware/datasheets/` are public vendor documents and are fine fo
 
 ## Hybrid strategy (S256, Mark, 2026-10-20)
 
-Mark: "I'm not against Apache 2.0 code, I just want to minimize how much I have and make more of my files have RaBbLE SA copyright... the SDK felt like a good foundation. Learning and tweaking as I go." The goal is therefore **no Apache-2.0 files vendored in the repo**. Permissive code is fine as **managed components** (fetched at build time and covered by the managed-components paragraph in NOTICE, as ESP-IDF, LVGL and the Waveshare board package already are). Every file in the tree carries the RaBbLE Sovereign Accord copyright.
+Mark: "I'm not against Apache 2.0 code, I just want to minimize how much I have and make more of my files have RaBbLE SA copyright... the SDK felt like a good foundation. Learning and tweaking as I go." The goal is therefore **no Apache-2.0 files vendored in the repo**. *(Superseded 2026-11-05, Mark: the clean room exists to remove Meta-derived code and make the firmware his own, not to avoid Apache. The open directories will flip to Apache-2.0 for contributor-friendliness; the rule is now "no Meta-derived files". See `log/plans/Pocket-Core-Apps-Reorg-Plan.md` sections 12-13.)* Permissive code is fine as **managed components** (fetched at build time and covered by the managed-components paragraph in NOTICE, as ESP-IDF, LVGL and the Waveshare board package already are). Every file in the tree carries the RaBbLE Sovereign Accord copyright.
 
 Each remaining module gets one of three treatments:
 - **Clean room:** spec, firewall, fresh implementer, as in W0 and W1.
