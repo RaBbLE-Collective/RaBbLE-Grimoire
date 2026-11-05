@@ -309,3 +309,4 @@ f6522db6-ff6b-4f0c-b18d-6fb2b6320ef0	pocket-boot-button-hwtest	S300: BOOT hw tes
 09a0f543-47c2-4866-af1b-b8be9a657a10	pocket-open-entity-default	S308	rabble	anthropic	claude-sonnet-5-5
 1450adb7-91ff-4a6c-b911-7d890ff858d3	pocket-foundling-skeleton		rabble	anthropic	claude-sonnet-5-5
 413119a2-c6f7-4e79-850c-e3ae020d2b66	pocket-w9-entity-layers	S311	rabble	anthropic	claude-sonnet-5-5
+43a6552a-b1fc-4b0a-91cc-dc763ff5ef8e	pocket-layers-review	S312 R0 review + W8/W11 firewall	rabble	anthropic	claude-sonnet-5-5

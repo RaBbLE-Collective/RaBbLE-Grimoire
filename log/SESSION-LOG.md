@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-05 · S311 (pocket-w9-entity-layers)
+## LATEST — 2026-11-05 · S312 (pocket-layers-review)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S311: W9 screen done, entity layers plan v2
+**This session:** S312: layers plan confirmed, W8 approvable, W11 rev4
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** Mark reviews/confirms layers plan (HANDOFF-S311); redo W8/W11 firewalls
+**Next:** W8 implementer; W11 re-review then implementer; R1 on Mark go
 
 ---
 
