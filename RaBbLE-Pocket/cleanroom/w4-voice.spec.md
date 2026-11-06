@@ -18,7 +18,7 @@ Header `rabble_voice.h`, `#pragma once`. It must include `<stdbool.h>`, `"esp_er
 
 | Prototype | Contract |
 |---|---|
-| `esp_err_t rabble_voice_start(QueueHandle_t queue);` | Remember `queue` (items of `rabble_input_event_t`, copied by value, produced by the input module, W2 spec). Allocate the pre-roll ring (section 6.2) from `RABBLE_BIG_CAPS` memory and initialise the audio module with the settings' current volume and mic gain (`rabble_audio_init(rabble_settings_volume(), rabble_settings_mic_gain())`). If either fails: set mode ERROR, caption `AUDIO INIT FAILED`, return `ESP_FAIL` without creating the task. Otherwise create the voice task (section 3); if that cannot be created return `ESP_ERR_NO_MEM`; else return `ESP_OK`. Called once from `rabble_app_run` after the input module has started. Must not block beyond that initialisation. |
+| `esp_err_t rabble_voice_start(QueueHandle_t queue);` | Remember `queue` (items of `rabble_input_event_t`, copied by value, produced by the input module, W2 spec). Allocate the pre-roll ring (section 6.2) from `RABBLE_BIG_CAPS` memory and initialise the audio module with the settings' current volume and mic gain (`rabble_audio_init(rabble_settings_volume(), rabble_settings_mic_gain())`). If either fails: set mode ERROR, caption `AUDIO WON'T START`, return `ESP_FAIL` without creating the task. Otherwise create the voice task (section 3); if that cannot be created return `ESP_ERR_NO_MEM`; else return `ESP_OK`. Called once from `rabble_app_run` after the input module has started. Must not block beyond that initialisation. |
 | `void rabble_voice_set_monitor(bool on);` | Turn the mic level meter (6.3) on or off. Any task. Turning it on or off first resets the meter value to -100 dBFS. |
 | `float rabble_voice_monitor_db(void);` | The meter value: smoothed mic level in dBFS, -100.0 when nothing has been measured. Any task, cheap, no locking required (a torn float read is acceptable). |
 | `void rabble_voice_request_chirp(void);` | Ask for a short rising chirp at the current volume, played when the module is next idle (6.4). Any task. Returns at once; also prods the state module's waiters (`rabble_state_nudge()`) so a resting voice task notices. |
@@ -32,7 +32,7 @@ Total: 7 functions, no types, no macros. Without PSRAM (build flag `CONFIG_SPIRA
 
 | Caller | Uses |
 |---|---|
-| `accord/rabble_app.c` | creates the 16-item queue, starts input, then `rabble_voice_start(queue)`. On `ESP_FAIL` the app leaves mode and caption as the module set them (the screen shows the fault) and logs `voice pipeline unavailable`. On success it sets mode IDLE with an empty caption. A board without `audio_init` never calls voice. |
+| `accord/rabble_app.c` | creates the 16-item queue, starts input, then `rabble_voice_start(queue)`. On `ESP_FAIL` the app leaves mode and caption as the module set them (the screen shows the fault) and logs `voice features disabled`. On success it sets mode IDLE with an empty caption. A board without `audio_init` never calls voice. |
 | `accord/rabble_motion.c` | `rabble_voice_request_chirp()` on a shake gesture, only while awake and mode IDLE. |
 | `accord/rabble_input.c` | bench key `c` calls `rabble_voice_request_chirp()`; `rabble_voice_resting()` feeds the display-pause decision; `rabble_voice_notes_waiting()` blocks the Wi-Fi nap. |
 | `apache/rabble_settings_ui.c` | `rabble_voice_set_monitor(true/false)` while the Sound page is visible; polls `rabble_voice_monitor_db()` for the meter; `rabble_voice_request_chirp()` when the volume slider is released (the user expects to hear the new volume at once). |
@@ -136,7 +136,7 @@ A request is a flag. It is honoured at the next pass in which the audio path is 
 
 ### 6.5 Rest (asleep on battery)
 
-On entering rest: power the audio codecs down, tell the beam it is resting, discard queued input events that predate sleeping **except** that the first queued event with `wake` true, and everything queued behind it, stays (a press that woke the device must survive; stale presses before it are dropped; if there is no wake event the queue is emptied), and log `resting: codecs off, Wi-Fi modem sleep`. While resting the module does not read the mic or touch the beam, requests `RABBLE_WIFI_REST`, and blocks in `rabble_state_wait_awake`: for 5,000 ms when the waiting flag (8.6) is set, else 60,000 ms. (The timeout only exists so the CPU can sleep, to look for Wi-Fi to send saved notes, and as a backstop.) A nudge, a wake, or USB power arriving ends the wait early. On leaving rest (screen awake, or plugged in, or a request): power the codecs up, tell the beam it is awake (which reconnects), empty the pre-roll and start settle, and log `awake: codecs on`. The audio must be usable for the very next read in the same pass.
+On entering rest: power the audio codecs down, tell the beam it is resting, discard queued input events that predate sleeping **except** that the first queued event with `wake` true, and everything queued behind it, stays (a press that woke the device must survive; stale presses before it are dropped; if there is no wake event the queue is emptied), and log `idling: codecs disabled, Wi-Fi modem sleep`. While resting the module does not read the mic or touch the beam, requests `RABBLE_WIFI_REST`, and blocks in `rabble_state_wait_awake`: for 5,000 ms when the waiting flag (8.6) is set, else 60,000 ms. (The timeout only exists so the CPU can sleep, to look for Wi-Fi to send saved notes, and as a backstop.) A nudge, a wake, or USB power arriving ends the wait early. On leaving rest (screen awake, or plugged in, or a request): power the codecs up, tell the beam it is awake (which reconnects), empty the pre-roll and start settle, and log `waking: codecs enabled`. The audio must be usable for the very next read in the same pass.
 
 On USB power with the screen asleep, nothing changes: the module stays fully awake (codecs on, pre-roll running).
 
@@ -155,15 +155,15 @@ Then raise Wi-Fi power to FULL and apply 7.2. If that refuses, the press is drop
 ### 7.2 Can this press record?
 
 1. If Wi-Fi is not connected, call `rabble_wifi_apply()` (retry now, not after the backoff). Then read whether the beam is ready.
-2. On PSRAM builds: if the beam status is NOT_SET, refuse with caption `SET UP sCoRE FIRST`. If (the beam is not ready, or notes are waiting) and 4 notes are already saved, refuse with `NOTES STILL WAITING TO SEND`. If the beam is ready and notes are waiting, make the saved ones due immediately (they go right after this turn). Then allocate the 480,000-byte note buffer; if that fails log at error level `no memory to keep a note` and carry on without one.
-3. If the beam is not ready and there is no note buffer (non-PSRAM build, or allocation failed), refuse with a reason from the beam status: NOT_SET `SET UP sCoRE FIRST`; OFFLINE `NO WI-FI`; anything else `CAN'T REACH sCoRE`. (Unreachable in practice, kept for completeness.)
+2. On PSRAM builds: if the beam status is NOT_SET, refuse with caption `SET UP sCoRE FIRST`. If (the beam is not ready, or notes are waiting) and 4 notes are already saved, refuse with `OUTBOX IS FULL`. If the beam is ready and notes are waiting, make the saved ones due immediately (they go right after this turn). Then allocate the 480,000-byte note buffer; if that fails log at error level `out of memory storing the note` and carry on without one.
+3. If the beam is not ready and there is no note buffer (non-PSRAM build, or allocation failed), refuse with a reason from the beam status: NOT_SET `SET UP sCoRE FIRST`; OFFLINE `NO WI-FI`; anything else `NO LINK TO sCoRE`. (Unreachable in practice, kept for completeness.)
 
 "Refuse with caption X" means: progress 0, mode IDLE, caption X, the press is discarded, the module returns to idle. A non-PSRAM build never allocates a buffer, so a press there needs sCoRE.
 
 ### 7.3 Recording
 
 1. Set mode LISTENING and progress 0.
-2. The recording is **live** (streams to sCoRE as it goes) when there is no note buffer, or the beam is ready and no saved notes are waiting; then begin a beam turn at once. Otherwise it is **kept** only: nothing is sent while recording. Caption `LISTENING...` when live, `RECORDING...` when not.
+2. The recording is **live** (streams to sCoRE as it goes) when there is no note buffer, or the beam is ready and no saved notes are waiting; then begin a beam turn at once. Otherwise it is **kept** only: nothing is sent while recording. Caption `I'M LISTENING` when live, `RECORDING NOTE` when not.
 3. Source of the first frames: for a normal press, the pre-roll ring, oldest first, and they count toward the 15 s total and toward the hold lengths in 7.4 as pre-roll (not as held). For a barge-in (pending press) there is no pre-roll; instead 10 chunks (200 ms) are read and discarded first (the queued tail of the reply is still sounding).
 4. Then read chunks until the total frames (pre-roll included) would exceed the limit or the stop point is reached. For each chunk: set the face level to `rabble_audio_level(chunk)` ; add the chunk to the recording (below); if live, drain the beam's events (below); advance the counters; every 5 chunks (each time the total, pre-roll included, is a multiple of 1,600 frames) do the tick (below); set progress to total/240,000; then check the queue for a release.
 5. A read failure ends the recording at once as if the limit were reached (the log shows `(max)`).
@@ -177,7 +177,7 @@ Then raise Wi-Fi power to FULL and apply 7.2. If that refuses, the press is drop
 
 Evaluated in this order:
 
-1. If held < 4,800 frames **and the press did not wake the screen**: cancel the beam turn, drop any note buffer, empty the pre-roll, caption `HOLD LONGER TO TALK`, mode IDLE. (A press that woke the screen is exempt: it already proved itself by being held through the 300 ms check.)
+1. If held < 4,800 frames **and the press did not wake the screen**: cancel the beam turn, drop any note buffer, empty the pre-roll, caption `HOLD A BIT LONGER`, mode IDLE. (A press that woke the screen is exempt: it already proved itself by being held through the 300 ms check.)
 2. Else if the recording failed (no buffer and the beam gave an error): empty the pre-roll; caption is the reason text; mode IDLE.
 3. Else finish the note (7.5). Then empty the pre-roll. If the reply was **not** interrupted by a new press and the mode is not already IDLE, call `rabble_state_make_happy()` then caption empty, mode IDLE, progress 0. If it was interrupted, the new press starts at once as a pending barge-in with no idle pass in between.
 
@@ -187,7 +187,7 @@ With a note buffer:
 
 - If live and the beam has already been given the whole buffer: end the beam turn **now**, before playing the cue (the cue takes about 90 ms; the beam gets its `turn.end` first).
 - Play the falling cue: `rabble_audio_chirp(0)`. (No cue on press: anything played at the start would land on the first words.)
-- If live but not everything was given: mode THINKING, caption `SENDING VOICE NOTE`, and give the rest with 100 ms waits until the beam has it all, then end the beam turn. Abort after 30 s in which the beam took nothing (log `sCoRE stopped taking the note`), or on a beam ERROR (log `beam: <text>`): cancel the beam turn; the note is not delivered.
+- If live but not everything was given: mode THINKING, caption `UPLOADING NOTE`, and give the rest with 100 ms waits until the beam has it all, then end the beam turn. Abort after 30 s in which the beam took nothing (log `sCoRE stopped taking the note`), or on a beam ERROR (log `beam: <text>`): cancel the beam turn; the note is not delivered.
 - If the note went to the beam in full: handle the reply (7.6).
 - If the reply handling reports the note **delivered** (a SENT, REPLY or DONE event arrived at any time, even if an ERROR followed) or the reply was interrupted by a new press: the buffer is dropped.
 - Otherwise the note is saved (8.1), marked "tried" if a beam turn was ever begun for it (live at some point).
@@ -196,11 +196,11 @@ Without a note buffer (non-PSRAM build, or allocation failed): end the beam turn
 
 ### 7.6 The reply
 
-Mode THINKING; caption `SENDING VOICE NOTE` until something better arrives. Then repeat, until done or interrupted:
+Mode THINKING; caption `UPLOADING NOTE` until something better arrives. Then repeat, until done or interrupted:
 
 - **Events** (drain all): HEARD, only if no speech has started and no reply text has arrived: caption `"<transcript>"` (the text in double quotes). SENT: the note counts as delivered; caption `NOTE SENT - RaBbLE IS THINKING` (same condition). REPLY: delivered; replied. If speech has not started, ask the beam for the page for the played frames (initially 0): if it has one show it, else show the REPLY event's text. DONE: delivered; done. ERROR: log `beam: <text>`, level 0, caption the error text, mode IDLE, progress 0, and return (reply over, not interrupted; "delivered" keeps whatever it already was).
-- **Press**: consume the queue (poke per event); if any consumed event is a DOWN: log `reply interrupted`, cancel the beam turn, level 0, return interrupted (the DOWN becomes the next pending press; other consumed events are dropped).
-- **Audio**: ask the beam for up to 320 frames of reply speech, waiting up to 20 ms, or not waiting at all once speech has started or the reply is done. When frames arrive: on the first, mode SPEAKING and log `reply audio after <secs>s`; set level to the level of what is played; write the frames to the audio module (which paces playback); add to `played`. When none arrive and the reply is done: leave the loop. When none arrive and speech has already started and the reply is not done: set level 0 and write 320 frames of silence to the audio module, so the speaker stays fed between messages and does not replay stale buffered sound.
+- **Press**: consume the queue (poke per event); if any consumed event is a DOWN: log `reply cut short`, cancel the beam turn, level 0, return interrupted (the DOWN becomes the next pending press; other consumed events are dropped).
+- **Audio**: ask the beam for up to 320 frames of reply speech, waiting up to 20 ms, or not waiting at all once speech has started or the reply is done. When frames arrive: on the first, mode SPEAKING and log `first reply audio at <secs>s`; set level to the level of what is played; write the frames to the audio module (which paces playback); add to `played`. When none arrive and the reply is done: leave the loop. When none arrive and speech has already started and the reply is not done: set level 0 and write 320 frames of silence to the audio module, so the speaker stays fed between messages and does not replay stale buffered sound.
 - **Caption paging**: when speech has started or a REPLY has arrived, ask the beam for the page for `played` frames; if it has one, set the caption to it (so the caption scrolls with the speech).
 - After the loop: level 0, log `reply: <secs>s of audio, <secs>s total` (wall time since the reply handling began). If no speech frames were played at all (no TTS, or the speaker setting is off, in which case the beam drops reply speech), delay 2,500 ms so the reply text stays on screen, then return.
 
@@ -210,7 +210,7 @@ The reply loop does not end by itself if sCoRE goes silent; the beam's errors (s
 
 ### 8.1 Saving
 
-A recorded note that was not delivered is saved at the end of the queue (oldest first), with its recorded time, its length, and a try count of 1 if it was tried live, else 0. If 4 notes are already saved (not expected, 7.2 prevents it): drop it, caption `COULDN'T SAVE THE NOTE`. If it has no frames (empty): caption `HOLD LONGER TO TALK`. Otherwise shrink to length, log `saved a 1.4s note to send later (2 waiting)` (length with one decimal, count after saving), mode IDLE, progress 0, and caption `SAVED, WILL TRY AGAIN` if tried else `SAVED, SENDS WHEN ONLINE`. A tried note also starts the retry backoff (8.2). Notes live in RAM only and do not survive a reboot.
+A recorded note that was not delivered is saved at the end of the queue (oldest first), with its recorded time, its length, and a try count of 1 if it was tried live, else 0. If 4 notes are already saved (not expected, 7.2 prevents it): drop it, caption `NOTE NOT SAVED`. If it has no frames (empty): caption `HOLD A BIT LONGER`. Otherwise shrink to length, log `saved a 1.4s note to send later (2 waiting)` (length with one decimal, count after saving), mode IDLE, progress 0, and caption `SAVED, RETRYING LATER` if tried else `KEPT UNTIL ONLINE`. A tried note also starts the retry backoff (8.2). Notes live in RAM only and do not survive a reboot.
 
 ### 8.2 Retry timing
 
@@ -218,13 +218,13 @@ One shared timer decides when the oldest saved note is next sent. After a failur
 
 ### 8.3 Sending the oldest note
 
-A saved note is due when the beam is ready and the timer has passed. Log `sending a saved note: 1.4s, from 27s ago, try 2` (length, age in whole seconds, try number = tries so far + 1; with ` (asleep)` after `note` when sent asleep). Force full power (leave rest, Wi-Fi FULL) even if the screen is asleep. Awake: mode THINKING, caption `SENDING SAVED NOTE`. Begin a beam turn and give the whole note from the start with 100 ms waits, watching events as in 7.5; end the beam turn when all of it is taken.
+A saved note is due when the beam is ready and the timer has passed. Log `uploading stored note: 1.4s long, recorded 27s ago, attempt 2` (length, age in whole seconds, try number = tries so far + 1; with ` (asleep)` after `note` when sent asleep). Force full power (leave rest, Wi-Fi FULL) even if the screen is asleep. Awake: mode THINKING, caption `UPLOADING STORED NOTE`. Begin a beam turn and give the whole note from the start with 100 ms waits, watching events as in 7.5; end the beam turn when all of it is taken.
 
 - **A press arrives** while it goes up (checked between the waits; leading UP events are discarded, a DOWN is left in the queue): cancel the beam turn, awake caption empty with mode IDLE, the note stays saved with no try counted and no backoff; the press is then served as an ordinary press.
 - **Awake, sent whole**: handle the reply exactly as 7.6 (captions, speech, barge-in). If the reply is interrupted by a press, the press is pending and the note counts delivered.
-- **Asleep (quiet)**: no captions, mode and face untouched; wait up to 30 s for SENT, REPLY or DONE (polling events every 50 ms): that means delivered; an ERROR (log `beam: <text>`) or the timeout (log `no word that the note arrived`) means failed. Then cancel the beam turn: the reply stays with sCoRE for the user's next look. Mode and the face never change.
-- **Delivered (or interrupted)**: drop the note; the next is due at once, backoff reset; asleep, set the caption `SAVED NOTE SENT`.
-- **Failed**: count a try. At the 8th failed try: log `giving up on a saved note after 8 tries`, drop it, caption `COULDN'T SEND A SAVED NOTE`. Otherwise start the backoff and use caption `SAVED NOTE: WILL TRY AGAIN`. Awake, the caption is set together with mode IDLE and progress 0; asleep, the caption only.
+- **Asleep (quiet)**: no captions, mode and face untouched; wait up to 30 s for SENT, REPLY or DONE (polling events every 50 ms): that means delivered; an ERROR (log `beam: <text>`) or the timeout (log `no confirmation that the note arrived`) means failed. Then cancel the beam turn: the reply stays with sCoRE for the user's next look. Mode and the face never change.
+- **Delivered (or interrupted)**: drop the note; the next is due at once, backoff reset; asleep, set the caption `STORED NOTE DELIVERED`.
+- **Failed**: count a try. At the 8th failed try: log `dropping stored note after 8 attempts`, drop it, caption `STORED NOTE NOT SENT`. Otherwise start the backoff and use caption `STORED NOTE: RETRY LATER`. Awake, the caption is set together with mode IDLE and progress 0; asleep, the caption only.
 - Afterwards (not pending a press): empty the pre-roll; if awake and the mode is not IDLE, `make_happy` and caption empty, mode IDLE.
 
 ### 8.4 While the screen is asleep
@@ -246,20 +246,20 @@ All captions are set through `rabble_state_set_caption`. Upper-case text is exac
 | Situation | Caption |
 |---|---|
 | idle after a turn | empty |
-| recording live / not live | `LISTENING...` / `RECORDING...` |
+| recording live / not live | `I'M LISTENING` / `RECORDING NOTE` |
 | live transcript | the HEARD text (no quotes) |
 | record tick, no transcript | `LISTENING 0.3s` / `RECORDING 0.3s` (one decimal) |
-| waiting on the reply | `SENDING VOICE NOTE`, then `"transcript"` (with quotes), `NOTE SENT - RaBbLE IS THINKING`, then reply pages |
-| tap too short | `HOLD LONGER TO TALK` |
+| waiting on the reply | `UPLOADING NOTE`, then `"transcript"` (with quotes), `NOTE SENT - RaBbLE IS THINKING`, then reply pages |
+| tap too short | `HOLD A BIT LONGER` |
 | no sCoRE URL | `SET UP sCoRE FIRST` |
 | Wi-Fi down, cannot keep a note | `NO WI-FI` |
-| unreachable (see 7.2) | `CAN'T REACH sCoRE` |
-| four notes saved | `NOTES STILL WAITING TO SEND` |
-| note saved | `SAVED, SENDS WHEN ONLINE` / `SAVED, WILL TRY AGAIN` / `COULDN'T SAVE THE NOTE` |
-| sending a saved note | `SENDING SAVED NOTE`, then as a reply |
-| saved note result | `SAVED NOTE SENT` (asleep) / `SAVED NOTE: WILL TRY AGAIN` / `COULDN'T SEND A SAVED NOTE` |
-| beam error | the beam's text, shown as given (for example `LOST sCoRE`, `Can't connect`, `sCoRE DIDN'T ANSWER`) |
-| audio init failure | `AUDIO INIT FAILED` (mode ERROR, set by `rabble_voice_start`) |
+| unreachable (see 7.2) | `NO LINK TO sCoRE` |
+| four notes saved | `OUTBOX IS FULL` |
+| note saved | `KEPT UNTIL ONLINE` / `SAVED, RETRYING LATER` / `NOTE NOT SAVED` |
+| sending a saved note | `UPLOADING STORED NOTE`, then as a reply |
+| saved note result | `STORED NOTE DELIVERED` (asleep) / `STORED NOTE: RETRY LATER` / `STORED NOTE NOT SENT` |
+| beam error | the beam's text, shown as given (for example `LOST sCoRE`, `Dial failed`, `sCoRE DIDN'T ANSWER`) |
+| audio init failure | `AUDIO WON'T START` (mode ERROR, set by `rabble_voice_start`) |
 
 ## 10. Level, volume, gain, direction, speaker setting
 
@@ -280,20 +280,20 @@ Log tag, levels and other text are free. The statistics at the end of a recordin
 
 | Text | When |
 |---|---|
-| `resting: codecs off, Wi-Fi modem sleep` | entering rest |
-| `awake: codecs on` | leaving rest |
+| `idling: codecs disabled, Wi-Fi modem sleep` | entering rest |
+| `waking: codecs enabled` | leaving rest |
 | `recorded 1.38s` or `recorded 1.38s (max)` at the start of the line (two decimals; `(max)` when the stop was not a release), the rest of the line free | end of every recording |
-| `reply audio after 1.02s` | first reply speech |
+| `first reply audio at 1.02s` | first reply speech |
 | `reply: 1.20s of audio` at the start of the line, the rest free | end of reply |
-| `reply interrupted` | barge-in |
+| `reply cut short` | barge-in |
 | `beam: <text>` (warning) | a beam ERROR event |
 | `sCoRE in reach: streaming the note so far` | 7.3 tick (a) |
 | `saved a 1.4s note to send later (1 waiting)` | 8.1 |
-| `sending a saved note: 1.4s, from 27s ago, try 2` and the ` (asleep)` variant | 8.3 |
+| `uploading stored note: 1.4s long, recorded 27s ago, attempt 2` and the ` (asleep)` variant | 8.3 |
 | `sCoRE stopped taking the note` | 30 s stall |
-| `no word that the note arrived` | asleep delivery timeout |
-| `giving up on a saved note after 8 tries` | 8.3 |
-| `no memory to keep a note` (error level) | 7.2 |
+| `no confirmation that the note arrived` | asleep delivery timeout |
+| `dropping stored note after 8 attempts` | 8.3 |
+| `out of memory storing the note` (error level) | 7.2 |
 
 ## 12. Error and edge cases
 
@@ -301,7 +301,7 @@ Log tag, levels and other text are free. The statistics at the end of a recordin
 - Stray UP while idle: ignored (pokes once). Duplicate DOWN while recording or while a reply plays: a DOWN during a reply is a barge-in; during a recording it is ignored.
 - Press while a saved note is being sent: the press first (8.3). Press while resting: the input module wakes the screen first and posts DOWN with `wake` true; see 6.5 for what survives.
 - Wi-Fi drops mid-recording: a live recording gets a beam ERROR (the beam reports `LOST sCoRE` or a connect failure), the kept note is saved and retried (7.3 step 7).
-- sCoRE unreachable while Wi-Fi is up: the beam is "ready", the recording is live, the beam reports `Can't connect` after about 1.5 s; with a kept note the recording continues and the note is saved `SAVED, WILL TRY AGAIN`; without one the recording fails with the beam's text.
+- sCoRE unreachable while Wi-Fi is up: the beam is "ready", the recording is live, the beam reports `Dial failed` after about 1.5 s; with a kept note the recording continues and the note is saved `SAVED, RETRYING LATER`; without one the recording fails with the beam's text.
 - A hold shorter than 300 ms after the pre-roll is a tap (7.4) except for a press that woke the screen.
 - A recording that hits 15 s stops there as if released.
 - The other functions are never called before `rabble_voice_start` (callers do not), except possibly the meter and request calls from the UI, which only set flags and must be safe at any time.
@@ -333,25 +333,25 @@ Serial keys `d`/`u` stand in for push-to-talk from the host (each spends sCoRE s
 
 ### 15.1 Serial plus beam
 
-1. Boot log: `audio ready`, then the self-test lines, no `AUDIO INIT FAILED`; the face goes IDLE with an empty caption.
-2. Full voice turn with the beam live (`d`, speak for a second or two, `u`): captions `LISTENING...`, transcript, then `SENDING VOICE NOTE`, `NOTE SENT - RaBbLE IS THINKING`, the quoted transcript, the reply paging with the speech; mode LISTENING, THINKING, SPEAKING, IDLE with a happy hop. The log shows `recorded ...s` (about 0.3 s longer than the hold: pre-roll and tail), `reply audio after`, `reply:`. **Pre-roll check:** begin speaking just before `d` (within about 250 ms) and confirm the first word is in the transcript sCoRE returns; repeat once after a chirp (`c`) within 0.3 s of `d` and confirm only post-settle audio is used.
-3. Tap: `d` then `u` within 100 ms: `HOLD LONGER TO TALK`, nothing sent (check the beam shows a cancelled turn).
-4. Barge-in: during the reply, `d`: log `reply interrupted`, speech stops, new recording starts; finish with `u`.
-5. Cancel by tap while THINKING: `d` during THINKING then `u` quickly gives `HOLD LONGER TO TALK` and the reply is abandoned.
+1. Boot log: `audio ready`, then the self-test lines, no `AUDIO WON'T START`; the face goes IDLE with an empty caption.
+2. Full voice turn with the beam live (`d`, speak for a second or two, `u`): captions `I'M LISTENING`, transcript, then `UPLOADING NOTE`, `NOTE SENT - RaBbLE IS THINKING`, the quoted transcript, the reply paging with the speech; mode LISTENING, THINKING, SPEAKING, IDLE with a happy hop. The log shows `recorded ...s` (about 0.3 s longer than the hold: pre-roll and tail), `reply audio after`, `reply:`. **Pre-roll check:** begin speaking just before `d` (within about 250 ms) and confirm the first word is in the transcript sCoRE returns; repeat once after a chirp (`c`) within 0.3 s of `d` and confirm only post-settle audio is used.
+3. Tap: `d` then `u` within 100 ms: `HOLD A BIT LONGER`, nothing sent (check the beam shows a cancelled turn).
+4. Barge-in: during the reply, `d`: log `reply cut short`, speech stops, new recording starts; finish with `u`.
+5. Cancel by tap while THINKING: `d` during THINKING then `u` quickly gives `HOLD A BIT LONGER` and the reply is abandoned.
 6. Speaker off (Settings > Sound): a turn gives text only, no speaker sound, mode never SPEAKING, the text stays for 2.5 s after the reply.
-7. A turn while sCoRE is unreachable: turn Wi-Fi off (or set a bad URL port); `d`, speak, `u`: captions `RECORDING...`, log `saved a ...s note to send later (1 waiting)`, caption `SAVED, SENDS WHEN ONLINE`. Restore reachability: the note is sent without any press, with the full reply played. With sCoRE unreachable but Wi-Fi up the first try shows `Can't connect`-style behaviour and the caption `SAVED, WILL TRY AGAIN`, retried after 15 s.
-8. Five presses with sCoRE unreachable: the fifth shows `NOTES STILL WAITING TO SEND`.
+7. A turn while sCoRE is unreachable: turn Wi-Fi off (or set a bad URL port); `d`, speak, `u`: captions `RECORDING NOTE`, log `saved a ...s note to send later (1 waiting)`, caption `KEPT UNTIL ONLINE`. Restore reachability: the note is sent without any press, with the full reply played. With sCoRE unreachable but Wi-Fi up the first try shows `Dial failed`-style behaviour and the caption `SAVED, RETRYING LATER`, retried after 15 s.
+8. Five presses with sCoRE unreachable: the fifth shows `OUTBOX IS FULL`.
 9. No URL set (`>beam.url=`): a press shows `SET UP sCoRE FIRST`.
 10. `c` chirps (rising); `>test.loopback` runs the loopback test and logs the audio module's table; neither disturbs the next turn's pre-roll (no cue sound in the transcript).
 11. Volume change (slider release) plays the chirp at the new volume; mic gain change takes effect on the next turn without a restart.
-12. Sleep and wake mid-idle: `z` then `>nap` style sleeping on battery: log `resting: codecs off, Wi-Fi modem sleep`; `w` gives `awake: codecs on`, and a following `d`/`u` turn works with no lost first word beyond the tail of the wake.
+12. Sleep and wake mid-idle: `z` then `>nap` style sleeping on battery: log `idling: codecs disabled, Wi-Fi modem sleep`; `w` gives `waking: codecs enabled`, and a following `d`/`u` turn works with no lost first word beyond the tail of the wake.
 13. Sound page open: the meter follows the mic with fast attack and slow release; leaving the page stops it.
 
 ### 15.2 Needs Mark's hands
 
-1. BOOT tap awake: `HOLD LONGER TO TALK`. Hold: records, release plays the falling cue.
-2. BOOT press while asleep on battery: wakes, a tap only wakes (no recording, no cue); holding through the wake records the note and the first words are in it; the log shows `awake: codecs on`.
-3. A note recorded off Wi-Fi with the screen on is sent on its own when Wi-Fi returns; with the screen asleep on battery it is sent within about 5 s of Wi-Fi returning without waking the screen, the caption (seen after waking) `SAVED NOTE SENT`.
+1. BOOT tap awake: `HOLD A BIT LONGER`. Hold: records, release plays the falling cue.
+2. BOOT press while asleep on battery: wakes, a tap only wakes (no recording, no cue); holding through the wake records the note and the first words are in it; the log shows `waking: codecs enabled`.
+3. A note recorded off Wi-Fi with the screen on is sent on its own when Wi-Fi returns; with the screen asleep on battery it is sent within about 5 s of Wi-Fi returning without waking the screen, the caption (seen after waking) `STORED NOTE DELIVERED`.
 4. Speech held past 15 s stops at 15 s and sends.
 5. Frame-rate gates (face): 60 fps idle, and listening and speaking do not drop below the entity gate; compare idle vs listening vs speaking on the on-screen fps if available.
 6. Audio quality: reply speech with no hiss or clipped first syllable; no audible click between the cue and the reply (relevant to section 14).
@@ -366,7 +366,7 @@ All kept as specified unless stated. Items 2 and 7 are Mark's later calls (Captu
 3. **A read failure while recording looks like the 15 s limit** (`(max)` in the log) and the partial recording is then sent. Possibly unintended; kept.
 4. **A delivered note followed by an ERROR is dropped.** Once SENT, REPLY or DONE has arrived the note is considered delivered even if sCoRE then errors (for example a language-model failure); the user sees the error but the note is not retried. Intended (sCoRE has the audio), recorded here because it looks like a bug (`reply_error_after_sent`).
 5. **No timeout of its own while waiting for a reply.** The beam's 60 s timeout and connection-loss errors end it. A beam that never errors leaves the face THINKING; the user can barge in.
-6. **`CAN'T REACH sCoRE` is effectively unreachable.** The caption exists for a race between the readiness check and the status read.
+6. **`NO LINK TO sCoRE` is effectively unreachable.** The caption exists for a race between the readiness check and the status read.
 7. **Notes are lost on reboot** (RAM only), and a note not yet sent when power is off is gone. Capture mode will change this; not in scope.
 8. **Settle after own sound.** 200 ms of capture is discarded after a cue or reply. With the amplifier gating of section 14, an amplifier-off click could land inside or after this window; the integrator should listen for it in the transcript test (checklist 15.1 item 10) and, if it shows, extend the settle (a behaviour change to record).
 9. **Silence feeding between reply messages** exists to avoid replaying stale buffered audio; with the gated amplifier it also keeps the amplifier on across the gap (settled with the audio spec).

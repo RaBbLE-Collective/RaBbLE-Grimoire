@@ -494,7 +494,7 @@ aux_release_poll61_hinted	56	0	-	-
 aux_release_poll61_hinted	57	0	-	-
 aux_release_poll61_hinted	58	0	-	-
 aux_release_poll61_hinted	59	0	-	-
-aux_release_poll61_hinted	60	0	-	caption=HOLD TO POWER OFF
+aux_release_poll61_hinted	60	0	-	caption=HOLD TO SHUT DOWN
 aux_release_poll61_hinted	61	8	-	caption=READY
 aux_release_poll61_hinted	62	0	-	-
 aux_release_poll100_after_hint	init	caption	SPEAKING SOFTLY
@@ -558,7 +558,7 @@ aux_release_poll100_after_hint	56	0	-	-
 aux_release_poll100_after_hint	57	0	-	-
 aux_release_poll100_after_hint	58	0	-	-
 aux_release_poll100_after_hint	59	0	-	-
-aux_release_poll100_after_hint	60	0	-	caption=HOLD TO POWER OFF
+aux_release_poll100_after_hint	60	0	-	caption=HOLD TO SHUT DOWN
 aux_release_poll100_after_hint	61	0	-	-
 aux_release_poll100_after_hint	62	0	-	-
 aux_release_poll100_after_hint	63	0	-	-
@@ -661,7 +661,7 @@ aux_release_poll149	56	0	-	-
 aux_release_poll149	57	0	-	-
 aux_release_poll149	58	0	-	-
 aux_release_poll149	59	0	-	-
-aux_release_poll149	60	0	-	caption=HOLD TO POWER OFF
+aux_release_poll149	60	0	-	caption=HOLD TO SHUT DOWN
 aux_release_poll149	61	0	-	-
 aux_release_poll149	62	0	-	-
 aux_release_poll149	63	0	-	-
@@ -814,7 +814,7 @@ aux_release_poll150_still_cancels	56	0	-	-
 aux_release_poll150_still_cancels	57	0	-	-
 aux_release_poll150_still_cancels	58	0	-	-
 aux_release_poll150_still_cancels	59	0	-	-
-aux_release_poll150_still_cancels	60	0	-	caption=HOLD TO POWER OFF
+aux_release_poll150_still_cancels	60	0	-	caption=HOLD TO SHUT DOWN
 aux_release_poll150_still_cancels	61	0	-	-
 aux_release_poll150_still_cancels	62	0	-	-
 aux_release_poll150_still_cancels	63	0	-	-
@@ -967,7 +967,7 @@ aux_release_poll151_after_shutdown	56	0	-	-
 aux_release_poll151_after_shutdown	57	0	-	-
 aux_release_poll151_after_shutdown	58	0	-	-
 aux_release_poll151_after_shutdown	59	0	-	-
-aux_release_poll151_after_shutdown	60	0	-	caption=HOLD TO POWER OFF
+aux_release_poll151_after_shutdown	60	0	-	caption=HOLD TO SHUT DOWN
 aux_release_poll151_after_shutdown	61	0	-	-
 aux_release_poll151_after_shutdown	62	0	-	-
 aux_release_poll151_after_shutdown	63	0	-	-
@@ -1057,7 +1057,7 @@ aux_release_poll151_after_shutdown	146	0	-	-
 aux_release_poll151_after_shutdown	147	0	-	-
 aux_release_poll151_after_shutdown	148	0	-	-
 aux_release_poll151_after_shutdown	149	0	-	-
-aux_release_poll151_after_shutdown	150	0	-	shutdown|update_power|progress=0|level=0|mode=off|caption=GOODBYE!|delay=1500|board_power_off
+aux_release_poll151_after_shutdown	150	0	-	shutdown|update_power|progress=0|level=0|mode=off|caption=BYE FOR NOW|delay=1500|board_power_off
 aux_release_poll151_after_shutdown	151	8	-	-
 aux_release_poll151_after_shutdown	152	0	-	-
 aux_hold_to_power_off_ok	init	poweroff	ok
@@ -1122,7 +1122,7 @@ aux_hold_to_power_off_ok	56	0	-	-
 aux_hold_to_power_off_ok	57	0	-	-
 aux_hold_to_power_off_ok	58	0	-	-
 aux_hold_to_power_off_ok	59	0	-	-
-aux_hold_to_power_off_ok	60	0	-	caption=HOLD TO POWER OFF
+aux_hold_to_power_off_ok	60	0	-	caption=HOLD TO SHUT DOWN
 aux_hold_to_power_off_ok	61	0	-	-
 aux_hold_to_power_off_ok	62	0	-	-
 aux_hold_to_power_off_ok	63	0	-	-
@@ -1212,7 +1212,7 @@ aux_hold_to_power_off_ok	146	0	-	-
 aux_hold_to_power_off_ok	147	0	-	-
 aux_hold_to_power_off_ok	148	0	-	-
 aux_hold_to_power_off_ok	149	0	-	-
-aux_hold_to_power_off_ok	150	0	-	shutdown|update_power|progress=0|level=0|mode=off|caption=GOODBYE!|delay=1500|board_power_off
+aux_hold_to_power_off_ok	150	0	-	shutdown|update_power|progress=0|level=0|mode=off|caption=BYE FOR NOW|delay=1500|board_power_off
 aux_hold_to_power_off_ok	151	0	-	-
 aux_hold_to_power_off_ok	152	0	-	-
 aux_hold_to_power_off_ok	153	0	-	-
@@ -1286,7 +1286,7 @@ aux_hold_to_power_off_fails	56	0	-	-
 aux_hold_to_power_off_fails	57	0	-	-
 aux_hold_to_power_off_fails	58	0	-	-
 aux_hold_to_power_off_fails	59	0	-	-
-aux_hold_to_power_off_fails	60	0	-	caption=HOLD TO POWER OFF
+aux_hold_to_power_off_fails	60	0	-	caption=HOLD TO SHUT DOWN
 aux_hold_to_power_off_fails	61	0	-	-
 aux_hold_to_power_off_fails	62	0	-	-
 aux_hold_to_power_off_fails	63	0	-	-
@@ -1376,7 +1376,7 @@ aux_hold_to_power_off_fails	146	0	-	-
 aux_hold_to_power_off_fails	147	0	-	-
 aux_hold_to_power_off_fails	148	0	-	-
 aux_hold_to_power_off_fails	149	0	-	-
-aux_hold_to_power_off_fails	150	0	-	shutdown|update_power|progress=0|level=0|mode=off|caption=GOODBYE!|delay=1500|board_power_off|delay=500|mode=idle|caption=COULDN'T POWER OFF
+aux_hold_to_power_off_fails	150	0	-	shutdown|update_power|progress=0|level=0|mode=off|caption=BYE FOR NOW|delay=1500|board_power_off|delay=500|mode=idle|caption=SHUTDOWN FAILED
 aux_hold_to_power_off_fails	151	0	-	-
 aux_hold_to_power_off_fails	152	0	-	-
 aux_hold_to_power_off_fails	153	0	-	-
@@ -1467,7 +1467,7 @@ aux_second_hold_after_failure_sleeps	56	0	-	-
 aux_second_hold_after_failure_sleeps	57	0	-	-
 aux_second_hold_after_failure_sleeps	58	0	-	-
 aux_second_hold_after_failure_sleeps	59	0	-	-
-aux_second_hold_after_failure_sleeps	60	0	-	caption=HOLD TO POWER OFF
+aux_second_hold_after_failure_sleeps	60	0	-	caption=HOLD TO SHUT DOWN
 aux_second_hold_after_failure_sleeps	61	0	-	-
 aux_second_hold_after_failure_sleeps	62	0	-	-
 aux_second_hold_after_failure_sleeps	63	0	-	-
@@ -1557,7 +1557,7 @@ aux_second_hold_after_failure_sleeps	146	0	-	-
 aux_second_hold_after_failure_sleeps	147	0	-	-
 aux_second_hold_after_failure_sleeps	148	0	-	-
 aux_second_hold_after_failure_sleeps	149	0	-	-
-aux_second_hold_after_failure_sleeps	150	0	-	shutdown|update_power|progress=0|level=0|mode=off|caption=GOODBYE!|delay=1500|board_power_off|delay=500|mode=idle|caption=COULDN'T POWER OFF
+aux_second_hold_after_failure_sleeps	150	0	-	shutdown|update_power|progress=0|level=0|mode=off|caption=BYE FOR NOW|delay=1500|board_power_off|delay=500|mode=idle|caption=SHUTDOWN FAILED
 aux_second_hold_after_failure_sleeps	151	0	-	-
 aux_second_hold_after_failure_sleeps	152	0	-	-
 aux_second_hold_after_failure_sleeps	153	0	-	-
@@ -1590,12 +1590,12 @@ aux_second_hold_after_failure_sleeps	179	0	-	-
 request_power_off	init	poweroff	ok
 request_power_off	0	0	-	-
 request_power_off	1	0	-	-
-request_power_off	2	0	reqoff	shutdown|update_power|progress=0|level=0|mode=off|caption=GOODBYE!|delay=1500|board_power_off
+request_power_off	2	0	reqoff	shutdown|update_power|progress=0|level=0|mode=off|caption=BYE FOR NOW|delay=1500|board_power_off
 request_power_off	3	0	-	-
 request_power_off_while_asleep	init	asleep	1
 request_power_off_while_asleep	init	poweroff	fail
 request_power_off_while_asleep	0	0	-	-
-request_power_off_while_asleep	1	0	reqoff	shutdown|update_power|progress=0|level=0|mode=off|caption=GOODBYE!|delay=1500|board_power_off|delay=500|mode=idle|caption=COULDN'T POWER OFF
+request_power_off_while_asleep	1	0	reqoff	shutdown|update_power|progress=0|level=0|mode=off|caption=BYE FOR NOW|delay=1500|board_power_off|delay=500|mode=idle|caption=SHUTDOWN FAILED
 request_power_off_while_asleep	2	0	-	-
 talk_and_aux_interleaved	0	1	-	ptt_down
 talk_and_aux_interleaved	1	0	-	-
@@ -1666,7 +1666,7 @@ caption_truncated_to_63	56	0	-	-
 caption_truncated_to_63	57	0	-	-
 caption_truncated_to_63	58	0	-	-
 caption_truncated_to_63	59	0	-	-
-caption_truncated_to_63	60	0	-	caption=HOLD TO POWER OFF
+caption_truncated_to_63	60	0	-	caption=HOLD TO SHUT DOWN
 caption_truncated_to_63	61	0	-	-
 caption_truncated_to_63	62	0	-	-
 caption_truncated_to_63	63	0	-	-

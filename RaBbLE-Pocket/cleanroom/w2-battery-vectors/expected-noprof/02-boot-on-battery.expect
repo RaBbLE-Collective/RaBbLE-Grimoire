@@ -3,7 +3,7 @@ STEP	2	boot brownout
 STEP	3	init
 STEP	4	nodump
 STEP	5	power 55 3800 0 0 1
-LOG	I	on battery at 55% (3800 mV): measuring
+LOG	I	unplugged at 55% (3800 mV), measuring drain
 STEP	6	read
 READ	started=1	running=1	secs=0	pct=55,55	mv=3800,3800	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
 STEP	7	json

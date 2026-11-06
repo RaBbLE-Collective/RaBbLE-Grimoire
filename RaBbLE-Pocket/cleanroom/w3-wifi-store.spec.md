@@ -81,7 +81,7 @@ Byte-exact examples are in the vectors (`json_plain`, `json_escapes`).
 
 ### 4.1 Size limit
 
-The JSON text (without terminator) must be shorter than 1536 bytes, i.e. at most 1535 characters, so that its stored value (with terminator) fits the 1536-byte read capacity of section 5. If the text for the networks after the first would be 1536 bytes or longer, the **oldest** network (the last in the list) is dropped from what is saved, the text is rebuilt, and this repeats until it fits or only the first network remains (then no `wifi_others` key is stored). Dropping logs, once per dropped network, at warning level: `saved networks too long; forgetting <ssid>`. Eight networks normally fit with room to spare; the limit bites only with names and passwords full of characters that escape to six bytes (control bytes). The first network is never dropped by this rule. A save that dropped networks this way still returns true, provided the writes themselves succeeded.
+The JSON text (without terminator) must be shorter than 1536 bytes, i.e. at most 1535 characters, so that its stored value (with terminator) fits the 1536-byte read capacity of section 5. If the text for the networks after the first would be 1536 bytes or longer, the **oldest** network (the last in the list) is dropped from what is saved, the text is rebuilt, and this repeats until it fits or only the first network remains (then no `wifi_others` key is stored). Dropping logs, once per dropped network, at warning level: `saved list overflows; dropping <ssid>`. Eight networks normally fit with room to spare; the limit bites only with names and passwords full of characters that escape to six bytes (control bytes). The first network is never dropped by this rule. A save that dropped networks this way still returns true, provided the writes themselves succeeded.
 
 ## 5. Load: how stored data is read
 
@@ -98,7 +98,7 @@ Load is a pure read and must accept everything a device in the field might hold,
 
 1. Read `wifi_others` with a capacity of 1536 bytes including terminator. If the key is absent, or the value is 1536 characters or longer (it cannot be read), it is ignored silently (no warning).
 2. Parse the text as JSON using ordinary JSON rules, including: leading whitespace allowed; text after the first complete value is ignored (`[...]xyz` is accepted); string escapes decoded (`\" \\ \/ \b \f \n \r \t`, `\uXXXX` to UTF-8, surrogate pairs combined). A decoded string ends at its first NUL (`\u0000` truncates the string; an SSID that becomes empty is rejected by the acceptance rule).
-3. If the text is non-empty and either fails to parse or parses to something other than an array, log at warning level `ignoring unreadable saved networks` and treat there as no others. An empty text or an empty array is silent.
+3. If the text is non-empty and either fails to parse or parses to something other than an array, log at warning level `saved network data unreadable, skipping it` and treat there as no others. An empty text or an empty array is silent.
 4. For each element of the array, in order: skip anything that is not an object. The element's `s` must be a string, else skip. `p` is used if it is a string, else the password is the empty string. `hidden` is true only when `h` is the JSON literal `true` (the number 1, the string `"true"`, `false`, `null`, anything else is not hidden). Field names are case-sensitive (`S`, `P`, `H` mean nothing). If an object repeats a field name, the first occurrence counts; unknown fields are ignored. Each candidate goes through the acceptance rule.
 
 ### 5.3 Acceptance rule (applies to the first network and to every element)
@@ -116,7 +116,7 @@ Notes on consequences (all pinned by vectors): with the `ssid` key unusable, the
 
 ### 5.4 Result
 
-`list->count` is the number of accepted entries; the struct is zero-filled before loading. Return value equals count. If working memory for the `wifi_others` text cannot be obtained, log at warning level `no memory for the other saved networks` and return what was loaded from the legacy keys (the first network only).
+`list->count` is the number of accepted entries; the struct is zero-filled before loading. Return value equals count. If working memory for the `wifi_others` text cannot be obtained, log at warning level `out of memory loading the remaining saved networks` and return what was loaded from the legacy keys (the first network only).
 
 ## 6. The saving rule (shared by remember, forget, forget-all)
 
@@ -142,7 +142,7 @@ Rules that apply to all steps:
 - **Per-key commit.** Each key write or erase is committed on its own. There is no multi-key atomicity.
 - **Keep going.** If one step fails, the later steps are still attempted. The save returns false if any step failed. No rollback is attempted. A partial save is possible (for example the new `ssid` with the old `wifi_others`) and must still load as a valid list under section 5; the step order above is chosen so that at every point a valid first network is stored (name then password) and a failure never leaves the namespace unreadable.
 - A failure to open the namespace for writing fails every step.
-- On a failed save log at warning level: `saving the Wi-Fi networks failed`.
+- On a failed save log at warning level: `could not write the saved networks`.
 
 ## 7. remember
 
@@ -193,7 +193,7 @@ If the removed entry was first, the next entry takes its place: its name goes to
 
 - **Thread-safe from any task.** Concurrent calls from different tasks (load, remember, forget, forget-all) must each see and leave a consistent store: a call's read-modify-write must not interleave with another call's. `rabble_wifi_known_init` establishes whatever is needed; calls made before `init` still work (single-task use) but are not serialised.
 - **Internal-RAM-stack constraint.** These calls read and write NVS (flash). Flash writes suspend the cache, so the calling task must have its stack in internal RAM (created with the plain FreeRTOS task-create call, not a PSRAM-stack variant). The new header must carry a comment saying so. The module itself must keep its own stack use under 512 bytes per call (excluding ESP-IDF's NVS internals): working lists and JSON text come from the heap, not the caller's stack. Callers may have stacks as small as 6 KB.
-- **Allocation failure.** A call that cannot get working memory fails safely: `load` per 5.4; `remember`, `forget` and `forget-all` return false, log at warning level `no memory to update the saved networks`, and change nothing in flash.
+- **Allocation failure.** A call that cannot get working memory fails safely: `load` per 5.4; `remember`, `forget` and `forget-all` return false, log at warning level `out of memory rewriting the saved networks`, and change nothing in flash.
 - **Secrets hygiene.** Temporary copies of passwords (the loaded lists, JSON text, parse trees, scratch buffers used to compare stored values) are cleared with a non-elidable overwrite before they are freed. The caller is responsible for `rabble_wifi_known_wipe` on its own list.
 
 ## 11. Test vehicle and golden vectors
@@ -220,7 +220,7 @@ Log text references are exact. The store has no serial command of its own; on th
 
 ### 12.1 Serial-only
 
-1. Boot with a device that already has data from the previous firmware (the integrator should keep a flash image from before the swap): the saved networks list in the settings UI and the log show the same networks, in the same order, with the same hidden flags, and the device joins as before. No `ignoring unreadable saved networks` warning.
+1. Boot with a device that already has data from the previous firmware (the integrator should keep a flash image from before the swap): the saved networks list in the settings UI and the log show the same networks, in the same order, with the same hidden flags, and the device joins as before. No `saved network data unreadable, skipping it` warning.
 2. Join a new network through the radio path: reading the namespace back (esptool/NVS dump, or the host-side NVS parse of a flash read) shows `ssid`, `password`, no `wifi_hidden` (picked from a scan) or `wifi_hidden`=`1` (typed), and `wifi_others` as the previous first network, byte-exact per section 4.
 3. Forget the first network while others exist: the next one is in `ssid`/`password`, `wifi_channel` is gone, `wifi_others` shrinks or goes away. Forget all: all five keys are gone.
 4. Join a saved network that is not first (let the radio rejoin it): it moves first with its flag and password kept (negative-hidden path), and only changed keys are written (flash write count does not rise for unchanged keys, if measurable).

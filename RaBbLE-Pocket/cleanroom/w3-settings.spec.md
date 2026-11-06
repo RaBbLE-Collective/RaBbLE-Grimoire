@@ -88,11 +88,11 @@ Getter output buffers always receive a terminated string, truncated to the macro
 | Caller | Uses |
 |---|---|
 | `accord/rabble_app.c` | `rabble_settings_init()` under a fatal-on-error check, before board init; `rabble_settings_set_listener(...)` after board init. Its listener runs on the caller's task and reacts to: VOLUME (push volume to the audio module), MIC_GAIN (push gain), WIFI (ask the Wi-Fi manager to apply now), BEAM (tell the beam client its config changed); all other names ignored. |
-| `accord/rabble_setup.c` (serial task) | all integer/boolean setters (`volume`, `speaker`, `mic_gain`, `brightness`, `sleep`, `power_off`, `raise_wake`, `wifi.on`; ranges are checked there first), `set_wifi_on(true)` before a join, `set_beam_url`, `set_beam_token(value, append)` (maps `ESP_OK` to reply `ok`, anything else to `error: token too long`), `set_voice`; getters for the status JSON (`wifi_on`, `beam_url`, `beam_token_len() > 0`, `voice`, `volume`, `speaker_on`, `mic_gain`, `brightness`, `sleep_s`, `power_off_s`). |
+| `accord/rabble_setup.c` (serial task) | all integer/boolean setters (`volume`, `speaker`, `mic_gain`, `brightness`, `sleep`, `power_off`, `raise_wake`, `wifi.on`; ranges are checked there first), `set_wifi_on(true)` before a join, `set_beam_url`, `set_beam_token(value, append)` (maps `ESP_OK` to reply `ok`, anything else to `error: token over 255 characters`), `set_voice`; getters for the status JSON (`wifi_on`, `beam_url`, `beam_token_len() > 0`, `voice`, `volume`, `speaker_on`, `mic_gain`, `brightness`, `sleep_s`, `power_off_s`). |
 | `apache/rabble_settings_ui.c` (LVGL task) | every setter: wifi switch, speaker switch, volume/mic/brightness sliders, voice cycling, sleep and power-off choices, raise switch, `set_beam_url`, `set_beam_token(text, false)` (only when text is non-empty); getters to fill widgets. |
 | `accord/rabble_input.c` | `power_off_s()`, `sleep_s()` on every sleep check (so changes apply live). |
 | `accord/rabble_motion.c` | `raise_wake()` while asleep. |
-| `accord/rabble_ui.c` | `brightness()` when fading the panel. |
+| `rabble_screen.c` (SDK, `w9-ui-power-block.spec.md`) | `brightness()` when applying the saved brightness. |
 | `apache/rabble_audio.c`, `rabble_voice.c` | `volume()`, `mic_gain()`, `speaker_on()`. |
 | `apache/rabble_wifi.c` | `wifi_on()`. |
 | `apache/rabble_beam.c`, `accord/rabble_beam_score.c` | `beam_url()`, `beam_token()`, `speaker_on()`, `voice()`. |
@@ -151,7 +151,7 @@ Note the key names `bright`, `sleep_s`, `off_s`, `wifi_on`, `raise` differ from 
 
 Requirements on `rabble_settings_init`:
 
-- It brings up the default flash NVS partition for the whole firmware. When ESP-IDF reports that the partition has no free pages, or that a newer layout version was found, the partition is unusable as is: log the warning `NVS layout changed, erasing`, erase the whole partition and bring it up again. If that erase fails, the device cannot continue (abort/restart is acceptable). Any other bring-up failure makes init return that code.
+- It brings up the default flash NVS partition for the whole firmware. When ESP-IDF reports that the partition has no free pages, or that a newer layout version was found, the partition is unusable as is: log the warning `settings layout outdated, wiping`, erase the whole partition and bring it up again. If that erase fails, the device cannot continue (abort/restart is acceptable). Any other bring-up failure makes init return that code.
 - It then needs the `rabble` namespace open read-write; if that fails, init returns the code.
 - On any failure return, every value stays at its default (section 3) and nothing has been written. The app treats a non-OK result as fatal.
 - On success every value has been loaded (6.2), one summary line has been logged, and init returns `ESP_OK`. Setters and string getters must be safe to use from the moment init returns.
@@ -222,7 +222,7 @@ Stores the text truncated to 15 characters (no error, no trimming, no case chang
 | the resulting length (current length when appending, else 0, plus the length of `token`) is at most 255 | success: the token is stored, saved to `beam_token` (string), the function returns `ESP_OK`, the listener is notified with `RABBLE_SETTING_BEAM`. |
 | the resulting length would exceed 255 | **nothing changes**: the old token stays (also when replacing), nothing is written or committed, no listener call, the function returns `ESP_ERR_INVALID_SIZE`. |
 
-A token of exactly 255 characters is valid. Appending an empty string to any token succeeds and still writes and notifies (even when the token is already 255 long). Replacing a full token with a shorter one works. The returned code is the only token-related error: `ESP_ERR_INVALID_SIZE` for oversize, otherwise `ESP_OK`; the console layer prints `error: token too long` for any non-OK. The module never logs the token or part of it. Token characters are arbitrary (no trimming, no escaping, no validation). The chunk-by-chunk behaviour is observable: after each accepted append the saved value and getter equal the whole token so far, so a power loss between chunks leaves the partial token stored.
+A token of exactly 255 characters is valid. Appending an empty string to any token succeeds and still writes and notifies (even when the token is already 255 long). Replacing a full token with a shorter one works. The returned code is the only token-related error: `ESP_ERR_INVALID_SIZE` for oversize, otherwise `ESP_OK`; the console layer prints `error: token over 255 characters` for any non-OK. The module never logs the token or part of it. Token characters are arbitrary (no trimming, no escaping, no validation). The chunk-by-chunk behaviour is observable: after each accepted append the saved value and getter equal the whole token so far, so a power loss between chunks leaves the partial token stored.
 
 ## 8. Behaviour on errors and bad stored data (collected)
 
@@ -274,7 +274,7 @@ All of these are serial-only unless noted; use `>key=value` console lines (W1 se
 3. Existing devices: after flashing the new build over a unit configured with the old build, all of the above survive (no re-erase, no change of values; the check that NVS wasn't erased: saved Wi-Fi networks still join).
 4. Clamping (via the UI sliders and the setup ranges): the setup layer rejects out-of-range numbers before they reach this module; reaching the clamp needs the host test (vectors). On the device the brightness slider cannot go under 10, and an out-of-range console number is refused by the setup layer.
 5. `>beam.url=` (empty) then `>status` shows the build default URL; reboot keeps it.
-6. Token chunks: `>beam.token=` followed by `>beam.token+=<~100 chars>` three times (total over 255): the third append replies `error: token too long`, `>status` token still present, the earlier chunks remain; replacing with `>beam.token=<255 chars>` replies `ok`; `>beam.token=<256 chars>` replies `error: token too long` (needs a console line of up to 1023 characters).
+6. Token chunks: `>beam.token=` followed by `>beam.token+=<~100 chars>` three times (total over 255): the third append replies `error: token over 255 characters`, `>status` token still present, the earlier chunks remain; replacing with `>beam.token=<255 chars>` replies `ok`; `>beam.token=<256 chars>` replies `error: token over 255 characters` (needs a console line of up to 1023 characters).
 7. Listener effects (hands/audio): `volume=` changes the output loudness at once; `mic_gain=` changes the capture level at once; `wifi.on=0` takes Wi-Fi down, `wifi.on=1` brings it back promptly; `beam.url=` makes the beam client reconnect to the new endpoint (visible in `>status` beam state).
 8. Settings UI (hands): toggling Speaker, Raise to wake, Wi-Fi; sliders for volume, mic gain, brightness; sleep and power-off choice lists; sCoRE URL and token text entry; voice cycling. Each survives a reboot.
 9. Boot log has no lines from this module other than the single info summary (and nothing on a normal boot at warning level).
@@ -304,4 +304,4 @@ All five must pass byte for byte. The `reboot` op means: reset RAM state to buil
 5. **Mic gain is not rounded to 3 dB here.** The audio layer applies the 3 dB steps; the getter can return a non-multiple of 3 (for example from `>mic_gain=7`).
 6. **Erase on layout change** also wipes the Wi-Fi module's saved networks (same partition). Intended in the sense of a corrupt partition; noted because it surprises users.
 7. **Setter before init.** Unspecified but must not crash; the original ordering (init first in the app) makes it unreachable.
-8. **Log text.** Only `NVS layout changed, erasing` is quoted; the init summary wording is free (the checklist does not grep it).
+8. **Log text.** Only `settings layout outdated, wiping` is quoted; the init summary wording is free (the checklist does not grep it).

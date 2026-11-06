@@ -3,7 +3,7 @@ STEP	2	boot poweron
 STEP	3	init
 STEP	4	nodump
 STEP	5	power 90 4100 0 0 1
-LOG	I	on battery at 90% (4100 mV): measuring
+LOG	I	unplugged at 90% (4100 mV), measuring drain
 STEP	6	time 100000000
 STEP	7	power 89 4090 0 0 1
 STEP	8	time 200000000
@@ -11,7 +11,7 @@ STEP	9	state 1 1
 STEP	10	time 250000000
 STEP	11	wake 4000000
 STEP	12	power 89 4085 0 1 0
-LOG	I	USB back after 240 s on battery: 90% -> 89% (4100 -> 4090 mV)
+LOG	I	plugged in after 240 s unplugged: 90% -> 89% (4100 -> 4090 mV)
 STEP	13	rtc
 RTC	valid	189	{"boot":"power on","uptime":250,"started":true,"running":false,"secs":240,"battery_pct":[90,89],"battery_mv":[4100,4090],"screen_off":20.8,"resting":20.8,"slept":1.6,"sleeps":1,"busy":null}
 STEP	14	boot panic

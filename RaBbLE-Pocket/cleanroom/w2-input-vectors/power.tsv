@@ -64,8 +64,8 @@ none	1	1	1	0	1	0	0	-
 none	1	1	1	0	1	1	0	-
 none	1	1	1	1	0	0	0	-
 none	1	1	1	1	0	1	0	-
-none	1	1	1	1	1	0	1	display_pause(1)|cpu_low(1)|log:low power: display paused
-none	1	1	1	1	1	1	1	display_pause(1)|log:display paused (USB host: CPU at full speed)
+none	1	1	1	1	1	0	1	display_pause(1)|cpu_low(1)|log:reduced power: screen refresh suspended
+none	1	1	1	1	1	1	1	display_pause(1)|log:screen refresh suspended (USB host keeps CPU at full speed)
 rest	0	0	0	0	0	0	0	cpu_low(0)|display_pause(0)|log:full power
 rest	0	0	0	0	0	1	0	cpu_low(0)|display_pause(0)|log:full power
 rest	0	0	0	0	1	0	0	cpu_low(0)|display_pause(0)|log:full power
@@ -129,7 +129,7 @@ rest	1	1	1	0	1	1	0	cpu_low(0)|display_pause(0)|log:full power
 rest	1	1	1	1	0	0	0	cpu_low(0)|display_pause(0)|log:full power
 rest	1	1	1	1	0	1	0	cpu_low(0)|display_pause(0)|log:full power
 rest	1	1	1	1	1	0	1	-
-rest	1	1	1	1	1	1	1	cpu_low(0)|log:display paused (USB host: CPU at full speed)
+rest	1	1	1	1	1	1	1	cpu_low(0)|log:screen refresh suspended (USB host keeps CPU at full speed)
 host	0	0	0	0	0	0	0	display_pause(0)|log:full power
 host	0	0	0	0	0	1	0	display_pause(0)|log:full power
 host	0	0	0	0	1	0	0	display_pause(0)|log:full power
@@ -192,5 +192,5 @@ host	1	1	1	0	1	0	0	display_pause(0)|log:full power
 host	1	1	1	0	1	1	0	display_pause(0)|log:full power
 host	1	1	1	1	0	0	0	display_pause(0)|log:full power
 host	1	1	1	1	0	1	0	display_pause(0)|log:full power
-host	1	1	1	1	1	0	1	cpu_low(1)|log:low power: display paused
+host	1	1	1	1	1	0	1	cpu_low(1)|log:reduced power: screen refresh suspended
 host	1	1	1	1	1	1	1	-

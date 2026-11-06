@@ -74,7 +74,7 @@ Handles; whether the codecs are open ("audio on"); the high-pass filter memory; 
 2. Open the mic codec with the format in section 3; fail with `ESP_FAIL` if it does not open. (The speaker is not opened here: 6.5.)
 3. Apply `mic_gain_db` (6.3) and remember `volume` as the current volume (applied when the speaker output activates, 6.5).
 4. Set up the 80 Hz high-pass (6.4) with the filter memory at zero.
-5. Log at info level exactly: `audio ready: 16000 Hz, 2 ch, vol <volume>, mic gain <db> dB` (for example `audio ready: 16000 Hz, 2 ch, vol 70, mic gain 30 dB`). Return `ESP_OK`.
+5. Log at info level exactly: `codec up: 16000 Hz, 2 ch, volume <volume>, mic gain <db> dB` (for example `codec up: 16000 Hz, 2 ch, volume 70, mic gain 30 dB`). Return `ESP_OK`.
 
 After a successful init the module is "on" and idle: mic live, speaker output at rest (6.5). Failure logs are free text.
 
@@ -156,14 +156,14 @@ Runs once per boot (called by the voice task as it starts, before the first turn
 2. Playback: write 4160 frames of silence (flush), then 8000 more frames of silence timed likewise, through the codec at the real rate (the gating of 6.5 keeps the speaker silent; the pacing must still be real so the playback rate measurement is meaningful).
 3. For each slot over the 8000 measured frames: mean `m`, variance `v = mean of squares - m^2`, peak `max |sample|`; correlation of the two slots `(mean(l*r) - ml*mr) / (sqrt(vl*vr) + 1e-9)`. Level per slot: `10 * log10(v / 32768^2 + 1e-10)` dBFS (so DC does not count).
 4. Log exactly two info lines (in this order):
-   - `self-test @ <gain> dB: mic L <lvl> dBFS (peak <p>, dc <d>), R <lvl> dBFS (peak <p>, dc <d>), corr <c>` with `<gain>` the settings mic gain as an integer, levels `%.1f`, peak an integer, dc the mean truncated to an integer (toward zero), corr `%.2f`.
-   - `self-test: capture <hz> Hz, playback <hz> Hz (expected 16000)` with each rate `8000 * 1e6 / elapsed_us`, printed with no decimals (`%.0f`).
+   - `selftest at gain <gain> dB: left <lvl> dBFS (pk <p>, dc <d>), right <lvl> dBFS (pk <p>, dc <d>), L/R corr <c>` with `<gain>` the settings mic gain as an integer, levels `%.1f`, peak an integer, dc the mean truncated to an integer (toward zero), corr `%.2f`.
+   - `selftest rates: mic <hz> Hz, speaker <hz> Hz, nominal 16000` with each rate `8000 * 1e6 / elapsed_us`, printed with no decimals (`%.0f`).
 
 Golden vectors: `expected/selftest_*.log` (levels within 0.1 dB, rates within 1 Hz, `corr` within 0.01).
 
 ### 6.10 Loopback test
 
-On a powered module: allocate a capture buffer of 3200 stereo frames in `RABBLE_BIG_CAPS` memory (return silently, logging nothing, if it cannot); apply the given volume; log `loopback: speaker vol <volume>, tone -12 dBFS; values = mic L/R tone level dBFS`. For each mic gain in 0, 6, 12, 18, 24, 30, 33, 36 dB (applied through 6.3):
+On a powered module: allocate a capture buffer of 3200 stereo frames in `RABBLE_BIG_CAPS` memory (return silently, logging nothing, if it cannot); apply the given volume; log `loopback test: -12 dBFS tone at volume <volume>; figures are mic L/R tone level in dBFS`. For each mic gain in 0, 6, 12, 18, 24, 30, 33, 36 dB (applied through 6.3):
 
 - measure the noise floor per mic slot with the speaker silent, then for each of 200, 400, 700, 1000, 2000, 3000, 4000, 6000 Hz play a continuous sine at -12 dBFS (amplitude 8191.75, same on both slots) for about 400 ms while recording, and measure from the settled second half of the recording the level of that frequency per slot (the amplitude of the single-frequency component, as `20 * log10(amp / 32768 + 1e-7)` dBFS), plus the peak sample over both slots across the tones of this gain. Floor levels are mean-square (`10 * log10(ms / 32768^2 + 1e-10)`).
 - Log one line per gain, exactly: `gain <g%2d>: floor <L%.0f>/<R%.0f> | <f>:<L%.0f>/<R%.0f> <f>:... | peak <p%.1f> dBFS`, where the peak is `20 * log10((peak + 1) / 32768)` and the eight tone entries are separated by single spaces (see the vectors for the exact result).
@@ -205,7 +205,7 @@ Serial keys: `d`/`u` push-to-talk from the host (each spends speech quota; keep 
 
 ### 9.1 Serial-only
 
-1. Boot log shows `audio ready: 16000 Hz, 2 ch, vol <v>, mic gain <g> dB` and, about 1.5 s later, two `self-test` lines in the format of 6.9: capture and playback both within a few Hz of 16000; L and R levels sane (not -100); `corr` printed.
+1. Boot log shows `codec up: 16000 Hz, 2 ch, volume <v>, mic gain <g> dB` and, about 1.5 s later, two `self-test` lines in the format of 6.9: capture and playback both within a few Hz of 16000; L and R levels sane (not -100); `corr` printed.
 2. `c` produces the chirp; the log shows nothing new from this module. Repeated `c` (3 times, spaced 0.1 s) does not log errors.
 3. Sleep and wake (`z`, then `w`) on battery with the voice resting: the console shows no `i2s_common` error text; after wake the mic path works (a `d`/`u` turn records, the pre-roll is audible in the transcript).
 4. A `volume=` setting while idle changes nothing audible and nothing is logged; the next sound uses the new volume. A `mic_gain=` setting takes effect on the next recording (`>status` shows it; a `self-test` rerun is not available over serial).

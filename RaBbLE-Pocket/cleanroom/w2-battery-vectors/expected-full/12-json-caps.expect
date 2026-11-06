@@ -16,7 +16,7 @@ JSON	59	{"boot":"jtag","uptime":1,"started":false,"running":false,"
 STEP	12	jsoncap 4096
 STEP	13	time 2000000
 STEP	14	power 70 3900 0 0 1
-LOG	I	on battery at 70% (3900 mV): measuring
+LOG	I	unplugged at 70% (3900 mV), measuring drain
 STEP	15	time 62000000
 STEP	16	json
 JSON	180	{"boot":"jtag","uptime":62,"started":true,"running":true,"secs":60,"battery_pct":[70,70],"battery_mv":[3900,3900],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":null}

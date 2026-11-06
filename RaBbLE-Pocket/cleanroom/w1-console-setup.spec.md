@@ -114,12 +114,12 @@ It must not touch NVS, the radio, audio or the display directly, and must not ca
 |---|---|---|---|---|
 | `wifi.ssid=<text>` | any text; kept to 32 characters (longer is cut) | Stores it as the pending network name AND clears the pending password. Nothing is joined yet. | `ok` | none (RAM only; lost on reboot) |
 | `wifi.pass=<text>` | any text, including empty; kept to 64 characters | Stores it as the pending password. | `ok` | none (RAM only) |
-| `wifi.connect` | (value ignored) | If no pending name exists (never set, or set empty): reply error, nothing else happens. Otherwise: turn Wi-Fi on in settings (`rabble_settings_set_wifi_on(true)`), then call `rabble_wifi_join(name, password)`, then erase the pending password (the name stays). Order matters: Wi-Fi on first, then join. | `ok` or `error: send wifi.ssid first` | Wi-Fi on flag and the saved network list (by those modules) |
+| `wifi.connect` | (value ignored) | If no pending name exists (never set, or set empty): reply error, nothing else happens. Otherwise: turn Wi-Fi on in settings (`rabble_settings_set_wifi_on(true)`), then call `rabble_wifi_join(name, password)`, then erase the pending password (the name stays). Order matters: Wi-Fi on first, then join. | `ok` or `error: set wifi.ssid before connecting` | Wi-Fi on flag and the saved network list (by those modules) |
 | `wifi.forget` or `wifi.forget=<ssid>` | optional text | `rabble_wifi_forget(value)` with the value as given; an empty value means every saved network | `ok`, always (even if that name was not saved) | saved network list |
 | `wifi.on=<0\|1>` | integer 0 to 1 | `rabble_settings_set_wifi_on`. Not listed in the header comment but supported and must be kept. | `ok` | settings |
 | `beam.url=<text>` | any text; empty restores the build default (the settings module does that) | `rabble_settings_set_beam_url` | `ok` | settings |
-| `beam.token=<text>` | any text | Replace the stored token (`rabble_settings_set_beam_token(value, append=false)`). If the settings module refuses (token would exceed 255 characters), the reply is the error and the old token is unchanged. | `ok` or `error: token too long` | settings |
-| `beam.token+=<text>` | any text | Same but appends to the stored token (for sending a long token in chunks). Total over 255 characters: error, nothing changes. The command name here is `beam.token+`, then `=`. | `ok` or `error: token too long` | settings |
+| `beam.token=<text>` | any text | Replace the stored token (`rabble_settings_set_beam_token(value, append=false)`). If the settings module refuses (token would exceed 255 characters), the reply is the error and the old token is unchanged. | `ok` or `error: token over 255 characters` | settings |
+| `beam.token+=<text>` | any text | Same but appends to the stored token (for sending a long token in chunks). Total over 255 characters: error, nothing changes. The command name here is `beam.token+`, then `=`. | `ok` or `error: token over 255 characters` | settings |
 | `beam.test` | (ignored) | `rabble_beam_test()`: reconnect to sCoRE now; the outcome is visible later in the status. The reply does not wait for the result. | `ok` | none |
 | `test.loopback` | (ignored) | `rabble_voice_request_loopback()`: asks the voice task to run the speaker-to-mic bench test at the current volume when idle; results go to the log. | `ok` | none |
 | `volume=<n>` | 0 to 100 | `rabble_settings_set_volume` | `ok` | settings |
@@ -141,7 +141,7 @@ Argument forms of note:
 
 After every command, whether it succeeded or not, in this order:
 
-1. The result text is remembered as the "last result": the command name, a colon, a space, then the reply. Example: `volume: ok`, `wifi.connect: error: send wifi.ssid first`, `foo: error: unknown command or bad value`. The remembered text is capped at 63 characters (longer is cut; this only happens with very long unknown names). The value is never part of it. For a line with no name (`>` alone or `>=x`) the text is `: error: unknown command or bad value`.
+1. The result text is remembered as the "last result": the command name, a colon, a space, then the reply. Example: `volume: ok`, `wifi.connect: error: set wifi.ssid before connecting`, `foo: error: unrecognized command or invalid value`. The remembered text is capped at 63 characters (longer is cut; this only happens with very long unknown names). The value is never part of it. For a line with no name (`>` alone or `>=x`) the text is `: error: unrecognized command or invalid value`.
 2. One log line at info level, tag `rabble_setup`, with the message `cmd <name>=<value> -> <reply>` (for a plain case), or `cmd <name> -> <reply>` for secrets: when the name is `wifi.pass` or begins with `beam.token` (this includes `beam.token+` and any longer name that starts that way, even unknown ones) the `=` and the value are omitted from the log. Other values, including the Wi-Fi name and the beam URL, are logged. A command with no `=` still logs `cmd <name>=` followed by an empty value (the original prints the equals sign whenever the name is not a secret).
 3. One console line printed to standard output and flushed: `@setup <last result>` followed by a newline. Example: `@setup volume: ok`. This is the line host tools wait for. It is printed exactly once per command.
 4. The interaction clock is poked (`rabble_state_poke()`) so the screen wakes and the idle timers restart. This happens for every command, including errors and unknown names.
@@ -151,9 +151,9 @@ Reply texts (all exact):
 | Situation | Reply |
 |---|---|
 | success | `ok` |
-| `wifi.connect` before any usable `wifi.ssid` | `error: send wifi.ssid first` |
-| token would exceed 255 characters | `error: token too long` |
-| unknown name, rejected integer, or empty line | `error: unknown command or bad value` |
+| `wifi.connect` before any usable `wifi.ssid` | `error: set wifi.ssid before connecting` |
+| token would exceed 255 characters | `error: token over 255 characters` |
+| unknown name, rejected integer, or empty line | `error: unrecognized command or invalid value` |
 
 Secrets are never echoed anywhere: not in the reply, not in the log, not in the remembered result, not in the status JSON (only a presence flag for the token; the Wi-Fi password is never reported).
 
@@ -195,7 +195,7 @@ One JSON object on a single line, no whitespace outside strings, keys in exactly
 | 4 | `usb` | boolean | external power present |
 | 5 | `charging` | boolean | charger active |
 | 6 | `wifi` | object | members in order: `on` (boolean, Wi-Fi switched on in settings), `state` (string, see below), `ssid` (string, current network name, empty if none), `ip` (string, dotted address as reported, empty if none), `rssi` (number, as reported) |
-| 7 | `beam` | object | members in order: `url` (string), `token` (boolean, true if any token is stored; the token itself never appears), `state` (string, the beam module's display name for its state: `Not set up`, `Offline`, `Saved`, `Connecting`, `Connected`, `Can't connect`) |
+| 7 | `beam` | object | members in order: `url` (string), `token` (boolean, true if any token is stored; the token itself never appears), `state` (string, the beam module's display name for its state: `Not set up`, `Offline`, `Saved`, `Dialing`, `Linked`, `Dial failed`) |
 | 8 | `voice` | string | stored voice name, empty for default |
 | 9 | `volume` | number | percent |
 | 10 | `speaker` | boolean | |
@@ -207,7 +207,7 @@ One JSON object on a single line, no whitespace outside strings, keys in exactly
 
 The Wi-Fi `state` strings, by the Wi-Fi module's states in enum order (off, no network, connecting, connected, failed, not nearby): `off`, `no_network`, `connecting`, `connected`, `failed`, `not_nearby`; any value outside that range gives `unknown`.
 
-String escaping applies to `ssid`, `url` and `last` only: a double quote or backslash is preceded by a backslash; any character below 0x20 is replaced by `?`; bytes at 0x80 and above pass through unchanged; the other strings (`name`, `fw`, `ip`, `voice`, `state` texts) are inserted as is (the beam state `Can't connect` contains an apostrophe, which is legal in JSON). Escaped fields are cut so the result stays bounded: ssid at no more than 62 output characters, url at no more than 252, last at no more than 125 (a 32-character ssid made entirely of quotes escapes to 64 characters and loses its tail; exact cut points are not relied on, only that the object stays valid JSON and within bounds).
+String escaping applies to `ssid`, `url` and `last` only: a double quote or backslash is preceded by a backslash; any character below 0x20 is replaced by `?`; bytes at 0x80 and above pass through unchanged; the other strings (`name`, `fw`, `ip`, `voice`, `state` texts) are inserted as is. Escaped fields are cut so the result stays bounded: ssid at no more than 62 output characters, url at no more than 252, last at no more than 125 (a 32-character ssid made entirely of quotes escapes to 64 characters and loses its tail; exact cut points are not relied on, only that the object stays valid JSON and within bounds).
 
 Booleans are written `true` or `false`. The return value and truncation follow `snprintf`. With the worst case of all fields long, the text stays under 1024 bytes, which is the buffer the console command supplies; if `len` is smaller, the output is cut and NUL terminated as `snprintf` does, and the full length is returned.
 
@@ -234,18 +234,18 @@ Use a serial terminal on the gadget's USB port. Every console line starts with `
 | # | Type | Expect |
 |---|---|---|
 | 1 | `>volume=40` | `@setup volume: ok`; the volume slider in settings reads 40; survives a reboot |
-| 2 | `>volume=101`, `>volume=`, `>volume=abc`, `>volume=40x`, `>volume` | each prints `@setup volume: error: unknown command or bad value`; volume unchanged |
-| 3 | `>nonsense` and `>` alone | `@setup nonsense: error: unknown command or bad value` and `@setup : error: unknown command or bad value` |
-| 4 | `>wifi.connect` straight after boot (before any ssid) | `@setup wifi.connect: error: send wifi.ssid first` |
+| 2 | `>volume=101`, `>volume=`, `>volume=abc`, `>volume=40x`, `>volume` | each prints `@setup volume: error: unrecognized command or invalid value`; volume unchanged |
+| 3 | `>nonsense` and `>` alone | `@setup nonsense: error: unrecognized command or invalid value` and `@setup : error: unrecognized command or invalid value` |
+| 4 | `>wifi.connect` straight after boot (before any ssid) | `@setup wifi.connect: error: set wifi.ssid before connecting` |
 | 5 | `>wifi.ssid=<your network>` then `>wifi.pass=<password>` then `>wifi.connect` | three `ok` lines; the log shows `cmd wifi.ssid=<name> -> ok`, `cmd wifi.pass -> ok` (password absent), `cmd wifi.connect= -> ok`; Wi-Fi comes on and joins; the network appears first in the saved list |
 | 6 | `>wifi.ssid=<open network>` then `>wifi.connect` (no pass) | joins with an empty password; no leftover password from step 5 is used |
 | 7 | `>wifi.connect` a second time with no new pass | joins the same name again with an empty password (documented quirk; secured networks will fail with the wrong-password state) |
 | 8 | `>wifi.forget=<name>`, then `>wifi.forget` | `ok` each; first removes one saved network, second removes all; `ok` even for an unsaved name |
 | 9 | `>wifi.on=0`, `>wifi.on=1`, `>wifi.on=2` | the first two `ok` and Wi-Fi goes off/on; the third is the error reply |
-| 10 | `>beam.url=ws://192.168.1.20:8000/api/v1/beam`, `>beam.test` | `ok` each; status `beam.state` goes to `Connecting` then `Connected` or `Can't connect`; `>beam.url=` restores the build default |
+| 10 | `>beam.url=ws://192.168.1.20:8000/api/v1/beam`, `>beam.test` | `ok` each; status `beam.state` goes to `Dialing` then `Linked` or `Dial failed`; `>beam.url=` restores the build default |
 | 11 | `>beam.token=abc`, then `>beam.token+=def`, then `status` | `ok`, `ok`; status shows `"token":true`; the token string is never printed anywhere; log lines read `cmd beam.token -> ok` and `cmd beam.token+ -> ok` |
 | 12 | `>beam.token=` then `status` | `ok`; `"token":false` |
-| 13 | send a 256-character token, and an append that would pass 255 | `@setup beam.token: error: token too long` and the `beam.token+` form; the earlier token is intact |
+| 13 | send a 256-character token, and an append that would pass 255 | `@setup beam.token: error: token over 255 characters` and the `beam.token+` form; the earlier token is intact |
 | 14 | `>voice=troy`, `>voice=` | `ok`; status `voice` shows `troy` then empty |
 | 15 | `>speaker=0`, `>mic_gain=36`, `>mic_gain=37`, `>brightness=9`, `>brightness=10`, `>sleep=3600`, `>sleep=3601`, `>power_off=0`, `>raise_wake=1` | `ok` for the in-range values, error for 37, 9 and 3601; screen brightness and sleep timer follow |
 | 16 | `>test.loopback` while idle | `ok`; the speaker plays and the log shows the loopback result |
@@ -281,11 +281,11 @@ Stubs: `rabble_settings.h` (recording setters with the real `RABBLE_*_MAX` value
 Cases:
 
 1. `volume=40`: setter called with 40, output exactly `@setup volume: ok\n`, one poke, one log line `cmd volume=40 -> ok`.
-2. Boundaries for every integer command: lowest and highest accepted values pass, one beyond each side gives `error: unknown command or bad value` and no setter call. Include `volume` (0, 100), `mic_gain` (0, 36), `brightness` (10, 100), `sleep` (0, 3600), `power_off` (0, 3600), `speaker`, `raise_wake`, `wifi.on` (0, 1; 2 rejected).
+2. Boundaries for every integer command: lowest and highest accepted values pass, one beyond each side gives `error: unrecognized command or invalid value` and no setter call. Include `volume` (0, 100), `mic_gain` (0, 36), `brightness` (10, 100), `sleep` (0, 3600), `power_off` (0, 3600), `speaker`, `raise_wake`, `wifi.on` (0, 1; 2 rejected).
 3. Malformed integers: empty, `abc`, `12x`, ` 5` handled as the C library parses, `0x10`, `1.5`, `+7` accepted, `-1` rejected for all.
 4. Name and split: `foo=bar=baz` gives name `foo`, value `bar=baz`; `voice=a=b` passes `a=b` to the setter; line without `=` runs `wifi.forget` as the all-networks form (forget called with empty string).
-5. Wi-Fi flow: `wifi.connect` first gives `error: send wifi.ssid first` and no join. Then `wifi.ssid=Home`, `wifi.pass=pw`, `wifi.connect`: Wi-Fi-on setter called with true before join, join called with (`Home`, `pw`), password then erased; a second `wifi.connect` joins (`Home`, ``). `wifi.ssid=X` after `wifi.pass=pw` gives pending password empty. A 40-character ssid is cut to 32; 80-character password to 64. `wifi.ssid=` then connect gives the error.
-6. Token: `beam.token=abc` calls the setter with append false; `beam.token+=def` with append true; setter refusal gives `error: token too long`; reply text exact. `beam.token+` as a distinct name from `beam.token`; `beam.tokenx` is unknown and its value is also absent from the log.
+5. Wi-Fi flow: `wifi.connect` first gives `error: set wifi.ssid before connecting` and no join. Then `wifi.ssid=Home`, `wifi.pass=pw`, `wifi.connect`: Wi-Fi-on setter called with true before join, join called with (`Home`, `pw`), password then erased; a second `wifi.connect` joins (`Home`, ``). `wifi.ssid=X` after `wifi.pass=pw` gives pending password empty. A 40-character ssid is cut to 32; 80-character password to 64. `wifi.ssid=` then connect gives the error.
+6. Token: `beam.token=abc` calls the setter with append false; `beam.token+=def` with append true; setter refusal gives `error: token over 255 characters`; reply text exact. `beam.token+` as a distinct name from `beam.token`; `beam.tokenx` is unknown and its value is also absent from the log.
 7. Secrets: log lines for `wifi.pass=hunter2` and `beam.token=SECRET` contain neither `hunter2` nor `SECRET` nor `=`; `@setup` line and the status JSON contain neither.
 8. Unknown and empty: `""`, `"="`, `"status"`, `"face=idle"` each print the unknown error with correct name part (`@setup : error...`, `@setup status: error...`).
 9. Last-result memory: after each command the status `last` field shows the `name: reply` text; before any command it is `ready`; a 100-character unknown name is cut to 63 characters in `last`.

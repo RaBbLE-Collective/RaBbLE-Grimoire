@@ -145,7 +145,7 @@ barge_in_playing	2130	audio_chirp(0)
 barge_in_playing	2220	mode=thinking
 barge_in_playing	3220	mode=speaking
 barge_in_playing	3600	audio_play=6080
-barge_in_playing	3600	log:reply interrupted
+barge_in_playing	3600	log:reply cut short
 barge_in_playing	3600	beam_cancel
 barge_in_playing	3600	mode=listening
 barge_in_playing	3600	beam_begin
@@ -168,7 +168,7 @@ barge_in_thinking	2130	log:recorded 1.38s
 barge_in_thinking	2130	beam_end
 barge_in_thinking	2130	audio_chirp(0)
 barge_in_thinking	2220	mode=thinking
-barge_in_thinking	2500	log:reply interrupted
+barge_in_thinking	2500	log:reply cut short
 barge_in_thinking	2500	beam_cancel
 barge_in_thinking	2500	mode=listening
 barge_in_thinking	2500	beam_begin
@@ -262,7 +262,7 @@ note_offline_then_online	2130	log:recorded 1.38s
 note_offline_then_online	2130	audio_chirp(0)
 note_offline_then_online	2220	log:saved a 1.4s note to send later (1 waiting)
 note_offline_then_online	2220	mode=idle
-note_offline_then_online	30000	log:sending a saved note: 1.4s, from 27s ago, try 1
+note_offline_then_online	30000	log:uploading stored note: 1.4s long, recorded 27s ago, attempt 1
 note_offline_then_online	30000	mode=thinking
 note_offline_then_online	30000	beam_begin
 note_offline_then_online	30000	beam_sent=22080:147d37d9
@@ -295,20 +295,20 @@ note_srv_down_wifi_up	750	wifi_power(full)
 note_srv_down_wifi_up	1010	mode=listening
 note_srv_down_wifi_up	1010	beam_begin
 note_srv_down_wifi_up	2510	beam_sent=28160:02ce38bc
-note_srv_down_wifi_up	2510	log:beam: Can't connect
+note_srv_down_wifi_up	2510	log:beam: Dial failed
 note_srv_down_wifi_up	2510	beam_cancel
 note_srv_down_wifi_up	3630	log:recorded 2.88s
 note_srv_down_wifi_up	3630	audio_chirp(0)
 note_srv_down_wifi_up	3720	log:saved a 2.9s note to send later (1 waiting)
 note_srv_down_wifi_up	3720	mode=idle
-note_srv_down_wifi_up	18720	log:sending a saved note: 2.9s, from 15s ago, try 2
+note_srv_down_wifi_up	18720	log:uploading stored note: 2.9s long, recorded 15s ago, attempt 2
 note_srv_down_wifi_up	18720	mode=thinking
 note_srv_down_wifi_up	18720	beam_begin
 note_srv_down_wifi_up	18720	beam_sent=46080:cddf14dc
 note_srv_down_wifi_up	18720	beam_end
-note_srv_down_wifi_up	20220	log:beam: Can't connect
+note_srv_down_wifi_up	20220	log:beam: Dial failed
 note_srv_down_wifi_up	20220	mode=idle
-note_srv_down_wifi_up	50220	log:sending a saved note: 2.9s, from 46s ago, try 3
+note_srv_down_wifi_up	50220	log:uploading stored note: 2.9s long, recorded 46s ago, attempt 3
 note_srv_down_wifi_up	50220	mode=thinking
 note_srv_down_wifi_up	50220	beam_begin
 note_srv_down_wifi_up	50220	beam_sent=46080:cddf14dc
@@ -345,7 +345,7 @@ note_queue_full	7920	audio_chirp(0)
 note_queue_full	8010	log:saved a 1.2s note to send later (4 waiting)
 note_queue_full	8010	mode=idle
 note_queue_full	9010	wifi_apply
-note_queue_full	40010	log:sending a saved note: 1.2s, from 37s ago, try 1
+note_queue_full	40010	log:uploading stored note: 1.2s long, recorded 37s ago, attempt 1
 note_queue_full	40010	mode=thinking
 note_queue_full	40010	beam_begin
 note_queue_full	40010	beam_sent=18880:1b9d1b7b
@@ -355,7 +355,7 @@ note_queue_full	42210	audio_play=19200
 note_queue_full	42210	log:reply: 1.20s of audio
 note_queue_full	42210	make_happy
 note_queue_full	42210	mode=idle
-note_queue_full	42210	log:sending a saved note: 1.2s, from 38s ago, try 1
+note_queue_full	42210	log:uploading stored note: 1.2s long, recorded 38s ago, attempt 1
 note_queue_full	42210	mode=thinking
 note_queue_full	42210	beam_begin
 note_queue_full	42210	beam_sent=19840:90e6b8ac
@@ -365,7 +365,7 @@ note_queue_full	44410	audio_play=19200
 note_queue_full	44410	log:reply: 1.20s of audio
 note_queue_full	44410	make_happy
 note_queue_full	44410	mode=idle
-note_queue_full	44410	log:sending a saved note: 1.2s, from 38s ago, try 1
+note_queue_full	44410	log:uploading stored note: 1.2s long, recorded 38s ago, attempt 1
 note_queue_full	44410	mode=thinking
 note_queue_full	44410	beam_begin
 note_queue_full	44410	beam_sent=19840:63784e0c
@@ -375,7 +375,7 @@ note_queue_full	46610	audio_play=19200
 note_queue_full	46610	log:reply: 1.20s of audio
 note_queue_full	46610	make_happy
 note_queue_full	46610	mode=idle
-note_queue_full	46610	log:sending a saved note: 1.2s, from 38s ago, try 1
+note_queue_full	46610	log:uploading stored note: 1.2s long, recorded 38s ago, attempt 1
 note_queue_full	46610	mode=thinking
 note_queue_full	46610	beam_begin
 note_queue_full	46610	beam_sent=19840:e4322e90
@@ -397,56 +397,56 @@ note_server_errors_until_dropped	2220	mode=thinking
 note_server_errors_until_dropped	2520	log:beam: SERVER BUSY
 note_server_errors_until_dropped	2520	mode=idle
 note_server_errors_until_dropped	2520	log:saved a 1.4s note to send later (1 waiting)
-note_server_errors_until_dropped	17520	log:sending a saved note: 1.4s, from 15s ago, try 2
+note_server_errors_until_dropped	17520	log:uploading stored note: 1.4s long, recorded 15s ago, attempt 2
 note_server_errors_until_dropped	17520	mode=thinking
 note_server_errors_until_dropped	17520	beam_begin
 note_server_errors_until_dropped	17520	beam_sent=22080:147d37d9
 note_server_errors_until_dropped	17520	beam_end
 note_server_errors_until_dropped	17820	log:beam: SERVER BUSY
 note_server_errors_until_dropped	17820	mode=idle
-note_server_errors_until_dropped	47820	log:sending a saved note: 1.4s, from 45s ago, try 3
+note_server_errors_until_dropped	47820	log:uploading stored note: 1.4s long, recorded 45s ago, attempt 3
 note_server_errors_until_dropped	47820	mode=thinking
 note_server_errors_until_dropped	47820	beam_begin
 note_server_errors_until_dropped	47820	beam_sent=22080:147d37d9
 note_server_errors_until_dropped	47820	beam_end
 note_server_errors_until_dropped	48120	log:beam: SERVER BUSY
 note_server_errors_until_dropped	48120	mode=idle
-note_server_errors_until_dropped	108120	log:sending a saved note: 1.4s, from 105s ago, try 4
+note_server_errors_until_dropped	108120	log:uploading stored note: 1.4s long, recorded 105s ago, attempt 4
 note_server_errors_until_dropped	108120	mode=thinking
 note_server_errors_until_dropped	108120	beam_begin
 note_server_errors_until_dropped	108120	beam_sent=22080:147d37d9
 note_server_errors_until_dropped	108120	beam_end
 note_server_errors_until_dropped	108420	log:beam: SERVER BUSY
 note_server_errors_until_dropped	108420	mode=idle
-note_server_errors_until_dropped	228420	log:sending a saved note: 1.4s, from 225s ago, try 5
+note_server_errors_until_dropped	228420	log:uploading stored note: 1.4s long, recorded 225s ago, attempt 5
 note_server_errors_until_dropped	228420	mode=thinking
 note_server_errors_until_dropped	228420	beam_begin
 note_server_errors_until_dropped	228420	beam_sent=22080:147d37d9
 note_server_errors_until_dropped	228420	beam_end
 note_server_errors_until_dropped	228720	log:beam: SERVER BUSY
 note_server_errors_until_dropped	228720	mode=idle
-note_server_errors_until_dropped	348720	log:sending a saved note: 1.4s, from 346s ago, try 6
+note_server_errors_until_dropped	348720	log:uploading stored note: 1.4s long, recorded 346s ago, attempt 6
 note_server_errors_until_dropped	348720	mode=thinking
 note_server_errors_until_dropped	348720	beam_begin
 note_server_errors_until_dropped	348720	beam_sent=22080:147d37d9
 note_server_errors_until_dropped	348720	beam_end
 note_server_errors_until_dropped	349020	log:beam: SERVER BUSY
 note_server_errors_until_dropped	349020	mode=idle
-note_server_errors_until_dropped	469020	log:sending a saved note: 1.4s, from 466s ago, try 7
+note_server_errors_until_dropped	469020	log:uploading stored note: 1.4s long, recorded 466s ago, attempt 7
 note_server_errors_until_dropped	469020	mode=thinking
 note_server_errors_until_dropped	469020	beam_begin
 note_server_errors_until_dropped	469020	beam_sent=22080:147d37d9
 note_server_errors_until_dropped	469020	beam_end
 note_server_errors_until_dropped	469320	log:beam: SERVER BUSY
 note_server_errors_until_dropped	469320	mode=idle
-note_server_errors_until_dropped	589320	log:sending a saved note: 1.4s, from 586s ago, try 8
+note_server_errors_until_dropped	589320	log:uploading stored note: 1.4s long, recorded 586s ago, attempt 8
 note_server_errors_until_dropped	589320	mode=thinking
 note_server_errors_until_dropped	589320	beam_begin
 note_server_errors_until_dropped	589320	beam_sent=22080:147d37d9
 note_server_errors_until_dropped	589320	beam_end
 note_server_errors_until_dropped	589620	log:beam: SERVER BUSY
 note_server_errors_until_dropped	589620	mode=idle
-note_server_errors_until_dropped	589620	log:giving up on a saved note after 8 tries
+note_server_errors_until_dropped	589620	log:dropping stored note after 8 attempts
 note_stalled_beam	0	audio_selftest
 note_stalled_beam	750	wifi_power(full)
 note_stalled_beam	1010	mode=listening
@@ -458,25 +458,25 @@ note_stalled_beam	32320	log:sCoRE stopped taking the note
 note_stalled_beam	32320	beam_cancel
 note_stalled_beam	32320	log:saved a 1.4s note to send later (1 waiting)
 note_stalled_beam	32320	mode=idle
-note_stalled_beam	47320	log:sending a saved note: 1.4s, from 15s ago, try 2
+note_stalled_beam	47320	log:uploading stored note: 1.4s long, recorded 15s ago, attempt 2
 note_stalled_beam	47320	mode=thinking
 note_stalled_beam	47320	beam_begin
 note_stalled_beam	77420	log:sCoRE stopped taking the note
 note_stalled_beam	77420	beam_cancel
 note_stalled_beam	77420	mode=idle
-note_stalled_beam	107420	log:sending a saved note: 1.4s, from 75s ago, try 3
+note_stalled_beam	107420	log:uploading stored note: 1.4s long, recorded 75s ago, attempt 3
 note_stalled_beam	107420	mode=thinking
 note_stalled_beam	107420	beam_begin
 note_stalled_beam	137520	log:sCoRE stopped taking the note
 note_stalled_beam	137520	beam_cancel
 note_stalled_beam	137520	mode=idle
-note_stalled_beam	197520	log:sending a saved note: 1.4s, from 165s ago, try 4
+note_stalled_beam	197520	log:uploading stored note: 1.4s long, recorded 165s ago, attempt 4
 note_stalled_beam	197520	mode=thinking
 note_stalled_beam	197520	beam_begin
 note_stalled_beam	227620	log:sCoRE stopped taking the note
 note_stalled_beam	227620	beam_cancel
 note_stalled_beam	227620	mode=idle
-note_stalled_beam	347620	log:sending a saved note: 1.4s, from 315s ago, try 5
+note_stalled_beam	347620	log:uploading stored note: 1.4s long, recorded 315s ago, attempt 5
 note_stalled_beam	347620	mode=thinking
 note_stalled_beam	347620	beam_begin
 note_stalled_beam	377720	log:sCoRE stopped taking the note
@@ -490,7 +490,7 @@ note_press_before_send	2130	log:recorded 1.38s
 note_press_before_send	2130	audio_chirp(0)
 note_press_before_send	2220	log:saved a 1.4s note to send later (1 waiting)
 note_press_before_send	2220	mode=idle
-note_press_before_send	20000	log:sending a saved note: 1.4s, from 17s ago, try 1
+note_press_before_send	20000	log:uploading stored note: 1.4s long, recorded 17s ago, attempt 1
 note_press_before_send	20000	mode=thinking
 note_press_before_send	20000	beam_begin
 note_press_before_send	21000	beam_cancel
@@ -500,7 +500,7 @@ note_press_before_send	22320	log:recorded 1.30s
 note_press_before_send	22320	audio_chirp(0)
 note_press_before_send	22410	log:saved a 1.3s note to send later (2 waiting)
 note_press_before_send	22410	mode=idle
-note_press_before_send	22410	log:sending a saved note: 1.4s, from 20s ago, try 1
+note_press_before_send	22410	log:uploading stored note: 1.4s long, recorded 20s ago, attempt 1
 note_press_before_send	22410	mode=thinking
 note_press_before_send	22410	beam_begin
 note_press_before_send	52510	log:sCoRE stopped taking the note
@@ -517,7 +517,7 @@ note_live_error_midway	2630	log:recorded 1.88s
 note_live_error_midway	2630	audio_chirp(0)
 note_live_error_midway	2720	log:saved a 1.9s note to send later (1 waiting)
 note_live_error_midway	2720	mode=idle
-note_live_error_midway	17720	log:sending a saved note: 1.9s, from 15s ago, try 2
+note_live_error_midway	17720	log:uploading stored note: 1.9s long, recorded 15s ago, attempt 2
 note_live_error_midway	17720	mode=thinking
 note_live_error_midway	17720	beam_begin
 note_live_error_midway	17720	beam_sent=30080:fa7ac0ce
@@ -526,7 +526,7 @@ note_live_error_midway	18020	log:beam: BAD AUDIO
 note_live_error_midway	18020	mode=idle
 note_no_memory_live_error	0	audio_selftest
 note_no_memory_live_error	750	wifi_power(full)
-note_no_memory_live_error	1010	log:no memory to keep a note
+note_no_memory_live_error	1010	log:out of memory storing the note
 note_no_memory_live_error	1010	mode=listening
 note_no_memory_live_error	1010	beam_begin
 note_no_memory_live_error	1510	beam_sent=12160:aa8a0a6e
@@ -536,7 +536,7 @@ note_no_memory_live_error	2630	log:recorded 1.88s
 note_no_memory_live_error	2630	mode=idle
 no_memory_ok	0	audio_selftest
 no_memory_ok	750	wifi_power(full)
-no_memory_ok	1010	log:no memory to keep a note
+no_memory_ok	1010	log:out of memory storing the note
 no_memory_ok	1010	mode=listening
 no_memory_ok	1010	beam_begin
 no_memory_ok	2130	beam_sent=22080:147d37d9
@@ -552,7 +552,7 @@ no_memory_ok	4420	mode=idle
 no_memory_offline	0	audio_selftest
 no_memory_offline	750	wifi_power(full)
 no_memory_offline	1010	wifi_apply
-no_memory_offline	1010	log:no memory to keep a note
+no_memory_offline	1010	log:out of memory storing the note
 notes_waiting_30min	0	audio_selftest
 notes_waiting_30min	750	wifi_power(full)
 notes_waiting_30min	1010	wifi_apply
@@ -564,24 +564,24 @@ notes_waiting_30min	2220	mode=idle
 rest_basic	0	audio_selftest
 rest_basic	750	audio_power(0)
 rest_basic	750	beam_resting(1)
-rest_basic	750	log:resting: codecs off, Wi-Fi modem sleep
+rest_basic	750	log:idling: codecs disabled, Wi-Fi modem sleep
 rest_basic	750	wifi_power(rest)
 rest_basic	750	wait_awake(60000)
 rest_basic	5000	audio_power(1)
 rest_basic	5000	beam_resting(0)
-rest_basic	5000	log:awake: codecs on
+rest_basic	5000	log:waking: codecs enabled
 rest_basic	5000	wifi_power(doze)
 rest_usb_asleep	0	audio_selftest
 rest_usb_asleep	750	wifi_power(full)
 rest_boot_tap_wake	0	audio_selftest
 rest_boot_tap_wake	750	audio_power(0)
 rest_boot_tap_wake	750	beam_resting(1)
-rest_boot_tap_wake	750	log:resting: codecs off, Wi-Fi modem sleep
+rest_boot_tap_wake	750	log:idling: codecs disabled, Wi-Fi modem sleep
 rest_boot_tap_wake	750	wifi_power(rest)
 rest_boot_tap_wake	750	wait_awake(60000)
 rest_boot_tap_wake	5000	audio_power(1)
 rest_boot_tap_wake	5000	beam_resting(0)
-rest_boot_tap_wake	5000	log:awake: codecs on
+rest_boot_tap_wake	5000	log:waking: codecs enabled
 rest_boot_tap_wake	5000	wifi_power(doze)
 rest_boot_tap_wake	5320	wifi_power(full)
 rest_boot_tap_wake	5320	mode=listening
@@ -600,27 +600,27 @@ rest_boot_tap_wake	8910	wifi_power(doze)
 rest_stale_presses	0	audio_selftest
 rest_stale_presses	750	audio_power(0)
 rest_stale_presses	750	beam_resting(1)
-rest_stale_presses	750	log:resting: codecs off, Wi-Fi modem sleep
+rest_stale_presses	750	log:idling: codecs disabled, Wi-Fi modem sleep
 rest_stale_presses	750	wifi_power(rest)
 rest_stale_presses	750	wait_awake(60000)
 rest_stale_presses	5000	audio_power(1)
 rest_stale_presses	5000	beam_resting(0)
-rest_stale_presses	5000	log:awake: codecs on
+rest_stale_presses	5000	log:waking: codecs enabled
 rest_stale_presses	5000	wifi_power(doze)
 rest_chirp_request	0	audio_selftest
 rest_chirp_request	750	audio_power(0)
 rest_chirp_request	750	beam_resting(1)
-rest_chirp_request	750	log:resting: codecs off, Wi-Fi modem sleep
+rest_chirp_request	750	log:idling: codecs disabled, Wi-Fi modem sleep
 rest_chirp_request	750	wifi_power(rest)
 rest_chirp_request	750	wait_awake(60000)
 rest_chirp_request	5000	audio_power(1)
 rest_chirp_request	5000	beam_resting(0)
-rest_chirp_request	5000	log:awake: codecs on
+rest_chirp_request	5000	log:waking: codecs enabled
 rest_chirp_request	5000	wifi_power(doze)
 rest_chirp_request	5000	audio_chirp(1)
 rest_chirp_request	5110	audio_power(0)
 rest_chirp_request	5110	beam_resting(1)
-rest_chirp_request	5110	log:resting: codecs off, Wi-Fi modem sleep
+rest_chirp_request	5110	log:idling: codecs disabled, Wi-Fi modem sleep
 rest_chirp_request	5110	wifi_power(rest)
 rest_chirp_request	5110	wait_awake(60000)
 rest_note_sent_asleep	0	audio_selftest
@@ -633,7 +633,7 @@ rest_note_sent_asleep	2220	log:saved a 1.4s note to send later (1 waiting)
 rest_note_sent_asleep	2220	mode=idle
 rest_note_sent_asleep	4000	audio_power(0)
 rest_note_sent_asleep	4000	beam_resting(1)
-rest_note_sent_asleep	4000	log:resting: codecs off, Wi-Fi modem sleep
+rest_note_sent_asleep	4000	log:idling: codecs disabled, Wi-Fi modem sleep
 rest_note_sent_asleep	4000	wifi_power(rest)
 rest_note_sent_asleep	4000	wait_awake(5000)
 rest_note_sent_asleep	9000	wait_awake(5000)
@@ -643,9 +643,9 @@ rest_note_sent_asleep	24000	wait_awake(5000)
 rest_note_sent_asleep	29000	wait_awake(5000)
 rest_note_sent_asleep	34000	audio_power(1)
 rest_note_sent_asleep	34000	beam_resting(0)
-rest_note_sent_asleep	34000	log:awake: codecs on
+rest_note_sent_asleep	34000	log:waking: codecs enabled
 rest_note_sent_asleep	34000	wifi_power(full)
-rest_note_sent_asleep	34000	log:sending a saved note (asleep): 1.4s, from 31s ago, try 1
+rest_note_sent_asleep	34000	log:uploading stored note (asleep): 1.4s long, recorded 31s ago, attempt 1
 rest_note_sent_asleep	34000	beam_begin
 rest_note_sent_asleep	34000	beam_sent=22080:147d37d9
 rest_note_sent_asleep	34000	beam_end
@@ -656,7 +656,7 @@ rest_note_sent_asleep	34150	delay(50)
 rest_note_sent_asleep	34200	beam_cancel
 rest_note_sent_asleep	34200	audio_power(0)
 rest_note_sent_asleep	34200	beam_resting(1)
-rest_note_sent_asleep	34200	log:resting: codecs off, Wi-Fi modem sleep
+rest_note_sent_asleep	34200	log:idling: codecs disabled, Wi-Fi modem sleep
 rest_note_sent_asleep	34200	wifi_power(rest)
 rest_note_sent_asleep	34200	wait_awake(60000)
 battery_awake_doze	0	audio_selftest
@@ -709,7 +709,7 @@ nops_srv_down	750	wifi_power(full)
 nops_srv_down	1010	mode=listening
 nops_srv_down	1010	beam_begin
 nops_srv_down	2510	beam_sent=28160:af0083a6
-nops_srv_down	2510	log:beam: Can't connect
+nops_srv_down	2510	log:beam: Dial failed
 nops_srv_down	2510	beam_cancel
 nops_srv_down	3630	log:recorded 2.88s
 nops_srv_down	3630	mode=idle
@@ -724,7 +724,7 @@ nops_barge_in	2130	audio_chirp(0)
 nops_barge_in	2220	mode=thinking
 nops_barge_in	3220	mode=speaking
 nops_barge_in	3600	audio_play=6080
-nops_barge_in	3600	log:reply interrupted
+nops_barge_in	3600	log:reply cut short
 nops_barge_in	3600	beam_cancel
 nops_barge_in	3600	mode=listening
 nops_barge_in	3600	beam_begin
@@ -741,12 +741,12 @@ nops_barge_in	7610	mode=idle
 nops_rest_wake	0	audio_selftest
 nops_rest_wake	750	audio_power(0)
 nops_rest_wake	750	beam_resting(1)
-nops_rest_wake	750	log:resting: codecs off, Wi-Fi modem sleep
+nops_rest_wake	750	log:idling: codecs disabled, Wi-Fi modem sleep
 nops_rest_wake	750	wifi_power(rest)
 nops_rest_wake	750	wait_awake(60000)
 nops_rest_wake	5000	audio_power(1)
 nops_rest_wake	5000	beam_resting(0)
-nops_rest_wake	5000	log:awake: codecs on
+nops_rest_wake	5000	log:waking: codecs enabled
 nops_rest_wake	5000	wifi_power(doze)
 nops_rest_wake	5320	wifi_power(full)
 nops_rest_wake	5320	mode=listening

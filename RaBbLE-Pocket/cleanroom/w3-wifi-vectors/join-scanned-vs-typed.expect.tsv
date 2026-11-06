@@ -3,7 +3,7 @@
 0	ret	start	0
 1000	task	rabble_scan	4096	4
 1000	radio.scan
-1000	log	I	rabble_wifi	scan found 2 networks
+1000	log	I	rabble_wifi	2 networks seen in scan
 1000	ret	scan	0
 1000	scan_results	gen=1	2	Cafe:-50:secure,Open:-70:open
 2000	store.remember	Cafe	secret	0

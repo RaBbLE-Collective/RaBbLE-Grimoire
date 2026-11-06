@@ -1,11 +1,11 @@
 STEP	1	time 1000000
 STEP	2	init
 STEP	3	power 40 3700 0 0 1
-LOG	I	on battery at 40% (3700 mV): measuring
+LOG	I	unplugged at 40% (3700 mV), measuring drain
 STEP	4	dump
 STEP	5	power 40 3700 0 0 1
 STEP	6	reset
-LOG	I	on battery at 40% (3700 mV): measuring
+LOG	I	unplugged at 40% (3700 mV), measuring drain
 STEP	7	dump
 STEP	8	time 1001000000
 STEP	9	read

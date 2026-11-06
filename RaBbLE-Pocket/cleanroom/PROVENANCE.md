@@ -224,3 +224,18 @@ Not examined in this table: `sim/`, `ops/`, `hardware/` and `companion-app/` (ou
 **Stale seam build found at W7 (fixed):** the cached seam project `firmware/test/cleanroom/w0/seam_test/idfproj/build/config/sdkconfig.h` dated from Oct 16 and lacked `CONFIG_ESP_TLS_CLIENT_SESSION_TICKETS`, added later in `firmware/sdkconfig.defaults`, so `w3/wifi_test/compile_check.sh` failed on undeclared `ESP_TRANSPORT_SESSION_TICKET_*`. The scripts reconfigured only when `sdkconfig.h` was missing; all ten now also reconfigure when `sdkconfig.defaults` is newer. On a fresh seam build `wifi_test/compile_check.sh` passes, and the `esp_littlefs.h` errors in the seam and beam Xtensa steps went away too.
 
 **Known stale checks after W7 (unrelated to the path fix, left as they are):** `w0/seam_test/run.sh` and `w3/beam_test/run.sh` (Xtensa step lacks the `bsp/` include path for `main/app_main.c`: `bsp_perf.h`), `w2/input_test/run.sh` (host step lacks `nebula_lite/include`), `w2/battery_test/run.sh` (LeakSanitizer reports and one persist scenario differs). All other scripts pass.
+
+## W8 `rabble_beam_score.c` (S314, 2026-11-05)
+
+- Spec: `w8-beam-score.spec.md` (three firewall rounds, last APPROVE after one-line edit). Integrator notes (old to new UI strings) kept out of the implementer export.
+- Implementer: fresh Opus session, workspace `~/RaBbLE-Cleanroom/pocket-w8` (commit 070baa4), spec plus section-11 inputs only. One minor breach reported by the implementer: read the first 5 lines of `sdk/rabble_net/rabble_wifi.c` (Accord header, includes, TAG); no Meta content.
+- Overlap gate (Muse `b139b45`): 2.6% (24/930 lines; hits are declarations and idiom lines), was 15.4% for the file it replaces. Test file 2.3%. Gate 5%: pass.
+- Integrated into RaBbLE-Pocket working tree (not yet committed): new `rabble_beam_score.c`, new host test `test/net/score_test/`. Host suite 35 pass, 0 fail, 1 known XFAIL. Full firmware build OK (image 0x1f7f00). Not run on device (live checks 1 to 4 of spec 10.3).
+- Same pass reworded Meta-coincident UI strings (BUSY, Connecting, Connected, Can't connect, and the sCoRE setup/settings messages) across code, tests, specs and vectors.
+
+## W11 `rabble_board.h` + two stubs + helper rename (S314, 2026-11-05)
+
+- Spec: `w11-board-vtable.spec.md` rev 4 (QuiBbLE firewall: APPROVE; Mark accepted the six invented API points and the integrator-written glue). Integrator notes kept out of the export.
+- Implementer: fresh Opus session, workspace `~/RaBbLE-Cleanroom/pocket-w11` (commit 42e44ff). Wrote `rabble_board.h`, the `shot_test` and `screen_test` stubs, and the `RABBLE_KEY_*` / `pin` rename in `rabble_board.c`. Xtensa and C++ `-Werror` compile clean.
+- Overlap gate (Muse `b139b45`): header 17.5% (20/114), stubs 33% and 40% on 15 and 10 lines, `rabble_board.c` 1.5%. Every hit reviewed: all are `typedef struct {` and `#ifdef __cplusplus` lines, forced by C. Judged pass.
+- Integrator work (not clean room): callers moved to the new groups, Waveshare table converted, interim LVGL glue `boards/rabble_waveshare_175b/bsp_lvgl_glue.c` (moved from the old display start), `sdk/rabble_lvgl_port/` anchor mapping, `bsp_texture.c` flush now via `panel.write`. Host suite 35 pass; RaBbLE build OK (0x1f8140, +576 B); Foundling build OK. Boot order changed (panel up before LVGL adapter): NOT run on a device.

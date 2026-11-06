@@ -61,7 +61,7 @@ Threading rules: only the input task reads buttons, runs the sleep ladder, and p
 | setup | `rabble_setup_status_json(buf, cap)`, `rabble_setup_command(char *line)` | See W1 spec. |
 | console | `rabble_console_install(rx)`, `rabble_console_getc(&c)`, `rabble_console_host()` | See W1 spec. |
 | wifi | `rabble_wifi_connected()`, `rabble_wifi_apply()`, `rabble_wifi_nap(bool)` | `apply` means "try to connect now, skip the backoff"; `nap(true)` switches Wi-Fi off, `nap(false)` brings it back. |
-| UI | `rabble_ui_dark()` | True when the screen has finished fading to black (nothing left to draw). |
+| UI | `rabble_ui_dark()` | True when the screen is black and the panel is asleep (nothing left to draw; there is no fade). |
 | motion | `rabble_motion_up(float up[3])` | Fills `up` always; returns true when the vector is a smoothed live estimate. |
 | mem | `RABBLE_BIG_CAPS` | Caps for the console line buffer and JSON buffers. |
 | ESP-IDF | log, heap caps allocation, task notification (`xTaskNotifyGive`), `esp_pm_configure` when `CONFIG_PM_ENABLE` | Power management settings in 7.3. |
@@ -140,7 +140,7 @@ Rules per press. "Consumed" means the press has already had its effect and its r
 | press edge | screen asleep | wake the screen (reason: the board's `aux_button` word). This press is consumed: its hold and release do nothing. |
 | press edge | screen awake | start a new hold: pass 0, no hint showing, not consumed. |
 | hold tick (held) | consumed | nothing |
-| hold tick (held) | not consumed | this is the next pass of the hold. On pass 60: remember the caption showing now, show `HOLD TO POWER OFF`. On pass 150: the press is consumed, run the shutdown sequence (7.4). |
+| hold tick (held) | not consumed | this is the next pass of the hold. On pass 60: remember the caption showing now, show `HOLD TO SHUT DOWN`. On pass 150: the press is consumed, run the shutdown sequence (7.4). |
 | release edge | consumed | nothing |
 | release edge | not consumed, hint showing | show the remembered caption again; no sleep. |
 | release edge | not consumed, no hint | put the screen to sleep (reason: `aux_button` word). |
@@ -167,7 +167,7 @@ Checked every 100 ms by the input loop (and once on the first pass). Two indepen
 
 | Rule | Condition | Effect |
 |---|---|---|
-| Power off after sleeping on battery | the screen is asleep, **and** the device is on battery (state's `on_battery`, which includes the bench override), **and** talk is not held, **and** the settings value `power_off_s` is non-zero, **and** that combination has held continuously for at least `power_off_s` seconds | log `asleep on battery for N s: power off` (N = the setting), restart the timer, call board `power_off()` directly (no goodbye animation). If it returns (failure), log at error level `power-off failed (<esp error name>)` and skip the auto-sleep rule this pass. |
+| Power off after sleeping on battery | the screen is asleep, **and** the device is on battery (state's `on_battery`, which includes the bench override), **and** talk is not held, **and** the settings value `power_off_s` is non-zero, **and** that combination has held continuously for at least `power_off_s` seconds | log `asleep on battery for N s: power off` (N = the setting), restart the timer, call board `power_off()` directly (no goodbye animation). If it returns (failure), log at error level `power off did not work (<esp error name>)` and skip the auto-sleep rule this pass. |
 | Auto-sleep | `sleep_s` is non-zero, the screen is awake, the mode is exactly IDLE (not boot, listening, thinking, speaking, error or off) and `idle_secs` is **strictly greater** than `sleep_s` | put the screen to sleep, reason `auto-sleep`. |
 
 The power-off timer restarts (to "now") on any pass where the screen is awake, or not on battery, or talk is held. The timer is checked against both its start and the live setting value, so lowering the setting applies at once. Vectors: `sleep.tsv`.
@@ -184,9 +184,9 @@ Three stable outcomes (the "power mode"): full power; paused with CPU slowed ("l
 | stop pausing | adjust the CPU if it changed, then call `display_pause(false)` |
 | CPU only (host attached/detached while paused) | adjust the CPU only |
 
-After any change log one line: `low power: display paused`, or `display paused (USB host: CPU at full speed)`, or `full power`. The input pass returns "paused" for the later steps. All 192 transitions are in `power.tsv`.
+After any change log one line: `reduced power: screen refresh suspended`, or `screen refresh suspended (USB host keeps CPU at full speed)`, or `full power`. The input pass returns "paused" for the later steps. All 192 transitions are in `power.tsv`.
 
-CPU adjustment (only when `CONFIG_PM_ENABLE`; otherwise a no-op): maximum frequency = the build's default CPU frequency; minimum frequency = the crystal frequency when slowing, else the default; automatic light sleep enabled exactly when slowing. A failure logs a warning `power management: <esp error name>` and carries on. Rationale: with a host attached, slowing to crystal speed can stall a long USB serial burst, so the host keeps the CPU fast.
+CPU adjustment (only when `CONFIG_PM_ENABLE`; otherwise a no-op): maximum frequency = the build's default CPU frequency; minimum frequency = the crystal frequency when slowing, else the default; automatic light sleep enabled exactly when slowing. A failure logs a warning `pm configure failed: <esp error name>` and carries on. Rationale: with a host attached, slowing to crystal speed can stall a long USB serial burst, so the host keeps the CPU fast.
 
 ### 7.4 Shutdown sequence
 
@@ -195,10 +195,10 @@ Triggered by the aux hold (6.2), by `rabble_input_request_power_off()`, from the
 1. Log `shutting down`.
 2. Clear the asleep flag directly in state (no Wi-Fi reconnect, no input notification).
 3. Re-evaluate the display pause (7.3) so the screen is un-paused before the animation.
-4. Set progress 0, level 0, mode OFF, caption `GOODBYE!`.
+4. Set progress 0, level 0, mode OFF, caption `BYE FOR NOW`.
 5. Wait 1500 ms (the goodbye animation).
 6. Call board `power_off()`.
-7. Only if it returns: wait 500 ms, log error `power-off failed (<esp error name>)`, set mode IDLE (the only mode that leaves OFF), caption `COULDN'T POWER OFF`.
+7. Only if it returns: wait 500 ms, log error `power off did not work (<esp error name>)`, set mode IDLE (the only mode that leaves OFF), caption `SHUTDOWN FAILED`.
 
 A request counts once: a request made while the sequence is already running (during step 5) is honoured again after a failure. Vectors: `btn.tsv`.
 
@@ -277,7 +277,7 @@ The ack is printed through `rabble_beam_console` as type `ack` with no text and 
 
 | Condition | `text` |
 |---|---|
-| the line was too long (9.1) | `LINE TOO LONG` |
+| the line was too long (9.1) | `LINE EXCEEDS LIMIT` |
 | the 192 KiB buffer could not be allocated | `OUT OF MEMORY` |
 | appending would reach or pass the buffer size (length so far + new length >= 196,608) | `TOO LONG` |
 
@@ -319,9 +319,9 @@ Log text references are exact. "Serial" checks can be run by an agent over `/dev
 5. `d` then `u` (two bytes) produce log lines `PTT down` and `PTT up`, and the voice path starts and ends a recording (listening mode and a turn start). `d` twice logs two `PTT down`.
 6. `c` makes the gadget chirp (audible, or `@`-less log from voice).
 7. `z` logs `sleeping (serial)` and the screen goes dark; a second `z` logs nothing; `w` logs `waking (serial)` and lights it; if Wi-Fi was disconnected a reconnect is attempted immediately.
-8. `>nap` (needs a battery present): logs `sleeping (serial)`, after a few seconds `low power: display paused` or, with the USB cable carrying the console, `display paused (USB host: CPU at full speed)`, then `Wi-Fi napping`; `w` logs `waking (serial)`, `full power`, `Wi-Fi waking`. After the wake `>power` shows the on-battery override cleared (no longer forced).
+8. `>nap` (needs a battery present): logs `sleeping (serial)`, after a few seconds `reduced power: screen refresh suspended` or, with the USB cable carrying the console, `screen refresh suspended (USB host keeps CPU at full speed)`, then `Wi-Fi napping`; `w` logs `waking (serial)`, `full power`, `Wi-Fi waking`. After the wake `>power` shows the on-battery override cleared (no longer forced).
 9. Chat: `>chat+=hello\n` returns `@chat {"seq":N,"type":"ack","bytes":6}` (the `\n` escape counts as one byte); `>chat=world` returns an ack with bytes 11 and starts a typed turn; with sCoRE reachable the reply streams as `@chat` lines. `>chat.cancel` aborts.
-10. Chat errors: a `>chat+=` line of more than 1023 characters returns `LINE TOO LONG` and the next `chat+=` restarts from 0 bytes; sending `>chat+=` lines until the total reaches 196,608 bytes returns `TOO LONG`.
+10. Chat errors: a `>chat+=` line of more than 1023 characters returns `LINE EXCEEDS LIMIT` and the next `chat+=` restarts from 0 bytes; sending `>chat+=` lines until the total reaches 196,608 bytes returns `TOO LONG`.
 11. An unclaimed line goes to setup: `>chatty` and any `key=value` setup line behave as in the W1 checklist; unknown bytes (`x`, `\n`) produce no output.
 12. `rabble_input_request_power_off` path: from the settings UI (hands) or, as a bench substitute, not available over serial (record that).
 13. Leave the device idle on USB power, awake, with `sleep_s` set small (settings): the screen sleeps after `sleep_s` seconds of no activity and logs `sleeping (auto-sleep)`; it does not start `low power` (USB present).
@@ -332,10 +332,10 @@ Log text references are exact. "Serial" checks can be run by an agent over `/dev
 1. Talk button (BOOT): tap awake logs `talk key: press`, `PTT down`, then `talk key: release`, `PTT up`; hold records and releases ends it; a rapid tap causes at most one down/up pair.
 2. Talk press while asleep: screen wakes, log shows `waking (boot)` and `PTT down (waking)`; a tap only wakes (no recording); holding through the wake records a note.
 3. Aux (PWR) click awake: screen sleeps (`sleeping (pwr)`); press while asleep wakes (`waking (pwr)`) and its release does nothing.
-4. Aux hold: at about 0.6 s the caption becomes `HOLD TO POWER OFF`; release before 1.5 s restores the previous caption and does not sleep; hold past 1.5 s: `shutting down`, goodbye animation, power off. Failure path (only if provoked): `power-off failed`, caption `COULDN'T POWER OFF`, mode idle.
+4. Aux hold: at about 0.6 s the caption becomes `HOLD TO SHUT DOWN`; release before 1.5 s restores the previous caption and does not sleep; hold past 1.5 s: `shutting down`, goodbye animation, power off. Failure path (only if provoked): `power-off failed`, caption `SHUTDOWN FAILED`, mode idle.
 5. Settings page Power off confirm: returns to the face, plays the goodbye, powers off.
 6. On battery, no USB: auto-sleep after the configured idle time; after a further `power_off_s` seconds asleep the device powers off with no animation (setting 0 = never). Waking before that restarts the wait; holding talk (a recording) also restarts it.
-7. On battery, asleep with the face dark and voice resting: `low power: display paused` appears; plugging in USB returns to `full power` (display resumes only if it was paused; it stays asleep until a wake). With the console connected from a computer the CPU is not slowed (`display paused (USB host...)`).
+7. On battery, asleep with the face dark and voice resting: `reduced power: screen refresh suspended` appears; plugging in USB returns to `full power` (display resumes only if it was paused; it stays asleep until a wake). With the console connected from a computer the CPU is not slowed (`display paused (USB host...)`).
 8. After 2 minutes in low power: `Wi-Fi napping`; wake by touch/button/raise/shake: `Wi-Fi waking` and Wi-Fi rejoins promptly. While an offline voice note waits to send, Wi-Fi does not nap.
 9. Raise-to-wake and shake wake from sleep (log `waking (raise)` / `waking (shake)`).
 10. Battery meter keeps updating while paused (slower), visible in `>power` after wake.

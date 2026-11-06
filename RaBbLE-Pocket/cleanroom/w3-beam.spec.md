@@ -91,12 +91,12 @@ So `rabble_beam.c` provides exactly six functions: `status`, `test`, `config_cha
 
 | Caller | Uses |
 |---|---|
-| `accord/rabble_beam_score.c` (session task, own task) | `rabble_beam_report` from its own task: `REACHABLE` with the server's name (or `Connected`), `TESTING` `Connecting...`, `UNREACHABLE` with `Bad address`, `Can't connect`, `Connection lost`, `UNTESTED` `Connects when you talk`, `REACHABLE` `Connected`; `rabble_beam_configured` from its loop on every pass (about every 20 to 500 ms). |
+| `accord/rabble_beam_score.c` (session task, own task) | `rabble_beam_report` from its own task: `REACHABLE` with the server's name (or `Linked`), `TESTING` `Dialing sCoRE...`, `UNREACHABLE` with `Bad address`, `Dial failed`, `Connection lost`, `UNTESTED` `Wakes when you talk`, `REACHABLE` `Linked`; `rabble_beam_configured` from its loop on every pass (about every 20 to 500 ms). |
 | `accord/rabble_app.c` | `rabble_beam_start()` once at boot; `rabble_beam_config_changed()` from the settings change callback when the URL or token changed (`RABBLE_SETTING_BEAM`). That callback runs on whichever task made the change (settings page on the LVGL task, console `>beam.url=` on the serial task). |
 | `accord/rabble_setup.c` | `rabble_beam_test()` for the `beam.test` command; `rabble_beam_status` and `rabble_beam_state_name` for the `state` member of the `beam` object in the status JSON (name string only; detail unused). Serial task. |
 | `apache/rabble_settings_ui.c` | Test connection button calls `rabble_beam_test()` (LVGL task); the sCoRE page polls `rabble_beam_status` and shows `state_name`, a newline, then `detail`, coloured by REACHABLE / UNREACHABLE / other; the home page polls and shows `state_name` only. |
 | `accord/rabble_ui.c`, `accord/rabble_entity.c` | poll `rabble_beam_status` from the LVGL task about every frame-ish tick (several times a second) and colour the sCoRE indicator: REACHABLE magenta, TESTING yellow, UNREACHABLE red, anything else muted. Only `state` is used. |
-| `apache/rabble_voice.c` (W4 replaces it) | `rabble_beam_status` when a press cannot go to sCoRE: NOT_SET shows `SET UP sCoRE FIRST`, OFFLINE shows `NO WI-FI`, anything else `CAN'T REACH sCoRE`; and to refuse a press with NOT_SET. Plus the session API (`ready`, `turn_*`, `set_resting`), which are not this module's. |
+| `apache/rabble_voice.c` (W4 replaces it) | `rabble_beam_status` when a press cannot go to sCoRE: NOT_SET shows `SET UP sCoRE FIRST`, OFFLINE shows `NO WI-FI`, anything else `NO LINK TO sCoRE`; and to refuse a press with NOT_SET. Plus the session API (`ready`, `turn_*`, `set_resting`), which are not this module's. |
 | `accord/rabble_input.c` | `rabble_beam_console`, `rabble_beam_unescape`, `rabble_beam_text_turn`, `rabble_beam_text_cancel` (not this module's). |
 | `accord/rabble_beam_text.c` | implements the helpers; includes `rabble_beam_text.h`. |
 
@@ -130,15 +130,15 @@ Fills `out` (non-NULL; both fields always written, `detail` always NUL-terminate
 | # | Condition | Result state | Result detail |
 |---|---|---|---|
 | 1 | URL not set | `NOT_SET` | `Set the sCoRE URL` |
-| 2 | URL set, Wi-Fi not connected, and the reported state is not `TESTING` | `OFFLINE` | `Waiting for Wi-Fi` |
-| 3 | URL set, reported state `UNTESTED`, reported detail empty, and (Wi-Fi connected) | `UNTESTED` | `Connects when you talk` |
+| 2 | URL set, Wi-Fi not connected, and the reported state is not `TESTING` | `OFFLINE` | `Needs Wi-Fi first` |
+| 3 | URL set, reported state `UNTESTED`, reported detail empty, and (Wi-Fi connected) | `UNTESTED` | `Wakes when you talk` |
 | 4 | otherwise | the reported state | the reported detail, as stored |
 
 Notes that are requirements:
 
 - Row 1 wins over everything, including a reported REACHABLE or TESTING: clearing the URL immediately reads NOT_SET even before the session task has reacted.
 - Row 2 hides any reported state except TESTING while Wi-Fi is down, REACHABLE and UNREACHABLE included. A reported TESTING stays TESTING while Wi-Fi is down (it is not turned into OFFLINE).
-- Row 3 supplies the default wording only when the reported detail is empty. An UNTESTED report that carries its own detail (the session task reports `Connects when you talk` itself when it lets an idle socket go) shows that detail unchanged.
+- Row 3 supplies the default wording only when the reported detail is empty. An UNTESTED report that carries its own detail (the session task reports `Wakes when you talk` itself when it lets an idle socket go) shows that detail unchanged.
 - Row 4 passes UNTESTED with any non-empty detail, TESTING, REACHABLE and UNREACHABLE (Wi-Fi up) through unchanged, with empty details too (a REACHABLE with an empty detail shows an empty detail; no default is invented).
 - The status is derived on every call; nothing is cached, so Wi-Fi coming and going and URL edits show on the next call.
 - The state never becomes `NOT_SET` or `OFFLINE` in the stored result; those two are only ever derived.
@@ -147,14 +147,14 @@ Notes that are requirements:
 
 Returns a pointer to a static, constant, NUL-terminated string (never NULL, never freed, valid forever, safe from any task):
 
-| State | String (exact, including capitalisation and the apostrophe, which is the ASCII `'`) |
+| State | String (exact, including capitalisation) |
 |---|---|
 | `RABBLE_BEAM_NOT_SET` | `Not set up` |
 | `RABBLE_BEAM_OFFLINE` | `Offline` |
 | `RABBLE_BEAM_UNTESTED` | `Saved` |
-| `RABBLE_BEAM_TESTING` | `Connecting` |
-| `RABBLE_BEAM_REACHABLE` | `Connected` |
-| `RABBLE_BEAM_UNREACHABLE` | `Can't connect` |
+| `RABBLE_BEAM_TESTING` | `Dialing` |
+| `RABBLE_BEAM_REACHABLE` | `Linked` |
+| `RABBLE_BEAM_UNREACHABLE` | `Dial failed` |
 | any other value | the empty string `""` |
 
 These strings show on the settings page, the home page and as the `state` field of the `beam` object in the serial status JSON (`@status`), so they are user-visible and scripted against.
@@ -166,7 +166,7 @@ These strings show on the settings page, the home page and as the `state` field 
 "Test connection". Callable from any task; returns immediately.
 
 1. If no URL is set, or Wi-Fi is not connected: do nothing at all (no result change, no request to the session task). The status keeps showing `Set the sCoRE URL` or the Wi-Fi-derived state.
-2. Otherwise: record the result as TESTING with detail `Connecting...` (see 4.1), then ask the session task to (re)connect now (`rabble_beam_session_connect`). In that order: the status read right after `test` returns already says TESTING / `Connecting...`.
+2. Otherwise: record the result as TESTING with detail `Dialing sCoRE...` (see 4.1), then ask the session task to (re)connect now (`rabble_beam_session_connect`). In that order: the status read right after `test` returns already says TESTING / `Dialing sCoRE...`.
 
 The test's outcome arrives later as the session task's own reports (4.1).
 
@@ -177,7 +177,7 @@ Called when the URL or token changed. Callable from any task; returns immediatel
 1. Record the result as UNTESTED with an empty detail (forget the last result).
 2. Ask the session task to drop the connection (`rabble_beam_session_forget`). Order: result first, then the request.
 
-Always does both, regardless of whether a URL is set or Wi-Fi is up. After it, the status reads `Connects when you talk` (URL set, Wi-Fi up), `Waiting for Wi-Fi` (URL set, Wi-Fi down) or `Set the sCoRE URL` (no URL).
+Always does both, regardless of whether a URL is set or Wi-Fi is up. After it, the status reads `Wakes when you talk` (URL set, Wi-Fi up), `Needs Wi-Fi first` (URL set, Wi-Fi down) or `Set the sCoRE URL` (no URL).
 
 ## 7. Thread safety
 
@@ -194,25 +194,25 @@ Always does both, regardless of whether a URL is set or Wi-Fi is up. After it, t
 | Detail longer than 47 bytes | Truncated to 47 bytes. |
 | Detail empty with state other than UNTESTED | Passed through empty. |
 | URL cleared while REACHABLE | NOT_SET immediately. |
-| URL set, Wi-Fi drops while REACHABLE | OFFLINE / `Waiting for Wi-Fi`; when Wi-Fi returns, REACHABLE with its stored detail again (until the session task reports otherwise). |
+| URL set, Wi-Fi drops while REACHABLE | OFFLINE / `Needs Wi-Fi first`; when Wi-Fi returns, REACHABLE with its stored detail again (until the session task reports otherwise). |
 | `test` with Wi-Fi down | No effect (no TESTING). A TESTING already stored stays visible. |
 | `test` with no URL | No effect. |
 | `config_changed` with no URL | Result reset and forget request still happen. |
 | `state_name` with out-of-range value | `""`. |
 | Two `report` calls in a row | Last wins. |
-| `status` before the first `report` ever | URL set and Wi-Fi up: UNTESTED / `Connects when you talk`. |
+| `status` before the first `report` ever | URL set and Wi-Fi up: UNTESTED / `Wakes when you talk`. |
 
 ## 9. Device behaviour checklist (integrator)
 
 Serial checks run over `/dev/ttyACM0`; `>status` prints `@status {...}` with `"beam":{"url":...,"token":...,"state":"<state name>"}`. "Page" checks need Mark's eyes (settings page, sCoRE sub-page; home page row `sCoRE`; the status-bar/entity `sCoRE` indicator colour).
 
-1. **URL unset, Wi-Fi off or on:** `>beam.url=` (empty). Settings sCoRE page shows `Not set up` and `Set the sCoRE URL` (muted colour); home page shows `Not set up`; `@status` has `"state":"Not set up"`; the indicator is muted. A voice press shows `SET UP sCoRE FIRST`. Same with Wi-Fi off. `>beam.test` does nothing (no `Connecting` flash).
-2. **URL set, Wi-Fi off:** set `>beam.url=ws://<host>:8000/api/v1/beam` with Wi-Fi off (setting `wifi=off` per the W1 setup commands): page shows `Offline` and `Waiting for Wi-Fi`; `@status` says `Offline`; a voice press shows `NO WI-FI`; Test connection does nothing.
-3. **URL set, Wi-Fi on, sCoRE reachable:** after Wi-Fi joins, within a few seconds the page goes `Connecting` / `Connecting...` (yellow) then `Connected` with sCoRE's name (or `Connected`) (magenta indicator); `@status` says `Connected`. Test connection while connected: record what shows (see open question 1).
-4. **sCoRE unreachable** (stop the server, or point at a closed port): Test connection shows `Connecting` / `Connecting...` then within about 8 s `Can't connect` with detail `Can't connect` (red indicator); `@status` says `Can't connect`. Garbage URL that cannot be parsed shows `Can't connect` / `Bad address`. A previously connected socket that drops shows `Connection lost`.
-5. **Config change:** with the page on `Connected`, change the URL (`>beam.url=...` or the page): the status immediately drops to `Saved` / `Connects when you talk` (or `Connecting` once the session task retries), never keeps the old `Connected`. Changing only the token does the same.
-6. **A voice turn:** with `Connected`, hold talk, release: status stays `Connected` through the turn; after 2 minutes asleep and resting the page reads `Saved` / `Connects when you talk` and returns to `Connected` on waking.
-7. Wi-Fi drop mid-session (turn Wi-Fi off from the page): the page flips to `Offline` / `Waiting for Wi-Fi` at the next page refresh; turn it back on: `Connecting`, then `Connected`.
+1. **URL unset, Wi-Fi off or on:** `>beam.url=` (empty). Settings sCoRE page shows `Not set up` and `Set the sCoRE URL` (muted colour); home page shows `Not set up`; `@status` has `"state":"Not set up"`; the indicator is muted. A voice press shows `SET UP sCoRE FIRST`. Same with Wi-Fi off. `>beam.test` does nothing (no `Dialing` flash).
+2. **URL set, Wi-Fi off:** set `>beam.url=ws://<host>:8000/api/v1/beam` with Wi-Fi off (setting `wifi=off` per the W1 setup commands): page shows `Offline` and `Needs Wi-Fi first`; `@status` says `Offline`; a voice press shows `NO WI-FI`; Test connection does nothing.
+3. **URL set, Wi-Fi on, sCoRE reachable:** after Wi-Fi joins, within a few seconds the page goes `Dialing` / `Dialing sCoRE...` (yellow) then `Linked` with sCoRE's name (or `Linked`) (magenta indicator); `@status` says `Linked`. Test connection while connected: record what shows (see open question 1).
+4. **sCoRE unreachable** (stop the server, or point at a closed port): Test connection shows `Dialing` / `Dialing sCoRE...` then within about 8 s `Dial failed` with detail `Dial failed` (red indicator); `@status` says `Dial failed`. Garbage URL that cannot be parsed shows `Dial failed` / `Bad address`. A previously connected socket that drops shows `Connection lost`.
+5. **Config change:** with the page on `Linked`, change the URL (`>beam.url=...` or the page): the status immediately drops to `Saved` / `Wakes when you talk` (or `Dialing` once the session task retries), never keeps the old `Linked`. Changing only the token does the same.
+6. **A voice turn:** with `Linked`, hold talk, release: status stays `Linked` through the turn; after 2 minutes asleep and resting the page reads `Saved` / `Wakes when you talk` and returns to `Linked` on waking.
+7. Wi-Fi drop mid-session (turn Wi-Fi off from the page): the page flips to `Offline` / `Needs Wi-Fi first` at the next page refresh; turn it back on: `Dialing`, then `Linked`.
 8. `@status` is one line and the `beam` object's `state` value is always one of the six strings of section 5.
 
 ## 10. Test vehicle and golden vectors
@@ -223,7 +223,7 @@ The logic is small but has enough branches (URL x Wi-Fi x reported state x detai
 
 ## 11. Ambiguities and decisions for the integrator
 
-1. **Test while already connected looks stuck.** `rabble_beam_test()` with a live connection sets the result to `Connecting...` and asks for a connect, but the existing session task does not send a fresh report when the socket is already up and already greeted, so the status can stay on `Connecting` / `Connecting...` until the next real event (a drop, resting close, config change). This is how the status side and session task interact today. The spec keeps the status side as specified (the vectors pin it). A fix belongs in `rabble_beam_score.c` (report `Connected` again when a connect request finds the link up) and is the integrator's call; do not work around it in `rabble_beam.c`.
-2. **Detail wording of UNREACHABLE.** Details come from the session task (`Can't connect`, `Connection lost`, `Bad address`); this module shows them verbatim. If the session task is later changed, the checklist strings change with it.
+1. **Test while already connected looks stuck.** `rabble_beam_test()` with a live connection sets the result to `Dialing sCoRE...` and asks for a connect, but the existing session task does not send a fresh report when the socket is already up and already greeted, so the status can stay on `Dialing` / `Dialing sCoRE...` until the next real event (a drop, resting close, config change). This is how the status side and session task interact today. The spec keeps the status side as specified (the vectors pin it). A fix belongs in `rabble_beam_score.c` (report `Linked` again when a connect request finds the link up) and is the integrator's call; do not work around it in `rabble_beam.c`.
+2. **Detail wording of UNREACHABLE.** Details come from the session task (`Dial failed`, `Connection lost`, `Bad address`); this module shows them verbatim. If the session task is later changed, the checklist strings change with it.
 3. **`rabble_beam_start` comment drift.** Its public contract (create the session task, connect once Wi-Fi is up) belongs to the session task and is out of scope here.
 4. **Header comment text** is free; only declarations are frozen.

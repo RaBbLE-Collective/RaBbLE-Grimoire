@@ -253,9 +253,9 @@ Each step runs only after the previous one returned. "Fatal" means `ESP_ERROR_CH
 | 5 | Register the setting-change dispatcher (section 6.4) with `rabble_settings_set_listener`. After the board init and before anything that could change settings. | n/a |
 | 6 | `rabble_state_init()`. | n/a (void) |
 | 7 | `rabble_battery_init()`. | n/a (void) |
-| 8 | `rabble_state_set_caption("WAKING UP...")` (text exactly this; a printf-style call whose format is this literal). | n/a |
+| 8 | `rabble_state_set_caption("STARTING UP...")` (text exactly this; a printf-style call whose format is this literal). | n/a |
 | 9 | `rabble_ui_start()`; this calls `display_start`, builds LVGL screens and starts the entity. | Fatal |
-| 10 | Log at info: `UI built: free internal <N>` where N is `heap_caps_get_free_size(MALLOC_CAP_INTERNAL)` printed as unsigned decimal. | n/a |
+| 10 | Log at info: `interface built, internal heap free <N>` where N is `heap_caps_get_free_size(MALLOC_CAP_INTERNAL)` printed as unsigned decimal. | n/a |
 | 11 | Create the input event queue: length 16, item size `sizeof(rabble_input_event_t)`. | A NULL queue is not specially handled (original does not check); an implementer should treat a creation failure as fatal. |
 | 12 | `rabble_input_start(queue)` (starts the input task, 4096-byte stack, priority 6, plus the serial console task, 3584 bytes, priority 5; owned by the input module). | Fatal |
 | 13 | Delay 1400 ms (`vTaskDelay`) so the boot animation (portals opening, eyes emerging) finishes. | n/a |
@@ -263,14 +263,14 @@ Each step runs only after the previous one returned. "Fatal" means `ESP_ERROR_CH
 | 15 | `rabble_motion_start()`; on non-OK log a warning `no motion: raise to wake and the upright face are off`. | Warning only |
 | 16 | `rabble_wifi_start()`. | Fatal |
 | 17 | `rabble_beam_start()` (void). | n/a |
-| 18 | Log at info: `ready: free heap <A> internal, <B> psram` (A: internal-RAM free bytes, B: SPIRAM free bytes, both unsigned decimal). | n/a |
+| 18 | Log at info: `startup complete; heap free: <A> internal, <B> psram` (A: internal-RAM free bytes, B: SPIRAM free bytes, both unsigned decimal). | n/a |
 
 Step 14 detail:
 
 | Condition | Action |
 |---|---|
-| `board->audio_init == NULL` | Log info `display-only board: no microphone or speaker`. Set mode `RABBLE_MODE_IDLE` and an empty caption. Voice is not started. |
-| else `rabble_voice_start(queue) != ESP_OK` | Log error `voice pipeline unavailable`. Mode and caption are **left as they were** (mode stays boot, caption stays `WAKING UP...`). Start-up continues with steps 15 to 18. |
+| `board->audio_init == NULL` | Log info `no mic or speaker on this board (display only)`. Set mode `RABBLE_MODE_IDLE` and an empty caption. Voice is not started. |
+| else `rabble_voice_start(queue) != ESP_OK` | Log error `voice features disabled`. Mode and caption are **left as they were** (mode stays boot, caption stays `STARTING UP...`). Start-up continues with steps 15 to 18. |
 | else (ok) | Set mode `RABBLE_MODE_IDLE` and an empty caption (the button icons show how to talk). |
 
 Clearing the caption means setting it to the empty string; build cleanly under `-Wformat-security`.
@@ -369,7 +369,7 @@ Consumed by this group from elsewhere (public names; other specs own them):
 
 1. `board->init` or settings init failing is fatal; the device reboot-loops visibly in the log. No degraded mode.
 2. A board without `audio_init` still runs: no voice, mode set to idle, empty caption.
-3. Voice failing leaves the screen on the boot mode and the "WAKING UP..." caption. This is existing behaviour; keep it (it tells the user something is wrong), and log the error line.
+3. Voice failing leaves the screen on the boot mode and the "STARTING UP..." caption. This is existing behaviour; keep it (it tells the user something is wrong), and log the error line.
 4. Motion failing (no IMU, or sensor error) is a warning only.
 5. `display_unlock` must be callable on a task that holds the lock; unrelated to this group but note `rabble_ui_start` brackets its LVGL build with `display_lock(-1)` / `display_unlock()`.
 6. ISR service double install is tolerated both ways: other code (panel band driver) installs it too and treats "already installed" as success.
@@ -383,11 +383,11 @@ Consumed by this group from elsewhere (public names; other specs own them):
 Run after swapping each file in (these files are swapped together as one W0 commit with `rabble_state`).
 
 1. Clean build for the Waveshare 1.75B board with no warnings from these files; `bsp/`, `main/`, `accord/` compile with no source edits.
-2. Boot log shows, in this order: `board: Waveshare ESP32-S3-Touch-AMOLED-1.75-B`, board init messages, `UI built: free internal N`, input task start lines, voice start lines, `ready: free heap A internal, B psram`.
+2. Boot log shows, in this order: `board: Waveshare ESP32-S3-Touch-AMOLED-1.75-B`, board init messages, `interface built, internal heap free N`, input task start lines, voice start lines, `startup complete; heap free: A internal, B psram`.
 3. Boot log heap figures match the pre-swap run within a few percent (record both runs: internal free after UI build and at ready, psram free at ready). A large internal drop means LVGL or a big buffer landed in internal RAM.
 4. `heap_caps_get_allocated_size`-style check, or the serial `@status` output: LVGL objects live in PSRAM (e.g. allocating a settings page does not reduce internal free by more than a few KB).
 5. The boot animation plays for about 1.4 s before the caption clears; face then shows idle with the button icons visible at the hint positions.
-6. Caption "WAKING UP..." appears during boot and clears when voice is up; with voice disabled by force (temporarily fail audio init), the caption stays and `voice pipeline unavailable` is logged.
+6. Caption "STARTING UP..." appears during boot and clears when voice is up; with voice disabled by force (temporarily fail audio init), the caption stays and `voice features disabled` is logged.
 7. Core and priority facts: task list (`vTaskList` via the console, or the existing diagnostic) shows `rabble_voice` on core 1 prio 6, LVGL task on core 1 prio 5, panel send task on core 1 prio 6; `rabble_boot` ran on core 1 (the panel's SPI interrupt log in `rabble_lcd_bands` must not print `not pinned to core`).
 8. Entity gates unchanged: 60 fps idle, at least 30 fps busy and turning (direct mode comes up; `direct_stats` reports).
 9. BOOT button (talk): press logs `talk key: press` after ~30 ms, release logs `release`. A quick bounce does not produce a press. Press while the screen is asleep registers at once (wake works on the first press with no repeated taps).

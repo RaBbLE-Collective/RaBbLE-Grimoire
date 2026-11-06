@@ -6,7 +6,7 @@ turn_no_tts	psram	end=9000 srv_audio_ms=0 at=1000:down at=1100:mic:8000 at=2000:
 turn_max_length	psram	end=22000 at=1000:down at=1100:mic:8000	held past 15 s
 turn_dup_down_and_stray_up	psram	end=9000 at=500:up at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60 at=1500:down	duplicate DOWN while recording and stray UP idle ignored
 turn_mic_read_fails	psram	end=9000 mic_fail_at=1500 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	capture fails mid-recording
-tap_short	psram	end=5000 at=1000:down at=1100:mic:8000 at=1100:up at=1400:mic:60	release at 100 ms: HOLD LONGER TO TALK
+tap_short	psram	end=5000 at=1000:down at=1100:mic:8000 at=1100:up at=1400:mic:60	release at 100 ms: HOLD A BIT LONGER
 tap_just_long_enough	psram	end=9000 at=1000:down at=1100:mic:8000 at=1200:up at=1500:mic:60	see minlen.tsv
 wake_tap	psram	end=5000 at=1000:down_wake at=1100:up	press that woke the screen, released within a tap
 wake_held	psram	end=12000 at=1000:down_wake at=1100:mic:8000 at=2500:up at=2800:mic:60	held through the wake: records, pre-roll from before the press
@@ -28,7 +28,7 @@ note_stalled_beam	psram	end=400000 srv_stall=1 at=1000:down at=1100:mic:8000 at=
 note_press_before_send	psram	end=60000 wifi=0 srv_stall=1 at=20000:wifi:1 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60 at=21000:down at=21100:mic:8000 at=22200:up at=22500:mic:60	a press during a saved-note send goes first
 note_live_error_midway	psram	end=60000 srv_err=BAD AUDIO srv_err_live_ms=500 at=1000:down at=1100:mic:8000 at=2500:up at=2800:mic:60	live turn fails while recording, kept note saved
 note_no_memory_live_error	psram	end=20000 alloc_fail=1 srv_err=BAD AUDIO srv_err_live_ms=500 at=1000:down at=1100:mic:8000 at=2500:up at=2800:mic:60	no kept note: failure is the caption
-no_memory_ok	psram	end=9000 alloc_fail=1 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	no memory to keep a note: live only
+no_memory_ok	psram	end=9000 alloc_fail=1 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	out of memory storing the note: live only
 no_memory_offline	psram	end=9000 alloc_fail=1 wifi=0 at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	NO WI-FI
 notes_waiting_30min	psram	end=2400000 wifi=0 at=1700000:probe at=1790000:probe at=1815000:probe at=5000:probe at=1000:down at=1100:mic:8000 at=2000:up at=2300:mic:60	notes_waiting() clears after 30 min
 rest_basic	psram	end=20000 asleep=1 battery=1 at=5000:probe at=5000:asleep:0 at=5100:probe	asleep on battery: codecs off; then wake

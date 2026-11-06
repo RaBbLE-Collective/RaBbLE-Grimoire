@@ -58,7 +58,7 @@ The module makes no `rabble_beam_*` calls. It reads `rabble_state_asleep()` (onl
 
 1. If already started, return `ESP_OK` and do nothing.
 2. Prepare the store (`rabble_wifi_known_init()`).
-3. Bring the radio up before the keeper starts. Any failure here is fatal (abort). Requirements on the result: the default event loop and a default station network interface exist (the interface is used for the IP in status); the driver keeps its configuration in RAM only and never persists credentials (the build also sets `CONFIG_ESP_WIFI_NVS_ENABLED=n`); station mode; regulatory country `US` with channels 1 to 13 and the manual country policy; on a target with 5 GHz support (`SOC_WIFI_SUPPORT_5G`) the band mode is automatic; power save off (`WIFI_PS_NONE`); the station receives every Wi-Fi event and the got-IP event. Log the station MAC once at info as `WIFI STA MAC: AA:BB:CC:DD:EE:FF` (upper-case hex), or a warning if it cannot be read.
+3. Bring the radio up before the keeper starts. Any failure here is fatal (abort). Requirements on the result: the default event loop and a default station network interface exist (the interface is used for the IP in status); the driver keeps its configuration in RAM only and never persists credentials (the build also sets `CONFIG_ESP_WIFI_NVS_ENABLED=n`); station mode; regulatory country `US` with channels 1 to 13 and the manual country policy; on a target with 5 GHz support (`SOC_WIFI_SUPPORT_5G`) the band mode is automatic; power save off (`WIFI_PS_NONE`); the station receives every Wi-Fi event and the got-IP event. Log the station MAC once at info as `station MAC AA:BB:CC:DD:EE:FF` (upper-case hex), or a warning if it cannot be read.
 4. Create the keeper task: name `rabble_wifi`, **stack 6144 bytes from internal RAM** (plain `xTaskCreate`; the task reads and writes NVS through the store, which must not run on a PSRAM stack), **priority 4**, **not pinned** (`xTaskCreate`, no core). Per the W0 seam rules the UI and voice run on `RABBLE_UI_CORE`/`RABBLE_AUDIO_CORE` at priorities 5 and 6; the station must stay below them and must not be pinned to that core. If the task cannot be created return `ESP_ERR_NO_MEM`.
 5. The keeper keeps its working state off its own stack (heap). If it cannot get that memory: log error `no memory for the saved networks` (tag `rabble_wifi`) and end the task (Wi-Fi then never joins). Otherwise it loads the saved list (publishing the snapshot for `rabble_wifi_saved`) and enters its pass loop (section 7).
 
@@ -83,7 +83,7 @@ Rules for a pass:
 - Any request (join, forget, apply, a nap change in either direction) resets the retry schedule: the next attempt is due now, the failure delay is back to 5 s and the not-nearby delay back to 30 s. A pass started by the plain 1 s timeout does not reset it.
 - The pass then decides, in this precedence:
    a. Wi-Fi off, or nothing saved: if currently connected, log `wifi off; disconnecting` (when something is saved) or `wifi forgotten; disconnecting` (when nothing is saved), at info, tag `rabble_wifi`, and disconnect. Clear the not-nearby mark. Nothing else.
-   b. Nap requested: if the station has not yet left for this nap, log info `screen off a while; left wifi`, disconnect (even if not connected), and remember it has left. Nothing else; the not-nearby mark and detail are left as they were.
+   b. Nap requested: if the station has not yet left for this nap, log info `display idle for a while; released wifi`, disconnect (even if not connected), and remember it has left. Nothing else; the not-nearby mark and detail are left as they were.
    c. Connected: reset both delays to their minimums; clear the not-nearby mark.
    d. Not connected and the retry is due: run a join attempt (7.2).
    e. Otherwise nothing.
@@ -94,7 +94,7 @@ Rules for a pass:
 While an attempt runs the station is "joining" (blocks `rabble_wifi_scan`, section 10). The attempt takes one of two forms:
 
 - **Chosen network** (the user just joined something, 8.3): connect to the first saved network only, with no scan first. Log info `joining <ssid>`. Success is JOINED, failure is FAILED (no other network is tried).
-- **Any saved network** (everything else: boot, reconnect after a drop, apply, nap end, after forget): run one scan of all channels (the station's own scan: collapsed per SSID, at most 25 entries, section 15.1) and keep its result as the "nearby" memory, replacing the previous memory when the scan found at least one network and **leaving the old memory untouched when it found none or did not run**. Then go through the saved list in saved order. A saved network is tried when it is flagged hidden **or** its SSID is in the nearby memory (stale entries count); others are skipped. For each one tried log info `joining saved network <ssid>` and connect; the first success ends the attempt as JOINED; failures go on to the next. If at least one was tried and none joined: FAILED. If none was tried: NOT_NEARBY.
+- **Any saved network** (everything else: boot, reconnect after a drop, apply, nap end, after forget): run one scan of all channels (the station's own scan: collapsed per SSID, at most 25 entries, section 15.1) and keep its result as the "nearby" memory, replacing the previous memory when the scan found at least one network and **leaving the old memory untouched when it found none or did not run**. Then go through the saved list in saved order. A saved network is tried when it is flagged hidden **or** its SSID is in the nearby memory (stale entries count); others are skipped. For each one tried log info `trying saved network <ssid>` and connect; the first success ends the attempt as JOINED; failures go on to the next. If at least one was tried and none joined: FAILED. If none was tried: NOT_NEARBY.
 
 Connect timeout is 20000 ms per network (the whole blocking join, including waiting for the radio). The radio-level behaviour of one connect is section 15.2.
 
@@ -102,9 +102,9 @@ After a JOINED attempt:
 - Clear the failure detail and the not-nearby mark; reset both delays to minimum.
 - If the joined network is not first in the saved list (found by the associated AP's SSID among entries 2 and up), call `rabble_wifi_known_remember(ssid, password, -1)` for it (moves it to the front, keeps flag and password) and refresh the snapshot. A network that is already first causes no store call.
 
-After FAILED: detail becomes `Can't join; retrying`; not-nearby mark cleared; the next attempt is due `delay` after the attempt **ended**, where `delay` is the current failure delay when the screen is asleep (`rabble_state_asleep()` read when the attempt ends) and `min(failure delay, 15 s)` when awake; then the failure delay doubles, capped at 60 s. Failure delays start at 5 s: awake 5, 10, 15, 15, ...; asleep 5, 10, 20, 40, 60, 60, ...
+After FAILED: detail becomes `Join failed, retrying`; not-nearby mark cleared; the next attempt is due `delay` after the attempt **ended**, where `delay` is the current failure delay when the screen is asleep (`rabble_state_asleep()` read when the attempt ends) and `min(failure delay, 15 s)` when awake; then the failure delay doubles, capped at 60 s. Failure delays start at 5 s: awake 5, 10, 15, 15, ...; asleep 5, 10, 20, 40, 60, 60, ...
 
-After NOT_NEARBY: detail becomes `No saved network nearby`; not-nearby mark set; next attempt due `delay` after the attempt ended, where `delay` is the current not-nearby delay when asleep and `min(delay, 60 s)` when awake; then it doubles, capped at 600 s. Starts at 30 s: awake 30, 60, 60, ...; asleep 30, 60, 120, 240, 480, 600, 600, ... Log info `no saved wifi network nearby; looking again in <N> s` with N the delay used, in whole seconds.
+After NOT_NEARBY: detail becomes `Saved networks out of range`; not-nearby mark set; next attempt due `delay` after the attempt ended, where `delay` is the current not-nearby delay when asleep and `min(delay, 60 s)` when awake; then it doubles, capped at 600 s. Starts at 30 s: awake 30, 60, 60, ...; asleep 30, 60, 120, 240, 480, 600, 600, ... Log info `no saved wifi network nearby; looking again in <N> s` with N the delay used, in whole seconds.
 
 The two delays are independent and each resets as stated (success, connected pass, apply, join, forget, nap change).
 
@@ -112,7 +112,7 @@ An unexpected loss of the link (the access point goes away, the router reboots) 
 
 ### 7.3 Detail strings (exact)
 
-The keeper's stored detail is one of: empty, `Can't join; retrying`, `No saved network nearby`. `status` adds `Joining...` (section 9). No other detail text is ever produced. There is no distinct "wrong password" text: a wrong password, a refused association and a timeout are all FAILED with `Can't join; retrying`.
+The keeper's stored detail is one of: empty, `Join failed, retrying`, `Saved networks out of range`. `status` adds `Joining...` (section 9). No other detail text is ever produced. There is no distinct "wrong password" text: a wrong password, a refused association and a timeout are all FAILED with `Join failed, retrying`.
 
 ### 7.4 FAILED conditions
 
@@ -134,7 +134,7 @@ Handling in the keeper:
 
 ### 8.2 forget(ssid)
 
-NULL or empty means all. One request slot, same overwrite rule. Handling: call `rabble_wifi_known_forget(ssid)` (or `..._forget_all()`); on false log warn `couldn't forget a wifi network`. If connected and (all, or the ssid equals the associated AP's ssid): log info `forgot the network in use; leaving it` and disconnect. Wipe, reload, refresh the snapshot, treat as a request wake. After forgetting the one in use with others saved, the next pass joins another saved network at once (form "any saved network"); with none left status becomes NO_NETWORK and nothing is attempted. Forgetting a network that is not saved changes nothing (the store call still happens).
+NULL or empty means all. One request slot, same overwrite rule. Handling: call `rabble_wifi_known_forget(ssid)` (or `..._forget_all()`); on false log warn `failed to remove a saved wifi network`. If connected and (all, or the ssid equals the associated AP's ssid): log info `forgot the network in use; leaving it` and disconnect. Wipe, reload, refresh the snapshot, treat as a request wake. After forgetting the one in use with others saved, the next pass joins another saved network at once (form "any saved network"); with none left status becomes NO_NETWORK and nothing is attempted. Forgetting a network that is not saved changes nothing (the store call still happens).
 
 ### 8.3 Which saved network is chosen when
 
@@ -152,7 +152,7 @@ NULL or empty means all. One request slot, same overwrite rule. Handling: call `
 | 2 | Wi-Fi setting off | OFF | default | zero | empty |
 | 3 | A blocking connect is in progress | CONNECTING | the network being connected | zero | `Joining...` |
 | 4 | Nothing saved | NO_NETWORK | default (empty) | zero | not specified (callers ignore it; vectors ignore it) |
-| 5 | Not-nearby mark set | NOT_NEARBY | default | zero | stored detail (`No saved network nearby`) |
+| 5 | Not-nearby mark set | NOT_NEARBY | default | zero | stored detail (`Saved networks out of range`) |
 | 6 | Stored detail non-empty and no attempt (including its pre-join scan) is running | FAILED | default | zero | stored detail |
 | 7 | Anything else | CONNECTING | default | zero | `Joining...` |
 
@@ -166,7 +166,7 @@ Notes that follow from the table: row 1 beats row 2, so for up to one pass after
 - `ESP_ERR_NO_MEM` if its task cannot be created.
 - Otherwise `ESP_OK`, `rabble_wifi_scanning()` becomes true and a short-lived task (name `rabble_scan`, stack 4096, priority 4, internal RAM, may be unpinned) runs one active all-channel scan, collapsing per SSID and keeping at most **16** entries (rules in section 15.1; hidden and blank SSIDs dropped; strongest first).
 
-When the scan completes (the radio reported a result, even an empty one): the published results are **replaced** by the new list, the generation counter increases by one, and an info log `scan found <N> networks` (tag `rabble_wifi`) is written. `secure` is true when the strongest-or-any record's auth mode is not open (the collapse rule in 15.1 already folds "any secured BSSID" into the entry). When the scan did not run (another scan or a connect had the radio): log info `no scan; the radio was busy`, results and counter unchanged. In both cases `scanning()` becomes false. The generation counter starts at 0 and is not reset. A connect always takes priority over a scan: a join attempt cancels a scan in progress, and a scan requested while a connect is pending is skipped (the "radio was busy" case).
+When the scan completes (the radio reported a result, even an empty one): the published results are **replaced** by the new list, the generation counter increases by one, and an info log `<N> networks seen in scan` (tag `rabble_wifi`) is written. `secure` is true when the strongest-or-any record's auth mode is not open (the collapse rule in 15.1 already folds "any secured BSSID" into the entry). When the scan did not run (another scan or a connect had the radio): log info `scan skipped: radio busy`, results and counter unchanged. In both cases `scanning()` becomes false. The generation counter starts at 0 and is not reset. A connect always takes priority over a scan: a join attempt cancels a scan in progress, and a scan requested while a connect is pending is skipped (the "radio was busy" case).
 
 `rabble_wifi_scan_results(out, max, gen)` copies `min(count, max)` entries, strongest first, and always sets `*gen`. The same published results define "seen in the last scan" for the hidden flag in 8.1. The station's own pre-join scan (7.2) does not change the published results or the counter.
 
@@ -174,7 +174,7 @@ The published results and the nearby memory are both replace-on-scan as above; n
 
 ## 11. nap(bool)
 
-`rabble_wifi_nap(true)` asks the station to leave Wi-Fi: the keeper (7.1 step 4b) disconnects, logs `screen off a while; left wifi`, and then sleeps without polling. `connected()` becomes false, so the beam drops its session on its own. Nothing is attempted while napping, even if the link was already down, and a retry due time passing has no effect. `rabble_wifi_nap(false)` wakes the keeper, resets the retry schedules, and the next pass rejoins at once in the "any saved network" form (scan, then connect), so waking costs the scan time plus the connect time. `apply` while napping changes nothing. Nap does nothing visible when Wi-Fi is off or nothing is saved (the 4a rule wins). Radio power-save settings are not changed by nap.
+`rabble_wifi_nap(true)` asks the station to leave Wi-Fi: the keeper (7.1 step 4b) disconnects, logs `display idle for a while; released wifi`, and then sleeps without polling. `connected()` becomes false, so the beam drops its session on its own. Nothing is attempted while napping, even if the link was already down, and a retry due time passing has no effect. `rabble_wifi_nap(false)` wakes the keeper, resets the retry schedules, and the next pass rejoins at once in the "any saved network" form (scan, then connect), so waking costs the scan time plus the connect time. `apply` while napping changes nothing. Nap does nothing visible when Wi-Fi is off or nothing is saved (the 4a rule wins). Radio power-save settings are not changed by nap.
 
 ## 12. Power levels
 
@@ -217,7 +217,7 @@ Nearby memory (7.2): the entries of the station's own scan, max 25, replaced as 
 ## 16. Log lines a checklist relies on
 
 Tag `rabble_wifi` unless noted, exact text:
-`joining <ssid>`; `joining saved network <ssid>`; `joining a different network`; `forgot the network in use; leaving it`; `wifi off; disconnecting`; `wifi forgotten; disconnecting`; `screen off a while; left wifi`; `no saved wifi network nearby; looking again in <N> s`; `scan found <N> networks`; `no scan; the radio was busy`; warn `couldn't save <ssid>`; warn `couldn't forget a wifi network`; error `no memory for the saved networks`. Radio-layer lines, tag free: `WIFI STA MAC: ...`, `got IP a.b.c.d`, `station disconnected reason=<n> rssi=<n>`.
+`joining <ssid>`; `trying saved network <ssid>`; `joining a different network`; `forgot the network in use; leaving it`; `wifi off; disconnecting`; `wifi forgotten; disconnecting`; `display idle for a while; released wifi`; `no saved wifi network nearby; looking again in <N> s`; `<N> networks seen in scan`; `scan skipped: radio busy`; warn `couldn't save <ssid>`; warn `failed to remove a saved wifi network`; error `no memory for the saved networks`. Radio-layer lines, tag free: `WIFI STA MAC: ...`, `got IP a.b.c.d`, `station disconnected reason=<n> rssi=<n>`.
 
 ## 17. Concurrency requirements
 
@@ -225,13 +225,13 @@ Every public function is callable from any task. The status, saved list, scan re
 
 ## 18. Gadget checklist (flash, serial console)
 
-1. **Saved networks survive the swap.** Before flashing the new build note `>status` JSON wifi object and the saved networks list (settings page or `rabble_wifi_saved`). Flash new build over old. Boot log shows `WIFI STA MAC`, no `couldn't save`. The same networks, in the same order and with the same hidden marks, are listed; the first one joins by itself (log `joining saved network <name>`, then `got IP`).
+1. **Saved networks survive the swap.** Before flashing the new build note `>status` JSON wifi object and the saved networks list (settings page or `rabble_wifi_saved`). Flash new build over old. Boot log shows `WIFI STA MAC`, no `couldn't save`. The same networks, in the same order and with the same hidden marks, are listed; the first one joins by itself (log `trying saved network <name>`, then `got IP`).
 2. **Join.** From the settings page pick a scanned secured network and enter the password: status goes CONNECTING `Joining...` then CONNECTED with ssid, IP and RSSI; it moves to the top of the saved list; log `joining <name>` (no scan first). Repeat with "Other network..." for a typed name: it joins and is marked Hidden in the list.
-3. **Wrong password.** Join a known network with a wrong password: after the attempt status is FAILED with `Can't join; retrying`, retries visible in the log at about 5 s, 10 s, 15 s spacing with the screen on, `joining saved network` each time; fixing the password (join again) connects at once.
-4. **Out of range.** Take the device out of range of every saved network (or power the AP off): after a pass or two status is NOT_NEARBY `No saved network nearby`, log `looking again in 30 s`, then 60 s awake. Bring the AP back and, from the settings page, scan: it joins at once; or wait for the next look.
+3. **Wrong password.** Join a known network with a wrong password: after the attempt status is FAILED with `Join failed, retrying`, retries visible in the log at about 5 s, 10 s, 15 s spacing with the screen on, `joining saved network` each time; fixing the password (join again) connects at once.
+4. **Out of range.** Take the device out of range of every saved network (or power the AP off): after a pass or two status is NOT_NEARBY `Saved networks out of range`, log `looking again in 30 s`, then 60 s awake. Bring the AP back and, from the settings page, scan: it joins at once; or wait for the next look.
 5. **Forget in use.** Forget the connected network (two taps): log `forgot the network in use; leaving it`, the link drops, and if another saved network is in range it joins within the scan time; forgetting the last one gives NO_NETWORK (`Not set`). `>wifi.forget` (empty) forgets all.
-6. **Scan.** Scan from the settings page: button shows `Scanning...`, the list appears strongest first, hidden/blank names absent, saved ones marked; a second scan while joining is refused (button does nothing); log `scan found N networks`.
-7. **Nap/wake.** Put the device to sleep on battery (`>nap`): after a pause `Wi-Fi napping`, then log `screen off a while; left wifi`, `connected` false (status row shows Joining), the beam goes Offline. Wake with `w`: `Wi-Fi waking` and the network is rejoined after a scan with no backoff wait.
+6. **Scan.** Scan from the settings page: button shows `Scanning...`, the list appears strongest first, hidden/blank names absent, saved ones marked; a second scan while joining is refused (button does nothing); log `N networks seen in scan`.
+7. **Nap/wake.** Put the device to sleep on battery (`>nap`): after a pause `Wi-Fi napping`, then log `display idle for a while; released wifi`, `connected` false (status row shows Joining), the beam goes Offline. Wake with `w`: `Wi-Fi waking` and the network is rejoined after a scan with no backoff wait.
 8. **Power levels.** On battery idle the voice loop calls DOZE then REST when asleep; use a current meter or compare idle draw: FULL (on USB) highest, DOZE lower with a few hundred ms extra ping latency, REST lowest with up to about 1 s. A press returns to FULL (no extra latency).
 9. **Router reboot.** Power-cycle the AP while connected: within about a second the keeper starts a rejoin (log `joining saved network`), and the link returns within the AP's boot time plus one retry delay.
 10. **Boot order.** Boot log shows the Wi-Fi start after voice start and before the beam, internal heap figure at `ready` within a few percent of the pre-swap run; task list shows `rabble_wifi` priority 4 unpinned.

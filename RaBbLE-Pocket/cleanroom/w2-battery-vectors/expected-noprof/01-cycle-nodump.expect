@@ -15,7 +15,7 @@ STEP	10	drain
 DRAIN	ok=0	rate10=-777	full_h=-777
 STEP	11	time 10000000
 STEP	12	power 80 4000 0 0 1
-LOG	I	on battery at 80% (4000 mV): measuring
+LOG	I	unplugged at 80% (4000 mV), measuring drain
 STEP	13	read
 READ	started=1	running=1	secs=0	pct=80,80	mv=4000,4000	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
 STEP	14	time 70000000
@@ -32,7 +32,7 @@ STEP	22	rtc
 RTC	valid	183	{"boot":"power on","uptime":10,"started":true,"running":true,"secs":0,"battery_pct":[80,80],"battery_mv":[4000,4000],"screen_off":0.0,"resting":0.0,"slept":0.0,"sleeps":0,"busy":null}
 STEP	23	time 250000000
 STEP	24	power 79 3980 0 1 0
-LOG	I	USB back after 240 s on battery: 80% -> 79% (4000 -> 3985 mV)
+LOG	I	plugged in after 240 s unplugged: 80% -> 79% (4000 -> 3985 mV)
 STEP	25	read
 READ	started=1	running=0	secs=240	pct=80,79	mv=4000,3985	off_pm=750	rest_pm=500	slept_pm=0	sleeps=0	busy_pm=-1	awake=
 STEP	26	json
@@ -48,7 +48,7 @@ STEP	31	rtc
 RTC	valid	189	{"boot":"power on","uptime":250,"started":true,"running":false,"secs":240,"battery_pct":[80,79],"battery_mv":[4000,3985],"screen_off":75.0,"resting":50.0,"slept":0.0,"sleeps":0,"busy":null}
 STEP	32	time 1000000000
 STEP	33	power 79 3980 0 0 1
-LOG	I	on battery at 79% (3980 mV): measuring
+LOG	I	unplugged at 79% (3980 mV), measuring drain
 STEP	34	read
 READ	started=1	running=1	secs=0	pct=79,79	mv=3980,3980	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
 STEP	35	time 1700000000

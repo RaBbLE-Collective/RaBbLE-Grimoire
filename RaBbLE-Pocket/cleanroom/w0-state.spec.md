@@ -81,29 +81,29 @@ External symbol count: 24 functions, 1 macro, 2 types, 8 enumerators = 35 public
 |---|---|
 | `rabble_state_init` | `apache/rabble_app.c` (once, in `rabble_app_run`, after `board->init()` and settings init, before `rabble_battery_init` and `rabble_ui_start`). |
 | `set_mode` | `rabble_app.c` (IDLE after startup), `rabble_input.c` (OFF on power-off, IDLE on power-off failure, serial console mode forcing), `rabble_voice.c` (LISTENING, THINKING, SPEAKING, IDLE, ERROR). |
-| `mode` | `rabble_input.c` (sleep decision needs IDLE), `rabble_voice.c` (NULL form: is mode IDLE), `accord/rabble_motion.c` (NULL form), `accord/rabble_entity.c` (both forms), `accord/rabble_ui.c` (both forms). |
-| `set_level` / `level` | `rabble_voice.c` writes; `accord/rabble_entity.c`, `accord/rabble_ui.c` read. |
+| `mode` | `rabble_input.c` (sleep decision needs IDLE), `rabble_voice.c` (NULL form: is mode IDLE), `app/RaBbLE/rabble_motion.c` (NULL form), `app/RaBbLE/rabble_entity.c` (both forms), `app/RaBbLE/rabble_ui.c` (both forms). |
+| `set_level` / `level` | `rabble_voice.c` writes; `app/RaBbLE/rabble_entity.c`, `app/RaBbLE/rabble_ui.c` read. |
 | `set_progress` / `progress` | `rabble_input.c`, `rabble_voice.c` write. `progress` getter has no current caller but is public and must exist. |
 | `set_caption` | `rabble_app.c`, `rabble_input.c`, `rabble_voice.c` (many; formats include `"%s"`, quoted `"\"%s\""`, `"%s %.1fs"` with a double). Some pass a `page`/`text` string up to `RABBLE_CAPTION_MAX` long through `"%s"`. |
-| `caption` | `rabble_input.c` (saves/restores caption around the hold-to-power-off prompt), `accord/rabble_entity.c`, `accord/rabble_ui.c` (each keeps its own `uint32_t` version variable, initially 0). |
-| `set_page` | `accord/rabble_ui.c` (once at UI build). |
+| `caption` | `rabble_input.c` (saves/restores caption around the hold-to-power-off prompt), `app/RaBbLE/rabble_entity.c`, `app/RaBbLE/rabble_ui.c` (each keeps its own `uint32_t` version variable, initially 0). |
+| `set_page` | `app/RaBbLE/rabble_ui.c` (once at UI build). |
 | `set_cjk_page` | No current caller. Public, must exist. |
 | `page` | `apache/rabble_beam_text.c`. |
 | `set_power` | `rabble_input.c` (input task, after each board `read_power`). |
-| `power` | `rabble_settings_ui.c`, `rabble_setup.c`, `accord/rabble_entity.c`, `accord/rabble_ui.c`. |
+| `power` | `rabble_settings_ui.c`, `rabble_setup.c`, `app/RaBbLE/rabble_entity.c`, `app/RaBbLE/rabble_ui.c`. |
 | `on_battery` | `rabble_input.c`, `rabble_voice.c`. |
 | `set_as_if_battery` | `rabble_input.c` (serial console bench command on; cleared when the screen wakes after a bench nap). |
-| `poke` | `rabble_input.c`, `rabble_voice.c`, `rabble_setup.c`, `accord/rabble_motion.c`, `accord/rabble_ui.c`. |
+| `poke` | `rabble_input.c`, `rabble_voice.c`, `rabble_setup.c`, `app/RaBbLE/rabble_motion.c`, `app/RaBbLE/rabble_ui.c`. |
 | `idle_secs` | `rabble_input.c`. |
-| `set_asleep` | `rabble_input.c`, `rabble_settings_ui.c`, `accord/rabble_ui.c`. |
-| `asleep` | `rabble_input.c`, `rabble_voice.c`, `rabble_wifi.c`, `rabble_board.c`, `accord/rabble_motion.c`, `accord/rabble_ui.c`. |
+| `set_asleep` | `rabble_input.c`, `rabble_settings_ui.c`, `app/RaBbLE/rabble_ui.c`. |
+| `asleep` | `rabble_input.c`, `rabble_voice.c`, `rabble_wifi.c`, `rabble_board.c`, `app/RaBbLE/rabble_motion.c`, `app/RaBbLE/rabble_ui.c`. |
 | `wait_awake` | `rabble_voice.c` (voice task, resting). |
 | `nudge` | `rabble_voice.c` (two sites, from other tasks, to get the voice task to re-evaluate). |
-| `make_happy` | `rabble_input.c`, `rabble_voice.c`, `accord/rabble_ui.c`. |
-| `happiness` | `accord/rabble_entity.c`, `accord/rabble_ui.c`. |
-| `RABBLE_CAPTION_MAX` | `rabble_voice.c`, `accord/rabble_entity.c`, `accord/rabble_ui.c`. |
-| `RABBLE_MODE_COUNT` | `rabble_input.c`, `accord/rabble_entity.c`, `accord/rabble_ui.c`. |
-| `rabble_power_t` | `rabble_board.h` (`read_power` vtable entry), `rabble_battery.h/.c`, `bsp/bsp_waveshare_175b.c`, plus the `power` users above. |
+| `make_happy` | `rabble_input.c`, `rabble_voice.c`, `app/RaBbLE/rabble_ui.c`. |
+| `happiness` | `app/RaBbLE/rabble_entity.c`, `app/RaBbLE/rabble_ui.c`. |
+| `RABBLE_CAPTION_MAX` | `rabble_voice.c`, `app/RaBbLE/rabble_entity.c`, `app/RaBbLE/rabble_ui.c`. |
+| `RABBLE_MODE_COUNT` | `rabble_input.c`, `app/RaBbLE/rabble_entity.c`, `app/RaBbLE/rabble_ui.c`. |
+| `rabble_power_t` | `rabble_board.h` (the board's power-reading entry; named in `w11-board-vtable.spec.md`), `rabble_battery.h/.c`, `bsp/bsp_waveshare_175b.c`, plus the `power` users above. |
 
 ## 3. Behaviour
 
@@ -210,7 +210,7 @@ Initial state at `init`: mode BOOT, age and idle clocks at now, awake, no nudge,
 2. A power read returns a complete struct.
 3. After `set_asleep(false)` returns, `asleep()` is false on any task and `idle_secs()` is small.
 4. After `set_caption("A")` returns on one task, `caption()` on any task with an older version returns "A" or a later caption.
-5. Input task's power-off sequence sets asleep false, progress 0, level 0, mode OFF, caption in that order from one task; observers must not see the caption "GOODBYE!" with a mode other than OFF afterwards because later set_mode calls to non-IDLE values are ignored.
+5. Input task's power-off sequence sets asleep false, progress 0, level 0, mode OFF, caption in that order from one task; observers must not see the caption "BYE FOR NOW" with a mode other than OFF afterwards because later set_mode calls to non-IDLE values are ignored.
 
 ## 4. Timings, limits and edge cases
 
@@ -245,8 +245,8 @@ Build wiring: the component has no `rabble_state`-specific CMake entry; it is pi
 
 Use the serial console and the UI. Console keys that force modes live in `rabble_input.c`; the commands are named in its help output.
 
-1. Boot: caption "WAKING UP..." appears on the face during start, then clears; mode leaves BOOT for IDLE once voice is up (UI shows the idle face).
-2. Hold the talk button: face goes to listening colours, caption "LISTENING..." (or the recording text) with a growing seconds counter, level moves the entity with the mic, progress advances. Release: thinking, then speaking with level driving the mouth, then idle.
+1. Boot: caption "STARTING UP..." appears on the face during start, then clears; mode leaves BOOT for IDLE once voice is up (UI shows the idle face).
+2. Hold the talk button: face goes to listening colours, caption "I'M LISTENING" (or the recording text) with a growing seconds counter, level moves the entity with the mic, progress advances. Release: thinking, then speaking with level driving the mouth, then idle.
 3. Caption text with curly quotes, dashes and accents in a reply shows as plain ASCII equivalents with no missing glyph boxes; a reply over 399 characters is cut rather than crashing.
 4. Repeat the same reply twice: no redraw flicker from caption churn (observable only by logging the version; optional).
 5. Petting (touch the face while idle) makes the entity happy for about 1.6 s with the last 0.4 s easing out; during listening/thinking/speaking a touch does not start the happy animation.

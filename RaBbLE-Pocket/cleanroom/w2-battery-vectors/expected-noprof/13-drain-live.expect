@@ -2,7 +2,7 @@ STEP	1	time 1000000
 STEP	2	init
 STEP	3	nodump
 STEP	4	power 100 4200 0 0 1
-LOG	I	on battery at 100% (4200 mV): measuring
+LOG	I	unplugged at 100% (4200 mV), measuring drain
 STEP	5	time 601000000
 STEP	6	power 100 4190 0 0 1
 STEP	7	read
@@ -34,7 +34,7 @@ READ	started=1	running=1	secs=49999	pct=100,0	mv=4200,3300	off_pm=0	rest_pm=0	sl
 STEP	24	drain
 DRAIN	ok=1	rate10=72	full_h=13
 STEP	25	power 100 4200 1 1 0
-LOG	I	USB back after 49999 s on battery: 100% -> 0% (4200 -> 3300 mV)
+LOG	I	plugged in after 49999 s unplugged: 100% -> 0% (4200 -> 3300 mV)
 STEP	26	read
 READ	started=1	running=0	secs=49999	pct=100,0	mv=4200,3300	off_pm=0	rest_pm=0	slept_pm=0	sleeps=0	busy_pm=-1	awake=
 STEP	27	drain

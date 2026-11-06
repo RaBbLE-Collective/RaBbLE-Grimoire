@@ -3,7 +3,7 @@
 0	ret	start	0
 0	radio.scan_cache
 1000	status	CONNECTING	Home		0	Joining...
-2000	log	I	rabble_wifi	joining saved network Cafe
+2000	log	I	rabble_wifi	trying saved network Cafe
 2000	radio.connect	Cafe	cafepass
 4000	status	CONNECTING	Cafe		0	Joining...
 4500	radio.connect_result	Cafe	ok

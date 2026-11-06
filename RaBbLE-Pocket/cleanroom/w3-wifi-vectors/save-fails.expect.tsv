@@ -2,7 +2,7 @@
 0	task	rabble_wifi	6144	4
 0	ret	start	0
 0	radio.scan_cache
-2000	log	I	rabble_wifi	joining saved network Old
+2000	log	I	rabble_wifi	trying saved network Old
 2000	radio.connect	Old	op
 4000	radio.connect_result	Old	ok
 4000	store.remember	New	np	1
@@ -16,7 +16,7 @@
 6000	status	CONNECTED	Old	192.168.1.50	-55	
 6000	saved	1	Old:0
 6000	store.forget	Old
-6000	log	W	rabble_wifi	couldn't forget a wifi network
+6000	log	W	rabble_wifi	failed to remove a saved wifi network
 6000	log	I	rabble_wifi	forgot the network in use; leaving it
 6000	radio.disconnect
 8000	saved	0	
