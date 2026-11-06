@@ -5,15 +5,22 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-06 · S315 (pocket-provenance-rescue)
+## LATEST — 2026-11-06 · Session S316 (pocket-open-entity-fold)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S315: rescued S314's uncommitted provenance work; Muse-shaped code rewritten, README fixed, sim test fixed, 36/36 green, committed
+**This session:** S316: open_entity folded into Foundling, glow follower in core, 36/36
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** Gitleaks all branches+tags, overlap rerun, push, R2, W8 live checks
+**Next:** R2 core hygiene, W8-W11 device checks, gitleaks all, push
 
 ---
 
+
+## 2026-11-06 · Session S316 (pocket-open-entity-fold)
+
+- **Repos:** RaBbLE-Pocket (`6cf1404` on `new-horizons`, `%S316_STATE%`, not pushed).
+- **Work:** Mark ruled `open_entity_default` is the Foundling: the core gives no entity a default. Folded into `entities/Foundling` as `foundling_face` (pure C) and `foundling_canvas` (LVGL canvas and settings panel), Kconfig is Foundling's (`FOUNDLING_PASTEL`; NVS namespace now `foundling`, so the saved colour resets). RaBbLE's `CONFIG_OPEN_ENTITY_DEFAULT` alternate-face branches deleted (switch was off). The shared voice-level smoother is now `rabble_level_follow` in `rabble_state.h` (core), used by both entities. `core/open_entity_default` is gone; `ops/sdk-layers.py` and `firmware/CONTEXT.md` updated.
+- **Verified:** host suite 36 pass, 0 fail; RaBbLE and Foundling `-B` builds clean; `sdk-layers --enforce core` 0 upward includes; face host test ok. **Not verified:** not flashed, Foundling face and panel unseen on the device. Gotcha repeated: building Foundling prunes the websocket component; rebuild RaBbLE before the host suite.
+- **Not done:** R2 (beam URL/token/default out of core settings and Kconfig, `rabble_capture.h` beam hook, lint failing on core to entity edges, `NOTICE:4-6`) and the W8 to W11 device checks (W8 needs a non-captive network); pushes; gitleaks all branches and tags.
 
 ## 2026-11-06 · Session S315 (pocket-provenance-rescue)
 
