@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-06 · S314 (pocket-w11-r1)
+## LATEST — 2026-11-06 · S315 (pocket-provenance-rescue)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S314: W11 and R1 committed and verified on device; fresh Muse scan says derived-but-rewritten, NOTICE and 4 headers need fixing
+**This session:** S315: rescued S314's uncommitted provenance work; Muse-shaped code rewritten, README fixed, sim test fixed, 36/36 green, committed
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** Provenance fixes (NOTICE, 4 headers, captions), R2, W8 live checks off the captive network
+**Next:** Gitleaks all branches+tags, overlap rerun, push, R2, W8 live checks
 
 ---
 

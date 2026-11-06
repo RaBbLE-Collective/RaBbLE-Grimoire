@@ -310,3 +310,8 @@ f6522db6-ff6b-4f0c-b18d-6fb2b6320ef0	pocket-boot-button-hwtest	S300: BOOT hw tes
 1450adb7-91ff-4a6c-b911-7d890ff858d3	pocket-foundling-skeleton		rabble	anthropic	claude-sonnet-5-5
 413119a2-c6f7-4e79-850c-e3ae020d2b66	pocket-w9-entity-layers	S311	rabble	anthropic	claude-sonnet-5-5
 43a6552a-b1fc-4b0a-91cc-dc763ff5ef8e	pocket-layers-review	S312 R0 review + W8/W11 firewall	rabble	anthropic	claude-sonnet-5-5
+f6af0bb3-eca0-4e00-a053-efa61901ecac	pocket-cr-scan	S313 CR scan	rabble	anthropic	claude-sonnet-5-5
+06c9deac-b791-4909-b58b-e6d73384d688	pocket-w8-w11-merge	S314	rabble	anthropic	claude-sonnet-5-5
+3d78ce9a-dc63-4b1c-917d-625748a3dd5d	xperimental-web	auto: RaBbLE Matrix Builder	rabble	anthropic	claude-sonnet-5-5
+a3b4d3cb-95a0-48be-a7c2-78baed8d8ad6	pocket-w11-r1	S314: W11 + R1 committed, provenance check	rabble	anthropic	claude-sonnet-5-5
+4edc01ef-b714-46f9-b18e-e733cee4ff11	pocket-provenance-rescue	S315 rescue	rabble	anthropic	claude-sonnet-5-5
