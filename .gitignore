@@ -39,3 +39,5 @@ RaBbLE-SiGiL/store/
 # session mechanism runtime files
 log/.lock
 log/agents/
+__pycache__/
+*.pyc
