@@ -5,15 +5,24 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-06 · Session S317 (pocket-include-src-uniform)
+## LATEST — 2026-11-06 · S319 (fastfetch-face-marks)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S317: Pocket include/src uniform, console split, isr ensure, flashed
+**This session:** S319: fastfetch from rabble-face, size-aware launcher
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** layer-check websocket fix, 60fps recheck, rabble_pad split later
+**Next:** Mark redeploys + views logos; 3-row wordmark review; bash deploy; brand spec
 
 ---
 
+
+## 2026-11-06 · Session S319 (fastfetch-face-marks)
+
+- **Repos:** RaBbLE-OS (`95e2740` logos + launcher, `cf9d5da` shells), RaBbLE-sCoRE (`bfbd89d` export example), RaBbLE-Grimoire (this entry, fastfetch doc, proposal). `new-horizons`, not pushed.
+- **Work:** Mark: fastfetch logo too big in small or split windows. `spells/rabble-fetch` renders each tier (full, compact, micro, none), measures real width and height, and execs the first that fits (exec so the Shell line reports zsh, not bash). Logos are now generated from `rabble-face` by `spells/fastfetch-face.sh` via the new `export` example (face 38x18 with `aspect=2.3` for round sphere; block "RaBbLE-OS" wordmark; 3-row compact wordmark in a 3x5 pixel font of my own; micro mark). Colours moved to exact palette hexes (index 197 was a red, not `#ff2d78`). Packages line shortened (it was the widest row and wrapped). zsh redraws the splash on resize until the first command (`TRAPWINCH`, tested in a pty with a stub launcher); bash gets the splash only. Asset inventory and one-source proposal written: `log/plans/Brand-Asset-Consolidation-PROPOSAL.md`; Q1 answered by Mark (rabble-face is the cell-art master).
+- **Verified:** tier choice at 120/98/95/80/60 columns with a stub `tput`; zsh resize hook in a real pty; `Shell zsh 5.9` under zsh. WS4 screenshot confirmed the deployed full logo, round sphere and the old small compact label.
+- **Not verified / open:** the final full logo (one-line wordmark), the 3-row compact wordmark and the hyphen were never seen rendered; my 3x5 letters (the "a" especially) may look off; sphere roundness depends on `RABBLE_CELL_ASPECT` (2.3 measured on Mark's kitty); redeploy needed (`ansible-playbook ... --tags fastfetch -K`, needs Mark's sudo); `dotctl apply bash` not run (deployed bashrc and repo now match after another session's `dotctl pull bash`); full tier is 99 cols wide so a 95-col pane gets compact.
+- **Decisions (Mark):** `rabble-fetch` is the default splash; "RaBbLE-OS" with hyphen; target size of a distro logo, wordmark bigger; sketches in BaBbLE intake are reference only, BaBbLE is mid-reorg.
+- **Left alone:** other sessions' `manifest.yml`, `claude-code.yml`, `packages.yml`, `.bash_profile`; obsolete untracked `config/fastfetch/rabble-portals.compact.base.txt` (a delete was blocked, Mark to remove); scratch dirs in `/tmp`; INDEX.md (has another session's edits, so the proposal is not indexed yet).
 
 ## 2026-11-06 · Session S317 (pocket-include-src-uniform)
 

@@ -156,3 +156,27 @@ Packages queries can take >5s; use a long read timeout.
 ```
 transcribe ~ grimoire >> the gaze composited in layers, dust optional // %EP1_IDENTITY%
 ```
+
+---
+
+## Logos come from rabble-face (rabble-fetch, 2026-11-06)
+
+The default logo is no longer hand-drawn. `RaBbLE-OS/spells/fastfetch-face.sh` runs the
+`export` example of `RaBbLE-sCoRE/tui/rabble-face` (the mark's master) and writes checked-in
+snapshots, so OS installs need no Rust build:
+
+| Tier | Logo file | Source | Config |
+|---|---|---|---|
+| full | `rabble-portals.txt` | face 38x18 (distro-logo size) + "RaBbLE OS" | `config.jsonc` |
+| compact | `rabble-portals.compact.txt` | TUI header face 24x6 + label | `config.compact.jsonc` |
+| micro | `rabble-portals.micro.txt` | micro mark 10x3 + label | `config.micro.jsonc` |
+| mini | none | | `config.compact.jsonc --logo none` |
+
+`RaBbLE-OS/spells/rabble-fetch` (installed to `/usr/local/bin`, called from `.zshrc`) renders each
+tier and keeps the first whose real width and height fit the terminal, so a narrow pane drops a
+tier instead of wrapping. Force one with `RABBLE_FETCH=full|compact|micro|mini rabble-fetch`.
+Regenerate after changing the face: `spells/fastfetch-face.sh`.
+
+The old hand-drawn art (`rabble-portals.base.txt` + `spells/fastfetch-fx.py`, with its portals,
+wordmark and fx layers) is legacy: kept in the repo, no longer feeds the default.
+Brand consolidation proposal: `log/plans/Brand-Asset-Consolidation-PROPOSAL.md`.
