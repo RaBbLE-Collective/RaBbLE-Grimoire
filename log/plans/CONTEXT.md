@@ -40,6 +40,7 @@ this table is a one-line pointer. 🟡 = in flight / awaiting Mark · 🔵 = des
 | `Sovereign-Accord-v2-Brand-and-Entity.md` | 🔵 S278: Accord v2: owner, scratch text (PolyForm ref), Ohio law decided; drafts in RaBbLE-Collective/; name clearance gates promo; rest deferred |
 | `Pocket-Open-SDK-App-Separation-Plan.md` | 🟡 2026-11-02 DRAFT v0.2 + Mark rulings: Apache SDK / SA middleware (nebula_lite) / SA app, clean room reaches the SDK; QuiBbLE said REVISE; superseded by HANDOFF-S298-Pocket-Split-Build-Plan (v0.3); D1-D5 pending Mark |
 | `Collective-ICM-Conformance-Audit.md` | 🟡 audit complete 2026-08-27; 3 open decisions for Mark |
+| `Collective-Coherency-Audit-S318/` | 🟡 audit complete 2026-11-06; 6 open decisions for Mark, cleanup not started |
 | `Collective-Architecture-Audit-2026-07-04.md` | reference — S193 findings; open items tracked in the PROGRESS ledger below |
 | `Collective-Architecture-Audit-PROGRESS.md` | 🟡 S196 ledger — Batch 1 landed; decisions + restructures deferred |
 
