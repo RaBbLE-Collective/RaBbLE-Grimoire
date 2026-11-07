@@ -5,15 +5,24 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-06 · Session S316 (pocket-open-entity-fold)
+## LATEST — 2026-11-06 · Session S317 (pocket-include-src-uniform)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S316: open_entity folded into Foundling, glow follower in core, 36/36
+**This session:** S317: Pocket include/src uniform, console split, isr ensure, flashed
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** R2 core hygiene, W8-W11 device checks, gitleaks all, push
+**Next:** layer-check websocket fix, 60fps recheck, rabble_pad split later
 
 ---
 
+
+## 2026-11-06 · Session S317 (pocket-include-src-uniform)
+
+- **Repos:** RaBbLE-Pocket (`2be2842` layout, `21372f2` isr ensure on `new-horizons`, `%S317_STATE%`, not pushed), RaBbLE-Grimoire (this entry).
+- **Work:** Mark asked why some Pocket components had `include/` and others did not. Rule now uniform: every component under `boards/ core/ drivers/ entities/` (and the entity subcomponents) keeps public headers in `include/` and sources plus private headers in `src/`. `core/rabble_console` split out of `rabble_core` and registered as layer core in `ops/sdk-layers.py`. `test/paths.sh`, `sim/`, `panel_bench` CMake, `NOTICE`, `CONTEXT.md` and `README.md` updated. `rabble_gpio_isr_ensure()` added to `rabble_board` and used by `rabble_pad_*` and `bsp_bands.c` (one copy of the "already installed" workaround instead of two). CoBbLE built, CrumBbLE verified.
+- **Verified:** host suite 36 pass, 0 fail; `sdk-layers --enforce` 0 upward includes; RaBbLE and Foundling builds clean after `fullclean`; `panel_bench` builds after `fullclean`; RaBbLE flashed twice to the gadget, boots, joins Wi-Fi, beam connects, time set.
+- **Not verified / open:** `sdk-layers --symbols --enforce core` fails on `espressif__esp_websocket_client` (managed components are skipped in `discover()`); entity read 32 fps right after boot against 60 fps idle in the S250 notes, no pre-refactor baseline taken; the two `E gpio: isr service already installed` lines come from `esp_lvgl_adapter` and `esp_lcd_touch` and cannot be removed without muting the tag; the last flash monitor missed early boot, so that line is unconfirmed after the ensure change; `entities/RaBbLE` `esp_driver_usb_serial_jtag` PRIV_REQUIRES looks unused; Grimoire and `planning/` may cite old paths.
+- **Decisions (Mark):** `rabble_pad` stays in `rabble_core` for now (a split is too much for one board; revisit with a second board); `rabble_core` stays a component.
+- **Committed:** Pocket in two commits (layout plus console split, then isr ensure); tree clean, not pushed.
 
 ## 2026-11-06 · Session S316 (pocket-open-entity-fold)
 
