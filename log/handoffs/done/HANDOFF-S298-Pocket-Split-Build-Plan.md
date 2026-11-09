@@ -1,3 +1,5 @@
+> **Status (S320, 2026-11-09): SUPERSEDED by log/plans/Pocket-Core-Apps-Reorg-Plan.md (S311). P-series never closed out.** Kept for reference, not deleted.
+
 # HANDOFF-S298b: Pocket clean split, build plan (v0.3)
 
 > Cold start for a fresh agent. Written 2026-11-02 (S298, continued). Supersedes the "Next steps" of `HANDOFF-S298-Pocket-Open-SDK-Split.md`; read that one for the audit headline and the uncommitted-file list. Nothing here is committed. Mark's rulings are working assumptions until the lawyer reads them.

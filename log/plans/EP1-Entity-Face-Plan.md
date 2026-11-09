@@ -6,10 +6,10 @@ spark ~ grimoire >> S234: EP1 entity face plan — "alive" entity into NeBuLA, g
 
 > **Status:** 🟡 ACTIVE (S234 proposed + Opus-reviewed, 2026-09-26) — decisions locked with Mark this session.
 > **Progress (S234 close):** W0 ✅ · D4 ✅ · W1 ✅ (NeBuLA `c7f0229`, API doc rewrite + World vendoring pending) ·
-> W2 next · W3/W4 open. Live state: `log/handoffs/HANDOFF-S234-EP1-Entity-Face.md`.
+> W2 next · W3/W4 open. Live state: `log/handoffs/done/HANDOFF-S234-EP1-Entity-Face.md`.
 > **Supersedes:** `EP1-Air-Push-Plan.md` **A4** (the S203 entity-forward face — built, never
 > deployed, now replaced before anyone saw it live). The rest of the Air-Push plan stands.
-> **Cold-start handoff:** `log/handoffs/HANDOFF-S234-EP1-Entity-Face.md`.
+> **Cold-start handoff:** `log/handoffs/done/HANDOFF-S234-EP1-Entity-Face.md`.
 > **Informed by:** `RaBbLE-BaBbLE/reliquary/2026-09-26-entity-harness/` (the "alive" HTML + SVG
 > rig), `RaBbLE-NeBuLA/specs/rig/`, `RaBbLE-Aether/RaBbLE-Entity-Visual-Spec.md` (S233 rewrite),
 > `log/plans/EP2-Accounts-Encryption-Spec.md`, `log/EP1-AIR-CHECKLIST.md`, S234 live audit.

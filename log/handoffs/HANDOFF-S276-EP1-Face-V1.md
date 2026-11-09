@@ -1,7 +1,7 @@
 # HANDOFF-S276 · EP1 web face V1 on dev; first prod deploy still ahead
 
 > Written 2026-10-24 at the end of S276 for a cold start.
-> Read first: this file, `log/handoffs/HANDOFF-S234-EP1-Entity-Face.md` (face history), `log/BLOCKERS.md` (B-19, B-20), `registry/epochs/current.epoch.yml` (exit text, see step 6).
+> Read first: this file, `log/handoffs/done/HANDOFF-S234-EP1-Entity-Face.md` (face history), `log/BLOCKERS.md` (B-19, B-20), `registry/epochs/current.epoch.yml` (exit text, see step 6).
 
 ## What exists
 

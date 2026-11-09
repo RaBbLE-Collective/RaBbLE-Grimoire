@@ -1,3 +1,5 @@
+> **Status (S320, 2026-11-09): SUPERSEDED by HANDOFF-S276-EP1-Face-V1 (the face). G10 sign-off retired with Episodes (S318 D3).** Kept for reference, not deleted.
+
 # HANDOFF-S234 — EP1 Entity Face
 
 > Cold start for any agent picking up the EP1 face push. Plan of record:

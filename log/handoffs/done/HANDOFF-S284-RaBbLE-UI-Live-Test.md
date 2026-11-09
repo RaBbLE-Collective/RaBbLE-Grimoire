@@ -1,9 +1,11 @@
+> **Status (S320, 2026-11-09): SUPERSEDED by HANDOFF-S285-RaBbLE-UI-Live-Test-2.** Kept for reference, not deleted.
+
 # HANDOFF-S284 · RaBbLE-UI: settings, trust and entropy built; next is running the real program
 
 > Written 2026-10-28 at the end of S284 for a cold start. Everything below was built and unit-tested
 > against recorded fixtures; **none of it has run against a live Claude session.** The next session's job
 > is to run `rabble` for real, find what breaks, and fix it.
-> Read first: this file, then `log/handoffs/HANDOFF-S279-RaBbLE-UI-U3.md` (engine/face background) and
+> Read first: this file, then `log/handoffs/done/HANDOFF-S279-RaBbLE-UI-U3.md` (engine/face background) and
 > `RaBbLE-sCoRE/RaBbLE-sCoRE-Entropy-Tracker.md` (the score this build implements).
 
 ## What S284 built (RaBbLE-sCoRE `new-horizons`, local, not pushed)

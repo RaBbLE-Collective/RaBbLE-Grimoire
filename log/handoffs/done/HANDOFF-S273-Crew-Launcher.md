@@ -1,3 +1,5 @@
+> **Status (S320, 2026-11-09): COMPLETE: launcher built (83280d0), first run S276. Colour promotion item was still pending Mark at close.** Kept for reference, not deleted.
+
 # HANDOFF-S273 · The Crew: `rabble` wraps Claude Code as RaBbLE
 
 > Written 2026-10-24 at the end of S273 for a cold start.

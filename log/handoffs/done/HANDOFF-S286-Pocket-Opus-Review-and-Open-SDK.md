@@ -1,3 +1,5 @@
+> **Status (S320, 2026-11-09): SUPERSEDED by HANDOFF-S298-Pocket-Open-SDK-Split (Opus review done).** Kept for reference, not deleted.
+
 # HANDOFF-S286: Opus review of the E0 spec, and the beginning of the Open SDK
 
 > Session S286 (pocket-release), 2026-10-28. Read `HANDOFF-S286-Pocket-Release-Entities.md` and `log/plans/Pocket-Release-Entities-Companion-Plan.md` first; this handoff is the next two jobs in order. Owner of decisions: Mark.

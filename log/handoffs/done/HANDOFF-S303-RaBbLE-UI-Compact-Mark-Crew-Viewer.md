@@ -1,3 +1,5 @@
+> **Status (S320, 2026-11-09): SUPERSEDED by HANDOFF-S306-RaBbLE-UI-Micro-Mark-and-Permission-Prompt.** Kept for reference, not deleted.
+
 # HANDOFF-S303 · RaBbLE-UI: gaze fix, Python gaze parity, compact/micro header mark, wordmark flow; crew viewer + thinking animation NEXT
 
 > Written 2026-11-02, S303, parked near the usage limit. Continues `HANDOFF-S302-RaBbLE-UI-Face-Gaze-Selection.md`. Cargo: run from `RaBbLE-sCoRE/tui/` with `--offline`. Python: `PYTHONPATH=. ~/.local/share/RaBbLE/rabble-ui/bin/python -P -m pytest tests/test_ui_*.py`. Nothing pushed. Crew used: CoBbLE x6, CrumBbLE x1.

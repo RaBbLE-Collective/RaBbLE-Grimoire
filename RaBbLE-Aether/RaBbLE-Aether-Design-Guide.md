@@ -25,12 +25,12 @@ Copy these into your design tool's color picker or reference them in prompts.
 | **Soft Violet** | `#bf5fff` | Tertiary — taglines, inactive borders, decorative |
 | **Outrun Pink** | `#ff79c6` | Grid/horizon, warnings, soft highlights |
 | **Deep Void** | `#0a0010` | Standard background |
-| **Deepest Void** | `#03000b` | Boot screens, full-bleed, maximum drama |
 | **Surface** | `#12132a` | Panels, sidebars, elevated surfaces |
 | **Raised** | `#1a1b2e` | Cards, inputs, modals |
 | **Border** | `#2a2840` | Inactive borders, dividers |
 | **Primary Text** | `#e8e6f0` | All readable text — cool off-white, never pure white |
 | **Muted Text** | `#6b6880` | Secondary text, labels, timestamps |
+| **Dimmer** | `#3d3860` | Decorative only: ornaments, faint timestamps. Never text a user must read |
 | **Neon Green** | `#50fa7b` | Success states, clean status |
 | **Neon Yellow** | `#f1fa8c` | Warnings |
 | **Error Red** | `#e05c6f` | Errors, destructive actions |
@@ -186,7 +186,7 @@ backdrop-filter: blur(12px). Border: 1px #2a2840.
 ### Terminal/Log
 ```
 Font: Share Tech Mono, 12px, 1.8 line height.
-Background: #03000b. Bordered with #2a2840.
+Background: #0a0010. Bordered with #2a2840.
 Log lines appear with a brief fade-in from below.
 Columns: timestamp (dimmer grey #3d3860), tag (color-coded by type), message (muted grey #6b6880).
 Tag colors: OK=#50fa7b, ERR=#ff2d78, INFO=#00f5ff, RBL=#bf5fff, WARN=#f1fa8c

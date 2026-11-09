@@ -1,3 +1,5 @@
+> **Status (S320, 2026-11-09): SUPERSEDED by HANDOFF-S298-Pocket-Split-Build-Plan.** Kept for reference, not deleted.
+
 # HANDOFF-S298: Pocket provenance record and Open SDK / RaBbLE app split
 
 > Cold start for a fresh agent. Written 2026-11-02 (S298). Mark: "park the session for handoff". Nothing here is committed.

@@ -1,3 +1,5 @@
+> **Status (S320, 2026-11-09): SUPERSEDED by the S284 > S285 > S287 > S292 track; the Python TUI was replaced by the Rust shell (HANDOFF-S296).** Kept for reference, not deleted.
+
 # HANDOFF-S279 · RaBbLE-UI: U1 + U2 live, `rabble` flipped; next U3 (the Crew as subagents)
 
 > Written 2026-10-25 at the end of S279 for a cold start.

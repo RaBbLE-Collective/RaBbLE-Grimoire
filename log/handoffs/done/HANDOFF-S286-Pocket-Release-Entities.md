@@ -1,3 +1,5 @@
+> **Status (S320, 2026-11-09): SUPERSEDED by HANDOFF-S286-Pocket-Opus-Review-and-Open-SDK.** Kept for reference, not deleted.
+
 # HANDOFF-S286: Pocket release, Entity-transplant, Open SDK/companion
 
 > Session S286 (pocket-release), 2026-10-28. Cold start for the next agent. Owner of decisions: Mark. All design lives in the Grimoire, nothing was built in the Pocket repo this session.

@@ -1,3 +1,5 @@
+> **Status (S320, 2026-11-09): SUPERSEDED by HANDOFF-S295-RaBbLE-UI-Rust-Phase2-Parallel. R1 seam gate MET.** Kept for reference, not deleted.
+
 # HANDOFF-S295 · RaBbLE-UI Rust: R1, the engine seam (the next split)
 
 > Written 2026-10-29 end of S295 (this session's number was claimed late: first drafts said S293). R0 is done and committed; this is the next unit of work. Read in this order: this file, `../plans/sCoRE-RaBbLE-UI-Rust-Plan.md` (Architecture + Parity strategy), `HANDOFF-S295-RaBbLE-UI-Rust-R0-Cargo.md` (cargo setup, gotchas).

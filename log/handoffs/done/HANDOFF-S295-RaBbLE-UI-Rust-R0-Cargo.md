@@ -1,3 +1,5 @@
+> **Status (S320, 2026-11-09): COMPLETE: R0 done and committed (sCoRE c99ef94).** Kept for reference, not deleted.
+
 # HANDOFF-S295 · RaBbLE-UI Rust port: enable cargo, run R0 (DONE; next split is HANDOFF-S295-...-R1-Seam)
 
 > Written 2026-10-29 (S295, claim the number first: `head -20 log/SESSION-LOG.md`, `spells/agent-register.sh status`). Supersedes HANDOFF-S292 for next steps; S292 still holds the baseline numbers and gotchas.

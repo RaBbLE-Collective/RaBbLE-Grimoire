@@ -1,3 +1,5 @@
+> **Status (S320, 2026-11-09): SUPERSEDED: W10 replaced by W11 (HANDOFF-S311, HANDOFF-S312).** Kept for reference, not deleted.
+
 # HANDOFF-S304: Pocket hardware-seam redesign (W10) and tap-to-talk
 
 > Cold start. Written 2026-11-03 (S304; the tap-to-talk commit is tagged %S303_TAPTALK% from before the number was claimed). Continues HANDOFF-S298-Pocket-Split-Build-Plan.md. Mark: "park with questions asked on next SDK work session".

@@ -1,3 +1,5 @@
+> **Status (S320, 2026-11-09): SUPERSEDED by HANDOFF-S302-RaBbLE-UI-Face-Gaze-Selection.** Kept for reference, not deleted.
+
 # HANDOFF-S301 · RaBbLE-UI Rust: text selection + copy landed, /clear entropy fixed in both TUIs
 
 > Written 2026-11-02, S301. Continues `HANDOFF-S297-RaBbLE-UI-Rust-Face.md` (items 4-6 there still stand) and S299's open list. Cargo: run from `RaBbLE-sCoRE/tui/` with `--offline`. Done directly, no organs; nothing pushed.

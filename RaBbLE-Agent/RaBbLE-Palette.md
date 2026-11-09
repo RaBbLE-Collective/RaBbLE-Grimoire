@@ -42,12 +42,15 @@ RaBbLE uses a **synthwave outrun** aesthetic. The rules are simple and absolute:
 | **Raised** | `rabble_color_raised` | `#1a1b2e` | Input fields, cards, popups. Distinctly above bg. |
 | **Border** | `rabble_color_border` | `#2a2840` | Window borders inactive, dividers. |
 
+> **Retired (S320, Mark's D6 ruling):** "Deepest Void" `#03000b` is gone. It sat at 1.01:1 against Deep Void, so it was invisible as a second step. Use Deep Void everywhere. Aether keeps `--rabble-void` only as an alias of `--rabble-bg`.
+
 ### Text (The Signal)
 
 | Role | Variable | Hex | Description |
 |---|---|---|---|
 | **Primary Text** | `rabble_color_text` | `#e8e6f0` | Main readable text. Bright off-white, slight cool tint. |
 | **Muted Text** | `rabble_color_muted` | `#6b6880` | Secondary, dimmed, comments. Readable but recedes. |
+| **Dimmer** | `rabble_color_dimmer` | `#3d3860` | Decorative only: ornaments, glyph shadows, faint timestamps. 1.9:1 on Deep Void, so never for text a user must read. |
 
 ### Semantic
 

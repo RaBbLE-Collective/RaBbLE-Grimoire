@@ -1,3 +1,5 @@
+> **Status (S320, 2026-11-09): COMPLETE: review done; implementation continues in HANDOFF-S312-Pocket-Clean-Room-W8-W11-Implement.** Kept for reference, not deleted.
+
 # HANDOFF-S311: Pocket entity layers, review and confirm with Mark before any implementation
 
 > Cold start. Written 2026-11-04 (S311). **First job of the next session is a review with Mark, not code.** Read the plan, run the checklist in its section 11 with Mark, record his answers in the plan, then (only on his sign-off) start phase R1.

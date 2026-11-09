@@ -2,7 +2,7 @@
 
 > Written 2026-10-24 at the end of S275 planning for a cold start.
 > Read first: this file, then `log/plans/sCoRE-RaBbLE-UI-Plan.md` (decisions, event contract, phases U1–U5, lanes).
-> Background: `log/handoffs/HANDOFF-S273-Crew-Launcher.md`, `RaBbLE-sCoRE/RaBbLE-sCoRE-Crew.md`.
+> Background: `log/handoffs/done/HANDOFF-S273-Crew-Launcher.md`, `RaBbLE-sCoRE/RaBbLE-sCoRE-Crew.md`.
 
 ## What Mark decided (S275)
 

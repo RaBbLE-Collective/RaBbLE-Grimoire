@@ -18,7 +18,6 @@ PALETTE — use ONLY these exact hex values, no others:
   #bf5fff  Soft Violet    — tertiary, inactive, decorative
   #ff79c6  Outrun Pink    — grid/horizon, warnings
   #0a0010  Deep Void      — standard background
-  #03000b  Deepest Void   — boot screens, full-bleed
   #12132a  Surface        — panels, sidebars
   #1a1b2e  Raised         — cards, inputs, modals
   #2a2840  Border         — dividers, inactive borders
@@ -75,7 +74,6 @@ Neons:
   #ff79c6  Outrun Pink    Grid/horizon, warnings, soft highlights
 
 Void (backgrounds — darkest to lightest):
-  #03000b  Deepest Void   Boot screens, full-bleed, maximum drama
   #0a0010  Deep Void      Standard page background
   #12132a  Surface        Panels, sidebars, elevated areas
   #1a1b2e  Raised         Cards, inputs, modals, popups
@@ -84,7 +82,7 @@ Void (backgrounds — darkest to lightest):
 Text:
   #e8e6f0  Primary        Main readable text — cool off-white, NOT pure white
   #6b6880  Muted          Secondary, labels, timestamps
-  #3d3860  Dimmer         Barely-visible timestamps, decorative
+  #3d3860  Dimmer         Decorative only, faint timestamps; never text a user must read
 
 Semantic:
   #50fa7b  Neon Green     Success, clean status, OK
@@ -185,7 +183,7 @@ Glass surface:
   border: 1px solid #2a2840
 
 Terminal:
-  background: #03000b, font: Share Tech Mono 12px
+  background: #0a0010, font: Share Tech Mono 12px
   timestamps: #3d3860, log tags color-coded, messages: #6b6880
 
 ═══════════════════════════════════════════════════

@@ -1,3 +1,5 @@
+> **Status (S320, 2026-11-09): SUPERSEDED as the start point by HANDOFF-S296-RaBbLE-UI-Rust-Phase2-Next. Lane definitions (F, O, B) are still the reference.** Kept for reference, not deleted.
+
 # HANDOFF-S295 · RaBbLE-UI Rust phase 2: shell, face, engine hardening, narration, supervision, all in parallel
 
 > Written 2026-10-29 end of S295 for the next session(s). **Everything below is parallel; Mark has said face and shell are both go.** Claim your own session number first (`bash spells/session-number.sh claim <topic>`). Read in this order: this file, `../plans/sCoRE-RaBbLE-UI-Rust-Plan.md`, `HANDOFF-S295-RaBbLE-UI-Rust-R1-Seam.md` (protocol, identity/hosting constraints, R1 STATUS). Cargo setup: `HANDOFF-S295-RaBbLE-UI-Rust-R0-Cargo.md`.

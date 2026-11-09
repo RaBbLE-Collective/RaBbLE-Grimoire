@@ -11,38 +11,55 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 
 ## Active (pending implementation)
 
-| File | Scope |
-|---|---|
-| `HANDOFF-S318-Collective-Coherency.md` | **Start here** for the Collective coherency cleanup: D3 Episodes retirement, roadmap, Ansible fixes, plans archive, log split (S318) |
-| `HANDOFF-S311-Pocket-Entity-Layers-Review.md` | **Start here** for Pocket: the new core / entities / apps layers plan (`log/plans/Pocket-Core-Apps-Reorg-Plan.md`), review and confirm with Mark before any code; W9 `rabble_screen` done (not flashed); W8/W11 firewall reviews to redo; clean-room status. |
-| `HANDOFF-S306-RaBbLE-UI-Micro-Mark-and-Permission-Prompt.md` | **Start here** for the Rust shell: micro mark rebuilt as the builder's glyph (9x3, gaze steps + blinks, own VSCodium grid) `28d73db`, 3-row header + usage line `c2caf0d`, wheel in permission prompt `2052401`; Mark must `/reload` and look; **permission/question prompt is broken for Mark: next session, ask him the symptom first**; Python twin not ported. |
-| `HANDOFF-S304-Pocket-W10-Seam-and-Tap-to-Talk.md` | Pocket hardware-seam redesign (W10 spec REVISE), tap-to-talk `dfcb1d9` unverified on device; questions for Mark first. |
-| `HANDOFF-S303-RaBbLE-UI-Compact-Mark-Crew-Viewer.md` | **Start here** for the Rust/Python shell: stream-gaze fix, Python gaze parity, compact tier + drawn micro mark, flowing wordmark (45315fa..2def318); NEXT: crew viewer (roster strip + /crew overlay, Rust first), thinking words + animation (`ui/thinking_words.txt` written, uncommitted); Mark says micro mark needs eye whites + visible portals (redesign first) |
-| `HANDOFF-S302-RaBbLE-UI-Face-Gaze-Selection.md` | Superseded by S303 (read both) for the Rust shell: face void/portals/real cell aspect, gaze plumbing (pointer + entity attention), selection review fixes, commits 61e5332..eb82008; NiBbLE + CrumBbLE reviewed eb82008 (CrumBbLE holds; NiBbLE: gaze goes dark on streaming text, unfixed); Mark to eyeball /face and gaze |
-| `HANDOFF-S301-RaBbLE-UI-Rust-Select-Clear.md` | Superseded by S302 (read both): mouse selection + Ctrl-C copy and `/clear` entropy reset committed (7591533..449e721, 159 Rust + 69 Python UI tests green); pending Mark trying it, CrumBbLE pty run, NiBbLE review, eyes-follow-mouse decision |
-| `HANDOFF-S298-Pocket-Split-Build-Plan.md` | **Start here** for the Pocket split: build plan v0.3 (Mark's rulings, QuiBbLE-reviewed plan, P-1..P8, clean room reaches the SDK, nebula_lite as SA middleware, default pastel ellipse face); needs one more QuiBbLE pass, nothing committed |
-| `HANDOFF-S298-Pocket-Open-SDK-Split.md` | Audit background for the above: provenance audit done (59.4% to 8.0% overlap vs Muse SDK), Apache SDK / Accord app split plan drafted but not Opus-reviewed, decisions D1-D5 pending Mark, gitleaks installed, nothing committed |
-| `HANDOFF-S297-RaBbLE-UI-Rust-Face.md` | **Start here** for the Rust face: crate + shell wiring committed (79d2f5e..4793800), golden parity exact, 178 Rust tests green; pending Mark's eye (shared PRNG shifts the Python face), NiBbLE review, CrumBbLE real-terminal run. Other S296 items still open |
-| `HANDOFF-S296-RaBbLE-UI-Rust-Phase2-Next.md` | **Start here** for the Rust TUI: lanes P/N/R/S built, Opus-reviewed and committed; `rabble` now opens the Rust shell (starts the engine on demand); Mark tests it; open: face (PRNG go), systemd + packaging, bench/CI, `RemoteBackend` wiring, shell gaps |
-| `HANDOFF-S295-RaBbLE-UI-Rust-Phase2-Parallel.md` | Lane definitions for the face (F), supervision (O), bench (B) still apply; the rest is done (see S296). Original: Rust TUI: Opus review of plan + seam (2 blockers, 12 should-fix), protocol v1.1 freeze, parallel lanes (protocol hardening, shell, face, narration, supervision, bench, RemoteBackend) with file ownership and gates |
-| `HANDOFF-S295-RaBbLE-UI-Rust-R1-Seam.md` | Start here for the Rust TUI: R1 engine seam (Unix socket NDJSON, `serve.py`, `rabble-proto`, fixtures/schema), lane table, wire protocol proposal, Mark's open asks (plain-English narration, CC parity) |
-| `HANDOFF-S295-RaBbLE-UI-Rust-R0-Cargo.md` | Next steps for the Rust TUI: enable cargo (crates.io blocked on school network; Fedora rust-*-devel RPMs via ai-harnesses claude-code task), compile + gate R0, Option A confirmed, engine config surface + Capabilities event done, plain-English narration ask |
-| `HANDOFF-S292-RaBbLE-UI-Rust-Rebuild.md` | RaBbLE-UI to Rust: start at R0 (cargo workspace, 120 fps glide spike, bench vs Python baselines); shape sign-off + Opus plan review owed; S291 visual-test results folded in |
-| `HANDOFF-S291-RaBbLE-UI-Face-Visual-Test.md` | Mostly superseded by S292 (visual test run: halo fails, cell aspect 2.32); remaining unchecked items listed in HANDOFF-S292 |
-| `HANDOFF-S287-RaBbLE-UI-Capability-Park-Face-Test.md` | RaBbLE-UI: capability model, park at 80%, fine eyes, scroll and modal fixes built and unit-tested; Mark tries them in a fresh `rabble`; next entropy-vs-stability split, benchmark-derived capabilities, face phase 2 |
-| `HANDOFF-FCC-Free-Claude-Code.md` | FCC LiteLLM proxy tuning — research done, implementation pending |
-| `HANDOFF-S236-OS-ISO-VM-Run.md` | RaBbLE-OS ISO: VM run passed S236, bare-metal retry passed S238; leftover open items inside (KS sudoers NOPASSWD revoke, GRUB secure-boot line, silent `%post`, Live ISO plan) |
-| `HANDOFF-S234-EP1-Entity-Face.md` | EP1 face: W0–W2 done + live on dev; G10 sign-off pending; W4 accounts direction open |
-| `HANDOFF-S278-Pocket-Press-Drafts-and-SDK.md` | Pocket W7 closed; next: Mark reviews parked press drafts (renders need the clock + real Applets view), then RaBbLE-SDK, Orbit re-level, `ops/pocket-notes.py`, Accord v2 |
-| `HANDOFF-S276-EP1-Face-V1.md` | EP1 web face V1 live on dev (web-only EP1); next: Mark iPhone check, CF binding + Render env, first World main deploy |
-| `HANDOFF-S279-RaBbLE-UI-U3.md` | RaBbLE-UI U1 engine + U2 face live, `rabble` flipped (`--cc` = wrapper); next: U2 review fixes, Mark daily-drives, U3 Crew as subagents |
-| `HANDOFF-S273-Crew-Launcher.md` | RaBbLE Crew + `rabble` launcher built and unit-tested; first interactive team run, `layerctl apply claude-code`, colour promotion pending Mark |
-| `RaBbLE-Voice-Phase2-HANDOFF.md` | Voice Phase 2 (authored 2026-07-03); the vocoder was rebuilt as v4 in S244, so check it before resuming |
+Re-triaged S320 from the S318 audit (`log/plans/Collective-Coherency-Audit-S318/audit-plans-roadmap.md` 1c). Superseded and finished handoffs moved to `done/` with a status banner on line 1; none deleted.
+
+| File | Status | Scope |
+|---|---|---|
+| `HANDOFF-S318-Collective-Coherency.md` | LIVE | **Start here** for the Collective cleanup: D3 Episodes retirement, roadmap, Ansible fixes, plans archive, log split, brand spec (D6 ruled S320) |
+| `HANDOFF-S312-Pocket-Clean-Room-W8-W11-Implement.md` | LIVE | **Start here** for Pocket: layers plan confirmed, W8/W11 merged S314; open: gitleaks scan then commit the hold-outs (item 4) |
+| `HANDOFF-S309-RaBbLE-UI-Micro-Mark-Pills-and-Gaze.md` | LIVE | **Start here** for the Rust shell look: micro mark pills, glance, pointer-exit; never seen live; up-gaze centre shift unanswered |
+| `HANDOFF-S307-RaBbLE-UI-Crew-Views-and-Picker.md` | LIVE | Rust shell picker, crew views, crew rules; tests green, never run live; questions for Mark |
+| `HANDOFF-S306-RaBbLE-UI-Micro-Mark-and-Permission-Prompt.md` | LIVE | Micro mark as builder's glyph, 3-row header; **permission/question prompt broken for Mark: ask him the symptom first** |
+| `HANDOFF-S297-RaBbLE-UI-Rust-Face.md` | LIVE | Rust face crate, golden parity; pending Mark's eye, NiBbLE review, CrumBbLE real-terminal run |
+| `HANDOFF-S296-RaBbLE-UI-Rust-Phase2-Next.md` | LIVE | Rust TUI phase 2: open shell gaps, Lane O (supervision), Lane B (bench), `RemoteBackend` wiring. Lane definitions: `done/HANDOFF-S295-RaBbLE-UI-Rust-Phase2-Parallel.md` |
+| `HANDOFF-S290-Anti-Clobber-Sessions.md` | LIVE | Anti-clobber mechanism installed + sandbox-tested; needs a second live session and a real codex/gemini run |
+| `HANDOFF-S276-EP1-Face-V1.md` | LIVE | Web face V1, now prod (S318); B-20 leftovers (Render env, live guest chat reply) |
+| `HANDOFF-S271-Pocket-Beam-SDK.md` | LIVE | Pocket beam via laptop node, SDK S2 onward still current per HANDOFF-S278 |
+| `HANDOFF-S236-OS-ISO-VM-Run.md` | LIVE | OS ISO leftovers: KS sudoers NOPASSWD revoke (still at `RaBbLE-OS.ks:143`), GRUB secure-boot line, silent `%post`, Live ISO plan |
+| `HANDOFF-S286-Pocket-Internal-RAM.md` | PARKED | Internal-RAM recovery (M1); owner Mark; B-22 |
+| `HANDOFF-S281-Pocket-Parity-Sim-Shot-Gate.md` | PARKED | `>shot`, parity sim scaffold only, no shot renders |
+| `HANDOFF-S278-Pocket-Press-Drafts-and-SDK.md` | PARKED | Mark reviews the parked press drafts, then SDK, Orbit re-level, Accord v2 |
+| `RaBbLE-Voice-Phase2-HANDOFF.md` | PARKED | Voice Phase 2 (2026-07-03); vocoder rebuilt as v4 in S244, check before resuming |
+| `HANDOFF-S280-Pocket-Firmware-Test-Suite.md` | STALE? | Comprehensive firmware test suite, parked S280; paths predate the S314 Pocket restructure |
+| `HANDOFF-FCC-Free-Claude-Code.md` | STALE? | FCC proxy tuning; research only, crash-loop fixed S240, tuning never evidenced |
+
+`HANDOFF-parked-*.md` (15 files, 400 bytes of `x`, untracked): placeholder noise, awaiting Mark's yes before deletion.
 
 ## Done (reference only)
 
 | File | Implemented |
 |---|---|
+| `done/HANDOFF-S311-Pocket-Entity-Layers-Review.md` | S312: review done (COMPLETE) |
+| `done/HANDOFF-S308-Pocket-Foundling-Open-App.md` | Superseded by `log/plans/Pocket-Foundling-Open-App-Plan.md`; landed S316 |
+| `done/HANDOFF-S304-Pocket-W10-Seam-and-Tap-to-Talk.md` | Superseded: W10 replaced by W11 (S311/S312) |
+| `done/HANDOFF-S303-RaBbLE-UI-Compact-Mark-Crew-Viewer.md` | Superseded by S306 |
+| `done/HANDOFF-S302-RaBbLE-UI-Face-Gaze-Selection.md` | Superseded by S303 |
+| `done/HANDOFF-S301-RaBbLE-UI-Rust-Select-Clear.md` | Superseded by S302 |
+| `done/HANDOFF-S298-Pocket-Split-Build-Plan.md` | Superseded by `log/plans/Pocket-Core-Apps-Reorg-Plan.md` (S311) |
+| `done/HANDOFF-S298-Pocket-Open-SDK-Split.md` | Superseded by S298 Split-Build-Plan |
+| `done/HANDOFF-S295-RaBbLE-UI-Rust-R1-Seam.md` | Superseded by S295 Phase2-Parallel; seam gate met |
+| `done/HANDOFF-S295-RaBbLE-UI-Rust-R0-Cargo.md` | COMPLETE: R0 committed (sCoRE `c99ef94`) |
+| `done/HANDOFF-S295-RaBbLE-UI-Rust-Phase2-Parallel.md` | Superseded by S296 as start point; lane definitions still referenced |
+| `done/HANDOFF-S292-RaBbLE-UI-Rust-Rebuild.md` | Superseded by S295 R0/R1/Phase2 |
+| `done/HANDOFF-S291-RaBbLE-UI-Face-Visual-Test.md` | Superseded by S292 |
+| `done/HANDOFF-S287-RaBbLE-UI-Capability-Park-Face-Test.md` | Superseded by the S291/S292 Rust track |
+| `done/HANDOFF-S286-Pocket-Release-Entities.md` | Superseded by S286 Opus-Review-and-Open-SDK |
+| `done/HANDOFF-S286-Pocket-Opus-Review-and-Open-SDK.md` | Superseded by S298 Open-SDK-Split (review done) |
+| `done/HANDOFF-S285-RaBbLE-UI-Live-Test-2.md` | Superseded by S287 |
+| `done/HANDOFF-S284-RaBbLE-UI-Live-Test.md` | Superseded by S285 |
+| `done/HANDOFF-S279-RaBbLE-UI-U3.md` | Superseded by the S284 to S292 track |
+| `done/HANDOFF-S273-Crew-Launcher.md` | COMPLETE: built `83280d0`, first run S276; colour promotion was still pending Mark |
+| `done/HANDOFF-S234-EP1-Entity-Face.md` | Superseded by S276 (face) |
 | `done/HANDOFF-S275-RaBbLE-UI.md` | S279 (U1 + U2 built, superseded by HANDOFF-S279) |
 | `done/HANDOFF-S277-Pocket-W7-Closeout.md` | S278 (W7 closed, W6 watch items closed by Mark) |
 | `done/HANDOFF-S270-Pocket-W6-Respec.md` | S277 (W6 rev 2) |
@@ -62,5 +79,6 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 
 ## Convention
 
-`git mv log/handoffs/HANDOFF-FOO.md log/handoffs/done/HANDOFF-FOO.md` when work is complete.
+`git mv log/handoffs/HANDOFF-FOO.md log/handoffs/done/HANDOFF-FOO.md` when work is complete or superseded.
+Put a `> **Status (Snnn, date): COMPLETE / SUPERSEDED by ...**` banner on line 1 first. Never delete a handoff.
 Update `INDEX.md` and note the session it was implemented in.

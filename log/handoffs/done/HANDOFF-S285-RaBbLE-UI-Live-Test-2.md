@@ -1,3 +1,5 @@
+> **Status (S320, 2026-11-09): SUPERSEDED by HANDOFF-S287-RaBbLE-UI-Capability-Park-Face-Test.** Kept for reference, not deleted.
+
 # HANDOFF-S285 · RaBbLE-UI: entropy reshaped, scroll fixed, now test it live
 
 > Written 2026-10-28 at the end of S285. Supersedes the "test" half of `HANDOFF-S284-RaBbLE-UI-Live-Test.md`

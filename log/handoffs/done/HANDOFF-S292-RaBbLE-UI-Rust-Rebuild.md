@@ -1,3 +1,5 @@
+> **Status (S320, 2026-11-09): SUPERSEDED by HANDOFF-S295 R0-Cargo / R1-Seam / Phase2-Parallel (R0 and R1 done).** Kept for reference, not deleted.
+
 # HANDOFF-S292 · RaBbLE-UI: rebuild in Rust (start at R0)
 
 > Written 2026-10-29 at the end of S292. Mark decided to move the TUI to Rust: "Python is not fast enough for this, I want it snappy, native and fluid." The plan is `../plans/sCoRE-RaBbLE-UI-Rust-Plan.md`; read it first (it holds targets, architecture, phases, parity strategy, lanes, risks).
@@ -48,6 +50,6 @@ Shape A vs B; `tui/` inside sCoRE vs its own repo; whether to spike kitty-graphi
 cd ~/RaBbLE-Collective
 head -20 RaBbLE-Grimoire/log/SESSION-LOG.md
 cat RaBbLE-Grimoire/log/plans/sCoRE-RaBbLE-UI-Rust-Plan.md
-cat RaBbLE-Grimoire/log/handoffs/HANDOFF-S292-RaBbLE-UI-Rust-Rebuild.md
+cat RaBbLE-Grimoire/log/handoffs/done/HANDOFF-S292-RaBbLE-UI-Rust-Rebuild.md
 git -C RaBbLE-sCoRE log --oneline -3
 ```

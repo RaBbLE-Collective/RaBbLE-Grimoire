@@ -160,7 +160,7 @@ Mark and the reviewing Opus session go through these and record the answers here
 11. Anything Mark wants cut, deferred or reordered; confirm the phase gates.
 12. Hold-outs (Provenance Record, Split Manifest, audit, W8/W10/W11 specs): where do they live?
 
-Cold start for that session: `log/handoffs/HANDOFF-S311-Pocket-Entity-Layers-Review.md`.
+Cold start for that session: `log/handoffs/done/HANDOFF-S311-Pocket-Entity-Layers-Review.md`.
 
 ## 12. Rulings ledger (Mark, 2026-11-04)
 

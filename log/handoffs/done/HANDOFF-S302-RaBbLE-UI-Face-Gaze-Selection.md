@@ -1,3 +1,5 @@
+> **Status (S320, 2026-11-09): SUPERSEDED by HANDOFF-S303-RaBbLE-UI-Compact-Mark-Crew-Viewer.** Kept for reference, not deleted.
+
 # HANDOFF-S302 · RaBbLE-UI Rust: face void/portals/aspect, gaze plumbing, selection review fixes
 
 > Written 2026-11-02, S302, parked because the session was degraded (rate limits, a stash clobber scare). Continues `HANDOFF-S301-RaBbLE-UI-Rust-Select-Clear.md`. Cargo: run from `RaBbLE-sCoRE/tui/` with `--offline`. Crew used: CoBbLE x2 builds (twice), NiBbLE, CrumBbLE. Nothing pushed.

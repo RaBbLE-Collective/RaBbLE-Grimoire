@@ -16,6 +16,13 @@ Format: date, what was done, where things were left, what's next.
 
 
 
+## 2026-11-09 · Session S320 (void-retire-handoff-archive)
+
+- **Repos:** Aether, World, NeBuLA, Xperimental, sCoRE (one comment path), Grimoire. `new-horizons`, not pushed. Opus 5.5.
+- **Work:** Opened HANDOFF-S318 for Mark. (1) **D6 ruled by Mark:** drop Void `#03000b`, keep Dimmer `#3d3860`. Void swapped to Deep Void `#0a0010` in Aether tokens (css/scss/json; `--rabble-void` kept as an alias), the Aether statusbar rgba, World theme/manifest/icons README, NeBuLA grimoire-eye + rig spec, Xperimental index. NeBuLA rebuilt and copied into World (bundle delta = colour only); Aether dev/min dist rebuilt (gitignored). Palette.md gains a retired-Void note and a Dimmer row (decorative only). Aether Design Guide + SYSTEM-PROMPT match. Chrysalis/BaBbLE archives and the Plymouth doc left frozen. (2) **Handoffs:** per the S318 triage, 18 SUPERSEDED + 3 COMPLETE moved to `log/handoffs/done/` with a status banner on line 1; none deleted (Mark's rule). Path refs fixed in INDEX, 3 plans, 4 handoffs, sCoRE `serve.py`. `log/handoffs/CONTEXT.md` rebuilt with a status column; S280 and FCC flagged STALE? for Mark. (3) Auto-memory `MEMORY.md` trimmed 25.9 KB to 21.2 KB, all 121 entries kept (hooks shortened).
+- **Not done / watch:** Aether CDN rc.2 still serves the old statusbar colour until a new Aether release; World needs a `new-horizons` to `main` PR to reach prod; no browser check (1.01:1 difference). Plans side of the archive and the 26 unindexed handoffs still open. 15 `HANDOFF-parked-*` placeholders still await Mark's yes.
+- **Next:** HANDOFF-S318: D3 Episodes proposal, plans archive, Ansible fixes.
+
 ## 2026-11-09 · Session S318 (collective-coherency-audit)
 
 - **Repos:** Grimoire (audit plan + reports, HANDOFF-S318, this entry), World (`d282ea8`, PR #2 merge `21b38cc`), Chrysalis (`30de4b0`), Collective (state block), plus Mark-requested commits of leftover work in BaBbLE, OS, sCoRE. Opus 5.5. Session started 2026-11-06, hit the rate limit, resumed 2026-11-09.

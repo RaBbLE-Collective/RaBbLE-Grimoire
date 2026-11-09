@@ -1,3 +1,5 @@
+> **Status (S320, 2026-11-09): SUPERSEDED by HANDOFF-S292-RaBbLE-UI-Rust-Rebuild.** Kept for reference, not deleted.
+
 # HANDOFF-S291 · RaBbLE-UI face: visual test of `/face` on kitty (WS1) and VSCodium (WS3)
 
 > Written 2026-10-29 at the end of S291. Everything below passes the unit suite (`tests/test_ui_*.py`, 63 passed), but **the face was only ever measured headless and judged from rendered previews**. Nothing has been seen in a live terminal since the layered renderer landed.
@@ -58,7 +60,7 @@ Measure CPU with `top -p $(pgrep -f rabble-ui | head -1)` while idle on `/face`.
 ```bash
 cd ~/RaBbLE-Collective
 head -20 RaBbLE-Grimoire/log/SESSION-LOG.md          # S291 entry
-cat RaBbLE-Grimoire/log/handoffs/HANDOFF-S291-RaBbLE-UI-Face-Visual-Test.md
+cat RaBbLE-Grimoire/log/handoffs/done/HANDOFF-S291-RaBbLE-UI-Face-Visual-Test.md
 git -C RaBbLE-sCoRE log --oneline -3
 ```
 Claim a new session number first (check SESSION-LOG and `spells/agent-register.sh` status; S284/S285 were taken twice).

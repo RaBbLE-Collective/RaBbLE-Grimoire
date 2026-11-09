@@ -1,3 +1,5 @@
+> **Status (S320, 2026-11-09): SUPERSEDED by HANDOFF-S291 > S292 (Rust track); the Python TUI is no longer what rabble opens.** Kept for reference, not deleted.
+
 # HANDOFF-S287 · RaBbLE-UI: capability model, park, fine eyes. Built and unit-tested; now try it in a fresh `rabble`
 
 > Written 2026-10-28 at the end of S287. Supersedes the "test" half of `HANDOFF-S285-RaBbLE-UI-Live-Test-2.md`

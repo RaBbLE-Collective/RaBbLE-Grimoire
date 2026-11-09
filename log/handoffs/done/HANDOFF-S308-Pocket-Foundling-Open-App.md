@@ -1,3 +1,5 @@
+> **Status (S320, 2026-11-09): SUPERSEDED by log/plans/Pocket-Foundling-Open-App-Plan.md; landed in Pocket 6cf1404 (S316).** Kept for reference, not deleted.
+
 # HANDOFF-S308: Pocket open entity default and the Foundling app
 
 > Cold start. Written 2026-11-03 (S308). Read `log/plans/Pocket-Foundling-Open-App-Plan.md` first: it has the done / not-done ledger and the roadmap.
