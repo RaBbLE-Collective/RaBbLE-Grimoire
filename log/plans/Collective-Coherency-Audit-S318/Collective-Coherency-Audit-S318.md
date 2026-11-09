@@ -18,21 +18,21 @@ Collective 4, sCoRE 56, Pocket 23 (private), OS 2. gitleaks on each outgoing ran
 - **BaBbLE, 59 commits.** No remote (B-23). See D2.
 - **Uncommitted work** in OS (14), sCoRE (11), Grimoire (45): `mine.sh` marks it as other sessions'. Left alone.
 
-## Decisions owed (Mark)
+## Decisions (Mark's rulings, S318)
 
-| # | Decision | Recommendation |
+| # | Decision | Status |
 |---|---|---|
-| D1 | Grimoire public push: move clean-room material to the private Pocket repo, or publish it | Publish, no rewrite. Mark, 2026-11-06: it is history and stays in the Grimoire (matches Reorg Plan ruling 12). P-1's reason, holding until a lawyer read it, lapsed with the 2026-11-05 no-lawyer ruling. Awaiting Mark's go on the push itself |
-| D2 | BaBbLE backup | Private remote for text and prototypes; `intake/captures/` and `tmp/` onto the B-23 disk backup, not git |
-| D3 | Episode model | Keep Epochs and lore names; drop Episode as a planning unit in favour of per-member milestones; EP1 becomes one dated web release |
-| D4 | Web truth | Dev becomes the source for prod; one deploy closes W1 and W2 |
-| D5 | Vector master (brand Q2) | Aether SVG is the master for the neon look; mono OS/Grimoire version becomes a named variant |
-| D6 | Palette: `#03000b` and `#3d3860` | Add to the Palette or swap (`#0a0010` is the S234 decision of record) |
+| D1 | Grimoire public push | **DONE.** Mark: the clean room is history and stays public. P-1 hold closed; 82 commits pushed (`73a9ca6`, merged with two origin-only eye-state commits, no rewrite) |
+| D2 | BaBbLE backup | **DEFERRED.** Mark backs the whole Collective up to his own hard drive later (B-23). BaBbLE stays remote-less until then |
+| D3 | Episode model | **RULED: move away from Episodes.** The replacement is not ruled yet. Proposal: keep Epochs and the lore names (Genesis, Exodus), plan by per-member milestones, and treat EP1 as one dated web release. Implementation is the next job (see HANDOFF-S318) |
+| D4 | Web truth | **DONE.** Dev is the source of truth. June prod build archived at `chrysalis.joinrabble.world/world-2026-06/` (Chrysalis `30de4b0`), then World PR #2 merged `new-horizons` into `main` (`21b38cc`), first prod deploy from main. B-19 resolved |
+| D5 | Vector master (brand Q2) | **OPEN, needs proper investigation** (Mark). Aether neon SVG vs mono OS/Grimoire SVG are different looks, not copies |
+| D6 | Palette: `#03000b` and `#3d3860` | **OPEN, Mark to look.** `D6-colours.html` in this folder shows them. Void `#03000b` vs Deep Void `#0a0010`: contrast 1.01:1, practically invisible; World uses Void as its page background. Dimmer `#3d3860` as text on the background: 1.9:1, unreadable; fine only for decoration. Recommendation: drop Void (use Deep Void), keep Dimmer but name it decorative-only |
 
 ## Cleanup order
 
-1. **D1 and D2 first.** 138 commits have no backup off this machine.
-2. **Prod install path:** `setup.sh`, `RaBbLE-OS.ks` and `/roadmap` return 404, so the one-liner in `README.md:12` and `AGENT.md:42` fails.
+1. ~~D1 and D2 first~~: D1 done, D2 deferred (BaBbLE's 59 commits still local only).
+2. ~~Prod install path~~: fixed by D4.
 3. **Ansible:** C1 (RPM Fusion never enabled, generic NVIDIA aborts every boot), H3 (root under become), H4 (`layerctl remove` runs install tasks), H5 (llama-server libs), then a real fresh-install VM run.
 4. **Plans and handoffs:** archive 3 SUPERSEDED plans, 18 SUPERSEDED and 3 DONE handoffs, 1 DONE plan; delete 15 `HANDOFF-parked-*` junk files (400 bytes of `x`, untracked); rebuild the three indexes.
 5. **Roadmap:** apply D3, then fix G9/B-17, the S276 web-only ruling, and the Ep2 number collisions in one pass. Target one forward-looking roadmap; move history out.

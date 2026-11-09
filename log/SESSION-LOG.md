@@ -15,6 +15,17 @@ Format: date, what was done, where things were left, what's next.
 ---
 
 
+
+## 2026-11-09 · Session S318 (collective-coherency-audit)
+
+- **Repos:** Grimoire (audit plan + reports, HANDOFF-S318, this entry), World (`d282ea8`, PR #2 merge `21b38cc`), Chrysalis (`30de4b0`), Collective (state block), plus Mark-requested commits of leftover work in BaBbLE, OS, sCoRE. Opus 5.5. Session started 2026-11-06, hit the rate limit, resumed 2026-11-09.
+- **Work:** Mark asked for a whole-Collective coherency pass. Three read-only organs (GoBbLE x2, NiBbLE) audited plans/roadmap/episodes, web/brand, and Ansible; results in `log/plans/Collective-Coherency-Audit-S318/`. Plans: 13 live, 10 parked, 4 done/superseded of 30; handoffs 21 of 37 finished. Ansible: 1 critical, 10 high, 15 medium, 11 low (fresh install unproven). Web: prod served a frozen June build; brand mark in 9 families, about 360 files.
+- **Pushed (`new-horizons`, gitleaks clean):** Collective 4, sCoRE 56 (4 hits are synthetic test fixtures), Pocket 23 (private), OS 2, Grimoire 82 (merged two origin-only eye-state commits, no rewrite).
+- **Mark's rulings:** D1 Pocket clean room is history and stays public (P-1 hold closed). D2 BaBbLE backup deferred to his hard drive. D3 move away from Episodes (replacement not ruled). D4 dev becomes the web source of truth, with the June prod build archived in Chrysalis. D5 needs proper investigation. D6 open, colour page made for him (`D6-colours.html`).
+- **D4 done:** June build (World `e7e5b51`) archived at `chrysalis.joinrabble.world/world-2026-06/`; `/chrysalis/*` 301s to the reliquary; World PR #2 merged to `main`, first ever prod deploy from main. Verified: prod equals dev byte for byte, install routes 302, `AGENT.md` no longer public, desktop + phone load with 0 errors, sCoRE `/health` 200. B-19 resolved, B-20 updated. Rollback: CF version `85a4a5c0`.
+- **Corrections:** I first misread BaBbLE as emptied (wrong cwd); `captures/` had only moved to `intake/captures/`. I told Mark the Grimoire hold was undecided when Reorg Plan ruling 12 had already placed the hold-outs in the public Grimoire.
+- **Not done:** D3 sweep, roadmap rewrite, Ansible fixes, plans archive, log split, brand spec, BaBbLE routing. Not verified: a live guest chat reply on prod, Render env. The 15 `HANDOFF-parked-*` junk files remain untracked (Mark to approve deletion).
+- **Next:** `log/handoffs/HANDOFF-S318-Collective-Coherency.md`: D3 proposal to Mark first, then roadmap, Ansible, archive.
 ## 2026-11-06 · Session S319 (fastfetch-face-marks)
 
 - **Repos:** RaBbLE-OS (`95e2740` logos + launcher, `cf9d5da` shells), RaBbLE-sCoRE (`bfbd89d` export example), RaBbLE-Grimoire (this entry, fastfetch doc, proposal). `new-horizons`, not pushed.

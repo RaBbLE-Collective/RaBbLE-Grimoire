@@ -323,6 +323,7 @@ Status lives in each plan; the one-line status table is [log/plans/CONTEXT.md](l
 - [sCoRE-RaBbLE-UI-Rust-Plan](log/plans/sCoRE-RaBbLE-UI-Rust-Plan.md): RaBbLE-UI rebuilt in Rust (R4): measured Python limits, targets T1-T6, Rust UI + Python engine sidecar, phases R0-R5, golden-dump parity, lanes, open questions
 - [Collective-ICM-Conformance-Audit](log/plans/Collective-ICM-Conformance-Audit.md) — Collective vs the ICM/MWP paper: stage contracts, handoff split
 - [Collective-Coherency-Audit-S318](log/plans/Collective-Coherency-Audit-S318/Collective-Coherency-Audit-S318.md) — whole-Collective audit: pushes, decisions owed, cleanup order; evidence reports alongside
+- [HANDOFF-S318-Collective-Coherency](log/handoffs/HANDOFF-S318-Collective-Coherency.md): cold start for the coherency cleanup after the S318 audit
 - [Collective-Architecture-Audit-2026-07-04](log/plans/Collective-Architecture-Audit-2026-07-04.md) — S193 cross-repo audit findings, per-member plans
 - [Collective-Architecture-Audit-PROGRESS](log/plans/Collective-Architecture-Audit-PROGRESS.md) — ledger of which S193 findings landed
 - [sCoRE-Extensibility-Refactor-Plan](log/plans/sCoRE-Extensibility-Refactor-Plan.md) — sCoRE `server/` restructure, options A/B/C
