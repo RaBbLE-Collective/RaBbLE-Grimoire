@@ -5,12 +5,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-06 · S319 (fastfetch-face-marks)
+## LATEST — 2026-11-09 · S320 (void-retire-handoff-archive)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S319: fastfetch from rabble-face, size-aware launcher
-**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-19/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** Mark redeploys + views logos; 3-row wordmark review; bash deploy; brand spec
+**This session:** S320: Void retired, handoffs archived, memory trimmed
+**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
+**Next:** D3 Episodes proposal; plans archive; Ansible fixes; World PR to main
 
 ---
 
