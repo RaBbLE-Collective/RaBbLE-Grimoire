@@ -1,3 +1,5 @@
+> **Status (S322, 2026-11-10): SUPERSEDED by `sCoRE-RaBbLE-UI-Rust-Plan.md` (S292). U1+U2 shipped (S279); the event contract here is still the reference `orchestra/events.py` cites.** Kept for reference, not deleted (S318 triage).
+
 # Plan: RaBbLE-UI: RaBbLE's own terminal face over a headless Claude Code
 
 **Status:** 🔵 S275 design, Opus-reviewed (14 findings folded in). U0 spike verified. S279: **U1 + U2 done** (engine `fb80966`, face `a6a46be`; live haiku turn verified headless), `rabble` flipped to the UI (`--cc` = wrapper). U3 next: HANDOFF-S279.

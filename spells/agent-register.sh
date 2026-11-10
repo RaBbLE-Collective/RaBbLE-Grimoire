@@ -251,11 +251,17 @@ cmd_status() {
   echo -e "${MAGENTA}RaBbLE — Active Agent Registry${RESET}"
   echo -e "${MAGENTA}══════════════════════════════════════════════════════════════${RESET}"
 
-  local count=0 stale=0
+  # Dead claims are summarised in one line unless --all is given. At S322 nineteen dead
+  # claims and their scope lists made session-start print 166 KB (about 40k tokens).
+  local show_all=0; [[ "${1:-}" == "--all" ]] && show_all=1
+  local count=0 stale=0 dead=0
   for file in "$AGENTS_DIR"/*.json; do
     [[ -f "$file" ]] || continue
     local sid
     sid=$(basename "$file" .json)
+    if [[ $show_all -eq 0 ]] && ! is_live "$file"; then
+      dead=$((dead+1)); continue
+    fi
 
     local agent host pid task started_at heartbeat_at
     agent=$(jq -r '.agent // "unknown"' "$file" 2>/dev/null)
@@ -293,8 +299,9 @@ cmd_status() {
     echo ""
   done
 
+  [[ $dead -gt 0 ]] && echo -e "  ${MUTED}$dead dead claim(s) hidden (no heartbeat for >${HEARTBEAT_DEAD_SECS}s; they hold nothing). Show: status --all · remove: prune${RESET}"
   if [[ $count -eq 0 ]]; then
-    echo -e "  ${MUTED}(no agent claim files found)${RESET}"
+    echo -e "  ${MUTED}(no live agent claims)${RESET}"
   else
     echo -e "  ${MUTED}$count claim(s) total${STALE_NOTE:-}${RESET}"
     [[ $stale -gt 0 ]] && echo -e "  ${YELLOW}$stale claim(s) stale (heartbeat >${HEARTBEAT_STALE_SECS}s old) — may be abandoned.${RESET}"
@@ -348,7 +355,15 @@ case "$CMD" in
   claim)     cmd_claim "$@" ;;
   heartbeat) cmd_heartbeat ;;
   release)   cmd_release ;;
-  status)    cmd_status ;;
+  status)    cmd_status "${1:-}" ;;
+  prune)     # delete claim files that are already dead (they block nothing; this is housekeeping)
+             n=0
+             for file in "$AGENTS_DIR"/*.json; do
+               [[ -f "$file" ]] || continue
+               is_live "$file" && continue
+               rm -f "$file"; n=$((n+1))
+             done
+             echo "Pruned $n dead claim file(s)." ;;
   check)     cmd_check "$@" ;;
   --help|-h|help|"")
     echo "agent-register.sh — multi-agent scope coordination"
@@ -358,7 +373,8 @@ case "$CMD" in
     echo "               Claim scope globs. Exits non-zero on conflict."
     echo "  heartbeat    Update heartbeat timestamp for current session."
     echo "  release      Remove current session's claim file."
-    echo "  status       List all agent claims and liveness."
+    echo "  status [--all]  List live claims (dead ones are counted; --all lists them too)."
+    echo "  prune        Delete claim files that are already dead."
     echo "  check <path> Check if a path is claimed by another live agent."
     echo ""
     echo "Agent kinds: claude | codex | gemini | unknown (auto-detected from env)"

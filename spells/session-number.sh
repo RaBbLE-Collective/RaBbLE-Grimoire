@@ -27,7 +27,8 @@ NUMDIR="$RABBLE_RUNTIME/numbers"
 
 highest_seen() {
   {
-    grep -ohE 'Session S[0-9]+' "$GRIMOIRE_ROOT/log/SESSION-LOG.md" 2>/dev/null | grep -oE '[0-9]+$' || true
+    # the live log plus the rotated months (spells/rotate-session-log.sh), so archived numbers still count
+    grep -ohE 'Session S[0-9]+' "$GRIMOIRE_ROOT/log/SESSION-LOG.md" "$GRIMOIRE_ROOT"/log/archive/sessions/*.md 2>/dev/null | grep -oE '[0-9]+$' || true
     ls "$GRIMOIRE_ROOT/log/handoffs" "$GRIMOIRE_ROOT/log/handoffs/done" "$GRIMOIRE_ROOT/log/plans" 2>/dev/null \
       | grep -oE '(HANDOFF-)?S[0-9]{3}' | grep -oE '[0-9]+' || true
     cut -f1,2 "$GRIMOIRE_ROOT/log/token-ledger.tsv" 2>/dev/null | grep -oE '^S[0-9]+' | grep -oE '[0-9]+' || true

@@ -338,7 +338,7 @@ Out of scope here but aligned: NeBuLA/World web CSS can consume the same YAML la
 # Read first
 cat RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Palette.md
 cat RaBbLE-Grimoire/log/plans/OS-Theming-Variants-Plan.md          # this plan
-cat RaBbLE-Grimoire/log/plans/Aether-Theming-Convergence.md        # absorbed tracks A1–A3
+cat RaBbLE-Grimoire/log/plans/done/Aether-Theming-Convergence.md        # absorbed tracks A1–A3
 cat RaBbLE-Aether/themes/_palette/aether-kvantum.map               # the pipeline model
 # Phase 0 targets
 cat RaBbLE-OS/config/firefox/user.js                               # dropdown root cause :12/:15

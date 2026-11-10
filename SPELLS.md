@@ -77,7 +77,8 @@ Spells are bash scripts in `spells/` that manage the RaBbLE Collective. Grimoire
 | Spell | Purpose | When to use |
 |---|---|---|
 | `session-start.sh` | **Opening ritual** — pin session id, read lessons+blockers+who's-live, claim scope, start auto-heartbeat | **First thing every session** when another may be live |
-| `agent-register.sh` | Claim file-scope globs so parallel agents don't stomp each other | Lower-level: claim/check/status/release (session-start wraps it) |
+| `agent-register.sh` | Claim file-scope globs so parallel agents don't stomp each other | Lower-level: claim/check/status/release/prune (status hides dead claims; `--all` shows them) (session-start wraps it) |
+| `rotate-session-log.sh` | Move every month but the current one from `log/SESSION-LOG.md` to `log/archive/sessions/` (one file per month) | `--keep N`, `--dry-run`; nothing is deleted; `session-number.sh` reads the archive |
 | `decision-log.sh` | Append structured decision/insight/stumble/scope entries (per-agent JSONL) | Recording why a choice was made, mid-session |
 | `promote-insight.sh` | Crystallize logged insights/stumbles into durable Lessons | Read lessons at start (`ls`); promote at end (`auto`) |
 | `blockers.sh` | Durable append-only blocker ledger → generates `log/BLOCKERS.md` | Any blocker — so it survives the SESSION-LOG `## LATEST` rewrite |

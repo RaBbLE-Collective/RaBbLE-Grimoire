@@ -1,7 +1,7 @@
 # RaBbLE-Palette — gist
 
 > Source: `RaBbLE-Agent/RaBbLE-Palette.md` | ~1170 → ~420 tokens
-> Regenerate: `bash spells/distill-gists.sh`
+> Regenerate: `bash spells/distill-gists.sh` (hand-synced S322 for the S320 Void/Dimmer ruling)
 
 The canonical synthwave outrun palette. It is the single source of truth for every RaBbLE color, so change it here first and propagate after.
 
@@ -21,9 +21,12 @@ The canonical synthwave outrun palette. It is the single source of truth for eve
 | border | `#2a2840` | Inactive borders, dividers |
 | text | `#e8e6f0` | Primary text |
 | muted | `#6b6880` | Secondary text, comments |
+| dimmer | `#3d3860` | Decorative only (1.9:1 on bg): never for text that must be read |
 | red | `#e05c6f` | Errors, urgent |
 | green | `#50fa7b` | Success |
 | yellow | `#f1fa8c` | Warning, staged |
+
+**Retired (S320):** Deepest Void `#03000b`. Use `bg` everywhere; Aether keeps `--rabble-void` as an alias of `--rabble-bg`.
 
 **Deployment:** The Ansible block is in `ansible/inventory/group_vars/all.yml`.
 

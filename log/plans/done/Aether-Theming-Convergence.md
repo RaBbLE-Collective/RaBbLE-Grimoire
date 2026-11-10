@@ -1,3 +1,5 @@
+> **Status (S322, 2026-11-10): SUPERSEDED by `OS-Theming-Variants-Plan.md` (tracks A1-A3 absorbed into its Phase 2; the remainder was never started).** Kept for reference, not deleted (S318 triage).
+
 # Aether Theming Convergence Plan
 
 > **Impulse:** harmonize ~ aether >> theming source of truth: palette sovereign across web, editor, desktop, browser

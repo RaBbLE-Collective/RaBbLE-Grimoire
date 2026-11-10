@@ -110,13 +110,32 @@ done < <(find "$GRIMOIRE_ROOT" -name '*.md' -type f ! -path '*/log/generated/*' 
 [[ $broken -gt 0 ]] && say "  ${MUTED}fix: correct the path, or create the target doc${RESET}"
 
 # ── C2: unindexed docs ───────────────────────────────────────────────────────
-sect "C2 · Docs not reachable from INDEX.md"
+# Reachable = named in INDEX.md, OR named in a folder hub that INDEX.md links
+# (two hops). A hub is CONTEXT.md / README.md / PROVENANCE.md in the doc's own
+# folder or the one above. This keeps INDEX.md a map of folders and stable docs:
+# plans, handoffs, clean-room specs and Crew organs are listed once, in their hub,
+# instead of once there and once more (at ~40 tokens a line) in INDEX.md.
+via_hub() {
+  local rel="$1" base dir hub d
+  base="$(basename "$rel")"; dir="$(dirname "$rel")"
+  for d in "$dir" "$(dirname "$dir")"; do
+    [[ "$d" == "." ]] && continue
+    for hub in "$d/CONTEXT.md" "$d/README.md" "$d/PROVENANCE.md"; do
+      [[ -f "$GRIMOIRE_ROOT/$hub" && "$hub" != "$rel" ]] || continue
+      grep -qF "$hub" "$INDEX" || continue
+      grep -qF -e "$base" -e "${base%.md}" "$GRIMOIRE_ROOT/$hub" && return 0
+    done
+  done
+  return 1
+}
+sect "C2 · Docs not reachable from INDEX.md (directly or via a linked folder hub)"
 unindexed=0
 while IFS= read -r f; do
   rel="${f#$GRIMOIRE_ROOT/}"
   ignore_for_index "$rel" && continue
   base="$(basename "$rel")"
   if ! grep -qF "$rel" "$INDEX" && ! grep -qF "$base" "$INDEX"; then
+    via_hub "$rel" && continue
     wrn "$rel"
     ((unindexed++)) || true
   fi
@@ -142,10 +161,13 @@ done
 
 # ── C4: stale door (Collective-root state behind the session log) ────────────
 sect "C4 · The door (Collective AGENT.md) vs SESSION-LOG"
-log_s=$(grep -oiP 'Session \K[0-9]+' log/SESSION-LOG.md 2>/dev/null | head -1)
+# The live box is the first "## LATEST" heading; its S-number is the log's position.
+# (The old probe took the first "Session N" anywhere in the file and reported S215 at S321.)
+log_s=$(grep -m1 '^## LATEST' log/SESSION-LOG.md 2>/dev/null | grep -oP 'S\K[0-9]+' | head -1)
 root_agent="$RABBLE_ROOT/AGENT.md"
 if [[ -n "$log_s" && -f "$root_agent" ]]; then
-  door_s=$(grep -oiP 'S\K[0-9]+' "$root_agent" 2>/dev/null | head -1)
+  # Highest S-number in the door's "Current State" block (the first one found is often an older ruling).
+  door_s=$(sed -n '/^## Current State/,/^---/p' "$root_agent" 2>/dev/null | grep -oP '\bS\K[0-9]{2,4}\b' | sort -n | tail -1)
   if [[ -n "$door_s" && "$door_s" -lt "$log_s" ]]; then
     wrn "Collective AGENT.md state ≈ S$door_s but SESSION-LOG is at S$log_s (${MUTED}door is stale${RESET})"
     say "  ${MUTED}fix: update the 'Current State' block in $RABBLE_ROOT/AGENT.md${RESET}"

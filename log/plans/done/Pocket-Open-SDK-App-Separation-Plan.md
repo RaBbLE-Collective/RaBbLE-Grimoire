@@ -1,3 +1,5 @@
+> **Status (S322, 2026-11-10): SUPERSEDED by `Pocket-Core-Apps-Reorg-Plan.md` (S311), which replaces the sdk/app split.** Kept for reference, not deleted (S318 triage).
+
 # Pocket Open SDK / RaBbLE App separation and release plan
 
 > Status: DRAFT v0.2, 2026-11-02. **Independent Opus (QuiBbLE) review NOT yet done**: the first attempt hit the session limit (resets 11:50am ET); re-run it before P2 starts. Decisions marked **Mark**.

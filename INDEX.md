@@ -86,6 +86,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-Income-Model](RaBbLE-Collective/RaBbLE-Income-Model.md) — 8 revenue streams: Cosmos hosting, compute, community, rablet economy, Shop, hardware, attachments, enterprise
 - [RaBbLE-Shop](RaBbLE-Collective/RaBbLE-Shop.md) — physical product storefront: first-party + third-party designs, POD infrastructure, aesthetic requirements
 - [RaBbLE-Sovereign-Accord-v2-DRAFT](RaBbLE-Collective/RaBbLE-Sovereign-Accord-v2-DRAFT.md): DRAFT Accord v2, written from scratch with PolyForm as reference: code gifted for personal/noncommercial use, name, face and colours reserved; not in force
+- [RaBbLE-Sovereign-Accord](RaBbLE-Collective/RaBbLE-Sovereign-Accord.md): the Accord in force (v1), source-available; v2 is the draft above
 - [RaBbLE-Brand-and-Entity-Policy-DRAFT](RaBbLE-Collective/RaBbLE-Brand-and-Entity-Policy-DRAFT.md): DRAFT: what forks may do with the idea vs the identity; "within bounds" lines for Mark to set
 - **[RaBbLE-Membership-Model](RaBbLE-Collective/RaBbLE-Membership-Model.md)** — **The Pair and the Summoning.** Membership model, summoning ceremony, invite tiers, BYO-key (heavily-referenced hub).
 - **[RaBbLE-Service-Plan](RaBbLE-Collective/RaBbLE-Service-Plan.md)** — **Service Roadmap & Business Model.** Service/tier progression across episodes (heavily-referenced hub).
@@ -189,6 +190,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-sCoRE-Agent-State](RaBbLE-sCoRE/RaBbLE-sCoRE-Agent-State.md) — EP2: shared agent context across harnesses; `AgentContext` + `TaskRecord` data model; context handoff format; decision extraction heuristic
 - [RaBbLE-sCoRE-Entropy-Tracker](RaBbLE-sCoRE/RaBbLE-sCoRE-Entropy-Tracker.md) — EP2: session entropy tracking; weighted event table; STABLE→UNSTABLE bands; `decisions_at_risk`; self-healing protocol; Grimoire Learning Loop integration
 - [RaBbLE-sCoRE-Local-Tickets](RaBbLE-sCoRE/RaBbLE-sCoRE-Local-Tickets.md) — EP2 work tickets: 14 tickets across 5 parallel tracks (L-01–L-14); dependency graph; 6-week implementation order; Claude Code handoff notes per ticket
+- [RaBbLE-sCoRE-Local-Pocket-Beam](RaBbLE-sCoRE/RaBbLE-sCoRE-Local-Pocket-Beam.md): Pocket beam routes: laptop Claude, cloud, and the way between
 - [RaBbLE-sCoRE-Crew](RaBbLE-sCoRE/RaBbLE-sCoRE-Crew.md) — S273: `rabble` launcher wraps Claude Code as RaBbLE with the Crew as agent-team teammates; decisions C1–C7, limits, colours
 - **Internal:** [sCoRE System Prompt](../RaBbLE-sCoRE/system-prompt-sCoRE.md) — loaded only when running as sCoRE entity
 
@@ -237,7 +239,6 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-Aether-Design-Guide](RaBbLE-Aether/RaBbLE-Aether-Design-Guide.md) — palette, component prompts, and animation vocabulary for any AI design/image tool
 - [SYSTEM-PROMPT](RaBbLE-Aether/SYSTEM-PROMPT.md) — three-tier system prompt for pasting into Claude Design (quick card / short / full)
 - [RaBbLE-Aether-Effects-Bank](RaBbLE-Aether/RaBbLE-Aether-Effects-Bank.md) — saved CSS effects discovered accidentally, pending integration (cotton candy swirl, etc.)
-- [Aether-Theming-Convergence](log/plans/Aether-Theming-Convergence.md) — plan: VSCodium theme into Aether, remaining Chrysalis effects, `.rc-*` cleanup (A1–A3 absorbed by OS-Theming-Variants)
 - [DEBUG-SESSION-2026-05-15](RaBbLE-Aether/DEBUG-SESSION-2026-05-15.md) — session debug log (ephemeral reference)
 - [Visual Assets](RaBbLE-Aether/assets/) — SVG, logos, icons
 
@@ -279,6 +280,10 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-Pocket-Muse-SDK-Map](RaBbLE-Pocket/RaBbLE-Pocket-Muse-SDK-Map.md): Muse Gadget SDK bring-up record, why it's a bridge not a companion, file-level port map, gotchas
 - [RaBbLE-Pocket-Clean-Room-Plan](RaBbLE-Pocket/RaBbLE-Pocket-Clean-Room-Plan.md): two-team clean-room replacement of every Meta-derived (Apache) file, module by module in waves W0 to W7: inventory with upstream overlap, roles and firewall, clean workspace recipe, provenance and overlap gates
 - [Pocket clean room: specs + provenance](RaBbLE-Pocket/cleanroom/PROVENANCE.md): per-module clean-room specs (`cleanroom/w0-*` to `w4-*.spec.md`, with golden vectors; spec author + firewall reviewed; `w5-orbit.spec.md` is the Settings redesign, the Orbit dial) and the provenance ledger (who saw what, overlap result, Pocket commit); W0-W4 done S256-S264, W5 in build S266
+- Pocket clean room, later waves and audit (same folder): `w8-beam-score`, `w9-ui-power-block`, `w10-hardware-groups.spec.md`, `w11-board-vtable` specs; `w8-integrator-notes.md`, `w11-integrator-notes.md`; `audit-2026-11-02/OVERLAP-REPORT.md` (59% to 8% overlap vs Muse), `TRANSCRIPTS-firewall.md`, `TRANSCRIPTS-port.md`
+- [RaBbLE-Pocket-Entity-Format](RaBbLE-Pocket/RaBbLE-Pocket-Entity-Format.md): `.rbl` / `.rble` entity file format, spec E0 (non-brand entities; the brand stays native)
+- [RaBbLE-Pocket-Provenance-Record](RaBbLE-Pocket/RaBbLE-Pocket-Provenance-Record.md): what in the firmware is original, redone, derived or influenced (2026-11-02)
+- [RaBbLE-Pocket-Open-SDK-Inventory](RaBbLE-Pocket/RaBbLE-Pocket-Open-SDK-Inventory.md): neutral Open SDK inventory · split manifests (generated): `RaBbLE-Pocket-Split-Manifest.md`, `RaBbLE-Pocket-Split-Manifest-gitrecord.md`
 - [RaBbLE-Pocket-Getting-Started](RaBbLE-Pocket/RaBbLE-Pocket-Getting-Started.md): build your own Pocket (parts, battery polarity warning, ESP-IDF v6.0.1 on RaBbLE-OS or generic, build/flash, Wi-Fi, sCoRE beam token) and living with it (gestures, Converse/Capture, notes off the console, Orbit, Pomodoro, console reference)
 - [RaBbLE-Pocket-Gadget-Port](RaBbLE-Pocket/RaBbLE-Pocket-Gadget-Port.md): S243 firmware rebuilt as a RaBbLE gadget on IDF v6.0.1: Apache-derived SDK parts isolated in `apache/`, own code in `accord/`, canvas-drawn face, push-to-talk beamed to sCoRE; layout, behaviour, what's verified, next
 - [RaBbLE-Pocket-Beam-Protocol](RaBbLE-Pocket/RaBbLE-Pocket-Beam-Protocol.md): v0 draft WebSocket contract between Pocket and sCoRE (`/api/v1/beam`): PCM up/down with a 4-byte header, JSON turn events, capture turns returning note files (S264); what the sCoRE endpoint must do; `ops/beam-echo.py` reference
@@ -315,22 +320,22 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 
 Status lives in each plan; the one-line status table is [log/plans/CONTEXT.md](log/plans/CONTEXT.md).
 
+- [Unified-Entity-Canon](log/plans/Unified-Entity/Unified-Entity-Canon.md): **the entity's body, the rules in force** (one page, S322 digest of the draft 10b puppet spec); read before the 65 KB spec beside it
+
 - [EP1-Staging-and-Grimoire-Audit](log/plans/EP1-Staging-and-Grimoire-Audit.md) — path to air: gate truth, roadmap rewrite, de-bloat, public face, post-air user scaffold
 - [EP1-Entity-Face-Plan](log/plans/EP1-Entity-Face-Plan.md) — the five-beat "alive" World face + NeBuLA entity (W0–W4)
 - [EP1-Air-Push-Plan](log/plans/EP1-Air-Push-Plan.md) — S202 air push: deploy wrapper, CI, key inventory, reliquary garden
 - [EP2-Accounts-Encryption-Spec](log/plans/EP2-Accounts-Encryption-Spec.md) — the user scaffold: accounts/sessions, then encrypted ingestion
-- [sCoRE-RaBbLE-UI-Plan](log/plans/sCoRE-RaBbLE-UI-Plan.md): RaBbLE's own terminal face (Textual) over a headless Claude Code; Crew as SDK subagents, then RaBbLE-side orchestration toward teammates
 - [sCoRE-RaBbLE-UI-Rust-Plan](log/plans/sCoRE-RaBbLE-UI-Rust-Plan.md): RaBbLE-UI rebuilt in Rust (R4): measured Python limits, targets T1-T6, Rust UI + Python engine sidecar, phases R0-R5, golden-dump parity, lanes, open questions
 - [Collective-ICM-Conformance-Audit](log/plans/Collective-ICM-Conformance-Audit.md) — Collective vs the ICM/MWP paper: stage contracts, handoff split
 - [Collective-Coherency-Audit-S318](log/plans/Collective-Coherency-Audit-S318/Collective-Coherency-Audit-S318.md) — whole-Collective audit: pushes, decisions owed, cleanup order; evidence reports alongside
+- [Collective-Context-Diet-S322](log/plans/Collective-Context-Diet-S322.md): S322 follow-on: context-cost fixes (log rotation, lean door, hub indexing), entity-definition drift, D3 proposal, first ambient loop (A1-A8); decisions M1-M7 for Mark · older session entries: `log/archive/sessions/` (one file per month)
 - [HANDOFF-S318-Collective-Coherency](log/handoffs/HANDOFF-S318-Collective-Coherency.md): cold start for the coherency cleanup after the S318 audit
 - [Collective-Architecture-Audit-2026-07-04](log/plans/Collective-Architecture-Audit-2026-07-04.md) — S193 cross-repo audit findings, per-member plans
 - [Collective-Architecture-Audit-PROGRESS](log/plans/Collective-Architecture-Audit-PROGRESS.md) — ledger of which S193 findings landed
 - [sCoRE-Extensibility-Refactor-Plan](log/plans/sCoRE-Extensibility-Refactor-Plan.md) — sCoRE `server/` restructure, options A/B/C
 - [Subdomain-Registry-and-Maintenance](log/plans/Subdomain-Registry-and-Maintenance.md) — subdomain registry spec + maintenance backlog
 - [Sovereign-Accord-v2-Brand-and-Entity](log/plans/Sovereign-Accord-v2-Brand-and-Entity.md): Accord v2 proposal: code with limits, entity and brand protected as marks and art; decisions pending Mark
-- [Pocket-Open-SDK-App-Separation-Plan](log/plans/Pocket-Open-SDK-App-Separation-Plan.md): DRAFT plan to split the Pocket firmware into an Apache SDK (all Meta-influenced code) and an Accord-licensed RaBbLE app, then publish
-- [Aether-Theming-Convergence](log/plans/Aether-Theming-Convergence.md) — palette sovereignty across web/editor/desktop/browser
 - [NeBuLA-Pocket-Puppet-Rendering-Pipeline](log/plans/NeBuLA-Pocket-Puppet-Rendering-Pipeline.md) — shared puppet rig/animation pipeline for NeBuLA + Pocket
 - [OS-Display-Manager-Plan](log/plans/OS-Display-Manager-Plan.md) — `rdisplay`: display layout manager (CLI, GTK4 editor, overlay, daemon)
 - [OS-Settings-App-Plan](log/plans/OS-Settings-App-Plan.md) — first-party settings app sketch
@@ -346,25 +351,12 @@ Status lives in each plan; the one-line status table is [log/plans/CONTEXT.md](l
 Status: [log/handoffs/CONTEXT.md](log/handoffs/CONTEXT.md).
 
 - [HANDOFF-S290-Anti-Clobber-Sessions](log/handoffs/HANDOFF-S290-Anti-Clobber-Sessions.md): harness-agnostic session identity (claude, rabble, codex, gemini...), per-session event logs with harness/provider/model, atomic S-numbers, locked ledger, `mine.sh`, working pre-commit warning; installed, sandbox-tested; next a live second-session + codex/gemini test
-- [HANDOFF-S234-EP1-Entity-Face](log/handoffs/done/HANDOFF-S234-EP1-Entity-Face.md) — SUPERSEDED (S320, see log/handoffs/CONTEXT.md). EP1 face build (pairs with the Entity-Face plan)
+- Finished and superseded handoffs: listed once, with status, in [log/handoffs/CONTEXT.md](log/handoffs/CONTEXT.md) (files in `log/handoffs/done/`). Not repeated here (S322).
 - [HANDOFF-S276-EP1-Face-V1](log/handoffs/HANDOFF-S276-EP1-Face-V1.md): EP1 web face V1 on dev; next iPhone check, CF binding + Render env, first main deploy
 - [HANDOFF-S278-Pocket-Press-Drafts-and-SDK](log/handoffs/HANDOFF-S278-Pocket-Press-Drafts-and-SDK.md): W7 done; Mark reviews the parked Pocket press drafts (renders need the clock), then the RaBbLE-SDK
 - [HANDOFF-S281-Pocket-Parity-Sim-Shot-Gate](log/handoffs/HANDOFF-S281-Pocket-Parity-Sim-Shot-Gate.md): Pocket `>shot` (built, not flashed), parity sim (scaffold), gate-checker fixes (3 of 5 proven), S8 re-cut facts; next steps per track
-- [HANDOFF-S295-RaBbLE-UI-Rust-Phase2-Parallel](log/handoffs/done/HANDOFF-S295-RaBbLE-UI-Rust-Phase2-Parallel.md): SUPERSEDED (S320, see log/handoffs/CONTEXT.md). START HERE for the Rust TUI: Opus review findings (2 blockers) mapped to lanes, protocol v1.1 freeze, parallel lanes P/S/F/N/O/B/R/V with file ownership and gates
-- [HANDOFF-S295-RaBbLE-UI-Rust-R1-Seam](log/handoffs/done/HANDOFF-S295-RaBbLE-UI-Rust-R1-Seam.md): SUPERSEDED (S320, see log/handoffs/CONTEXT.md). next split of the Rust TUI: engine seam over a Unix socket (NDJSON), lanes A1/A2/A3 seam, B shell, C face, D bench + narration design
-- [HANDOFF-S295-RaBbLE-UI-Rust-R0-Cargo](log/handoffs/done/HANDOFF-S295-RaBbLE-UI-Rust-R0-Cargo.md): COMPLETE (S320). enable cargo behind the school filter (Fedora rust-*-devel RPMs via the claude-code task), run R0, Option A confirmed, engine config + Capabilities event, plain-English narration ask
-- [HANDOFF-S292-RaBbLE-UI-Rust-Rebuild](log/handoffs/done/HANDOFF-S292-RaBbLE-UI-Rust-Rebuild.md): SUPERSEDED (S320, see log/handoffs/CONTEXT.md). RaBbLE-UI to Rust, start at R0; S292 scroll glide + style cache, visual test results, Hyprland Lua dispatch gotcha
-- [HANDOFF-S291-RaBbLE-UI-Face-Visual-Test](log/handoffs/done/HANDOFF-S291-RaBbLE-UI-Face-Visual-Test.md): SUPERSEDED (S320, see log/handoffs/CONTEXT.md). RaBbLE-UI layered face (30 fps assembly, eye/background threads), rig fidelity, provider aura, VS Code safe glyphs; visual test of `/face` on kitty WS1 and VSCodium WS3, checklist, tuning knobs, open R11 sphere squish
 - [Pocket-Parity-Sim-Spec](log/plans/Pocket-Parity-Sim-Spec.md): the sim runs the real app + LVGL 9.5.0 on a host board for visual parity (time, sCoRE, icons, fonts); scenes, goldens, `>shot` design
 - [HANDOFF-S280-Pocket-Firmware-Test-Suite](log/handoffs/HANDOFF-S280-Pocket-Firmware-Test-Suite.md): comprehensive Pocket firmware tests (SDK, app, drivers, board) in five tiers; inventory, then plan + QuiBbLE, then layer-split builds; T1-T4 for Mark
-- [HANDOFF-S279-RaBbLE-UI-U3](log/handoffs/done/HANDOFF-S279-RaBbLE-UI-U3.md): SUPERSEDED (S320, see log/handoffs/CONTEXT.md). RaBbLE-UI U1 engine + U2 face live, `rabble` flipped; review should-fixes, then U3 Crew as subagents (pairs with sCoRE-RaBbLE-UI-Plan)
-- [HANDOFF-S268-Pocket-W6-Integrate](log/handoffs/done/HANDOFF-S268-Pocket-W6-Integrate.md): DONE (S277). Pocket W6: spec + firewall done, fresh Sonnet implementer in ~/RaBbLE-Cleanroom/pocket-w6; next integrate, checklist, overlap gate, config trims, then W7 and the RaBbLE-SDK
-- [HANDOFF-S267-Pocket-CleanRoom-Final-SDK](log/handoffs/done/HANDOFF-S267-Pocket-CleanRoom-Final-SDK.md): Pocket after S267 (Orbit v2 hand-checked); next W6 board-layer clean room as Mark's walkthrough, W7 close-out with a Sovereign Accord header sweep, then the RaBbLE-SDK component refactor
-- [HANDOFF-S266-Pocket-Orbit-Pomodoro](log/handoffs/done/HANDOFF-S266-Pocket-Orbit-Pomodoro.md): done S267 (Orbit v2 landed)
-- [HANDOFF-S264-Pocket-Capture-W4-Face](log/handoffs/done/HANDOFF-S264-Pocket-Capture-W4-Face.md) (done S265; S265 handoff done S266)
-- [HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room](log/handoffs/done/HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room.md) (done S254/S264): settings composited; clean room continues in HANDOFF-S264
-- [HANDOFF-S251-Pocket-Entity-60fps](log/handoffs/done/HANDOFF-S251-Pocket-Entity-60fps.md) (done S252): Pocket entity from ~20 to 60 fps idle
-- [HANDOFF-S250-Pocket-Entity-Port-Phase1](log/handoffs/done/HANDOFF-S250-Pocket-Entity-Port-Phase1.md) — done S251: Phase 0 bench, Phase 1 renderer on device
 - [HANDOFF-S236-OS-ISO-VM-Run](log/handoffs/HANDOFF-S236-OS-ISO-VM-Run.md) — branded ISO VM run recipe + leftover items
 - [HANDOFF-FCC-Free-Claude-Code](log/handoffs/HANDOFF-FCC-Free-Claude-Code.md) — FCC LiteLLM proxy tuning
 - [RaBbLE-Voice-Phase2-HANDOFF](log/handoffs/RaBbLE-Voice-Phase2-HANDOFF.md) — voice phase 2 (pre-vocoder-v4; check before resuming)
@@ -379,17 +371,6 @@ Status: [log/handoffs/CONTEXT.md](log/handoffs/CONTEXT.md).
 - [FABLE-GAP-ANALYSIS-S57](log/archive/FABLE-GAP-ANALYSIS-S57.md) — S57 gap analysis: "90% visual, 0% sensory"; defer Watcher to Ep2
 - [EP1-READINESS-AUDIT-S103](log/archive/EP1-READINESS-AUDIT-S103.md) — S103 full Collective audit; cross-cutting EP1 blockers
 - [EP1-Dispatch-State](log/archive/EP1-Dispatch-State.md) — S58 handoff: sCoRE Render pivot decision, manual deploy runbook
-- [HANDOFF-PreCommit-AntiClobber](log/handoffs/done/HANDOFF-PreCommit-AntiClobber.md) — spec (built S185); pre-commit auto-register+warn enforcement
-- [HANDOFF-S153-EP1-Coherence](log/handoffs/done/HANDOFF-S153-EP1-Coherence.md) — S153 handoff (done): EP1 chat spine live, B-01/03/04 resolved
-- [HANDOFF-S116-Theme-and-Logging](log/handoffs/done/HANDOFF-S116-Theme-and-Logging.md) — S116 handoff (done): theme polish, Hyprland fixes, multi-agent logging
-- [HANDOFF-S176-G10-World-EP1-FLOOR](log/handoffs/done/HANDOFF-S176-G10-World-EP1-FLOOR.md) — S176 handoff (done): G10 World EP1 FLOOR (closed S177)
-- [EP1-Liminal-Experience-Plan](log/plans/done/EP1-Liminal-Experience-Plan.md) — S190 Genesis passage (retired S203, frozen in Chrysalis)
-- [NeBuLA-Studio-Plan](log/plans/done/NeBuLA-Studio-Plan.md) — S198 WYSIWYG page builder (built)
-- [OS-Dolphin-Grey-Text](log/plans/done/OS-Dolphin-Grey-Text.md) — KDE grey text (resolved S201)
-- [Collective-Architecture-Audit-Plan](log/plans/done/Collective-Architecture-Audit-Plan.md) — S192 plan for the S193 audit
-- [HANDOFF-S203-B10-Cloudflare-Token](log/handoffs/done/HANDOFF-S203-B10-Cloudflare-Token.md) — CF token mint (B-10 resolved S206)
-- [World-Framework-Refactor](log/plans/done/World-Framework-Refactor.md) — plan (done S182): Aether+NeBuLA as frameworks, World as assembler
-- [World-Framework-Refactor-HANDOFF](log/plans/done/World-Framework-Refactor-HANDOFF.md) — cold-start handoff (done S182+r2)
 - [S104-BABBLE-CAPTURES-GIT-REORG-PLAN](log/archive/S104-BABBLE-CAPTURES-GIT-REORG-PLAN.md) — S104 BaBbLE reorg plan (superseded by Chrysalis/Xperimental split)
 
 ---
