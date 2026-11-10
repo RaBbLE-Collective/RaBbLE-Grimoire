@@ -10,10 +10,10 @@ Format: date, what was done, where things were left, what's next.
 
 ## LATEST — 2026-11-10 · S322 (collective-audit-context-diet)
 
-**Phase:** Epoch 0 · Episode 1.
-**This session:** S322: context diet (log 824 to 53 KB, session-start 166 to 13 KB), entity rules digest + gist, plans index rebuilt, door reconciled
+**Phase:** Epoch 0 · Foundation.
+**This session:** S322: Episodes retired for member milestones; context diet (log, gists, index, memory); entity canon; accounts scoped; depth-over-surface plan
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** Mark rules M1-M7 (log/plans/Collective-Context-Diet-S322.md); then D3 sweep, entity spec split, first ambient slice
+**Next:** Mark rules A1-A3 (log/plans/Accounts-Formalization-Scope.md) and the depth stance; then AC1, entity spec split, first ambient slice, OS repair O1-O4
 
 ---
 
