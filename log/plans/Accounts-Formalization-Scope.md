@@ -12,7 +12,9 @@ spark ~ score/accounts >> a visitor becomes a user: scope, slices, decisions // 
 
 Someone who is not Mark opens `joinrabble.world` on a phone, signs in, completes the summoning, talks to RaBbLE, comes back the next day and finds their entity and their conversation still there.
 
-Measure: **activated users** = signed in and returned on a second day. Target for this scope: 10.
+Measure: **activated users** = signed in and returned on a second day. Target for this scope: 10. Sign-up is open and capped at 100 accounts (A3).
+
+**Ship bar (Mark, S322):** only ship a working MVP that feels semi-ready and polished. A slice is not released to users because it functions; it is released when the whole path a user walks (sign in, summon, home, talk, return) works on a phone and looks finished.
 
 ## 2. What already exists (more than the docs say)
 
@@ -49,7 +51,7 @@ Each slice ends in something Mark can try. Stop after any slice and the system s
 | Slice | Delivers | Closes | Size |
 |---|---|---|---|
 | **AC1 Store** | `users`, `invites`, `sessions` behind the existing module interface, backed by a hosted database; file store stays as the local and test backend; one-way import of existing files | G1 | S |
-| **AC2 Sign-in** | Email link sign-in (no password to store or leak), then Google as a second method. Issues the existing JWT plus a refresh in an `HttpOnly` cookie through the `score.joinrabble.world` proxy Worker. Invite code required while testing | G2, G3 | M |
+| **AC2 Sign-in** | Google and email + password (verified email, reset), Apple later (A2). Issues the existing JWT plus a refresh in an `HttpOnly` cookie through the `score.joinrabble.world` proxy Worker. Open sign-up with a 100-account cap | G2, G3 | M |
 | **AC3 Door** | On the World face: "Sign in", the summoning (handle, two portal colours from the palette, intention) calling the existing endpoint, and a signed-in home: your entity in your colours, your handle, usage today, sign out. Vanilla JS, Aether tokens only | G4 | M |
 | **AC4 Reason** | Signed-in users get: conversation that persists across visits, RaBbLE addressing them by handle and intention, their own entity colours on the face, a higher daily allowance than a guest | G5 | S |
 | **AC5 Limits** | Per-user daily budget (messages and tokens) stored on the user record, adjustable without a deploy; guest pool separated from user pool; clear "you have reached today's limit" reply in persona | G6 | S |
@@ -63,12 +65,12 @@ AC1 to AC3 are the first vertical slice: after them a stranger can sign in and l
 | # | Decision | Recommendation | Why |
 |---|---|---|---|
 | A1 | Where the user store lives | A hosted Postgres with a free tier, reached from sCoRE; keep the file backend for local | The spec names DynamoDB and S3, which adds a second cloud. Postgres is one dependency and portable. Cloudflare D1 is the alternative since the proxy is already there. Check current free-tier limits before choosing |
-| A2 | Sign-in methods | Email link first, Google second, no passwords | Nothing to hash, nothing to reset; matches the spec's "OAuth or email" |
-| A3 | Open or invite | Invite codes for the first 10 to 25, then open | The invite code path exists; it also caps cost while limits are tuned |
+| A2 | Sign-in methods | **Mark, S322 (direction): Google, Apple, or custom user + password; phone number under question.** Recommendation: Google and email + password first (Argon2 or bcrypt, verified email, reset by email). Apple when there is an Apple developer account or an iOS app. No phone sign-up | Phone needs a paid SMS sender, carrier registration and excludes people who will not give a number; it adds cost per sign-up and nothing a verified email does not. A username with no email has no recovery path |
+| A3 | Open or invite | **RULED (Mark, S322): open sign-up, capped at 100 users to start.** The cap is a number on the server, adjustable without a deploy; past it, sign-up shows a waitlist line in persona | Invite codes stay available for raising someone past the cap |
 | A4 | Build or rent the auth | Build on what sCoRE has | The token, user record, invites and summon are already there; a hosted auth service would duplicate them and put identity outside the Collective |
 | A5 | What a user is called and what they hold | A user is one half of "the Pair" (`RaBbLE-Collective/RaBbLE-Membership-Model.md`); the record is the principal from S295, separate from devices and sessions | Keeps the S295 identity model intact |
 | A6 | Free allowance | Start low and adjustable (for example 50 messages a day), raise from real usage | One personal provider key carries everyone today |
-| A7 | Email sender | Needed for A2: a transactional mail service on the `joinrabble.world` domain | SPF and DKIM records go in the existing Cloudflare zone |
+| A7 | Email sender | Needed for A2 (verification and password reset): a transactional mail service on the `joinrabble.world` domain | SPF and DKIM records go in the existing Cloudflare zone |
 
 ## 6. Not in this scope
 
@@ -83,6 +85,6 @@ Encrypted ingestion and per-user knowledge (spec Phase 2), billing and paid tier
 
 ## 8. First session
 
-1. Mark rules A1, A2, A3.
+1. Mark rules A1 (store) and confirms A2. A3 is ruled.
 2. AC1 behind the existing `users` interface with tests against both backends.
 3. Turn `ALLOW_REGISTER` off for good once AC2 lands; delete the legacy route after.

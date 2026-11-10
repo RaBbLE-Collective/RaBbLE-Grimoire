@@ -12,7 +12,7 @@ harmonize ~ grimoire >> the door costs less, the entity has one page, the loop h
 | # | Decision | Recommendation |
 |---|---|---|
 | M1 | **D3, what replaces Episodes** (section 4) | **RULED and applied S322:** Epochs and Echoes stay; Episodes retired; members carry a `milestone`; Genesis recorded as crossed 2026-11-09 |
-| M2 | Delete the 15 `HANDOFF-parked-*` placeholders (400 bytes of `x`, untracked) | Yes. They are the doctor's only remaining warnings |
+| M2 | The 15 `HANDOFF-parked-*` placeholders | **Done S322 (Mark: archive):** moved to `log/archive/handoffs-parked/`; doctor at 0 warnings |
 | M3 | Entity spec: adopt the three-file split (section 3) | Yes, after the easing pass; `Unified-Entity-Canon.md` is the seed |
 | M4 | Entity: rulings 4 vs 22 and 6 vs 27a (Canon section 9) | **RULED S322:** four legal calm rests (portal flips and eye rotations); curious is a descriptor, calm is idle without emotion |
 | M5 | Prune the agent memory index (section 5.1) | **Done S322:** 40 older memories moved to `archive/` (not deleted), hooks shortened; index 21.4 KB to 13 KB |
@@ -105,6 +105,8 @@ Order: A6, A1, A2, A3 as one vertical slice (about one session each), then A4. A
 ## 8. Depth over surface (added after Mark's S322 notes)
 
 Mark: "I generally have more surface than depth at the moment." The count agrees: 11 repos, 4 entity renderers, 6 public subdomains, 30 plans, 15 open blockers, and one user.
+
+**Mark, S322: unsure on the stance table below; the rule he gave instead is the ship bar: only ship working MVPs that feel semi-ready and polished.** The table stays a proposal, not a ruling. What is ruled: nothing goes to users half-finished.
 
 Proposed stance per surface until accounts and the first closed loop land:
 
