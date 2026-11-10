@@ -64,13 +64,22 @@ AC1 to AC3 are the first vertical slice: after them a stranger can sign in and l
 
 | # | Decision | Recommendation | Why |
 |---|---|---|---|
-| A1 | Where the user store lives | A hosted Postgres with a free tier, reached from sCoRE; keep the file backend for local | The spec names DynamoDB and S3, which adds a second cloud. Postgres is one dependency and portable. Cloudflare D1 is the alternative since the proxy is already there. Check current free-tier limits before choosing |
+| A1 | Where the user store lives | **Direction (Mark, S322): SQLite locally, Postgres when hosted, and stay movable** (Render today, likely AWS later). One storage interface with two backends; see section 5.1 | Mark wants flexibility over any one host. Postgres runs on every cloud, including AWS (RDS or Aurora), so the host can change without touching the code |
 | A2 | Sign-in methods | **Mark, S322 (direction): Google, Apple, or custom user + password; phone number under question.** Recommendation: Google and email + password first (Argon2 or bcrypt, verified email, reset by email). Apple when there is an Apple developer account or an iOS app. No phone sign-up | Phone needs a paid SMS sender, carrier registration and excludes people who will not give a number; it adds cost per sign-up and nothing a verified email does not. A username with no email has no recovery path |
 | A3 | Open or invite | **RULED (Mark, S322): open sign-up, capped at 100 users to start.** The cap is a number on the server, adjustable without a deploy; past it, sign-up shows a waitlist line in persona | Invite codes stay available for raising someone past the cap |
 | A4 | Build or rent the auth | Build on what sCoRE has | The token, user record, invites and summon are already there; a hosted auth service would duplicate them and put identity outside the Collective |
 | A5 | What a user is called and what they hold | A user is one half of "the Pair" (`RaBbLE-Collective/RaBbLE-Membership-Model.md`); the record is the principal from S295, separate from devices and sessions | Keeps the S295 identity model intact |
 | A6 | Free allowance | Start low and adjustable (for example 50 messages a day), raise from real usage | One personal provider key carries everyone today |
 | A7 | Email sender | Needed for A2 (verification and password reset): a transactional mail service on the `joinrabble.world` domain | SPF and DKIM records go in the existing Cloudflare zone |
+
+### 5.1 Store design: SQLite local, Postgres hosted (A1)
+
+- **One interface, two backends.** The existing `users` module keeps its function signatures; behind it sits a small repository layer with a SQLite backend (local, tests, offline) and a Postgres backend (hosted). The current file store is imported once and retired.
+- **One schema, written to the common subset.** Schema changes go through a migration tool that targets both engines. The same test suite runs against both backends on every change; that is what keeps the later move cheap.
+- **Rules that keep SQLite and Postgres interchangeable:** explicit column types (SQLite does not enforce them, Postgres does); text primary keys generated in code, never an engine's auto-increment; timestamps stored as UTC ISO-8601 text or a real timestamp type through the abstraction, never engine date functions; booleans as booleans; JSON kept to simple read-whole, write-whole fields; no engine-specific SQL in route code.
+- **Differences that cannot be abstracted away:** SQLite allows one writer at a time (fine locally, the reason it is not the hosted store) and needs a persistent disk, which the current hosted free tier does not have.
+- **Host is a connection string.** Start on a managed Postgres with a free or low tier; move to AWS RDS for PostgreSQL later with a dump and restore. At 100 users that is minutes of data. The host is not chosen yet: compare current pricing, pause-on-idle behaviour and region before picking.
+- **Local-first holds:** the laptop runs the whole account path on SQLite with no network.
 
 ## 6. Not in this scope
 
@@ -85,6 +94,6 @@ Encrypted ingestion and per-user knowledge (spec Phase 2), billing and paid tier
 
 ## 8. First session
 
-1. Mark rules A1 (store) and confirms A2. A3 is ruled.
+1. A1 direction and A3 are ruled. Mark picks the Postgres host and confirms A2.
 2. AC1 behind the existing `users` interface with tests against both backends.
 3. Turn `ALLOW_REGISTER` off for good once AC2 lands; delete the legacy route after.
