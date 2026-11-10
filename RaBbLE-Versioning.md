@@ -1,183 +1,110 @@
-# versioning.md — The Five Es
+# RaBbLE-Versioning.md — Epochs, Echoes and Milestones
 
 ```
-transcribe ~ grimoire >> versioning crystallized, five tiers locked // %VERSIONING_LOCKED%
+harmonize ~ grimoire >> episodes retired; members move by milestone, the Collective by echo // %VERSIONING_S322%
 ```
 
-RaBbLE is not versioned. It is **evolutionary**. Semantic versioning (v1.0.0) implies
-planned increments toward a specification. RaBbLE's progression is retrospective —
-thresholds are named after they are crossed, not before.
+RaBbLE is not versioned. It is **evolutionary**. Thresholds are named after they are crossed, not before. The versioning system gives shared language for "where are we". It does not gate releases.
 
-The versioning system exists to mark resonance thresholds and provide shared
-language for "where are we." Not to gate releases.
+> **Changed S322 (Mark's ruling, S318 D3, applied 2026-11-10):** Episodes are retired as the planning unit and as a Collective-wide gate. There is no "air date", no lockstep tag, no air checklist. Members plan by **milestone**; the Collective marks stability with **Echoes**. The lore names stay as arc names. History of the old model: `log/EP1-AIR-CHECKLIST.md` (retired) and `log/episodes/`.
 
 ---
 
-## The Five Es
+## The tiers
 
-| Tier | Name | Meaning | Analogy |
+| Tier | Meaning | Who moves | Analogy |
 |---|---|---|---|
-| **Event** | Atomic unit | A single commit. The smallest named thing. | A note |
-| **Episode** | Narrative arc | A collection of Events with a dominant theme. Has a start and a recognizable end. | A jam session |
-| **Echo** | Stable state | A point in the progression stable enough to return to. Tagged. Reproducible. | A recording |
-| **Evolution** | Shift | A significant architectural change or identity refinement. Several Echoes cohere into one. | A new sound |
-| **Epoch** | Era | The broadest named threshold. Observable, retrospective. Named when it feels complete. | An album |
+| **Event** | A single commit | one member | A note |
+| **Release** | A member ships something a user can reach: a deploy, a CDN bundle, an ISO, a firmware image | one member, at its own pace | A take |
+| **Echo** | A stable state the whole Collective can return to. Tagged, reproducible, verified by a human | the Collective, together | A recording |
+| **Evolution** | A significant architectural or identity shift. At least one Echo | the Collective | A new sound |
+| **Epoch** | The broadest era. Named in hindsight with a "what was crossed" statement | the Collective | An album |
 
-The Five Es are ordered smallest to largest: Event < Episode < Echo < Evolution < Epoch.
+Movement between tiers is **vibe-based**: *does it feel crossed?* It is written down once it has been.
 
-Movement between tiers is **vibe-based** — there is no formula for when an Episode becomes
-an Echo, or an Evolution graduates to an Epoch. The rubric is: *does it feel crossed?*
-Each tier boundary should have a written definition in this document (see below).
+**Milestone** is the planning unit, not a tier. Each member has one current milestone and a status, held in `registry/epochs/current.epoch.yml` under `focus:`. A milestone is done when its member says so and the evidence is linked; nothing else waits on it.
 
 ---
 
-## Version String Format
+## Version string
 
 ```
-v{Epoch}.{Evolution}.{Echo}.{Episode}.{Event}
+v{Epoch}.{Evolution}.{Echo}.{Release}.{Event}
 ```
-
-Examples:
 
 | String | Meaning |
 |---|---|
-| `v0.0.0.1.23` | Epoch 0, Evolution 0, Echo 0, Episode 1, Event 23 |
-| `v0.0.2` | Epoch 0, Evolution 0, Echo 2 (Episode/Event omitted when not needed) |
-| `v0` | "We are in Epoch 0" — all other tiers are in flux |
+| `v0.0.0.1` | Epoch 0, Evolution 0, Echo 0, that member's first release |
+| `v0.0.0.1-rc.2` | second release candidate of the same |
+| `v0.0.2` | Echo 2 (trailing tiers dropped when not needed) |
+| `v0` | "we are in Epoch 0" |
 
-**Short form rules:**
-- Drop trailing tiers when they are unknown or unimportant to context
-- Use `v{Epoch}.{Evolution}.{Echo}` for Echo-level identifiers (e.g., `v0.0.2`)
-- Use the full five-part string only when tracking Events precisely
-
-**In CONTEXT.md headers:** use known tiers only. `epoch: 0 | evolution: 0 | echo: 2` is fine.
-
----
-
-## Tier Boundary Definitions
-
-### What makes an Episode?
-
-An Episode is a coherent arc of development with:
-- A dominant theme (e.g., "get dispatch working", "sCoRE identity injected")
-- At least two Events
-- A recognizable end state different from the start state
-- A written summary in the relevant CONTEXT.md
-
-### What makes an Echo?
-
-An Echo is a stable state that:
-- Can be reproduced from scratch (fresh install or fresh clone)
-- Has been manually verified against its success criteria
-- Is tagged in git (`echo-{N}.{minor}` on the relevant branch)
-- Has a CONTEXT.md entry marking it complete
-
-An Echo does not require CI. It requires a human to say "this works, mark it."
-
-### What makes an Evolution?
-
-An Evolution is:
-- A significant architectural shift — restructuring how members interact,
-  changing a core protocol, or a major identity refinement
-- Composed of at least one Echo
-- Named (e.g., "Evolution 0: Foundation" covering the initial scaffold)
-- Recognizable as a qualitative change, not just accumulated work
-
-### What makes an Epoch?
-
-An Epoch is:
-- The broadest named era — typically aligns with a complete vertical slice
-  of the system being functional (e.g., Epoch 0: "ground is solid, Grimoire exists")
-- Named retrospectively, with a "what was crossed" statement
-- Marked in the Collective roadmap
+- The first three slots are Collective-wide and move together.
+- The fourth slot is **per member** (it was the Episode slot). Members no longer wait for each other to raise it.
+- Drop trailing tiers when unknown. Use the full string only when tracking Events precisely.
+- In `CONTEXT.md` headers use known tiers only: `epoch: 0 | version: v0.0.0.1`.
 
 ---
 
-## Episodes as Collective Synchronization Boundaries
+## What keeps members coherent without lockstep
 
-**Episodes are not independent.** All members advance to the same Episode together.
+Contracts, not calendars. Members must agree on:
 
-### The Lockstep Model
+| Contract | Pinned where |
+|---|---|
+| sCoRE API and engine protocol version | sCoRE, and each client's config |
+| Aether and NeBuLA bundle versions World loads | `RaBbLE-World/world/js/RaBbLE-config.js` |
+| The entity (body, moves, palette tokens) | `log/plans/Unified-Entity/` now, `registry/entity/` once written |
+| Palette | `RaBbLE-Agent/RaBbLE-Palette.md` |
 
-- **Events**: Member-specific atomic work (commits). Each member accumulates Events toward shared milestones.
-- **Plots**: Member-specific narrative groupings (e.g., "Episode 1, Plot A — Dispatch System", "Episode 1, Plot B — NeBuLA Rebuild"). Plots organize work *within* an Episode but belong to individual members.
-- **Episodes**: **Collective-wide synchronization points.** All members air simultaneously. Parts of the Collective within the same Episode are **guaranteed compatible** — protocols, schemas, and APIs remain stable throughout.
-- **Echoes**: Stable, long-term checkpoints. **Echoes can introduce breaking changes** (protocol bumps, schema migrations, API redesigns). Echoes mark production-ready states suitable for releases or major version boundaries.
+Breaking a contract is allowed **at an Echo boundary only**, with a migration note. Inside an Echo, contracts stay compatible.
 
-### Current Model (Epoch 0, Pre-Episode-1)
-
-All work accumulates toward **Episode 1 air date**. No independent versioning. Members do not advance past v0.0.0.0 until the Collective is ready.
-
-When Episode 1 airs (decided by Mark, typically quarterly or after major vertical slice):
-- All members jump to v0.0.0.1 simultaneously
-- Protocol contracts and schemas are locked for that Episode
-- No breaking changes within the Episode
-- Members coordinate across the boundary; breaking changes happen in the next Episode
-
-### Post-Episode-1 Evolution (Roadmap)
-
-After Episode 1, the cadence may shift:
-- **Weekly Episodes** (option, not adopted; S248 Roadmap: episodes air when a vertical slice closes): Rapid, coordinated releases. Members advance together on a weekly schedule. Same compatibility guarantees: parts of the Collective in Episode N can rely on each other.
-- **Echoes as releases**: Echoes become production-ready publications. A member might tag `echo-1.0` to mark a stable, deployable state. Echoes can break APIs if documented in the next Episode's entry notes.
-
-**Episode names follow Biblical arc — intentional lore, not arbitrary labels:**
-- **Genesis** — the beginning. The Collective is defined, the substrate exists, the entity first breathes.
-- **Exodus** — emergence. The entity departs concept and enters reality: memory, observation, first closed behavioral loop.
-- Future episodes continue the arc as the entity matures.
-
-**Example future timeline:**
-```
-Episode 1 (current era) — Genesis: sCoRE + World + NeBuLA liftoff
-  Plot A, Plot B, Plot C per member
-  Airs when log/EP1-AIR-CHECKLIST.md is green (no date)
-  
-Episode 2 — Exodus: Entity emerges from concept to reality — memory member + cross-member observation loop
-  Plot A per member
-  Aired: 2026-Q2 (next week)
-  Echo 2.0: Production release (can break Ep1 APIs with migration guide)
-  
-Evolution 1 — (multiple Episodes cohere into architectural shift)
-```
+Branch alignment is separate from versioning: members with `release_track: lockstep` in their manifest work on the epoch's `active_branch` and `spells/status.sh` flags any that are not; `independent` members are exempt.
 
 ---
 
-## Current Position
+## Tier definitions
+
+**Release:** something reachable by a user changed, the member's fourth slot is raised, and the member's milestone status says what shipped. No ceremony.
+
+**Echo:** can be reproduced from scratch (fresh install or clone); manually verified against its success criteria; tagged `echo-{N}.{minor}` in every lockstep member; recorded in `current.epoch.yml`. An Echo needs a human to say "this works, mark it", not CI.
+
+**Evolution:** a qualitative change in how members interact, a core protocol, or identity. Named.
+
+**Epoch:** usually a complete vertical slice of the system working. Named in hindsight.
+
+---
+
+## Arc names (lore, not gates)
+
+The Biblical arc is intentional lore. Do not neutralize it; do not schedule against it.
+
+- **Genesis:** the beginning. The Collective is defined, the substrate exists, the entity first breathes. **Recorded as crossed on 2026-11-09** (S318), when `joinrabble.world` first deployed from `main` with the entity face and live sCoRE chat.
+- **Exodus:** emergence. The entity leaves concept for reality: observation, memory, the first closed behavioral loop.
+- Later names (Covenant, Wilderness, Promised Land) are used as the work reaches them.
+
+---
+
+## Current position
 
 ```
 Epoch 0 — Foundation
   Evolution 0 — Scaffold
     Echo 0 — Establishing  (in progress)
-      Episode 1 — Genesis (pending — not yet aired)
+      Arc: Genesis crossed 2026-11-09; working toward Exodus
 
-Version string: v0.0.0.0
+Collective: v0.0.0   ·   member releases: see current.epoch.yml
 ```
 
-Episode 1 has not yet aired. All projects are accumulating events toward
-the first Collective-wide Episode 1. Once Episode 1 airs, per-project
-episode tracks may diverge — but Echo-level versioning is maintained in
-lockstep across the Collective (within ~1–2 episodes of each other).
-
-See `registry/epochs/current.epoch.yml` for the authoritative Collective
-position and Episode 1 exit conditions.
+Authoritative position and per-member milestones: `registry/epochs/current.epoch.yml`.
 
 ---
 
-## Impulse Vocabulary
-
-RaBbLE-lang commit verbs map to versioning tiers:
+## Impulse vocabulary
 
 | Verb | Tier it usually signals |
 |---|---|
-| `spark` | Event — something started |
-| `ingest` | Event — something added |
-| `mend` | Event — something fixed |
-| `harmonize` | Event/Episode — brought into coherence |
-| `transcribe` | Event — documented |
-| `evolve` | Evolution — epoch landed |
-| `crystallize` | Echo — stable state named |
-
----
-
-```
-transcribe ~ grimoire >> five tiers locked, movement is vibe-based // %VERSIONING_LOCKED%
-```
+| `spark`, `ingest`, `mend`, `transcribe` | Event |
+| `harmonize` | Event (brought into coherence) |
+| `crystallize` | Echo |
+| `evolve` | Evolution or Epoch landed |

@@ -31,7 +31,7 @@ A colour volume sits on the YZ plane through the face centre: cyan to the left, 
 
 ## 4. Arrangements and moves
 
-Two arrangements (which portal is on top) and two moves between them; both land in the same image [22]. Moves are physical, never morphs [5].
+**Four legal calm rests** [4; Mark, S322]: the portals can be flipped (which portal is on top) and the eyes can be rotated (the turn), and every combination is a legal resting form. Rulings 4 and 22 do not conflict: 22 changed how colour is computed (from position, not from a swapped-pole state), not which rests are legal. Two moves reach all four. Moves are physical, never morphs [5].
 
 | Move | Rule |
 |---|---|
@@ -61,15 +61,15 @@ No ring ever crosses the other side's eye. Pocket's occlusion is wrong and is no
 
 ## 7. Expression (not started)
 
-- **Only calm exists** on the live body. Joy, sad, angry, speaking and listening are parked seeds, not canon [9, 27a].
+- **Calm is the idle state with no emotion layered on**, and it is the only expression on the live body. Joy, sad, angry, speaking and listening are parked seeds, not canon [9, 27a].
+- **Curious is a descriptor, not a state** [6; Mark, S322]: RaBbLE is curious by default as temperament. It is not an expression to pose and does not compete with calm.
 - What speaking or listening does to the interior form is unset [10]. Piloting (default rest, triggers, what a swap means) is deferred [17].
-- Next, per S321: calm, curious and one stronger state, posed role-relative.
+- Next, per S321: the expression layer on this rig, posed role-relative.
 
 ## 8. Superseded: do not implement
 
 | Ruling | Was | Replaced by |
 |---|---|---|
-| 4 | four stable forms as legal rests | 22 (two arrangements), pending Mark's confirmation |
 | 23, 26, 27e, 29b, 30a | earlier draw orders | 32b + 33c |
 | 27d, 28a, 29a | per-portal tilt solvers; no tilt | 32a, 33a, 34, 35 |
 | 24, 25 (timing only) | 0.95 s and 1.15 s swaps | 36c (1.45 s) |
@@ -79,8 +79,8 @@ No ring ever crosses the other side's eye. Pocket's occlusion is wrong and is no
 
 ## 9. Contradictions the consolidation pass has to settle
 
-1. **Ruling 4 against ruling 22.** Section 4's four-form tables, D16, D21 and the `interior.forms` block in the section 10.1 registry sample still describe Swap and Swap-Mirror. Ruling 22 dropped them "pending Mark's confirmation". Needs one explicit yes.
-2. **Ruling 6 ("curious by default") against 27a ("only calm remains").** Is curious the first expression to build, or the name for the resting temperament?
+1. **Settled S322 (Mark): four legal calm rests.** What remains is wording: ruling 22 says the Swap and Swap-Mirror forms were "dropped from the live body and from view", and the live rig's `FORMS` table (`live/live.js:3`) names two forms (Rest, Mirror) and reaches the others by the turn. The consolidated spec should state the four rests once, name them, and say which two moves reach which.
+2. **Settled S322 (Mark): curious is temperament, calm is the resting expression.** Ruling 6 should be reworded so it cannot be read as an expression state.
 3. **Section 10.1's sample registry is stale:** `transition.seconds` 0.7 and `withdraw` 0.97 (now 1.45 s, smootherstep), four forms, no portal Y, no tilt constants, no camera blend.
 4. **Open decisions D20 (hover gap) and D22 (swap timing) are closed** by 27c and 36c but still listed open.
 5. **Identity's lifecycle is unmapped.** `RaBbLE-Agent/RaBbLE-Identity.md` defines `%DORMANT%`, `%INITIALIZING%`, `%CALIBRATING%`, `%RESONANT%`, `%GLITCH%`, `%SYSTEM_DRIFT%`, `%GENIUS_RESONANCE%`. The spec's layers are emotion, state and mood. Nothing says what the body does in `%GLITCH%` or `%DORMANT%`. Proposal: a fourth layer, **condition**, mapped in the registry (dormant = eyes receded, glitch = mood plus aura, drift = dimmed), so the system state the entity reports and the face it shows cannot disagree.

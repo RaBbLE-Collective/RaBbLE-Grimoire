@@ -1,3 +1,5 @@
+> **RETIRED (S322, 2026-11-10; Mark's S318 D3 ruling).** Episodes no longer gate anything: there is no air date and no lockstep tag. Genesis is recorded as crossed on 2026-11-09 (first prod deploy from `main`). Members plan by milestone in `registry/epochs/current.epoch.yml`; spec in `RaBbLE-Versioning.md`. This file is kept as the history of the old gates. The two still-open items moved to the Collective and OS milestones (fresh-VM `setup.sh` run; OS fresh install).
+
 # EP1 Air Checklist — Episode 1 (Genesis)
 
 > **Operational gate** for airing Episode 1. Distinct from `log/episodes/EPISODE-1-RELEASE.md`

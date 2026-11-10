@@ -44,7 +44,7 @@ BUNDLES = [
         "gist/RaBbLE-Collective-Overview-gist.md",
         "gist/RaBbLE-Integration-Map-gist.md",
         "gist/RaBbLE-Roadmap-gist.md",
-        "gist/RaBbLE-Episode1-gist.md",
+        "gist/RaBbLE-Entity-gist.md",
         "gist/RaBbLE-Versioning-gist.md",
         "gist/RaBbLE-CommitStyle-gist.md",
         "gist/RaBbLE-Palette-gist.md",

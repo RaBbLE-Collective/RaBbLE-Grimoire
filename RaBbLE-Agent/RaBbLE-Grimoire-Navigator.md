@@ -14,7 +14,7 @@ You'll know: what RaBbLE is, where every member stands, what blocks Episode 1.
 
 ### Build something (+ ~5,000 tokens)
 3. `CONTEXT.md` — active tracks, where each kind of work lives
-4. `log/BLOCKERS.md` + `log/EP1-AIR-CHECKLIST.md` — open blockers, air gates
+4. `log/BLOCKERS.md` + `registry/epochs/current.epoch.yml` — open blockers, member milestones
 5. Your member's `AGENT.md` + `CONTEXT.md`, then `RaBbLE-<Member>/` here for architecture + roadmap
 6. `log/plans/CONTEXT.md` — is there already a plan for this?
 
@@ -34,7 +34,7 @@ You'll know: what RaBbLE is, where every member stands, what blocks Episode 1.
 | Task | Read |
 |---|---|
 | RaBbLE's character, voice, behavior | `RaBbLE-Agent/RaBbLE-Identity.md` |
-| Current state, blockers, air gates | `log/SESSION-LOG.md` LATEST · `log/BLOCKERS.md` · `log/EP1-AIR-CHECKLIST.md` |
+| Current state, blockers, milestones | `log/SESSION-LOG.md` LATEST · `log/BLOCKERS.md` · `registry/epochs/current.epoch.yml` |
 | Where everything stands, what's next | `RaBbLE-Agent/RaBbLE-Roadmap.md` |
 | Working on a specific member | That member's `AGENT.md` + `CONTEXT.md` · `RaBbLE-<Member>/` |
 | How members connect | `RaBbLE-Agent/RaBbLE-Integration-Map.md` |
@@ -61,7 +61,7 @@ RaBbLE-Grimoire/
 ├── RaBbLE-<Member>/       ← Per-member docs: RaBbLE-<Member>-Architecture.md, -Roadmap.md, ...
 ├── registry/              ← manifests/ (one YAML per member) · epochs/current.epoch.yml
 ├── spells/                ← Coordination bash scripts (catalogue: SPELLS.md)
-├── log/                   ← SESSION-LOG, EP1-AIR-CHECKLIST, BLOCKERS, DECISIONS
+├── log/                   ← SESSION-LOG, BLOCKERS, DECISIONS, archive/
 │   ├── plans/             ← active plans (index: plans/CONTEXT.md), done/ for finished
 │   └── handoffs/          ← cold-start handoffs (index: handoffs/CONTEXT.md), done/ for finished
 ├── AGENT.md               ← Grimoire entry point (CLAUDE.md/CODEX.md/GEMINI.md symlink here)

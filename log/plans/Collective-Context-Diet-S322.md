@@ -11,13 +11,15 @@ harmonize ~ grimoire >> the door costs less, the entity has one page, the loop h
 
 | # | Decision | Recommendation |
 |---|---|---|
-| M1 | **D3, what replaces Episodes** (section 4) | Epochs and Echoes stay; Episodes stop gating; members carry a `milestone`; Genesis is recorded as the 2026-11-09 prod deploy |
+| M1 | **D3, what replaces Episodes** (section 4) | **RULED and applied S322:** Epochs and Echoes stay; Episodes retired; members carry a `milestone`; Genesis recorded as crossed 2026-11-09 |
 | M2 | Delete the 15 `HANDOFF-parked-*` placeholders (400 bytes of `x`, untracked) | Yes. They are the doctor's only remaining warnings |
 | M3 | Entity spec: adopt the three-file split (section 3) | Yes, after the easing pass; `Unified-Entity-Canon.md` is the seed |
-| M4 | Entity: rulings 4 vs 22 and 6 vs 27a (Canon section 9) | One line each from Mark closes them |
-| M5 | Prune the agent memory index (section 5.1) | Yes, about 35 of 122 entries, after their content is confirmed in the Grimoire |
+| M4 | Entity: rulings 4 vs 22 and 6 vs 27a (Canon section 9) | **RULED S322:** four legal calm rests (portal flips and eye rotations); curious is a descriptor, calm is idle without emotion |
+| M5 | Prune the agent memory index (section 5.1) | **Done S322:** 40 older memories moved to `archive/` (not deleted), hooks shortened; index 21.4 KB to 13 KB |
 | M6 | First ambient slice (section 6) | Build A1 to A3 as one vertical slice before any new sensor |
-| M7 | `setup.sh` clones into `~/RaBbLE`; every doc and this machine use `~/RaBbLE-Collective` | Change the default to `~/RaBbLE-Collective` before the G9 fresh-VM run |
+| M8 | Depth over surface (section 8): the stance table, the OS repair order, closing the Pocket clean room | Adopt; it sets what is frozen while accounts lands |
+| M9 | Accounts (`Accounts-Formalization-Scope.md`): store, sign-in methods, invite or open | Rule A1 to A3 there to start AC1 |
+| M7 | `setup.sh` clones into `~/RaBbLE`; every doc and this machine use `~/RaBbLE-Collective` | **Done S322:** default is `~/RaBbLE-Collective` |
 
 ## 2. Done this session
 
@@ -100,7 +102,50 @@ The Collective already emits clean, structured events. No new sensor is needed f
 
 Order: A6, A1, A2, A3 as one vertical slice (about one session each), then A4. A5 and A7 only when the slice shows what recall needs.
 
-## 7. Verify
+## 8. Depth over surface (added after Mark's S322 notes)
+
+Mark: "I generally have more surface than depth at the moment." The count agrees: 11 repos, 4 entity renderers, 6 public subdomains, 30 plans, 15 open blockers, and one user.
+
+Proposed stance per surface until accounts and the first closed loop land:
+
+| Stance | Members | Rule |
+|---|---|---|
+| **Deepen** | sCoRE, World (the door only), the unified entity | accounts (`Accounts-Formalization-Scope.md`), the first loop (section 6), one rig |
+| **Repair, then hold** | OS | fix what the S318 audit found, prove one fresh install, then no new layers |
+| **Finish the move, then hold** | Pocket | land the core/apps reorg so the tree builds from one layout; no new clean-room waves, no public split work |
+| **Maintain** | Grimoire, Aether, NeBuLA | changes only in service of the three threads |
+| **Freeze** | ScRiBbLE, Xperimental, Chrysalis, BaBbLE, TaskViSoR, SiGiL, EnGrAm as a separate member | no new work; BaBbLE gets its backup (B-23) and nothing else |
+
+### 8.1 OS Ansible: a repair order
+
+185 YAML files, about 9,500 lines, 11 role groups. The S318 audit (`Collective-Coherency-Audit-S318/audit-ansible.md`) found 1 critical, 10 high, 15 medium. The structural cause is in its M1: `manifest.yml` is described as the source of truth but 51 packages are installed by tasks outside it, so no one place says what a machine gets.
+
+| Step | Action |
+|---|---|
+| O1 | A check that runs without a VM: `ansible-playbook --syntax-check`, `ansible-lint`, and a script that fails when a task installs a package the manifest does not list. Run it in the pre-commit hook |
+| O2 | Fix the install-breaking findings in the audit's order: C1 (RPM Fusion never enabled), H3 (root's HOME under `become`), H1 (`uv` used before it is installed), H5 (llama.cpp), H4 (`layerctl remove` reinstalls) |
+| O3 | H2 is half done: S322 pointed `setup.sh` and the kickstart at `~/RaBbLE-Collective`, which is what the roles hardcode. Still derive the path from `rabble_repo_root` so it cannot drift again |
+| O4 | One fresh install of the `core` edition in a VM (never on Mark's machine), start to desktop, recorded. That is the OS milestone |
+| O5 | Only then: the medium findings, and editions (`OS-Install-Editions-Plan.md`) |
+
+Until O4 passes, no new layer or recipe.
+
+### 8.2 Pocket: reduce the moving parts
+
+Three efforts overlap: the clean room (W0-W11), the licence split (Apache SDK, Accord middleware and app; B-27 D1-D5 open), and the core/apps reorg (R0-R10, partly landed in S314 and S316). Each changes where files live, so each invalidates the others' paths and specs.
+
+Recommendation:
+
+1. **Close the clean room at what is built.** Mark ruled it history and public (S318 D1) and ruled out lawyer review. W8-W11 specs stay as design notes; no further two-team waves.
+2. **One layout, licence by directory**, as the reorg plan already says. Finish the reorg in one pass and make the build green from that tree.
+3. **Defer the public split** (B-24 name, B-27 D1-D5, open SDK repo) until a second person is running a Pocket. Mark's dad's device is the trigger.
+4. **Fix B-22** (dropped voice note) before any of it: it is the one defect a user would meet.
+
+### 8.3 What this buys
+
+Three threads instead of eleven. Each has a stated outcome and an exit: a returning user, one unprompted observation, one entity drawn the same everywhere.
+
+## 9. Verify
 
 ```bash
 bash spells/grimoire-doctor.sh            # 0 errors, 15 warnings (parked placeholders)

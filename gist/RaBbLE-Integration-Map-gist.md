@@ -28,6 +28,6 @@ Wiring diagram of the Collective: how members exchange data, assets, and intent.
 - OS provides state and receives no writes
 - NeBuLA owns all rendering; Aether owns all CSS and tokens
 
-**Post-Episode-1:** real-time entity state (sCoRE → NeBuLA), observation loop (OS → sCoRE → Memory), intent suggestion, ScRiBbLE sync.
+**Next (Exodus):** real-time entity state (sCoRE → NeBuLA), observation loop (OS → sCoRE → Memory), intent suggestion, ScRiBbLE sync.
 
-→ Full doc for: member architecture doc links, dependency graph diagram, production versioning at Episode boundaries, post-Ep1 integration details, Cloudflare specifics.
+→ Full doc for: member architecture doc links, dependency graph diagram, production versioning, later integration details, Cloudflare specifics.

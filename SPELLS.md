@@ -333,7 +333,7 @@ bash spells/distill-gists.sh                  # regenerate all
 bash spells/distill-gists.sh identity         # one gist (by slug)
 ```
 
-**Available slugs:** identity, collective, roadmap, commitstyle, versioning, palette, overview, episode1, integration
+**Available slugs:** identity, collective, roadmap, commitstyle, versioning, palette, overview, integration (the entity gist is hand-written)
 
 **Requires:** `claude` CLI in PATH.
 
@@ -553,7 +553,7 @@ Blockers used to live ONLY in the 75-word `## LATEST` box of `SESSION-LOG.md`, w
 rewritten every session — so open/resolved state got **clobbered** and lost between sessions.
 `blockers.sh` is the durable home: an append-only event stream (`log/blockers/blockers.jsonl`,
 events `open`/`resolve`) that **generates** `log/BLOCKERS.md`. The LATEST box now only *points*
-to it. `status.sh` surfaces the open count; `EP1-AIR-CHECKLIST.md` references `tag:ep1-gate` ids.
+to it. `status.sh` surfaces the open count.
 
 ```bash
 bash spells/blockers.sh add "<summary>" --owner Mark --tag ep1-gate [--since SNNN]  # open (prints B-NN)

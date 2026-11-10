@@ -49,7 +49,7 @@ worktree_root: ~/RaBbLE-Collective/RaBbLE-[Name]
 phase: 0
 epoch: 0
 status: active | scaffold | dormant | experimental | deprecated
-release_track: episode | independent   # episode = airs in lockstep on the epoch active_branch; independent = sandbox/archive
+release_track: lockstep | independent   # lockstep = works on the epoch active_branch; independent = sandbox/archive
 palette_version: "1.0"
 entity_embedded: true
 pulse_protocol: true

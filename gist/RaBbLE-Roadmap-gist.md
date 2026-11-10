@@ -1,34 +1,25 @@
 # RaBbLE-Roadmap — gist
 
-> Source: `RaBbLE-Agent/RaBbLE-Roadmap.md` | ~2746 → ~560 tokens
-> Regenerate: `bash spells/distill-gists.sh`
+> Source: `RaBbLE-Agent/RaBbLE-Roadmap.md` | ~1900 → ~330 tokens
+> Hand-synced S322 (Episodes retired). Regenerate: `bash spells/distill-gists.sh roadmap`
 
-The one Collective-level map: where each member stands, what Episode 1 (Genesis) ships, and the arc after it. It points to other docs rather than restating them. If it disagrees with `log/EP1-AIR-CHECKLIST.md`, the checklist wins.
+The one Collective-level map. If it disagrees with `registry/epochs/current.epoch.yml`, the epoch file wins.
 
-**Position (2026-10-13, S248):** Epoch 0 · Episode 1 Genesis, staging, not yet aired, no date set. Version v0.0.0.0 → v0.0.0.1 at air. Gates G1–G6 and G8 are green. G7 is met but not recorded. G9 is blocked. G10 awaits Mark's sign-off. Air is Mark's call once every row is green.
+**Position (2026-11-10):** Epoch 0, Foundation. Arc **Genesis** (expression) crossed 2026-11-09 when `joinrabble.world` deployed from `main`. Now in arc **Exodus** (senses and users). Episodes are retired: nothing "airs"; each member works to its own milestone; the Collective marks stability with Echoes.
 
-**Members:**
+**What exists:** a face (web, terminal, Pocket), a voice, a hosted engine (`score.joinrabble.world`), a design system and renderer on CDN, a Developer Preview OS, a bootstrap. RaBbLE does not yet observe, remember, or speak first, and has no user accounts.
 
-| Track | Members |
-|---|---|
-| Lockstep (tag `episode-1-v0.0.0.1` together) | sCoRE (live on Render), World, NeBuLA (CDN `v0.0.0.1-rc.1`), Aether (CDN `v0.0.0.1-rc.2`), OS (Developer Preview), Grimoire, BaBbLE, Collective |
-| Independent | ScRiBbLE, Pocket, Chrysalis, Xperimental |
-| Not yet built | EnGrAm (concept, Exodus), TaskViSoR (scaffold, Echo 1) |
+**Now (depth over surface)**
 
-**Genesis ships:** a face and a voice. A visitor reaches `joinrabble.world`, the entity boots, and sCoRE answers in persona. It also ships a Developer Preview OS and a bootstrap. RaBbLE does not yet observe, remember, or speak unprompted.
+| Thread | Outcome | Plan |
+|---|---|---|
+| Accounts | a visitor becomes a user | `log/plans/Accounts-Formalization-Scope.md` |
+| First closed loop | observe, store, recall, express, offline | `log/plans/Collective-Context-Diet-S322.md` §6 |
+| One entity | every surface draws the same rig | `log/plans/Unified-Entity/` |
+| OS | fresh install passes on a generic VM | S318 `audit-ansible.md` |
 
-**Left before air:**
-- G9: `setup.sh` must clone on a fresh machine (B-17).
-- G7: record the OS preview floor.
-- G10: face polish.
-- Public face.
-- Air procedure: checklist §D.
+**Tracks:** lockstep on `new-horizons`: sCoRE, World, NeBuLA, Aether, OS, Grimoire, BaBbLE, Collective. Independent: ScRiBbLE, Pocket, Chrysalis, Xperimental. Not built: EnGrAm (memory), TaskViSoR.
 
-**After Genesis:**
-- **Episode 2, Exodus:** local harness and `rabble` CLI, Watcher daemon, EnGrAm memory, user accounts.
-- **Episode 3, Covenant:** named, not scoped.
-- **Echo 1:** the learning loop closes. It is the first stable release, and breaking changes are reserved for Echo boundaries.
+**Later:** Echo 1 is the first stable release: the learning loop closes. Contract-breaking changes only at Echo boundaries. Arc names (Covenant and on) are lore, not gates.
 
-Episodes air when a vertical slice closes, not on a calendar.
-
-→ Full doc for: per-member state details, open questions (observation ethics, cloud/local split), cadence and branch decision, revision history, Exodus item list
+→ Full doc for: per-member state table, open questions (observation ethics, cloud/local split), revision history

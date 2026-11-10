@@ -18,7 +18,7 @@ log/
   BLOCKERS.md          Durable blocker ledger (spells/blockers.sh)
   DECISIONS.md         Human-curated architectural decisions
   AUDITS.md            Completed audits + open gaps
-  EP1-AIR-CHECKLIST.md Live EP1 gate tracker (G7/G9 pending)
+  EP1-AIR-CHECKLIST.md RETIRED S322 (old Episode 1 gate table, kept as history)
   G7-G9-Verification-Guide.md  Step-by-step for G7 + G9 verification
   RaBbLE-Development-History.md  5-minute narrative of Collective eras + pivots
   token-ledger.tsv     Session → feature breadcrumbs (feeds session-tokens.sh)

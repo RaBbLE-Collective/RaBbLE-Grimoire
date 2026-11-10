@@ -34,6 +34,7 @@ this table is a one-line pointer. 🟡 = in flight / awaiting Mark · 🔵 = des
 | `OS-VM-Dev-Flow.md` | 🟡 Part 1 done; cast VM + build-loop spell pending (S236 drove virt-install directly) |
 | `OS-Install-Editions-Plan.md` | 🔵 S283 design — core/user/dev/creative/full editions, manifest `edition:` field, installer `--edition`, plus disk reclaim + backup actions; D1 to D5 decided, D6 deferred, ready for W1 |
 | `OS-Theming-Variants-Plan.md` | 🔵 S204 design — variants + profiles + contrast QA; awaiting Mark's calls |
+| `Accounts-Formalization-Scope.md` | 🔵 S322 scope: a visitor becomes a user. What sCoRE already has (user record, tokens, invites, summon), gaps G1-G8, slices AC1-AC7, decisions A1-A7 for Mark. Nothing built |
 | `EP2-Accounts-Encryption-Spec.md` | 🔵 EP2 draft — the user scaffold: accounts/sessions first, then encrypted ingestion |
 | `NeBuLA-Pocket-Puppet-Rendering-Pipeline.md` | 🔵 research — shared rig/animation pipeline for NeBuLA + Pocket |
 | `sCoRE-Extensibility-Refactor-Plan.md` | 🔵 S193 — options A/B/C, awaiting Mark's choice; post-air |

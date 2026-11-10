@@ -16,10 +16,10 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
   echo ""
   echo "Usage: bash spells/status.sh"
   echo ""
-  echo "Shows: epoch, branch, git state, episode alignment (in-step / off-track),"
+  echo "Shows: epoch, branch, git state, branch alignment (in-step / off-track),"
   echo "AGENT.md presence, and symlink status for every member in registry/manifests/."
   echo ""
-  echo "Alignment: members on 'release_track: episode' must sit on the epoch's"
+  echo "Alignment: members on 'release_track: lockstep' must sit on the epoch's"
   echo "active_branch to be 'in-step'; 'release_track: independent' members are exempt."
   exit 0
 fi
@@ -51,7 +51,8 @@ get_manifest_field() {
 EPOCH_FILE="$GRIMOIRE_ROOT/registry/epochs/current.epoch.yml"
 EPOCH_NUM=$(grep "^epoch:" "$EPOCH_FILE" 2>/dev/null | awk '{print $2}' || echo "?")
 EPOCH_NAME=$(grep "^name:" "$EPOCH_FILE" 2>/dev/null | sed 's/^name:[[:space:]]*//' | tr -d '"' || echo "Unknown")
-EPISODE_PENDING=$(grep "^episode_pending:" "$EPOCH_FILE" 2>/dev/null | awk '{print $2}' || echo "?")
+ARC=$(grep "^arc:" "$EPOCH_FILE" 2>/dev/null | sed 's/^arc:[[:space:]]*//' | tr -d '"' || echo "")
+ARC_NEXT=$(grep "^arc_next:" "$EPOCH_FILE" 2>/dev/null | sed 's/^arc_next:[[:space:]]*//; s/[[:space:]]*#.*//' | tr -d '"' || echo "")
 ACTIVE_BRANCH=$(grep "^active_branch:" "$EPOCH_FILE" 2>/dev/null | sed 's/^active_branch:[[:space:]]*//' | tr -d '"' || echo "")
 
 # Collect off-track members for an end-of-report summary.
@@ -74,7 +75,7 @@ resolve_dir() {
 
 # In-step marker for a member.
 #   release_track=independent → exempt (sandbox/archive)
-#   release_track=episode     → must be on $ACTIVE_BRANCH, else off-track
+#   release_track=lockstep    → must be on $ACTIVE_BRANCH, else off-track ("episode" = old spelling, same meaning)
 align_marker() {
   local track="$1" actual="$2"
   if [[ "$track" == "independent" ]]; then
@@ -89,7 +90,7 @@ align_marker() {
 echo ""
 pulse "RaBbLE-Grimoire — Status"
 pulse "════════════════════════════════════════════════════════"
-info "  Epoch ${EPOCH_NUM}: ${EPOCH_NAME}  ·  Episode ${EPISODE_PENDING} pending  ·  active branch: ${ACTIVE_BRANCH:-—}"
+info "  Epoch ${EPOCH_NUM}: ${EPOCH_NAME}  ·  arc: ${ARC:-—} crossed, toward ${ARC_NEXT:-—}  ·  active branch: ${ACTIVE_BRANCH:-—}"
 echo ""
 
 # Header row
@@ -105,7 +106,7 @@ modified=$(git -C "$GRIMOIRE_ROOT" status --porcelain 2>/dev/null | wc -l | tr -
   && state="${GREEN}clean${RESET}" \
   || state="${VIOLET}~${modified}${RESET}"
 printf "  %-20s %-16s %b      %b   ${CYAN}canonical${RESET}\n" \
-  "RaBbLE-Grimoire" "$branch" "$state" "$(align_marker episode "$branch")"
+  "RaBbLE-Grimoire" "$branch" "$state" "$(align_marker lockstep "$branch")"
 [[ -n "$ACTIVE_BRANCH" && "$branch" != "$ACTIVE_BRANCH" ]] && OFF_TRACK+=("RaBbLE-Grimoire ($branch)")
 
 # Project modules from manifests
@@ -157,38 +158,25 @@ fi
 echo ""
 pulse "────────────────────────────────────────────────────────"
 
-# Episode alignment summary — the "moving toward episodes in step" check
+# Branch alignment summary: lockstep members share the epoch active_branch
 if [[ ${#OFF_TRACK[@]} -eq 0 ]]; then
-  info "  Episode alignment:  ${GREEN}all lockstep members in step on ${ACTIVE_BRANCH}${RESET}"
+  info "  Branch alignment:   ${GREEN}all lockstep members in step on ${ACTIVE_BRANCH}${RESET}"
 else
-  echo -e "${RED}  Episode alignment:  ${#OFF_TRACK[@]} member(s) off-track${RESET}"
+  echo -e "${RED}  Branch alignment:   ${#OFF_TRACK[@]} member(s) off-track${RESET}"
   for m in "${OFF_TRACK[@]}"; do
     echo -e "${YELLOW}    ⚠ $m${RESET}"
   done
 fi
 
-# Episode-1 blockers declared in the epoch focus map
-BLOCKERS=$(awk '
-  /^  [A-Za-z][A-Za-z-]*:[[:space:]]*$/ { m=$1; sub(/:$/,"",m); next }
-  /episode_1_blocker:[[:space:]]*true/  { print m }
-' "$EPOCH_FILE" 2>/dev/null | paste -sd, - | sed 's/,/, /g')
-if [[ -n "$BLOCKERS" ]]; then
-  echo -e "${YELLOW}  Episode ${EPISODE_PENDING} blockers:  ${BLOCKERS}${RESET}"
-else
-  info "  Episode ${EPISODE_PENDING} blockers:  none declared"
-fi
-
 # Durable blocker ledger (log/BLOCKERS.md, via blockers.sh) — survives the
-# SESSION-LOG ## LATEST rewrite. The epoch focus-map line above is per-member
-# coarse-grain; this is the live open count across the whole Collective.
+# SESSION-LOG ## LATEST rewrite. The live open count across the whole Collective.
 BLOCKERS_SH="$GRIMOIRE_ROOT/spells/blockers.sh"
 if [[ -x "$BLOCKERS_SH" ]]; then
   open_total=$(bash "$BLOCKERS_SH" open-count 2>/dev/null || echo "?")
-  open_ep1=$(bash "$BLOCKERS_SH" open-count --tag ep1-gate 2>/dev/null || echo "?")
   if [[ "$open_total" == "0" ]]; then
     info "  Open blockers:      none — see log/BLOCKERS.md"
   else
-    echo -e "${YELLOW}  Open blockers:      ${open_total} (${open_ep1} ep1-gate) — see log/BLOCKERS.md${RESET}"
+    echo -e "${YELLOW}  Open blockers:      ${open_total} — see log/BLOCKERS.md${RESET}"
   fi
 fi
 

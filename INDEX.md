@@ -17,11 +17,11 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 |---|---|---|
 | `gist/RaBbLE-Identity-gist.md` | Identity, character, voices, behavioral rules | ~320 |
 | `gist/RaBbLE-Collective-gist.md` | Member roles, architecture, bootstrap | ~400 |
-| `gist/RaBbLE-Roadmap-gist.md` | Episode 1 status, blockers, what's next | ~320 |
+| `gist/RaBbLE-Roadmap-gist.md` | Position, the three current threads, tracks | ~330 |
 | `gist/RaBbLE-CommitStyle-gist.md` | Pulse Protocol, impulses, branch naming | ~320 |
-| `gist/RaBbLE-Versioning-gist.md` | Five Es, version string, lockstep rule | ~350 |
+| `gist/RaBbLE-Versioning-gist.md` | Tiers, milestones, version string, contracts | ~300 |
 | `gist/RaBbLE-Palette-gist.md` | All hex values, CSS variables | ~270 |
-| `gist/RaBbLE-Episode1-gist.md` | Live EP1 gate table, blockers, tag procedure | ~335 |
+| `gist/RaBbLE-Entity-gist.md` | The entity's body: parts, moves, render rules | ~330 |
 | `gist/RaBbLE-Integration-Map-gist.md` | Cross-member data flow, CDN chain, boundaries | ~350 |
 
 ---

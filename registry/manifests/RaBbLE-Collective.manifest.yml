@@ -17,7 +17,7 @@ worktree_root: ~/RaBbLE-Collective
 phase: 0
 epoch: 0
 status: active
-release_track: episode      # airs in Episode lockstep — tracks epoch active_branch
+release_track: lockstep      # works on the epoch active_branch; status.sh flags it if not (set independent for sandbox/archive)
 
 # Collective alignment
 palette_version: "1.0"

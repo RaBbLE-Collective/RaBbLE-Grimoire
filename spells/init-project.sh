@@ -327,7 +327,7 @@ worktree_root: ~/RaBbLE-Collective/${SLUG}
 phase: ${EPOCH}
 epoch: ${EPOCH}
 status: scaffold
-release_track: episode      # airs in Episode lockstep — tracks epoch active_branch (set 'independent' for sandbox/archive)
+release_track: lockstep      # works on the epoch active_branch; status.sh flags it if not (set independent for sandbox/archive)
 
 palette_version: "1.0"
 entity_embedded: true

@@ -18,7 +18,7 @@ worktree_root: RaBbLE-TaskViSoR
 phase: 0
 epoch: 0
 status: scaffold                   # scaffold — no repo yet; Layer 1 ships as a World page
-release_track: independent         # no EP1 deliverable; Echo 1 target for Layer 1
+release_track: independent         # own pace; Echo 1 target for Layer 1
 
 # Collective alignment
 palette_version: "1.0"

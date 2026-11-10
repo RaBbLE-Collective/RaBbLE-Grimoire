@@ -3,139 +3,71 @@ name: "Foundation"
 status: active
 started: 2026-04-28
 
-episode_pending: 1
-episode_name: "Genesis"
-episode_note: >
-  Events are accumulating toward Episode 1 — not yet aired. Episode 1 airs
-  when it feels like a coherent stable-ish point across the ecosystem: members
-  bootstrappable, session entry points lean, Grimoire as established source of
-  truth, joinrabble.world live with sCoRE wired. Will be tagged
-  episode-1-v0.0.0.1 across all active repos simultaneously.
+# Episodes were retired as the planning unit (Mark, S318 D3; applied S322).
+# Members plan by milestone (focus: below). The Collective marks stability with
+# Echoes. Spec: RaBbLE-Versioning.md. Arc names are lore, not gates.
+arc: "Genesis"
+arc_crossed: 2026-11-09      # joinrabble.world first deployed from main (World PR #2, S318)
+arc_next: "Exodus"           # observation, memory, the first closed behavioral loop
 
-version_current: "v0.0.0.0"
-version_next: "v0.0.0.1"
+version_collective: "v0.0.0" # Epoch.Evolution.Echo; the fourth slot is per member
 
-# Pre-episode convergence branch. Every member on `release_track: episode`
-# (see registry/manifests/) works here until Episode 1 airs, then merges to
-# main and tags episode-1-v0.0.0.1 simultaneously. `spells/status.sh` flags any
-# lockstep member NOT on this branch as off-track. Members on
-# `release_track: independent` (sandbox/archive) are exempt.
+# Members with `release_track: lockstep` in their manifest work on this branch;
+# spells/status.sh flags any that are not. `independent` members are exempt.
+# main = release: reach it by pull request only (World main deploys production).
 active_branch: "new-horizons"
 
-# ── Episode/Plot structure ────────────────────────────────────────────────────
-# During Episode 1: all active projects accumulate Events in Plots (A, B, C...).
-# Plots reference the episode they belong to: "Episode 1, Plot A".
-# Episode 1 airs simultaneously across the Collective.
-#
-# ── Echo coherence policy ─────────────────────────────────────────────────────
-# After Episode 1 airs, per-project episode tracks may diverge.
-# Echo-level versioning is maintained in lockstep: no project should be more
-# than ~1-2 episodes ahead of others toward the Echo milestone (~12 episodes).
-# The Grimoire tracks Collective episode position and flags divergence.
-episode_coherence_policy: >
-  During Episode 1: Collective-wide lockstep. All projects air Episode 1 together.
-  A member may air Episode 1 as a labeled Developer Preview (a reduced, explicit
-  bar) without holding back the lockstep, provided its rough edges are documented
-  and it meets its declared preview floor. (RaBbLE-OS, Episode 1 — decided S109.)
-  Episodes 2+: per-project pacing allowed but Grimoire maintains coherence.
-  Max divergence: ~1-2 episodes. Echo (~12 episodes) targeted collectively.
-
 intent: >
-  Establish the Collective coordination layer. Define the structure,
-  conventions, and philosophy before building anything. Identity locked.
-  Visual system (Aether + NeBuLA) built. Web presence live. sCoRE deployed.
-  This epoch is complete when joinrabble.world is live and bootstrappable.
+  Establish the coordination layer, the identity, the visual system and a public
+  door. Expression first: a face, a voice, a substrate.
 
 exit_condition: >
-  joinrabble.world is live — landing page, entity visual, basic chat wired to sCoRE.
-  sCoRE is deployed to Render and reachable.
-  RaBbLE-OS airs as a labeled Developer Preview — "enter at your own risk,
-  unstable vibes." Installs, recovers, and is daily-survivable on a generic
-  x86_64 machine (VM-verified) by a Linux + tiling-WM-literate user willing to
-  tolerate quirks, with known rough edges documented. Full reproducible polish
-  bakes toward Episode 2 (Exodus).
-  All active member repos tagged episode-1-v0.0.0.1 simultaneously.
-  Collective bootstrap (bootstrap.sh) verified end-to-end.
+  Epoch 0 ends at the first closed loop: with the laptop offline, RaBbLE observes
+  something, stores it, recalls it and expresses it. Named in hindsight.
+exit_evidence:
+  - "DONE  joinrabble.world live from main: entity face + live sCoRE chat (S318)"
+  - "DONE  sCoRE deployed and reachable (S106)"
+  - "DONE  Aether + NeBuLA served from their CDN subdomains (S153)"
+  - "OPEN  setup.sh end to end on a fresh VM"
+  - "OPEN  OS fresh install passes after the S318 Ansible findings are fixed"
+  - "OPEN  first closed loop (log/plans/Collective-Context-Diet-S322.md, section 6)"
 
+# One milestone per member. milestone = what it is working toward now;
+# status = where it stands, with evidence. Update when either changes.
 focus:
   RaBbLE-Collective:
-    priority: primary
-    milestone: "Bootstrap verified, all members cloneable, tagged episode-1"
-    status: "Active — setup.sh served via joinrabble.world/setup.sh redirect (live on dev; prod at air merge)"
-    episode_1_blocker: true
-    blocker_note: "G9: unblocked S250 (B-17 resolved: all members public or skipped, manifests on https, anonymous clones verified). Still needs the end-to-end run on a fresh VM."
-
+    milestone: "setup.sh verified end to end on a fresh VM"
+    status: "served at joinrabble.world/setup.sh; anonymous clones verified S250; fresh-VM run not done"
   RaBbLE-Grimoire:
-    priority: primary
-    milestone: "Single source of truth, Navigator live, all manifests accurate"
-    status: "Active — docs coherent, registry current"
-    episode_1_blocker: false
-
-  RaBbLE-OS:
-    priority: active
-    track: developer-preview
-    milestone: "Episode 1 Developer Preview ('enter at your own risk') — installs + recovers + daily-survivable on generic x86_64 (VM-verified) for a Linux/tiling-WM-literate, quirk-tolerant user; rough edges documented. Full polish → Episode 2 (Exodus)."
-    status: "Active — airs EP1 as a labeled preview (S109 decision). G7 evidence: VM install passed S236, bare metal passed S238; confirmation run deferred by Mark (S248). Preview FLOOR = recovery path + reproducible install + known-rough-edges sheet on generic x86_64; deep theming + Mark-hardware (NVIDIA/asusctl/XDNA2) polish deferred to Exodus."
-    episode_1_blocker: false
-    blocker_note: "Decoupled from full-polish bar S109 — OS airs as a Developer Preview so the Collective ships EP1 together; OS keeps hardening toward EP2."
-
-  RaBbLE-Aether:
-    priority: active
-    milestone: "CSS design system bundle, CDN-ready at /aether/v0.0.0.1/"
-    status: "Active — v0.0.0.1-rc.2 live at aether.joinrabble.world; promote to v0.0.0.1 at air"
-    episode_1_blocker: false
-
-  RaBbLE-NeBuLA:
-    priority: active
-    milestone: "Canvas2D entity renderer at 60 FPS, <rabble-entity> registered, CDN-ready"
-    status: "Active — <rabble-entity backend=\"alive\"> (2D on WebGL + 3D), setInsets, effects, Studio MVP; v0.0.0.1-rc.1 live at nebula.joinrabble.world"
-    episode_1_blocker: false
-
-  RaBbLE-World:
-    priority: active
-    milestone: "joinrabble.world live: landing + chat wired to sCoRE"
-    status: "Active — prod LIVE (older build, deploys from main at air); dev serves the S235 five-beat face (wake RaBbLE → boot → live sCoRE chat → Summon → Enter)"
-    episode_1_blocker: true
-    # Prod deploy DONE (S120). B-01 (guest/invite chat path), B-03 (CORS
-    # allow_origin_regex), B-04 (Aether+NeBuLA CDN Workers) all resolved S153.
-    # Durable open-blocker home is log/BLOCKERS.md (tag:ep1-gate) + log/EP1-AIR-CHECKLIST.md
-    # §A — this note no longer drifts. Real open set: B-02 · B-09 · B-10.
-    blocker_note: "G10 (S249): dev face not signed off yet (needs more work, Mark); /chrysalis/ removed (dev router 301, prod clears at air merge). Spine gates G1-G6 green. Tracked in log/EP1-AIR-CHECKLIST.md."
-
+    milestone: "Cheap, true orientation: every agent oriented in under 8k tokens"
+    status: "S322: log rotated, hub indexing, entity digest; D3 sweep applied"
   RaBbLE-sCoRE:
-    priority: active
-    milestone: "LLM endpoint deployed to Render (free tier), callable from World chat"
-    status: "LIVE on Render (S106) at score.joinrabble.world (proxy Worker, keep-warm cron); guest chat SSE, Groq fast chain, /api/v1/beam for Pocket (S243); managed via spells/render-ctl.sh"
-    episode_1_blocker: false
-    blocker_note: "Resolved S106 — sCoRE deployed and reachable; chat verified end-to-end"
-
-  RaBbLE-ScRiBbLE:
-    priority: active
-    milestone: "Mobile PWA — Epoch 1+, started early at Mark's request"
-    status: "LIVE at scribble.joinrabble.world (S234): neon note PWA v1, infinite canvas, local-only IndexedDB"
-    episode_1_blocker: false
-
-  RaBbLE-BaBbLE:
-    priority: active
-    milestone: "Formalized as Collective member — intake workspace live"
-    status: "Active — AGENT.md/CONTEXT.md/README.md, manifest registered, git repo initialized"
-    episode_1_blocker: false
-
-  RaBbLE-Chrysalis:
-    priority: reference
-    milestone: "Genesis archive — no new development; reliquary for archived branches"
-    status: "Genesis-archive — origin code October 2025; RaBbLE-OS reliquary branches migrated here (S94)"
-    episode_1_blocker: false
-
-  RaBbLE-Xperimental:
-    priority: active
-    milestone: "Active sandbox — rablets and experiments not yet emerged as full members"
-    status: "Active — distinct from Chrysalis; cloned, on branch new-horizons since S189"
-    episode_1_blocker: false
-
+    milestone: "Accounts: a visitor can become a user (log/plans/Accounts-Formalization-Scope.md)"
+    status: "LIVE score.joinrabble.world: guest chat SSE, Groq chain, /api/v1/beam; rabble Rust TUI; no user accounts yet"
+  RaBbLE-World:
+    milestone: "Sign-in door on joinrabble.world, wired to sCoRE accounts"
+    status: "prod deploys from main (S318); five-beat entity face"
+  RaBbLE-NeBuLA:
+    milestone: "Entity drawn from the unified rig (log/plans/Unified-Entity/)"
+    status: "<rabble-entity backend=\"alive\"> 2D + 3D; CDN v0.0.0.1-rc.1"
+  RaBbLE-Aether:
+    milestone: "Cut v0.0.0.1 (carries the S320 Void retirement)"
+    status: "CDN v0.0.0.1-rc.2 at aether.joinrabble.world"
+  RaBbLE-OS:
+    milestone: "Fresh install passes on a generic x86_64 VM (Ansible audit C1, H1-H8)"
+    status: "daily driver; VM install S236, bare metal S238; audit S318: 1 critical, 10 high open"
   RaBbLE-Pocket:
-    priority: active
-    track: independent
-    milestone: "Pendant companion: RaBbLE face + push-to-talk voice to sCoRE"
-    status: "Active — RaBbLE gadget firmware (IDF v6.0.1), LVGL face, IMU motion, voice beamed to sCoRE /api/v1/beam (S243); unexplained reboots open"
-    episode_1_blocker: false
+    milestone: "Core/apps reorg lands; firmware builds from one tree"
+    status: "ESP32-S3 pendant, voice beamed to sCoRE; clean room W0-W7 done; B-22, B-27, B-28 open"
+  RaBbLE-ScRiBbLE:
+    milestone: "none set"
+    status: "LIVE scribble.joinrabble.world: note PWA v1, local-only"
+  RaBbLE-BaBbLE:
+    milestone: "A remote and a backup (B-23)"
+    status: "intake workspace; 59+ local-only commits"
+  RaBbLE-Xperimental:
+    milestone: "none (sandbox)"
+    status: "rablets and drops"
+  RaBbLE-Chrysalis:
+    milestone: "none (archive)"
+    status: "genesis archive + reliquary; holds the June 2026 World build"

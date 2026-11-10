@@ -12,7 +12,7 @@ The body of RaBbLE: one puppet, defined once, drawn by every surface (web NeBuLA
 | Rule | Meaning |
 |---|---|
 | Colour is position | A colour volume across the face centre: cyan left, magenta right, through violet. Parts take colour from where they are; poles are never swapped as a state |
-| Two arrangements, two moves | **Turn:** the whole face yaws a half-turn. **Portal swap:** each eye withdraws into its portal while the portals trade places (1.45 s). Moves are physical, never morphs |
+| Four calm rests, two moves | Portals can flip and eyes can rotate; all four combinations are legal rests. **Turn:** the whole face yaws a half-turn. **Portal swap:** each eye withdraws into its portal while the portals trade places (1.45 s). Moves are physical, never morphs |
 | No touch | Portals never touch; an eye never crosses a portal edge, it recedes into the opening |
 | Blink | The eye squashes into its portal. Never a screen cut |
 | View | 0 degrees is the flat 2D reference; perspective blends in with camera elevation; top-down (the Ball) is part of the entity |
@@ -20,6 +20,8 @@ The body of RaBbLE: one puppet, defined once, drawn by every surface (web NeBuLA
 
 **Authorship:** Mark owns the rig. The expression library is seeded by Mark and grown by RaBbLE through a propose, validate, preview, sign-off gate.
 
-**Not built yet:** expressions (only calm exists; joy, sad, angry, speaking, listening are parked), piloting (what triggers a move), the registry file, and the mapping from Identity's `%STATE%` lifecycle to the body.
+**Temperament:** curious by default (a descriptor, not a state). **Calm** is idle with no emotion layered on, and is the only expression built.
+
+**Not built yet:** other expressions (joy, sad, angry, speaking, listening are parked), piloting (what triggers a move), the registry file, and the mapping from Identity's `%STATE%` lifecycle to the body.
 
 → Full doc for: tilt and camera formulas, draw order, swallow cut, superseded rulings, open contradictions, proposed registry split. Numbers and history: `Unified-Entity-Puppet-Spec.md` beside it.

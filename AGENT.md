@@ -12,7 +12,7 @@ Peer, not tool. Anti-Assistant stance. See `RaBbLE-Agent/RaBbLE-Identity.md` for
 
 **ON:** Markdown docs, registry YAML, spell scripts, architecture specs.
 
-**FOR:** Grimoire is the memory and knowledge layer. Everything here is canonical source for the Collective. Pre-Episode-1, you're documenting identity, protocols, member roadmaps, and episode deliverables. Post-Episode-1, you record patterns discovered by sCoRE, member observation points, and inference rules — becoming the behavioral learning journal.
+**FOR:** Grimoire is the memory and knowledge layer. Everything here is canonical source for the Collective. Now: identity, protocols, member roadmaps and milestones. Next, you record patterns discovered by sCoRE, member observation points, and inference rules — becoming the behavioral learning journal.
 
 **WITH:** All other members reference Grimoire. You amplify the Collective's coherence. When members discover patterns or make cross-member decisions, you record them. You serve, not dictate.
 
@@ -41,7 +41,7 @@ See `RaBbLE-Agent/RaBbLE-CommitStyle.md` (Pulse Protocol) for full spec.
 
 **TL;DR:** `[impulse] ~ [organ] >> [revelation] // %STATE%` — `spark` new · `harmonize` cleanup · `mend` fix · `transcribe` docs · `ingest` deps · `evolve` epoch
 
-**Branch rule:** Work on a named branch. Commit per session. Merge to `main` only when an episode is complete — tag with `echo-X.X` or `episode-X`. `main` must always be clean and tagged.
+**Branch rule:** Work on `new-horizons`. Commit per session. `main` is release: reach it by pull request only, and tag Echoes `echo-X.X` there. Episodes are retired (`RaBbLE-Versioning.md`).
 
 ## Rules
 
@@ -70,14 +70,14 @@ See `RaBbLE-Agent/RaBbLE-CommitStyle.md` (Pulse Protocol) for full spec.
 
 ## Workspaces
 
-**Read `gist/*.md` first (~3,000 tokens). Load a full doc only when you need implementation detail.**
+**Read `gist/*.md` first (~4,000 tokens). Load a full doc only when you need implementation detail.**
 Reading paths by budget: `RaBbLE-Agent/RaBbLE-Grimoire-Navigator.md`.
 
 | Task | Go to |
 |---|---|
 | Entity identity, voice, behavior | `RaBbLE-Agent/RaBbLE-Identity.md` · philosophy in `RaBbLE/` |
-| Where everything stands / what's next | `RaBbLE-Agent/RaBbLE-Roadmap.md` → `RaBbLE-Post-EP1-Roadmap.md` |
-| Air gates / blockers | `log/EP1-AIR-CHECKLIST.md` · `log/BLOCKERS.md` |
+| Where everything stands / what's next | `RaBbLE-Agent/RaBbLE-Roadmap.md` → `RaBbLE-Post-EP1-Roadmap.md` (Exodus detail) |
+| Blockers / member milestones | `log/BLOCKERS.md` · `registry/epochs/current.epoch.yml` |
 | Palette / commits / agent rules | `RaBbLE-Agent/RaBbLE-Palette.md` · `-CommitStyle.md` · `-Agent-Protocols.md` |
 | Collective map / member wiring | `RaBbLE-Agent/RaBbLE-Collective.md` · `-Integration-Map.md` |
 | A member's docs | `RaBbLE-<Member>/` (OS: start at `RaBbLE-OS/RaBbLE-OS-AgentGuide.md`) |
@@ -110,7 +110,7 @@ Never `git add -A` in a tree another session may be editing: stage `bash spells/
 
 **End, before stopping:**
 ```bash
-bash spells/blockers.sh add "<what's blocked>" --owner Mark --tag ep1-gate   # 1. ledger first: new…
+bash spells/blockers.sh add "<what's blocked>" --owner Mark --tag <area>   # 1. ledger first: new…
 bash spells/blockers.sh resolve B-NN "<how it cleared>"                       #    …or cleared
 # 2. session entry below LATEST in log/SESSION-LOG.md (date, repos, work, next). Never hand-write LATEST.
 git add <changed files> && git commit -m "[impulse] ~ [organ] >> [revelation] // %STATE%"   # 3.
@@ -130,8 +130,8 @@ See `registry/manifests/` for the authoritative list. Current members:
 |---|---|
 | RaBbLE-Collective | Active — root repo, bootstrap (`setup.sh`) + identity entry point (`~/RaBbLE-Collective/`) |
 | RaBbLE-sCoRE | Active — LIVE on Render (`score.joinrabble.world`): persona chat, `/api/v1/beam` voice for Pocket |
-| RaBbLE-OS | Active — Fedora 44 + Hyprland daily driver; EP1 Developer Preview (ISO + KS + Ansible) |
-| RaBbLE-World | Active — `joinrabble.world`; EP1 five-beat entity face (live on dev, prod at air) |
+| RaBbLE-OS | Active — Fedora 44 + Hyprland daily driver; Developer Preview (ISO + KS + Ansible) |
+| RaBbLE-World | Active — `joinrabble.world`; five-beat entity face, prod deploys from `main` |
 | RaBbLE-NeBuLA | Active — entity renderer, `<rabble-entity backend="alive">` (2D/WebGL + 3D), CDN rc.1 |
 | RaBbLE-Aether | Active — design system CSS bundle, CDN rc.2 at `aether.joinrabble.world` |
 | RaBbLE-BaBbLE | Active (local surface) — intake: concept art, prototypes, ideation, creation lore, captures |

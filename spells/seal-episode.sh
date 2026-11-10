@@ -2,6 +2,9 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # spells/seal-episode.sh — the Episode Signing Ceremony
 #
+# NOTE (S322): Episodes are retired. This ceremony now applies to an ECHO seal
+# (tag echo-N.M); the name is kept until the spell is actually crafted.
+#
 # DRAFT / TO BE CRAFTED. Refuses to run until the Collective GitHub account
 # exists and COLLECTIVE_EMAIL is set (see below).
 #

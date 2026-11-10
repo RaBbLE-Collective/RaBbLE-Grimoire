@@ -139,10 +139,10 @@ fi
 epoch_yml="$GRIMOIRE_ROOT/registry/epochs/current.epoch.yml"
 if [[ -f "$epoch_yml" ]]; then
   epoch_num=$(grep "^epoch:" "$epoch_yml" | awk '{print $2}')
-  ep_pending=$(grep "^episode_pending:" "$epoch_yml" | awk '{print $2}')
-  phase="Epoch ${epoch_num} · Episode ${ep_pending}"
+  epoch_name=$(grep "^name:" "$epoch_yml" | sed 's/^name:[[:space:]]*//' | tr -d '"')
+  phase="Epoch ${epoch_num} · ${epoch_name}"
 else
-  phase="Epoch 0 · Episode 1"
+  phase="Epoch 0 · Foundation"
 fi
 
 # Read open blocker IDs from JSONL (compute live set: open minus resolved)

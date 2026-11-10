@@ -15,7 +15,7 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
   echo ""
   echo "Usage: bash spells/distill-gists.sh [slug]"
   echo "  slug   Optional — regenerate one gist only (identity, collective, roadmap,"
-  echo "         commitstyle, versioning, palette, episode1, integration)"
+  echo "         commitstyle, versioning, palette, integration)"
   echo ""
   echo "Requires: claude CLI in PATH. Uses Claude to distill full docs into ~200-word gists."
   echo "Run from: RaBbLE-Grimoire/ root"
@@ -69,7 +69,6 @@ GIST_MAP=(
   ["commitstyle"]="RaBbLE-Agent/RaBbLE-CommitStyle.md|gist/RaBbLE-CommitStyle-gist.md|~620"
   ["versioning"]="RaBbLE-Versioning.md|gist/RaBbLE-Versioning-gist.md|~1471"
   ["palette"]="RaBbLE-Agent/RaBbLE-Palette.md|gist/RaBbLE-Palette-gist.md|~1170"
-  ["episode1"]="log/EP1-AIR-CHECKLIST.md|gist/RaBbLE-Episode1-gist.md|~3143"
   ["integration"]="RaBbLE-Agent/RaBbLE-Integration-Map.md|gist/RaBbLE-Integration-Map-gist.md|~1200"
 )
 
