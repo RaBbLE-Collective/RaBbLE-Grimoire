@@ -5,16 +5,24 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-09 · S320 (void-retire-handoff-archive)
+## LATEST — 2026-11-10 · S321 (unified-entity-puppet-rig)
 
 **Phase:** Epoch 0 · Episode 1.
-**This session:** S320: Void retired, handoffs archived, memory trimmed
+**This session:** S321: Unified Entity puppet spec (draft 10b) + live 3D rig baseline
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** D3 Episodes proposal; plans archive; Ansible fixes; World PR to main
+**Next:** refine swap/turn easing; expression layer on the rig; consolidate spec then registry
 
 ---
 
 
+
+## 2026-11-10 · Session S321 (unified-entity-puppet-rig)
+
+- **Repos:** Grimoire only (`log/plans/Unified-Entity/`, plans index, this entry). `new-horizons`, not pushed. Opus 5.5 (resumed the session that hit its limit on 2026-11-09).
+- **Work:** Mark and RaBbLE designed one puppet and render schema so every surface (web alive-backend, Ball, Pocket nebula_lite, sCoRE face) draws the same entity. Output: `Unified-Entity-Puppet-Spec.md` (draft 10b, 36 rulings; status header says which rulings supersede the body) and a **live 3D rig** (`live/live.js`, one camera, perspective blended in with elevation, rebuild with `./build.sh`, view over any static server, e.g. `python3 -m http.server 8765`). Settled as the rig baseline: 0 degrees = the 2D reference (identical flat portal ellipses at flatten 0.30, upright pill eyes, portal Y 1.00); pole swap = the whole face yaws (colour is position, a colour volume at the YZ plane, cyan through violet to magenta); portal swap = Pocket's withdraw-swap in 3D (portals arc past each other, eyes dissolve into the void); tilt in the view frame, +-10 degrees from the 0 baseline looks right; occlusion by role (upper-role eye in front of its portal, lower-role eye drawn through it, no portal covers another side's eye); swallow cut is a smooth mask, portal Y limited to 0.2..1.5. Emotions pruned to calm; Pocket's occlusion declared wrong; Pocket hover dropped.
+- **Method note:** most occlusion bugs were found only by full-size and 2x-zoom screenshots, not downscaled contact sheets (Mark: do not run blind). Work moved out of `/tmp` into the Grimoire at Mark's request.
+- **Not done / watch:** no registry file written (the spec is the schema; section 10 is still a draft format). Portal swap still reads non-uniform and robotic at some angles; views above about 25 degrees show perspective oddities (accepted). Personality, emotions and piloting (default rest, triggers, learned swap meanings) deferred. The spec body (sections 3.3, 4, 6, 8) is stale where the rulings supersede it; a consolidation pass is owed before an Opus review. Role-frame poses and the proposal gate (section 12) not yet read by Mark.
+- **Next:** refine the portal-swap and turn timing and easing; then the expression layer on this rig (calm, curious, one stronger state), role-relative; then consolidate the spec and write the registry.
 
 ## 2026-11-09 · Session S320 (void-retire-handoff-archive)
 

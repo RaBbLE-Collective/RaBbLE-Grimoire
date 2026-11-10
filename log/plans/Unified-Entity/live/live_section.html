@@ -1,0 +1,18 @@
+    <section class="live" id="live">
+      <h2 style="font-family:var(--display);font-size:17px;letter-spacing:.05em;color:var(--cyan)">Live body <span class="badge b-seed">seed poses</span> <span class="badge b-open">draft transitions</span></h2>
+      <canvas id="cv" aria-label="The entity drawn from the registry's role-frame poses"></canvas>
+      <div class="ctl">
+        <h3>Interior form</h3><div class="row" id="forms"></div>
+        <h3>Portal swap: recede, move, emerge</h3>
+        <div class="row"><button id="mvP">Swap the portals</button></div>
+        <h3>Turn: the whole face about its centre axis</h3>
+        <div class="row"><button id="mvY">Turn the whole face around (yaw)</button></div>
+        <h3>View: camera elevation <span id="elv" class="dim"></span></h3>
+        <div class="row"><button id="ortho">Orthographic front (no perspective)</button></div>
+        <input id="elev" type="range" min="-90" max="90" value="17" style="width:100%">
+        <h3>Portal Y: <span id="hvv" class="cy"></span> eye half-heights from centre</h3>
+        <input id="hover" type="range" min="0.2" max="1.5" step="0.01" value="1.00" style="width:100%">
+        <div class="readout" id="ro"></div>
+        <div class="note">Poses come from <code>poses.role.json</code>, generated from the live tables. Each side takes the role its own portal bit gives it. Eyes hide only by receding into their own portal (blink is a short recede). The no-touch check is physical: portals are discs in their planes, eyes are upright pills, so an eye tip just over its portal does not touch it even where the drawing overlaps the ring. It is measured at rest, without blink or transitions. An eye is cut by its portal only once it starts to recede.</div>
+      </div>
+    </section>

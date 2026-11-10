@@ -17,6 +17,7 @@ this table is a one-line pointer. 🟡 = in flight / awaiting Mark · 🔵 = des
 
 | Plan | Status |
 |---|---|
+| `Unified-Entity/` | 🟡 2026-11-10 — one puppet and render schema for every surface (draft 7): spec `Unified-Entity-Puppet-Spec.md`, live 3D body in `live/`, rebuild with `./build.sh`. Awaiting Mark's rulings; no registry written yet |
 | `EP1-Staging-and-Grimoire-Audit.md` | 🟡 S248 — the path to air: gate truth, roadmap rewrite (done), de-bloat, public face, post-air user scaffold. Supersedes Entity-Face W3 |
 | `EP1-Entity-Face-Plan.md` | 🟡 S234 — W0–W2 done + live on dev (five-beat face, "wake RaBbLE"); G10 sign-off pending; W3 → Staging plan; W4 (accounts direction) open |
 | `EP1-Air-Push-Plan.md` | 🟡 S202/S203 — A4 superseded by Entity-Face; A5 (deploy wrapper, CI, key inventory) + C1 (reliquary garden) remain |
