@@ -46,7 +46,15 @@ Also in phase 1:
 
 - **Grimoire release branch:** set `version: "0.1.0"` in each releasing member's `registry/manifests/*.manifest.yml`, and write `registry/releases/genesis.yml` in the format of `RaBbLE-Versioning.md` section 5 with `commit: PENDING` for every member (the real shas exist only after the merges to `main`).
 - **World release branch:** change the two CDN pins to `v0.1.0` paths in one separate commit, clearly labelled. Those bundles do not exist on the CDN yet (see phase 2, step 2).
-- **Report:** append a `## Result` section to this file (on Grimoire `new-horizons`, uncommitted): one table row per member with ahead/behind, version file changed, build and test command and outcome, release branch head sha, and anything that blocks the release.
+- **Report:** append a `## Rulings after phase 1 (Mark, 2026-11-11)
+
+- **Stub mains** (NeBuLA, sCoRE, ScRiBbLE, Pocket): join `main`'s history with `git merge -s ours`, keep all `new-horizons` content. The full source goes to `main` at Genesis.
+- **Version source:** native manifest where there is one; otherwise a root `VERSION` file (`RaBbLE-Versioning.md` section 2, rule 1).
+- **Pocket:** ESP-IDF is on this machine; build with Pocket's own build scripts.
+- **`genesis.yml` contracts** (`score_api: v1`, `entity: draft-10b`, `palette: "1.0"`): confirmed.
+- **OS:** boot name becomes "Genesis". OS reaches Genesis only when its two install paths are documented and tested (`log/plans/OS-Installer-Scope-Genesis-to-Echo1.md`, G1 to G5); its release branch stays open until then and other members do not wait. Echo 1 targets an actual installer.
+
+## Result` section to this file (on Grimoire `new-horizons`, uncommitted): one table row per member with ahead/behind, version file changed, build and test command and outcome, release branch head sha, and anything that blocks the release.
 
 ### Hard stops for phase 1
 

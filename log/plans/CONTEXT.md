@@ -32,6 +32,7 @@ this table is a one-line pointer. 🟡 = in flight / awaiting Mark · 🔵 = des
 | `OS-Boot-Chain-Seamless-Plan.md` | 🎯 Phase 1 VM-verified; S200 real-HW fix awaits Mark's reboot verify |
 | `OS-Plymouth-Black-Screen.md` | 🎯 root cause found (S166 ternary); awaiting visual verify |
 | `OS-VM-Dev-Flow.md` | 🟡 Part 1 done; cast VM + build-loop spell pending (S236 drove virt-install directly) |
+| `OS-Installer-Scope-Genesis-to-Echo1.md` | 🔵 S323 scope: Genesis `0.1.0` = bootstrap and Kickstart paths documented and tested (G1 to G5); Echo 1 = an actual installer (I1 to I8); decisions D1 to D4 |
 | `OS-Install-Editions-Plan.md` | 🔵 S283 design — core/user/dev/creative/full editions, manifest `edition:` field, installer `--edition`, plus disk reclaim + backup actions; D1 to D5 decided, D6 deferred, ready for W1 |
 | `OS-Theming-Variants-Plan.md` | 🔵 S204 design — variants + profiles + contrast QA; awaiting Mark's calls |
 | `Accounts-Formalization-Scope.md` | 🔵 S322 scope: a visitor becomes a user. What sCoRE already has (user record, tokens, invites, summon), gaps G1-G8, slices AC1-AC7, decisions A1-A7 for Mark. Nothing built |

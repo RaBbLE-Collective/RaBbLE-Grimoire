@@ -56,7 +56,7 @@ focus:
     milestone: "Cut v0.0.0.1 (carries the S320 Void retirement)"
     status: "CDN v0.0.0.1-rc.2 at aether.joinrabble.world"
   RaBbLE-OS:
-    milestone: "Fresh install passes on a generic x86_64 VM (Ansible audit C1, H1-H8)"
+    milestone: "Genesis 0.1.0: bootstrap and Kickstart paths documented and tested; Echo 1: an actual installer (log/plans/OS-Installer-Scope-Genesis-to-Echo1.md)"
     status: "daily driver; VM install S236, bare metal S238; audit S318: 1 critical, 10 high open"
   RaBbLE-Pocket:
     milestone: "Core/apps reorg lands; firmware builds from one tree"
