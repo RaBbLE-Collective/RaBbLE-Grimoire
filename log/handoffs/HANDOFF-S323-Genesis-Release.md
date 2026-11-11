@@ -124,3 +124,42 @@ Supersedes the "blocked" rows above. Heads are local `release/0.1.0`; nothing pu
 - `app::tests::a_face_frame_is_cheap_enough_to_sit_between_keys`: timing-based; not rechecked on `new-horizons`.
 
 **Before phase 2, Mark decides:** release sCoRE and NeBuLA with these known failures listed, or fix them on the release branches first (the flow allows fixes there).
+
+## Phase 2 status (2026-11-11, end of S323) and next steps for a new agent
+
+**Done, verified:**
+
+- **CDN:** Aether and NeBuLA `v0.1.0` are live and return 200: `aether.joinrabble.world/v0.1.0/aether.min.css`, `nebula.joinrabble.world/v0.1.0/nebula.iife.js` and `nebula.esm.js`. Each file's first line carries version and commit (`/*! NeBuLA 0.1.0+bac31e0 */`). The older `rc` paths and `joinrabble.world` still return 200. Deployed with `spells/cloudflare-ctl.sh deploy <member> v0.1.0` from the release branches.
+- **Build fixes (on `new-horizons` and the release branches):** NeBuLA reads its version from `package.json` (`src/version.js`); both members stamp bundles and default `build:versioned` to the package version.
+- **Pull requests `release/0.1.0` into `main`, open for the review and docs pass:**
+
+| Member | Pull request |
+|---|---|
+| Aether | https://github.com/RaBbLE-Collective/RaBbLE-Aether/pull/1 |
+| NeBuLA | https://github.com/RaBbLE-Collective/RaBbLE-NeBuLA/pull/1 |
+| sCoRE | https://github.com/RaBbLE-Collective/RaBbLE-sCoRE/pull/1 |
+| ScRiBbLE | https://github.com/RaBbLE-Collective/RaBbLE-ScRiBbLE/pull/1 |
+| Pocket | https://github.com/RaBbLE-Collective/RaBbLE-Pocket/pull/1 |
+| OS (draft) | https://github.com/RaBbLE-Collective/RaBbLE-OS/pull/1 |
+| World | https://github.com/RaBbLE-Collective/RaBbLE-World/pull/3 |
+| Collective root | https://github.com/RaBbLE-Collective/RaBbLE-Collective/pull/1 |
+| Grimoire | opened last: `gh pr list --repo RaBbLE-Collective/RaBbLE-Grimoire` |
+
+- **Secret scan:** `gitleaks` on every release branch's unpushed range: clean. The 17 Grimoire hits are a session id in `log/sessions/*.jsonl` matched as `"key"`, not a credential.
+
+**Not done:** nothing is merged or tagged. `new-horizons` itself is not pushed in any member (the release branches carry its commits).
+
+**Not easy wins, left as known failures (listed in the pull requests):**
+
+- NeBuLA `npm run typecheck`: about 1,680 strict-mode errors across the source; it has never passed. Decide whether to keep the script, relax it, or type the code file by file.
+- sCoRE `test_constants_match_rust`: the Python header twin (`ui/widgets/header.py`, `FACE_COMPACT_ROWS = 2`, `MICRO_ROWS = 2`) is behind the Rust three-row compact header (S306). Port the change to Python or retire the twin test; Mark's call.
+- sCoRE Rust gaze test `the_entity_looks_at_streaming_text_and_the_composer_then_lets_go` fails at "nothing left to look at" (likely the S308 idle glance); `a_face_frame_is_cheap_enough_to_sit_between_keys` is timing-based.
+
+**Next steps, in order:**
+
+1. **Review and docs pass on each pull request** (Mark's stated purpose for them). Per member: README is a true homepage (what it is, live link, quickstart, version), entry docs match the code, no retired "Episode" framing. Fixes land on `release/0.1.0`; push updates the pull request.
+2. **World before merge:** serve the release branch locally with `dev-serve.sh` pointed at the `v0.1.0` CDN bundles and compare against production by eye (entity face, chat). Merging World deploys production.
+3. **Merge order:** Aether, NeBuLA, then World, then sCoRE, ScRiBbLE, Pocket, Grimoire, Collective root. At each merge: tag `v0.1.0` and `genesis` on the merge commit, push tags, merge `main` back into `new-horizons`, push `new-horizons`, delete the release branch. Each merge needs Mark's go.
+4. **Record:** fill the commit shas into `registry/releases/genesis.yml`; Mark signs `verified_by`; update `current.epoch.yml` and the member statuses.
+5. **OS (draft pull request):** work G1 to G5 of `log/plans/OS-Installer-Scope-Genesis-to-Echo1.md` on its release branch; never run Ansible against Mark's machine, use `vmctl` VMs.
+6. **Then Echo 1:** the installer slices I1 to I8, `setup.sh` on a fresh VM, sCoRE and Pocket reporting version and commit at runtime, accounts AC1, `registry/entity/rabble.entity.json`, and the rig against Pocket side-by-side.
