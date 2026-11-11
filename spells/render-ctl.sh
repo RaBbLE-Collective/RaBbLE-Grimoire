@@ -21,6 +21,7 @@
 #   preflight              Validate render.yaml against free-tier constraints
 #   deploy [--wait]        Trigger a deploy (optionally poll until live/failed)
 #   status                 Service status, tracked branch, URL, /health probe
+#   branch <name>          Set the branch Render deploys from (then run deploy)
 #   logs [N]               Recent service logs (default 100; falls back to deep link)
 #   env-show               List env vars (values masked)
 #   env-set <key> <val>    Upsert a single env var (auto-redeploys)
@@ -294,6 +295,25 @@ cmd_env_show() {
   echo ""
 }
 
+cmd_branch() {
+  local name="${1:-}"
+  [ -n "$name" ] || { err "Usage: branch <name>   (e.g. main, release/0.1.0)"; exit 1; }
+  header "Tracked Branch — $name"
+  git -C "$SCORE_ROOT" ls-remote --exit-code --heads origin "$name" &>/dev/null \
+    || { err "origin has no branch '$name' in RaBbLE-sCoRE"; exit 1; }
+  local id; id="$(service_id)"
+  if [ "$DRY_RUN" = true ]; then warn "Would PATCH /services/$id {branch: $name}"; echo ""; return; fi
+  local res
+  res="$(api PATCH "/services/$id" "$(jq -nc --arg b "$name" '{branch:$b}')")"
+  if [ "$(echo "$res" | jq -r '.branch // empty')" = "$name" ]; then
+    ok "Render now tracks $name (autoDeploy: $(echo "$res" | jq -r '.autoDeploy'))"
+    info "Deploy it now: bash spells/render-ctl.sh deploy --wait"
+  else
+    err "Failed to set branch"; echo "$res" | jq . 2>/dev/null || echo "$res"; exit 1
+  fi
+  echo ""
+}
+
 cmd_env_set() {
   local key="${1:-}" val="${2:-}"
   [ -n "$key" ] && [ -n "$val" ] || { err "Usage: env-set <KEY> <VALUE>"; exit 1; }
@@ -357,6 +377,7 @@ case "$CMD" in
   preflight) cmd_preflight ;;
   deploy)    cmd_deploy "${1:-}" ;;
   status)    cmd_status ;;
+  branch)    cmd_branch "${1:-}" ;;
   logs)      cmd_logs "${1:-}" ;;
   env-show)  cmd_env_show ;;
   env-set)   cmd_env_set "${1:-}" "${2:-}" ;;
