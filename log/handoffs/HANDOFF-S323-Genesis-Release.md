@@ -68,3 +68,27 @@ Also in phase 1:
 ## 5. After Genesis: toward Echo 1
 
 Echo 1 needs the two open pieces of exit evidence (`setup.sh` on a fresh VM; an OS fresh install after the Ansible audit fixes) and each build reporting its version and commit at runtime (`RaBbLE-Versioning.md` section 2, rule 2). Neither is part of Genesis.
+
+## Result (phase 1, 2026-11-11, agent run; all local, nothing pushed, no tags)
+
+All `git fetch origin` runs succeeded. All trees were clean and on `new-horizons` at start (Grimoire only had the expected `log/sessions/*.jsonl`). Every member is back on `new-horizons`. Status: READY = release branch complete; BLOCKED = release branch exists but stops short (see notes). Branch heads are for `release/0.1.0`.
+
+| Member | new-horizons ahead/behind origin/main | main-only commits | Version file changed | Build / test (all run, observed) | Head sha | Status / blocker |
+|---|---|---|---|---|---|---|
+| Aether | 58 / 1 | b7facee strip AI symlinks | package.json + package-lock.json via `npm version 0.1.0 --no-git-tag-version` | `npm run build` pass; `npm run build:dev` pass; no test script exists | 98b5f03a845d66793241b46fea248d88e50d03a6 | READY. Merged origin/main; one trivial conflict in `.gitignore` (kept `dist/`), merge commit 2957415 |
+| NeBuLA | 72 / 1 | 8e5a125 main stub (LICENSE + README) | none | not run | 1f5bf8b69b69e07ff593cf399a9a4b456bbb090d (= new-horizons, no commits) | BLOCKED: merge conflicts add/add in LICENSE and content in README.md; merge aborted. Needs Mark's call (main has Sovereign Accord stub text) |
+| sCoRE | 134 / 2 | 1eed2c1 main orientation stub; 1f8f544 remove .claude from main | none | not run | = new-horizons head (no commits) | BLOCKED: merge conflicts in .gitignore, AGENT.md, LICENSE, README.md, 5 modify/delete scripts (main deleted files new-horizons modified); aborted. Also version source ambiguous: `tui/Cargo.toml`, `tui/bench`, `tui/rabble-face`, `tui/rabble-proto`, `tui/rabble-theme`, `tui/rabble-tui` all have Cargo.toml; no Python manifest tracked. Registry manifest had `v0.0.0.0` |
+| ScRiBbLE | 7 / 1 | 69ddfef main stub | none | not run | = new-horizons head (no commits) | BLOCKED: `refusing to merge unrelated histories` (main is an unrelated stub). No package.json/Cargo; only PWA `manifest.json` with no native version source identified |
+| Pocket | 157 / 1 | 0d31cff main stub | none | not run (idf.py not installed) | = new-horizons head (no commits) | BLOCKED: unrelated histories. Also ESP-IDF toolchain absent, so no build possible |
+| OS | 351 / 0 | none | `rabble_os_version` in `ansible/inventory/group_vars/all.yml` 0.0.0.0 -> 0.1.0 (`rabble_epoch_name` untouched) | `ansible-playbook --syntax-check site.yml` (from `ansible/`) pass | 9d2df724802e5854a43dec9ff6961940a0c9badb | READY (syntax check only; no Ansible run) |
+| World | 2 / 1 | 21b38cc dev becomes prod (merge changed no files vs new-horizons) | none: World has no package.json or native version source (see questions) | `node --check world/js/RaBbLE-config.js` pass; no build/test (static site) | 9cae73b995c552d03a5688ec66451b29a2615af1 | PARTLY READY. Commit 02722a8 = merge of origin/main (clean); 9cae73b = separate commit pinning the two CDN URLs to `v0.1.0`. Those CDN bundles do NOT exist yet: do not merge to main before phase 2 step 2 |
+| Grimoire | 885 / 0 | none | `version: "0.1.0"` added or set in 8 manifests (Aether, Collective, NeBuLA, OS, Pocket, ScRiBbLE, World, sCoRE); `registry/releases/genesis.yml` created, all commits PENDING | YAML parse of manifests + genesis.yml pass | d4fe17db594080cf5c8c6cc28c79965e23135956 | READY for what it holds. Grimoire has no manifest of its own and no version file, so its own 0.1.0 exists only in genesis.yml |
+| Collective root | 116 / 1 | 4c73969 update remotes to org | none (no manifest; version lives in Grimoire manifest) | `bash -n setup.sh` pass | 91a35d5644c43ce5462b7eb65a2d8d8423bfd756 | READY: merge-only commit. One-line conflict in `setup.sh` (`RABBLE_ROOT` default): kept new-horizons `$HOME/RaBbLE-Collective` (merge-base had `$HOME/RaBbLE`, main did not touch that line) |
+
+### Questions for Mark
+1. NeBuLA: LICENSE add/add and README conflicts against main's public stub. Take new-horizons versions (the stub text is main-only)?
+2. sCoRE: main deleted files that new-horizons kept and modified (hooks, start/stop scripts, agents, AGENT.md). Resolution rule? And which Cargo.toml (or a Python manifest to be added) is the single version source?
+3. ScRiBbLE and Pocket: `main` is an unrelated-history stub. How should it be reconciled (merge `--allow-unrelated-histories` keeping new-horizons content, or replace main)? Neither is a normal merge.
+4. World and Grimoire and Collective have no native version file. Is registry manifest the source for them, or should one be added?
+5. genesis.yml `contracts:` values (score_api v1, entity draft-10b, palette "1.0") were copied from the Versioning example; confirm. `date` and `verified_by` left as placeholders.
+6. Pocket: ESP-IDF absent, no host tests or sim run.
