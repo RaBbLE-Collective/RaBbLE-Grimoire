@@ -386,12 +386,11 @@ Always pin to a specific version in production.
 <script src="https://nebula.joinrabble.world/latest/nebula.iife.js"></script>
 ```
 
-Note (architecture audit, S193): World currently vendors
-`dist/nebula.iife.js` directly into `world/js/RaBbLE-NeBuLA.js` rather than
-loading it from CDN at runtime — the `RABBLE_NEBULA_URL` config flip exists
-but has zero consumers. Treat the CDN path above as the documented target,
-not necessarily what World does today; that delivery-story decision is open
-for Mark (see `Collective-Architecture-Audit-2026-07-04.md` §2.3).
+Note: World loads NeBuLA from the CDN at a pinned version (Mark's ruling, S324):
+`world/js/RaBbLE-nebula-loader.js` writes the `<script>` for `RABBLE_NEBULA_URL`
+(`nebula.joinrabble.world/v0.1.0/nebula.iife.js` in production, `dist/` through
+`dev-serve.sh` locally). Pin a version, never `latest`. The vendored copy
+(S190 to S323, audit §2.3) is retired.
 
 ---
 

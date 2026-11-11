@@ -19,7 +19,7 @@ Wiring diagram of the Collective: how members exchange data, assets, and intent.
 | System observation | OS → sCoRE | Ambient state | Post-Ep1 |
 | Pattern store | sCoRE ↔ Memory | Observe → store → retrieve | Concept (Echo 1+) |
 
-**CDN chain:** Aether/NeBuLA `src/` → esbuild → Cloudflare R2 → World `<link>`/`<script>`. Local: `spells/dev-serve.sh`. After NeBuLA changes: `npm run build:iife && cp dist/nebula.iife.js ../RaBbLE-World/world/js/RaBbLE-NeBuLA.js`.
+**CDN chain:** Aether/NeBuLA `src/` → esbuild → Cloudflare Workers (versioned paths, pinned in World's `RaBbLE-config.js`) → World `<link>`/`<script>` loaders. Local: `spells/dev-serve.sh` serves both `dist/` folders; no copying into World.
 
 **Load-bearing boundaries:**
 - World never imports source, only CDN bundles
