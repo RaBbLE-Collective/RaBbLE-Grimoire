@@ -193,3 +193,22 @@ Fixes were committed on `new-horizons` and merged into `release/0.1.0` in every 
 - Pushing `release/0.1.0` deploys nothing in any member.
 
 **Next:** with Mark's go, push the eight updated `release/0.1.0` branches (updates the pull requests), then merge in order Aether, NeBuLA, World, sCoRE, ScRiBbLE, Pocket, Grimoire, Collective, as in the steps above.
+
+## S324 continued: Mark's rulings and the first releases (2026-11-11)
+
+**Rulings (Mark):** World loads NeBuLA from the CDN; everything pins `v0.1.0`; sCoRE deploys from the release branch or `main`; push the release branches and begin PR and docs reviews; release Aether and NeBuLA, then World as the Genesis gate; `DEMO_MODE_PUBLIC=true` on Render (the public guest demo is deliberate).
+
+**Released (tags `v0.1.0` and `genesis` on the merge commit, `main` merged back into `new-horizons`, both pushed):**
+
+| Member | Merge commit | Check |
+|---|---|---|
+| Aether | `5d4f917` | no workflow ran; `/v0.1.0/` and `/v0.0.0.1-rc.2/` return 200 |
+| NeBuLA | `f83f08d` | no workflow ran; `/v0.1.0/` iife + esm and `/v0.0.0.1-rc.1/` return 200 |
+
+**sCoRE on Render:** `render-ctl.sh branch` added; Render tracks `release/0.1.0` (switch to `main` when sCoRE merges: `bash spells/render-ctl.sh branch main && bash spells/render-ctl.sh deploy --wait`). Production had been stuck on `663bc10` (2026-10-22): the 2026-10-25 deploy and the first S324 deploy failed on `auth.startup_guard()` (DEMO_MODE on 0.0.0.0). With `DEMO_MODE_PUBLIC=true` set and a manual deploy, `score.joinrabble.world/health` reports `0.1.0` and anonymous chat from the `joinrabble.world` origin streams. Setting an env var through the Render API does not redeploy; `render-ctl env-set` now says so.
+
+**World (release `1c1878a`, PR #3, not merged):** `world/js/RaBbLE-nebula-loader.js` writes a parser-blocking `<script>` for `RABBLE_NEBULA_URL` (the face calls `entity.boot()` on wake, so the element must exist before page scripts) with a failure banner like Aether's; the vendored `RaBbLE-NeBuLA.js` is deleted; Catalog uses the loader; pins `v0.1.0`. Verified locally against the CDN: `NeBuLA.version` `0.1.0`, the face boots, catalog renders, a bad URL shows the banner. **Merging PR #3 deploys `joinrabble.world`; it needs Mark's go (the agent's merge was blocked by the permission classifier).** After the merge: tag, merge `main` back, check the live site loads both bundles from `/v0.1.0/`.
+
+**ScRiBbLE:** pins moved to `v0.1.0` (tested); on the release branch, and on `new-horizons` (unpushed; a push deploys the live site).
+
+**Left for Mark:** delete merged release branches (`git push origin --delete release/0.1.0` was blocked for the agent); merge World #3; then sCoRE, ScRiBbLE, Pocket, Grimoire, Collective.
