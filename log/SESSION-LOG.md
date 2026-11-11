@@ -8,12 +8,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-10 · S322 (collective-audit-context-diet)
+## LATEST — 2026-11-11 · S323 (collective-genesis-rulings)
 
 **Phase:** Epoch 0 · Foundation.
-**This session:** S322: Episodes retired for member milestones; context diet (log, gists, index, memory); entity canon; accounts scoped; depth-over-surface plan
+**This session:** S323: semver per member, release branches to a stable main, Genesis at 0.1.0 ruled; Pocket occlusion canonical; accounts sign-in ruled; Genesis handoff written, phase 1 with an agent
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** Mark rules A1-A3 (log/plans/Accounts-Formalization-Scope.md) and the depth stance; then AC1, entity spec split, first ambient slice, OS repair O1-O4
+**Next:** Read the Result in log/handoffs/HANDOFF-S323-Genesis-Release.md; Mark gives the go for phase 2 (push, PRs, tags, CDN, World last); then Echo 1, AC1, entity registry
 
 ---
 
