@@ -12,8 +12,8 @@ Sources verified: `RaBbLE-Aether/assets/components/rabble-components.css`, `asse
 
 | Bundle | URL |
 |---|---|
-| Aether CSS | `https://aether.joinrabble.world/v0.0.0.1-rc.1/aether.min.css` |
-| NeBuLA JS | `https://nebula.joinrabble.world/v0.0.0.1-rc.1/nebula.iife.js` |
+| Aether CSS | `https://aether.joinrabble.world/v0.1.0/aether.min.css` |
+| NeBuLA JS | `https://nebula.joinrabble.world/v0.1.0/nebula.iife.js` |
 
 ### Local dev (flip-point)
 

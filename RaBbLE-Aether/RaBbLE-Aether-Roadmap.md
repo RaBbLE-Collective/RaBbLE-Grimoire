@@ -45,9 +45,9 @@ transcribe ~ grimoire >> design system and visual identity mapped // %AETHER_ROA
 **Single source:** `RaBbLE-Agent/RaBbLE-Palette.md` in Grimoire  
 **CSS output:** `dist/aether.min.css` (production), `dist/aether.css` (unminified)  
 **Build tool:** esbuild  
-**Versioning:** Five Es (v0.0.0.1 at Episode 1 air)  
+**Versioning:** semver; Genesis is `0.1.0` (`RaBbLE-Versioning.md`)  
 **Distribution:** Cloudflare Worker at `aether.joinrabble.world` (per-member subdomain; unified CDN cancelled S196)  
-**Usage:** `<link rel="stylesheet" href="https://aether.joinrabble.world/v0.0.0.1-rc.2/aether.min.css">`
+**Usage:** `<link rel="stylesheet" href="https://aether.joinrabble.world/v0.1.0/aether.min.css">`
 
 ---
 

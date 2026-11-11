@@ -50,7 +50,7 @@ as a side effect of importing `src/index.js`.
 <body>
   <!-- Three.js is only needed if you use backend="threejs", <rabble-floor>, or <rabble-graph> -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-  <script src="https://nebula.joinrabble.world/v0.0.0/nebula.iife.js"></script>
+  <script src="https://nebula.joinrabble.world/v0.1.0/nebula.iife.js"></script>
 
   <rabble-entity id="entity" mode="idle" particle-count="150"></rabble-entity>
 
@@ -380,7 +380,7 @@ Always pin to a specific version in production.
 
 ```html
 <!-- Production -->
-<script src="https://nebula.joinrabble.world/v0.0.0/nebula.iife.js"></script>
+<script src="https://nebula.joinrabble.world/v0.1.0/nebula.iife.js"></script>
 
 <!-- Not recommended — floats to latest -->
 <script src="https://nebula.joinrabble.world/latest/nebula.iife.js"></script>
