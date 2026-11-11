@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RaBbLE Unified Entity: puppet and render schema</title>
+<style>
+/* Aether palette, exact hexes from RaBbLE-Grimoire/RaBbLE-Agent/RaBbLE-Palette.md; eye fill from entity-rig.json eyeFill */
+:root{
+  --magenta:#ff2d78;--cyan:#00f5ff;--violet:#bf5fff;--pink:#ff79c6;
+  --bg:#0a0010;--surface:#12132a;--raised:#1a1b2e;--border:#2a2840;
+  --text:#e8e6f0;--muted:#6b6880;--red:#e05c6f;--green:#50fa7b;--yellow:#f1fa8c;--eye:#f8faff;
+  --ui:"Exo 2","Segoe UI",system-ui,sans-serif;--mono:"Share Tech Mono",ui-monospace,"DejaVu Sans Mono",monospace;--display:"Orbitron","Exo 2",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--ui);font-size:15px;line-height:1.55}
+a{color:var(--cyan)}
+header{padding:28px 32px 18px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,#12132a 0%,var(--bg) 100%)}
+header h1{font-family:var(--display);font-weight:700;letter-spacing:.06em;margin:0;font-size:22px;
+  background:linear-gradient(90deg,var(--cyan),var(--violet),var(--magenta));-webkit-background-clip:text;background-clip:text;color:transparent}
+header p{margin:6px 0 0;color:var(--muted);font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.wrap{display:grid;grid-template-columns:230px minmax(0,1fr);gap:0}
+nav{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto;padding:18px 14px;border-right:1px solid var(--border)}
+nav a{display:block;color:var(--muted);text-decoration:none;font-size:13px;padding:4px 8px;border-radius:6px}
+nav a:hover{color:var(--text);background:var(--surface)}
+nav .t{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--violet);margin:0 8px 8px}
+main{padding:22px 34px 80px;max-width:1180px}
+.badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;padding:1px 7px;border-radius:999px;border:1px solid;vertical-align:1px;white-space:nowrap}
+.b-ruled{color:var(--green);border-color:var(--green);background:#50fa7b14}
+.b-open{color:var(--yellow);border-color:var(--yellow);background:#f1fa8c12}
+.b-risk{color:var(--red);border-color:var(--red);background:#e05c6f14}
+.b-seed{color:var(--pink);border-color:var(--pink);background:#ff79c612}
+/* live body */
+.live{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:18px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:30px}
+.live h2{grid-column:1/-1;margin:0}
+canvas{width:100%;height:440px;display:block;background:radial-gradient(ellipse at center,#1a0030 0%,var(--bg) 70%);border-radius:10px;border:1px solid var(--border)}
+.ctl h3{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:12px 0 6px}
+.ctl h3:first-child{margin-top:0}
+.row{display:flex;flex-wrap:wrap;gap:6px}
+button{font-family:var(--ui);font-size:13px;color:var(--text);background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:5px 10px;cursor:pointer}
+button:hover{border-color:var(--violet)}
+button[aria-pressed="true"]{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 10px #00f5ff33}
+button.fail[aria-pressed="true"]{border-color:var(--red);color:var(--red);box-shadow:0 0 10px #e05c6f33}
+.readout{font-family:var(--mono);font-size:12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-top:10px;white-space:pre-wrap}
+.ok{color:var(--green)}.bad{color:var(--red)}.dim{color:var(--muted)}.cy{color:var(--cyan)}.mg{color:var(--magenta)}
+.note{color:var(--muted);font-size:12px;margin-top:8px}
+/* spec */
+.doc h1{display:none}
+.doc h2{font-family:var(--display);font-size:17px;letter-spacing:.05em;color:var(--cyan);border-top:1px solid var(--border);padding-top:22px;margin-top:34px}
+.doc h3{font-size:15px;color:var(--violet);margin-top:22px}
+.doc h4{font-size:14px;color:var(--pink)}
+.doc code{font-family:var(--mono);font-size:13px;background:var(--raised);border:1px solid var(--border);border-radius:5px;padding:0 5px;color:#e8e6f0}
+.doc pre{background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:12px 14px;overflow:auto}
+.doc pre code{background:none;border:0;padding:0;font-size:12.5px;line-height:1.5}
+.doc blockquote{margin:12px 0;padding:10px 14px;border-left:3px solid var(--violet);background:var(--surface);border-radius:0 10px 10px 0;color:var(--text)}
+.doc blockquote p{margin:4px 0}
+.doc table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13.5px;display:block;overflow-x:auto}
+.doc th{text-align:left;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);padding:7px 10px;white-space:nowrap}
+.doc td{border-bottom:1px solid #2a284080;padding:7px 10px;vertical-align:top}
+.doc tr:hover td{background:#12132a}
+.doc strong{color:#fff}
+.doc li{margin:3px 0}
+@media (max-width:980px){.wrap{grid-template-columns:1fr}nav{display:none}.live{grid-template-columns:1fr}main{padding:18px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>RaBbLE Unified Entity · puppet and render schema</h1>
+  <p id="status">draft</p>
+  <div class="legend">
+    <span class="badge b-ruled">Ruled · Mark has decided</span>
+    <span class="badge b-open">Open · draft default, not decided</span>
+    <span class="badge b-seed">Seed · today's values, expected to change</span>
+    <span class="badge b-risk">Fails canon / risk</span>
+  </div>
+</header>
+<div class="wrap">
+  <nav id="toc"><div class="t">Contents</div><a href="#live">Live body</a></nav>
+  <main>
+    <section class="live" id="live">
+      <h2 style="font-family:var(--display);font-size:17px;letter-spacing:.05em;color:var(--cyan)">Live body <span class="badge b-seed">seed poses</span> <span class="badge b-open">draft transitions</span></h2>
+      <canvas id="cv" aria-label="The entity drawn from the registry's role-frame poses"></canvas>
+      <div class="ctl">
+        <h3>Interior form</h3><div class="row" id="forms"></div>
+        <h3>Portal swap: recede, move, emerge</h3>
+        <div class="row"><button id="mvP">Swap the portals</button></div>
+        <h3>Turn: the whole face about its centre axis</h3>
+        <div class="row"><button id="mvY">Turn the whole face around (yaw)</button></div>
+        <h3>View: camera elevation <span id="elv" class="dim"></span></h3>
+        <div class="row"><button id="ortho">Orthographic front (no perspective)</button></div>
+        <input id="elev" type="range" min="-90" max="90" value="17" style="width:100%">
+        <h3>Portal Y: <span id="hvv" class="cy"></span> eye half-heights from centre</h3>
+        <input id="hover" type="range" min="0.2" max="1.5" step="0.01" value="1.00" style="width:100%">
+        <div class="readout" id="ro"></div>
+        <div class="note">Poses come from <code>poses.role.json</code>, generated from the live tables. Each side takes the role its own portal bit gives it. Eyes hide only by receding into their own portal (blink is a short recede). The no-touch check is physical: portals are discs in their planes, eyes are upright pills, so an eye tip just over its portal does not touch it even where the drawing overlaps the ring. It is measured at rest, without blink or transitions. An eye is cut by its portal only once it starts to recede.</div>
+      </div>
+    </section>
+    <article class="doc" id="doc"></article>
+  </main>
+</div>
+<script>
+(function(){
+'use strict';
+var SPEC=/*__SPEC__*/null, POSES=/*__POSES__*/null;
+
+/* ---------------- markdown (the subset the spec uses) ---------------- */
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function inline(s){
+  var codes=[];
+  s=esc(s).replace(/`([^`]+)`/g,function(_,c){codes.push(c);return '\u0000'+(codes.length-1)+'\u0000';});
+  s=s.replace(/\*\*([^*]+)\*\*/g,function(_,t){
+    var cls=/^Ruled/i.test(t)?'b-ruled':/^(Open|no default)/i.test(t)?'b-open':/^(fails canon)/i.test(t)?'b-risk':/^These are seeds/i.test(t)?'b-seed':'';
+    return cls?'<span class="badge '+cls+'">'+t+'</span>':'<strong>'+t+'</strong>';});
+  s=s.replace(/(^|[\s(])\*([^*\s][^*]*?)\*(?=[\s).,:;]|$)/g,'$1<em>$2</em>');
+  return s.replace(/\u0000(\d+)\u0000/g,function(_,i){return '<code>'+codes[+i]+'</code>';});
+}
+function slug(t){return t.toLowerCase().replace(/<[^>]+>/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function render(md){
+  var L=md.split('\n'),out=[],i=0,toc=[];
+  function cells(r){return r.replace(/^\s*\|/,'').replace(/\|\s*$/,'').split('|').map(function(c){return c.trim();});}
+  while(i<L.length){
+    var l=L[i];
+    if(/^```/.test(l)){var b=[];i++;while(i<L.length&&!/^```/.test(L[i]))b.push(L[i++]);i++;out.push('<pre><code>'+esc(b.join('\n'))+'</code></pre>');continue;}
+    var h=/^(#{1,4})\s+(.*)$/.exec(l);
+    if(h){var n=h[1].length,t=inline(h[2]),id=slug(h[2]);out.push('<h'+n+' id="'+id+'">'+t+'</h'+n+'>');if(n===2)toc.push([id,h[2]]);i++;continue;}
+    if(/^\s*\|/.test(l)&&i+1<L.length&&/^\s*\|[\s:|-]+\|\s*$/.test(L[i+1])){
+      var hd=cells(l),rows=[];i+=2;while(i<L.length&&/^\s*\|/.test(L[i]))rows.push(cells(L[i++]));
+      out.push('<table><thead><tr>'+hd.map(function(c){return '<th>'+inline(c)+'</th>';}).join('')+'</tr></thead><tbody>'+
+        rows.map(function(r){return '<tr>'+r.map(function(c){return '<td>'+inline(c)+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table>');continue;}
+    if(/^>\s?/.test(l)){var q=[];while(i<L.length&&/^>\s?/.test(L[i]))q.push(L[i++].replace(/^>\s?/,''));
+      out.push('<blockquote>'+q.filter(function(x){return x.trim();}).map(function(x){return '<p>'+inline(x)+'</p>';}).join('')+'</blockquote>');continue;}
+    if(/^\s*-\s+/.test(l)){var u=[];while(i<L.length&&/^\s*-\s+/.test(L[i]))u.push(L[i++].replace(/^\s*-\s+/,''));
+      out.push('<ul>'+u.map(function(x){return '<li>'+inline(x)+'</li>';}).join('')+'</ul>');continue;}
+    if(/^\s*\d+\.\s+/.test(l)){var o=[];while(i<L.length&&/^\s*\d+\.\s+/.test(L[i]))o.push(L[i++].replace(/^\s*\d+\.\s+/,''));
+      out.push('<ol>'+o.map(function(x){return '<li>'+inline(x)+'</li>';}).join('')+'</ol>');continue;}
+    if(/^---\s*$/.test(l)||!l.trim()){i++;continue;}
+    var p=[];while(i<L.length&&L[i].trim()&&!/^(#{1,4}\s|```|>|\s*\||\s*-\s|\s*\d+\.\s|---\s*$)/.test(L[i]))p.push(L[i++]);
+    if(p.length)out.push('<p>'+inline(p.join(' '))+'</p>');else i++;
+  }
+  return {html:out.join('\n'),toc:toc};
+}
+var R=render(SPEC);
+document.getElementById('doc').innerHTML=R.html;
+var nav=document.getElementById('toc');
+R.toc.forEach(function(e){var a=document.createElement('a');a.href='#'+slug(e[0]);a.textContent=e[1].replace(/`/g,'');nav.appendChild(a);});
+var st=/\*\*Status:\*\*\s*([^.]*)/.exec(SPEC);document.getElementById('status').textContent=(st?st[1]:'draft')+' · not yet in the Grimoire';
+
+/*__LIVE__*/
+})();
+</script>
+</body>
+</html>

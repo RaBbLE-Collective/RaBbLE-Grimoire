@@ -1,0 +1,7 @@
+unseen-ssid-full-scan	Unseen	ok	1	1	1	bssid_set=0	bssid=00	channel=0	scan=all	sort=signal	listen=10	auth_floor=0	rssi_floor=0	pmf=1	cfg_ssid=Unseen	cfg_pass=pw123456
+seen-ssid-pins-strongest-bssid	Mesh	ok	1	1	1	bssid_set=1	bssid=08	channel=36	scan=fast	sort=signal	listen=10	auth_floor=0	rssi_floor=0	pmf=1	cfg_ssid=Mesh	cfg_pass=meshpass
+pinned-attempt-fails-then-pin-dropped	Mesh	fail	0	4	1	bssid_set=1	bssid=08	channel=36	scan=fast	sort=signal	listen=10	auth_floor=0	rssi_floor=0	pmf=1	cfg_ssid=Mesh	cfg_pass=badpass
+after-failure-no-pin-for-any-ssid	Other	ok	1	1	1	bssid_set=0	bssid=00	channel=0	scan=all	sort=signal	listen=10	auth_floor=0	rssi_floor=0	pmf=1	cfg_ssid=Other	cfg_pass=otherpass
+timeout-no-event	Slow	timeout	0	1	1	bssid_set=1	bssid=05	channel=1	scan=fast	sort=signal	listen=10	auth_floor=0	rssi_floor=0	pmf=1	cfg_ssid=Slow	cfg_pass=pw
+open-network-empty-password	Cafe	ok	1	1	1	bssid_set=1	bssid=04	channel=6	scan=fast	sort=signal	listen=10	auth_floor=0	rssi_floor=0	pmf=1	cfg_ssid=Cafe	cfg_pass=
+ssid-32-password-64	ABCDEFGHIJKLMNOPQRSTUVWXYZ012345	ok	1	1	1	bssid_set=0	bssid=00	channel=0	scan=all	sort=signal	listen=10	auth_floor=0	rssi_floor=0	pmf=1	cfg_ssid=ABCDEFGHIJKLMNOPQRSTUVWXYZ012345	cfg_pass=0123456789012345678901234567890123456789012345678901234567890123

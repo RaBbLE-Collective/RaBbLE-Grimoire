@@ -5,33 +5,35 @@ transcribe ~ grimoire >> context established // %CONTEXT_LOCKED%
 ```
 
 ```
-epoch: 0 | evolution: 0 | echo: 0 | status: establishing
-version: v0.0.0 — Epoch 0, Foundation
+epoch: 0 | evolution: 0 | echo: 0 | status: active
+version: v0.0.0 — Epoch 0, Evolution 0, Echo 0 (Episodes retired S322; members plan by milestone)
 ```
 
 ---
 
 ## What we are building
 
-The RaBbLE-Grimoire is the canonical documentation repository for the RaBbLE Collective — a single source of truth for identity, ethos, lore, protocol contracts, and conventions across all member projects. Every design decision, character trait, and protocol schema lives here first; member repos reference it, never duplicate it.
+The RaBbLE-Grimoire is the canonical source for the RaBbLE ecosystem — a single source of truth for identity, ethos, lore, technical patterns, protocol contracts, versioning, and conventions across all member projects. Grimoire also includes spells (scripts) that generate LLM context files, manage the member registry, and synchronize conventions across repos.
+
+Every design decision, character trait, protocol schema, and technical pattern lives here first; member repos reference it, never duplicate it.
 
 ## What good looks like
 
 - Each `RaBbLE-*/` section has complete, accurate docs for its member project
-- `common/` is flat — all files named `RaBbLE-*.md`, no subdirectories
+- `RaBbLE-Agent/` is flat — all files named `RaBbLE-*.md`, no subdirectories
 - All docs prefixed with their section (`RaBbLE-OS-`, `RaBbLE-sCoRE-`, etc.) so they are self-locating without folder context
 - `INDEX.md` is always current — every document is reachable from it
 - Visual assets live in `RaBbLE-Aether/assets/`, not scattered across member sections
-- A new contributor can orient fully by reading this file → `INDEX.md` → `RaBbLE-Versioning.md` → `common/RaBbLE-Identity.md`
+- A new contributor can orient fully by reading this file → `INDEX.md` → `RaBbLE-Versioning.md` → `RaBbLE-Agent/RaBbLE-Identity.md`
 
 ## What to avoid
 
-- Project-specific content in `common/` — move it to the correct `RaBbLE-*` section
+- Project-specific content in `RaBbLE-Agent/` — move it to the correct `RaBbLE-*` section
 - Duplicate docs across the Grimoire and member repos — the Grimoire publishes, members reference
 - Stale paths in `INDEX.md` or `CONTEXT.md` after any rename or restructure
 - Owning visual assets here — SVG, logos, and icons belong in `RaBbLE-Aether/assets/`
-- Committing without reading `common/RaBbLE-CommitStyle.md` first
-- Adding subdirectories to `common/` — use the `RaBbLE-` prefix to provide context instead
+- Committing without reading `RaBbLE-Agent/RaBbLE-CommitStyle.md` first
+- Adding subdirectories to `RaBbLE-Agent/` — use the `RaBbLE-` prefix to provide context instead
 
 ---
 
@@ -39,33 +41,50 @@ The RaBbLE-Grimoire is the canonical documentation repository for the RaBbLE Col
 
 | Path | What it holds |
 |---|---|
-| `common/RaBbLE-Identity.md` | Identity, manifesto, character, entity state machine |
-| `common/RaBbLE-Palette.md` | Canonical synthwave outrun palette — single source of truth |
-| `common/RaBbLE-CommitStyle.md` | The Pulse Protocol — commit message format |
-| `common/RaBbLE-BranchStrategy.md` | Branch topology and flow |
-| `RaBbLE-Aether/assets/` | Visual assets: SVG, logos, icons |
-| `RaBbLE-Collective/` | Ecosystem map, member registry |
+| `RaBbLE-Agent/` | Agent-facing shared docs: identity, palette, commit style, protocols, roadmap, templates |
+| `RaBbLE/` | Entity definition layer — Ethos/, Genesis/, Worldbuilding/ — philosophy, creation mythology, visual world |
+| `RaBbLE-Mythos/` | Short stories and creative writing — fiction set in RaBbLE's world |
+| `registry/` | Member manifests, epoch definitions — ecosystem infrastructure |
+| `registry/manifests/` | One YAML file per member repo |
+| `registry/epochs/current.epoch.yml` | Active epoch definition and exit conditions |
+| `spells/` | Bash scripts: setup, status, sync, init-project, install-theme |
 | `RaBbLE-Versioning.md` | Five-tier versioning spec: Event→Episode→Echo→Evolution→Epoch |
-| `lore/` | Narrative and creative lore — short stories, world-building |
 | `INDEX.md` | Full index of all grimoire documents |
 
 ## Active Tracks
 
 | Track | Status |
 |---|---|
-| Entity identity (`common/RaBbLE-Identity.md`) | Seeded from RaBbLE-OS grimoire |
-| Palette (`common/RaBbLE-Palette.md`) | Seeded from RaBbLE-OS grimoire |
-| Collective map (`RaBbLE-Collective/`) | Seeded from RaBbLE-Collective grimoire |
-| Versioning spec (`RaBbLE-Versioning.md`) | Complete — Five Es replaces Three Es |
-| Protocol contracts (`protocol/`) | Stub — Epoch 0 goal |
-| RaBbLE-sCoRE docs | Seeded — Architecture + Roadmap present |
-| RaBbLE-World, RaBbLE-NeBuLA, RaBbLE-ScRibLE | Stub — content incoming |
+| Entity identity (`RaBbLE-Agent/RaBbLE-Identity.md`) | Split — operational core ~330 lines; ethos extracted to `RaBbLE/` |
+| Ethos layer (`RaBbLE/`) | **Active** — Ethos + Worldbuilding live; Genesis + Symbiosis to be authored (Phase 2C) |
+| Integration & Ethos Plan (`RaBbLE-Collective/RaBbLE-Integration-Ethos-Plan.md`) | **Active** — Phase 1A✓ 1B✓ 1C✓ 0A✓ 2A✓ 2B✓ 2D✓ 3✓ · Phase 2C (Mark authors), 4 pending |
+| Palette (`RaBbLE-Agent/RaBbLE-Palette.md`) | Stable |
+| Roadmap (`RaBbLE-Agent/RaBbLE-Roadmap.md`) | Current (rewritten S248) — live position block, true member table, Genesis remaining-work; forward work in `RaBbLE-Post-EP1-Roadmap.md` |
+| Registry (`registry/`) | 12 manifests (Collective, OS, sCoRE, Aether, NeBuLA, World, BaBbLE, ScRiBbLE, Pocket, Chrysalis, Xperimental, TaskViSoR + template); epoch file reconciled S248 |
+| Spells (`spells/`) | ~41 spells live (coordination, deploy, sessions, multi-agent); see `SPELLS.md` / `bash spells/help.sh` for the authoritative list |
+| Versioning spec (`RaBbLE-Versioning.md`) | Stable — Five Es locked |
+| Milestones (`registry/epochs/current.epoch.yml`) | One milestone and status per member; Episodes retired S322 (`RaBbLE-Versioning.md`) |
+| `log/EP1-AIR-CHECKLIST.md` | RETIRED S322: historical gate table for the old Episode 1 air model |
+| RaBbLE-sCoRE docs | Architecture + Roadmap present. DataCrawler RFC added. **LLM endpoint LIVE on Render** (`rabble-score-x7qq.onrender.com`, S106); local AI layer (Groq/OpenRouter/NVIDIA NIM) documented. Railway superseded. |
+| Grimoire MCP (`RaBbLE-Collective/RaBbLE-Grimoire-MCP.md`) | **Concept (S139)** — read-first remote MCP at `grimoire.joinrabble.world` (CF Worker); awaiting Mark on hosting/timing decisions (§7). Post-EP1. |
+| RaBbLE-World | **Active** — dev serves the S235 five-beat face ("wake RaBbLE" → boot → live sCoRE chat → Summon → Enter); prod deploys from `main` at the air merge. Roadmap: `RaBbLE-World/RaBbLE-World-Roadmap.md` |
+| World face | **Active** — S234 Entity-Face plan (`log/plans/EP1-Entity-Face-Plan.md`) superseded the S203 face and the S190 passage (both in the Chrysalis reliquary): five beats around `<rabble-entity backend="alive">`, live on dev, G10 sign-off pending |
+| RaBbLE-Aether | Active — `v0.0.0.1-rc.2` on CDN (`aether.joinrabble.world`); desktop/app themes consumed by OS |
+| RaBbLE-NeBuLA | Active — `<rabble-entity backend="alive">` (2D on WebGL + 3D), `setInsets`, effects, Studio MVP; `v0.0.0.1-rc.1` on CDN |
+| RaBbLE-BaBbLE | **Active** — formalized as Collective member (Phase 3). AGENT.md/CONTEXT.md/README.md live. Manifest registered. |
+| RaBbLE-ScRiBbLE | **Live** — neon note PWA at `scribble.joinrabble.world` (S234); independent track |
+| RaBbLE-Chrysalis | Genesis-archive — origin code from pre-Collective era. Reliquary for archived branches. Renamed from Xperimental S92. |
+| RaBbLE-Xperimental | Active sandbox — rablets in development, prototype members, experiments not yet emerged. New repo, created S92. |
+| RaBbLE-OS | Active — Fedora 44 + Hyprland 0.56; branded ISO + in-installer Bootstrap; VM (S236) + bare-metal (S238) installs passed; EP1 Developer Preview |
+| RaBbLE-TaskViSoR | Scaffold — Visual State Observer identity declared (S141); Layer 1 not yet built, ships as a World page. Manifest registered, no own repo yet. |
 
 ## Reading Order for a New Session
 
-1. This file — you are here
-2. `INDEX.md` — what's in the Grimoire
-3. `RaBbLE-Versioning.md` — the versioning model before writing anything
-4. `common/RaBbLE-Identity.md` — who RaBbLE is
-5. `common/RaBbLE-Palette.md` — what RaBbLE looks like
-6. `RaBbLE-Collective/RaBbLE-Collective.md` — how the Collective fits together
+1. `head -20 log/SESSION-LOG.md` — ## LATEST box only (current state + blockers, ~75 words)
+2. This file — active tracks and structure
+3. `INDEX.md` — what's in the Grimoire
+4. `RaBbLE-Versioning.md` — the versioning model before writing anything
+5. `RaBbLE-Agent/RaBbLE-Identity.md` — who RaBbLE is
+6. `RaBbLE-Agent/RaBbLE-Palette.md` — what RaBbLE looks like
+7. `SPELLS.md` — how Grimoire distributes its authority to member repos
+8. `RaBbLE-Agent/RaBbLE-Roadmap.md` — what's being built (Collective-level scope)

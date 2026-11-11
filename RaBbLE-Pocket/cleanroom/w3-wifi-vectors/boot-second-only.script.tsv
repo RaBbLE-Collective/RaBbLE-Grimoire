@@ -1,0 +1,12 @@
+# first saved network is out of range; the second joins and moves first
+0	preload	Home	homepass	0
+0	preload	Cafe	cafepass	0
+0	wifi_on	1
+0	air	Cafe:-70:secure
+0	result	Cafe	ok:2500
+0	start
+1000	status
+4000	status
+6000	status
+6000	saved
+20000	end

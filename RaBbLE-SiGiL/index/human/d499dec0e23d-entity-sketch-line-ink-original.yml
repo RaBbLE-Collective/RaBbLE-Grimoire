@@ -1,0 +1,28 @@
+id: d499dec0e23d
+sha256: d499dec0e23d85c6dc8a0865b6083bfc80849e2c6f341e96b412238ab4f0cdbc
+title: entity-sketch-line-ink-original
+provenance: human
+role: other
+status: draft
+store: human/2026/d499dec0e23d-entity-sketch-line-ink-original.jpg
+kind: image
+format: jpg
+bytes: 35798
+width: 617
+height: 333
+alpha: false
+animated: false
+palette:
+- '#ffffff'
+- '#b8b8b8'
+- '#737373'
+- '#161616'
+- '#ebebeb'
+tags: []
+description: ''
+origin_name: entity-sketch-line-ink-original.jpg
+ingested: '2026-10-27'
+rights: collective-original
+source: RaBbLE/Genesis/visual (S92 migration)
+medium: ''
+made: '2026'

@@ -1,0 +1,24 @@
+# join a network seen in the last settings scan (hidden=0) and one typed in (hidden=1)
+0	wifi_on	1
+0	air	Cafe:-50:secure,Open:-70:open
+0	result	Cafe	ok:2000
+0	result	Ghost	ok:2500
+0	result	Open	ok:1500
+0	start
+1000	scan
+1000	scan_results
+2000	join	Cafe	secret
+2000	status
+5000	status
+5000	saved
+6000	join	Ghost	boo
+6000	status
+6100	status
+10000	status
+10000	saved
+11000	join	Open
+17000	status
+17000	saved
+20000	join	Open	newpass
+22000	saved
+40000	end

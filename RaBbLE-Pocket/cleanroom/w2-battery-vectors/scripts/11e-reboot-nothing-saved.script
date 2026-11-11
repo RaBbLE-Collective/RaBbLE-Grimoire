@@ -1,0 +1,8 @@
+time 10000000
+init
+nodump
+saved
+rtc
+reboot
+init
+saved

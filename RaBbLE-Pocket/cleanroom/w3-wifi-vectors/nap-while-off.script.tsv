@@ -1,0 +1,12 @@
+# nap while wifi is off does nothing; nap ended while wifi is on later
+0	wifi_on	0
+0	preload	Home	hp	0
+0	air	Home:-50:secure
+0	result	Home	ok:2000
+0	start
+1000	nap	1
+3000	nap	0
+5000	wifi_on	1
+5000	apply
+9000	status
+20000	end

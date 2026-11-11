@@ -1,0 +1,19 @@
+# rabble_text_showable(text, buf, cap).
+# columns: note, input_hex, cap, returned_pointer (text = the very pointer passed in, buf = the buffer), returned_string_hex (- empty), shown_input, shown_result
+# when returned_pointer is text the contents of buf afterwards are unspecified and not tested
+pure ascii	68656c6c6f	16	text	68656c6c6f	hello	hello
+ascii exactly cap	68656c6c6f	5	text	68656c6c6f	hello	hello
+empty	-	8	text	-		
+needs fold, fits	636166c3a9	16	buf	63616665	café	cafe
+needs fold, exact cap	636166c3a9	6	buf	63616665	café	cafe
+needs fold, one short	636166c3a9	5	text	636166c3a9	café	café
+fold of em dash fits	61e2809462	6	buf	612d2d62	a—b	a--b
+fold result truncated by cap	e280a6e280a6e280a6e280a6	13	buf	2e2e2e2e2e2e2e2e2e2e2e2e	…………	............
+non-ascii cjk kept	e4bda0e5a5bd	16	buf	e4bda0e5a5bd	你好	你好
+cap 0 non-ascii	c3a9	0	text	c3a9	é	é
+cap 1 non-ascii	c3a9	1	text	c3a9	é	é
+cap 0 ascii	616263	0	text	616263	abc	abc
+invalid bytes only	fffe	8	buf	fffe	\\xff\\xfe	\\xff\\xfe
+emoji removed	78f09f988079	8	buf	7879	x😀y	xy
+emoji only	f09f9880	8	buf	-	😀	
+ssid style	436166c3a920e2809c57694669e2809d203547	96	buf	4361666520225769466922203547	Café “WiFi” 5G	Cafe "WiFi" 5G

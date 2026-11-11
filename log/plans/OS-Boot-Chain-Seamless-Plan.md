@@ -1,0 +1,161 @@
+# RaBbLE-OS Seamless Boot Chain Plan
+
+> **Impulse:** mend ~ os/boot >> seamless GRUB→Plymouth→SDDM, amdgpu-only display
+> **Authored:** S197, 2026-07-06
+> **Goal:** Eliminate three visible seams in the boot chain through low-risk Phase 1 VM-verifiable fixes (feeds G7) and aggressive Phase 2 real-hardware root-cause polish (ProArt only).
+
+---
+
+## Status — S200 (real-HW regression root-caused + fixed; awaits Mark's reboot verify)
+
+**S197's Phase 1 shipped a live regression that S200 root-caused from real-boot evidence** (Mark reported the ProArt boot to a black screen requiring TTY login after this session, plus a stale-looking TTY font):
+
+- **Actual cause: NOT retain-splash.** The 2A greeter GPU pin (`nvidia.yml`, landed in power-stack commit `7076979`, same day as S197) repointed `WLR_DRM_DEVICES` from `/dev/dri/card1` to the udev by-path symlink `/dev/dri/by-path/pci-0000:65:00.0-card`. wlroots parses `WLR_DRM_DEVICES` as **colon-delimited** (like `$PATH`) — but PCI by-path names embed a colon-formatted bus address, so wlroots split the pin into three bogus paths (`.../pci-0000`, `65`, `00.0-card`), found 0 GPUs, and the sway greeter backend failed to start on every boot. Real-boot journal evidence: `sway: [ERROR] Failed to open device: '65': No such file or directory` / `Found 0 GPUs, cannot create backend` — greeter session opened and closed within the same second, no login UI, TTY only. Mark's own manual revert of the retain-splash drop-in (commit `fe17453`) did NOT fix it, because retain-splash was never the cause — it just happened to land the same day as the real bug.
+- **Fix (RaBbLE-OS commit `416b5ec`):** alias both DRM cards to colon-free symlinks via a udev rule matched by **PCI vendor ID** (`0x1002` AMD / `0x10de` NVIDIA) rather than card number or raw by-path — `/dev/dri/rabble-amdgpu-card` / `/dev/dri/rabble-nvidia-card`. This survives card renumbering (the original goal of 2A, still achieved) *and* any future PCI bus/slot change, since it never encodes position. SDDM's greeter pin now uses the AMD alias. Also fixed the same latent bug in `config/hypr/conf.d/env.conf`'s `AQ_DRM_DEVICES` (the live Hyprland session hardcoded `card1:card0` — same fragility, not yet triggered because it uses plain numbers, not by-path).
+- **retain-splash re-applied (commit `96f616b`, reverts `fe17453`):** now that the actual bug is fixed, 1A's `--retain-splash` override is back in `plymouth-quit-sddm.conf`. It was never confirmed working on real amdgpu hardware (only VM, which couldn't reproduce the handoff) — this reboot is the first real test.
+- **TTY font (small on 4K):** checked live — `terminus-fonts-console` is installed and `systemd-vconsole-setup.service` succeeded on the current boot. Not yet root-caused; deferred, not blocking.
+- **Not yet done:** Mark needs to `sudo ./RaBbLE-OS-layerctl.sh apply hardware && sudo ./RaBbLE-OS-layerctl.sh apply boot && sudo reboot`, then confirm SDDM loads (GPU-pin fix) and check whether the Plymouth→SDDM handoff now dissolves instead of flashing black (retain-splash, first real-HW test). Run `bash spells/boot-diagnose.sh` after to capture evidence per this doc's usual standard.
+
+## Status — S197 (Phase 1 DONE + VM-verified)
+
+Phase 1 implemented and verified on the dev VM (captures `vm-20260706-153249` = before, `-155917` = after 1D). Commits on `new-horizons`:
+
+- **1D — `terminus-fonts-console` added to manifest** (commit `5ad3b16`). **THE headline win.** `/etc/vconsole.conf` sets `FONT=ter-v32b`, but the manifest shipped only `terminus-fonts` (X11 glyphs), not the console-PSF package → `setfont ter-v32b` failed → `systemd-vconsole-setup.service` failed at boot → its red `[FAILED]` error flashed through at *both* GRUB→Plymouth and Plymouth→SDDM. The ProArt happened to have the console pkg already, hiding this until a clean VM boot. **VM-verified: the red error text is gone from both transitions.** Fixes the dominant "TTY transition" seam on every fresh install → de-risks G7.
+- **1A — retain-splash** (`plymouth quit --retain-splash`, commit `b3c0b21`). Deployed; SDDM loads clean. VM could NOT confirm it closes the ~1s Plymouth→SDDM black (the sway greeter clears the fb before painting; retain-splash alone can't stop that). Net-neutral on VM, may help real HW. Kept (harmless).
+- **1C — dropped no-op `amdgpu.seamless=1`** (commit `b3c0b21`) + fixed stale doc comment.
+- **1B — GRUB menu: NO CHANGE NEEDED.** VM frame 10 shows the menu rendering legibly over the liminal bg; the "black box" (frame 15) was a transient GRUB teardown frame, not a defect. Mark chose "accept synthwave horizon" — grub-bg.png's empty center band stays as-is.
+- **2A — greeter by-path GPU pin** landed in power-stack commit `7076979` (rode along in `nvidia.yml`).
+
+**Residual (clean black, not error text; not G7 blockers):** GRUB→Plymouth ~1.5s and Plymouth→SDDM ~1s handoff/startup blacks.
+
+## Remaining work (NEXT SESSION picks up here)
+
+1. **Update the Grimoire boot-chain docs** with S197 findings (Mark deferred to next session):
+   `RaBbLE-OS/fix/RaBbLE-OS-BootChain-Anatomy.md` (§3.5 retain-splash reality, §4.3 seamless removed, NEW: vconsole-setup/terminus-fonts-console root cause) and `RaBbLE-OS-Fix-BootChain.md`.
+2. **Fix `RaBbLE-OS/spells/vm-boot-iterate.sh` three bugs** (all bit this session): (a) `--restore` reverts to the `boot-clean` *running*-state snapshot which already starts the VM, then unconditionally runs `virsh start` → "Domain is already active" → `set -e` abort (guard it / `|| true`); (b) IP discovery reads only `virsh net-dhcp-leases`, which is empty after a stale/expired lease (11-day-old snapshot) even though the VM is up — fall back to ARP (`ip neigh | grep <mac>`). Workaround used: reboot guest via SSH to force a fresh DHCP lease; (c) line 33 `CAPTURES_DIR="${COLLECTIVE_DIR}/BaBbLE/captures/Boot"` points at a NON-EXISTENT dir — wrong repo name (missing `RaBbLE-` prefix) and wrong nesting → it created a stray `BaBbLE/` at the Collective root. Fix to `"${COLLECTIVE_DIR}/RaBbLE-BaBbLE/captures/Boot/vm-sessions"` (+ the line-6 comment). This session's two capture sets were relocated to `RaBbLE-BaBbLE/captures/Boot/vm-sessions/` and the stray dir removed.
+3. **Phase 2 (real HW, Mark-driven):** amdgpu as sole DRM device (§ Phase 2 below). Needs recovery USB; VM cannot reproduce (virtio-gpu). 2A prep already committed.
+4. **Optional (cosmetic):** give generic/VM targets a smaller default console font than the ProArt's `ter-v32b` so the 4K-sized font isn't used on small displays.
+5. **Optional (real polish):** close the residual Plymouth→SDDM black — have the sway greeter paint the retained splash as its first frame instead of clearing to black.
+
+---
+
+## Context
+
+The RaBbLE-OS boot chain (GRUB → Plymouth splash → SDDM greeter) has three visible seams on the ProArt P16, documented across `RaBbLE-Grimoire/RaBbLE-OS/fix/RaBbLE-OS-BootChain-Anatomy.md` and `RaBbLE-OS-Fix-BootChain.md`:
+
+1. **GRUB → Plymouth** — a black box / flash after the menu, during kernel load (§3.1, `[OPEN]`).
+2. **Mid-Plymouth ~1–2s black** — the intrinsic simpledrm → amdgpu framebuffer handoff. amdgpu takes ~2.5s to load firmware (DMUB/PSP/VBIOS) and only then modesets eDP-1; the CRTC blanks during that switch (`Console: switching to colour dummy device 80x25` at T+4.23). This is the headline defect (§3.3).
+3. **Plymouth → SDDM** — a 200–400ms black at the greeter handoff, currently masked by a blind `ExecStartPre=/bin/sleep 0.3` in `plymouth-quit.service` (§3.5, mitigated not fixed).
+
+**Hardware reality (already correct, will harden):** the laptop panel `eDP-1` hangs off the **AMD 890M iGPU** (`amdgpu`, PCI `0000:65:00.0`, currently `card1`). NVIDIA (`card0`) drives no internal display and is already deferred out of the initramfs via `rd.driver.blacklist=nvidia`, loading only after SDDM. So **boot display is already amdgpu + simpledrm only** — Mark's "just amdGPU, possibly simple DRM" goal is the current architecture; Phase 2 completes it by removing the second DRM device.
+
+**Disproven theories — do NOT re-chase** (from the anatomy ledger §4, cost 5+ sessions):
+- `amdgpu.seamless=1` is a **confirmed no-op** on DCN 3.5 / kernel 7.0.x (still logs the dummy switch).
+- `plymouth.use-simpledrm=1` causes **permanent black**.
+- The ternary-operator bug once blacked the whole theme.
+- The `GFXPAYLOAD=3840x2400x32` native-payload fix (§3.2) is load-bearing — keep it.
+
+**Decisions (Mark, this session):**
+- GRUB: **keep the visible menu** (recovery entry stays reachable) and fix the black box another way.
+- amdgpu seam: **two phases** — ship the safe VM-verifiable seam fixes first, then re-attempt eliminating simpledrm on real hardware, this time root-causing the S173 SDDM regression.
+
+**Outcome:** GRUB → Plymouth → SDDM reads as one continuous liminal scene. Phase 1 is low-risk and VM-verifiable, and directly feeds **G7** (the generic-x86_64-VM Developer-Preview FLOOR boot gate, `RaBbLE-Grimoire/log/G7-G9-Verification-Guide.md`). Phase 2 is ProArt daily-driver polish.
+
+---
+
+## Phase 1 — Safe seam fixes (low risk, VM-verifiable, applies to ALL RaBbLE-OS)
+
+VM caveat: the dev VM uses virtio-gpu, **not** amdgpu, so it **cannot** reproduce seam #2 (the amdgpu firmware handoff). It **can** verify GRUB rendering, systemd ordering, retain-splash behavior, and SDDM — everything in Phase 1. Verify Phase 1 via `spells/vm-boot-iterate.sh` (virsh screenshots the full GRUB→Plymouth→SDDM sequence).
+
+### 1A. Plymouth → SDDM: replace the sleep hack with `--retain-splash` (the real fix)
+
+**Root mechanism:** `sddm.service` is ordered `After=plymouth-quit.service`, and vendor `plymouth-quit` runs `plymouth quit` (no flags) which **explicitly hides** the splash on exit → black → *then* SDDM starts and paints. The 0.3s sleep only shifts when the black starts. Plymouth and the SDDM/sway greeter both need DRM master, so they can't paint simultaneously; the fix is to **leave the last splash frame on the framebuffer** while the greeter paints over it.
+
+- File: `ansible/roles/boot/session_manager/files/plymouth-quit-sddm.conf`
+  Change the drop-in to **override ExecStart** (reset then set) instead of adding a pre-sleep:
+  ```ini
+  [Service]
+  ExecStart=
+  ExecStart=-/usr/bin/plymouth quit --retain-splash
+  ```
+  `--retain-splash` (confirmed supported: `plymouth quit --retain-splash`) keeps the frozen final splash frame visible after Plymouth releases DRM, so the greeter's paint-up shows the splash, not black. The existing SDDM `Main.qml` 500ms entity opacity fade-in (from S155) then cross-fades on top — a true dissolve. Drop the blind `sleep 0.3` (keep a tiny `ExecStartPre` sleep of 0.1s only if the VM capture still shows a gap).
+- Rename the deployed drop-in filename/comment from `sddm-first-frame.conf` to reflect retain-splash; update the `copy:` task in `ansible/roles/boot/session_manager/tasks/config.yml` accordingly.
+
+### 1B. GRUB → Plymouth: diagnose the black box, then targeted keep-menu fix
+
+The anatomy doc (§3.1) explicitly says this artifact must be **classified before fixing** (full-screen vs rectangle vs faint text) and needs eyes on the GRUB phase. The VM gives us those eyes without a real reboot:
+
+1. **Diagnose:** run `spells/vm-boot-iterate.sh` and inspect the captured GRUB→Plymouth frames (virsh screenshots land in `RaBbLE-BaBbLE/captures/Boot/vm-<ts>/`). Classify: is the black full-screen (theme/console teardown, candidate b/c) or a rectangle with liminal bg around it (gfxterm load-message region, candidate a)?
+2. **Fix (candidate, keep-menu):** the "Loading Linux / Loading initial ramdisk" phase activates gfxterm's opaque console region over the themed bg. With the menu retained, the targeted levers in `ansible/roles/boot/grub2/templates/grub.j2` + `theme.j2` are:
+   - style the gfxterm message region so its background is the liminal void, not `#000`, via the theme's terminal/message properties (so the load text region blends into the bg); and/or
+   - ensure the theme's `desktop-image` (liminal bg) remains the last-drawn surface through the load phase rather than being cleared to `desktop-color`.
+   Exact lever is picked from the step-1 classification — do not guess blind (the doc's explicit warning). `GRUB_COLOR_NORMAL="black/black"` already hides the *text*; the remaining work is the *canvas* fill.
+
+### 1C. Kernel cmdline hygiene (evidence-based only)
+
+- Reconcile a **doc↔reality drift**: `BootChain-Anatomy.md` §4.3 says `amdgpu.seamless=1` was REMOVED S172 as a proven no-op, but it is **still present** in both the live cmdline and `ansible/inventory/group_vars/asus_proart_p16.yml`. Since it demonstrably does nothing, remove it to stop it masquerading as an active fix (it is ProArt-specific, so this is a group_vars edit). Leave a one-line comment pointing at the ledger entry so it isn't re-added.
+- Keep everything else on the cmdline as-is (all evidence-backed): `rhgb quiet loglevel=3`, `fbcon=nodefer`, `vt.global_cursor_default=0`, `rd.driver.blacklist=nvidia`, `rd.udev.log_level=3`, `GFXPAYLOAD=3840x2400x32`. No speculative token additions.
+
+---
+
+## Phase 2 — amdgpu as the sole DRM device (real-HW only, ProArt-specific)
+
+**Goal:** eliminate seam #2 by removing the second DRM device so there is no simpledrm→amdgpu migration, no dummy-device blank, no animation catch-up (anatomy §5). The GOP framebuffer (GRUB's last frame) then holds statically until amdgpu+Plymouth start — no flash, just a longer still frame up front (which is why 1B matters: that still frame should be the liminal bg).
+
+This was attempted (S172) and **reverted (S173) because it broke SDDM**. We re-attempt it *with the regression root-caused first.*
+
+### 2A. Root-cause the S173 SDDM breakage (strong hypothesis)
+
+The SDDM/sway greeter compositor is pinned to a **hard card number**: `ansible/roles/hardware/x64/asus_proart_p16/tasks/nvidia.yml` deploys `/etc/sddm.conf.d/rabble-gpu.conf` with `CompositorCommand=env WLR_DRM_DEVICES=/dev/dri/card1 …`. With simpledrm present, AMD enumerates as `card1`. **Remove simpledrm and the numbering very likely shifts** (AMD may become `card0`) → the pin points at the wrong/nonexistent node → greeter fails → SDDM never loads. That matches the S173 symptom exactly.
+
+- **Fix:** repin the greeter to the stable by-path node that survives renumbering: `WLR_DRM_DEVICES=/dev/dri/by-path/pci-0000:65:00.0-card` (verified present on the live machine; always resolves to the AMD 890M regardless of `cardN`). Edit `nvidia.yml`.
+
+### 2B. Re-add the simpledrm suppression
+
+- `ansible/inventory/group_vars/asus_proart_p16.yml` → append to `rabble_grub_extra_cmdline`: `initcall_blacklist=simpledrm_platform_driver_init` (simpledrm is builtin, so this is the only way to disable it). amdgpu is already force-loaded into the initramfs (`add_drivers+=" amdgpu "`), so it remains the recovery framebuffer path.
+- If step-2C diagnosis shows the greeter still races amdgpu, add a systemd ordering guard so SDDM waits for the amdgpu DRM node (e.g. `After=` a udev-settle / dev-dri device unit) — decide from the real-boot evidence, not preemptively.
+
+### 2C. Real-hardware verification (mandatory before promoting `[~]` → `[x]`)
+
+Real HW only — the amdgpu handoff is not reproducible in the VM. **Have a recovery USB ready** (anatomy §5 flags the risk: no simpledrm = no early fb if amdgpu ever fails).
+
+```bash
+sudo bash spells/boot-debug-toggle.sh --on      # plymouth:debug + apply boot
+sudo reboot                                      # Mark watches the handoff
+sudo bash spells/boot-diagnose.sh                # theme-in-initramfs, amdgpu present, log errors
+bash spells/boot-profile.sh                      # timing; expect the dummy-switch black gone
+# confirm the dummy switch is gone:
+journalctl -k -b -o short-monotonic | grep -E "dummy device|frame buffer device|amdgpudrmfb"
+sudo bash spells/boot-debug-toggle.sh --off      # remove the debug flag (no permanent drift)
+```
+Success = no `Console: switching to colour dummy device 80x25`, amdgpu fb comes up once, SDDM loads (the S173 failure does **not** recur), no animation speed-jump. If SDDM still fails, revert 2B (delete the token, `apply boot`, reboot — simpledrm returns) and re-diagnose 2A.
+
+---
+
+## Verification summary
+
+| Phase | Where | How |
+|---|---|---|
+| 1A/1B/1C | Dev VM (generic x86_64) | `spells/vm-boot-iterate.sh` full loop → inspect virsh frames in `RaBbLE-BaBbLE/captures/Boot/vm-<ts>/`; `boot-profile.sh` for timing. **This is the G7 boot evidence.** |
+| 1A alt | Live session | `sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/rabble-aether` for the greeter render; plymouth preview per `Plymouth-Tweaking.md` §3A |
+| 2 | Real ProArt reboot | `boot-debug-toggle --on` → reboot (Mark's eyes) → `boot-diagnose.sh` + `boot-profile.sh` + journal grep → `--off`. Recovery USB ready. |
+
+Apply cycle for all changes: `cd ~/RaBbLE-Collective/RaBbLE-OS && sudo ./RaBbLE-OS-layerctl.sh apply boot` (deploys theme/grub/sddm, runs `dracut --force` + `grub2-mkconfig` via handlers), then reboot. Phase 2 also needs `apply hardware` (nvidia.yml greeter repin).
+
+## Files touched
+
+- `ansible/roles/boot/session_manager/files/plymouth-quit-sddm.conf` — retain-splash override (1A)
+- `ansible/roles/boot/session_manager/tasks/config.yml` — deploy task rename/comment (1A)
+- `ansible/roles/boot/grub2/templates/grub.j2` + `theme.j2` — gfxterm canvas fix, after VM diagnosis (1B)
+- `ansible/inventory/group_vars/asus_proart_p16.yml` — drop `amdgpu.seamless=1` (1C); add `initcall_blacklist=simpledrm_platform_driver_init` (2B)
+- `ansible/roles/hardware/x64/asus_proart_p16/tasks/nvidia.yml` — greeter GPU pin → by-path (2A)
+
+## Docs (Grimoire is the source — update, don't duplicate)
+
+- `RaBbLE-Grimoire/RaBbLE-OS/fix/RaBbLE-OS-Fix-BootChain.md` — log the retain-splash fix, the amdgpu.seamless drift removal, and the Phase-2 re-attempt with the by-path root cause.
+- `RaBbLE-Grimoire/RaBbLE-OS/fix/RaBbLE-OS-BootChain-Anatomy.md` — update §3.5 (retain-splash), §4.3 (seamless actually removed now), §5/§9 (S173 root cause = hard card pin; by-path fix).
+
+## Out of scope (deferred)
+- 4K asset masters (entity/wordmark upscale softness) — separate visual-polish pass
+- Seamless entity idle loop (NeBuLA frame export) — noted future pass
+- `NetworkManager-wait-online` boot-time win — already masked (S156); re-profile only

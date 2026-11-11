@@ -1,0 +1,22 @@
+time 5000000
+init
+nodump
+power 80 4000 0 0 1
+time 65000000
+power 79 3990 0 0 1
+read
+reset
+read
+rtc
+time 125000000
+power 78 3980 0 0 1
+read
+json
+power 78 3980 0 1 0
+read
+reset
+read
+json
+rtc
+power 77 3970 0 0 1
+read

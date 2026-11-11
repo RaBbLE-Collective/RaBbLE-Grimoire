@@ -1,0 +1,47 @@
+# HANDOFF-S268 · Pocket: W6 integrate (implementer running), then W7, then the RaBbLE-SDK
+
+> Written 2026-10-22 in S268 for a cold start. Supersedes `done/HANDOFF-S267-Pocket-CleanRoom-Final-SDK.md`, whose **W7 list (section 2) and RaBbLE-SDK plan (section 3) are still current**: read them there, this file only adds what changed.
+> Read first: this file, `RaBbLE-Pocket/cleanroom/w6-board.spec.md` (the contract; section 10 is your checklist), `RaBbLE-Pocket/RaBbLE-Pocket-Clean-Room-Plan.md` (Roles, Contract), `RaBbLE-Pocket/RaBbLE-Pocket-Responsiveness.md`.
+
+## Where things are
+
+| Repo | Branch | State |
+|---|---|---|
+| RaBbLE-Pocket | `new-horizons` `ac2e9f9` | unchanged code; only `firmware/datasheets/README.md` modified (2 rows + CST9217 note). Flashed: `ac2e9f9` (clean, after one instrumented boot). Nothing pushed (54 ahead) |
+| RaBbLE-Grimoire | `new-horizons` `dab19c0` + this handoff | W6 spec, responsiveness log, INDEX row; not pushed |
+| Clean workspace | `~/RaBbLE-Cleanroom/pocket-w6` base `c04367d` | export of Pocket `ac2e9f9` minus `firmware/bsp`, `ops/cleanroom-overlap.py`, `ops/cleanroom-audit.py`; plus datasheets, managed components, a fresh interface-only `bsp/` skeleton (`CMakeLists.txt` with `SRC_DIRS "."` + the REQUIRES list, `idf_component.yml` with the Waveshare `^3.0.1` dependency), `SPEC.md` (W6 spec at `dab19c0`), `SEAM-SPEC.md`, `BRIEF.md` (implementer rules) |
+
+## Done in S268
+
+1. **Datasheets:** CO5300 and ES7210 into `firmware/datasheets/` (Waveshare hosted). **No public CST9217 datasheet exists** (Waveshare, Espressif registry, vendor searched): the managed `waveshare__esp_lcd_touch_cst9217` driver is the reference.
+2. **Boot measured** (one instrumented flash, reverted, reflashed clean): reset boot lights the panel at **2,809 ms**; panel init alone 1,203 ms = the vendor init table's two 600 ms waits (datasheet needs 5 ms after Sleep Out, booster up at 120 ms). Full table in the responsiveness doc.
+3. **W6 spec** `cleanroom/w6-board.spec.md`, written by S268 (S role: read `bsp/`). Section 0 is the "map for Mark". Deliberate changes: 8.1 `>perf` opt-in logs, 8.2 steady 30 fps, 8.3 config trims (Mark's ok needed), 8.4 panel init waits, 8.5 no TE wait without TE (added by F).
+4. **Firewall (F):** independent Opus 5.5 sub-agent, approved after edits (16 changes: comment echoes rephrased, step walks turned into guarantees, rescue priority exact as `configMAX_PRIORITIES - 2`). Findings: today a failed TE ISR install still waits 40 ms per frame (now 8.5); the original's "panel reset shared with touch" is false (GPIO 39 vs 40), deep standby is still avoided but its rationale is open for Mark.
+5. **Console finding** (Mark asked if the baud change matters): the **primary console is UART0 (GPIO 43/44) at 115200, which nothing reads**; USB Serial/JTAG (what tools read) is only the secondary. Every log byte busy-waits UART0: ~0.57 s of wire time before the panel lights, plus runtime stalls on any task that logs. Preferred fix: USB Serial/JTAG as primary, UART0 off; needs one measurement build (host connected but not reading). Logged with 13 other paths, ranked, in `RaBbLE-Pocket/RaBbLE-Pocket-Responsiveness.md` (Mark: "I want the device to feel snappy and alive").
+6. **Mark's decisions:** W7 copyright header sweep covers **every tracked file** (recorded in the S267 handoff's W7 item). Mark skipped the spec walkthrough for now ("let's handoff and start W6"); offer it again when he wants the map.
+8. **Pomodoro bug (Mark's first look, S268): "the back to face is wrong direction on pomodoro."** Fix first next session: leaving Applets must mirror how it opened (it comes in from the left on a swipe right, so going back to the face should go the other way, as Settings does in reverse); check both the back gesture direction and the slide-out animation, and spec 6.1 ("swipe left closes it") with Mark. Then his full hand check.
+8. **Pomodoro slice DONE and flashed** (Pocket `6fcd739`; 102 pomo + 873 orbit checks, sim scenes pomo_01-07; awaiting Mark's hand check: swipe right from the face, hold centre to start, `>pomo=skip` for a round end; fidgets/nudges are TODOs). Original note: (Mark, S268: "quickly implement the pomodoro"): a Sonnet sub-agent on Pocket `new-horizons`, `w5-orbit.spec.md` 6.1 to 6.4, 6.6 and only the focus look from 6.5 (fidgets and check-in nudges deferred, TODOs in code); builds and commits (`%S268_POMO%`), does not flash. If the session ended first: check `git log` for that tag, else redo the slice. Then flash and hand-check with Mark.
+9. **Offline notes on flash** (Mark, S268: "make notes write to LittleFS when not connected and run the audio later after connected, then only keep the transcript"). Today (`accord/rabble_voice.c`): an undelivered push-to-talk turn becomes an in-RAM note (max 4, `SAVED, SENDS WHEN ONLINE`), sent by `note_pass`/`note_send` once the beam is ready, with 15 s to 2 min backoff; lost on reboot and on the 45 s battery power-off. The design to build (after the Pomodoro agent's build is done, one build in `firmware/build` at a time):
+   - On save, write the audio to the notes partition as its own file under an outbox folder (e.g. `/pocket/outbox/<created-id>.adpcm`, IMA ADPCM via `rabble_adpcm` for 4:1, with a small header: recorded wall time from the RTC, sample count, try count). Keep the in-RAM path only as fallback when the store is not ready. Cap by store space (the notes store keeps 10% free), not by 4.
+   - At boot, rebuild the queue from the outbox files (oldest first). The existing `note_pass` sending, backoff and reply playback stay as they are (Mark: the reply audio still plays when it goes out).
+   - When sCoRE's `heard` text for that turn arrives, write the transcript as a note through `rabble_notes_put` (markdown with frontmatter: `kind: voice-note`, recorded time, sent time, duration; title from the first words), then delete the outbox audio file. If the turn fails after `heard`, the transcript is still saved and the audio deleted (don't send it twice). If no `heard` ever comes, the audio stays for the next try.
+   - **Flash writes must not run above the panel's priority** (S264/S265: flash work stalls cached code on both cores; the voice task is priority 6, above the panel). Hand the writes to a task under the panel priority, or reuse whatever the notes store/capture path does today; check it.
+   - Console: `>notes` (or the existing notes console) lists outbox entries; log lines like today's `saved a 1.4s note to send later (n waiting)`.
+   - Tests: host test of the outbox format and queue rebuild; on the gadget, W4 voice checklist item 7 plus a power-off in between (record offline, power off, power on, reconnect: the note goes out, the reply plays, the transcript is in the notes store, the outbox is empty).
+7. **Implementer started:** fresh Sonnet 5.5 sub-agent (`general-purpose`, `model: sonnet`), told only to read `BRIEF.md`; it writes new `bsp/` sources in the workspace, builds, commits in the workspace git, does not flash.
+
+## Next, in order
+
+1. **When the implementer reports:** read its report; in the workspace, `git log`/`git diff c04367d` to review (G may read both sides). Archive its transcript to `~/RaBbLE-Cleanroom/transcripts/w6/` (the sub-agent JSONL from the S268 session's tasks dir; if this is a new session, the parent session's `tasks/*.output` file for that agent) and run `ops/cleanroom-audit.py` on it.
+2. **Integrate (G)** on Pocket `new-horizons`: copy the new `bsp/` sources over, delete `bsp_waveshare_175b.c`, `rabble_lcd_bands.c/.h` **in the same commit**, keep `bsp/LICENSE-APACHE` and the NOTICE section until W7. Wire `>perf` where the implementer's report says (8.1). Build, flash, run the spec's section 10 checklist (needs Mark's hands for PWR, touch everywhere, brightness feel, IMU tilt; S264 freeze repro: flash work during a turn plus a TLS reconnect). Behaviour failures go back to the implementer **as behaviour** (SendMessage to the same agent if still reachable, else a fresh Sonnet with the same brief plus the failure list), never as code.
+3. **Overlap gate:** `ops/cleanroom-overlap.py` on the new files, < 5% with every hit reviewed. PROVENANCE row for W6 (spec S268, F S268 Opus sub-agent, I Sonnet sub-agent, inputs, overlap, commit).
+4. **Config trims (8.3) and the console path:** ask Mark; then one measurement build per the responsiveness doc's "How to measure" (reset and cold boot).
+5. **W7 close-out**, then the **RaBbLE-SDK**: as in `done/HANDOFF-S267-...` sections 2 and 3 (W7 after the W6 overlap gate passes; SDK layout planned with Mark first).
+
+## Gotchas
+
+- This session (S268) read `bsp/`: it is S/F/G, never I. The implementer must not see this handoff, the S267 handoff, PROVENANCE or the responsiveness doc's mentions of `s_lit_at` (all quote or name the original).
+- Serial and flashing: one logger (`serlog.py`; a copy is in the S268 scratchpad), `pkill -f "serlog.p[y]"` in its own call before flashing (exit 144 from the logger's background task is expected); opening the port resets the gadget, so a "cold boot" needs a PWR power-on.
+- zsh: `command grep`, quote globs.
+- end-session.sh ledger clobber: back up `log/token-ledger.tsv` first.
+- Other sessions' `log/agents/*.json` changes show in `git status`: never stage them.

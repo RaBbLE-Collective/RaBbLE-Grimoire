@@ -1,0 +1,27 @@
+time 1000000
+init
+nodump
+power 100 4200 0 0 1
+time 601000000
+power 100 4190 0 0 1
+read
+drain
+time 1801000000
+power 99 4150 0 0 1
+read
+drain
+time 36001000000
+power 70 3800 0 0 1
+read
+drain
+time 36601000000
+power 71 3810 0 0 1
+read
+drain
+time 50000000000
+power 0 3300 0 0 1
+read
+drain
+power 100 4200 1 1 0
+read
+drain

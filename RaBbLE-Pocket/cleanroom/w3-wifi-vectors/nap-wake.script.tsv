@@ -1,0 +1,19 @@
+# nap leaves wifi and stops looking; waking rejoins at once with a scan first
+0	wifi_on	1
+0	preload	Home	hp	0
+0	air	Home:-50:secure
+0	result	Home	ok:2000
+0	start
+4000	status
+10000	nap	1
+10000	status
+10500	status
+10500	connected
+11000	apply
+12000	status
+100000	status
+100000	nap	0
+100000	status
+101000	status
+104500	status
+110000	end

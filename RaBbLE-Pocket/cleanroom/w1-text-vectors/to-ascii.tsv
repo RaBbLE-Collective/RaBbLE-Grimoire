@@ -1,0 +1,127 @@
+# rabble_text_to_ascii(buf, cap). The buffer holds the input NUL terminated and is at least max(cap, strlen+1) bytes. Every input here has strlen < cap.
+# columns: note, input_hex, cap, result_hex (- empty), shown_input, shown_result
+plain	68656c6c6f	16	68656c6c6f	hello	hello
+curly quotes	e2809c6869e2809d20e2809878e28099	64	2268692220277827	“hi” ‘x’	"hi" 'x'
+dashes	61e2809362e2809463e2809564	64	612d622d2d632d2d64	a–b—c―d	a-b--c--d
+ellipsis	77616974e280a6	64	776169742e2e2e	wait…	wait...
+accents	636166c3a920c3bc626572206e61c3af766520c3856e67737472c3b66d	64	636166652075626572206e6169766520416e677374726f6d	café über naïve Ångström	cafe uber naive Angstrom
+latin ext	c581c3b364c5ba20c5a0c3a4c5a1	64	4c6f647a20536173	Łódź Šäš	Lodz Sas
+ligatures	c3866f6e20c5927576726520c39f20c3be20c4b2	64	41456f6e204f457576726520737320746820494a	Æon Œuvre ß þ Ĳ	AEon OEuvre ss th IJ
+symbols	c2a920c2ae20e284a220e282ac3520c2a3313220c2bd	64	2863292028522920544d204555523520474250313220312f32	© ® ™ €5 £12 ½	(c) (R) TM EUR5 GBP12 1/2
+arrows	61e286926220e2869020e2869420e28792	64	612d3e62203c2d203c2d3e203d3e	a→b ← ↔ ⇒	a->b <- <-> =>
+math	e289a420e289a520e289a020e2898820e28892	64	3c3d203e3d20213d207e202d	≤ ≥ ≠ ≈ −	<= >= != ~ -
+emoji dropped	686920f09f9880207468657265	64	686920207468657265	hi 😀 there	hi  there
+emoji with selector and keycap	31efb88fe283a3206f6b	64	31206f6b	1️⃣ ok	1 ok
+zwj sequence	f09f91a8e2808df09f91a9	64	-	👨‍👩	
+combining accent	65cc8161	64	6561	éa	ea
+cjk kept	e4bda0e5a5bd20776f726c64	64	e4bda0e5a5bd20776f726c64	你好 world	你好 world
+hangul kept	eab080eb8298	64	eab080eb8298	가나	가나
+cyrillic kept	d0bfd180	64	d0bfd180	пр	пр
+spaces of other widths	61e2808362e2808963c2a064e280af65	64	612062206320642065	a b c d e	a b c d e
+bom, soft hyphen, word joiner dropped	efbbbf61c2ad62e281a063	64	616263	﻿a­b⁠c	abc
+invalid kept	618062ff63	64	618062ff63	a\\x80b\\xffc	a\\x80b\\xffc
+truncated at end kept	6162e280	64	6162e280	ab\\xe2\\x80	ab\\xe2\\x80
+truncated then ascii	e28041	64	e28041	\\xe2\\x80A	\\xe2\\x80A
+dingbats dropped	6f6b20e29c9420e2988520e29da4	64	6f6b20762020	ok ✔ ★ ❤	ok v  
+check mark stand-ins	e29c9320e29c97	64	762078	✓ ✗	v x
+empty	-	8	-		
+cap 1 empty out	-	1	-		
+expansion exactly fits (cap 6, text "a" + em dash => "a--" )	61e28094	4	612d2d	a—	a--
+expansion one over	61e28094	3	61	a—	a
+expansion, cap 2	61e28094	2	61	a—	a
+ellipsis tail cut	616263e280a6	6	616263	abc…	abc
+ellipsis tail fits	616263e280a6	7	6162632e2e2e	abc…	abc...
+later shrink not anticipated: ellipsis then accents	e280a6c3a9c3a9c3a9	6	-	…ééé	
+later shrink not anticipated 2	e280a6c3a9c3a9c3a9	8	-	…ééé	
+1-for-1 replacement at cap boundary	6162c3a9	5	616265	abé	abe
+1-for-1 replacement tight	6162c3a9	4	616265	abé	abe
+drop then expand	f09f9880e28094	5	2d2d	😀—	--
+cut leaves earlier conversions	e2809c616263e280a6e280a6	7	-	“abc……	
+GBP euro	c2a33120e282ac32	20	474250312045555232	£1 €2	GBP1 EUR2
+fractions	c2bcc2bdc2be	20	312f34312f32332f34	¼½¾	1/41/23/4
+cap equals strlen+1 ascii	61626364	5	61626364	abcd	abcd
+random	efbc8c61f09f9880e280a6efbca178797ac2a9e286922e	24	efbc8c612e2e2eefbca178797a2863292d3e2e	，a😀…Ａxyz©→.	，a...Ａxyz(c)->.
+random	f09f9880c380	11	41	😀À	A
+random	-	6	-		
+random	efbca1202020	10	efbca1202020	Ａ   	Ａ   
+random	c2a9e4b8ad6178797ae38182e3818278797ac380c3a9	30	286329e4b8ad6178797ae38182e3818278797a4165	©中axyzああxyzÀé	(c)中axyzああxyzAe
+random	c3a9efbca1e280a6c2a9c3a9efbc8ce4b8ad78797ae4b8ad	28	65efbca12e2e2e28632965efbc8ce4b8ad78797ae4b8ad	éＡ…©é，中xyz中	eＡ...(c)e，中xyz中
+random	c2a9c3a9	8	28632965	©é	(c)e
+random	efbca1e2809478797a20d0b0622e2e62e2809c	24	efbca12d2d78797a20d0b0622e2e6222	Ａ—xyz аb..b“	Ａ--xyz аb..b"
+random	efbca1e38082d0b0	16	efbca1e38082d0b0	Ａ。а	Ａ。а
+random	e2809ce280a620c3a9	13	222e2e2e2065	“… é	"... e
+random	c3a9c2a978797a78797a20e38082f09f9880	22	6528632978797a78797a20e38082	é©xyzxyz 。😀	e(c)xyzxyz 。
+random	6120e38082d0b0c380e4b8ad6262e280a6efbc8ce38182	26	6120e38082d0b041e4b8ad62622e2e2eefbc8ce38182	a 。аÀ中bb…，あ	a 。аA中bb...，あ
+random	e38182	6	e38182	あ	あ
+random	eab080e2809ce28692c3a9e286926261	24	eab080222d3e652d3e6261	가“→é→ba	가"->e->ba
+random	efbc8c626178797ac2a9	12	efbc8c626178797a286329	，baxyz©	，baxyz(c)
+random	20efbc8ceab080c3a92020c380	19	20efbc8ceab08065202041	 ，가é  À	 ，가e  A
+random	62c3a9eab080e3818220e2809420d0b061e28094e28692	24	6265eab080e38182202d2d20d0b0612d2d2d3e	bé가あ — аa—→	be가あ -- аa--->
+random	efbca1efbca1e286926178797a202020c2a9	20	efbca1efbca12d3e6178797a202020286329	ＡＡ→axyz   ©	ＡＡ->axyz   (c)
+random	d0b0eab080efbca1e28692	19	d0b0eab080efbca12d3e	а가Ａ→	а가Ａ->
+random	c380c3a920e2809ce2809c61efbc8c	17	416520222261efbc8c	Àé ““a，	Ae ""a，
+random	61e4b8ad2ee2809478797ae28094e38082	18	61e4b8ad2e2d2d78797a2d2de38082	a中.—xyz—。	a中.--xyz--。
+random	efbc8cc3a978797af09f9880e2809c	18	efbc8c6578797a22	，éxyz😀“	，exyz"
+random	eab080c380e28094e4b8adeab080efbca1e38082f09f9880c2a9d0b0f09f9880f09f9880	43	eab080412d2de4b8adeab080efbca1e38082286329d0b0	가À—中가Ａ。😀©а😀😀	가A--中가Ａ。(c)а
+random	e28692eab080f09f9880	13	2d3eeab080	→가😀	->가
+random	e28094e38182	7	2d2de38182	—あ	--あ
+random	20e38082e280a62ec380e28094e38082f09f9880d0b0efbca1c2a9	35	20e380822e2e2e2e412d2de38082d0b0efbca1286329	 。….À—。😀аＡ©	 。....A--。аＡ(c)
+random	eab08078797ac380eab0802062e3808278797a62e38082	29	eab08078797a41eab0802062e3808278797a62e38082	가xyzÀ가 b。xyzb。	가xyzA가 b。xyzb。
+random	c2a9e2869261c2a9	11	2863292d3e61286329	©→a©	(c)->a(c)
+random	c380f09f988061e38082e4b8adc3a9	16	4161e38082e4b8ad65	À😀a。中é	Aa。中e
+random	2ec3802ec2a9c3a9c2a9c2a9e3818220f09f9880	24	2e412e28632965286329286329e3818220	.À.©é©©あ 😀	.A.(c)e(c)(c)あ 
+random	e38082e280a661e28094c3a962e280a6	20	e380822e2e2e612d2d65622e2e2e	。…a—éb…	。...a--eb...
+random	e38182c3a9e2809ce2809c	14	e38182652222	あé““	あe""
+random	e4b8ad20d0b0efbca1c3a9c380	21	e4b8ad20d0b0efbca16541	中 аＡéÀ	中 аＡeA
+random	c2a961efbca1	12	28632961efbca1	©aＡ	(c)aＡ
+random	eab080c2a9f09f98802ec2a92ef09f9880	21	eab0802863292e2863292e	가©😀.©.😀	가(c).(c).
+random	20efbc8cc3a9eab080e3808261	19	20efbc8c65eab080e3808261	 ，é가。a	 ，e가。a
+random	2062c380eab080c3a9d0b0e38082e28094	18	206241eab08065d0b0e380822d2d	 bÀ가éа。—	 bA가eа。--
+random	20d0b062	7	20d0b062	 аb	 аb
+random	eab080c3a9e28094c3a9e2809ce2809cc380e28094	23	eab080652d2d652222412d2d	가é—é““À—	가e--e""A--
+random	e4b8adc380e2809cc3a9efbc8cc3a9c2a9e280a6e2809ce2809cc3a9e38082	36	e4b8ad412265efbc8c652863292e2e2e222265e38082	中À“é，é©…““é。	中A"e，e(c)...""e。
+random	efbca178797af09f9880efbc8cc3a9c3a9e2809ce38082e28692e28094	33	efbca178797aefbc8c656522e380822d3e2d2d	Ａxyz😀，éé“。→—	Ａxyz，ee"。->--
+random	c3a92ee2809c6178797aefbca1	14	652e226178797aefbca1	é.“axyzＡ	e."axyzＡ
+random	62e2809cefbca1c3a9e286922ee2809420	20	6222efbca1652d3e2e2d2d20	b“Ａé→.— 	b"Ａe->.-- 
+random	c3a9	10	65	é	e
+random	efbca1e38082e4b8ade28094e28094c3a9	23	efbca1e38082e4b8ad2d2d2d2d65	Ａ。中——é	Ａ。中----e
+random	e28094e2809ceab0802ef09f9880d0b0	17	2d2d22eab0802ed0b0	—“가.😀а	--"가.а
+random	c3a96162f09f9880	11	656162	éab😀	eab
+random	61efbc8ceab080	13	61efbc8ceab080	a，가	a，가
+random	78797ae280942e	15	78797a2d2d2e	xyz—.	xyz--.
+random	e286922ee2809c78797ae38082f09f9880e2809cd0b061efbca1c2a9	35	2d3e2e2278797ae3808222d0b061efbca1286329	→.“xyz。😀“аaＡ©	->."xyz。"аaＡ(c)
+random	78797ae280a6c3a9f09f9880c2a9c3a9c2a9f09f9880	26	78797a2e2e2e6528632965286329	xyz…é😀©é©😀	xyz...e(c)e(c)
+random	78797ae28692c3a9e4b8adc2a9e38182e280a6eab080	28	78797a2d3e65e4b8ad286329e381822e2e2eeab080	xyz→é中©あ…가	xyz->e中(c)あ...가
+random	f09f9880f09f98802e	12	2e	😀😀.	.
+random	c3a920e38082	13	6520e38082	é 。	e 。
+random	d0b0	9	d0b0	а	а
+random	c3a9f09f9880efbca1c2a9612ef09f9880e28692	26	65efbca1286329612e2d3e	é😀Ａ©a.😀→	eＡ(c)a.->
+random	2ee2809cc2a9eab080e2809c	16	2e22286329eab08022	.“©가“	."(c)가"
+random	20e280942e6162c3a978797ae2809ce28692e28094c3a9f09f9880	30	202d2d2e61626578797a222d3e2d2d65	 —.abéxyz“→—é😀	 --.abexyz"->--e
+random	f09f9880	7	-	😀	
+random	efbc8c2e	5	efbc8c2e	，.	，.
+random tight	c380202e	5	41202e	À .	A .
+random tight	efbca1c380d0b0e2809ce38182d0b0	16	efbca141d0b022e38182d0b0	ＡÀа“あа	ＡAа"あа
+random tight	c2a9e381826162	8	-	©あab	
+random tight	e280a6d0b0c380e38182	11	2e2e2ed0b041e38182	…аÀあ	...аAあ
+random tight	efbca1f09f9880c2a9e280a62ee2809c	17	efbca12863292e2e2e2e22	Ａ😀©….“	Ａ(c)...."
+random tight	eab080	4	eab080	가	가
+random tight	efbca1e280a6	7	efbca12e2e2e	Ａ…	Ａ...
+random tight	f09f9880e2809ce280a6eab080e38082e380822ee280a6efbca1c3a9	29	222e2e2eeab080e38082e380822e2e2e2eefbca165	😀“…가。。.…Ａé	"...가。。....Ａe
+random tight	c3a9e38182d0b0e280a6efbca1f09f9880	18	65e38182d0b02e2e2eefbca1	éあа…Ａ😀	eあа...Ａ
+random tight	20eab080efbc8c	8	20eab080efbc8c	 가，	 가，
+random tight	2e61e38182c2a962e4b8ade38082efbc8c	18	2e61e38182	.aあ©b中。，	.aあ
+random tight	f09f9880efbca1e280a6e280a6c3a920	17	efbca12e2e2e2e2e2e6520	😀Ａ……é 	Ａ......e 
+random tight	e2809ce28094f09f98802eefbca1e280a661	19	222d2d2eefbca12e2e2e61	“—😀.Ａ…a	"--.Ａ...a
+random tight	c2a92e	4	-	©.	
+random tight	e38082c380efbca1e2809c	12	e3808241efbca122	。ÀＡ“	。AＡ"
+random tight	f09f9880	5	-	😀	
+random tight	612ee38082e38082e38082eab080c3a9	17	612ee38082e38082e38082eab08065	a.。。。가é	a.。。。가e
+random tight	e2809cd0b0e2809ce280a62ec38020c3a9c2a9	20	22d0b0222e2e2e2e412065286329	“а“….À é©	"а"....A e(c)
+random tight	efbca1	4	efbca1	Ａ	Ａ
+random tight	efbca1e28094e280a6	10	efbca12d2d2e2e2e	Ａ—…	Ａ--...
+random tight	c3a9c2a9c2a962d0b0e28094d0b0efbc8c	18	65286329	é©©bа—а，	e(c)
+random tight	efbca1c2a9efbc8ce38182e2809cefbc8ce28094e38082c3a9	26	efbca1	Ａ©，あ“，—。é	Ａ
+random tight	efbc8c6161e4b8ade280a6	12	efbc8c6161e4b8ad2e2e2e	，aa中…	，aa中...
+random tight	e280a6	4	2e2e2e	…	...
+random tight	efbca162eab080efbca162e280a6eab080	18	efbca162eab080efbca1622e2e2eeab080	Ａb가Ａb…가	Ａb가Ａb...가

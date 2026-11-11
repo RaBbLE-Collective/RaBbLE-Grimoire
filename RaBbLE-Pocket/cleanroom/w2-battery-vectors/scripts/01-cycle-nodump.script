@@ -1,0 +1,38 @@
+time 5000000
+boot poweron
+init
+nodump
+power 80 4000 1 1 0
+read
+json
+saved
+rtc
+drain
+time 10000000
+power 80 4000 0 0 1
+read
+time 70000000
+state 1 0
+time 130000000
+state 1 1
+time 190000000
+power 79 3985 0 0 1
+read
+json
+rtc
+time 250000000
+power 79 3980 0 1 0
+read
+json
+drain
+time 900000000
+read
+json
+rtc
+time 1000000000
+power 79 3980 0 0 1
+read
+time 1700000000
+power 78 3960 0 0 1
+read
+drain

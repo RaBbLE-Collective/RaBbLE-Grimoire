@@ -1,0 +1,423 @@
+# RaBbLE Pocket: ESP32-S3 Entity Port Plan
+
+Oct 15, 2026 · @Mark · filed from BaBbLE intake S250
+
+> **Status:** filed, work begun. Mock: `RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html`. Progress is tracked in `RaBbLE-Pocket-Roadmap.md`. Stack: the `new-horizons` branch is pushed (S250), so the base is now ESP-IDF v6.0.1 + Muse gadget SDK parts + LVGL 9; `firmware/bsp/rabble_lcd_bands.c` already does PSRAM bands to double-buffered internal DMA chunks and is the starting point for `panel_flush`. See `RaBbLE-Pocket-Gadget-Port.md`.
+
+## Summary
+
+The Pocket entity can run at 60 fps on the Waveshare ESP32-S3-Touch-AMOLED-1.75 only with a purpose-built renderer. The panel link caps full-frame transfers near 46 fps at a 40 MHz QSPI clock. The CPU has roughly 20 to 25 cycles per visible pixel per frame.
+
+The strategy:
+
+- **LVGL stays the shell:** display driver, touch, timers, fonts, and the flat screens (settings, menus).
+- **The entity screen is one custom LVGL widget** drawn by a small C renderer, "NeBuLA-lite". No LVGL line, shadow or blur primitives are used on that screen.
+- **Glow comes from a half-resolution soft layer** (233 x 233) upscaled under a full-resolution crisp layer. There is no runtime blur.
+- **Frames render in bands** into internal RAM while the previous band goes out by DMA. Each band is sent clipped to the circle and paced by the panel's TE pin.
+- **Gravity lock rotates geometry, never images.** The IMU angle is applied to every point before rasterising.
+- **Frame rate adapts:** 60 fps while listening or speaking, 30 fps when idle, about 1 fps for always-on. *(Superseded S251 by Mark: 60 fps idle, 22 fps floor in the busiest states; see `log/handoffs/done/HANDOFF-S251-Pocket-Entity-60fps.md`; met S252, results below Phase 1.)*
+
+The first gate is a short panel bench that decides whether 60 fps is physically available on this board's pins.
+
+Stack note: you're moving to ESP-IDF 6 with the Muse gadget SDK as the driver and UI base. That code isn't visible yet, so the Grimoire still describes ESP-IDF 5.5.4, the Waveshare BSP and LVGL 9.4. This plan only assumes ESP-IDF esp\_lcd, LVGL 9 and FreeRTOS, so it fits either base.
+
+## What is being ported
+
+The visual spec is the playable mock `rabble-pocket-entity.html` and the v6 video. The mock's PORT PREVIEW mode already approximates this plan: 466 px native, a half-resolution glow layer and RGB565 output. The scene logic in that HTML (states, NeBuLA poses, mesh, streams, lens) is the reference implementation to port to C.
+
+**State cycle in the mock (16 s loop):**
+
+| Time | State | What moves |
+| --- | --- | --- |
+| 0 to 4 s | Listening | Mic audio travels as streams from the mic, around the body, into both portals; eyes lean toward the mic |
+| 4 to 5.5 s | Thinking, ponder | One-side squint, gaze up and aside, face tilt; mesh starts to accordion inward |
+| 5.5 to 8 s | Thinking, process | Mesh fully accordioned with hubs pinned to the edge, fastest signals; eyes dart; spectral bars dim |
+| about 8 s | Insight | Twin rings and a flash burst from the core |
+| 8 to 12.5 s | Speaking | Mesh back at the edges with signals flowing outward; waveform through the body; arc subtitles type in |
+| 12.5 to 16 s | Joy | Eyes squash and hop; bottom portal rises like a cheek |
+
+**Layers, back to front:**
+
+1. Background: nebula gradient, cyan and magenta hazes, faint globe meridians, thick cyan-to-magenta outer ring, sparse stars and data bits.
+2. Body: bell-shaped lens fill, spectral bars, the almond outline (3 jittered strands per edge with white cores and dark chalk under them), bokeh.
+3. NN mesh: per side, an edge hub, then 3 layers, then a ring of nodes kept outside the nebula circle; signal streaks hop between them.
+4. Speaking waveform inside the body.
+5. Mic streams and absorption at each portal mouth.
+6. Portals and orbs, with occlusion; insight rings.
+7. Glass layer: edge vignette, clock, status row, state label, arc subtitles, button chips, glare. Text is bold with a dark outline.
+
+**Rules that must survive the port:**
+
+- No pupils.
+- The two color poles are always opposite.
+- Portal front rims always draw over orbs. The top portal is seen from below, so its upper arc is the front rim.
+- Emotion comes from orb shape, tilt, glow and portal depth plus NeBuLA's pose table. Nothing cuts across an orb.
+- Mic streams are traveling signals evaluated at retarded time, so loud parts visibly flow into the portals.
+
+## Hardware limits
+
+The panel link, not the CPU, sets the first ceiling. A full 466 x 466 RGB565 frame is 434,312 bytes. Over four-lane QSPI the link moves half its clock rate in bytes per second.
+
+| QSPI clock | Throughput | Full frame | Circle only (\~341 KB) |
+| --- | --- | --- | --- |
+| 40 MHz | 20 MB/s | 21.7 ms, \~46 fps | \~17 ms, \~58 fps |
+| 60 MHz | 30 MB/s | 14.5 ms, \~69 fps | \~11.4 ms, \~88 fps |
+| 80 MHz | 40 MB/s | 10.9 ms, \~92 fps | \~8.5 ms, \~117 fps |
+
+- **60 fps full-frame needs at least about 52 MHz.** Sending only each band's visible chord cuts the frame to about 79% (pi/4), which gets close to 60 fps even at 40 MHz.
+- **Pins:** the display uses GPIO4 to GPIO7 for data, GPIO38 for clock, GPIO12 for chip select and GPIO13 for TE, per Waveshare's hardware reference.
+  - These are not the S3's dedicated SPI2 IO MUX pins, so signals go through the GPIO matrix.
+  - Espressif only states matrix routing behaves the same up to 40 MHz. Higher clocks must be measured on this board.
+  - Waveshare quotes "50\~60 frames in the dynamic state" for its LVGL demo.
+  - Sources disagree on the reset pin: the hardware reference says GPIO39, an esp-hal issue says GPIO1. Check against the schematic.
+- **TE (GPIO13)** lets each frame's first band start right after the panel's scan passes, so writes never race the scan.
+- **CPU:** two Xtensa LX7 cores at 240 MHz. At 60 fps one core has about 4 million cycles per frame for about 170,000 visible pixels. Blur and multi-pass strokes are out at that budget.
+- **Memory:**
+  - About 512 KB internal SRAM, shared with Wi-Fi, BLE and the voice stack.
+  - 8 MB octal PSRAM (S3R8) and 16 MB flash.
+  - A full frame does not fit in internal RAM, and rendering into PSRAM is slower, so work happens in internal-RAM bands.
+- **Power:** 320 mAh now (400 mAh on the 1.75C). AMOLED draw scales with lit pixels, which favours the mostly dark scene. Continuous 240 MHz rendering does not, which is why the frame rate adapts.
+- **Current firmware baseline (from the Grimoire):** the vendor BSP flushes in 50-row strips, about 10 transfers per frame. CO5300 init carries two hardcoded 600 ms delays.
+
+## Architecture
+
+One frame is simulated on core 0 and rasterised on core 1 in bands, while DMA ships the previous band to the panel.
+
+*(Diagram: frame pipeline · two cores, band rendering, DMA to the panel. Lives in the original intake draft; redraw as an Aether page when the plan is rendered.)*
+
+The frame packet is the only handoff between cores. Core 1 never waits on simulation, and DMA never waits on rendering.
+
+**LVGL's role.** LVGL keeps the display driver, input, timers and font engine. It also owns every non-entity screen. The entity screen is a single custom widget. Its draw callback hands each band's buffer to NeBuLA-lite instead of drawing LVGL objects. Text is still shaped by LVGL's font engine into small A8 masks that the renderer composites rotated.
+
+**Two resolutions instead of blur:**
+
+- **Soft layer, 233 x 233 RGB565 (about 106 KB, internal RAM):**
+  - Background gradient and hazes, outer-ring glow, bokeh, node halos, orb and portal bloom, line glows.
+  - Everything is drawn as pre-blurred stamps or wide additive strokes.
+  - Rebuilt every frame only where it changes. The static part is cached and re-baked when the gravity angle moves.
+- **Crisp layer, 466 x 466, drawn per band:**
+  - Anti-aliased 1 to 2 px line cores, node dots, orb bodies, portal rims and holes, spectral bars, text and icons.
+- **Composite per band:** bilinear 2x upscale of the soft rows, then crisp primitives on top, then the circle mask, then output.
+
+**Band pipeline:**
+
+1. Core 0 finishes frame N geometry into a frame packet, then starts N+1.
+2. Core 1 bins frame N primitives by band once per frame (a small row-bucket list).
+3. For each band (start at 32 rows, 466 x 32 x 2 = about 30 KB), core 1 renders into band buffer A.
+4. The flush sends only the circle chord for those rows, 2-pixel aligned, and kicks DMA.
+5. Core 1 renders the next band into buffer B while A transfers.
+6. TE gates the start of band 0.
+
+**Core split:**
+
+- **Core 0:** state machine, NeBuLA pose springs, mesh and stream geometry, IMU fusion. Also the audio front end and wake word, which already compete for this core and must be measured.
+- **Core 1:** rasterising and flush management only.
+
+**Frame packet (core 0 to core 1):** a fixed-size struct with the rotation angle, state weights, orb and portal transforms, and point arrays for lens strands, mic strands, waveform and mesh nodes and edges. It is double-buffered with an atomic swap, with no locks held during rasterising.
+
+## Gravity lock on real hardware
+
+On the device the panel is fixed to the case, so the scene counter-rotates by the IMU angle every frame. Only the button chips stay fixed to the panel. In the mock the bezel turned instead, and that looks the same to a viewer.
+
+- **Angle source:** the QMI8658. Angle = atan2 of the accelerometer's in-plane components, fused with the gyro Z rate through a complementary filter so swings stay smooth and fast.
+- **Flat hold:** when the in-plane gravity magnitude falls below about 0.35 g (pendant lying flat), hold the last angle. Release with hysteresis above about 0.5 g. Tune both on the device.
+- **Rotate geometry, not pixels:**
+  - Every point (strands, mesh, bokeh centres, stamps) goes through one 2D rotation matrix on core 0. That's nearly free.
+  - Orbs and portals are rasterised as rotated ellipses, using an SDF per pixel inside their bounding boxes.
+  - The outer ring's cyan-to-magenta gradient is computed from pixel angle minus rotation, using an atan LUT.
+  - Text and icons are pre-shaped A8 masks, blitted with an inverse-mapped bilinear sample. The clock is about 200 x 60 px, so the cost is small.
+- **Soft-layer cache:** the static soft content (background, hazes, ring glow) is re-baked only when the filtered angle moves more than about 0.5 degrees, spread across frames while the device swings.
+- **Mic anchor:** the mic stream's start point is the physical mic position (panel bottom) rotated into scene space, so streams emerge from wherever the mic really is.
+- **Button chips:** drawn in panel space at fixed spots beside the physical buttons, with their glyphs counter-rotated so they stay upright.
+
+## Scene element mapping
+
+Every effect in the mock maps to a stamp, a thin line or an analytic shape. None needs a runtime blur.
+
+| Element | Mock technique | Device technique | Layer |
+| --- | --- | --- | --- |
+| Nebula background, hazes | Radial gradients | Cached half-res bake, re-baked on angle change | Soft |
+| Globe meridians, stars, data bits | Thin SVG strokes, dots | 1 px AA arcs and dots; positions rotated | Crisp |
+| Outer ring | Gradient stroke plus blurred copy | Per-pixel annulus with angle LUT for color; glow baked in soft cache | Both |
+| Bell body fill | Gradient path | Per-row span fill from the bell envelope LUT, into the soft layer | Soft |
+| Spectral bars | \~70 gradient rects | Vertical spans with a 1D alpha ramp LUT, every 8 px | Crisp |
+| Almond outline | 6 strands x 90 pts, 3 passes plus dark chalk | Wide additive stroke in soft layer plus 1 px white AA core; jitter LUT per 0.16 s tick | Both |
+| Bokeh | 56 radial-gradient discs | 28 pre-blurred disc stamps (A8, 4 sizes), tinted additive | Soft |
+| NN mesh edges | Wide plus thin strokes | Soft wide stroke plus 1 px AA core; hot edges brighter | Both |
+| Mesh nodes | Halo, ring, dot | Halo stamp (soft) plus ring and dot (crisp) | Both |
+| Mesh signals | Streak plus halo | 15 px AA streak plus small stamp; deterministic hop schedule | Both |
+| Speaking waveform | 4 glowing polylines | 2 polylines: soft wide plus crisp core | Both |
+| Mic streams | 3 strands per side, bloom filter | Catmull-Rom path through rotated waypoints, retarded-time signal; soft wide plus crisp core | Both |
+| Absorption core, sparks | Gradient ellipse, dots | One rotated ellipse stamp plus 12 dots | Both |
+| Portals | Halo, hole, rims | Halo stamp; hole and rims as rotated ellipse SDF with arc split for front and back | Both |
+| Orbs | Gradient ellipse plus blurred halo, clipped by portal plane | Rotated ellipse SDF with radial gradient LUT; half-plane plus opening clip; halo stamp | Both |
+| Insight rings, flash | Circles plus gradient | AA circle strokes plus one flash stamp | Both |
+| Clock, label, subtitles | SVG text with outline and shadow | A8 glyph masks from LVGL fonts, pre-dilated outline mask, rotated blit; shadow as offset soft stamp | Crisp |
+| Status icons, button chips | SVG strokes | Pre-rasterised A8 icons, rotated blit | Crisp |
+| Vignette, glare | Gradients | Baked into soft cache (vignette), single additive glare stamp | Soft |
+
+The mic strands map straight onto live data. Use the smoothed RMS level for loudness and a cheap pitch estimate (zero-crossing rate or autocorrelation on the AFE output) for the carrier's chirp, both fed into the same retarded-time model as the mock.
+
+## Frame budget and degrade ladder
+
+At 60 fps each frame has 16.7 ms. These are targets to measure against, not measured numbers.
+
+| Stage | Core | Target per frame | Notes |
+| --- | --- | --- | --- |
+| Simulation and geometry | 0 | 3 ms or less | Shares the core with the audio front end |
+| Soft layer update | 1 | 4 ms or less | Mostly stamps; static part cached |
+| Per-band upscale and composite | 1 | 4 ms or less | 2x bilinear on about 170k visible pixels |
+| Crisp primitives and glass layer | 1 | 5 ms or less | Lines, ellipses, masks |
+| Flush overhead (commands, DMA setup) | 1 | 1 ms or less | DMA itself overlaps rendering |
+| Headroom | 1 | about 2.7 ms | Spikes and jitter |
+
+Panel transfer has to fit inside the same 16.7 ms window in parallel. That is about 17 ms at 40 MHz circle-only (just over) and about 11 ms at 60 MHz.
+
+**Degrade ladder.** Apply in order until the frame fits, per state:
+
+1. Mic strands from 3 to 2 per side.
+2. Soft layer from half to one-third resolution (155 x 155).
+3. Bokeh from 28 to 16, mesh signals from 16 to 10.
+4. Lens outline jitter re-roll from every 0.16 s to every 0.24 s, and drop the dark chalk strands.
+5. Spectral bars every 12 px instead of 8.
+6. That state's frame rate from 60 to 45, then 30.
+
+**Frame rate by state:**
+
+| State | Target fps | Why |
+| --- | --- | --- |
+| Listening, speaking | 60 | Most motion and audio sync |
+| Thinking, joy, transitions | 60, or 45 if the budget fails | Motion matters, no audio sync |
+| Idle (resting face) | 30 | Calm motion, battery |
+| Always-on (clipped to a bag) | about 1 | Clock and minimal eyes on black |
+
+## Phased plan
+
+Seven phases, each closed by a measurable gate. Phases 1 to 3 can be developed on a PC in the LVGL SDL simulator before touching hardware, except for timing.
+
+*(Diagram: roadmap · 7 phases, one gate each. Lives in the original intake draft; redraw as an Aether page when the plan is rendered.)*
+
+Phase 0's result sets the frame-rate ceiling for everything after it; the task lists below carry the detail.
+
+### Phase 0: Bench the panel link
+
+Bench: `RaBbLE-Pocket/firmware/panel_bench/` (flash with `ops/build-flash.sh firmware/panel_bench`, read the `BENCH` lines on the USB console). Run S250 on the -B board, ESP-IDF v6.0.1, flushing from two internal 30 KB DMA buffers, no LVGL.
+
+- [x] Bring up esp\_lcd with the CO5300 on the current base, no LVGL.
+- [x] Flush at 40, 60 and 80 MHz. **60 MHz is not a real option:** it gave numbers identical to 40 MHz, because the S3 SPI divides an 80 MHz base clock (80/1, 80/2). The choice is 40 or 80.
+- [x] Per-band circle-chord windows work with 2-pixel aligned x0/x1. No visible rejection by the panel; confirm by eye.
+- [x] TE on GPIO13 fires at 60.0 Hz (the panel scans at 60 Hz, so 60 fps is also the hard ceiling).
+- [x] Throughput with two 30 KB internal band buffers (table below).
+- [ ] Gate: 60 fps without tearing at a stable clock. **Numbers say yes at 80 MHz; the visual check (no noise, no tearing) is Mark's, pending.**
+
+| Mode (link only, buffers prefilled) | 40 MHz | 80 MHz |
+| --- | --- | --- |
+| Full frame, 32-row bands | 41.7 fps | 76.9 fps |
+| Full frame + TE pacing | 29.8 fps | 59.6 fps |
+| Chord windows, 32-row bands (354 KB/frame) | 49.1 fps | 90.9 fps |
+| Chord windows, 16-row bands (344 KB/frame) | 46.7 fps | 79.9 fps |
+| Chord windows, 8-row bands (338 KB/frame) | 40.4 fps | 62.7 fps |
+| Chord 16-row + TE pacing | 29.8 fps | 59.7 fps |
+| Chord 16-row + TE, animated bars | 29.8 fps | 59.7 fps |
+
+What it means:
+
+- **40 MHz cannot reach 60 fps**, even circle-only (best 49 fps). TE pacing quantises it to 30 fps, because a frame longer than 16.7 ms misses the next TE edge.
+- **80 MHz reaches 60 fps TE-paced, with headroom** (90 fps unpaced). The GPIO-matrix worry did not stop the link from running; whether the picture is clean at 80 MHz is the open visual check.
+- **Chord windows save about 16 percent of bytes** at 32-row bands (354 KB against 424 KB), not the 21 percent the pi/4 model predicts, because a rectangular band window is as wide as its widest row. Smaller bands save more bytes but cost more per-band command overhead: **8-row bands are slower than 16 or 32.** Use 16 to 32 rows.
+- Link time per frame at 80 MHz is about 11 ms of the 16.7 ms, so rendering must fit while the previous band is in flight, as planned.
+- Reset pin: the vendor BSP uses GPIO39 and the panel resets and runs, so GPIO39 is right for the -B board. (The GPIO1 in the esp-hal issue is the SD-card CMD pin on this board.)
+
+### Phase 1: Renderer skeleton
+
+- [ ] Custom LVGL widget whose draw callback hands band buffers to NeBuLA-lite.
+- [x] Band loop with ping-pong buffers, chord flush and TE pacing (in `panel_bench`; not yet behind the HAL).
+- [x] Soft layer buffer, cached background bake and 2x bilinear upscale per band.
+- [ ] Build the same renderer for the LVGL SDL simulator on Fedora (a headless host harness, `sim/build.sh`, stands in for now).
+- [x] Gate: background plus upscale under about 5 ms per frame on the device: **3.2 ms static** (bake 0.38 + render 2.83). While the angle moves the haze rebakes, so it costs **6.9 ms** (bake 4.1 + render 2.8). That is over 5 but still inside the frame budget table, and TE-paced output holds **59.6 fps** both ways.
+
+**Results (S251, 80 MHz, 32-row chord bands, one task):**
+
+| Stage | First C (S250) | LUT rewrite (S250) | Now (S251) |
+|---|---|---|---|
+| Render (upscale, ring, byte swap) | 100 ms | 37.6 ms | 2.83 ms |
+| Bake while rotating | 130 ms | 19.0 ms | 4.07 ms |
+| Bake when still (haze to soft doubling only) | n/a | 0 | 0.38 ms |
+| TE-paced fps, rotating | n/a | 14.9 | 59.6 |
+
+How it got there:
+
+- **Scalar C could not make it.** At about 5 cycles per pixel budget, a scalar RGB565 bilinear costs about 20 instructions per output pixel at -O2. The per-stage split before the rewrite was upscale 18.9 ms, ring 9.9 ms, byte swap 5.4 ms.
+- **PIE SIMD** (`src/simd_pie_esp32s3.S`, 8 pixels per 128-bit op): row average, horizontal doubling (`ee.src.q` for the neighbour, `ee.vzip.16` to interleave) and byte swap. The SWAR average needs a non-saturating add, which PIE lacks; biasing the AND term by 0x8000 keeps `ee.vadds.s16` from saturating. The C versions in `simd_c.c` are the contract, and the bench self-tests the PIE kernels against them on every boot.
+- **Phase-aligned upscale:** panel (2k, 2m) is soft (k, m), and odd rows and columns are neighbour averages. Soft samples are baked a quarter pixel off centre so geometry lands where it did with centred bilinear.
+- **Band windows** start on a 16-px boundary with widths a multiple of 8, so SIMD rows stay aligned (bytes per frame rose 354 to 361 KB). Pixels off the round panel are not zeroed. Only the equator band's rows are unaligned, and they stage through a line buffer.
+- **Ring:** each ring pixel's angle index is computed once; per frame it is one lookup minus the gravity index.
+- **Quarter-res haze layer:** void, both poles and rim baked at 120 by 118 only when the angle moves 0.5 deg or more, then doubled into the soft layer each frame by the same kernels. The soft layer is where Phase 2's dynamic stamps land. Host check: the interior is within 1 to 2 RGB565 steps of the original.
+- **Things that did not help:** IRAM placement of the hot loops (no change); PSRAM full-frame cache (354 KB copy costs 6.1 ms by CPU, 10.9 ms by GDMA, and async memcpy takes a GDMA channel the SPI driver wants). 16-row bands drop TE-paced rotation to 30 fps (command overhead pushes the frame past one TE period), so **32-row bands**.
+- **Open:** the haze rebake is 59 cycles per haze pixel, so a rotating frame is 4 ms of bake. Options if Phase 2 needs the room: spread the rebake over two frames with a second haze buffer (+30 KB), or an eighth-res haze (smooth enough by error estimate, but stacked floor averages darken it slightly, so it would need alternating floor and ceil averages). Internal heap free with the renderer loaded: 150 KB (largest block 57 KB).
+
+### Results on the gadget (S252): 60 fps idle
+
+The KISS entity (S251) in the gadget firmware, with Wi-Fi and the beam live. Pocket `074a07f`.
+
+| | S251 | S252 |
+|---|---|---|
+| Idle | ~20 fps | **60.0 fps** TE-locked |
+| Listening / speaking (held still) | 14 to 20 | 31 to 41 / ~34 |
+| Any state while turning | ~20 | ~30 (thinking 29.9) |
+| Line band visits at idle | ~1000 | ~260 |
+| Internal heap after `ready` | 18.4 KB | 37.5 KB |
+
+Steps, in the order measured:
+
+1. **Static RAM:** ring tables, `nz` cache, signal paths and haze tables into PSRAM BSS (`NL_EXT_BSS`); LVGL and direct mode share one buffer ring. 75 KB free before the extra buffers.
+2. **Sim before TE**, and timing per frame stage in `lcd_bands`. That showed ~5 ms per frame blocked inside the panel's draw call.
+3. **Line setup at push time** (16.16, once per primitive): only 8%; the per-pixel loop is the cost.
+4. **Sparse idle mesh** (skeleton edges always, the rest by activity, signals light the edges they walk): lines 13.9 to 2.9 ms, 30 fps. Activity now comes from FreeRTOS run-time stats less the renderer's own time per core.
+5. **Both cores** claim bands (a core-0 helper plus `lcd_send`): render split ~10/5 ms, but the wire became the limit (12.8 ms in draw calls: five polling SPI transactions per band, ~160 µs each even on an idle wire).
+6. **Damage:** per-band hash of the display list; only changed bands are rendered and sent. Plus the roll held still at rest (sensor jitter dirtied every band). About 18 of 30 bands drawn at idle: **60 fps**.
+
+Next: `log/handoffs/done/HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room.md`.
+
+### Results on the gadget (S254): settings composited, turning with the device
+
+Settings track S1 and S2 of the S252 handoff, plus the clock screen from S3. Pocket `a41da48`. The fps gates are measured over serial; the visual and touch gates still need Mark's hands.
+
+| | Result |
+|---|---|
+| Slide face to settings and back | 31 to 34 fps per slide (gate 30) |
+| Settings tile while turning (test roll sweep) | ~30 fps (face ~35) |
+| Static settings tile | 0 prims, ~0.3 ms render: damage skips every band |
+| Face idle | 60.2 fps, unchanged |
+
+How:
+
+- **LVGL renders into the texture, no copy.** While direct, `rabble_lcd_bands` swaps LVGL onto two screen-sized PSRAM draw buffers (`lv_draw_buf_t` over 434 KB each) in LVGL's double-buffered DIRECT mode, native RGB565, with its own flush callback. LVGL keeps the pair in step itself (sync areas). The buffer it last finished is published (front), with per-16-row band versions and a tag. An `LV_EVENT_REFR_START` hook makes LVGL wait for direct frames to let go of a buffer before it writes it. The adapter's buffers, mode, format and flush come back when direct ends. All of it runs in LVGL's context.
+- **The first version copied** LVGL's bands into the texture with a byte swap: 16 ms per full screen (PSRAM to PSRAM, ~54 MB/s, bandwidth bound), so slides ran at 12 to 21 fps. Rendering straight into the texture is what reached 30.
+- **Seam** (`rabble_board.h`): `ui_texture(out)` (from `begin()`; holds the buffer until the next `begin()`; `out` NULL asks whether the board has one) and `ui_texture_tag(tag)` (LVGL context). `rabble_ui.c` tags each refresh at `LV_EVENT_RENDER_START` with the tileview's scroll x, or the full width on any other screen (the clock), so the slide boundary always matches the pixels.
+- **nebula_lite:** `nl_inputs_t.ui` (pixels, band versions, roll, slide). The scene slides left by `slide` in its own frame (`tx()`, upright sprites); fully slid in, no scene is built at all. The UI layer is drawn last in each band, clipped in its own frame to `x >= W - slide`. Within 0.6 degrees of a quarter turn the roll snaps exactly, so it samples on pixel centres (straight copy at 0). Otherwise bilinear (5-bit weights on spread RGB565), or nearest while the roll is still moving, then bilinear once at rest. Turned bands are walked in 32-column chunks: row-major sweeps a ~32 KB strip of texture per band and two cores thrashed the shared 64 KB dcache. Damage hashes the slide, the turn, the sampling mode and the band versions of the texture rows each band reads.
+- **Touch** is wrapped (`lv_indev_set_read_cb`) and turned back by the same snapped roll (`rabble_entity_ui_roll()`), so LVGL sees an upright screen: taps land under the finger and swipes follow the entity.
+- **The panel stays direct whenever awake**, so the blank-face slide is gone at its root. Boards without the texture (or out of PSRAM) keep the old hand-back.
+
+Not yet checked: everything by eye and by hand (no blank frame or pop, legibility turned, taps on every settings row and the keypad at 0/45/90/180 degrees, long-press clock at a tilt, sleep/wake on the settings tile). Open: keep or drop the old LVGL face (fallback for boards without direct mode); late bands (tearing) still unchecked.
+
+### Phase 2: Drawing primitives
+
+- [ ] AA thin line (Wu style) and soft wide stroke into the soft layer.
+- [ ] Stamp blitter: A8 masks, tinted, additive, 4 pre-blurred sizes.
+- [ ] Rotated ellipse SDF with gradient LUT, half-plane clip and opening clip.
+- [ ] Rotated A8 mask blit for text and icons, with outline mask.
+- [ ] Micro-benchmarks for each primitive on the device, in cycles per pixel.
+- [ ] Gate: every primitive's cost fits its row in the frame budget.
+
+### Phase 3: Scene port
+
+- [ ] Port the mock's scene logic to C: state timeline, NeBuLA pose table and springs, lens strands, mesh with accordion, mic strands with the retarded-time signal, speaking waveform, insight.
+- [ ] Use fixed-point or float32 only; no doubles on the hot path.
+- [ ] Golden-frame test: render fixed timestamps on the PC simulator and diff against PNGs exported from the mock's PORT PREVIEW mode.
+- [ ] Gate: simulator frames match the mock at the chosen timestamps within a set tolerance.
+
+### Phase 4: Glass layer and gravity lock
+
+- [ ] Clock, status row, state label and arc subtitles as A8 masks from LVGL fonts.
+- [ ] Button chips in panel space with counter-rotated glyphs.
+- [ ] IMU angle with complementary filter and flat hold.
+- [ ] Soft cache re-bake on angle change, spread across frames.
+- [ ] Gate: the scene stays level through a full turn by hand, with no visible pop and no frame drops.
+
+### Phase 5: Live inputs and voice integration
+
+- [ ] Feed mic RMS and pitch from the audio front end into the stream model.
+- [ ] Drive states from the real pipeline: wake word to listening, ASR end to thinking, TTS to speaking.
+- [ ] Run with wake word and AFE active; measure core 0 load and frame time.
+- [ ] Gate: 60 fps in listening and speaking with voice running, or the degrade ladder step that holds it is chosen.
+
+### Phase 6: Power and polish
+
+- [ ] Adaptive frame rate per state, plus always-on mode.
+- [ ] Measure current draw at 60, 30 and 1 fps with an inline meter.
+- [ ] Tune glow levels for RGB565 banding (ordered dither in the soft upscale if needed).
+- [ ] Gate: battery life targets agreed and met for active and ambient use.
+
+## Module layout
+
+The renderer is one ESP-IDF component with no board knowledge. It talks to hardware only through the existing `rabble_hal.h` boundary, so the same code builds for the device and the PC simulator.
+
+```text
+firmware/
+  components/
+    nebula_lite/              # board-agnostic, builds on device and in the SDL simulator
+      include/nebula_lite.h   # public API below
+      src/scene.c             # state timeline, pose springs, frame packet build (core 0)
+      src/lens.c              # almond outline strands and jitter LUT
+      src/mesh.c              # hubs, layers, ring, accordion, signal schedule
+      src/streams.c           # mic strands, retarded-time signal model
+      src/raster_soft.c       # half-res layer, stamps, wide strokes, cached bake
+      src/raster_crisp.c      # AA lines, ellipse SDF, spans, rotated mask blit
+      src/compose.c           # per-band upscale, composite, circle mask
+      src/luts.c              # gradients, atan, bell envelope, jitter tables
+      assets/                 # pre-blurred stamps, icon masks (generated, checked in)
+    entity_widget/            # LVGL custom widget: band buffers in, NeBuLA-lite out
+    panel_flush/              # chord-clipped QSPI flush, TE pacing, DMA ping-pong
+    gravity/                  # QMI8658 fusion, flat hold
+  main/
+    app_main.c                # wiring: HAL, LVGL, tasks, voice pipeline hooks
+sim/
+  CMakeLists.txt              # LVGL SDL build of nebula_lite + entity_widget
+  golden/                     # PNGs exported from the mock's PORT PREVIEW
+tools/
+  export_golden.py            # Playwright export of mock frames at fixed timestamps
+  bake_stamps.py              # generates stamp and icon masks as C arrays
+```
+
+**Public API sketch:**
+
+```c
+typedef struct {
+    float t;                 // scene time, seconds
+    float gravity_rad;       // filtered device angle
+    float mic_rms, mic_pitch;// live audio features, 0..1
+    uint8_t state;           // LISTEN, THINK, SPEAK, JOY, IDLE, AOD
+    const char *subtitle;    // current subtitle line or NULL
+} nl_inputs_t;
+
+void nl_init(const nl_config_t *cfg);                 // buffers, LUTs, stamps
+void nl_simulate(const nl_inputs_t *in);              // core 0: builds the next frame packet
+void nl_begin_frame(void);                            // core 1: swaps packet, bins primitives
+void nl_render_band(uint16_t *dst, int y0, int rows); // core 1: one band, RGB565
+void nl_band_chord(int y, int *x0, int *x1);          // visible span per row for the flush
+```
+
+The golden-frame tooling reuses the Collective's existing Playwright capture pattern, the same one the Grimoire's boot-frame plan described.
+
+## Risks and open questions
+
+The biggest risk is the QSPI clock: if the GPIO matrix pins won't run reliably above 40 MHz, 60 fps depends entirely on circle-only flushes.
+
+| Risk | Impact | Mitigation |
+| --- | --- | --- |
+| QSPI unstable above 40 MHz on matrix pins | Ceiling about 58 fps even circle-only | Phase 0 measures it; fall back to 45 fps targets or partial-region updates |
+| Voice front end and wake word load core 0 | Simulation late, frames drop while listening | Measure in Phase 5; move geometry work to core 1 idle gaps; degrade ladder |
+| CO5300 window alignment or command overhead per band | Chord flush slower than modelled | Taller bands (48 to 64 rows), 2-pixel aligned chords |
+| Internal RAM pressure (Wi-Fi, BLE, AFE, band buffers, 106 KB soft layer) | Allocation failures | Drop the soft layer to one-third resolution (about 48 KB); stamps stay in flash |
+| RGB565 banding in soft gradients | Visible rings in the nebula | Ordered dither during upscale |
+| Pendant flat on a table | Undefined gravity angle | Flat hold with hysteresis |
+| Battery drain at 60 fps | Short active time | Adaptive fps and always-on mode; measure in Phase 6 |
+| Muse SDK display path differs from esp\_lcd | Flush layer needs adapting | Keep panel\_flush behind the HAL; review once the code is visible |
+
+**Open questions:**
+
+- [x] Push the new-horizons branch of RaBbLE-Pocket. Done S250; the base is reviewable on GitHub.
+- [ ] Must listening hold 60 fps with the voice pipeline live, or is 45 acceptable there?
+- [ ] Does the Muse SDK expose esp\_lcd panel handles and TE, or its own display layer?
+- [x] Which reset pin is correct, GPIO39 or GPIO1? GPIO39 (S250 bench; GPIO1 is SD CMD on this board).
+- [ ] Is the 1.75C (aluminium, no TF slot, 32 MB flash) the shipping target? It changes asset placement and the battery figure.
+- [ ] Does the earlier esp\_emote\_gfx / ThorVG plan still apply for baked expression clips alongside this procedural renderer?
+
+**Sources:**
+
+- [Waveshare ESP32-S3-Touch-AMOLED-1.75 hardware reference](https://github.com/waveshareteam/ESP32-S3-Touch-AMOLED-1.75/blob/main/HARDWARE_REFERENCE.md)
+- [Waveshare ESP32-S3-Touch-AMOLED-1.75 wiki](https://www.waveshare.com/wiki/ESP32-S3-Touch-AMOLED-1.75)
+- [ESP-IDF SPI Master driver, ESP32-S3](https://docs.espressif.com/projects/esp-idf/en/stable/esp32s3/api-reference/peripherals/spi_master.html)
+- [esp-hal issue 6330: CO5300 QSPI board support](https://github.com/esp-rs/esp-hal/issues/6330)
+- RaBbLE-Grimoire (new-horizons): RaBbLE-Pocket-V1-Firmware-Plan.md, RaBbLE-Pocket-Firmware-BuildFlash.md, NeBuLA-Pocket-Puppet-Rendering-Pipeline.md

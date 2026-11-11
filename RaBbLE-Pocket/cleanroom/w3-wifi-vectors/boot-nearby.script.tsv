@@ -1,0 +1,15 @@
+# two saved networks; both in range; first one joins on boot
+0	preload	Home	homepass	0
+0	preload	Cafe	cafepass	0
+0	wifi_on	1
+0	air	Cafe:-50:secure,Home:-60:secure
+0	result	Home	ok:3000
+0	power	full
+0	start
+0	status
+500	status
+2500	status
+5500	status
+5500	saved
+5500	connected
+60000	end

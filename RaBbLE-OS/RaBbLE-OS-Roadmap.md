@@ -1,634 +1,237 @@
-# RaBbLE-Roadmap.md — Entropy Map
+# RaBbLE-OS-Roadmap.md — Episode Map & Work Queue
 
 ```
-transcribe ~ grimoire >> substrate/mend/awakening axis locked // %ROADMAP_V3%
+transcribe ~ grimoire >> roadmap consolidated // %S34%
 ```
 
-> Epochs are resonance thresholds. Between them, half-epochs (`mend-I/*`) absorb
-> hardware and stability patches without gating the next epoch. Features flow
-> through New Horizons, crystallize into the substrate, and archive as they cool.
+## Episode 1 — Genesis · RaBbLE-OS Developer Preview `[IN PROGRESS]`
 
----
+> **Posture (decided S109):** OS airs in Episode 1 as a labeled **Developer Preview**
+> — *"enter at your own risk, unstable vibes."* It does **not** hold back the Collective
+> lockstep; full reproducible polish bakes toward **Episode 2 (Exodus)**, where the body
+> becomes reliable. Canon: `registry/epochs/current.epoch.yml` (`exit_condition`,
+> `episode_coherence_policy`, OS `focus` block).
+>
+> **Audience:** a Linux + tiling-WM-literate user willing to tolerate quirks.
+> **The bar is the generic x86_64 / VM-verified path.** Mark's ProArt-specific hardware
+> work (NVIDIA / asusctl / XDNA2) is a **separate profile track**, NOT part of the
+> universal preview bar — a cohort member runs OS on their own hardware.
 
-## Entropy States
+**Branch:** `RaBbLE-OS-New-Horizons` → `RaBbLE/episode-I`
 
-| State | Signal | Meaning |
-|-------|--------|---------|
-| %HIGH_ENTROPY% | High flux | Experimental, likely to change |
-| %TESTING_IN_PROCESS% | Testing | Working but unverified on hardware |
-| %DEPLOYABLE% | Deployable | Works on target, needs live verification |
-| %STABLE% | Stable | Verified on target hardware |
-| %LOCKED% | Locked | Frozen until next epoch |
-| %DORMANT% | Dormant | Scaffold only — no functional tasks |
+### The Preview Bar — definition of "ready to ship the preview"
 
----
+**FLOOR — all must be TRUE before the preview goes out (a stranger touches this):**
+- [ ] **F1 · Install works (generic x86_64).** KS → Anaconda → reboot → firstboot → SDDM, VM-verified on `generic_x64`. (Phase 5 gate; firstboot currently unverified.)
+- [~] **F2 · Recovery without a dead-end.** Emergency/rescue reachable *without* unlocking root: `SYSTEMD_SULOGIN_FORCE=1` drop-in on `emergency.service` + `rescue.service` (keeps Fedora's locked-root posture — root password rejected as legacy). Ship a `rd.break` + live-USB recovery doc. Document the physical-access trade-off honestly; LUKS is the real mitigation (EP2). — **Mechanism implemented S109** (`core/tasks/recovery.yml`, commit `aaf87b9`); recovery doc = the F5 sheet; pending VM verify.
+- [ ] **F3 · No hard boot dependency can brick.** fstab `nofail` enforced (S41, `virtualization/fstab-safety.yml`); audit for any other hard deps.
+- [ ] **F4 · Boots to graphical, core surfaces live.** Verify-Checklist *Session* section passes on generic_x64 (Hyprland · Waybar · Kitty · Fuzzel · Mako · swayOSD).
+- [~] **F5 · "Known Rough Edges" sheet ships with the OS.** The label is the product — the "enter at your own risk" honesty contract. — **Drafted S109:** `RaBbLE-OS-KnownRoughEdges.md`; pending a ship-path into the install image (MOTD / welcome doc / ISO bundle).
 
-## Epoch Map
+**HARDEN — daily-driver quirks; fix the cheap ones, document the rest:**
+- [ ] Hyprland `windowrules`/`workspaces` v0.54 migration (mechanical `windowrulev2`→`windowrule` rename)
+- [ ] hypridle stability + idle-sign-out-during-video bug (`ISSUES.md`)
+- [ ] File managers: wire Yazi + polish Dolphin theming/integration (both installed — polish, not missing)
+- [ ] Wallpaper Ansible-managed (kill the manual `hyprpaper.conf` step)
+- [ ] ZSH XRT prompt artifact
+- [ ] Confirm all Fn keys wired now that swayOSD landed (S108)
 
-```
-reliquary/*              High-entropy archives — knowledge reservoirs, inert
-     │
-RaBbLE-OS-New-Horizons   The living wave — active daily-driver work
-     │
-     ├── RaBbLE/epoch-I  ─── Substrate     [IN PROGRESS]
-     │       │
-     │       ├── mend-I/proart-nvidia      [HIGH_ENTROPY]
-     │       ├── mend-I/suspend-resume     [COOKING]
-     │       ├── mend-I/boot-chain         [COOKING]
-     │       └── mend-I/xdna2-npu          [DORMANT]
-     │
-     ├── RaBbLE/epoch-II  ── Awakening      [PENDING]
-     ├── RaBbLE/epoch-III ── (reserved)     [UNWRITTEN]
-     └── Epoch ∞          ── Continuous Drift [PERPETUAL]
-```
+**DEFER → Episode 2 (Exodus) — document as rough, don't fix for the preview:**
+Firefox / GTK / Kvantum / Qt theming parity · boot-chain cosmetic polish (GRUB 4K font, Plymouth palette) · custom live ISO (Tier 2) · Quickshell · hyprbar / master layout · cinematic entity boot · bootable-snapshot rollback (grub-btrfs unavailable on F43) · Mark-hardware profile (NVIDIA / asusctl / XDNA2 — separate track).
 
----
+### Dev Flow — Hardening Protocol
 
-### Epoch I — Substrate `[IN PROGRESS]`
+The loop that turns daily quirks into bounded scope. Lightweight for EP1; the
+heavyweight **ticket tracking + feature-scope breakdown is a post-EP1, possibly
+Collective-wide effort** (see Episode 2 notes) — do not build it into EP1.
 
-**Goal:** Hardware-agnostic base. A fully deployable Wayland/Hyprland desktop
-that runs on any Fedora 43 host without proprietary GPU driver activation.
-Unique hardware targets (ProArt P16, generic_x64) are **scaffolded** —
-proprietary driver work is deferred to `mend-I/*` half-epochs.
+1. **Capture (point-of-pain):** log the moment you hit it — `ISSUES.md` (capture path fixed S109). Append-only, one line, atomic. *(TODO: `rabble-gripe`/`-bug`/`-wish` alias for frictionless capture — empty ISSUES.md after a month of daily-driving was a capture-friction failure, not a quirk-free month.)*
+2. **Triage (weekly sweep):** tag each entry **FLOOR / HARDEN / DEFER** against the Preview Bar; promote actionable items → KnownIssues or a Bar line; DEFER → EP2 backlog. Empty ISSUES.md after.
+3. **Bar-check (gate):** before any "OS EP1 ready" claim, run the **Preview FLOOR gate** — `verify/RaBbLE-OS-Verify-PreviewFloor.md` (the F1/F2/F4 VM runbook + F3 audit) — on a clean `generic_x64` VM. FLOOR all-green + F5 sheet shipped = the preview ships.
 
-**In scope:**
-- Layer 0–4 Ansible deployment functional on a clean Fedora 43 install
-- Hyprland + waybar + mako + fuzzel default desktop
-- Hypridle + hyprlock (screen-sign-out-during-video fix)
-- HDMI hotplug, `monitors.conf`, workspace 11 pinning
-- Boot chain (GRUB → Plymouth → SDDM) themed and color-continuous
-- Monitoring cross-cutting (btop, sensors, powertop)
-- Install / Bootstrap / layerctl / dotctl operational
-- Hardware roles present as stubs (no proprietary driver install)
-- Snapper (Btrfs snapshots) deployable
+**Multisession discipline (known pain):** concurrent agent sessions clobber shared
+logs (SESSION-LOG, ISSUES, KnownIssues) and the git index. Until the post-EP1
+tracking rework lands: capture is **append-only** (per-session dated blocks — never
+edit another session's region); commit with `--force-with-lease`; treat shared-region
+edits as tread-carefully. Tracked for the post-EP1 ticketing redesign.
 
-**Explicitly out of scope (deferred to `mend-I/*`):**
-- NVIDIA / AMD proprietary driver activation
-- supergfxctl / asusctl runtime activation
-- XDNA2 NPU runtime (XRT, FastFlowLM)
-- Suspend/resume hooks for proprietary drivers
+### Plots (legacy framing — fold into the Bar above)
 
-**Landed on New Horizons (flowing toward epoch-I):**
-- Substrate, entrypoints, control-plane (install/bootstrap/layerctl/dotctl)
-- All Ansible roles scaffolded
-- Hyprland config with functionkeys (mic-mute PipeWire fix)
-- Waybar with network menu overlay
-- Wallpaper deployment via dotctl bundle
-- HDMI hotplug script + monitors.conf
-- `socat` added to wayland packages for hotplug IPC
-- SwayOSD service scope fix (user → system)
-- powertop auto-tune safe for live playbook runs
+**Plot A — Substrate:** Ansible layers 0–4 functional on clean Fedora 43. Control plane operational.
+**Plot B — Theme:** Shell stack, Kitty, Fuzzel, Mako, hypridle/lock, boot chain palette-continuous.
+**Plot C — Installer:** KS on Fedora netinstall (Tier 1), custom live ISO (Tier 2 north star).
 
-**Landed on New Horizons since last Epoch I sync (needs porting):**
-- Shell stack: ZSH + Bash configs, p10k, colors, aliases, functions
-- Terminal: Kitty config (RaBbLE palette)
-- Launcher: Fuzzel config (RaBbLE palette)
-- Notifications: Mako config (urgency-tiered neon borders)
-- Idle/lock: canonical hypridle.conf + hyprlock.conf with clock overlay
-- Lid suspend: logind drop-in (99-rabble-lid.conf) + Ansible task
-- dotctl: kitty/fuzzel/mako bundles added; missing-bundle skip fix
-- Grimoire: all docs renamed RaBbLE-OS-*, Architecture rewritten, RaBbLE.md distilled
+### Underlying Work Queue — Phases (the granular tasks that satisfy the Bar)
 
-**Remaining for Epoch I landing:**
-- [ ] Port 4 packages from New Horizons → Epoch I (see Assembly Plan below)
-- [ ] Portability smoke-test: fresh Fedora 43 bootstrap end-to-end
-- [ ] Verify all checklist items in Bootstrap Checklist below
-- [ ] Mark all passing layers `%STABLE%` in Layer State Map
+**Phase 1 — Boot into a DE:**
+- [x] `core/packages` → DNF install all `layer: core` manifest entries (~20 pkgs)
+- [x] `boot/plymouth/packages` → `plymouth`, `plymouth-plugin-script`
+- [x] `boot/session_manager/packages` → `sddm` + enable service + graphical.target
+- [x] New `desktop/fonts` role → JetBrains Mono, Font Awesome, Noto (before compositor)
+- Done when: SDDM greeter appears on fresh Fedora Everything install
 
----
+**Phase 2 — Themed boot + browser:**
+- [ ] `boot/plymouth/config` → RaBbLE theme + `plymouth-set-default-theme` + dracut
+- [ ] `boot/session_manager/config` → SDDM QML theme + Wayland conf + hyprland.desktop
+- [ ] `boot/grub2` → 4K font, remove bg image, `fbcon=font:TER16x32`
+- [ ] `apps/browsers` → `firefox`
+- Done when: full boot chain themed, Firefox available
 
-### Epoch I — Assembly Plan
+**Phase 3 — Hardware + theming:**
+- [ ] `hardware/.../asusctl+asusd` → COPR + DNF + service enable
+- [ ] `hardware/.../tuned` → install + enable + profile
+- [ ] New `desktop/theme` role → Kvantum, qt5ct/qt6ct, GTK CSS, papirus icons
+- [ ] `layer/bluetooth` → bluez, blueman
+- [ ] `layer/flatpak` → flatpak + Flathub
 
-**Strategy:** Use `git checkout RaBbLE-OS-New-Horizons -- <paths>` to bring files
-into Epoch I without importing dev history. Commit in dependency order.
-Do NOT cherry-pick — the branches have divergent history.
+**Phase 4 — Installer: `[WORKING — S37]`**
+- [x] `RaBbLE-OS.ks` — Tier 1 KS (autopart VM default, drop clearpart/autopart for interactive)
+- [x] `spells/generate-kickstart.py` — manifest → `%packages` (COPR/rpmfusion excluded, --platform flag)
+- [x] `--unattended` Bootstrap flag + `--inventory` override
+- [x] `ansible/inventory/vm.hosts.yml` — generic_x64 localhost inventory for VM use
+- [x] `vmctl cast-ks` — automated KS install via `--initrd-inject` (no HTTP server)
+- [x] `url --mirrorlist` in KS — netinstall package source (hardcoded fedora-44/x86_64)
+- [x] `reboot` directive — VM auto-reboots into installed OS after KS completes
+- [x] Firstboot systemd service — runs Bootstrap with `base,boot` tags on first boot
+- [x] `spells/diagnose-vm-net.sh` — network diagnostic for VM troubleshooting
+- Done when: KS boot → Anaconda → reboot → firstboot service → SDDM
+- **Status:** KS install completes, VM reboots, firstboot pending verification
 
-After Epoch I lands on main: `git rebase main` on New Horizons to restore shared history.
+**Phase 4B — KS-owns-packages refactor:**
+- [ ] Update `generate-kickstart.py` to emit `repo` directives for COPR/rpmfusion sources
+- [ ] Stop filtering COPR/rpmfusion packages out of `%packages` — Anaconda handles them with `repo` directives
+- [ ] Move all package installation into KS `%packages` (manifest.yml stays single source of truth)
+- [ ] Ansible firstboot becomes config-only (services, dotfiles, themes) — no package downloads
+- [ ] Lighter, faster firstboot: no network-dependent package installs, less likely to fail
+- [ ] Replace `@core` with full generated `%packages` from manifest
+- Done when: KS installs everything, Ansible only configures
 
-#### What stays in New Horizons / mend-I (NOT for Epoch I)
+**Phase 5 — Reproducibility gate:**
+- [ ] Fresh Fedora Everything → KS → reboot → all acceptance criteria pass
+- [ ] VM smoke test (generic_x64) — firstboot → SDDM greeter
+- [ ] Idempotency: second `layerctl apply all` changes nothing
 
-| Files | Reason |
-|-------|--------|
-| `ansible/roles/hardware/x64/asus_proart_p16/tasks/nvidia.yml` | mend-I/proart-nvidia |
-| `ansible/roles/hardware/x64/asus_proart_p16/handlers/main.yml` | mend-I/proart-nvidia |
-| `ansible/roles/hardware/x64/asus_proart_p16/tasks/supergfx.yml` | mend-I/proart-nvidia |
+**Phase 6 — Custom live ISO (Tier 2 north star):**
+- [ ] `RaBbLE-OS-LiveISO.ks` — live session KS (different from install KS)
+- [ ] `installer/live-config/` — branding, theme assets for live environment
+- [ ] `spells/build-iso.sh` — `lorax`/`livemedia-creator` wrapper
+- [ ] Boot RaBbLE-themed Hyprland live session → partition → run `rabble-install`
 
-#### Package 1 — control-plane
+### Assembly (porting New Horizons → episode-I)
+
+Strategy: `git checkout RaBbLE-OS-New-Horizons -- <paths>` — no cherry-pick.
+Do NOT port: `nvidia.yml`, `supergfx.yml`, hardware handlers (stay in `fix/proart-nvidia`).
 
 ```bash
+# Package 1 — control-plane
 git checkout RaBbLE-OS-New-Horizons -- RaBbLE-OS-dotctl.sh .gitignore README.md
-```
 
-What changed: kitty/fuzzel/mako bundles added; mako fixed from file→directory;
-missing-bundle skip (walk_bundle warns instead of exit 1).
-
-Commit: `harmonize ~ control-plane >> dotctl bundles: kitty, fuzzel, mako; skip missing // %CONTROL_PLANE_LIVE%`
-
-#### Package 2 — ansible-roles
-
-```bash
+# Package 2 — ansible-roles
 git checkout RaBbLE-OS-New-Horizons -- \
   ansible/inventory/group_vars/all.yml \
   ansible/roles/boot/session_manager/handlers/main.yml \
   ansible/roles/boot/session_manager/tasks/config.yml \
   ansible/roles/desktop/hyprland/tasks/config.yml \
-  ansible/roles/desktop/hyprland/tasks/dotfiles.yml \
   ansible/roles/desktop/hyprland/vars/main.yml \
   ansible/roles/desktop/shell/zsh/tasks/packages.yml \
   ansible/roles/desktop/swayosd/tasks/service.yml \
   ansible/roles/desktop/terminal/tasks/packages.yml \
-  ansible/roles/desktop/waybar/tasks/config.yml \
-  ansible/roles/desktop/waybar/tasks/dotfiles.yml \
   ansible/roles/desktop/waybar/vars/main.yml \
   ansible/roles/desktop/wayland/vars/main.yml
-```
 
-What changed: logind lid policy (session_manager); kitty + zsh packages wired (terminal,
-shell/zsh); swayosd service scope; waybar/hyprland vars updated for new config paths.
-
-Commit: `ingest ~ ansible-roles >> logind lid, kitty+zsh packages, waybar/hyprland vars // %ROLES_UPDATED%`
-
-#### Package 3 — config
-
-```bash
+# Package 3 — config
 git checkout RaBbLE-OS-New-Horizons -- \
-  config/hypr/ \
-  config/kitty/ \
-  config/fuzzel/ \
-  config/mako/ \
-  config/shell/ \
-  config/systemd/ \
-  config/wallpapers/
+  config/hypr/ config/kitty/ config/fuzzel/ config/mako/ config/shell/ \
+  config/systemd/ config/wallpapers/
 ```
 
-What changed: hypridle.conf (canonical, with suspend chain); hyprlock.conf (clock overlay,
-RaBbLE palette); autostart.conf (lid bindl removed — logind handles it); Kitty RaBbLE theme;
-Fuzzel RaBbLE theme; Mako urgency-tiered neon; full ZSH + Bash shell stack; logind drop-in.
-
-Commit: `ingest ~ config >> shell stack, kitty, fuzzel, mako, hypridle/lock, lid suspend // %CONFIG_COMPLETE%`
-
-#### Package 4 — grimoire
-
-```bash
-git checkout RaBbLE-OS-New-Horizons -- grimoire/
-git rm grimoire/Architecture.md
-git rm grimoire/components/RaBbLE.svg
-```
-
-What changed: docs renamed RaBbLE-OS-*; Architecture rewritten (current state only);
-KnownIssues updated; RaBbLE.md distilled to manifesto+lore; ShellGuide added;
-Roadmap cross-referenced to NonZense for future content.
-
-Commit: `harmonize ~ grimoire >> rename docs RaBbLE-OS-prefix; current-state only // %GRIMOIRE_CURRENT%`
+After Episode 1 lands on main: `git rebase main` on New Horizons.
 
 ---
 
-### Bootstrap Checklist — Epoch I (Fedora 43)
+## fix/* Branches
 
-Run this after assembling the packages above. Record pass/fail against each item.
-Any failure becomes a `mend-I/*` issue or a blocker that holds epoch landing.
-
-#### Pre-Bootstrap
-
-- [ ] All 4 packages ported to `RaBbLE/epoch-I` and committed
-- [ ] `git log --oneline RaBbLE/epoch-I` — verify clean package history
-- [ ] Dry run on current machine: `layerctl apply all --check`
-
-#### Install Sequence
-
-- [ ] Fresh Fedora 43 base (clean install or snapshot at post-install state)
-- [ ] `curl -fsSL .../RaBbLE-OS-Install.sh | bash` — or clone + `bash RaBbLE-OS-Bootstrap.sh`
-- [ ] `ansible-galaxy collection install -r ansible/requirements.yml`
-- [ ] `./RaBbLE-OS-layerctl.sh apply all` — note any errors, do not skip them
-- [ ] `./RaBbLE-OS-dotctl.sh apply all`
-- [ ] Reboot
-
-#### Session Verification
-
-- [ ] SDDM greeter appears (not dropped to TTY)
-- [ ] Hyprland session starts — wallpaper visible
-- [ ] Waybar renders (clock, battery, network, workspaces)
-- [ ] Function keys: volume, brightness, mic-mute (swayosd OSD fires)
-- [ ] `Super+Space` → Fuzzel launcher opens
-- [ ] Terminal opens (Kitty, RaBbLE palette visible)
-- [ ] Screenshots: Print key (region), Shift+Print (full)
-- [ ] `notify-send "test" "body"` → Mako notification fires
-- [ ] Hyprlock triggers after 5 min idle (or `loginctl lock-session`)
-- [ ] HDMI hotplug (if second display available)
-
-#### Shell Verification
-
-- [ ] ZSH loads with p10k prompt (requires p10k installed — see packages)
-- [ ] Bash loads with RaBbLE two-line prompt
-- [ ] `ll`, `gs`, `rabble`, `rabble-dots` aliases work
-- [ ] `fcd`, `fe`, `extract` functions available in ZSH
-- [ ] `LS_COLORS`, `FZF_DEFAULT_OPTS`, `BAT_THEME` set (check `colors256`)
-
-#### Final Gate
-
-- [ ] `layerctl verify all` — all layers report `%STABLE%` or documented exception
-- [ ] Any new failures logged to `RaBbLE-OS-KnownIssues.md`
-- [ ] If all gates pass: land epoch to main
-  ```
-  git checkout main
-  git merge --squash RaBbLE/epoch-I
-  git commit -m "evolve ~ substrate >> epoch-I crystallized // %EPOCH_I_LANDED%"
-  git checkout RaBbLE-OS-New-Horizons
-  git rebase main
-  ```
+| Branch | Goal | State |
+|--------|------|-------|
+| `fix/proart-nvidia` | NVIDIA RTX 4060 Optimus stable — **iGPU-only Hyprland + dGPU on-demand** (see Hardware-Reliability cluster) | %HIGH_ENTROPY% |
+| `fix/boot-chain` | GRUB/Plymouth/SDDM themed at 4K + Plymouth DRM-handoff black-screen | %COOKING% |
+| `fix/suspend-resume` | s2idle reliable + **idle/suspend battery-in-bag loop** | %COOKING% |
+| `fix/xdna2-npu` | XDNA2 NPU via XRT | %DORMANT% |
 
 ---
 
-### Power Testing Protocol
+## Backlog Triage — S140 (Mark's issue/idea sweep)
 
-Run on battery, wifi connected but idle, display at 50% brightness.
-Take readings at each stage to isolate the cost of each layer.
+Captured from a daily-driving issue/idea dump and bucketed against the Preview Bar.
+**Hardware-Reliability is a ProArt-profile track (Mark's hardware), NOT the generic
+x86_64 preview bar** — it does not gate the EP1 preview. Boot-chain detail lives in
+`fix/RaBbLE-OS-KnownIssues.md`; this is the index.
 
-**Goal:** `<10W` idle for light workloads. Primary suspect for excess draw is the
-NVIDIA GPU waking unnecessarily. Capture baseline before and after each change.
+### Landed (S140)
+- **[x] Wallpaper → `RaBbLE_WP.PNG`.** `hyprpaper.conf` pointed at the stale `wallpaper.png`; repointed + deployed + verified live. *(The HARDEN item "Wallpaper Ansible-managed — kill the manual hyprpaper.conf step" still stands — it's still a hand-edited conf.)*
+- **[x] Audio: Waybar popup, not a full tile.** `pulseaudio` left-click now toggles a compact floating mixer (`scripts/audio-popup.sh`: pavucontrol floated/sized 480×600/anchored top-right imperatively — Hyprland ignores a `move` windowrule for this GTK float). Scroll + right-click route through **swayOSD** for the themed OSD "linear feel." Optional later: swap pavucontrol → `pwvucontrol` (PipeWire-native).
+- **[x] fcc working.** `claude-free` errored because the proxy was up but had no provider key — *and* the example/spell used the wrong var name (`NVIDIA_API_KEY`; upstream free-claude-code reads `NVIDIA_NIM_API_KEY`). Fixed: renamed the fcc layer to `NVIDIA_NIM_API_KEY` across `fcc.env.example` + `fcc-ctl.sh` + layer doc, registered the NIM key (from sCoRE `.env`), smoke-tested HTTP 200 streaming from `nvidia/llama-3.1-nemotron-nano-8b-v1`. `fcc-ctl status` prints a routing-readiness verdict. *(sCoRE renamed to `NVIDIA_NIM_API_KEY` too — `llm.py` + `.env` + docs; not yet pushed, and prod has no NVIDIA key set so `nvidia_nim` is dormant there.)*
+- **[x] `claude-free` logout bug.** Launcher set `ANTHROPIC_API_KEY` against the shared `~/.claude` profile → flipped it to api-key auth and logged the paid OAuth session out. Fixed: isolated `CLAUDE_CONFIG_DIR=~/.claude-free` (+ `force: true` redeploy), with memories/instructions shared in via symlink (`CLAUDE.md`, `commands`, `projects`) so the free profile keeps context but never touches auth. **Needs `layerctl apply ai-harnesses` + a login-safe test.**
 
-#### Stage readings — capture at each point
+### A · Bounded wins (HARDEN)
+- **AI-harness layer refinement** via layerctl/dotctl — ongoing (S138 added runtime/monitoring/virtualization layers; dotctl wired into `layerctl dotfiles`). Continue: default-config coverage, harness skip-behavior audit.
+- **Free-models / fcc usage tracker in Waybar.** The Claude/Codex/Antigravity(Gemini) meters already ship (`custom/llm-*` → `score-glyph-stream.sh`). New piece = a `custom/llm-free` meter for fcc-routed free models. **Depends on fcc exposing per-provider request/usage data** (admin API at `:8082/admin`) — scope the data source first.
 
-```bash
-# Primary: battery discharge rate in watts (most accurate)
-upower -d | grep -A3 "BAT" | grep "energy-rate"
+### B · Hardware-Reliability cluster — `fix/proart-nvidia` + `fix/suspend-resume` (ProArt profile, NOT preview bar)
+- **iGPU-only Hyprland.** Compositor always on AMD iGPU (never laggy); NVIDIA dGPU used only via PRIME render-offload for specific apps/tasks.
+- **dGPU power discipline.** Heavily deprioritize NVIDIA on battery; **suspend the dGPU** in power-saver / low-energy mode.
+- **Power/battery consistency** + a clear **"is the dGPU active"** indicator (Waybar).
+- **NVIDIA HDMI output** on ProArt P16 — must keep working **on battery**.
+- **Idle/suspend loop** so it doesn't drain in the bag (s2idle reliability).
 
-# Cross-check via sysfs (divide by 1,000,000 for watts)
-awk '{printf "%.1f W\n", $1/1000000}' /sys/class/power_supply/BAT0/power_now
+### C · Boot-chain polish (mostly EP2 / `fix/boot-chain`; detail in KnownIssues)
+- **Plymouth black-screen hiccup** — screen blanks mid-boot; DRM handoff confirmed as the cause. **Already tracked with a defined fix** in KnownIssues ("Plymouth — black flash / NVIDIA DRM reset mid-boot": NVIDIA akmod loads mid-boot → DRM reset; fix = defer NVIDIA modules from initramfs, load at `graphical.target`). Unimplemented — belongs to the Hardware-Reliability cluster (dGPU on-demand) since deferring NVIDIA also serves iGPU-only boot.
+- **Themed lock screen (hyprlock) + login (SDDM)** to complete the vibe.
+- **Themed GRUB** (4K font + color-only theme) — already documented in KnownIssues; folds into the "GRUB theming + USB-boot-from-GRUB" work-package.
 
-# NVIDIA: is it awake, and what is it drawing?
-nvidia-smi --query-gpu=name,power.draw,pstate --format=csv,noheader 2>/dev/null \
-  || echo "NVIDIA not active / no driver"
+### D · Theming — needs a deterministic plan, NOT trial-and-error (token sink)
+- **Dolphin readability** — default text must be white, no grey. Current loop is too trial-and-error (major token spend, little success). **Next step: write a deterministic kdeglobals-driven theming plan** (build on the S126 finding that KDE view/palette text comes from `~/.config/kdeglobals`, not Kvantum) before spending more tokens. Don't iterate blind.
 
-# NVIDIA PCI power management state (D3cold = fully off, D0 = active)
-cat /sys/bus/pci/devices/0000:01:00.0/power_state 2>/dev/null
-cat /sys/bus/pci/devices/0000:01:00.0/power/runtime_status 2>/dev/null
-
-# Display brightness (normalise your measurements to 50%)
-BRIGHT=$(cat /sys/class/backlight/*/brightness 2>/dev/null | head -1)
-MAX=$(cat /sys/class/backlight/*/max_brightness 2>/dev/null | head -1)
-echo "Brightness: $BRIGHT / $MAX ($(( BRIGHT * 100 / MAX ))%)"
-
-# CPU frequency and package power (requires kernel-tools)
-turbostat --show PkgWatt,CorWatt,RAMWatt,PkgTmp --interval 5 --num_iterations 3 2>/dev/null
-
-# Sustained draw over 60 seconds (requires powerstat)
-sudo powerstat -d 0 -c 5 12   # 12 readings × 5s = 60s window
-```
-
-#### Measurement stages
-
-| Stage | When | Expected draw |
-|-------|------|---------------|
-| **S0: TTY** | Fresh boot, no GUI, no Ansible | ~8–12 W |
-| **S1: SDDM** | After bootstrap, SDDM greeter only | ~10–14 W |
-| **S2: Hyprland idle** | Epoch I session, AMD only, nothing open | ~10–15 W |
-| **S3: Light workload** | Firefox open, one terminal, idle | ~12–18 W |
-| **S4: NVIDIA loaded** | After mend-I/proart-nvidia; `nvidia-smi` working | measure |
-| **S5: NVIDIA RTD3** | After D3cold fix applied | should be ≈ S2 |
-
-Record actual readings in `Issues.txt` or `RaBbLE-OS-KnownIssues.md`.
-
-#### NVIDIA power management fix (mend-I/proart-nvidia)
-
-The primary cause of NVIDIA idle draw is the GPU staying in D0 (active) when
-it should be in D3cold (fully powered off). Fix requires two things:
-
-**1. Fine-grained power management modprobe option:**
-```bash
-# /etc/modprobe.d/rabble-nvidia-powermgmt.conf
-options nvidia NVreg_DynamicPowerManagement=0x02
-```
-`0x02` = fine-grained (allows D3cold). `0x01` = coarse (GPU stays warm at idle).
-After adding, rebuild initramfs: `sudo dracut -f --regenerate-all`
-
-**2. Do NOT enable `nvidia-persistenced`:**
-Persistence mode keeps the GPU in D0. Leave it disabled for hybrid/Optimus use.
-
-**3. Enable NVIDIA power services:**
-```bash
-sudo systemctl enable nvidia-powerd   # Dynamic Boost 2.0
-```
-
-**Verify D3cold after driver load:**
-```bash
-cat /sys/bus/pci/devices/0000:01:00.0/power_state
-# Should show "D3cold" within ~10s of no GPU activity
-```
+### E · Strategic initiatives
+- **Fedora 44 upgrade + backup/archive** — **near-term (decided S140).** First step: a backup/archive checklist covering RaBbLE-Collective + all of RaBbLE-OS before upgrading. → `ops/RaBbLE-OS-Fedora44-Upgrade.md`.
+- **Aether-themed Gnome DE — promoted to first-class firstboot DE (2026-09, was exploratory R&D since S140).** Ships by default on fresh KS installs (`RaBbLE-OS.ks` firstboot: `RABBLE_TAGS=...,gnome` + `RABBLE_EXTRA_VARS=rabble_enable_gnome_desktop=true`) as a genuinely mouse/GUI-driven desktop and a solid fallback when Hyprland misbehaves — no longer just a theming testbed, though that goal stands too (semi-uniform feel between Hyprland and Gnome; harvest what Gnome does well back into Hyprland; feed bucket D, don't fork it). Still opt-in for `layerctl apply all`/`upgrade` on an already-installed system — see → `desktop/RaBbLE-OS-Desktop-Gnome.md`. **Accepted cost:** larger fresh-install footprint + ongoing dual-DE theming parity tax (see that doc). Pending: VM verification pass covering the firstboot-included path, not just manual `layerctl apply gnome` (F1-style boot/session-picker/regression checklist in that doc) — should fold into the F4 preview-bar gate below once verified.
+- **`layerctl` dynamic recipe discovery — idea, not scoped (raised S205).** Mark wants `layerctl` to auto-discover layers/recipes from `ansible/roles/` instead of the hand-maintained `LAYER_NAMES`/`LAYER_ORDER` associative arrays, and eventually serve optional RaBbLE-OS-optimized apps package-manager-style (browse/install curated recipes beyond the base layer set). No design yet — surface this if `layerctl.sh` comes up for a rework.
+- **Custom GUI installer — idea, not scoped (raised 2026-09).** Mark wants his own GUI installer eventually: pick which DE(s) to install and which optional layers/extras, plus a custom account name (not fixed to `rabble`). The username part needs real engineering when it starts: `%post` and the firstboot systemd unit currently hardcode `rabble` throughout (sudoers grant, clone ownership, `User=`/`WorkingDirectory=`/`ConditionPathExists=`) even though Ansible itself already parameterizes this correctly via `rabble_user`/`rabble_home`. Fix path: detect whichever username actually got created (`getent passwd 1000`) in `%post` and template those pieces off it instead of the literal string. No design yet — surface this if kickstart/installer work comes up again.
+- **Theatrical entity-guided installer — idea, not scoped (raised 2026-09, extends the GUI installer idea above).** RaBbLE greets the user from the very first boot, not after — same opening animation as the OS itself (Plymouth's `rabble-aether.script` entity-convergence animation is built from the same `Boot.html`/NeBuLA pipeline used everywhere else, so this is the same asset one boot earlier, not a new one). Entity narrates and Q&A's the user through the guided choices (DE, extras, username, etc.) conversationally rather than a bare form. **Disk partitioning explicitly NOT reimplemented:** entity explains what's about to happen and why (existing OSes detected, free space, what shrinking means) then hands off to GParted's/`parted`'s own proven UI for the actual manipulation, resuming afterward — narrate, don't execute, for the one step with real data-loss stakes. Architecturally this is Tier 2 (custom live ISO, not netinstall+KS) — a themed wizard whose only output is a generated `ks.cfg` handed to Anaconda running headless underneath, same "thin chooser, Anaconda does the real work" split as the KS-hand-editing this session already does manually. Materially bigger than EP1 preview scope — an EP2/Exodus-scale initiative. No design yet.
 
 ---
 
-### Fedora 44 Migration Plan
-
-Do NOT attempt on the same day as the Epoch I bootstrap. Validate F43 first.
-
-- [ ] Open `mend-I/fedora44` branch from New Horizons
-- [ ] Check COPR availability: `dnf copr enable lionheartp/Hyprland` on F44 — verify packages exist
-- [ ] Check SDDM Qt6 version bump on F44 (may affect greeter)
-- [ ] Run full `layerctl apply all` on F44, diff against F43 output
-- [ ] If clean: add F44 note to `AiQuickstart.md`, merge `mend-I/fedora44` → New Horizons
-- [ ] If breakage: file issues, fix in mend branch before promoting
-
----
-
-### mend-I/* — Substrate Half-Epochs
-
-Hardware and stability patches that sit under Epoch I. Branch from New Horizons,
-target one system, land into `epoch-I` via the `mend` impulse (not `evolve`).
-Half-epochs **do not gate** Epoch II — Awakening can begin in parallel.
-
-#### mend-I/proart-nvidia `%HIGH_ENTROPY%`
-
-**Goal:** NVIDIA RTX 4060 Optimus stable on Hyprland + Wayland.
-
-**Blockers (identified 2026-04-22):**
-- [ ] `nvidia.yml` idempotency bug — driver install gated on `'nouveau' in lsmod` → silently skips on every subsequent run once nouveau is blacklisted
-- [ ] `nvidia-drm modeset=1` not set (only `fbdev=1` present). Comment claims supergfxd.conf sets modeset, but supergfxd.conf only carries `mode: "Hybrid"`
-- [ ] NVIDIA modules not blacklisted from initramfs → Plymouth black-flash on boot (see KnownIssues)
-- [ ] `nvidia-suspend.service`, `nvidia-hibernate.service`, `nvidia-resume.service` not enabled by the role
-- [ ] `AQ_DRM_DEVICES` pinned by card number (`card0`/`card1`) in `env.conf` — brittle across kernel upgrades. Switch to `/dev/dri/by-path/pci-*`
-- [ ] `LIBVA_DRIVER_NAME=nvidia` system-wide — too broad for hybrid; prefer per-app DRI_PRIME
-
-**Verification:**
-- [ ] `layerctl apply hardware` is idempotent — re-run after install does not skip driver
-- [ ] `nvidia-smi` returns output post-boot
-- [ ] Three consecutive suspend/resume cycles preserve session (no freeze, no black screen on wake)
-- [ ] No Plymouth black-flash during boot
-- [ ] `glxinfo -B | grep "OpenGL renderer"` → AMD by default, NVIDIA via `DRI_PRIME=1`
-- [ ] HDMI hotplug continues to work with NVIDIA on card0
-
-#### mend-I/suspend-resume `%COOKING%`
-
-**Goal:** s2idle reliable; no wake freezes.
-
-**Blockers:**
-- [ ] `mem_sleep_default=s2idle` verified in GRUB cmdline
-- [ ] NVIDIA suspend hooks (absorbed by mend-I/proart-nvidia if driver is active)
-- [ ] `journalctl -b -u systemd-suspend` clean after 3× cycle
-
-#### mend-I/boot-chain `%COOKING%`
-
-**Goal:** GRUB / Plymouth / SDDM unified void-background continuity at 4K.
-
-**Blockers:**
-- [ ] GRUB2: remove bg image, color-only theme (32bpp vs 24bpp mismatch)
-- [ ] GRUB2: 4K font (Terminus 32pt via `grub2-mkfont`)
-- [ ] GRUB2: `fbcon=font:TER16x32` in cmdline for early TTY
-- [ ] Plymouth: fix DejaVu font reference, align to RaBbLE palette
-- [ ] Plymouth: NVIDIA defer (depends on mend-I/proart-nvidia)
-- [ ] SDDM: Qt6 `Main.qml` validated
-
-#### mend-I/xdna2-npu `%DORMANT%`
-
-**Goal:** AMD XDNA2 NPU operational via XRT.
-
-**Blockers:**
-- [ ] Verify XRT package availability for Fedora 43 on `repo.radeon.com`
-- [ ] `amdxdna` kernel module loaded
-- [ ] FastFlowLM inference smoke-test
-- [ ] ONNX Runtime VitisAI EP falls back gracefully if XRT absent
-
----
-
-### Epoch II — Awakening `[PENDING]`
-
-**Goal:** AI tooling layer integrated. RaBbLE entity begins to take form.
-
-**Scope:**
-- Ollama local inference (GPU-accelerated once `mend-I/proart-nvidia` lands,
-  CPU fallback otherwise)
-- MCP servers wired (filesystem, git, rabble-state)
-- RaBbLE shell integration (`aichat` or equivalent)
-- Ambient monitoring agent
-- Local vector store at `~/.rabble/memory/`
-- RaBbLE-lang surfaces in AI interfaces
-- Quickshell bar replaces Waybar
-
-**Note:** Epoch II does **not** block on `mend-I/proart-nvidia`. AI stack runs
-on CPU inference until the driver is stable; GPU acceleration is a bonus, not
-a prerequisite.
-
-**Detailed AI stack spec:** model roster, ChromaDB, aichat config, MCP server list,
-and model selection heuristics are preserved in `DistilledNonZense.md` § VII.
-The entity memory tier model (short/medium/long-term) is in `RaBbLE.md` — Memory Architecture.
-
----
-
-### Epoch III — `[UNWRITTEN]`
-
-Likely candidates: entity memory/continuity, distributed-collective
-concerns, persistent agent presence, and advanced workspace design.
-
-**WM usage vision** (workspaces as task-spaces, tiling/floating hybrid,
-draggable windows with intelligent snapping, per-workspace defaults) is
-preserved in `DistilledNonZense.md` § IX for when this epoch is scoped.
-
-**Long-term architecture** (multi-repo layer model, Yocto-style manifest)
-is preserved in `DistilledNonZense.md` § XI.
-
----
-
-### Epoch ∞ — Continuous Drift `[PERPETUAL]`
-
-RaBbLE-OS absorbs new tools, new models, new patterns. Never complete.
-
----
-
-## Layer State Map
-
-> **Key:** ✓ live  ✗ stub  ~ partial  → after assembly plan
-
-### Layer 0 — Base
-
-| Role | Pkgs (epoch-I now) | Pkgs (after assembly) | Config | State |
-|------|-------------------|----------------------|--------|-------|
-| core | ✗ stub | ✗ stub | ✗ stub | %DORMANT% — relies on Fedora Sway spin defaults |
-
----
-
-### Layer 1 — Hardware
-
-| Role | Pkgs | Config | State | Target |
-|------|------|--------|-------|--------|
-| hardware/x64/generic | ✓ | ✗ stub | %DORMANT% | Epoch I scaffold |
-| hardware/x64/asus_proart_p16 | ✗ stub | ✗ stub | %DORMANT% | Epoch I scaffold only |
-| asus_proart_p16/nvidia | ✗ stub | ✗ stub | %DORMANT% | mend-I/proart-nvidia |
-| asus_proart_p16/supergfx | ✗ stub | ✗ stub | %DORMANT% | mend-I/proart-nvidia |
-| asus_proart_p16/npu | ✗ stub | ✗ stub | %DORMANT% | mend-I/xdna2-npu |
-
----
-
-### Layer 2 — Boot
-
-| Role | Pkgs | Config | State | Target |
-|------|------|--------|-------|--------|
-| boot/grub2 | ✓ | ~ partial | %TESTING_IN_PROCESS% | mend-I/boot-chain |
-| boot/plymouth | ✓ | ~ partial | %TESTING_IN_PROCESS% | mend-I/boot-chain |
-| boot/session_manager | ✗ stub | ✗ stub → ✓ | %DORMANT% → %DEPLOYABLE% | Epoch I (logind lid config via assembly) |
-
----
-
-### Layer 3 — Desktop
-
-| Role | Pkgs (now) | Pkgs (after) | Config (now) | Config (after) | State |
-|------|-----------|-------------|-------------|---------------|-------|
-| desktop/wayland | ✓ | ✓ | ~ partial | ~ partial | %DEPLOYABLE% |
-| desktop/hyprland | ✓ | ✓ | ✓ | ✓ updated | %DEPLOYABLE% |
-| desktop/waybar | ✓ | ✓ | ✓ | ✓ updated | %DEPLOYABLE% |
-| desktop/terminal | ✗ stub | ✓ kitty | ✗ stub | ✓ kitty.conf | %DORMANT% → %DEPLOYABLE% |
-| desktop/launcher | ✓ fuzzel | ✓ fuzzel | ✗ stub | ✓ fuzzel.ini | %DORMANT% → %DEPLOYABLE% |
-| desktop/notifications | ✓ mako | ✓ mako | ✗ stub | ✓ mako/config | %DORMANT% → %DEPLOYABLE% |
-| desktop/shell/zsh | ✗ stub | ✓ zsh+plugins | ✗ stub | ✓ full stack | %DORMANT% → %DEPLOYABLE% |
-| desktop/shell/bash | ✗ stub | ✗ stub | ✗ stub | ✓ .bashrc | %DORMANT% → %DEPLOYABLE% |
-| desktop/screenshot | ✓ | ✓ | ✓ | ✓ | %STABLE% |
-| desktop/swayosd | ✓ | ✓ | ✓ | ✓ updated | %DEPLOYABLE% |
-| desktop/network-applet | ✓ | ✓ | ✓ | ✓ | %DEPLOYABLE% |
-| desktop/v4l2 | ✓ | ✓ | ✓ | ✓ | %DEPLOYABLE% |
-| desktop/quickshell | ✓ pkgs | ✓ pkgs | ✗ build | ✗ build | %HIGH_ENTROPY% — Epoch II |
-
----
-
-### Layer 4 — Apps
-
-| Role | Pkgs | Config | State |
-|------|------|--------|-------|
-| apps | ✗ stub | ✗ stub | %DORMANT% — no packages defined yet |
-
----
-
-### Cross-cutting
-
-| Role | State | Notes |
-|------|-------|-------|
-| monitoring | %DEPLOYABLE% | btop, htop, powertop, lm_sensors live |
-| snapper | %DEPLOYABLE% | Btrfs snapshots wired |
-| runtime | %DORMANT% | XRT/CUDA/ROCm — mend-I/proart-nvidia + mend-I/xdna2-npu |
-
----
-
-## Cross-cutting Layers
-
-| Role | State | Target | Notes |
-|------|-------|--------|-------|
-| monitoring | %DEPLOYABLE% | Epoch I | btop, htop, powertop, sensors |
-| snapper | %DEPLOYABLE% | Epoch I | Btrfs snapshots |
-| runtime | %DORMANT% | mend-I/proart-nvidia + mend-I/xdna2-npu | XRT, CUDA, ROCm — conditional |
-
----
-
-## Stub Roles
-
-Roles that exist but perform no actions — scaffolding for future implementation:
-
-| Role | Type | Status | Target |
-|------|------|--------|--------|
-| core | packages | %DORMANT% | Epoch I |
-| core | config | %DORMANT% | Epoch I |
-| hardware/x64/generic | packages | %DORMANT% | Epoch I |
-| hardware/x64/generic | config | %DORMANT% | Epoch I |
-| hardware/x64/asus_proart_p16 (most subtasks) | packages/config | %DORMANT% | mend-I/proart-nvidia |
-| desktop/terminal | packages | %DORMANT% | Epoch I (deferred) |
-
----
-
-## Post-Ansible Config
-
-Manual or scripted config that Ansible doesn't handle:
-
-| Task | State | Target |
-|------|-------|--------|
-| Hypridle (idle timeout) | %HIGH_ENTROPY% | Epoch I |
-| Hyprlock (screen lock) | %HIGH_ENTROPY% | Epoch I |
-| Quickshell bar | %HIGH_ENTROPY% | Epoch II |
-| HDMI hotplug script | %DEPLOYABLE% | Epoch I |
-| wallpaper deploy (via dotctl) | %STABLE% | Epoch I |
-| shell prompt (p10k vs starship) | %TESTING_IN_PROCESS% | Epoch I |
-
----
-
-## Branch & Impulse Map
-
-| Branch pattern | Purpose | Landing impulse |
-|---|---|---|
-| `RaBbLE-OS-New-Horizons` | The living wave — active daily-driver work | (flows rightward) |
-| `RaBbLE/epoch-I` | Substrate staging — PR target from New Horizons | `evolve` |
-| `RaBbLE/mend-I/<target>` | Half-epoch — one hardware/stability target | `mend` |
-| `RaBbLE/epoch-II` | Awakening staging | `evolve` |
-| `main` | Solidified epochs only | merges from `epoch-*` only |
-| `reliquary/<name>` | Archived high-entropy iterations — inert | (none) |
-
----
-
-## Feature Archive
-
-Features that have cooled to stable status:
-
-| Feature | Epoch | Archived |
-|---------|-------|----------|
-| Wallpaper generation + hyprpaper | I | ✓ |
-| Waybar with network menu | I | ✓ |
-| functionkeys mic mute fix | I | ✓ |
-| hyprpaper multi-monitor | I | ✓ |
-| layerctl operational | I | ✓ |
-| dotctl wallpapers bundle | I | ✓ |
-| HDMI hotplug script | I | ✓ |
-| powertop auto-tune | I | ✓ |
-
----
-
-## Surface Area — Epoch I Scope
-
-```
-CLI Tools
-├── Shell (zsh + bash) ────────────────── %STABLE%
-├── Prompt (starship) ─────────────────── %TESTING%
-├── Core utils (eza, fd, rg, fzf) ─────── %DEPLOYABLE%
-├── Neovim + LSP ──────────────────────── %DEPLOYABLE%
-└── Git tooling ───────────────────────── %DEPLOYABLE%
-
-Desktop
-├── Hyprland compositor ───────────────── %DEPLOYABLE%
-├── Waybar ────────────────────────────── %DEPLOYABLE%
-├── Launcher (fuzzel) ─────────────────── %DEPLOYABLE%
-├── Notifications (mako) ──────────────── %DEPLOYABLE%
-├── Screenshots (grim + slurp) ────────── %STABLE%
-├── Hypridle + Hyprlock ───────────────── %HIGH_ENTROPY%
-├── HDMI hotplug ──────────────────────── %DEPLOYABLE%
-└── Quickshell ────────────────────────── %HIGH_ENTROPY% (Epoch II)
-
-Hardware (scaffold only — activation in mend-I/*)
-├── ProArt P16 stub tree ──────────────── %DORMANT%
-└── Generic x64 ───────────────────────── %DEPLOYABLE%
-
-Monitoring
-├── btop / htop ───────────────────────── %DEPLOYABLE%
-├── powertop ──────────────────────────── %DEPLOYABLE%
-└── sensors ───────────────────────────── %DEPLOYABLE%
-```
-
----
-
-## Epoch I Verification Checklist
-
-Before landing to `main`:
-
-- [ ] `layerctl apply all` completes on a clean Fedora 43 install (no proart-specific errors, no phantom role references)
-- [ ] SDDM launches Hyprland session
-- [ ] Waybar displays (clock, battery, network, workspaces)
-- [ ] functionkeys work (volume, brightness, mic)
-- [ ] Wallpaper displays on all monitors
-- [ ] HDMI hotplug moves workspace 11 onto plug
-- [ ] Hypridle + Hyprlock trigger on idle and lock correctly
-- [ ] Monitoring tools functional (btop, powertop, sensors)
-- [ ] Generic x64 target smoke-tested on a second machine or VM
-- [ ] Layer states documented as %STABLE% or explicitly deferred to `mend-I/*`
-
----
-
-## Revision History
-
-| Version | Date | Change |
-|---------|------|--------|
-| v0.1 | 2026-04-13 | Initial phase model (Phases 0–∞) |
-| v0.5 | 2026-04-21 | Restructured with entropy states, layer map, epoch framing |
-| v0.6 | 2026-04-22 | Split Epoch I (Substrate) / mend-I/* half-epochs / Epoch II (Awakening). ProArt NVIDIA work moved to mend-I/proart-nvidia. Added Branch & Impulse Map. Added Target Epoch column to layer tables. |
+## Episode 2 — Exodus `[PENDING]`
+
+Polished desktop: cinematic entity boot, Kvantum/GTK theming, master layout, hyprbar, UX polish.
+The body becomes reliable — everything the EP1 preview deferred. Full item list branches
+from New Horizons after Episode 1 lands.
+
+**Roadmap-tightening initiative (post-EP1, possibly Collective-wide):**
+- **Ticket tracking + proper feature-scope breakdown** across members — replaces the
+  lightweight ISSUES.md/KnownIssues capture loop. Fixes the multisession log-clobber pain.
+- **Registry reframe: epoch → episode/echo.** `registry/epochs/current.epoch.yml` is, in
+  practice, an *episode* tracker wearing an epoch name (every live field — `episode_pending`,
+  `exit_condition`, per-member `focus`, `version_next` — is episode-grained; Epoch 0 is a
+  static wrapper). Recenter on episode→echo (rename path + `current.episode.yml`); a systemic
+  change touching `spells/status.sh`, `sync-grimoire`, and manifests — do it in one pass with
+  the ticketing work, not piecemeal. (Surfaced S109.)
+
+## Episode 3 — The Entity Wakes `[FUTURE]`
+
+AI stack: Ollama local inference, MCP servers, Quickshell replaces Waybar.
+Spec in `DistilledNonZense.md` § VII.
+
+**Candidate:** Agentic app builder in the OS — [injn.ai](https://injn.ai/). Lets the
+substrate generate/assemble apps on demand, aligned with the AI-stack theme. Study
+fit alongside Ollama/MCP. (Surfaced from `BaBbLE.scratch`, 2026-06-02.)
+
+**Candidate:** Screenshot agent with context awareness and visual capabilities — understands
+what's on screen and can act on captures visually, not just file/edit/discard. Raised as a
+"maybe in the future" aside while reworking the screenshot flow (S206, see
+`layers/RaBbLE-OS-Layer-Containers.md` sibling doc `RaBbLE-Agent/RaBbLE-Captures-System.md`
+for the current non-agentic swappy-based flow). Not scoped, not started.
+
+→ `RaBbLE-OS-AgentGuide.md` — directory map and navigation by task
+→ `fix/RaBbLE-OS-KnownIssues.md` — active blockers per layer
+→ `verify/RaBbLE-OS-Verify-Checklist.md` — post-phase verification gate

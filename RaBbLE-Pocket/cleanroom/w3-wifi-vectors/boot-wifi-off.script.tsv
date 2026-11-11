@@ -1,0 +1,16 @@
+# wifi off: nothing is attempted; turning it on and applying joins at once
+0	preload	Home	homepass	0
+0	wifi_on	0
+0	air	Home:-60:secure
+0	result	Home	ok:2000
+0	start
+1000	status
+5000	wifi_on	1
+5000	apply
+5000	status
+8000	status
+10000	wifi_on	0
+10000	apply
+11500	status
+11500	connected
+30000	end

@@ -1,0 +1,28 @@
+id: aca6385cd6c8
+sha256: aca6385cd6c8199aced5da7d92ef902b45d1aef1ce276585e21c25ecd8ce67fe
+title: logo-portal-eyes-v2-outlined
+provenance: human
+role: other
+status: draft
+store: human/2026/aca6385cd6c8-logo-portal-eyes-v2-outlined.jpg
+kind: image
+format: jpg
+bytes: 509106
+width: 1824
+height: 1556
+alpha: false
+animated: false
+palette:
+- '#ffffff'
+- '#2eecec'
+- '#7268b0'
+- '#e1f2fc'
+- '#defffd'
+tags: []
+description: ''
+origin_name: logo-portal-eyes-v2-outlined.jpg
+ingested: '2026-10-27'
+rights: collective-original
+source: RaBbLE/Genesis/visual (S92 migration)
+medium: ''
+made: '2026'

@@ -1,5 +1,43 @@
+# AI tooling — local only, created by sync-symlinks spell
+CLAUDE.md
+CODEX.md
+GEMINI.md
+
 .DS_Store
 *.swp
 *.swo
 *~
-distilled/
+
+# Volatile per-run token snapshot (regenerate: spells/session-tokens.sh --json)
+log/session-tokens.json
+
+# Machine-local heartbeat PIDs from spells/session-start.sh (transient, host-specific)
+log/agents/*.heartbeat.pid
+
+# Local credentials — written by spells/*-ctl.sh setup, never committed
+.cloudflare/
+.claude/
+.render/
+
+# Wrangler local build/state cache (Grimoire MCP / gist Worker)
+.wrangler/
+
+# Generated exports — reproducible from source, never committed
+# (generated/grimoire-kb/ — the flat KB bundle from spells/build-kb.sh)
+generated/
+
+# Agent-Native local bridge URL tokens (machine-specific, written by plan local serve)
+log/plans/**/.plan-url
+
+# Stray plan app scaffolds — belong in /opt/rabble/plans, not here
+rabble-plans/
+plans-app/
+
+# SiGiL visual asset BYTES — the index (RaBbLE-SiGiL/index/) is tracked, the store never is
+RaBbLE-SiGiL/store/
+
+# session mechanism runtime files
+log/.lock
+log/agents/
+__pycache__/
+*.pyc

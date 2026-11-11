@@ -1,0 +1,36 @@
+# manifests/RaBbLE-Xperimental.manifest.yml
+# NEW RaBbLE-Xperimental — created S92 as the active sandbox for rablet development
+# and experiments not yet ready to emerge as a full Collective member.
+# The former Xperimental genesis archive is now RaBbLE-Chrysalis.
+
+# Identity
+name: RaBbLE-Xperimental
+slug: RaBbLE-Xperimental
+description: "Active sandbox — custom rablets, prototype members, and experiments not yet emerged. High entropy by design."
+role: experimental
+
+# Repository
+repo: https://github.com/RaBbLE-Collective/RaBbLE-Xperimental.git
+branch: new-horizons
+worktree_root: RaBbLE-Xperimental
+surface_type: local
+
+# Status
+phase: 0
+epoch: 0
+status: active
+release_track: independent  # sandbox/archive — not in branch lockstep, uses own branch
+
+# Collective alignment
+palette_version: "1.0"
+entity_embedded: false
+pulse_protocol: true
+
+# Notes
+notes: >
+  Created S92. New repo — distinct from RaBbLE-Chrysalis (the former Xperimental,
+  which holds the genesis archive). This is the active creative sandbox.
+  Cloned and active — on branch new-horizons since S189.
+  Content: custom rablets in development, prototype member repos, sandboxed experiments.
+  High entropy is correct. Nothing here is permanent — graduates to published rablets
+  or a full member repo. Branches: new-horizons + feature/* per experiment.

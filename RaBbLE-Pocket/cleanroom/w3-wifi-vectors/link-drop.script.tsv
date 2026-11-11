@@ -1,0 +1,17 @@
+# the link drops after joining: the station notices within a second and rejoins (scan then connect)
+0	wifi_on	1
+0	preload	Home	hp	0
+0	air	Home:-50:secure
+0	result	Home	ok:2000
+0	start
+4000	status
+10300	drop
+10300	status
+10400	status
+11000	status
+12000	status
+15000	status
+16000	drop
+17000	air	-
+17000	status
+80000	end

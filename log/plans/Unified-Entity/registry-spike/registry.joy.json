@@ -1,0 +1,26 @@
+{
+  "format": "rabble-entity-registry/0",
+  "units": { "length": "face", "angle": "deg", "y": "down" },
+  "parts": ["eL", "eR", "pL", "pR"],
+  "channels": {
+    "part": { "dx": 0, "dy": 0, "rot": 0, "sx": 1, "sy": 1 },
+    "head": { "tilt": 0, "gaze": 1, "dim": 1, "squint": 0, "hop": 0 }
+  },
+  "expressions": {
+    "joy": {
+      "layer": "emotion",
+      "pose": {
+        "eL": { "dy": -6, "rot": -6, "sx": 1.05, "sy": 0.86 },
+        "eR": { "dy": -6, "rot": 6, "sx": 1.05, "sy": 0.86 },
+        "pL": { "dy": -20, "rot": -8, "sx": 1.06 },
+        "pR": { "dy": -56, "rot": 8, "sx": 1.08 }
+      },
+      "head": { "tilt": 2, "gaze": 0.95, "dim": 1.1, "hop": 1 },
+      "surfaces": {
+        "web": { "symbol": "joy" },
+        "tui": { "symbol": "Joy" },
+        "pocket": { "symbol": "F_JOY" }
+      }
+    }
+  }
+}
