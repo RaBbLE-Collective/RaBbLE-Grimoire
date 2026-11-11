@@ -100,3 +100,27 @@ All `git fetch origin` runs succeeded. All trees were clean and on `new-horizons
 4. World and Grimoire and Collective have no native version file. Is registry manifest the source for them, or should one be added?
 5. genesis.yml `contracts:` values (score_api v1, entity draft-10b, palette "1.0") were copied from the Versioning example; confirm. `date` and `verified_by` left as placeholders.
 6. Pocket: ESP-IDF absent, no host tests or sim run.
+
+## Result, second pass (2026-11-11): all nine release branches exist
+
+Supersedes the "blocked" rows above. Heads are local `release/0.1.0`; nothing pushed, tagged or deployed.
+
+| Member | Head | Version source | Build and tests |
+|---|---|---|---|
+| Aether | `98b5f03` | `package.json` | `npm run build` pass |
+| NeBuLA | `fb3e3f3` | `package.json` | `build:iife`, `build:esm` pass; `typecheck` fails (4 errors in `src/utils/three-loader.js`), **also fails on `new-horizons`** |
+| sCoRE | `7380674` | `VERSION`; `tui/Cargo.toml` `[workspace.package]` follows | `cargo check` pass; `cargo test` 194 pass, 2 fail; pytest 334 pass, 1 fail (plus 86 pass for the five files that need the server venv). See below |
+| ScRiBbLE | `fe28922` | `VERSION` | no build or tests; `node --check` on all JS pass |
+| Pocket | `ef4f665` | `firmware/version.txt` (ESP-IDF native) | host suite 36/36; `ops/build-flash.sh firmware -B` pass on ESP-IDF v6.0.1, reports `project_version 0.1.0`; not flashed |
+| OS | `f1e132e` | `rabble_os_version` (entry scripts carry a copy) | Ansible syntax check pass. **Not releasable until G1 to G5** of `log/plans/OS-Installer-Scope-Genesis-to-Echo1.md` |
+| World | `de25d90` | `VERSION` | config syntax check only; CDN pins point at `v0.1.0` bundles that do not exist yet |
+| Collective root | `cf5a0e2` | `VERSION` | `bash -n setup.sh` pass |
+| Grimoire | see `git rev-parse release/0.1.0` | `VERSION` | manifests and `genesis.yml` parse |
+
+**sCoRE failures, checked on `new-horizons` (they predate the release work):**
+
+- `tests/test_ui_header.py::test_constants_match_rust`: fails on `new-horizons`. The Python header expects `pub const FACE_COMPACT_ROWS: u16 = 2;` in `tui/rabble-tui/src/widgets/mod.rs` and does not find it: the Python and Rust face constants have drifted.
+- `app::tests::the_entity_looks_at_streaming_text_and_the_composer_then_lets_go`: fails on `new-horizons`.
+- `app::tests::a_face_frame_is_cheap_enough_to_sit_between_keys`: timing-based; not rechecked on `new-horizons`.
+
+**Before phase 2, Mark decides:** release sCoRE and NeBuLA with these known failures listed, or fix them on the release branches first (the flow allows fixes there).
