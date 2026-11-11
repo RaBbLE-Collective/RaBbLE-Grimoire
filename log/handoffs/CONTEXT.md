@@ -13,7 +13,7 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 
 Re-triaged S320 from the S318 audit (`log/plans/Collective-Coherency-Audit-S318/audit-plans-roadmap.md` 1c). Superseded and finished handoffs moved to `done/` with a status banner on line 1; none deleted.
 
-- `HANDOFF-S323-Genesis-Release.md`: every member to `0.1.0` on `main` under the `genesis` tag. Phase 1 local preparation in progress (2026-11-11); phase 2 needs Mark.
+- `HANDOFF-S323-Genesis-Release.md`: every member to `0.1.0` on `main` under the `genesis` tag. Phase 1 done; `v0.1.0` on the CDN; pull requests open in all nine members (S323). Next: review and docs pass, then merge and tag with Mark's go.
 
 | File | Status | Scope |
 |---|---|---|

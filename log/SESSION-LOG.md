@@ -8,12 +8,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-11 · S323 (collective-genesis-rulings)
+## LATEST — 2026-11-11 · S323 (collective-genesis-release)
 
 **Phase:** Epoch 0 · Foundation.
-**This session:** S323: semver per member, release branches to a stable main, Genesis at 0.1.0 ruled; Pocket occlusion canonical; accounts sign-in ruled; Genesis handoff written, phase 1 with an agent
+**This session:** S323: semver and release flow ruled; release/0.1.0 cut in nine members; Aether and NeBuLA v0.1.0 live on the CDN; Genesis pull requests into main open (OS draft); OS installer scope written
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** Read the Result in log/handoffs/HANDOFF-S323-Genesis-Release.md; Mark gives the go for phase 2 (push, PRs, tags, CDN, World last); then Echo 1, AC1, entity registry
+**Next:** log/handoffs/HANDOFF-S323-Genesis-Release.md Next steps: review and docs pass per pull request; World checked locally against v0.1.0 bundles; merge and tag v0.1.0 + genesis with Mark's go; OS install paths G1-G5; then Echo 1
 
 ---
 
@@ -26,7 +26,9 @@ Format: date, what was done, where things were left, what's next.
 - **Docs changed:** `RaBbLE-Versioning.md` rewritten (ladder smallest step first, semver rules, release flow, Genesis, release record; proposals marked PROPOSED); Versioning and Entity gists hand-synced; Canon sections 2, 6, 7, 8, 9 updated; `episode:` leftovers removed from the sCoRE and NeBuLA manifests; branch wording aligned in Grimoire `AGENT.md`, Collective `README.md` and the epoch file.
 - **Found, not fixed:** member manifests still say `version: "v0.0.0.0"`; Aether and NeBuLA `package.json` say `0.0.0.0` while their CDN paths say `v0.0.0.1-rc.*`; OS `group_vars/all.yml` still has `rabble_epoch_name: "Episode 1 Preview"` and a five-slot version comment; `spells/seal-episode.sh` is a draft for the retired model; `origin/main` for World shows 2026-05-05 at last fetch, which does not match "prod deploys from main" (fetch and check). The rig's draw order has not been compared with Pocket's (Canon section 9, item 7).
 - **Genesis (ruled at the end of the session):** start at `0.1.0`; Genesis is the origin, Echo 1 the first stable Echo. `log/handoffs/HANDOFF-S323-Genesis-Release.md` splits the release into phase 1 (local: release branches, version, build and test; handed to a Sonnet agent) and phase 2 (push, pull requests, tags, CDN, World last; needs Mark).
-- **Next:** read the agent's Result section in the Genesis handoff; Mark gives the go for phase 2; then AC1; `registry/entity/rabble.entity.json`; the rig against Pocket side-by-side.
+- **Genesis phase 1 and the start of phase 2 (same session):** a Sonnet agent cut `release/0.1.0` in all nine releasing members (stub `main`s joined with `-s ours` on Mark's ruling; version in the native manifest or a root `VERSION` file; Pocket built on ESP-IDF v6.0.1, host suite 36/36). OS boot name set to "Genesis". `log/plans/OS-Installer-Scope-Genesis-to-Echo1.md` written (Genesis = both install paths documented and tested, G1 to G5; Echo 1 = an actual installer, I1 to I8). NeBuLA and Aether builds now stamp version and commit, and NeBuLA reads its version from `package.json`. **Aether and NeBuLA `v0.1.0` deployed to the CDN and verified (200; older paths and the live site unaffected).** Release branches pushed; **pull requests into `main` opened in all nine members** (OS as draft) for the review and docs pass. Nothing merged or tagged.
+- **Known failures left (not easy wins):** NeBuLA typecheck (about 1,680 strict errors, never passed); sCoRE Python header twin behind the Rust compact header; two Rust TUI gaze and timing tests. All predate the release work.
+- **Next:** `log/handoffs/HANDOFF-S323-Genesis-Release.md`, "Next steps": review and docs pass per pull request; check World locally against the `v0.1.0` bundles; merge in order with Mark's go, tagging `v0.1.0` and `genesis`; fill `registry/releases/genesis.yml`; OS G1 to G5; then Echo 1.
 
 ## 2026-11-10 · Session S322 (collective-audit-context-diet)
 
