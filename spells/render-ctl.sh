@@ -24,7 +24,7 @@
 #   branch <name>          Set the branch Render deploys from (then run deploy)
 #   logs [N]               Recent service logs (default 100; falls back to deep link)
 #   env-show               List env vars (values masked)
-#   env-set <key> <val>    Upsert a single env var (auto-redeploys)
+#   env-set <key> <val>    Upsert a single env var (then run deploy: the API does not redeploy)
 #   env-sync               Push provider keys from sCoRE/server/.env to Render
 #   open                   Open the Render dashboard for the service
 #   help                   Show this help
@@ -323,7 +323,7 @@ cmd_env_set() {
   local res
   res="$(api PUT "/services/$id/env-vars/$key" "$(jq -nc --arg v "$val" '{value:$v}')")"
   if echo "$res" | jq -e '.key' &>/dev/null; then
-    ok "$key set (Render will redeploy)"
+    ok "$key set"; info "Not live until the next deploy: bash spells/render-ctl.sh deploy --wait"
   else
     err "Failed to set $key"; echo "$res" | jq . 2>/dev/null || echo "$res"; exit 1
   fi
