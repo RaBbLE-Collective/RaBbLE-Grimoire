@@ -8,12 +8,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-11 · S323 (collective-genesis-release)
+## LATEST — 2026-11-11 · S324 (collective-genesis-review)
 
 **Phase:** Epoch 0 · Foundation.
-**This session:** S323: semver and release flow ruled; release/0.1.0 cut in nine members; Aether and NeBuLA v0.1.0 live on the CDN; Genesis pull requests into main open (OS draft); OS installer scope written
+**This session:** S324: Genesis review; CI CDN-wipe hazard fixed; Aether and NeBuLA 0.1.0 released as squashed Genesis commits; World loads NeBuLA from CDN; sCoRE 0.1.0 live
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** log/handoffs/HANDOFF-S323-Genesis-Release.md Next steps: review and docs pass per pull request; World checked locally against v0.1.0 bundles; merge and tag v0.1.0 + genesis with Mark's go; OS install paths G1-G5; then Echo 1
+**Next:** HANDOFF-S323-Genesis-Release.md S324 sections: Mark reads Aether README sample, World PR #3 squash with Mark's go, then remaining members
 
 ---
 
