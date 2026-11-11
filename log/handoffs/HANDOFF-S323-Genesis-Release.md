@@ -163,3 +163,33 @@ Supersedes the "blocked" rows above. Heads are local `release/0.1.0`; nothing pu
 4. **Record:** fill the commit shas into `registry/releases/genesis.yml`; Mark signs `verified_by`; update `current.epoch.yml` and the member statuses.
 5. **OS (draft pull request):** work G1 to G5 of `log/plans/OS-Installer-Scope-Genesis-to-Echo1.md` on its release branch; never run Ansible against Mark's machine, use `vmctl` VMs.
 6. **Then Echo 1:** the installer slices I1 to I8, `setup.sh` on a fresh VM, sCoRE and Pocket reporting version and commit at runtime, accounts AC1, `registry/entity/rabble.entity.json`, and the rig against Pocket side-by-side.
+
+## S324: review and docs pass (2026-11-11), local, not pushed
+
+Fixes were committed on `new-horizons` and merged into `release/0.1.0` in every member except OS. Nothing is pushed, merged or tagged.
+
+**Blocker found and fixed: CI would have wiped the CDN.** Aether and NeBuLA each had `.github/workflows/deploy.yml` running `npm run build` + `wrangler deploy` on every push to `main` and every `v*` tag. Each Worker serves the whole `dist/` folder, and only a local `dist/` holds the version paths (`/v0.1.0/`, `/v0.0.0.1-rc.*/`); a clean CI checkout holds only the root bundle. The first merge of either pull request (secrets set since 2026-09-27, workflow never run) would have replaced the Worker's assets and deleted every versioned path, including the `rc` paths production loads today. Both workflows are now `workflow_dispatch` only, with the reason in a header comment. Deploys stay local: `spells/cloudflare-ctl.sh deploy <member> v<version>`.
+
+| Member | Release head | What changed |
+|---|---|---|
+| Aether | `ab0011c` | README rewritten from the source (the old one named files that do not exist, an npm package that was never published, a CI tag deploy and the Five Es); CONTEXT state and deploy row; CI deploy manual only |
+| NeBuLA | `102d66b` | README is a homepage (CDN quickstart with `<rabble-entity backend="alive">`, ESM, elements, deploy); Episode tracker renamed Backend Roadmap (content kept); stale "Layer 1 transitional" rule and `dev` branch row fixed; CI deploy manual only |
+| sCoRE | `aca0c2c` | `server/main.py` reads the root `VERSION` (`/health` and the OpenAPI version said `v0.0.0.0`; now `0.1.0`, verified with TestClient); README names the three faces (web API, `rabble` TUI, dispatch), routes beam/node/sessions, semver; CONTEXT episode labels condensed. Tests: 334 pass + 1 known fail (UI venv), 86 pass (server venv), same as before |
+| ScRiBbLE | `dbe7043` | Version line; branch sentence (a push to `main` or `new-horizons` deploys the live site); two episode lines |
+| Pocket | `1977f91` | Version line; "Episode 1 is invite-only" and `epoch/0-pocket` branch fixed. Repo is private |
+| World | `0691d5b` | README rewritten (it listed pages that no longer exist); header breadcrumb `/ ep1 · genesis` → `/ genesis` (live copy, outside the GENESIS-COPY markers); AGENT/CONTEXT episode lines |
+| Collective | `4818b05` | Version line; CDN table shows `v0.1.0`; publish path is `cloudflare-ctl.sh` |
+| Grimoire | `0da1375` | README version line and live gist link (`grimoire.joinrabble.world/` itself is 404; the gist files are served at the root, e.g. `/RaBbLE-Gist-Overview.md`); CONTEXT version and Versioning description |
+| OS | `f1e132e` (unchanged) | Not touched: draft until G1 to G5. Its README is lore only (no install path, no version); write the homepage as part of G1 to G5. CONTEXT still has "Episode I Plot A/B" rows |
+
+**World checked against the release (step 2 of the next steps): passes.** The release branch, exported with `git archive` and served locally with the `v0.1.0` Aether bundle forced, matches production at the dormant beat and after tap-to-wake (Playwright, swiftshader); no page errors. Finding: **World does not load NeBuLA from the CDN.** `index.html` loads the vendored `world/js/RaBbLE-NeBuLA.js` (reports `NeBuLA.version` `0.0.0.0`); `RABBLE_NEBULA_URL` is set in `RaBbLE-config.js` but nothing reads it. So World's merge depends only on the Aether `v0.1.0` bundle, which is live. Whether World should load NeBuLA from the CDN (or re-vendor the `0.1.0` build) is Mark's call; not changed.
+
+**Deploy side effects to know before merging:**
+
+- World: merge to `main` or a tag push deploys `joinrabble.world`; push of `new-horizons` deploys `dev.joinrabble.world`.
+- ScRiBbLE: push of `main` or `new-horizons` deploys `scribble.joinrabble.world`.
+- sCoRE: Render tracks `new-horizons` (`spells/render-ctl.sh`). `VERSION` exists only on the release branch until `main` is merged back, so **push sCoRE `new-horizons` only after the merge-back**, or `/health` reports `0.0.0+unknown`.
+- Collective: `joinrabble.world/setup.sh` redirects to `raw.githubusercontent.com/.../main/setup.sh`, so the Collective merge changes the live bootstrap (the default root becomes `~/RaBbLE-Collective`).
+- Pushing `release/0.1.0` deploys nothing in any member.
+
+**Next:** with Mark's go, push the eight updated `release/0.1.0` branches (updates the pull requests), then merge in order Aether, NeBuLA, World, sCoRE, ScRiBbLE, Pocket, Grimoire, Collective, as in the steps above.

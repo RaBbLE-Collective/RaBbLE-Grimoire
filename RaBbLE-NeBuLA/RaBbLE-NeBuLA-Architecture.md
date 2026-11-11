@@ -3,8 +3,9 @@
 ## Lessons & Gotchas (distilled from S14–S46)
 
 - **Build before testing — every time.** Editing `src/` has zero visible effect until
-  you rebuild and copy: `npm run build:iife && cp dist/nebula.iife.js
-  ../RaBbLE-World/world/js/RaBbLE-NeBuLA.js`. A whole multi-session triage was lost to
+  `dist/` is rebuilt. Since S324 World loads `dist/` through `spells/dev-serve.sh` (its watcher
+  rebuilds on save) and production loads the pinned CDN release; before that, the bundle had to
+  be copied into World by hand. A whole multi-session triage was lost to
   "fixes that appeared not to work" before this was made canon.
 - **On a broken perf baseline, roll back — don't iterate.** The Codex
   `feature-nebula-animation-optimization` branch caused 1fps cliffs and broken visuals;

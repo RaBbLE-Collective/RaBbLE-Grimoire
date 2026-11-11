@@ -16,7 +16,7 @@ System map for the RaBbLE-World frontend. Read this before modifying any shared 
 RaBbLE-theme.css               ← alias bridge: --rabble-* → short names (--cyan, --font-hero…)
   ↓
 /nebula/v0.0.0.0/nebula.iife.js ← entity renderer + <rabble-entity> custom element
-  ↓ (injected by RaBbLE-NeBuLA.js loader)
+  ↓ (injected by RaBbLE-nebula-loader.js loader)
 RaBbLE-bg.js                   ← ambient canvas layer (particles, grid, cursor effects)
   ↓
 [page].css                     ← layout and structure only — no visual rules, no hex values
@@ -31,7 +31,7 @@ Each layer depends only on what is below it. Aether has no World dependencies. P
 ```html
 <!-- Synchronous loaders — no defer; run during parse; inject bundles into <head> -->
 <script src="world/js/RaBbLE-aether.js"></script>   <!-- injects /aether/v0.0.0.0/aether.css -->
-<script src="world/js/RaBbLE-NeBuLA.js"></script>   <!-- injects /nebula/v0.0.0.0/nebula.iife.js -->
+<script src="world/js/RaBbLE-nebula-loader.js"></script>   <!-- injects /nebula/v0.0.0.0/nebula.iife.js -->
 
 <!-- CSS (Aether injected above; theme + page CSS follow) -->
 <link rel="stylesheet" href="[path/]css/RaBbLE-theme.css">      <!-- alias bridge -->
@@ -100,7 +100,7 @@ Both `<rabble-entity>` and `<rabble-ambient>` share a NeBuLA frame budget coordi
 
 ---
 
-### `RaBbLE-aether.js` and `RaBbLE-NeBuLA.js` — bundle loaders
+### `RaBbLE-aether.js` and `RaBbLE-nebula-loader.js` — bundle loaders
 
 These are World's single points of import for Aether CSS and NeBuLA JS. Both follow the same pattern:
 
@@ -201,7 +201,7 @@ World JS is split into focused modules loaded in order:
 | Module | Global | Purpose |
 |---|---|---|
 | `RaBbLE-aether.js` | — | Injects Aether CSS bundle from CDN; failure monitor |
-| `RaBbLE-NeBuLA.js` | `window.NeBuLA` | Injects NeBuLA JS bundle from CDN; defines `<rabble-entity>` |
+| `RaBbLE-nebula-loader.js` | `window.NeBuLA` | Injects NeBuLA JS bundle from CDN; defines `<rabble-entity>` |
 | `RaBbLE-landing-data.js` | `window.LandingData` | All data constants for landing (ORGANS, BOOT_LOG_LINES, etc.) |
 | `RaBbLE-landing-metrics.js` | `window.LandingMetrics` | rAF pulse loop, entropy computation, substrate detection |
 | `RaBbLE-landing-boot.js` | `window.LandingBoot` | Boot log playback timeline with callback API |
@@ -357,7 +357,7 @@ The separate pages (RaBbLE-Chat.html, RaBbLE-Docs.html, RaBbLE-OS.html) will be 
 ```html
 <head>
   <link rel="stylesheet" href="/css/RaBbLE-theme.css">
-  <script src="/js/RaBbLE-NeBuLA.js"></script>
+  <script src="/js/RaBbLE-nebula-loader.js"></script>
 </head>
 <body>
   <rabble-ambient particles grid></rabble-ambient>
@@ -390,7 +390,7 @@ This can proceed in parallel with NeBuLA decomposition (phases 1-5).
 - **`RaBbLE-Boot.html` is a living spec artifact — do not delete.** Its boot timeline
   (particle convergence → portal arcs → eye emergence, ~7s) is the reference for the
   future native C++ Plymouth backend (NeBuLA Episode 6).
-- **Two CDN loaders only** (`RaBbLE-aether.js`, `RaBbLE-NeBuLA.js`) — both must show
+- **Two CDN loaders only** (`RaBbLE-aether.js`, `RaBbLE-nebula-loader.js`) — both must show
   visible failure banners on load failure. "Degraded mode is never silent."
 - **Never duplicate Aether classes in page CSS.** If a visual style is missing, add it
   to Aether — see `RaBbLE-World-Architecture.md:45`.

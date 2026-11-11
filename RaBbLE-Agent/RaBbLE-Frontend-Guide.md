@@ -188,13 +188,13 @@ A page outside World that wants the full system — no clone of World needed.
   <title>My RaBbLE App</title>
   <!-- Aether CSS — pinned to a specific version -->
   <link rel="stylesheet"
-        href="https://aether.joinrabble.world/v0.0.0.1-rc.1/aether.min.css">
+        href="https://aether.joinrabble.world/v0.1.0/aether.min.css">
 </head>
 <body>
   <!-- markup using .rabble-* classes -->
 
   <!-- NeBuLA JS at end of body -->
-  <script src="https://nebula.joinrabble.world/v0.0.0.1-rc.1/nebula.iife.js"></script>
+  <script src="https://nebula.joinrabble.world/v0.1.0/nebula.iife.js"></script>
   <script>
     // window.NeBuLA is now available
     const sf = NeBuLA.effects.starfield(

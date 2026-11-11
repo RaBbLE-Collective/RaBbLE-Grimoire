@@ -52,7 +52,7 @@ Aether src/ → esbuild → aether.min.css → Cloudflare R2 → World <link>
 NeBuLA src/ → esbuild → nebula.iife.js → Cloudflare R2 → World <script>
 ```
 
-**Local development:** [`dev-serve.sh`](../spells/dev-serve.sh) mocks CDN paths locally. HTML pages link `aether.css` (unminified), not `aether.min.css`. After NeBuLA source changes: `npm run build:iife && cp dist/nebula.iife.js ../RaBbLE-World/world/js/RaBbLE-NeBuLA.js`.
+**Local development:** [`dev-serve.sh`](../spells/dev-serve.sh) mocks CDN paths locally. HTML pages link `aether.css` (unminified), not `aether.min.css`. World loads NeBuLA's `dist/` through `dev-serve.sh` locally and the pinned CDN release in production; nothing is copied into World (since S324).
 
 **Member architecture docs:**
 - [Aether Architecture](../RaBbLE-Aether/RaBbLE-Aether-Architecture.md) · [Aether Build/CDN](../RaBbLE-Aether/RaBbLE-Aether-Build-CDN.md)
