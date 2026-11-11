@@ -202,8 +202,8 @@ Fixes were committed on `new-horizons` and merged into `release/0.1.0` in every 
 
 | Member | Merge commit | Check |
 |---|---|---|
-| Aether | `5d4f917` | no workflow ran; `/v0.1.0/` and `/v0.0.0.1-rc.2/` return 200 |
-| NeBuLA | `f83f08d` | no workflow ran; `/v0.1.0/` iife + esm and `/v0.0.0.1-rc.1/` return 200 |
+| Aether | `4170cd1` (squashed; was merge `5d4f917`) | no workflow ran; `/v0.1.0/` and `/v0.0.0.1-rc.2/` return 200 |
+| NeBuLA | `9cd930c` (squashed; was merge `f83f08d`) | no workflow ran; `/v0.1.0/` iife + esm and `/v0.0.0.1-rc.1/` return 200 |
 
 **sCoRE on Render:** `render-ctl.sh branch` added; Render tracks `release/0.1.0` (switch to `main` when sCoRE merges: `bash spells/render-ctl.sh branch main && bash spells/render-ctl.sh deploy --wait`). Production had been stuck on `663bc10` (2026-10-22): the 2026-10-25 deploy and the first S324 deploy failed on `auth.startup_guard()` (DEMO_MODE on 0.0.0.0). With `DEMO_MODE_PUBLIC=true` set and a manual deploy, `score.joinrabble.world/health` reports `0.1.0` and anonymous chat from the `joinrabble.world` origin streams. Setting an env var through the Render API does not redeploy; `render-ctl env-set` now says so.
 
@@ -212,3 +212,7 @@ Fixes were committed on `new-horizons` and merged into `release/0.1.0` in every 
 **ScRiBbLE:** pins moved to `v0.1.0` (tested); on the release branch, and on `new-horizons` (unpushed; a push deploys the live site).
 
 **Left for Mark:** delete merged release branches (`git push origin --delete release/0.1.0` was blocked for the agent); merge World #3; then sCoRE, ScRiBbLE, Pocket, Grimoire, Collective.
+
+**Squash ruling (Mark, S324):** a release lands on `main` as one squashed, tagged commit. Aether and NeBuLA had been merged with merge commits; with Mark's go their `main` was rebuilt as the pre-Genesis stub history + one Genesis commit (tree identical to the merge, verified), force-pushed with a lease, tags `v0.1.0` and `genesis` moved onto it, and `new-horizons` joined with `git merge -s ours origin/main`. No workflow ran; all CDN paths 200. Every remaining member: `gh pr merge <n> --squash`. Flow updated in `RaBbLE-Versioning.md` section 3.
+
+**Docs voice (Mark, S324):** the docs-pass READMEs read as AI-written. Ruled shape: README = two or three plain sentences on what it is, a copy-paste quickstart that runs, then links. One sample (Aether README, uncommitted on Aether `new-horizons`, quickstart rendered and checked) awaits Mark's read before the rest are rewritten.
