@@ -4,7 +4,7 @@
 transcribe ~ grimoire/entity >> 36 rulings folded to the ones that still hold // %S322_DIGEST%
 ```
 
-> **What this is:** a one-page read of `Unified-Entity-Puppet-Spec.md` (draft 10b, 2026-11-10) with every superseded ruling removed. Written S322 as a derived view. **The spec's ruling log wins wherever this page differs**; fix this page, or better, promote it (see "Consolidation" at the bottom).
+> **What this is:** a one-page read of `Unified-Entity-Puppet-Spec.md` (draft 10b, 2026-11-10, plus rulings 37 and 38 of S323) with every superseded ruling removed. Written S322 as a derived view. **The spec's ruling log wins wherever this page differs**; fix this page, or better, promote it (see "Consolidation" at the bottom).
 > **Why:** the spec is 65 KB (about 16k tokens) and its body is stale where rulings 15 to 36 override it. An agent that needs "what does the entity look like and how does it move" should read this page (about 1.5k tokens) and open the spec only for numbers and history.
 > **Numbers in brackets are ruling numbers** in section 0 of the spec.
 
@@ -19,7 +19,7 @@ transcribe ~ grimoire/entity >> 36 rulings folded to the ones that still hold //
 
 - Two **eyes** (energy objects): tall pills, taller than wide; the ratio is a range, not a number [16, 18].
 - Two **portals** (void objects): discs that read as ellipses wider than tall, about the same size as the eyes [16].
-- **Proportions:** an envelope with the rig baseline as the reference set. Pocket's set is removed (it breaks the occlusion rules) [8, 13, 27b].
+- **Proportions:** an envelope with the rig baseline as the reference set [8, 13]. Pocket's proportions are to be changed to fit it; Pocket's occlusion is canonical [27b, 37].
 - **Home:** cyan on the left, left portal on top (interior word `0110`) [3].
 - **No touch:** portals never touch each other; an eye never crosses a portal's edge, it recedes into the opening first [12, 19].
 - **Infinity flow** sits between the two portals; each loop's gap faces the other portal [30e].
@@ -49,19 +49,23 @@ A colour volume sits on the YZ plane through the face centre: cyan to the left, 
 
 ## 6. Occlusion and draw order
 
+**Pocket's occlusion is the reference for every surface** [37; Mark, S323]. The rig's rule below was written while ruling 23 called Pocket wrong; a side-by-side against Pocket is owed, and where they differ the rig is corrected.
+
 By role [32b, 33c]:
 
 1. Each portal, far to near: its well, then its near rim.
 2. Every eye.
 3. Clipped to its own eye only: a **lower-role** portal's near rim over that eye (drawn through). An **upper-role** eye stays in front of its portal.
 
-No ring ever crosses the other side's eye. Pocket's occlusion is wrong and is not a reference [23].
+No ring ever crosses the other side's eye.
 
 **Swallow cut:** portal Y runs 0.2 to 1.5 eye half-heights, default 1.00 [35, 36a]. The part of an eye past its portal's plane is removed along a dome and dissolves by alpha through a smooth field, `smoothstep(sd / span)`; no clip rectangles [30b, 36b]. There is no hover setting [27c].
 
-## 7. Expression (not started)
+## 7. Expression (being learned)
 
-- **Calm is the idle state with no emotion layered on**, and it is the only expression on the live body. Joy, sad, angry, speaking and listening are parked seeds, not canon [9, 27a].
+- **Calm is the idle state with no emotion layered on**, and it is the only expression on the live body today [9, 27a].
+- **The emotion states are to exist** [38; Mark, S323]: joy, sad, angry, speaking and listening are wanted. Their current poses are parked seeds, not canon.
+- **Expression is being learned** and may end up defined by learned curves, not hand-posed keyframes [38]. The registry must be able to hold a curve per expression.
 - **Curious is a descriptor, not a state** [6; Mark, S322]: RaBbLE is curious by default as temperament. It is not an expression to pose and does not compete with calm.
 - What speaking or listening does to the interior form is unset [10]. Piloting (default rest, triggers, what a swap means) is deferred [17].
 - Next, per S321: the expression layer on this rig, posed role-relative.
@@ -76,6 +80,7 @@ No ring ever crosses the other side's eye. Pocket's occlusion is wrong and is no
 | 27c (default 1.04), 28c (range -0.6 to 1.5) | portal Y | 35, 36a |
 | 29c | concave arc cut | 30b, 36b |
 | 5 (part) | the +-252 Listening pose | retired |
+| 23, 27b (occlusion clause) | Pocket's occlusion is wrong | 37: Pocket's occlusion is canonical |
 
 ## 9. Contradictions the consolidation pass has to settle
 
@@ -85,6 +90,7 @@ No ring ever crosses the other side's eye. Pocket's occlusion is wrong and is no
 4. **Open decisions D20 (hover gap) and D22 (swap timing) are closed** by 27c and 36c but still listed open.
 5. **Identity's lifecycle is unmapped.** `RaBbLE-Agent/RaBbLE-Identity.md` defines `%DORMANT%`, `%INITIALIZING%`, `%CALIBRATING%`, `%RESONANT%`, `%GLITCH%`, `%SYSTEM_DRIFT%`, `%GENIUS_RESONANCE%`. The spec's layers are emotion, state and mood. Nothing says what the body does in `%GLITCH%` or `%DORMANT%`. Proposal: a fourth layer, **condition**, mapped in the registry (dormant = eyes receded, glitch = mood plus aura, drift = dimmed), so the system state the entity reports and the face it shows cannot disagree.
 6. **Ruling 17 sits after 36** and the revision history is out of order.
+7. **Open S323: the rig against Pocket.** Ruling 37 makes Pocket's occlusion the reference, but sections 6 above and spec 8.1 describe the rig's draw order (32b, 33c). Nobody has compared the two on the same poses. Until that is done, do not port the rig's occlusion to Pocket; port proportions and the two moves only.
 
 ## 10. Consolidation (proposed shape, S322)
 

@@ -17,7 +17,7 @@ this table is a one-line pointer. 🟡 = in flight / awaiting Mark · 🔵 = des
 
 | Plan | Status |
 |---|---|
-| `Unified-Entity/` | 🟡 S321 (2026-11-10): one puppet and render schema for every surface. Spec `Unified-Entity-Puppet-Spec.md` (draft 10b, 36 rulings); **read `Unified-Entity-Canon.md` first** (the rules in force, one page); live 3D rig in `live/`, rebuild with `./build.sh`. Rig baseline accepted; expression layer, spec consolidation and registry are next |
+| `Unified-Entity/` | 🟡 S321 (2026-11-10): one puppet and render schema for every surface. Spec `Unified-Entity-Puppet-Spec.md` (draft 10b, 38 rulings; S323: Pocket's occlusion is canonical, emotion states are to exist); **read `Unified-Entity-Canon.md` first** (the rules in force, one page); live 3D rig in `live/`, rebuild with `./build.sh`. Rig baseline accepted; expression layer, spec consolidation and registry are next |
 | `EP1-Staging-and-Grimoire-Audit.md` | 🟡 S248 — the path to air: gate truth, roadmap rewrite (done), de-bloat, public face, post-air user scaffold. Supersedes Entity-Face W3 |
 | `EP1-Entity-Face-Plan.md` | 🟡 S234 — W0–W2 done + live on dev (five-beat face, "wake RaBbLE"); G10 sign-off pending; W3 → Staging plan; W4 (accounts direction) open |
 | `EP1-Air-Push-Plan.md` | 🟡 S202/S203 — A4 superseded by Entity-Face; A5 (deploy wrapper, CI, key inventory) + C1 (reliquary garden) remain |

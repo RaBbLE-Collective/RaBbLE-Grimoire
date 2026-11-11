@@ -13,6 +13,8 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 
 Re-triaged S320 from the S318 audit (`log/plans/Collective-Coherency-Audit-S318/audit-plans-roadmap.md` 1c). Superseded and finished handoffs moved to `done/` with a status banner on line 1; none deleted.
 
+- `HANDOFF-S323-Genesis-Release.md`: every member to `0.1.0` on `main` under the `genesis` tag. Phase 1 local preparation in progress (2026-11-11); phase 2 needs Mark.
+
 | File | Status | Scope |
 |---|---|---|
 | `HANDOFF-S318-Collective-Coherency.md` | LIVE | **Start here** for the Collective cleanup: D3 Episodes retirement, roadmap, Ansible fixes, plans archive, log split, brand spec (D6 ruled S320) |

@@ -18,8 +18,6 @@ version: "v0.0.0.0"
 epoch: 0
 evolution: 0
 echo: 0
-episode: 0
-episode_name: "First Air (pending)"
 status: active
 release_track: lockstep      # works on the epoch active_branch; status.sh flags it if not (set independent for sandbox/archive)
 

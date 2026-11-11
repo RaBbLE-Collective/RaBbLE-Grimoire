@@ -41,7 +41,7 @@ See `RaBbLE-Agent/RaBbLE-CommitStyle.md` (Pulse Protocol) for full spec.
 
 **TL;DR:** `[impulse] ~ [organ] >> [revelation] // %STATE%` — `spark` new · `harmonize` cleanup · `mend` fix · `transcribe` docs · `ingest` deps · `evolve` epoch
 
-**Branch rule:** Work on `new-horizons`. Commit per session. `main` is release: reach it by pull request only, and tag Echoes `echo-X.X` there. Episodes are retired (`RaBbLE-Versioning.md`).
+**Branch rule:** Work on `new-horizons`. Commit per session. `main` is stable: it receives `release/X.Y.Z` branches by pull request only and carries the semver tags. Full flow: `RaBbLE-Versioning.md` section 3.
 
 ## Rules
 

@@ -10,11 +10,13 @@ arc: "Genesis"
 arc_crossed: 2026-11-09      # joinrabble.world first deployed from main (World PR #2, S318)
 arc_next: "Exodus"           # observation, memory, the first closed behavioral loop
 
-version_collective: "v0.0.0" # Epoch.Evolution.Echo; the fourth slot is per member
+version_collective: "v0.0.0" # Epoch.Evolution.Echo; members carry their own semver
 
 # Members with `release_track: lockstep` in their manifest work on this branch;
 # spells/status.sh flags any that are not. `independent` members are exempt.
-# main = release: reach it by pull request only (World main deploys production).
+# Flow (RaBbLE-Versioning.md section 3): work on new-horizons, cut release/X.Y.Z,
+# pull request into main, tag vX.Y.Z there. main is stable; World main deploys production.
+# Genesis release (S323 ruling): all current state released to main under the `genesis` tag. Pending.
 active_branch: "new-horizons"
 
 intent: >

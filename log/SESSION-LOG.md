@@ -19,6 +19,15 @@ Format: date, what was done, where things were left, what's next.
 
 
 
+## 2026-11-11 · Session S323 (rulings-versioning-branches-entity)
+
+- **Repos:** Grimoire (Versioning, gists, entity spec and Canon, accounts scope, DECISIONS, manifests, epoch file, AGENT), Collective (README, AGENT), OS (`ISSUES.md`). `new-horizons`, committed, not pushed. Fable 5.2. No other session live.
+- **Work:** Mark asked what was left of the audit and context diet, for suggestions, and then ruled on them. Rulings recorded in `log/DECISIONS.md` (S323 table): semver for every member; `new-horizons` working, `main` stable with release tags, `release/X.Y.Z` branches between; the Genesis release (all current state to `main` under the Genesis tag); Pocket's occlusion is canonical (entity ruling 37, supersedes 23); emotion states are to exist and expression may be learned curves (ruling 38); accounts v1 sign-in is Google + username and/or email + username + password (A2); Pocket port waits for the reorg; OS compositor decision deferred with the Hyprland gripe logged.
+- **Docs changed:** `RaBbLE-Versioning.md` rewritten (ladder smallest step first, semver rules, release flow, Genesis, release record; proposals marked PROPOSED); Versioning and Entity gists hand-synced; Canon sections 2, 6, 7, 8, 9 updated; `episode:` leftovers removed from the sCoRE and NeBuLA manifests; branch wording aligned in Grimoire `AGENT.md`, Collective `README.md` and the epoch file.
+- **Found, not fixed:** member manifests still say `version: "v0.0.0.0"`; Aether and NeBuLA `package.json` say `0.0.0.0` while their CDN paths say `v0.0.0.1-rc.*`; OS `group_vars/all.yml` still has `rabble_epoch_name: "Episode 1 Preview"` and a five-slot version comment; `spells/seal-episode.sh` is a draft for the retired model; `origin/main` for World shows 2026-05-05 at last fetch, which does not match "prod deploys from main" (fetch and check). The rig's draw order has not been compared with Pocket's (Canon section 9, item 7).
+- **Genesis (ruled at the end of the session):** start at `0.1.0`; Genesis is the origin, Echo 1 the first stable Echo. `log/handoffs/HANDOFF-S323-Genesis-Release.md` splits the release into phase 1 (local: release branches, version, build and test; handed to a Sonnet agent) and phase 2 (push, pull requests, tags, CDN, World last; needs Mark).
+- **Next:** read the agent's Result section in the Genesis handoff; Mark gives the go for phase 2; then AC1; `registry/entity/rabble.entity.json`; the rig against Pocket side-by-side.
+
 ## 2026-11-10 · Session S322 (collective-audit-context-diet)
 
 - **Repos:** Grimoire (spells, INDEX, gists, plans, log), Collective (CONTEXT, README, REFERENCES, AGENT), sCoRE (one comment path in `orchestra/events.py`). `new-horizons`, not pushed. Fable 5.2. Two other sessions were open and idle; staged by explicit path.

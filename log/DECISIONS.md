@@ -269,3 +269,26 @@ interact and should be logged as an Evolution-level decision, not drift in quiet
 - A contract test suite in sCoRE CI is the check; the lockstep rule "no breaking changes within the Episode" becomes "no breaking changes within a contract".
 
 Related: B-25 (persona/open tier is Pocket-track, not EP1), `registry/epochs/current.epoch.yml` `episode_coherence_policy`, `RaBbLE-Versioning.md` (Lockstep Model).
+
+---
+
+## S323 rulings: semver, release branches, Genesis, entity, accounts (2026-11-11)
+
+Ruled by Mark in one session. Each line names the doc that now carries it.
+
+| Ruling | Carried in |
+|---|---|
+| **Semver for every member** (three numbers; the five-slot string is retired for members) | `RaBbLE-Versioning.md` section 2 |
+| **`new-horizons` stays the working branch; `main` is stable** and carries the release tags; releases reach `main` through `release/X.Y.Z` branches | `RaBbLE-Versioning.md` section 3 |
+| **Genesis release:** all current state released to `main` under the Genesis tag, giving RaBbLE an official origin | `RaBbLE-Versioning.md` section 4 |
+| **Pocket's occlusion is canonical.** Only Pocket's proportions and a few animations change. Supersedes entity ruling 23 | `Unified-Entity-Puppet-Spec.md` ruling 37; Canon section 6 |
+| **Emotion states are to exist;** expression is being learned and may be defined by learned curves | spec ruling 38; Canon section 7 |
+| **Accounts v1 sign-in:** Google + username, and/or email + username + password | `log/plans/Accounts-Formalization-Scope.md` A2 |
+| **Pocket entity port waits for the core/apps reorg** | `log/plans/Pocket-Core-Apps-Reorg-Plan.md` (unchanged) |
+| **OS compositor decision deferred.** Logged: Hyprland feels unstable and too rolling-release for Mark; the flowing gradient border stopped working. Candidates when it is taken up: Sway, niri, GNOME | `RaBbLE-OS/ISSUES.md` |
+
+**Why semver:** npm and Cargo accept exactly `MAJOR.MINOR.PATCH` (plus `-prerelease` and `+build`), so the five-slot string could never live in a manifest, and members had drifted to four different version spellings.
+
+**Ruled later the same session:** every member starts at `0.1.0`; Genesis is the origin, not an Echo; Echo 1 is the first stable Echo. Work: `log/handoffs/HANDOFF-S323-Genesis-Release.md`.
+
+**Still open (proposed in `RaBbLE-Versioning.md`, not ruled):** the release record format (`registry/releases/genesis.yml`), and whether the Collective keeps an `Epoch.Evolution.Echo` position number.
