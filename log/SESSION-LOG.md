@@ -19,6 +19,14 @@ Format: date, what was done, where things were left, what's next.
 
 
 
+## 2026-11-11 · Session S324 (genesis-review-and-first-releases)
+
+- **Repos:** Aether, NeBuLA (released), World, sCoRE, ScRiBbLE, Pocket, Collective, Grimoire. Opus 5.5. No other session live.
+- **Work:** Genesis review and docs pass on all release branches. **Found and fixed a release blocker:** Aether and NeBuLA CI ran `wrangler deploy` on push to `main` and on `v*` tags from a clean checkout, which would have replaced each Worker's `dist/` and deleted every versioned CDN path (incl. the `rc` paths prod loaded); both workflows are now manual only. sCoRE `/health` reads `VERSION`. World loads NeBuLA from the CDN through `world/js/RaBbLE-nebula-loader.js` (vendored copy retired, failure banner); all pins `v0.1.0` (World, ScRiBbLE, Grimoire guides). World release checked locally against the CDN (face boots, NeBuLA `0.1.0`). Render switched to `release/0.1.0` (`render-ctl.sh branch` added); prod had been stuck on 2026-10-22 because the S-hardening startup guard refused DEMO_MODE on 0.0.0.0; `DEMO_MODE_PUBLIC=true` (Mark) + deploy: `score.joinrabble.world/health` = `0.1.0`, guest chat streams.
+- **Released:** Aether and NeBuLA `0.1.0`, tagged `v0.1.0` + `genesis`. Mark ruled releases squash onto `main`: both mains rebuilt as stub history + one Genesis commit (Aether `4170cd1`, NeBuLA `9cd930c`, trees identical), force-pushed with lease, tags moved, `new-horizons` joined with `merge -s ours`; flow written into `RaBbLE-Versioning.md` section 3.
+- **Docs voice:** Mark found the docs-pass READMEs AI-written and nonsensical. Ruled shape: pitch + runnable quickstart + links. Sample: Aether README (`1959b84`, on `new-horizons`, not pushed), awaiting his read.
+- **Next:** Mark reads the Aether sample; then rewrite the other READMEs in that shape. Merge World PR #3 (squash; deploys prod; agent merge blocked by the classifier), then sCoRE (Render to `main`), ScRiBbLE, Pocket, Grimoire, Collective. Delete merged release branches (blocked for agents). Unpushed `new-horizons` commits remain in World, sCoRE, ScRiBbLE, Pocket, Collective, Grimoire, Aether. Detail: `log/handoffs/HANDOFF-S323-Genesis-Release.md`, S324 sections.
+
 ## 2026-11-11 · Session S323 (rulings-versioning-branches-entity)
 
 - **Repos:** Grimoire (Versioning, gists, entity spec and Canon, accounts scope, DECISIONS, manifests, epoch file, AGENT), Collective (README, AGENT), OS (`ISSUES.md`). `new-horizons`, committed, not pushed. Fable 5.2. No other session live.
