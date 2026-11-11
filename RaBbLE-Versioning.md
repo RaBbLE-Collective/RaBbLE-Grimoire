@@ -45,7 +45,7 @@ Allowed extras, both standard semver:
 
 Rules:
 
-1. **One source per member:** its native manifest (`package.json`, `Cargo.toml`, `pyproject.toml`, ESP-IDF `PROJECT_VER`, OS `rabble_os_version`). Nothing else states the version; other places read it.
+1. **One source per member:** its native manifest (`package.json`, ESP-IDF `version.txt` or `PROJECT_VER`, OS `rabble_os_version`). A member with no native manifest, or with several (World, Grimoire, the Collective root, sCoRE), keeps a one-line `VERSION` file at its root, and its manifests follow that file. Nothing else states the version; other places read it.
 2. **Every build can say what it is at runtime:** version plus commit sha. sCoRE on a version endpoint, NeBuLA and Aether in the bundle, Pocket in its firmware info, the OS in `os-release`. This is how "what code is running" gets answered.
 3. **Git tags are `v` + the version** (`v0.2.0`). CDN paths use the same string.
 4. The registry manifests (`registry/manifests/*.yml`) mirror the released version; they are not the source.
