@@ -6,6 +6,8 @@ transcribe ~ grimoire >> soul made legible // %GRIMOIRE_OPEN%
 
 > The soul of the Collective. One grimoire. All knowledge.
 
+**Version:** `0.1.0` (Genesis, from `VERSION`) · **Live:** [the gist](https://grimoire.joinrabble.world/RaBbLE-Gist-Overview.md) at grimoire.joinrabble.world · **Branches:** `new-horizons` working, `main` stable with the `vX.Y.Z` tags
+
 The canonical knowledge layer of the [RaBbLE Collective](https://joinrabble.world): identity, ethos, lore, conventions,
 member architecture and roadmaps, the member registry, and the spells that coordinate it all. Member repos hold code;
 they reference the Grimoire and never duplicate it.
@@ -41,7 +43,7 @@ RaBbLE-Grimoire/
 ├── log/                 # Session log, air checklist, blockers, plans/, handoffs/, decisions
 ├── CONTEXT.md           # Current state and active tracks
 ├── INDEX.md             # Full document index
-└── RaBbLE-Versioning.md # The Five Es: Event, Episode, Echo, Evolution, Epoch
+└── RaBbLE-Versioning.md # Semver per member, release flow, the Genesis release
 ```
 
 ---

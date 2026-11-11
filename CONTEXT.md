@@ -6,7 +6,7 @@ transcribe ~ grimoire >> context established // %CONTEXT_LOCKED%
 
 ```
 epoch: 0 | evolution: 0 | echo: 0 | status: active
-version: v0.0.0 — Epoch 0, Evolution 0, Echo 0 (Episodes retired S322; members plan by milestone)
+version: 0.1.0 (Genesis) — Epoch 0; members carry semver and plan by milestone (Episodes retired S322)
 ```
 
 ---
@@ -48,7 +48,7 @@ Every design decision, character trait, protocol schema, and technical pattern l
 | `registry/manifests/` | One YAML file per member repo |
 | `registry/epochs/current.epoch.yml` | Active epoch definition and exit conditions |
 | `spells/` | Bash scripts: setup, status, sync, init-project, install-theme |
-| `RaBbLE-Versioning.md` | Five-tier versioning spec: Event→Episode→Echo→Evolution→Epoch |
+| `RaBbLE-Versioning.md` | Semver per member, the release flow (`new-horizons` → `release/X.Y.Z` → `main`), Genesis, release records |
 | `INDEX.md` | Full index of all grimoire documents |
 
 ## Active Tracks
