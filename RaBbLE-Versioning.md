@@ -67,8 +67,8 @@ A release, step by step:
 
 1. Cut `release/X.Y.Z` from `new-horizons`. Set the version in the member's manifest.
 2. Stabilise on the release branch: fixes only, no new work.
-3. Pull request `release/X.Y.Z` into `main`. Tag the merge `vX.Y.Z`.
-4. Merge `main` back into `new-horizons`, so `main` never holds a commit the working branch lacks.
+3. Pull request `release/X.Y.Z` into `main` and **squash** it: one commit per release (`gh pr merge <n> --squash`). Tag that commit `vX.Y.Z`. Never a merge commit: it would carry the whole working history onto `main` (Mark, S324).
+4. Join the histories on `new-horizons` with `git merge -s ours origin/main` (the content is already there), so the next release branch contains `main`.
 5. Delete the release branch. The tag is the record.
 
 A fix to something already released: branch `release/X.Y.(Z+1)` from the tag on `main`, then steps 2 to 5.
