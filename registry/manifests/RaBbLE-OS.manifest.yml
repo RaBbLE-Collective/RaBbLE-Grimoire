@@ -7,6 +7,7 @@ repo: https://github.com/RaBbLE-Collective/RaBbLE-OS.git
 branch: main
 worktree_root: RaBbLE-OS
 
+version: "0.1.0"
 phase: 0
 epoch: 0
 status: active

@@ -14,7 +14,7 @@ branch: main
 worktree_root: RaBbLE-sCoRE
 
 # Status
-version: "v0.0.0.0"
+version: "0.1.0"
 epoch: 0
 evolution: 0
 echo: 0

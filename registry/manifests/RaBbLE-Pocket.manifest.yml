@@ -9,6 +9,7 @@ repo: TBD                          # private repo exists (github.com/RaBbLE-Coll
 branch: main
 worktree_root: ~/RaBbLE-Collective/RaBbLE-Pocket
 
+version: "0.1.0"
 phase: 0
 epoch: 0
 status: active                     # RaBbLE gadget firmware (IDF v6.0.1) + voice beam to sCoRE live (S243)

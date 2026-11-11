@@ -14,6 +14,7 @@ branch: main
 worktree_root: ~/RaBbLE-Collective
 
 # Status
+version: "0.1.0"
 phase: 0
 epoch: 0
 status: active
