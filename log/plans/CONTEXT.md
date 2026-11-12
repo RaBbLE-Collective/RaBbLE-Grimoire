@@ -39,6 +39,7 @@ this table is a one-line pointer. 🟡 = in flight / awaiting Mark · 🔵 = des
 | `Accounts-Formalization-Scope.md` | 🔵 S322 scope: a visitor becomes a user. What sCoRE already has (user record, tokens, invites, summon), gaps G1-G8, slices AC1-AC7, decisions A1-A7 for Mark. Nothing built |
 | `EP2-Accounts-Encryption-Spec.md` | 🔵 EP2 draft — the user scaffold: accounts/sessions first, then encrypted ingestion |
 | `NeBuLA-Pocket-Puppet-Rendering-Pipeline.md` | 🔵 research — shared rig/animation pipeline for NeBuLA + Pocket |
+| `sCoRE-Storage-Gate-Plan.md` | 🔵 S327: sCoRE is the only R2 user, proxies and counts every op, refuses at 80% of the free tier; CDN stays on Pages behind cache + 1 WAF rule; `r2-guard.sh` analytics backstop. Slices G1-G6, Q1-Q3 for Mark. Nothing built |
 | `sCoRE-Extensibility-Refactor-Plan.md` | 🔵 S193 — options A/B/C, awaiting Mark's choice; post-air |
 | `sCoRE-RaBbLE-UI-Rust-Plan.md` | 🟡 S292 — RaBbLE-UI rebuilt in Rust (R4; Mark chose it for snappy/fluid): Rust TUI + Python engine sidecar proposed, targets T1-T6, phases R0-R5, parity by golden dumps; awaiting Mark's shape sign-off + Opus review; R0 spike is safe |
 | `Subdomain-Registry-and-Maintenance.md` | 🔵 S185 — subdomain registry spec + maintenance backlog |

@@ -19,6 +19,15 @@ Format: date, what was done, where things were left, what's next.
 
 
 
+## 2026-11-11 · Session S327 (score-storage-gate-plan)
+
+- **Repos:** Grimoire only (plan doc). Opus 5.5, no organs. Nothing built, no pushes.
+- **Asked:** what R2 is, the free tier, the latest pricing, how hard leaving R2 would be, and whether RaBbLE can refuse service before anything is billable.
+- **Found:** R2 pricing is unchanged (page updated 2026-10-30): 10 GB, 1M Class A, 10M Class B, egress free, failed-auth requests not billed. R2 has no hard cap (budget alerts are email only). WAF Free gives 1 rate-limit rule (per IP, 10 s). The CDN is actually on Cloudflare **Pages** (`publish-cdn.sh`), not R2. sCoRE `transcripts.py` already writes to R2 over the Cloudflare REST API. The Pocket companion reads firmware through a Workers binding. Memory `project_deployment_architecture` (R2 CDN bucket) is stale.
+- **Rulings (Mark):** sCoRE is the main R2 user and proxies it properly; CDN covered mainly by cache, whole bundles, query strings ignored; rate limits so no one endpoint can hammer us.
+- **Wrote:** `log/plans/sCoRE-Storage-Gate-Plan.md` (S3-API storage module, op ledger with 80% refusal, disk cache, per-principal + global token buckets, `r2-guard.sh` analytics backstop, $0.01 budget alert), indexed in `log/plans/CONTEXT.md`.
+- **Next:** Mark answers Q1 (Pocket firmware behind sCoRE or its own Worker), Q2 (durable disk for the ledger, tied to Accounts A1 hosting), Q3 (refusal UX); then slice G1.
+
 ## 2026-11-11 · Session S326 (genesis-readmes-versioning-rulings)
 
 - **Repos:** NeBuLA, World, sCoRE, ScRiBbLE, Pocket, Grimoire. Sonnet 5.5, no organs. Two other sessions were live; staged by explicit path.
