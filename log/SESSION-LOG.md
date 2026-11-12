@@ -11,9 +11,9 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-11-11 · S325 (pocket-web-companion)
 
 **Phase:** Epoch 0 · Foundation.
-**This session:** S325: 1.75C board built blind; gated web companion (Automatic install keeps settings) built and tested locally
+**This session:** S325: Pocket 1.75C board + gated web companion; release v0.1.0 (release/0.1.0 merged locally); Mark flashed his 1.75-B from the page with settings kept
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** Mark flashes his 1.75-B from the local page; release number; deploy pocket.joinrabble.world (R2 + secrets); Dad's sCoRE invite; Dad flashes Foundling first
+**Next:** Push Pocket release/0.1.0 with the Genesis queue; deploy pocket.joinrabble.world (R2 bucket, secrets, upload remote, wrangler deploy); Dad's sCoRE invite; Dad flashes Foundling first on the 1.75C
 
 ---
 
