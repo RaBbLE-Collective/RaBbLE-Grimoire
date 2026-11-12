@@ -19,6 +19,16 @@ Format: date, what was done, where things were left, what's next.
 
 
 
+## 2026-11-12 · Session S328 (os-hypr-stabilise-niri)
+
+- **Repos:** RaBbLE-OS (5 commits on `new-horizons`), Grimoire (this entry, DECISIONS S328). Sonnet/Opus 5.5 lead; NiBbLE audit, three CoBbLE builders (waybar, niri, sddm). Unpushed.
+- **Asked:** Hyprland update broke the wallpaper and the rotating borders; audit the Lua configs; multi-display still buggy.
+- **Found:** wallpaper = package skew: the 2026-11-07 `dnf update` took hyprpaper 0.8.5 but skipped hyprgraphics 0.6.0 / hyprtoolkit 0.6.0-2 (libheif dep not yet resolvable), so hyprpaper corrupts the heap at launch. Borders = hyprconf2lua (S223) dropped every curve and animation. NiBbLE audit: 8 layer rules dead (`match:namespace X` written as the regex), SUPER+O used `hyprctl keyword` (dead under Lua), CTRL+Print pipe mangled; full table was `/tmp/rabble-crew/hypr-lua-audit.md`. Battery: dGPU sleeps fine; waybar glyph streams printed identical lines 5×/s, each a repaint (~30% → ~18% iGPU idle after dedupe). `dnf update` failures were a Securly network filter blocking `mirror.csclub.uwaterloo.ca`, not the system.
+- **Built:** hypr fixes (deployed live), Hyprland pin (26 pkgs, 0.57.2, written to `/etc/dnf/versionlock.toml` by the desktop/hyprland role), glyph dedupe, niri trial (config validates on 26.04; dotctl bundle; opt-in `layerctl apply niri`), SDDM session picker (`SessionPicker.qml`, tested in greeter test mode with a fake model only).
+- **Rulings:** see `log/DECISIONS.md` S328 (niri trial, pin, Quickshell lock, border optional, agent hooks compositor-agnostic).
+- **Lesson:** builders must not measure on Mark's live desktop: waybar reloads and simulated keypresses made his bar die mid-session. Use a VM or nested session.
+- **Left open:** Mark applies on an unfiltered network (`dnf clean metadata`, `layerctl apply desktop --packages`, `apply niri`, `apply boot --config`, dotctl `niri` + `waybar`), then CrumBbLE/NiBbLE verify the real greeter + niri session. Not yet: hypr leftovers (stale `conf.d/`, SUPER+L double bind, mako config line 33, `HYPRLAND_NO_HARDWARE_CURSORS` dead in 0.57, legacy dispatch in `upstudio3-launch.sh`/`audio-popup.sh`); multi-display static findings (ws 12-20 not re-homed on replug, drift intent keyed by port, daemon logs to nowhere) need a live repro with the external plugged in; Quickshell lock; agent-hooks plan doc.
+
 ## 2026-11-11 · Session S327 (score-storage-gate-plan)
 
 - **Repos:** Grimoire only (plan doc). Opus 5.5, no organs. Nothing built, no pushes.

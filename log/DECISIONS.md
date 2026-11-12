@@ -292,3 +292,19 @@ Ruled by Mark in one session. Each line names the doc that now carries it.
 **Ruled later the same session:** every member starts at `0.1.0`; Genesis is the origin, not an Echo; Echo 1 is the first stable Echo. Work: `log/handoffs/HANDOFF-S323-Genesis-Release.md`.
 
 **Still open (proposed in `RaBbLE-Versioning.md`, not ruled):** the release record format (`registry/releases/genesis.yml`), and whether the Collective keeps an `Epoch.Evolution.Echo` position number.
+
+---
+
+## S328 rulings: compositor trial, Hyprland pin, lock screen (2026-11-12)
+
+Ruled by Mark after the 0.57 update broke the wallpaper (COPR shipped hyprpaper without the hyprgraphics it was built against). Takes up the compositor decision S323 deferred.
+
+| Ruling | Carried in |
+|---|---|
+| **Try niri** as a second SDDM session alongside Hyprland; nothing removed. Opt-in layer, official Fedora packages | RaBbLE-OS `ansible/roles/layer/niri/`, `config/niri/config.kdl` |
+| **Pin Hyprland** as one set (all hypr\* + aquamarine, 0.57.2) in `/etc/dnf/versionlock.toml`; move it deliberately: bump the set, VM test, layerctl | RaBbLE-OS `ansible/roles/desktop/hyprland/vars/main.yml` |
+| **Lock screen moves to Quickshell** (`ext-session-lock-v1`, compositor-agnostic, shares QML with the SDDM theme). hyprlock retires when it lands | this entry (not yet built) |
+| **The rotating gradient border is optional eye candy**, not a requirement. Kept in Hyprland (measured: no GPU cost), not ported to niri (niri gradients are static) | this entry |
+| **Agent compositor hooks must not tie RaBbLE-OS to one compositor.** Direction proposed (not ruled): standard Wayland protocols first, AT-SPI for window contents, thin per-compositor adapters with declared capabilities (the `rdisplay/backends/` pattern) | plan doc pending Mark's go |
+
+**Why niri, not Sway or GNOME:** niri ships in official Fedora (Bodhi-gated), has animations, blur and gradient borders, and works with GNOME/KDE portals; Sway has no animations or rounded corners; GNOME exposes almost none of the protocols the agent hooks need. Hyprland's instability was mostly packaging (an ungated single-maintainer COPR) plus the one-off Lua config migration.
