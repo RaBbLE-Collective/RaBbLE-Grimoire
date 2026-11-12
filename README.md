@@ -1,18 +1,8 @@
 # RaBbLE-Grimoire
 
-```
-transcribe ~ grimoire >> soul made legible // %GRIMOIRE_OPEN%
-```
+The documentation home of the RaBbLE Collective: who RaBbLE is, how the members fit together, the roadmaps, the member registry and the scripts ("spells") that coordinate it all. The other repos hold code and point here for the docs.
 
-> The soul of the Collective. One grimoire. All knowledge.
-
-**Version:** `0.1.0` (Genesis, from `VERSION`) · **Live:** [the gist](https://grimoire.joinrabble.world/RaBbLE-Gist-Overview.md) at grimoire.joinrabble.world · **Branches:** `new-horizons` working, `main` stable with the `vX.Y.Z` tags
-
-The canonical knowledge layer of the [RaBbLE Collective](https://joinrabble.world): identity, ethos, lore, conventions,
-member architecture and roadmaps, the member registry, and the spells that coordinate it all. Member repos hold code;
-they reference the Grimoire and never duplicate it.
-
----
+**Genesis release `0.1.0`** · Live: the distilled [gist](https://grimoire.joinrabble.world/RaBbLE-Gist-Overview.md)
 
 ## Start Here
 
@@ -56,10 +46,5 @@ RaBbLE-Grimoire/
 
 The Grimoire evolves through `transcribe` and `spark` impulses. One logical change per commit.
 
-Licensed under the Sovereign Accord (source-available): see [`LICENSE`](LICENSE).
+Source-available under the RaBbLE Sovereign Accord: free for personal use, commercial use by agreement. See [`LICENSE`](LICENSE).
 
----
-
-```
-transcribe ~ grimoire >> README crystallized // %GRIMOIRE_OPEN%
-```
