@@ -25,6 +25,7 @@ this table is a one-line pointer. 🟡 = in flight / awaiting Mark · 🔵 = des
 | `Pocket-Core-Apps-Reorg-Plan.md` | 🟡 S311 DRAFT v1 — Pocket entity layers plan and roadmap R0-R10 (core / entities / apps, licence by directory, Orbit as an object, `entity_` prefix, slot and swaps); nothing implemented; next session reviews and confirms with Mark (handoff HANDOFF-S311) |
 | `Pocket-Foundling-Open-App-Plan.md` | 🟡 S308 — open entity default built + flashed (panel unverified); Foundling app (SDK only; SA for now, Apache flip later) next; done/not-done ledger and roadmap inside |
 | `Pocket-Release-Entities-Companion-Plan.md` | 🟡 v0.3 (S288), Opus-reviewed twice: releasable firmware, Entity-transplant, desktop companion, dad's WillowClone first. Gated by B-24/B-25/B-27 |
+| `Pocket-Web-Flasher-Plan.md` | 🟡 S325 v0.2: 1.75C board + web companion (`RaBbLE-Pocket/companion-app/web`, pocket.joinrabble.world, early-access gate, firmware in private R2) built and tested locally; not deployed, not on hardware yet; durable sCoRE accounts still wait on Accounts A1 |
 | `Pocket-Seam-Slot-LVGL-Design-Note.md` | 🔵 2026-11-05: panel/touch split adopted by Mark (LVGL types leave the board contract); companion to the Reorg plan; nothing implemented |
 | `Pocket-Parity-Sim-Spec.md` | 🔵 S281 v0.1: sim must run the device's own LVGL code (time, sCoRE, icons, fonts) before promo renders |
 | `OS-Settings-App-Plan.md` | 🔵 sketch — the display manager is its first piece |

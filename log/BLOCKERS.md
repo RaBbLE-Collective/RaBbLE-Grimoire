@@ -4,7 +4,7 @@
 > Do not hand-edit — use `blockers.sh add` / `resolve`. This is the durable
 > home for blockers so they survive the rewrite of the SESSION-LOG `## LATEST` box.
 >
-> Last synced: 2026-11-09  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
+> Last synced: 2026-11-12  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
 
 ## OPEN
 
@@ -22,7 +22,7 @@
 - **B-25** — sCoRE free open tier + persona field not built: beam.py hard-codes the RaBbLE prompt, so WillowClone voice cannot start (K1, plan Pocket-Release-Entities-Companion-Plan.md)  ·  [2026-10-29] S290 Mark: sCoRE moves faster than the rest (CI/CD-style); EP1 sCoRE stays as is (chat + RaBbLE TUI). Persona/open tier belongs to Pocket and later features, not EP1  ·  owner:Mark  ·  since:2026-10-28  ·  [pocket, pocket-release, score]
 - **B-26** — Provider privacy/retention register: verify in writing each provider's retention, training use, regions and deletion (Groq, OpenRouter and the models behind it, Anthropic, local via fcc proxy, BYOK) before any hosted 'private, nothing retained' promise. DEFERRED by Mark: not needed until real accounts exist; free tier is Groq gpt-oss-120B + llama3 70B meanwhile  ·  owner:Mark  ·  since:S295  ·  [hosting-gate, deferred]
 - **B-27** — Pocket Open SDK/app split: decide D1-D5 (Apache SDK, repo layout, public name, history, sCoRE protocol) + lawyer review of NOTICE/PROVENANCE/trademark before any Pocket repo goes public  ·  owner:Mark  ·  since:2026-11-02  ·  [pocket-release]
-- **B-28** — Pocket 1.75-B BOOT switch dead (hardware): hw_test shows GPIO0 never goes low and boot strap never trips; Mark glued the standoff near it. Needs continuity check, then switch replace. Also knocked off C21 (or R19) next to U5 TCA9554, unused by firmware. Device runs firmware/hw_test from ota_0; original ota_0 backed up in ~/RaBbLE-Cleanroom/hwtest-backup/  ·  owner:  ·  since:2026-11-02  ·  [pocket]
+- **B-28** — Pocket 1.75-B BOOT switch dead (hardware): hw_test shows GPIO0 never goes low and boot strap never trips; Mark glued the standoff near it. Needs continuity check, then switch replace. Also knocked off C21 (or R19) next to U5 TCA9554, unused by firmware. Device runs firmware/hw_test from ota_0; original ota_0 backed up in ~/RaBbLE-Cleanroom/hwtest-backup/  ·  [2026-11-12] S325 Mark: the board runs the standard RaBbLE firmware again (not hw_test); @status read 2026-11-11 shows fw pre-split-11-g6cf1404, Wi-Fi connected, beam Linked. BOOT switch still dead: flashing relies on USB auto-reset.  ·  owner:  ·  since:2026-11-02  ·  [pocket]
 
 ## RESOLVED
 

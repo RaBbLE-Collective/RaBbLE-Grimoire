@@ -19,6 +19,15 @@ Format: date, what was done, where things were left, what's next.
 
 
 
+## 2026-11-11 · Session S325 (pocket-1-75c-web-companion)
+
+- **Repos:** Pocket, Grimoire. Opus 5.5. A `rabble`/Sonnet session was live from 19:14 (README edits in several members, untouched here).
+- **Asked:** Mark's dad has a Waveshare 1.75C on Windows; flash RaBbLE or a Foundling plug and play, with versions, device setup and his own sCoRE key. Mark ruled: web flasher first (Tauri later), both entities, Dad's own account key, companion in `companion-app/` with `web/` + `mobile/`, Aether + NeBuLA, simple and clean, early-access code. Firmware blobs in a private R2 bucket behind the companion Worker, not GitHub (public, ungated, no CORS); GitHub Releases may mirror public builds after B-27.
+- **1.75C board** `firmware/boards/rabble_waveshare_175c/` (built blind): board table without RTC, the 1.75-B display engine compiled against Waveshare's `esp32_s3_touch_amoled_1_75c` 3.0.0 (Apache-2.0). Pins read off the 1.75C schematic (LCD reset 1, touch reset 2, MCLK 16). Product page says 32 MB, schematic shows a 16 MB part: image laid out for 16 MB. Root CMake keys sdkconfig/lock by board + entity; `ops/build-flash.sh -b`. Both entities build; 1.75-B unchanged, host suite 36/36, layer gate clean.
+- **Web companion** `companion-app/web/` (pocket.joinrabble.world, not deployed): Worker gate (signed cookie, `/firmware/*` from R2, `/api/summon` invite proxy) + page (esptool-js 0.7.0 vendored). Install mode **Automatic** reads the board first: same partition table = firmware-only update (Wi-Fi, key, notes kept), no Pocket layout = fresh, other Pocket layout = stop and ask. Setup writes Wi-Fi + key over the console, dials once, shows Wi-Fi/sCoRE pills; "Copy report for Mark". `ops/release-firmware.py` stages 4 builds + sha256 manifest (`companion-app/web/firmware-manifest.json`) and uploads to local or remote R2.
+- **Tested locally:** gate, firmware serving + checksums, summon proxy against live sCoRE, image-info on every image, desktop/phone renders, 12/12 setup-flow checks against a fake board, board detection against a real backup of Mark's 1.75-B (`~/RaBbLE-Cleanroom/pocket-backups/175b-before-S325-20261111-1955.bin`). **Not tested:** a real browser flash (Mark's step) and anything on a 1.75C.
+- **Next:** Mark flashes his 1.75-B from the local page (Automatic, keeps settings); picks the release number (0.1.1 is a local placeholder); deploys (R2 bucket, two secrets, `wrangler deploy`, `companion-app/web/CONTEXT.md`); creates Dad's sCoRE invite; Dad flashes Foundling first. Durable accounts still wait on Accounts A1. Plan: `log/plans/Pocket-Web-Flasher-Plan.md` §0. B-28 amended (board runs standard RaBbLE fw).
+
 ## 2026-11-11 · Session S324 (genesis-review-and-first-releases)
 
 - **Repos:** Aether, NeBuLA (released), World, sCoRE, ScRiBbLE, Pocket, Collective, Grimoire. Opus 5.5. No other session live.
