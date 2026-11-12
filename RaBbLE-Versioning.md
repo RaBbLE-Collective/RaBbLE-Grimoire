@@ -17,12 +17,12 @@ RaBbLE is **evolutionary**. Thresholds are named after they are crossed, not bef
 | Step | What it is | Who moves | How it is named |
 |---|---|---|---|
 | **Event** | one commit | one member | the commit sha |
-| **Release** | a member ships a version | one member, at its own pace | semver tag on `main`, `v0.3.1` |
+| **Release** | a member ships a version, at a gate | one member | semver tag on `main`, `v0.2.0` |
 | **Echo** | a set of member releases verified to work together | the Collective | `echo-N` (see section 5) |
 | **Evolution** | a significant architectural or identity shift | the Collective | named |
 | **Epoch** | the broadest era, named in hindsight | the Collective | named |
 
-- The smallest step is an **Event** (a commit). The smallest step with a version number is a member **patch release**. An **Echo is the smallest step the whole Collective takes together**, not the smallest step overall.
+- The smallest step is an **Event** (a commit). Events carry no version number. A version number moves only at a gate: **Genesis is Echo 1 (`0.1.0`), and each later Echo raises it** (Echo 2 is `0.2.0`, and so on). An Echo is the smallest step the whole Collective takes together.
 - **Milestone** is the planning unit, not a step on this ladder. Each member has one, in `registry/epochs/current.epoch.yml` under `focus:`.
 - Moving up the Collective tiers is still vibe-based: *does it feel crossed?* It is written down once it has been.
 
@@ -34,14 +34,16 @@ Every member has one version, `MAJOR.MINOR.PATCH`, exactly three numbers. npm an
 
 | Part | Raise it when |
 |---|---|
-| PATCH | a fix; nothing a client depends on changed |
-| MINOR | something new, still compatible. While MAJOR is 0, a breaking change also raises MINOR |
-| MAJOR | a contract break (section 6). Stays 0 through Epoch 0 |
+| PATCH | an urgent hotfix to a live release between gates; the exception, not the rhythm |
+| MINOR | the next Echo: real new features, API changes or major fixes. While MAJOR is 0, a breaking change also raises MINOR |
+| MAJOR | a contract break (section 6). Stays 0 through Epoch 0; `1.0.0` is reserved for leaving it |
 
 Allowed extras, both standard semver:
 
 - **Pre-release:** `0.2.0-rc.1`. Sorts before `0.2.0`.
 - **Build metadata:** `0.2.0+4caa7d3`. Ignored when comparing versions; use it to stamp the commit into a build.
+
+**Ruled (Mark, S324):** versions move at gates only. Between gates the work is Events (commits, named by sha); there are no patch releases. The release branch sets the number, so the version file on `new-horizons` holds the last released version until the next release branch merges back. A build that tracks `new-horizons` stamps itself `-dev` at build or run time (`0.1.0-dev+4caa7d3`, version file plus sha) so you can tell you are on unstable work; builds from `release/*` or `main` carry no `-dev`. The marker is never committed to the version file. **Not built yet** (Mark, S324): the stamping lands in the next release or as a new commit on `new-horizons`; it touches the build scripts of sCoRE (`/health`), NeBuLA and Aether (bundle header), Pocket (firmware info) and the OS (`os-release`). Genesis is Echo 1 = `0.1.0`; the Echo number is the MINOR.
 
 Rules:
 
@@ -85,7 +87,7 @@ RaBbLE-Chrysalis (the archive) works on `main` and has no releases.
 
 - Each releasing member goes through section 3 once and lands on `main` with two tags on the same commit: its semver (`v0.1.0`) and `genesis`.
 - The set is written to `registry/releases/genesis.yml` (section 5).
-- **Genesis is an origin, not an Echo** (ruled S323: after Genesis the work is toward Echo 1, the first stable Echo). An Echo must be reproducible from scratch, and two pieces of that evidence are still open (`setup.sh` on a fresh VM, an OS fresh install). Genesis records what exists; Echo 1 follows when the evidence passes.
+- **Genesis is Echo 1** (ruled S324, replacing the S323 reading that Genesis was an origin before Echo 1). Its version is `0.1.0`, and the next gate, Echo 2, is `0.2.0`. An Echo should be reproducible from scratch; two pieces of that evidence are still open (`setup.sh` on a fresh VM, an OS fresh install), and they carry into Echo 2.
 - Before each merge, reconcile the commits `main` has that `new-horizons` lacks (Aether 1, NeBuLA 1, Pocket 1, sCoRE 2, ScRiBbLE 1).
 
 The arc name Genesis was recorded as crossed on 2026-11-09 (S318, `joinrabble.world` first deployed from `main`). The Genesis tag is the release that makes that crossing reproducible by name.
