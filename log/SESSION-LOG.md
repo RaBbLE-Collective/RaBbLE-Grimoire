@@ -8,12 +8,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-11 · S326 (genesis-readmes-versioning)
+## LATEST — 2026-11-11 · S327 (score-storage-gate-plan)
 
 **Phase:** Epoch 0 · Foundation.
-**This session:** S326: six READMEs in the Genesis voice; versions move at gates only, Genesis = Echo 1 = 0.1.0, -dev stamp on new-horizons builds
+**This session:** S327: sCoRE storage gate plan (R2 proxied + counted, refuse at 80% free tier)
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** Merge README commits into release branches and push; World PR #3 squash (Mark's go); renumber Echo 1 in roadmap docs; build the -dev stamp
+**Next:** Mark answers Q1-Q3 in sCoRE-Storage-Gate-Plan.md, then slice G1
 
 ---
 
