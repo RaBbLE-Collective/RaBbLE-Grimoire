@@ -19,6 +19,17 @@ Format: date, what was done, where things were left, what's next.
 
 
 
+## 2026-11-12 · Session S329 (os-niri-usability)
+
+- **Repos:** RaBbLE-OS (niri + waybar configs, deployed via dotctl), Grimoire (plan + index + this entry). Sonnet 5.5, solo, no organs. Mark authorised live poking mid-session.
+- **Asked:** how to use niri (no waybar, no outlines, windows maximised, no wallpaper, cursor wrong, J/K dead, desktops odd).
+- **Found:** `spawn-at-startup` does not expand `~`: swaybg and waybar got literal `~/.config/...` paths (blank wallpaper, waybar exited). Bibata cursor not installed on this machine, niri fell back to a built-in bitmap. `Mod+J/K` are column-stack moves, so they do nothing with one window per column. `Mod+F` was fullscreen (Hyprland habit). My own `always-center-single-column` made kitty open centred (removed). Docs moved to `niri-wm.github.io`. Live reload ordered named workspaces in reverse; fixed live with `move-workspace-to-index`.
+- **Changed (RaBbLE-OS):** niri config: `$HOME` via `sh -c` for swaybg/waybar, Adwaita cursor 24, `Mod+F` maximize-column / `Mod+M` maximize-to-edges / `Mod+Shift+F` fullscreen, `Mod+J/K` focus-window-or-workspace, tab-indicator, hotkey-overlay titles, default workspaces `RaBbLE`/`personal`/`work`/`scratch`. Waybar niri variant: workspace module `{index} {name}`, empty workspaces collapsed.
+- **Rulings (Mark):** Mark's defaults live in the repo (git, dotctl from Collective root); settings are edited locally, changes journaled, a reminder days later asks whether to promote into RaBbLE-OS + Grimoire; reminder + logging first; shipped workspace groups RaBbLE/Personal/Work/Scratch (+Comms), personal names (Incenergy) are user config; groups to be inferred by sCoRE long-term; this loop is the first bLE slice; "RaBbLE" is always full case.
+- **Wrote:** `log/plans/OS-Desktop-Settings-Journal-Plan.md` (indexed). Memory `feedback_rabbleos_dotctl_flow` extended with the settings model.
+- **Mistake:** launched waybar by hand on Mark's live session before he lifted the rule (he later said poke freely).
+- **Left open:** fresh-login check of autostart (swaybg/waybar/swayosd), named-workspace order at login, rdisplay vs Settings App pane stack (plan Q1), prefer-no-csd (titlebars) still Mark's call, Bibata install (manual per manifest), niri window-rule routing to workspaces untested.
+
 ## 2026-11-12 · Session S328 (os-hypr-stabilise-niri)
 
 - **Repos:** RaBbLE-OS (5 commits on `new-horizons`), Grimoire (this entry, DECISIONS S328). Sonnet/Opus 5.5 lead; NiBbLE audit, three CoBbLE builders (waybar, niri, sddm). Unpushed.

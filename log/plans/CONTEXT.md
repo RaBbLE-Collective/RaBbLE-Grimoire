@@ -29,6 +29,7 @@ this table is a one-line pointer. 🟡 = in flight / awaiting Mark · 🔵 = des
 | `Pocket-Seam-Slot-LVGL-Design-Note.md` | 🔵 2026-11-05: panel/touch split adopted by Mark (LVGL types leave the board contract); companion to the Reorg plan; nothing implemented |
 | `Pocket-Parity-Sim-Spec.md` | 🔵 S281 v0.1: sim must run the device's own LVGL code (time, sCoRE, icons, fonts) before promo renders |
 | `OS-Settings-App-Plan.md` | 🔵 sketch — the display manager is its first piece |
+| `OS-Desktop-Settings-Journal-Plan.md` | 🔵 S328 design — local desktop settings + change journal + delayed promote-to-repo reminder; first bLE slice; phase 1 = journal + reminder |
 | `OS-ProArt-Power-Stack-Plan.md` | 🟡 implemented S197, reworked S245 (asusd only, tuned masked); awaiting on-hardware verify |
 | `OS-Boot-Chain-Seamless-Plan.md` | 🎯 Phase 1 VM-verified; S200 real-HW fix awaits Mark's reboot verify |
 | `OS-Plymouth-Black-Screen.md` | 🎯 root cause found (S166 ternary); awaiting visual verify |
