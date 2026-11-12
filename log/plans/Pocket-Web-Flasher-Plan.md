@@ -16,7 +16,9 @@ Mark ruled mid-session: the companion lives in `RaBbLE-Pocket/companion-app/` wi
 - **K1 interim**: the page redeems a sCoRE invite through the Worker and writes the key with `>beam.token=`; or the user pastes a key. AC7 pair codes replace this when accounts land.
 - **D1/D2 not done**: Foundling still has no console, so for Foundling the page flashes and shows the boot log only.
 
-**Next:** Mark deploys (bucket, two secrets, `wrangler deploy`, steps in `companion-app/web/CONTEXT.md`); test a flash end to end on the 1.75-B (runs standard RaBbLE firmware; BOOT switch dead, B-28, so it relies on USB auto-reset); pick the release number; then Dad flashes Foundling first.
+**Release (Mark, S325):** v0.1.0. `release/0.1.0` in Pocket now carries the 1.75C board and the companion (local merge, not pushed); images built from that tree report `0.1.0`. Mark flashed his 1.75-B from the local page: RaBbLE, Foundling, RaBbLE again, with Automatic (settings kept).
+
+**Next:** Mark deploys (bucket, two secrets, `wrangler deploy`, steps in `companion-app/web/CONTEXT.md`); test a flash end to end on the 1.75-B (runs standard RaBbLE firmware; BOOT switch dead, B-28, so it relies on USB auto-reset); then Dad flashes Foundling first.
 > **Asked by Mark (S325):** "My dad just got a Waveshare 1.75C in hand and I want to flash RaBbLE or the Foundling. He is on Windows so I want a plug and play downloadable that can distribute the pocket firmware versions and handle device setup, sCoRE token etc."
 > **Ruled by Mark (S325):** (1) web flasher first (Chrome/Edge, Web Serial), the Tauri companion later on the same manifest; (2) both entities offered, Dad picks; (3) the sCoRE token is Dad's own account key. Mark: sCoRE accounts are being scoped now; Dad should be the second sCoRE user.
 > **Builds on:** `Pocket-Release-Entities-Companion-Plan.md` v0.3 (§2.6 1.75C, §2.7 companion: espflash, no esptool, board-identity check, app-only updates, diagnostic report), `Accounts-Formalization-Scope.md` (A1 store, AC7 device pairing), `RaBbLE-Pocket/firmware/CONTEXT.md`.
