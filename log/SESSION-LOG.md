@@ -19,6 +19,14 @@ Format: date, what was done, where things were left, what's next.
 
 
 
+## 2026-11-11 · Session S326 (genesis-readmes-versioning-rulings)
+
+- **Repos:** NeBuLA, World, sCoRE, ScRiBbLE, Pocket, Grimoire. Sonnet 5.5, no organs. Two other sessions were live; staged by explicit path.
+- **Asked:** continue the Genesis release PRs; "Fable audit" (no such audit in progress found; Mark did not name which one). Checked tags: only Aether and NeBuLA are released and tagged on `main` (`v0.1.0` + `genesis`); World #3, sCoRE, ScRiBbLE, Pocket, Grimoire have open PRs, OS is a draft. No merges or pushes this session.
+- **READMEs:** Mark read the Aether sample (served from `/tmp/readme-preview`; the first server was started from the wrong folder, fixed) and approved it. The other six rewritten in that shape (pitch, quickstart, links): NeBuLA, World, sCoRE, ScRiBbLE, Pocket (provenance kept verbatim), Grimoire. sCoRE quickstart run for real (`DEMO_MODE=true`, `messages` body). OS untouched. Committed on `new-horizons`, not pushed, not yet merged into `release/0.1.0`.
+- **Rulings (Mark):** versions move at gates only; events are commits, no patch releases; Genesis is Echo 1 = `0.1.0`, Echo N = `0.N.0`, MAJOR 0 through Epoch 0; the release branch sets the number; builds tracking `new-horizons` stamp `-dev+sha` at build or run time (not built; next release or a commit on `new-horizons`). Written into `RaBbLE-Versioning.md` and its gist.
+- **Next:** merge the README commits into each `release/0.1.0` and push; renumber "Echo 1" in Roadmap, Post-EP1-Roadmap, `current.epoch.yml:59` and the TaskViSoR manifest (Mark's call); World #3 squash (deploys prod, needs Mark's go), then sCoRE, ScRiBbLE, Pocket, Grimoire, Collective; implement the `-dev` stamp.
+
 ## 2026-11-11 · Session S325 (pocket-1-75c-web-companion)
 
 - **Repos:** Pocket, Grimoire. Opus 5.5. A `rabble`/Sonnet session was live from 19:14 (README edits in several members, untouched here).
