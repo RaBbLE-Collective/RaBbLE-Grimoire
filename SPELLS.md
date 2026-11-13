@@ -66,6 +66,9 @@ Spells are bash scripts in `spells/` that manage the RaBbLE Collective. Grimoire
 | `graph-grimoire.sh` | Token-weighted doc graph; orphans/hubs/islands/heaviest; `--walk <doc>` low-token traversal | Auditing cross-links; planning a low-token reading path |
 | `token-budget.sh` | Calculate token cost of onboarding paths | Auditing doc bloat, optimizing agent context |
 | `session-tokens.sh` | Parse agent transcripts for token usage | Tracking token spend per session/project |
+| `harvest-claude.sh` | Archive `~/.claude` transcripts, memory, prompt history to `~/claude-archive` (no delete); `--install-timer` = daily systemd timer; runs the digest | Keeping history past Claude Code's cleanup (`cleanupPeriodDays` also raised to 36500) |
+| `digest-claude.py` | Per-session digest (`~/claude-archive/digest/sessions.jsonl`): tokens per model, prompts, files edited; seeds June pricing from `token-viz.json` | Run by harvest; cost history that outlives transcripts |
+| `sync-insights.sh` | Mirror a project's Claude memory + its sessions into `<project>/insights/` | Each project holds its own context (Jobotron3000 committed; GCS, Incenergy pending) |
 | `end-session.sh` | Record end-of-session feature breadcrumb (agent-agnostic) | Closing a session — tag its token spend |
 | `distill-hypr-docs.sh` | Fetch + distill a Hyprland wiki page to a Grimoire note (LLM fast chain) | Capturing upstream Hyprland config knowledge |
 | `seal-episode.sh` | Episode signing ceremony (DRAFT — needs Collective account) | Tagging an episode across the Collective |

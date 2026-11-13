@@ -19,6 +19,15 @@ Format: date, what was done, where things were left, what's next.
 
 
 
+## 2026-11-13 · Session S337 (claude-history-harvest)
+
+- **Repos:** Grimoire (this entry + 3 spells), Jobotron3000 (`5770348` on `new-horizons`, unpushed), `~/.claude/settings.json`. Sonnet 5.5, solo, no organs.
+- **Asked:** what happens to old Claude transcripts, what was lost, how to keep dev history and make it Mark's own.
+- **Found:** Claude Code deletes transcripts older than `cleanupPeriodDays` (unset, default believed 30 days; not verified against docs). Oldest surviving transcript was 2026-10-14; 11 project folders already held only `memory/`. Memory is not wiped. No btrfs/snapper/borg copy exists, so earlier transcripts are unrecoverable (sudo `btrfs subvolume list` not run). Pricing history: `token-viz.json` covers 2026-06-02 to 06-30 only, builder never scheduled; Jul 1 to Oct 13 is a gap. The sCoRE waybar popup is a 5h/7d quota view by design (`score-usage-detail.py`).
+- **Changed:** `cleanupPeriodDays` = 36500 (backup `settings.json.bak-s336`). New spells `harvest-claude.sh` (rsync archive to `~/claude-archive`, no delete, daily user timer enabled), `digest-claude.py` (508 sessions, tokens de-duplicated by message id, subagents folded in, June seeded from token-viz), `sync-insights.sh` (project memory + sessions into `<project>/insights/`). Jobotron3000 `insights/` committed (37 memory, 48 sessions); GCS and Incenergy `insights/` written, uncommitted (dirty trees, no remote). gitleaks clean on all three.
+- **Not fixed:** `score-pricing.json` lacks opus-5-5, sonnet-5, sonnet-5-5, haiku-5-5, fable-5-2, so recent dollar figures use the Sonnet default and are unreliable (digest keeps raw tokens to reprice). Popup not repointed at the digest. EnGrAm has no store yet; the archive and digest are its interim raw layer, its schema is Mark's call.
+- **Left open:** Mark ingests claude.ai export himself. Optional: add `sync-insights.sh` to the timer, point project `AGENT.md` files at `insights/`, refresh Jobotron's stale `user_profile` (edit in `~/.claude`, sync overwrites the mirror), park/archive the job-search side of Jobotron, commit GCS/Incenergy `insights/`. Dropbox memory (3 files) and 6 folders with no project dir remain only in `~/claude-archive`.
+
 ## 2026-11-13 · Session S336 (os-layerctl-rework)
 
 - **Repos:** RaBbLE-OS (`ab9bdd7` on `new-horizons`, unpushed), Grimoire (this entry). Sonnet 5.5, solo, no organs.
