@@ -10,6 +10,7 @@ Window capture for agents. It gives RaBbLE a view of any window on Mark's deskto
 
 ```bash
 rabble-eyes list [--json]          # id, app_id, title, workspace, visible/focused, denied
+rabble-eyes map [--json]           # outputs -> workspaces -> columns/rows: what is where, what is on screen
 rabble-eyes shot <id|app_id|title-substring> [--out DIR] [--json] [--probe] [--fresh]
 ```
 
@@ -18,7 +19,7 @@ rabble-eyes shot <id|app_id|title-substring> [--out DIR] [--json] [--probe] [--f
 - `--probe`: two captures about 0.5 s apart. Prints `changing` or `unchanged (may be stale or static)`.
 - `--fresh`: for windows that are NOT visible only. Nudges the width by 1px and back, then captures, to force a redraw. Refuses visible windows. Never changes focus. Re-applies maximized-to-edges afterwards (the resize drops it). **Live-verified on niri S334:** off-screen Dolphin (maximized to edges) and Firefox (full-width column) came back at their exact sizes, focus and clipboard unchanged. Hyprland: untested.
 
-Agent guidance: `list` first, `shot` by id. Use `--probe` when an image looks old. On niri a plain capture of an off-screen window was already current (S334: `--probe` reported changing on off-screen Dolphin and Firefox with no nudge), so `--fresh` is rarely needed there. Use it only when `--probe` says unchanged and the content should have moved.
+Agent guidance: `map` first when placement matters (which workspace holds what, column order, which window is on screen, sizes, maximized-to-edges; denied titles redacted), `list` for a flat view, then `shot` by id. On niri, columns run left to right on a scrolling strip and rows stack inside a column; on Hyprland `map` gives absolute `at` coordinates instead of columns (unverified). Use `--probe` when an image looks old. On niri a plain capture of an off-screen window was already current (S334: `--probe` reported changing on off-screen Dolphin and Firefox with no nudge), so `--fresh` is rarely needed there. Use it only when `--probe` says unchanged and the content should have moved.
 
 ## Compositor support
 
