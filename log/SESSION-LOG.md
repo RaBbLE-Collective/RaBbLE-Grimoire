@@ -8,16 +8,25 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-13 · Session S330 (os-niri-fluid-gpu)
+## LATEST — 2026-11-13 · Session S331 (os-niri-dgpu-glyphs-idle)
 
 **Phase:** Epoch 0 · Foundation.
-**This session:** S330: niri was rendering on the NVIDIA dGPU; rabble-gpu pins the panel GPU for every WM; shared lock/idle; bench/ built
+**This session:** S331: dGPU ignore-drm-device for niri, idle suspend guarded, GPU glyphs + Cascadia
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** Mark re-logs in; run bench/bench.py after-amd-render 12; sudo layerctl apply niri; then rabble-offload slice
+**Next:** Mark re-logs in: dGPU runtime_status suspended? bench/bench.py after-amd-render 12; TTY polish
 
 ---
 
 
+
+## 2026-11-13 · Session S331 (os-niri-dgpu-glyphs-idle)
+
+- **Repos:** RaBbLE-OS (1 commit `f88fd02` on `new-horizons`, unpushed), Collective (state block), Grimoire (this entry). Sonnet 5.5, solo, no organs. Mark authorised the live bar restart.
+- **Asked:** niri back after a failed greeter launch (started from TTY); waybar icons broken; dGPU should be off when idle; park/relog idea.
+- **Found:** AMD pin works (desktop "night and day"); dGPU still `active` at 3 W. Greeter niri (session 16, VT4) stayed paused and held `/dev/nvidia0`; its hypridle suspended the machine at 15 min (09:19:45, exactly 15 min after the VT switch) and its lock hit the wrong session. Waybar icons were Nerd Font MDI codepoints with no Nerd Font installed.
+- **Changed (RaBbLE-OS):** `rabble-gpu` writes `ignore-drm-device` for an idle non-panel GPU (skipped if it has a connected output); `idle.conf` suspend only from the Active session; waybar GPU/power icons on Font Awesome, iGPU = monitor + chip Pango overlay; `cascadia-code-nf-fonts` added to `desktop/fonts` (installed by Mark, MDI card glyph confirmed present).
+- **Mistakes:** told Mark to kill the live Waybar (989957) before checking which session it belonged to; corrected before he acted. First font edit hit the manifest only; fonts install from `roles/desktop/fonts/vars`, layer is `desktop`, not `fonts`. Added an unrequested co-author trailer, amended out.
+- **Left open:** after re-login verify dGPU `runtime_status` reaches `suspended` and `fuser -v /dev/nvidia*` is empty (if not, ignore the card node too); `bench/bench.py after-amd-render 12`; why the greeter launch failed (no evidence captured); waybar bar-height change recenters windows (option: pin height / strut); TTY polish (kmscon, console font) discussed, not built. Park-and-resume only if the dGPU cannot suspend under niri/Hyprland (Mark's ruling).
 
 ## 2026-11-13 · Session S330 (os-niri-fluid-gpu)
 
