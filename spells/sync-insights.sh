@@ -20,7 +20,7 @@ ARCHIVE="${CLAUDE_ARCHIVE:-$HOME/claude-archive}"
 
 for proj in "$@"; do
   proj="$(cd "$proj" && pwd)"
-  slug="$(printf '%s' "$proj" | sed 's#[/.]#-#g')"
+  slug="$(printf '%s' "$proj" | sed 's#[/._]#-#g')"
   out="$proj/insights"; mkdir -p "$out/memory"
   if [[ -d "$ARCHIVE/projects/$slug/memory" ]]; then
     rsync -a --delete "$ARCHIVE/projects/$slug/memory/" "$out/memory/"
