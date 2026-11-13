@@ -36,7 +36,9 @@ Format: date, what was done, where things were left, what's next.
 - **Rulings (Mark):** one shared early-access code (format `RaBbLE-Pocket_Early_Access_XXXXX`); RaBbLE gets desktop eyes, refusing password managers, private browsing and banking. DECISIONS.md S334.
 - **Changed:** companion desktop layout is a one-screen grid (board+entity | install over log | setup; portrait two columns), Playwright-verified live at 1440x820 and 1920x960; Chrysalis `.assetsignore` (it served `wrangler.jsonc`).
 - **Found:** wrangler prompts in scripts (bucket create offered to edit `wrangler.jsonc`); classifier blocked the scripted deploys but allowed direct `wrangler deploy` once Mark asked; wrangler's OAuth token cannot touch rulesets; niri `screenshot-window --id` captures off-screen windows but always writes the clipboard; niri lacks ext-image-copy-capture (so `grim -T` fails), Hyprland 0.57 has it.
-- **Left open:** Mark's 1.75-B flash; Neon store (waits on Mark's Neon project); share tokens + mark.mcconachie.world; Pocket public prep; `rabble-eyes --fresh` live test needs Mark's OK.
+- **Flashed:** Mark flashed his 1.75-B through the live `pocket.joinrabble.world` page with the access code: first real end-to-end use of the flasher.
+- **Eyes:** `rabble-eyes` (CoBbLE, RaBbLE-OS 12867d8) then lead fixes: niri column visibility inferred, `--fresh` re-applies maximized-to-edges (first live run dropped it on Dolphin, restored); live-verified on off-screen windows, focus and clipboard untouched. Hyprland backend unverified.
+- **Left open:** Neon store (waits on Mark's Neon project); share tokens + mark.mcconachie.world; Pocket public prep; rabble-eyes Hyprland backend (toplevel identifier mapping) and dotctl deploy.
 
 ## 2026-11-13 · Session S333 (score-accounts-r2-hardening)
 

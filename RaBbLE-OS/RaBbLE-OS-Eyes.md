@@ -16,9 +16,9 @@ rabble-eyes shot <id|app_id|title-substring> [--out DIR] [--json] [--probe] [--f
 - `shot` writes a PNG to `/tmp/rabble-eyes/` (mode 0700) by default and prints the path. Read the PNG with an image-capable tool.
 - Match order: exact id, then exact app_id, then title substring (case-insensitive). Ambiguity is an error that lists candidates; retry with the id.
 - `--probe`: two captures about 0.5 s apart. Prints `changing` or `unchanged (may be stale or static)`.
-- `--fresh`: for windows that are NOT visible only. Nudges the width by 1px and back, then captures, to force a redraw. Refuses visible windows. Never changes focus. **Implemented and unit-tested against a fake backend, never run on the live session.**
+- `--fresh`: for windows that are NOT visible only. Nudges the width by 1px and back, then captures, to force a redraw. Refuses visible windows. Never changes focus. Re-applies maximized-to-edges afterwards (the resize drops it). **Live-verified on niri S334:** off-screen Dolphin (maximized to edges) and Firefox (full-width column) came back at their exact sizes, focus and clipboard unchanged. Hyprland: untested.
 
-Agent guidance: `list` first, `shot` by id. Use `--probe` when an image looks old. A hidden window may be stale because clients stop redrawing without frame callbacks; try `--fresh` only if a stale image matters.
+Agent guidance: `list` first, `shot` by id. Use `--probe` when an image looks old. On niri a plain capture of an off-screen window was already current (S334: `--probe` reported changing on off-screen Dolphin and Firefox with no nudge), so `--fresh` is rarely needed there. Use it only when `--probe` says unchanged and the content should have moved.
 
 ## Compositor support
 
@@ -32,7 +32,7 @@ Hyprland open question: `hyprctl -j clients` is not known to expose the `ext_for
 ## Quirks
 
 - niri `screenshot-window` always copies the image to the clipboard. The tool saves every readable clipboard type first and restores afterwards. `wl-copy` sets one MIME type, so a rich clipboard (image plus text, say) is restored as its text form only, and the tool reports what was lost. An empty clipboard is cleared again. Verified: known text before equals after. A clipboard-history daemon (cliphist and the like) may still record the screenshot.
-- niri 26.04 reports `tile_pos_in_workspace_view` as null even for the focused window, so offscreen columns cannot be told apart from visible ones. `visible` therefore means "on an active workspace". This errs safe: `--fresh` refuses all of them.
+- niri 26.04 reports `tile_pos_in_workspace_view` as null, so visibility is inferred: a window is off screen when its workspace is inactive, or when the workspace's active window fills the output width and the window sits in another column. Anything not provable off screen stays `visible`, which `--fresh` refuses.
 - Hidden or offscreen windows can be stale until they redraw.
 - Captures are full window contents at native size, including anything sensitive that is not on the deny list. Treat the PNGs as private; they live in `/tmp`.
 

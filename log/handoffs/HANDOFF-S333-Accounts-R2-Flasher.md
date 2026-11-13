@@ -29,7 +29,7 @@ entity-rig drop `trim` on null.
 - **2 flasher: live.** Bucket `rabble-pocket-firmware` (17 objects: 16 parts + manifest), Worker `rabble-pocket-companion` on
   `pocket.joinrabble.world`: 401 on firmware without the cookie, 401 on a bad code, unlock verified with the real code, v0.1.0 listed
   for both boards. **One shared code now** (S334 ruling, `POCKET_CODE` in the secrets file). Desktop layout fits one screen.
-  Mark's 1.75-B flash: not yet reported.
+  Mark flashed his 1.75-B through the live page (S334): flasher proven end to end.
 - **3 push: done.** All seven repos pushed; sCoRE 5c00efa cherry-picked onto `release/0.1.0` as c41f1b4 (Render live, `/docs` 404).
   Security headers live on all seven sites (Grimoire via `cloudflare-ctl.sh deploy grimoire`). Chrysalis had no `.assetsignore`
   (it served `wrangler.jsonc`): added on main, 472d4d9, now 404.
