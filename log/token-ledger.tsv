@@ -331,3 +331,8 @@ f9f37a05-8c59-44ef-ba63-0f5e95ab07ee	os-hypr-stabilise-niri	S328	rabble	anthropi
 87df8b18-c8e9-4f6f-95b2-3daa711e9ea9	os-niri-usability		rabble	anthropic	claude-sonnet-5-5
 ff44113d-ff45-4695-bad4-75e9dbbebd1a	os-niri-fluid-gpu	S330: niri render GPU pin, rabble-shell	rabble	anthropic	claude-sonnet-5-5
 159c3441-e2c8-438b-8f83-2e5e544794b1	os-niri-dgpu-glyphs-idle		rabble	anthropic	claude-sonnet-5-5
+01026849-1049-42c1-838a-1b4e472d7322	os-waybar-gpu-idle-bench	S332	rabble	anthropic	claude-sonnet-5-5
+bdbb9128-f8c8-4987-99a5-4e0a1132d4c4	score-accounts-r2-hardening		rabble	anthropic	claude-opus-5-5
+23492898-ca09-4b94-b422-2502ab41768c	os-portal-vscodium-niri-focus		rabble	anthropic	claude-sonnet-5-5
+3f4afad1-687c-450d-8b95-7f4a327ab125	score-cf-pocket-flasher-live		rabble	anthropic	claude-opus-5-5
+cb184c92-ce1a-4c12-81ce-429eedf9985a	os-layerctl-rework	layerctl rework	rabble	anthropic	claude-sonnet-5-5
