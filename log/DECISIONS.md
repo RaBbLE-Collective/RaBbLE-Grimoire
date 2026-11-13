@@ -326,6 +326,7 @@ Ruled by Mark while scoping R2, accounts and the mark.mcconachie.world share pag
 | **Sharing publishes a plaintext copy:** the owner's device decrypts and writes a copy under a share namespace; sCoRE serves it to holders of a scoped read-only share token; revoke deletes the copy | spec §0 |
 | **Keys: per-user master key wraps a per-item key** | spec §0 |
 | **Portability rule: data is reached only through the S3 API or standard SQL** (psycopg, plain migrations). No provider-only paths: no Workers bindings, Cloudflare REST object API, `r2.dev` URLs, Neon Auth/Data API or DynamoDB. Moving providers must be config plus a dump/sync | `sCoRE-Storage-Gate-Plan.md`, sCoRE store |
+| **Pocket firmware is delivered through sCoRE on the S3 API.** The companion Worker's R2 binding is a temporary exception to ship the flasher today; storage slice G6 removes it | `sCoRE-Storage-Gate-Plan.md` Q1, G6 |
 | **mark.mcconachie.world is a client of sCoRE:** Pages in Dad's account calling `score.joinrabble.world` with a share token. No R2 or RaBbLE keys in Dad's account | spec §0 |
 
 **Why:** encryption is a day-zero property (spec §1), and "we cannot read it" has to be architectural, not policy. The cost is honest: lost keys mean lost data, and sharing is a deliberate act of publishing.

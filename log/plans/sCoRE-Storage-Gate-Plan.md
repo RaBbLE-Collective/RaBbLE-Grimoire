@@ -88,6 +88,8 @@ client ──auth──▶ sCoRE /store/* ──quota ok?──▶ local cache h
 
 - **Q1 Pocket firmware:** move the companion's firmware reads behind sCoRE (one gate, one ledger), or keep the companion Worker
   as its own small gate (Workers binding, Workers Free plan has its own daily request limit)? Recommendation: behind sCoRE once sCoRE is durably hosted (Accounts A1).
+  **RULED (Mark, S333): behind sCoRE on the S3 API.** The Worker's `FIRMWARE` binding is a temporary exception so the flasher ships on 2026-11-13; G6 retires it.
+  The gate cookie check moves to sCoRE (or the Worker becomes a thin static host that calls sCoRE).
 - **Q2 Hosting:** sCoRE runs on Render free (ephemeral disk). The ledger and cache need durable disk,
   or the ledger must reconcile from analytics on boot. Decide with the Accounts A1 hosting choice.
 - **Q3 Refusal UX:** what users see when the month's budget is spent (message, Retry-After at rollover).
@@ -101,7 +103,7 @@ client ──auth──▶ sCoRE /store/* ──quota ok?──▶ local cache h
 | G3 | Read proxy route + disk cache | GET through sCoRE, second GET is a cache hit with no ledger tick |
 | G4 | Rate limits (per principal + global) | burst test returns 429 with Retry-After |
 | G5 | `r2-guard.sh` + budget alert + WAF rule on CDN hosts | spell prints usage, trips the flag in a dry run |
-| G6 | Q1 answer applied (firmware) | Pocket flasher pulls through the chosen gate |
+| G6 | Firmware through sCoRE (Q1 ruled S333) | the flasher pulls `pocket/*` through sCoRE's S3 module; the Worker's R2 binding is removed |
 
 ## Cold-start handoff
 
