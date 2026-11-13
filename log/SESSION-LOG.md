@@ -8,12 +8,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-13 · S336 (os-layerctl-rework)
+## LATEST — 2026-11-13 · S337 (claude-history-harvest)
 
 **Phase:** Epoch 0 · Foundation.
-**This session:** S336: layerctl rework, layers.conf, tag targets, run-anywhere, system detect
+**This session:** S337: Claude history harvest, digest, per-project insights
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** layerctl vscode (sudo); verify niri focus; HANDOFF-S333 items
+**Next:** layerctl vscode (sudo); verify niri focus; fix pricing table for 5.x models; HANDOFF-S333 items
 
 ---
 
