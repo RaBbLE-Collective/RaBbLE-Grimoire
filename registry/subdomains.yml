@@ -38,6 +38,9 @@ subdomains:
       (Grimoire workers/dev/) → rabble-world-dev (World new-horizons). S249: /chrysalis/*
       now 301s to chrysalis.joinrabble.world (D4; the path mount and CHRYSALIS binding removed).
       sCoRE CORS allows this origin (FRONTEND_URL, S234).
+      S333: the router Worker is retired; rabble-world-dev owns the domain (custom_domain in
+      World wrangler.dev.jsonc), static assets only, /chrysalis via World _redirects. No Worker
+      code runs, so dev traffic no longer counts against the Workers Free daily limit.
 
   - host: score.joinrabble.world
     label: sCoRE — LLM backend

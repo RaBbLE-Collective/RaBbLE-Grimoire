@@ -658,7 +658,7 @@ _member_config() {
       MEMBER_REPO="RaBbLE-World"
       MEMBER_BUILD=""
       WORKER_NAME="rabble-world-dev"
-      WORKER_DOMAIN=""
+      WORKER_DOMAIN="dev.joinrabble.world"   # S333: owns the domain; the rabble-dev router is retired
       WRANGLER_CONFIG_FLAG="-c wrangler.dev.jsonc"
       ;;
 
@@ -670,25 +670,15 @@ _member_config() {
       WORKER_DOMAIN=""
       ;;
 
-    dev)
-      # Router Worker — lives inside Grimoire's workers/dev/
-      # Routes /chrysalis/* → rabble-chrysalis-web, /* → rabble-world-dev
-      MEMBER_REPO="RaBbLE-Grimoire"
-      MEMBER_BUILD=""
-      WORKER_NAME="rabble-dev"
-      WORKER_DOMAIN="dev.joinrabble.world"
-      ;;
-
     *)
       err "Unknown member: $member"
-      err "Valid members: aether nebula grimoire score world world-dev chrysalis dev"
+      err "Valid members: aether nebula grimoire score world world-dev chrysalis"
       return 1
       ;;
   esac
 
   MEMBER_DIR="$(dirname "$GRIMOIRE_ROOT")/$MEMBER_REPO"
   [[ "$member" == "chrysalis" ]] && MEMBER_DIR="$MEMBER_DIR/Chrysalis-Web" || true
-  [[ "$member" == "dev" ]] && MEMBER_DIR="$GRIMOIRE_ROOT/workers/dev" || true
 }
 
 # ─ Workers commands ───────────────────────────────────────────────────────────
@@ -702,7 +692,7 @@ cmd_deploy() {
 
   if [ -z "$member" ]; then
     warn "Usage: cloudflare-ctl.sh deploy <member> [version]"
-    info "Members: aether nebula grimoire score world world-dev chrysalis dev"
+    info "Members: aether nebula grimoire score world world-dev chrysalis"
     exit 1
   fi
 
@@ -802,7 +792,7 @@ cmd_domain() {
 
   if [ -z "$member" ]; then
     warn "Usage: cloudflare-ctl.sh domain <member> [add|verify|list|remove]"
-    info "Members: aether nebula grimoire score world world-dev chrysalis dev"
+    info "Members: aether nebula grimoire score world world-dev chrysalis"
     exit 1
   fi
 
