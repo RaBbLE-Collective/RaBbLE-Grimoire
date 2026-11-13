@@ -8,16 +8,26 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-13 · Session S331 (os-niri-dgpu-glyphs-idle)
+## LATEST — 2026-11-13 · Session S332 (os-waybar-gpu-idle-bench)
 
 **Phase:** Epoch 0 · Foundation.
-**This session:** S331: dGPU ignore-drm-device for niri, idle suspend guarded, GPU glyphs + Cascadia
+**This session:** S332: waybar GPU state colours, idle bench + A/B, dGPU suspended verified
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** Mark re-logs in: dGPU runtime_status suspended? bench/bench.py after-amd-render 12; TTY polish
+**Next:** Mark runs niri vs Hyprland idle A/B; waybar animation trims; dgpu-watch
 
 ---
 
 
+
+## 2026-11-13 · Session S332 (os-waybar-gpu-idle-bench)
+
+- **Repos:** RaBbLE-OS (5 commits on `new-horizons`, unpushed), Collective (state block), Grimoire (this entry). Sonnet 5.5, solo, no organs.
+- **Asked:** pick up S331; waybar GPU glyphs; idle power benchmark; compositor questions.
+- **Verified:** after Mark's re-login the dGPU sits `suspended`/D3cold, no `/dev/nvidia*` holder, `machine.kdl` carries the AMD pin + ignore of the NVIDIA node. The brief "on" blips were my own `lspci`, a config-space read wakes a D3cold card; sysfs reads do not. Greeter failure and bar-height recenter still uninvestigated.
+- **Changed (RaBbLE-OS):** Hyprland `aq-devices` skips an idle non-panel GPU; polkit agent drop-in keeps Qt off the NVIDIA node; waybar GPU module coloured by power state (green active, yellow suspended, grey D3cold) on glyph and text, iGPU glyph restored, dGPU card 240% with `line_height=0.6` (bigger font alone stretched the bar); poll 5 s. New `bench/idle.py` (battery/APU W, wakeups, RSS, dGPU state, A/B compare), `bench/dgpu-watch.sh` (logs wakes + holders), niri vs Hyprland A/B procedure in `bench/README.md`.
+- **Found:** waybar ~15% of one core: infinite CSS pulses/blinks and three 5 Hz glyph streams (part of it was this very session busy). Not yet changed. SwayFX is not in the Fedora repos (sway 1.11 MIT is).
+- **Rulings (Mark):** copyleft is fine as stock Fedora packages run separately (niri, labwc, some contained GNOME); niri may replace Hyprland after benchmarks; Quickshell makes the WM matter less. Memory saved.
+- **Left open:** run the A/B (`niri-a`/`hypr-a`, then swapped); waybar animation/interval trims measured with `idle.py`; `dgpu-watch.sh` to catch the waker (root daemons need sudo); choice of familiar-floating WM (Wayfire MIT / labwc GPL-2, untested); greeter failure; bar-height recenter; TTY polish; `rabble-offload` slice unbuilt.
 
 ## 2026-11-13 · Session S331 (os-niri-dgpu-glyphs-idle)
 
