@@ -13,7 +13,7 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 
 Re-triaged S320 from the S318 audit (`log/plans/Collective-Coherency-Audit-S318/audit-plans-roadmap.md` 1c). Superseded and finished handoffs moved to `done/` with a status banner on line 1; none deleted.
 
-- `HANDOFF-S333-Accounts-R2-Flasher.md`: R2 enabled, flasher 0.1.0 deploy steps, security headers committed (unpushed), sCoRE guest isolation, WAF rules, Neon store, mark.mcconachie.world, Pocket public prep. Ordered next steps (S333).
+- `HANDOFF-S333-Accounts-R2-Flasher.md`: steps 1-4 done S334 (cutover, flasher live, pushed, WAF). Left: Neon store (waits on Mark's Neon project), share tokens + mark.mcconachie.world, Pocket public prep.
 - `HANDOFF-S323-Genesis-Release.md`: every member to `0.1.0` on `main` under the `genesis` tag. Phase 1 done; `v0.1.0` on the CDN; pull requests open in all nine members (S323). Next: review and docs pass, then merge and tag with Mark's go.
 
 | File | Status | Scope |

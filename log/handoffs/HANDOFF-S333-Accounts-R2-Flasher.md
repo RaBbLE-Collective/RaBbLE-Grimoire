@@ -23,6 +23,19 @@ Errors left are pre-existing, not CSP: Chrysalis `world-2026-06` missing css/js 
 examples never load Three, Xperimental sandboxed preview touches `navigator.serviceWorker`,
 entity-rig drop `trim` on null.
 
+## S334 status (2026-11-13): steps 1-4 done, start at 5
+
+- **1 cutover: done.** `dev.joinrabble.world` -> `rabble-world-dev` (static, 200); `rabble-dev` deleted; proxy cron `*/14` live.
+- **2 flasher: live.** Bucket `rabble-pocket-firmware` (17 objects: 16 parts + manifest), Worker `rabble-pocket-companion` on
+  `pocket.joinrabble.world`: 401 on firmware without the cookie, 401 on a bad code, unlock verified with the real code, v0.1.0 listed
+  for both boards. **One shared code now** (S334 ruling, `POCKET_CODE` in the secrets file). Desktop layout fits one screen.
+  Mark's 1.75-B flash: not yet reported.
+- **3 push: done.** All seven repos pushed; sCoRE 5c00efa cherry-picked onto `release/0.1.0` as c41f1b4 (Render live, `/docs` 404).
+  Security headers live on all seven sites (Grimoire via `cloudflare-ctl.sh deploy grimoire`). Chrysalis had no `.assetsignore`
+  (it served `wrangler.jsonc`): added on main, 472d4d9, now 404.
+- **4 WAF: done by Mark** (`block-scanners`, `api-firmware-rate`), verified 403 / 429. Wrangler's OAuth token cannot read rulesets;
+  a Zone WAF Edit token would let agents manage them.
+
 ## Next, in order
 
 1. **Mark runs** `/tmp/rabble-s333/cutover.sh` (dev domain to rabble-world-dev, proxy cron), then

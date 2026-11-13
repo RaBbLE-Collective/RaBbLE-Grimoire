@@ -8,16 +8,35 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-13 · S333 (score-accounts-r2-hardening)
+## LATEST — 2026-11-13 · S335 (os-portal-vscodium-niri-focus)
 
 **Phase:** Epoch 0 · Foundation.
-**This session:** S333: R2 on, account rulings, guest isolation, security headers
+**This session:** S335: portal FileChooser to gtk, niri popups float, VSCodium fix handed back
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** HANDOFF-S333: cutover, flasher 0.1.0 deploy, push, WAF, Neon store
+**Next:** layerctl apply vscode (sudo); verify niri focus; HANDOFF-S333 items
 
 ---
 
 
+
+## 2026-11-13 · Session S335 (os-portal-vscodium-niri-focus)
+
+- **Repos:** RaBbLE-OS (`6277a54` on `new-horizons`, unpushed), Grimoire (this entry). Sonnet 5.5 (started Opus 5.5), solo, no organs.
+- **Asked:** VSCodium Open Folder dialog never appears under niri; VSCodium "corrupt"; niri refocus/window movement from waybar events.
+- **Found:** `xdg-desktop-portal-gnome` starts settings-only under niri ("Non-compatible display server"), so niri's default portal map has no FileChooser; journal shows `No such interface ...FileChooser`. VSCodium corrupt banner: `codium` rpm is 1.143 but `product.json` is the stale 1.135 file, upgrade left the real one as `product.json.rpmnew`, 8 checksums mismatch. The `apps` role (`vscode.yml`) already adopts the `.rpmnew` and recomputes checksums.
+- **Changed (RaBbLE-OS):** new `config/xdg-desktop-portal/niri-portals.conf` (FileChooser/AppChooser/Print to gtk) as a dotctl bundle, deployed, portal restarted; niri `focus-follows-mouse max-scroll-amount="0%"`; float rules for `rabble-popup` and `org.pulseaudio.pavucontrol`. Config validated, deployed.
+- **Not verified:** dialog in VSCodium; whether the popup/hover changes stop the window movement (Mark's trigger unknown).
+- **Left open:** Mark runs `RaBbLE-OS-layerctl.sh apply vscode` (sudo; argument unchecked) and restarts VSCodium; report the focus trigger if movement persists.
+
+## 2026-11-13 · Session S334 (score-cf-pocket-flasher-live)
+
+- **Repos:** Pocket (12c47fa, bc97532, e1fa7f4, 8bd5e3c + FIRMWARE-binding note), sCoRE (`release/0.1.0` c41f1b4), Chrysalis (472d4d9 on main), Grimoire (this entry, DECISIONS S334, S333 handoff status). All seven S333 repos pushed. RaBbLE-OS `rabble-eyes` built by one sub-agent (separate commits). Opus 5.5 lead.
+- **Asked:** pick up HANDOFF-S333; flasher page without page scroll; access codes; WAF; desktop capture for agents.
+- **Live now:** dev cutover (static `rabble-world-dev`, `rabble-dev` deleted, proxy cron */14); Pocket flasher at `pocket.joinrabble.world` (private R2 bucket, 17 objects, gate verified 401/200, v0.1.0 both boards); sCoRE guest isolation on Render (`/docs` 404); security headers on all seven sites; WAF `block-scanners` + `api-firmware-rate` (Mark, verified 403 / 429).
+- **Rulings (Mark):** one shared early-access code (format `RaBbLE-Pocket_Early_Access_XXXXX`); RaBbLE gets desktop eyes, refusing password managers, private browsing and banking. DECISIONS.md S334.
+- **Changed:** companion desktop layout is a one-screen grid (board+entity | install over log | setup; portrait two columns), Playwright-verified live at 1440x820 and 1920x960; Chrysalis `.assetsignore` (it served `wrangler.jsonc`).
+- **Found:** wrangler prompts in scripts (bucket create offered to edit `wrangler.jsonc`); classifier blocked the scripted deploys but allowed direct `wrangler deploy` once Mark asked; wrangler's OAuth token cannot touch rulesets; niri `screenshot-window --id` captures off-screen windows but always writes the clipboard; niri lacks ext-image-copy-capture (so `grim -T` fails), Hyprland 0.57 has it.
+- **Left open:** Mark's 1.75-B flash; Neon store (waits on Mark's Neon project); share tokens + mark.mcconachie.world; Pocket public prep; `rabble-eyes --fresh` live test needs Mark's OK.
 
 ## 2026-11-13 · Session S333 (score-accounts-r2-hardening)
 

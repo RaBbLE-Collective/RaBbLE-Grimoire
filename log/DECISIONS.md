@@ -330,3 +330,13 @@ Ruled by Mark while scoping R2, accounts and the mark.mcconachie.world share pag
 | **mark.mcconachie.world is a client of sCoRE:** Pages in Dad's account calling `score.joinrabble.world` with a share token. No R2 or RaBbLE keys in Dad's account | spec §0 |
 
 **Why:** encryption is a day-zero property (spec §1), and "we cannot read it" has to be architectural, not policy. The cost is honest: lost keys mean lost data, and sharing is a deliberate act of publishing.
+
+## S334 rulings: Pocket access, edge rules, agent eyes (2026-11-13)
+
+| Ruling | Carried in |
+|---|---|
+| **One shared Pocket early-access code**, format `RaBbLE-Pocket_Early_Access_XXXXX` (the S325 per-person codes were an agent choice, not a ruling; the cookie never recorded whose code opened it). Rotate the code to stop new unlocks; rotate `ACCESS_SIGNING_KEY` to drop every unlocked browser | `RaBbLE-Pocket/companion-app/web/CONTEXT.md`, `~/.config/rabble/pocket-companion.secrets` |
+| **Edge rules on joinrabble.world (free plan, made by Mark in the dashboard):** custom rule `block-scanners` (`/.env`, `/.git`, `.php`, `/wp-`) and rate limit `api-firmware-rate` (`/api/` or `/firmware/`, 30 req per 10 s per IP, block 10 s). Verified: 403 on scanner paths, 429 from request 31 | this entry; Storage-Gate plan N-series (no-bill protection) |
+| **The dev router is retired:** `dev.joinrabble.world` is World `new-horizons` as static assets (`rabble-world-dev`); `rabble-dev` deleted | `RaBbLE-World/wrangler.dev.jsonc` |
+| **RaBbLE gets eyes on the desktop:** a RaBbLE-OS capture tool (`rabble-eyes`) that captures any window without focus or input, on niri and Hyprland. It refuses password managers, private browsing and banking, by an editable deny list with no override | `RaBbLE-OS/RaBbLE-OS-Eyes.md` (S334 build) |
+
