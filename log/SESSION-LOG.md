@@ -8,16 +8,25 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-13 · S335 (os-portal-vscodium-niri-focus)
+## LATEST — 2026-11-13 · S336 (os-layerctl-rework)
 
 **Phase:** Epoch 0 · Foundation.
-**This session:** S335: portal FileChooser to gtk, niri popups float, VSCodium fix handed back
+**This session:** S336: layerctl rework, layers.conf, tag targets, run-anywhere, system detect
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** layerctl apply vscode (sudo); verify niri focus; HANDOFF-S333 items
+**Next:** layerctl vscode (sudo); verify niri focus; HANDOFF-S333 items
 
 ---
 
 
+
+## 2026-11-13 · Session S336 (os-layerctl-rework)
+
+- **Repos:** RaBbLE-OS (`ab9bdd7` on `new-horizons`, unpushed), Grimoire (this entry). Sonnet 5.5, solo, no organs.
+- **Asked:** S335's `apply vscode` handoff failed (command was invented); make layerctl flexible, obvious, run from any dir, detect system and version.
+- **Found:** `layerctl` was already symlinked in `~/.local/bin`; the typed `RaBbLE-OS-layerctl.sh` is not on PATH, and `vscode` is an Ansible tag inside `apps`, not a layer. Help text referenced a nonexistent `layer-ctl.sh`. `--packages/--config` built `--tags layer,packages`, which Ansible ORs (ran every packages task in the playbook).
+- **Changed (RaBbLE-OS):** layers moved to `ansible/layers.conf` (add a section, no script edit); targets resolve layer, alias, or any Ansible tag (`layerctl vscode` = `--tags vscode`); bare-name apply, multi-target, verb synonyms, did-you-mean; `ANSIBLE_CONFIG` + cd so it runs from any directory; `info`/`list`/`link`/`completion` commands, DMI hardware + os-release + repo detection with preflight warnings; `--packages/--config` now `--skip-tags` the opposite kind (narrowing, not strict AND: untagged-kind tasks still run).
+- **Verified:** from `/tmp` with a stub ansible-playbook (flags, cwd, cfg), `--list-tasks` for `--tags vscode` and base packages/config. No real apply (needs sudo).
+- **Left open:** Mark runs `layerctl vscode` (sudo) and restarts VSCodium. Strict packages/config split would need `<layer>-packages`/`-config` tags (his call). Tab completion: `source <(layerctl completion zsh)` in `.zshrc`.
 
 ## 2026-11-13 · Session S335 (os-portal-vscodium-niri-focus)
 
