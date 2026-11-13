@@ -8,12 +8,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-13 · Session S332 (os-waybar-gpu-idle-bench)
+## LATEST — 2026-11-13 · S333 (score-accounts-r2-hardening)
 
 **Phase:** Epoch 0 · Foundation.
-**This session:** S332: waybar GPU state colours, idle bench + A/B, dGPU suspended verified
+**This session:** S333: R2 on, account rulings, guest isolation, security headers
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** Mark runs niri vs Hyprland idle A/B; waybar animation trims; dgpu-watch
+**Next:** HANDOFF-S333: cutover, flasher 0.1.0 deploy, push, WAF, Neon store
 
 ---
 
