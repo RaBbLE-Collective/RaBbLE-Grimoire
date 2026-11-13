@@ -36,6 +36,10 @@ entity-rig drop `trim` on null.
 - **4 WAF: done by Mark** (`block-scanners`, `api-firmware-rate`), verified 403 / 429. Wrangler's OAuth token cannot read rulesets;
   a Zone WAF Edit token would let agents manage them.
 
+**Next session (Mark, S334):** Mark creates the Neon project, then scope **accounts and data uploads through sCoRE**:
+step 5 below (AC1 migrations, G1 `storage.py` over the S3 API, Mark's account) plus the upload path per
+`log/plans/sCoRE-Storage-Gate-Plan.md` and the encryption rulings in `EP2-Accounts-Encryption-Spec.md` §0.
+
 ## Next, in order
 
 1. **Mark runs** `/tmp/rabble-s333/cutover.sh` (dev domain to rabble-world-dev, proxy cron), then

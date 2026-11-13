@@ -38,7 +38,8 @@ Format: date, what was done, where things were left, what's next.
 - **Found:** wrangler prompts in scripts (bucket create offered to edit `wrangler.jsonc`); classifier blocked the scripted deploys but allowed direct `wrangler deploy` once Mark asked; wrangler's OAuth token cannot touch rulesets; niri `screenshot-window --id` captures off-screen windows but always writes the clipboard; niri lacks ext-image-copy-capture (so `grim -T` fails), Hyprland 0.57 has it.
 - **Flashed:** Mark flashed his 1.75-B through the live `pocket.joinrabble.world` page with the access code: first real end-to-end use of the flasher.
 - **Eyes:** `rabble-eyes` (CoBbLE, RaBbLE-OS 12867d8) then lead fixes: niri column visibility inferred, `--fresh` re-applies maximized-to-edges (first live run dropped it on Dolphin, restored); live-verified on off-screen windows, focus and clipboard untouched. Hyprland backend unverified.
-- **Left open:** Neon store (waits on Mark's Neon project); share tokens + mark.mcconachie.world; Pocket public prep; rabble-eyes Hyprland backend (toplevel identifier mapping) and dotctl deploy.
+- **Eyes map:** `rabble-eyes map` gives outputs -> workspaces -> columns/rows with sizes and on-screen state, so agents reason about placement (RaBbLE-OS 09bb279). Clipboard net-unchanged for text. Untested items tabled in `RaBbLE-OS/RaBbLE-OS-Eyes.md` "Still to test" (Hyprland backend and toplevel ids, live denied window, rich clipboard, multi-monitor, dotctl deploy).
+- **Next (Mark):** Neon project, then scope accounts and data uploads through sCoRE (HANDOFF-S333 step 5 on). Then share tokens + mark.mcconachie.world, Pocket public prep.
 
 ## 2026-11-13 · Session S333 (score-accounts-r2-hardening)
 

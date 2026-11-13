@@ -47,3 +47,20 @@ Mark's ruling: password managers, private browsing and banking are never capture
 - Denied windows match queries by id or app_id only, never by title, so a title search cannot probe their contents.
 - A missing or unparseable deny file refuses everything (fail closed).
 - Title rules are keyword based and will over-match (any title with "bank") and can under-match (a banking site whose tab title lacks the keywords). Add rules as needed.
+
+## Clipboard
+
+niri's `screenshot-window` always copies the shot to the clipboard. `shot` saves the clipboard first and restores it straight after, so the net effect is none for plain text (verified S334). A clipboard holding several MIME types comes back as one type (`wl-copy` sets one); the tool reports that in `clipboard_note`. Hyprland's `grim -T` path never touches the clipboard.
+
+## Still to test (S334)
+
+| What | Status | How to test |
+|---|---|---|
+| Hyprland backend: `list`, `map`, `shot` | Unverified, Hyprland not running | Log into Hyprland, run `rabble-eyes map` and `shot` on a window on another workspace |
+| Hyprland toplevel id for `grim -T` | Open: `hyprctl clients` exposes no ext-foreign-toplevel identifier | Check whether hyprctl gains one, else a small Wayland client lists ext-foreign-toplevel-list; until then off-screen Hyprland windows cannot be captured |
+| Hyprland `--fresh` (`resizewindowpixel`) | Commands unit-tested only | On an off-screen window, compare size before/after |
+| A live denied window | Unit-tested only | Open KeePassXC or a Private Browsing window; `list` shows `[redacted]`, `shot` refuses |
+| Rich clipboard restore | Text verified; multi-type known to degrade | Copy an image, `shot`, check what pastes |
+| niri visibility with narrow columns | Safe fallback (stays `visible`) when the active column is not full width | Two half-width columns on screen plus one off screen; `map` marks the off-screen one `visible` (conservative) |
+| Multi-monitor `map` | Laptop panel only | Plug a monitor, check outputs and workspaces group correctly |
+| Deploy via dotctl | Not wired; runs from `RaBbLE-OS/spells/` | Add to dotctl when the OS session is free |
