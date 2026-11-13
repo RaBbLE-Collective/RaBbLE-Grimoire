@@ -84,6 +84,25 @@ client ──auth──▶ sCoRE /store/* ──quota ok?──▶ local cache h
 - Analytics lag several minutes. That is why sCoRE's own ledger is the real gate and this is a backstop.
 - Plus a Cloudflare **budget alert at $0.01** in case both the spell and sCoRE fail.
 
+## No-bill posture (Mark, S333): check every change against this
+
+Cloudflare has no spending cap, so "never a bill" holds only by construction: every path to a billable resource
+must deny service inside the free tier. Limits checked 2026-11-13 (developers.cloudflare.com/workers/platform/limits,
+/workers/static-assets/billing-and-limitations).
+
+| # | Rule | Why |
+|---|---|---|
+| N1 | **Stay on Workers Free. Never buy Workers Paid.** | Free caps Worker invocations at 100k/day **per account** (error 1027 / 429, no bill). Paid removes the cap and bills per request |
+| N2 | Static files are served as assets; Worker code runs only on `run_worker_first` paths (`/api/*`, `/firmware/*`) | Asset requests are free and unlimited and don't use the 100k |
+| N3 | **Refuse before R2.** Every Worker or sCoRE route checks auth (and, in sCoRE, the ledger) before any R2 call | Failed-auth requests are not billed; a refused request costs nothing |
+| N4 | **No public R2:** no public bucket access, no `r2.dev`, no custom domain on a bucket | Each is an uncounted, unauthenticated path to Class B reads |
+| N5 | **No S3 keys before G2** (ledger + 80% refusal). Keys are bucket-scoped, held by sCoRE only, rotated on any doubt | A leaked S3 key is the one uncapped path |
+| N6 | Today's only R2 reader is the companion Worker: N1 bounds it at about 3M Class B a month (free: 10M) | Arithmetic: 100k/day x 30 |
+| N7 | One WAF rate-limit rule on the `joinrabble.world` zone: URI path contains `/firmware/` or `/api/`, 30 req / 10 s per IP, block 10 s | A hammerer is stopped at the edge before the shared 100k pool drains |
+| N8 | Budget alert at $0.01 (Billing > Billable Usage); `r2-guard.sh` (G5) at 80% alert, 90% kill switch | Backstops, not the gate |
+| N9 | Enable no other paid products (Images, Stream, Argo, Load Balancing, Logpush, Durable Objects beyond free) | With a card on file these are the remaining ways to bill |
+| N10 | Neon and Render stay on free tiers with **no card on file** | Without a card they suspend at their limits instead of billing |
+
 ## Open questions for Mark
 
 - **Q1 Pocket firmware:** move the companion's firmware reads behind sCoRE (one gate, one ledger), or keep the companion Worker
