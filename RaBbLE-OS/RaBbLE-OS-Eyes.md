@@ -60,7 +60,7 @@ niri's `screenshot-window` always copies the shot to the clipboard. `shot` saves
 | Hyprland toplevel id for `grim -T` | Open: `hyprctl clients` exposes no ext-foreign-toplevel identifier | Check whether hyprctl gains one, else a small Wayland client lists ext-foreign-toplevel-list; until then off-screen Hyprland windows cannot be captured |
 | Hyprland `--fresh` (`resizewindowpixel`) | Commands unit-tested only | On an off-screen window, compare size before/after |
 | A live denied window | Unit-tested only | Open KeePassXC or a Private Browsing window; `list` shows `[redacted]`, `shot` refuses |
-| Rich clipboard restore | Text verified; multi-type known to degrade | Copy an image, `shot`, check what pastes |
+| Rich clipboard restore | Text verified; multi-type degrades to one type | **Planned (Mark asked S334):** replace the `wl-copy` restore with a small stdlib-Python Wayland client on `zwlr_data_control_manager_v1` (niri offers it) that re-offers every saved MIME type and serves each on request (fd passing via `socket.recvmsg`). Test: copy rich text from Firefox, `shot`, paste into LibreOffice and a terminal |
 | niri visibility with narrow columns | Safe fallback (stays `visible`) when the active column is not full width | Two half-width columns on screen plus one off screen; `map` marks the off-screen one `visible` (conservative) |
 | Multi-monitor `map` | Laptop panel only | Plug a monitor, check outputs and workspaces group correctly |
 | Deploy via dotctl | Not wired; runs from `RaBbLE-OS/spells/` | Add to dotctl when the OS session is free |
