@@ -308,3 +308,7 @@ Ruled by Mark after the 0.57 update broke the wallpaper (COPR shipped hyprpaper 
 | **Agent compositor hooks must not tie RaBbLE-OS to one compositor.** Direction proposed (not ruled): standard Wayland protocols first, AT-SPI for window contents, thin per-compositor adapters with declared capabilities (the `rdisplay/backends/` pattern) | plan doc pending Mark's go |
 
 **Why niri, not Sway or GNOME:** niri ships in official Fedora (Bodhi-gated), has animations, blur and gradient borders, and works with GNOME/KDE portals; Sway has no animations or rounded corners; GNOME exposes almost none of the protocols the agent hooks need. Hyprland's instability was mostly packaging (an ungated single-maintainer COPR) plus the one-off Lua config migration.
+
+## S330 (2026-11-13): GPU choice is the OS's, not the compositor's
+
+The desktop renders on the GPU that drives the internal panel (the iGPU on hybrid laptops), decided once by `rabble-shell/bin/rabble-gpu` and consumed by every compositor (niri via a systemd user drop-in, Hyprland via env.lua). The dGPU is a per-app offload target gated by power and capability level, never the desktop; an eGPU is hot-pluggable compute and must never be depended on by the desktop. Why: niri silently picked the NVIDIA dGPU on the ProArt P16 (13 W idle, dropped frames, fan noise) while Hyprland was protected only by a per-WM pin. Single-GPU machines get no pin. Per-tier power policy (levels, curves, clocks) sits on top and is unbuilt.

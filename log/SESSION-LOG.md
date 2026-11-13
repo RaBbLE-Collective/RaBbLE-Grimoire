@@ -8,16 +8,27 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-12 · S329 (os-niri-usability)
+## LATEST — 2026-11-13 · Session S330 (os-niri-fluid-gpu)
 
 **Phase:** Epoch 0 · Foundation.
-**This session:** S329: niri made usable (autostart paths, cursor, F/M/Shift+F, workspaces); first-bLE desktop settings journal planned
+**This session:** S330: niri was rendering on the NVIDIA dGPU; rabble-gpu pins the panel GPU for every WM; shared lock/idle; bench/ built
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28 open.
-**Next:** Mark logs in fresh to verify autostart + workspace order; rule plan Q1 (pane stack); then build journal + reminder (phase 1)
+**Next:** Mark re-logs in; run bench/bench.py after-amd-render 12; sudo layerctl apply niri; then rabble-offload slice
 
 ---
 
 
+
+## 2026-11-13 · Session S330 (os-niri-fluid-gpu)
+
+- **Repos:** RaBbLE-OS (3 commits on `new-horizons`, unpushed), Grimoire (this entry, DECISIONS S330). Sonnet 5.5, solo, no organs. Mark authorised live measurement.
+- **Asked:** niri lock setup? workspace switching laggy, gestures stutter; wanted instant, 1:1, fast on minimal battery, silent.
+- **Found:** niri had no idle lock (only `Mod+Escape` hyprlock). Animations were Hyprland's 500 ms curves ported as-is; fixed-duration curves ignore gesture release velocity. Trackpad differed because Hyprland's top-level `sensitivity 0.2` + adaptive also applies to touchpads; niri's touchpad block ran at speed 0. **Root cause of the stutter/heat:** niri's render node was `renderD129` = the NVIDIA RTX 4060, not the AMD iGPU driving the panel. dGPU awake ~13 W, battery ~30 W, niri RSS 2.4 GB, ~10 dropped frames per overview animation, iGPU only ~5% busy. Hyprland avoided it via `AQ_DRM_DEVICES` in hypr-machine.lua; niri had no equivalent. My earlier GPU-clock-ramp theory was wrong.
+- **Changed (RaBbLE-OS):** new `config/rabble-shell/` bundle: `rabble-lock`, `rabble-dpms`, `rabble-idle` + `idle.conf` (shared hypridle chain, no hyprctl), `rabble-gpu` (render on the GPU driving the panel; no-op on single GPU). `config/systemd-user/niri.service.d` runs `rabble-gpu write-niri` before niri (generates `machine.kdl`, included optionally). Hyprland rewired to the same lock/idle/gpu scripts. niri: spring animations, shorter open/close, touchpad matched to Hyprland, blur and shadows off, VRR dropped on eDP-1. Ansible: niri layer installs hypridle/hyprlock, remove keeps them; stale hypridle.conf entry gone. `bench/` (frametap + bench.py). waybar `custom/gpu` (iGPU %, dGPU %/W, never wakes the dGPU).
+- **Rulings (Mark):** GPU choice and power/capability gating belong to the OS, not a WM. Desktop renders on the iGPU; dGPU is a per-app offload target, gated by power and capability. eGPU is hot-pluggable compute, dGPU is not. Shell pieces live in `config/rabble-shell/`. Brightness stays high; measure it in a battery bench later.
+- **Baseline saved:** `/tmp/rabble-bench/before-nvidia-render.json` (overview 9.9 dropped frames/trial, max gap 53 ms; workspace switch 3.5 / 39 ms). Not yet re-run after the pin.
+- **Mistake:** my first niri animation edit left a broken block (caught by `niri validate`). First frametap logger forced constant repaints and hid the effect; fixed with signal start/stop.
+- **Left open:** Mark re-logs in to niri to activate the pin, then `python3 bench/bench.py after-amd-render 12`; confirm dGPU goes `suspended`. `layerctl apply niri` (sudo) installs hypridle/hyprlock for niri; `layerctl apply hardware` refreshes the deployed Hyprland machine.lua (optional, same AMD-first result). `rabble-offload` slice (per-app dGPU) unbuilt. Quickshell not installed, so unmeasured. Old `~/.config/hypr/hypridle.conf` still deployed, unused. Hyprland rewire untested (not running).
 
 ## 2026-11-12 · Session S329 (os-niri-usability)
 
