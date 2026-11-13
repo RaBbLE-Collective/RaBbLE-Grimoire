@@ -21,7 +21,7 @@ Format: date, what was done, where things were left, what's next.
 
 ## 2026-11-13 · Session S335 (os-portal-vscodium-niri-focus)
 
-- **Repos:** RaBbLE-OS (`6277a54` on `new-horizons`, unpushed), Grimoire (this entry). Sonnet 5.5 (started Opus 5.5), solo, no organs.
+- **Repos:** RaBbLE-OS (`a80a068` on `new-horizons`, unpushed), Grimoire (this entry). Sonnet 5.5 (started Opus 5.5), solo, no organs.
 - **Asked:** VSCodium Open Folder dialog never appears under niri; VSCodium "corrupt"; niri refocus/window movement from waybar events.
 - **Found:** `xdg-desktop-portal-gnome` starts settings-only under niri ("Non-compatible display server"), so niri's default portal map has no FileChooser; journal shows `No such interface ...FileChooser`. VSCodium corrupt banner: `codium` rpm is 1.143 but `product.json` is the stale 1.135 file, upgrade left the real one as `product.json.rpmnew`, 8 checksums mismatch. The `apps` role (`vscode.yml`) already adopts the `.rpmnew` and recomputes checksums.
 - **Changed (RaBbLE-OS):** new `config/xdg-desktop-portal/niri-portals.conf` (FileChooser/AppChooser/Print to gtk) as a dotctl bundle, deployed, portal restarted; niri `focus-follows-mouse max-scroll-amount="0%"`; float rules for `rabble-popup` and `org.pulseaudio.pavucontrol`. Config validated, deployed.
