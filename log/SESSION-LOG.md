@@ -19,6 +19,15 @@ Format: date, what was done, where things were left, what's next.
 
 
 
+## 2026-11-13 · Session S333 (score-accounts-r2-hardening)
+
+- **Repos:** sCoRE (5c00efa, 65855ad), World (1c50f20, 803aeba), ScRiBbLE (51b6955), Pocket (233183b), Xperimental (c892f14), Chrysalis (d651d23 on main), Grimoire (a998d82..ef081ca, c6eaf82, this entry). All unpushed, nothing deployed. Opus 5.5, solo.
+- **Asked:** R2 setup, accounts wired + Mark's account, Pocket flasher v0.1.0, Pocket public prep, mark.mcconachie.world as a sCoRE client.
+- **Rulings (Mark):** Neon Postgres for accounts; all user data in R2, encrypted, account scoped; client-sealed transcripts, recovery key + passkey, share = published copy, per-user + per-item keys; S3 API or plain SQL only (portability); firmware via sCoRE on S3 (Worker binding temporary); never a bill, deny service when hammered; dev = static like World; cron */14; harden the public surface. Recorded in DECISIONS.md, Storage-Gate plan (N1-N10), EP2 encryption spec §0.
+- **Changed:** sCoRE guests 403 on sessions/workflows (shared "guest" id leaked sessions), API map off, session id validated; security `_headers` on six static sites, CSP verified in Playwright (inline scripts moved to files); dev router retired in config (`wrangler.dev.jsonc`), cutover script for Mark.
+- **Found:** about half of traffic is vulnerability scanners; Chrysalis serves its `wrangler.jsonc`; R2 has no spend cap and spend limits cannot select R2 (protection is private bucket + gate + Workers Free + WAF).
+- **Left open:** see `log/handoffs/HANDOFF-S333-Accounts-R2-Flasher.md` (cutover, flasher deploy, push + release cherry-pick, WAF, Neon store, share tokens, Pocket licence/README prep).
+
 ## 2026-11-13 · Session S332 (os-waybar-gpu-idle-bench)
 
 - **Repos:** RaBbLE-OS (5 commits on `new-horizons`, unpushed), Collective (state block), Grimoire (this entry). Sonnet 5.5, solo, no organs.
