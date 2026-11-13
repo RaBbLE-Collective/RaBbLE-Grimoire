@@ -1,8 +1,21 @@
 # RaBbLE Episode 2 — User Accounts & Encrypted Ingestion Spec
 
-**Status:** Draft — captured from session voice conversation, pending Grimoire integration
+**Status:** Draft, open questions 1 and 3 ruled S333 (§0). Episode framing is retired (S322); this is the Accounts milestone's encryption design.
 **Scope:** Episode 2 (post-EP1 tag). Public-facing but not scaled — target is single-digit real users (self + beta testers), architecture built to scale beyond that later.
 **Owner:** Mark McConachie
+
+---
+
+## 0. S333 rulings (2026-11-13): these override the sections below where they disagree
+
+Ruled by Mark; also in `log/DECISIONS.md` (S333).
+
+- **Stores (replaces §6):** Neon Postgres (hosted) and SQLite (local, tests) hold small records only: users, sessions, invites, share grants, wrapped keys, the R2 usage ledger. **All user data lives in R2** as encrypted objects under a per-account prefix, reached only through sCoRE on the S3 API (`sCoRE-Storage-Gate-Plan.md`). DynamoDB and S3 are no longer the plan.
+- **Keys (settles §8 Q3):** a per-user master key wraps a per-item key. Sharing or revoking one item never exposes the others.
+- **Unlock factors (settles §8 Q1):** password-derived key, a **recovery key shown once** at sign-up, and an optional **passkey**. Each wraps the master key. Google sign-in users must hold the recovery key or a passkey. Lose every factor and the data is gone. No escrow.
+- **Transcripts are client-sealed:** the client (web, terminal) encrypts each chat turn with an item key and uploads it. sCoRE and the model provider see plaintext only in flight while replying, never at rest. sCoRE's server-side `transcripts.py` write path retires for signed-in users. **Pocket** seals through a paired device key (AC7 pairing), design still owed.
+- **Sharing publishes a copy:** the owner's device decrypts an item and writes a plaintext copy under a share namespace; sCoRE serves it to holders of a scoped, read-only, revocable share token. Revoke deletes the copy. First consumer: `mark.mcconachie.world`, a Pages site in a separate Cloudflare account that only holds a share token.
+- **Still open:** §8 Q2 (encrypted embeddings vs search), Q4, Q5, Q6; Pocket device-key design; the refusal UX when the R2 budget is spent (`sCoRE-Storage-Gate-Plan.md` Q3).
 
 ---
 

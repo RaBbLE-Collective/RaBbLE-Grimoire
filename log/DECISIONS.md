@@ -312,3 +312,19 @@ Ruled by Mark after the 0.57 update broke the wallpaper (COPR shipped hyprpaper 
 ## S330 (2026-11-13): GPU choice is the OS's, not the compositor's
 
 The desktop renders on the GPU that drives the internal panel (the iGPU on hybrid laptops), decided once by `rabble-shell/bin/rabble-gpu` and consumed by every compositor (niri via a systemd user drop-in, Hyprland via env.lua). The dGPU is a per-app offload target gated by power and capability level, never the desktop; an eGPU is hot-pluggable compute and must never be depended on by the desktop. Why: niri silently picked the NVIDIA dGPU on the ProArt P16 (13 W idle, dropped frames, fan noise) while Hyprland was protected only by a per-WM pin. Single-GPU machines get no pin. Per-tier power policy (levels, curves, clocks) sits on top and is unbuilt.
+
+## S333 rulings: account data store and encryption (2026-11-13)
+
+Ruled by Mark while scoping R2, accounts and the mark.mcconachie.world share page. They take up the open questions in `log/plans/EP2-Accounts-Encryption-Spec.md` (updated in place, §0).
+
+| Ruling | Carried in |
+|---|---|
+| **Hosted account store is Neon Postgres** (free tier: 1 GB per project, no expiry, scales to zero); SQLite stays the local and test backend (A1 direction from S322 kept) | `Accounts-Formalization-Scope.md` AC1, sCoRE (not yet built) |
+| **All user data lives in R2, encrypted and scoped per account.** Neon holds only small records (users, sessions, invites, share grants, the R2 usage ledger, wrapped keys) | spec §0, `sCoRE-Storage-Gate-Plan.md` |
+| **Transcripts are client-sealed:** the client (web, terminal) encrypts each turn with the user's key and uploads it; sCoRE and the model see plaintext only while replying. Pocket seals through a paired device key | spec §0 |
+| **Recovery = a recovery key shown once + an optional passkey.** Google sign-in users must hold one of them. Lose every factor and the data is gone, by design. No escrow | spec §0 |
+| **Sharing publishes a plaintext copy:** the owner's device decrypts and writes a copy under a share namespace; sCoRE serves it to holders of a scoped read-only share token; revoke deletes the copy | spec §0 |
+| **Keys: per-user master key wraps a per-item key** | spec §0 |
+| **mark.mcconachie.world is a client of sCoRE:** Pages in Dad's account calling `score.joinrabble.world` with a share token. No R2 or RaBbLE keys in Dad's account | spec §0 |
+
+**Why:** encryption is a day-zero property (spec §1), and "we cannot read it" has to be architectural, not policy. The cost is honest: lost keys mean lost data, and sharing is a deliberate act of publishing.
