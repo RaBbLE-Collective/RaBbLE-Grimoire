@@ -3,13 +3,13 @@
 > **Status (S264, 2026-10-22): T0 freeze fixed (both fixes, 0 late frames over boot + 6 reconnects), T1 tilt built (Mark: "feel nice"), T2 sCoRE capture built (20 tests, uncommitted). Next: T3 notes store, T4 modes + swipe.**
 > Mark's ask: give the Pocket two modes, **Converse** (today's push-to-talk conversation) and **Capture** (RaBbLE just listens, transcribes and builds notes files that are beamed back and kept on the device), switched by swiping up/down. Notes land in a **Pocket Grimoire** on the device and are offloaded or merged into a permanent home. Alongside: make the gravity tilt seamless, hold the last good angle when flat, and stop the face freezing.
 
-Handoff: [HANDOFF-S264](../log/handoffs/HANDOFF-S264-Pocket-Capture-W4-Face.md) · Related: [Beam protocol](RaBbLE-Pocket-Beam-Protocol.md) (capture frames are specified there) · [Clean room plan](RaBbLE-Pocket-Clean-Room-Plan.md) (voice is W4, display is W6) · [Gadget port](RaBbLE-Pocket-Gadget-Port.md).
+Handoff: [HANDOFF-S264](../log/handoffs/HANDOFF-S264-Pocket-Capture-W4-Face.md) · Related: [Beam protocol](RaBbLE-Pocket-Beam-Protocol.md) (capture frames are specified there) · [Provenance](RaBbLE-Pocket-Provenance.md) (voice is W4, display is W6) · [Gadget port](RaBbLE-Pocket-Gadget-Port.md).
 
 ## Decisions (Mark, 2026-10-22)
 
 | Question | Decision |
 |---|---|
-| Capture vs the clean room | **W4 voice first, Capture's voice side on top**, in `accord/`. Everything that doesn't touch `apache/` (sCoRE, storage, swipe UI, offload, tilt) goes ahead now, in parallel. |
+| Capture vs the rewrite | **W4 voice first, Capture's voice side on top**, in `accord/`. Everything that doesn't touch `apache/` (sCoRE, storage, swipe UI, offload, tilt) goes ahead now, in parallel. |
 | Internal store | **LittleFS** (MIT, managed component) on the flash `storage` partition; SD card first when one is in (later). **OTA-ready layout** (Mark, S265): 2 × 3.5 MB app slots + 8.9 MB storage. |
 | After offload | **Keep notes until `--prune`** (Mark, S265): pull marks them offloaded, deletion is explicit. |
 | Offload target | **USB to the host first**, merged into Personal-Grimoire `babble/pocket/`. Account sync through sCoRE comes later. |
@@ -17,7 +17,7 @@ Handoff: [HANDOFF-S264](../log/handoffs/HANDOFF-S264-Pocket-Capture-W4-Face.md) 
 | Freeze | **Both fixes**: TLS session resumption in the beam, and the panel never waiting on a stalled core. |
 | Swipe | **Up = Capture, down = Converse** ("good for now"). |
 | Capture gesture | **Both tap and hold supported, chosen in Settings.** |
-| Branches | Commit on Pocket `new-horizons`, merged into `cleanroom` so the flashed firmware matches; the two become one branch when the clean room lands. |
+| Branches | Commit on Pocket `new-horizons`, merged into `cleanroom` so the flashed firmware matches; the two become one branch when the rewrite lands. |
 
 ## Tracks
 
@@ -32,7 +32,7 @@ Tracks with no arrow between them run in parallel. Integration into the Pocket s
 | **T4** modes + swipe | Converse/Capture state, swipe up/down on the face, face and glass cues | `accord/rabble_capture.c`, `accord/rabble_ui.c`, `accord/rabble_entity.c`, nebula_lite `scene.c` | none (typed capture works before W4) | **done S265** (typed capture live end to end) |
 | **T5** offload | serial `>notes` commands + host spell, merge into Personal-Grimoire | `accord/rabble_notes_console.c` (done S265), `ops/pocket-notes.py` | T3 | device side done; host spell next |
 | **T6** voice capture | long recordings, offline audio to flash, upload, ADPCM | `accord/` voice (after W4) | **W4**, T3 | after W4 |
-| **W4** voice clean room | same behaviour first, existing pipeline | `apache/` to `accord/` | clean room W0-W3 | **done S264** (`94d7d0b`); T6 can start |
+| **W4** voice rewrite | same behaviour first, existing pipeline | `apache/` to `accord/` | rewrite W0-W3 | **done S264** (`94d7d0b`); T6 can start |
 
 A typed capture (`>capture=...` on the serial console, `mode: "capture"` with `text`) exercises T2 to T5 end to end before W4 lands and spends no speech quota.
 
@@ -43,7 +43,7 @@ A typed capture (`>capture=...` on the serial console, `mode: "capture"` with `t
 - **F1 · TLS session resumption** (`accord/rabble_beam_score.c`). The beam owns its SSL and websocket transports (`ext_transport`), keeps them across connections and offers the saved TLS 1.2 session (`CONFIG_ESP_TLS_CLIENT_SESSION_TICKETS=y`). Gotcha: the ticket SAVE operation frees the session the SSL config still points at, so USE runs straight after it, and if that fails the transports are rebuilt before the next connect. Result: resumed connects take ~200 ms instead of ~1.8 s, but Render's front end resumed only 3 of 5 (other edges, other ticket keys). The first connect after boot is always full.
 - **F2 · panel never held by a stalled core** (`bsp/rabble_lcd_bands.c`). When the send task has waited 6 ms on a band the helper claimed, it lifts the helper to priority 23 (level with Wi-Fi, so they time-slice) until the frame is out, then puts it back at 3. The socket task is pinned to core 0, so a boosted handshake can only land on the helper's core, never the send task's. Result: 0 late frames over boot + 6 reconnects (3 full handshakes), the helper lifted for 1-2 frames each time, connect times unchanged. A first design that stole late bands back was dropped: a helper resuming during the next frame's `begin()` could read a torn primitive (union `kind`/`sprite`) and index `nl_spr[]` out of bounds. **The W6 display spec must carry "a frame is never held by a stalled helper" as a requirement** (behaviour, not code).
 - Found on the way, fixed: `nl_render_band` used a `static` scratch row for the haze upscale while both cores render bands at once; it is now per call (helper stack 4096 to 5120).
-- Clean-room note: F2 meant reading `bsp/`, so the S264 session is tainted from that point (spec author, firewall or integrator only, never implementer).
+- Isolation note: F2 meant reading `bsp/`, so the S264 session is tainted from that point (spec author, firewall or integrator only, never implementer).
 
 Diagnosis tool (not kept in the tree): a priority-22 watchdog task that snapshots `uxTaskGetSystemState` when no frame has started for 200 ms and prints each task's CPU time over the stall. It found the inherited priority in one run. Instrumentation kept: `rabble_entity` logs `N late frames, worst X ms (mode M)` for any frame later than 150 ms (at most every 2 s), and `upright at rest P% of frames` beside the fps line.
 

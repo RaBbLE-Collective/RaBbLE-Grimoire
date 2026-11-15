@@ -1,7 +1,7 @@
 # RaBbLE-Pocket-Orbit-Transition.md
 
 > How the face hands over to the Orbit (Settings, Applets) and back: one gesture, an edge glow, the mesh gathering into orbs and going home again. Built and hand-checked S274 (2026-10-24), Pocket `6d26a76`; Mark: "Great!!!!".
-> The Orbit itself (pages, dial, items) is specced in `cleanroom/w5-orbit.spec.md`. This file covers only the transition, which was reworked after W5 with Mark at the device.
+> The Orbit itself (pages, dial, items) is specced in the W5 Orbit spec. This file covers only the transition, which was reworked after W5 with Mark at the device.
 
 ## What it should feel like (Mark's asks, in his words where they matter)
 

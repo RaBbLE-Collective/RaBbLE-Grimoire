@@ -56,7 +56,7 @@ The device keeps its zone itself (Settings > Clock: a list of POSIX TZ rules wit
 | `reply` | `turn`, `text` (a delta, appended) | Caption pages through the reply text, timed against the speech |
 | *(binary 0x02)* | reply speech | Plays at once, eyes and portals pulsing with its level |
 | `done` | `turn` | Turn over once the speech drains; back to idle with a little hop |
-| `error` | `turn`, `text` | Caption shows `text` (keep it short, upper case reads best); a kept note is retried later |
+| `error` | `turn`, `text` | Caption shows `text` (keep it short, upper case reads best); a kept note is retried later. **Terminal:** it ends the turn like `done` (the firmware handles both the same way); sCoRE never sends `done` after an `error` |
 
 The device fails a turn itself if the connection drops (`LOST sCoRE`) or nothing ends it within 60 s of `turn.end` (`sCoRE DIDN'T ANSWER`), and sends `turn.cancel`.
 
@@ -109,6 +109,18 @@ A capture turn is a note, not a conversation: no entity reply, no speech back. s
 6. A capture never touches the conversation history.
 
 A long voice capture takes sCoRE well over a minute (STT in 5-min segments, then shaping), so the device's 60 s wait after `turn.end` doesn't apply to captures.
+
+## Translate turns
+
+Added S338 for the Pocket's Translate mode. Additive: `proto` stays `rabble-beam/0`. A device that never sends `mode: "translate"` sees no change.
+
+Device to sCoRE: `turn.begin` with `mode: "translate"`, `lang` (the target language as an English name, e.g. `"French"`; missing, longer than 32 characters, or anything but letters, spaces, hyphens and apostrophes means `"English"`), and `speak` (bool, default `true`). Then mic frames and `turn.end` exactly as a voice turn, with `voice` honoured the same way.
+
+sCoRE to device: the reply is identical on the wire to a voice turn: `sent`, `heard` (the source-language transcript), `reply` text deltas (the translation and nothing else), reply speech as `0x02` frames, then `done`. Errors and `speak: false` behave as for voice; if speech quota runs out mid-reply the text still arrives and the turn still ends with `done`.
+
+sCoRE side: STT auto-detects the spoken language, one LLM call translates faithfully into `lang` (names and numbers kept; text already in `lang` is said back cleaned; the transcript is treated as data, never as instructions). A translate turn uses the plain model chain (no laptop node) and neither reads nor writes the conversation history.
+
+Per-device guest accounts (`POST /api/v1/users/guest`, tier `guest`) use the beam like any member key. Over the shared daily guest allowance, sCoRE answers a turn with `error` text `GUEST LIMIT REACHED` (guests also pause while the shared Groq quota is busy). That `error` may carry an extra `reason` string; devices can ignore it.
 
 ## Reserved for later versions
 

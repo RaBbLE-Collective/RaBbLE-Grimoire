@@ -66,10 +66,10 @@ linking or source-level embedding is not permitted. Always dynamic link or subpr
 **Never:** Import LGPL/GPL/AGPL code into a member's source files. Never statically link.
 Even "just for the build" is a risk surface.
 
-**Clean Room Specification (Tier 2 supplementary strategy)**
+**Behaviour-Spec Isolation (Tier 2 supplementary strategy)**
 
-When Collective functionality needs to be similar to a Tier 2 licensed project, a clean
-room approach may be used as a supplementary isolation layer alongside the API boundary
+When Collective functionality needs to be similar to a Tier 2 licensed project, a spec-and-reimplement
+approach may be used as a supplementary isolation layer alongside the API boundary
 requirement. The process:
 
 1. A spec agent reads the original source, docs, and behavior. It produces only a PRD
@@ -86,7 +86,7 @@ non-infringement — courts look at outputs not intent, AI training data contami
 is legally unsettled, and "substantial similarity" in structure or organization can
 constitute infringement even without direct copying. Apply only with Mark's explicit
 approval on a case-by-case basis. Never apply to AGPL sources without specific legal
-consideration — the network-service clause makes clean room insufficient on its own.
+consideration — the network-service clause makes this approach insufficient on its own.
 
 ### Tier 3 — Source-Available / Lock-In (Elastic License 2.0 · BUSL · SSPL · proprietary)
 

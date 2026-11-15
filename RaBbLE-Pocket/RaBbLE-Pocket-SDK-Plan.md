@@ -7,7 +7,7 @@ spark ~ pocket/sdk >> the gadget firmware splits into an app, a board-agnostic S
 > **Document type:** Grimoire plan · `RaBbLE-Pocket/`
 > **Status:** v0.3 (S280). S0-S7 + S11 done and device-gated; S280 clean-up done (layout below is the real tree now). **Next: S8** (Orbit split, spec + Opus implementer), then S9, S10. Layering approved by Mark in S267; Opus-reviewed at link level in S271 (§3 findings). §3 is the S271 *starting* graph, kept as history.
 > **Purpose:** The step-by-step plan to reorganise `RaBbLE-Pocket/firmware` into the RaBbLE-SDK on the Sovereign Accord, so that a new round ESP32-S3 board is just a new folder and RaBbLE is one app on it.
-> **Sources:** `log/handoffs/done/HANDOFF-S267-Pocket-CleanRoom-Final-SDK.md` §3 (Mark's decisions, layering, first sketch), `HANDOFF-S270-Pocket-W6-Respec.md`, `RaBbLE-Pocket-Clean-Room-Plan.md`, the S271 include graph of `accord/` (below).
+> **Sources:** the S267 and S270 handoffs (Mark's decisions, layering, first sketch; archived outside the public tree), the S271 include graph of `accord/` (below).
 
 ---
 
@@ -16,7 +16,7 @@ spark ~ pocket/sdk >> the gadget firmware splits into an app, a board-agnostic S
 1. **The SDK is RaBbLE-Pocket**: no new member. It targets round ESP32-S3 boards: Waveshare 1.75B now, 1.75C planned, other targets later.
 2. **Licensing:** Sovereign Accord, or permissive code isolated in its own component with its LICENSE + NOTICE (RaBbLE copyright above the upstream notice, kept verbatim). Never copyleft.
 3. **Three layers, each depending only downward:** `app/` → `sdk/` → `boards/<board>/`. RaBbLE-Pocket is a *class of gadget*; RaBbLE is the app on it.
-4. **Clean-room note:** names come from our own include graph and this plan, never from the Muse gadget SDK's tree. `third_party/muse-gadget-sdk/` and the contents of `bsp/` stay out of every SDK session's reading (moving `bsp/` with `git mv` doesn't need reading it).
+4. **Naming note:** names come from our own include graph and this plan, never from the reference gadget SDK's tree. The reference SDK checkout and the contents of `bsp/` stay out of every SDK session's reading (moving `bsp/` with `git mv` doesn't need reading it).
 
 **Two placement tests:** (1) a new board is only a new `boards/<name>/` folder, no SDK edits; (2) a minimal second app (board bring-up test) builds on the SDK without editing SDK code.
 
@@ -24,11 +24,11 @@ spark ~ pocket/sdk >> the gadget firmware splits into an app, a board-agnostic S
 
 ## 2. Why the SDK can start before W6 lands
 
-W6 replaces **only the board layer** (`firmware/bsp/`, tainted: Meta/Apache-derived) behind the seam `accord/rabble_board.h`. Everything in `accord/` is RaBbLE's own or already clean-roomed (W0–W5). So:
+W6 replaces **only the board layer** (`firmware/bsp/`, tainted: Meta/Apache-derived) behind the seam `accord/rabble_board.h`. Everything in `accord/` is RaBbLE's own or already rewritten (W0–W5). So:
 
 - SDK steps S0–S10 (below) touch `accord/`, `nebula_lite/` and `main/`, **not `bsp/` contents**. W6 can be re-spec'd and re-implemented in parallel.
 - The seam header moves into `rabble_core` in S1 with **the same name and contents**, so the W6 spec is unaffected; its workspace recipe just names the new path.
-- Only **W7** (deleting `third_party/muse-gadget-sdk/`, the Apache close-out) waits for W6's overlap gate.
+- Only **W7** (deleting the reference SDK checkout, the Apache close-out) waits for W6's overlap gate.
 - **S11** (moving `bsp/` to `boards/waveshare_175b/`) happens when W6's clean board layer lands, so the move carries clean code and the parked `w6-integration-wip` branch isn't rebased across a rename.
 
 ---
@@ -123,7 +123,7 @@ firmware/
     rabble_waveshare_175b/      the clean W6 board layer (bsp_*.c keep their names)
   drivers/                      rabble_axp2101, rabble_qmi8658, rabble_pcf85063 (board-agnostic chips,
                                 reused by 1.75C; a top-level dir, Mark S280)
-  test/<layer>/<x>_test/        host tests by layer (S280, from the clean room's test/cleanroom/wN/);
+  test/<layer>/<x>_test/        host tests by layer (S280, from the rewrite waves' per-wave test folders);
                                 entry point test/run.sh + KNOWN_FAILURES; see test/README.md
   third_party/<name>/           only if ever needed, own LICENSE + NOTICE
 ```
@@ -138,7 +138,7 @@ Dependency rule (enforced by `ops/sdk-layers.py`): `app → sdk → core`; insid
 
 ## 5. Steps (one component per commit; the gadget builds and flashes after every step)
 
-**Done (S271-S280):** S0 `7fc004f` · S1 `28da7fa` · S2 `107c601` · S3 `0aa266a` · S4 `1fe0ac3` (device name went to a new core `rabble_device`, not settings: it isn't stored) · S5 `b18a6b8` (`rabble_motion_start(&events)`, `on_wake`/`on_chirp`) · S6 `c8d761a` · S7 `98ec633` · S11 `52f72b9` (Kconfig choice left unwired: EXTRA_COMPONENT_DIRS is read before sdkconfig, so it needs a CMake variable; at S10). S280 clean-up `e2114a9`..`fa6f3c6`: accord → `app/RaBbLE`, drivers → `firmware/drivers/`, `boards/rabble_waveshare_175b`, tests by layer + `test/run.sh` (27 pass + `render/sim_test` XFAIL; battery LSan was the test harness), fail-closed layer gate (homed by directory, `<>` includes, no-home fatal), `ops/cleanroom-*.py` deleted, `rabble_ptt_event_t`, `nl_init`/`nl_simulate` in app `nl_scene.h`, allow-set gates, line-1 header sweep (23 files). Binary 2,055,232 B (baseline 2,055,136), `.bss` +16 B, free internal heap 12,351 B at ready (S278: 12,367). The S2-S11 commits are tagged `%S279_SDK%` (S279 was also taken by a concurrent session), the clean-up `%S280_SDK%`.
+**Done (S271-S280):** S0 `7fc004f` · S1 `28da7fa` · S2 `107c601` · S3 `0aa266a` · S4 `1fe0ac3` (device name went to a new core `rabble_device`, not settings: it isn't stored) · S5 `b18a6b8` (`rabble_motion_start(&events)`, `on_wake`/`on_chirp`) · S6 `c8d761a` · S7 `98ec633` · S11 `52f72b9` (Kconfig choice left unwired: EXTRA_COMPONENT_DIRS is read before sdkconfig, so it needs a CMake variable; at S10). S280 clean-up `e2114a9`..`fa6f3c6`: accord → `app/RaBbLE`, drivers → `firmware/drivers/`, `boards/rabble_waveshare_175b`, tests by layer + `test/run.sh` (27 pass + `render/sim_test` XFAIL; battery LSan was the test harness), fail-closed layer gate (homed by directory, `<>` includes, no-home fatal), the overlap-check scripts deleted, `rabble_ptt_event_t`, `nl_init`/`nl_simulate` in app `nl_scene.h`, allow-set gates, line-1 header sweep (23 files). Binary 2,055,232 B (baseline 2,055,136), `.bss` +16 B, free internal heap 12,351 B at ready (S278: 12,367). The S2-S11 commits are tagged `%S279_SDK%` (S279 was also taken by a concurrent session), the clean-up `%S280_SDK%`.
 
 | Step | Work | Gate |
 |---|---|---|
@@ -154,7 +154,7 @@ Dependency rule (enforced by `ops/sdk-layers.py`): `app → sdk → core`; insid
 | **S9** | `sdk/rabble_ui` rest: a8, theme, clock/level screens, and the texture plumbing **split out of the app's `rabble_ui.c`** (a file split, not a move) | same |
 | **S10** | (The rename to `app/RaBbLE` was done early, S280.) Second app: `app/board_test` (panel, touch, IMU, PMU, audio loopback) builds with **no SDK edits**; `main/` picks the app and a CMake variable picks the app + board folder (wires `RABBLE_BOARD`). `board_test` is also the on-device test app of the test-suite plan. | placement test (2) passes |
 | **S11** | **Done** `52f72b9` + S280: board in `boards/rabble_waveshare_175b`, drivers in `firmware/drivers/` | placement test (1) shape ready for 1.75C |
-| **W7** | Clean-room close-out (S267 handoff §2): delete Muse SDK, Apache files, header sweep of every tracked file | W7 gates |
+| **W7** | Close-out (S267 handoff §2): delete the reference SDK, Apache files, header sweep of every tracked file | W7 gates |
 
 S0–S2 are mechanical (one session, Sonnet is fine). S3–S7 are mechanical with small API cuts (Sonnet, one step each, sequential: they touch shared CMake). S8 gets its own written spec and an Opus implementer.
 

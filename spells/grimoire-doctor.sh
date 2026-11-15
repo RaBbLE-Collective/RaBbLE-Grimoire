@@ -113,7 +113,7 @@ done < <(find "$GRIMOIRE_ROOT" -name '*.md' -type f ! -path '*/log/generated/*' 
 # Reachable = named in INDEX.md, OR named in a folder hub that INDEX.md links
 # (two hops). A hub is CONTEXT.md / README.md / PROVENANCE.md in the doc's own
 # folder or the one above. This keeps INDEX.md a map of folders and stable docs:
-# plans, handoffs, clean-room specs and Crew organs are listed once, in their hub,
+# plans, handoffs, specs and Crew organs are listed once, in their hub,
 # instead of once there and once more (at ~40 tokens a line) in INDEX.md.
 via_hub() {
   local rel="$1" base dir hub d

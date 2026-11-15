@@ -60,7 +60,7 @@ focus:
     status: "daily driver; VM install S236, bare metal S238; audit S318: 1 critical, 10 high open"
   RaBbLE-Pocket:
     milestone: "Core/apps reorg lands; firmware builds from one tree"
-    status: "ESP32-S3 pendant, voice beamed to sCoRE; clean room W0-W7 done; B-22, B-27, B-28 open"
+    status: "ESP32-S3 pendant, voice beamed to sCoRE; firmware rewrite W0-W7 done; B-22, B-27, B-28 open"
   RaBbLE-ScRiBbLE:
     milestone: "none set"
     status: "LIVE scribble.joinrabble.world: note PWA v1, local-only"

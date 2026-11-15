@@ -2,7 +2,7 @@
 
 Oct 15, 2026 · @Mark · filed from BaBbLE intake S250
 
-> **Status:** filed, work begun. Mock: `RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html`. Progress is tracked in `RaBbLE-Pocket-Roadmap.md`. Stack: the `new-horizons` branch is pushed (S250), so the base is now ESP-IDF v6.0.1 + Muse gadget SDK parts + LVGL 9; `firmware/bsp/rabble_lcd_bands.c` already does PSRAM bands to double-buffered internal DMA chunks and is the starting point for `panel_flush`. See `RaBbLE-Pocket-Gadget-Port.md`.
+> **Status:** filed, work begun. Mock: `RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html`. Progress is tracked in `RaBbLE-Pocket-Roadmap.md`. Stack: the `new-horizons` branch is pushed (S250), so the base is now ESP-IDF v6.0.1 + reference gadget SDK parts + LVGL 9; `firmware/bsp/rabble_lcd_bands.c` already does PSRAM bands to double-buffered internal DMA chunks and is the starting point for `panel_flush`. See `RaBbLE-Pocket-Gadget-Port.md`.
 
 ## Summary
 
@@ -19,7 +19,7 @@ The strategy:
 
 The first gate is a short panel bench that decides whether 60 fps is physically available on this board's pins.
 
-Stack note: you're moving to ESP-IDF 6 with the Muse gadget SDK as the driver and UI base. That code isn't visible yet, so the Grimoire still describes ESP-IDF 5.5.4, the Waveshare BSP and LVGL 9.4. This plan only assumes ESP-IDF esp\_lcd, LVGL 9 and FreeRTOS, so it fits either base.
+Stack note: you're moving to ESP-IDF 6 with the reference gadget SDK as the driver and UI base. That code isn't visible yet, so the Grimoire still describes ESP-IDF 5.5.4, the Waveshare BSP and LVGL 9.4. This plan only assumes ESP-IDF esp\_lcd, LVGL 9 and FreeRTOS, so it fits either base.
 
 ## What is being ported
 
@@ -277,7 +277,7 @@ Steps, in the order measured:
 5. **Both cores** claim bands (a core-0 helper plus `lcd_send`): render split ~10/5 ms, but the wire became the limit (12.8 ms in draw calls: five polling SPI transactions per band, ~160 µs each even on an idle wire).
 6. **Damage:** per-band hash of the display list; only changed bands are rendered and sent. Plus the roll held still at rest (sensor jitter dirtied every band). About 18 of 30 bands drawn at idle: **60 fps**.
 
-Next: `log/handoffs/done/HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room.md`.
+Next: the S252 settings-orientation handoff (archived outside the public tree).
 
 ### Results on the gadget (S254): settings composited, turning with the device
 
@@ -403,13 +403,13 @@ The biggest risk is the QSPI clock: if the GPIO matrix pins won't run reliably a
 | RGB565 banding in soft gradients | Visible rings in the nebula | Ordered dither during upscale |
 | Pendant flat on a table | Undefined gravity angle | Flat hold with hysteresis |
 | Battery drain at 60 fps | Short active time | Adaptive fps and always-on mode; measure in Phase 6 |
-| Muse SDK display path differs from esp\_lcd | Flush layer needs adapting | Keep panel\_flush behind the HAL; review once the code is visible |
+| Reference SDK display path differs from esp\_lcd | Flush layer needs adapting | Keep panel\_flush behind the HAL; review once the code is visible |
 
 **Open questions:**
 
 - [x] Push the new-horizons branch of RaBbLE-Pocket. Done S250; the base is reviewable on GitHub.
 - [ ] Must listening hold 60 fps with the voice pipeline live, or is 45 acceptable there?
-- [ ] Does the Muse SDK expose esp\_lcd panel handles and TE, or its own display layer?
+- [ ] Does the reference SDK expose esp\_lcd panel handles and TE, or its own display layer?
 - [x] Which reset pin is correct, GPIO39 or GPIO1? GPIO39 (S250 bench; GPIO1 is SD CMD on this board).
 - [ ] Is the 1.75C (aluminium, no TF slot, 32 MB flash) the shipping target? It changes asset placement and the battery figure.
 - [ ] Does the earlier esp\_emote\_gfx / ThorVG plan still apply for baked expression clips alongside this procedural renderer?

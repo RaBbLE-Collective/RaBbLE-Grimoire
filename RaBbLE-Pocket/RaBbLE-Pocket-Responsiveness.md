@@ -1,7 +1,7 @@
 # RaBbLE-Pocket-Responsiveness.md
 
 > Open paths to a Pocket that feels snappy and alive: boot, wake, frame pacing, time-to-talk. Started S268 (2026-10-22) from one instrumented boot of Pocket `ac2e9f9`.
-> Mark (S268): "I want the device to feel snappy and alive." This file logs every path we know of, measured where we can, so they can be picked off in order. W6 (`cleanroom/w6-board.spec.md`) already carries the panel-side ones as requirements.
+> Mark (S268): "I want the device to feel snappy and alive." This file logs every path we know of, measured where we can, so they can be picked off in order. The board layer (W6) already carries the panel-side ones as requirements.
 > Status: **nothing here is applied yet** except where a row says so.
 
 ## Why boot matters most

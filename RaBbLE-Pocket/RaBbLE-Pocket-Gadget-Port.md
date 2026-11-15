@@ -1,13 +1,13 @@
 # RaBbLE-Pocket-Gadget-Port.md
 
-> **Historical record (W7, 2026-10-25).** This page describes the S243 port, when the hardware layer was derived from the Apache-2.0 parts of Meta's gadget SDK. That code has since been replaced module by module through the clean room ([Clean-Room-Plan](RaBbLE-Pocket-Clean-Room-Plan.md), [PROVENANCE](cleanroom/PROVENANCE.md)). The firmware is RaBbLE's own, under the Sovereign Accord only: `apache/` and every `LICENSE-APACHE` are gone, `firmware/NOTICE` lists no derived code, and the reference SDK copy is deleted. The Layout table and the rules below are as of S243; the behaviour sections still describe the gadget.
+> **Historical record (W7, 2026-10-25).** This page describes the S243 port, when the hardware layer was derived from the Apache-2.0 parts of Meta's gadget SDK. That code has since been replaced module by module with independent RaBbLE implementations (see [Provenance](RaBbLE-Pocket-Provenance.md)). The firmware is RaBbLE's own, under the Sovereign Accord only: `apache/` and every `LICENSE-APACHE` are gone, `firmware/NOTICE` lists no derived code, and the reference SDK copy is deleted. The Layout table and the rules below are as of S243; the behaviour sections still describe the gadget.
 
-RaBbLE-Pocket's firmware rebuilt as a **RaBbLE gadget** (S243, 2026-10-06): the board, audio, power, Wi-Fi, settings and push-to-talk voice loop ported from the Apache-2.0 parts of Meta's gadget SDK (studied in [RaBbLE-Pocket-Muse-SDK-Map](RaBbLE-Pocket-Muse-SDK-Map.md)), with its cloud backend replaced by **the beam** to sCoRE ([RaBbLE-Pocket-Beam-Protocol](RaBbLE-Pocket-Beam-Protocol.md)) and its avatar replaced by RaBbLE's own LVGL face. Supersedes the v1 screens of [RaBbLE-Pocket-V1-Firmware-Plan](RaBbLE-Pocket-V1-Firmware-Plan.md) (their geometry and two-tier sleep carried over).
+RaBbLE-Pocket's firmware rebuilt as a **RaBbLE gadget** (S243, 2026-10-06): the board, audio, power, Wi-Fi, settings and push-to-talk voice loop ported from the Apache-2.0 parts of Meta's gadget SDK (see [Provenance](RaBbLE-Pocket-Provenance.md)), with its cloud backend replaced by **the beam** to sCoRE ([RaBbLE-Pocket-Beam-Protocol](RaBbLE-Pocket-Beam-Protocol.md)) and its avatar replaced by RaBbLE's own LVGL face. Supersedes the v1 screens of [RaBbLE-Pocket-V1-Firmware-Plan](RaBbLE-Pocket-V1-Firmware-Plan.md) (their geometry and two-tier sleep carried over).
 
 ## Rules Mark set for the port
 
 - **Permissive third-party code only** (Apache, BSD, MIT, CC0; never copyleft), kept **isolated** so the Sovereign Accord's scope stays clean. RaBbLE's own code and its changes to ported code are under the Accord.
-- **No upstream product names in code.** Nothing named muse, hatch, link, jollybot. Upstream authorship stays as low-key as the license allows: each derived file has a 4-line header, RaBbLE's copyright first, then Meta's copyright line verbatim (Apache §4(c) requires it), then `SPDX-License-Identifier: Apache-2.0` pointing at a `LICENSE-APACHE` shipped beside it. Provenance (upstream repo, commit `b139b45`) lives here in the Grimoire, not in the code.
+- **No upstream product names in code.** Nothing named after the reference SDK's products. Upstream authorship stays as low-key as the license allows: each derived file has a 4-line header, RaBbLE's copyright first, then Meta's copyright line verbatim (Apache §4(c) requires it), then `SPDX-License-Identifier: Apache-2.0` pointing at a `LICENSE-APACHE` shipped beside it. Provenance (upstream repo, commit `b139b45`) lives here in the Grimoire, not in the code.
 - **His own LVGL face**, not the SDK's 64 px Jollybot avatar (which isn't Apache-licensed anyway).
 
 ## Layout (`RaBbLE-Pocket/firmware/`)
@@ -22,7 +22,7 @@ RaBbLE-Pocket's firmware rebuilt as a **RaBbLE gadget** (S243, 2026-10-06): the 
 | `main/app_main.c` | Accord | starts the gadget on the UI core |
 | `ops/beam-echo.py` (repo root `ops/`) | Accord | dev stand-in for sCoRE's beam endpoint |
 
-Dropped from the SDK: Home Link (pairing, Noise sessions, tunnel, OTA), the Muse cloud client, BLE phone setup, the button menu for non-touch boards, other boards, MP3 decode. Retired from v1: `rabble_hal.h`, `screen_idle/boot`, `power_task.c`.
+Dropped from the SDK: Home Link (pairing, Noise sessions, tunnel, OTA), the reference SDK's cloud client, BLE phone setup, the button menu for non-touch boards, other boards, MP3 decode. Retired from v1: `rabble_hal.h`, `screen_idle/boot`, `power_task.c`.
 
 Toolchain: **ESP-IDF v6.0.1** (`firmware/.esp-idf-version`; ADR `planning/decisions/2026-10-06-idf-v6-gadget-stack.md`), LVGL 9.5.0, esp_lvgl_adapter 0.6.4, esp_codec_dev 1.5, esp_websocket_client 1.8, cJSON 1.7, Waveshare BSP 3.x. Every managed component is permissive (Apache-2.0, MIT, zlib, libpng, FreeType under its FTL option, Espressif MIT).
 
