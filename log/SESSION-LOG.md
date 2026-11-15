@@ -27,6 +27,15 @@ Format: date, what was done, where things were left, what's next.
 - **Not done:** sCoRE fix pass 3 (NiBbLE found a fallback-restore + prune data-loss path) and the re-review; CrumBbLE relocation verification; Worker deploy, R2 token, Render env, v0.1.1 bump. Both builder and CrumBbLE hit the API session limit.
 - **Next:** read `log/handoffs/HANDOFF-S339-Pocket-v0.1.1-sCoRE-Persistence.md` ("Left in the middle").
 
+## 2026-11-15 · Session S338 (os-slow-pc-power)
+
+- **Repos:** RaBbLE-OS (`new-horizons`, committed, not applied). No organs used.
+- **Asked:** PC running slowly, investigate.
+- **Found:** CPU pinned ~600 MHz on AC (asusd platform_profile `quiet`, EPP `power`) while load was 12; RAM, swap, IO, thermals all fine. Unplug/replug restored Balanced (~2 GHz avg). Trigger not established: no AC udev event logged, so likely a Fn/waybar switch to Quiet · Low Power, which is a legal AC mode (`power-profile.sh`). Dropped the idea of a watchdog, it would fight that choice. Balanced AC PL1 was 18 W, a throttle for builds.
+- **Done:** mako was crash-looping (1.11 rejects `icon-theme`), now `icon-path=/usr/share/icons/Papirus-Dark`, deployed via dotctl. AC PL1/PL2/PL3 raised 18/35/35 to 28/40/40 W in `asus_proart_p16.yml`.
+- **Not done:** `layerctl apply hardware` (sudo, Mark runs it), then verify `ppt_pl1_spl` reads 28 and watch fan noise and temps. Optional: waybar warning when on AC in Low Power. Mako icon rendering unverified.
+- **Next:** as above. LATEST left to S339 (concurrent session), end-session.sh not run.
+
 ## 2026-11-13 · Session S337 (claude-history-harvest)
 
 - **Repos:** Grimoire (this entry + 3 spells), Jobotron3000 (`5770348` on `new-horizons`, unpushed), `~/.claude/settings.json`. Sonnet 5.5, solo, no organs.
