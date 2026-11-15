@@ -102,7 +102,7 @@ Mark will add an **Open branch or fork of the Pocket SDK** that ships the neutra
 - **Release cadence:** each RaBbLE Pocket SDK release triggers an Open SDK release from the same commit; the version string carries both (Five-Es tag plus `-open`).
 - **Licence (Mark, S288):** the Open SDK is Code tier (§2.1): a Sovereign Accord variant, source-available and non-commercial, with MIT possible later. Its public status depends on the name/licence gates (L1, P2): Dad can receive it privately first.
 - **Applets (Mark, S288):** clock, pomodoro and level are neutral and ship in the Open app.
-- **Inventory:** `RaBbLE-Pocket/RaBbLE-Pocket-Open-SDK-Inventory.md` classifies every path as open, brand, split or n/a; it drives the export spell's allow-list.
+- **Inventory:** `RaBbLE-Pocket/RaBbLE-Pocket-Open-SDK-Inventory.md` classifies every path as open, brand, split or n/a; it drives the export spell's allow-list. (Moved S339: now in `~/RaBbLE-Cleanroom/collective-docs/`, see `MOVED.md`.)
 
 ### 2.4c Decided S286 (Mark): neutral SDK entity class, and the Open build runs lean
 

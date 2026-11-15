@@ -180,6 +180,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 
 - **[RaBbLE-sCoRE-Roadmap](RaBbLE-sCoRE/RaBbLE-sCoRE-Roadmap.md)** — **Episode 1 commitment:** simple LLM endpoint (Groq/OpenRouter)
 - [RaBbLE-sCoRE-Architecture](RaBbLE-sCoRE/RaBbLE-sCoRE-Architecture.md) — component map, task lifecycle, server subcomponent (+ canonical acronym: *sCoRE Coordinator of RaBbLE Environments*)
+- **[RaBbLE-sCoRE-Persistence](RaBbLE-sCoRE/RaBbLE-sCoRE-Persistence.md)** — **hosted persistence:** SQLite working db + R2 snapshots (pointer, fencing, fallback hold, merge, retention), batched transcripts, request budget, env vars, recovery runbook, first-deploy order
 - **[RaBbLE-sCoRE-TokenTracking](RaBbLE-sCoRE/RaBbLE-sCoRE-TokenTracking.md)** — **token audit mechanics.** Current logging gaps (transcripts vs audit logs), pricing models source-of-truth, waybar display calibration logic
 - [RaBbLE-sCoRE-Agent-Framework-Research](RaBbLE-sCoRE/RaBbLE-sCoRE-Agent-Framework-Research.md) — orchestrator substrate research (LangGraph/DSPy/CrewAI/PydanticAI), three-tier memory (Mem0+Grimoire), Hermes-as-dev-tool verdict, Grimoire Learning Loop; framework adoption = Echo 1
 - [RaBbLE-sCoRE-Membership-API](RaBbLE-sCoRE/RaBbLE-sCoRE-Membership-API.md) — invite tokens, summoning ceremony, persistent session model

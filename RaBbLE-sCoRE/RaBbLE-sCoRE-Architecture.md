@@ -149,6 +149,8 @@ They share one repo, two modes.
 
 sCoRE's web API is **live on Render** (free tier) as of S106 (2026-06-15).
 
+Database persistence across Render's ephemeral disk (R2 snapshots, transcripts, budgets, recovery): see [RaBbLE-sCoRE-Persistence](RaBbLE-sCoRE-Persistence.md).
+
 | Field | Value |
 |---|---|
 | Service | `RaBbLE-sCoRE` (`srv-d8kdmam47okc739pqu90`) |

@@ -6,6 +6,7 @@
 > Mark, 2026-11-02: `rabble_` identifiers, file names and prefixes may stay in the SDK. Only brand *values and assets* must leave it.
 > Goal: every line with Meta ancestry or influence lives in the Apache-2.0 SDK, with attribution; `app/RaBbLE` is Meta-free and stays Sovereign Accord (SA). Then publish both.
 > Evidence base: `RaBbLE-Pocket/RaBbLE-Pocket-Provenance-Record.md` and `RaBbLE-Pocket/cleanroom/audit-2026-11-02/`. Boundary groundwork: `RaBbLE-Pocket/RaBbLE-Pocket-Open-SDK-Inventory.md` (S288; its "source-available" premise is superseded by decision D1). Strategy: `log/plans/Open-Layer-and-Positioning-Notes-2026-11-02.md`. Entity format: `RaBbLE-Pocket/RaBbLE-Pocket-Entity-Format.md`.
+> Moved S339: the Provenance-Record, Split-Manifest, Inventory and `cleanroom/` audit files cited below now live in `~/RaBbLE-Cleanroom/collective-docs/` (see its `MOVED.md`).
 
 ## End state
 

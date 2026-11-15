@@ -94,7 +94,7 @@ The **slot** is the seat an entity occupies on a board (name open; Mark: "we can
 
 ## 8. Where the clean room sits (S311)
 
-Process, workspaces and rules: `RaBbLE-Pocket/RaBbLE-Pocket-Clean-Room-Plan.md`, `RaBbLE-Pocket/cleanroom/PROVENANCE.md`. Reference SDK for the overlap gate: `~/RaBbLE-Cleanroom/muse-ref` at `b139b45` (re-cloned S311, outside every repo). Overlap script is retired; recover with `git show 984c554^:ops/cleanroom-overlap.py` (needs `--sdk ~/RaBbLE-Cleanroom/muse-ref/esp32`).
+Process, workspaces and rules: `RaBbLE-Pocket/RaBbLE-Pocket-Clean-Room-Plan.md`, `RaBbLE-Pocket/cleanroom/PROVENANCE.md`. Reference SDK for the overlap gate: `~/RaBbLE-Cleanroom/muse-ref` at `b139b45` (re-cloned S311, outside every repo). Overlap script is retired; recover with `git show 984c554^:ops/cleanroom-overlap.py` (needs `--sdk ~/RaBbLE-Cleanroom/muse-ref/esp32`). (Moved S339: these files now live in `~/RaBbLE-Cleanroom/collective-docs/`, see its `MOVED.md`.)
 
 | Wave | Target | State |
 |---|---|---|
