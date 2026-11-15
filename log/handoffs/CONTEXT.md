@@ -13,13 +13,13 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 
 Re-triaged S320 from the S318 audit (`log/plans/Collective-Coherency-Audit-S318/audit-plans-roadmap.md` 1c). Superseded and finished handoffs moved to `done/` with a status banner on line 1; none deleted.
 
+- `HANDOFF-S339-Pocket-v0.1.1-sCoRE-Persistence.md`: **start here** for Pocket v0.1.1 (guest tokens, Translate, flash page) and sCoRE R2/SQLite persistence; parked mid-review, snapshot.py has an unfixed data-loss path; nothing deployed.
 - `HANDOFF-S333-Accounts-R2-Flasher.md`: steps 1-4 done S334 (cutover, flasher live, pushed, WAF). Left: Neon store (waits on Mark's Neon project), share tokens + mark.mcconachie.world, Pocket public prep.
 - `HANDOFF-S323-Genesis-Release.md`: every member to `0.1.0` on `main` under the `genesis` tag. Phase 1 done; `v0.1.0` on the CDN; pull requests open in all nine members (S323). Next: review and docs pass, then merge and tag with Mark's go.
 
 | File | Status | Scope |
 |---|---|---|
 | `HANDOFF-S318-Collective-Coherency.md` | LIVE | **Start here** for the Collective cleanup: D3 Episodes retirement, roadmap, Ansible fixes, plans archive, log split, brand spec (D6 ruled S320) |
-| `HANDOFF-S312-Pocket-Clean-Room-W8-W11-Implement.md` | LIVE | **Start here** for Pocket: layers plan confirmed, W8/W11 merged S314; open: gitleaks scan then commit the hold-outs (item 4) |
 | `HANDOFF-S309-RaBbLE-UI-Micro-Mark-Pills-and-Gaze.md` | LIVE | **Start here** for the Rust shell look: micro mark pills, glance, pointer-exit; never seen live; up-gaze centre shift unanswered |
 | `HANDOFF-S307-RaBbLE-UI-Crew-Views-and-Picker.md` | LIVE | Rust shell picker, crew views, crew rules; tests green, never run live; questions for Mark |
 | `HANDOFF-S306-RaBbLE-UI-Micro-Mark-and-Permission-Prompt.md` | LIVE | Micro mark as builder's glyph, 3-row header; **permission/question prompt broken for Mark: ask him the symptom first** |
@@ -64,19 +64,14 @@ Re-triaged S320 from the S318 audit (`log/plans/Collective-Coherency-Audit-S318/
 | `done/HANDOFF-S273-Crew-Launcher.md` | COMPLETE: built `83280d0`, first run S276; colour promotion was still pending Mark |
 | `done/HANDOFF-S234-EP1-Entity-Face.md` | Superseded by S276 (face) |
 | `done/HANDOFF-S275-RaBbLE-UI.md` | S279 (U1 + U2 built, superseded by HANDOFF-S279) |
-| `done/HANDOFF-S277-Pocket-W7-Closeout.md` | S278 (W7 closed, W6 watch items closed by Mark) |
-| `done/HANDOFF-S270-Pocket-W6-Respec.md` | S277 (W6 rev 2) |
-| `done/HANDOFF-S268-Pocket-W6-Integrate.md` | S270 (parked), S277 |
 | `done/HANDOFF-PreCommit-AntiClobber.md` | S185 |
 | `done/HANDOFF-S116-Theme-and-Logging.md` | S116 era |
 | `done/HANDOFF-S153-EP1-Coherence.md` | Production — B-01/03/04 resolved |
 | `done/HANDOFF-S176-G10-World-EP1-FLOOR.md` | S177 — G10 closed (reopened S203 by the face redesign) |
 | `done/HANDOFF-S203-B10-Cloudflare-Token.md` | B-10 resolved S206, B-12 S234 |
-| `done/HANDOFF-S267-Pocket-CleanRoom-Final-SDK.md` | S268: W6 spec/firewall/implementer started; superseded by HANDOFF-S268 (its W7 list and SDK plan still current) |
 | `done/HANDOFF-S266-Pocket-Orbit-Pomodoro.md` | S267: Orbit v2 landed; superseded by HANDOFF-S267 |
 | `done/HANDOFF-S265-Pocket-Capture-T5.md` | S266: superseded (T5/T6 carried into HANDOFF-S266) |
 | `done/HANDOFF-S264-Pocket-Capture-W4-Face.md` | S265: T3 store, T4 modes, sCoRE pushed (continues in HANDOFF-S265) |
-| `done/HANDOFF-S252-Pocket-Settings-Orientation-Clean-Room.md` | S254 settings composited; clean room W0-W4 by S264 (continues in HANDOFF-S264) |
 | `done/HANDOFF-S251-Pocket-Entity-60fps.md` | S252: 60 fps idle (both cores, damage-skipped bands, sparse mesh); settings slide carried into the S252 handoff |
 | `done/HANDOFF-S250-Pocket-Entity-Port-Phase1.md` | S251 (Phase 1 renderer on device; superseded by S251 handoff) |
 

@@ -19,6 +19,14 @@ Format: date, what was done, where things were left, what's next.
 
 
 
+## 2026-11-15 · Session S339 (pocket-v011-score-persistence)
+
+- **Repos:** Pocket, sCoRE, Grimoire (all `new-horizons`, committed, nothing pushed or deployed). Crew: CoBbLE x3 builders, NiBbLE x2 reviews, CrumBbLE x2.
+- **Asked:** make the Pocket easy for Mark's dad to test: guest sCoRE tokens per flashed device, Translate mode (Groq STT + LLM + spoken reply), flash page (board detect, full-width log, Send to Architect), R2-backed SQLite persistence that never wipes data, hide clean-room docs.
+- **Done:** all of the above written; sCoRE suite 409 passed before pass 3; flash page headless test 10 checks; 27 notes pulled from the board; clean-room docs and golden vectors relocated (`~/RaBbLE-Cleanroom`, fixtures in `firmware/test/fixtures/`); B-29 Pomodoro logged.
+- **Not done:** sCoRE fix pass 3 (NiBbLE found a fallback-restore + prune data-loss path) and the re-review; CrumBbLE relocation verification; Worker deploy, R2 token, Render env, v0.1.1 bump. Both builder and CrumBbLE hit the API session limit.
+- **Next:** read `log/handoffs/HANDOFF-S339-Pocket-v0.1.1-sCoRE-Persistence.md` ("Left in the middle").
+
 ## 2026-11-13 · Session S337 (claude-history-harvest)
 
 - **Repos:** Grimoire (this entry + 3 spells), Jobotron3000 (`5770348` on `new-horizons`, unpushed), `~/.claude/settings.json`. Sonnet 5.5, solo, no organs.
