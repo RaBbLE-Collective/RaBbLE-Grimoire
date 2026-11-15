@@ -19,6 +19,15 @@ Format: date, what was done, where things were left, what's next.
 
 
 
+## 2026-11-15 · Session S341 (pocket-guest-tapwake-about)
+
+- **Repos:** Pocket, sCoRE, Grimoire. `new-horizons`, nothing pushed.
+- **Asked:** why dad's guest key hit a limit, the handoff (About page), double tap to wake plus a toggle, automatic guest key on flash, translate, R2 transcripts, wrangler deploy.
+- **Done:** guest cause found in Render logs (per-minute Groq token window, 64% vs 50% cutoff) and fixed with `GUEST_GROQ_MINUTE_CUTOFF` 0.9 (not deployed); Double tap to wake setting + Orbit toggle; About page (CoBbLE, both boards build, no screenshot); flasher auto-issues a guest key after flash, Worker and page deployed. Crew: CoBbLE x1.
+- **Found:** double tap cannot wake on battery (touch chip deep sleep, B-32); beam turns never recorded as transcripts (B-33); R2 snapshots healthy (B-31 ready to clear); Translate is its own mode, language only by serial.
+- **Not done:** sCoRE deploy (B-34), tap-wake on battery, language picker, new firmware build to the flasher.
+- **Next:** `log/handoffs/HANDOFF-S341-Pocket-Guest-TapWake-About.md`.
+
 ## 2026-11-15 · Session S340 (rabble-tui-parity)
 
 - **Repos:** sCoRE (`55fe358`, TUI only), Grimoire. `new-horizons`, nothing pushed.
