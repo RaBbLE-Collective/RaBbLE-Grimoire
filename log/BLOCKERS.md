@@ -24,7 +24,7 @@
 - **B-27** — Pocket Open SDK/app split: decide D1-D5 (Apache SDK, repo layout, public name, history, sCoRE protocol) + lawyer review of NOTICE/PROVENANCE/trademark before any Pocket repo goes public  ·  owner:Mark  ·  since:2026-11-02  ·  [pocket-release]
 - **B-28** — Pocket 1.75-B BOOT switch dead (hardware): hw_test shows GPIO0 never goes low and boot strap never trips; Mark glued the standoff near it. Needs continuity check, then switch replace. Also knocked off C21 (or R19) next to U5 TCA9554, unused by firmware. Device runs firmware/hw_test from ota_0; original ota_0 backed up in ~/RaBbLE-Cleanroom/hwtest-backup/  ·  [2026-11-12] S325 Mark: the board runs the standard RaBbLE firmware again (not hw_test); @status read 2026-11-11 shows fw pre-split-11-g6cf1404, Wi-Fi connected, beam Linked. BOOT switch still dead: flashing relies on USB auto-reset.  ·  owner:  ·  since:2026-11-02  ·  [pocket]
 - **B-29** — Pocket Pomodoro loses its running timer when the device sleeps (S338, Mark): rabble_pomo.c keeps end_us from esp_timer in RAM, NVS holds only the focus/break/long/round settings, so a power-off or deep sleep drops a started session; also no alarm sound found in rabble_pomo.c (which sound it plays, if any, is unknown). Needs: persist state across sleep (RTC memory or wall-clock end time in NVS), define the alarm cue, add a host test. Noted only, not scheduled.  ·  owner:  ·  since:2026-11-15  ·  [pocket]
-- **B-30** — sCoRE R2 snapshot persistence not deploy-safe: NiBbLE found fallback-restore + prune data-loss path; fix pass 3 unfinished (HANDOFF-S339). Do not push Render/release until fixed + re-reviewed  ·  owner:RaBbLE  ·  since:2026-11-15  ·  [score]
+- **B-31** — Render still has R2_ALLOW_FRESH_START=1 (set for the S339 first boot): once the first snapshot object is in the rabble-score bucket, run spells/render-set-r2.sh --clear-fresh-start and redeploy, or a later wipe is read as a fresh start  ·  owner:  ·  since:2026-11-15  ·  [score]
 
 ## RESOLVED
 
@@ -41,4 +41,5 @@
 - **B-14** — resolved: root cause found S237: hyprpaper.conf hardcoded monitor=eDP-1/HDMI-A-1 (this dev laptop's own outputs) instead of a wildcard, so hyprpaper matched no output on the VM or bare-metal desktop and applied no wallpaper anywhere; fixed with monitor="*" (confirmed real wildcard via hyprpaper's WallpaperMatcher.cpp), RaBbLE-OS 69f9a03
 - **B-17** — resolved: S250: NeBuLA + sCoRE public (D1), manifests on https, TaskViSoR repo TBD; every clonable manifest passes an anonymous git ls-remote. G9 still needs its end-to-end fresh-VM run.
 - **B-19** — resolved: S318: World main deployed to prod for the first time (PR #2, 21b38cc); /setup.sh, /RaBbLE-OS.ks and /roadmap now 302 on joinrabble.world, setup.sh follows to 200
+- **B-30** — resolved
 

@@ -29,11 +29,11 @@ Format: date, what was done, where things were left, what's next.
 
 ## 2026-11-15 · Session S339 (pocket-v011-score-persistence)
 
-- **Repos:** Pocket, sCoRE, Grimoire (all `new-horizons`, committed, nothing pushed or deployed). Crew: CoBbLE x3 builders, NiBbLE x2 reviews, CrumBbLE x2.
-- **Asked:** make the Pocket easy for Mark's dad to test: guest sCoRE tokens per flashed device, Translate mode (Groq STT + LLM + spoken reply), flash page (board detect, full-width log, Send to Architect), R2-backed SQLite persistence that never wipes data, hide clean-room docs.
-- **Done:** all of the above written; sCoRE suite 409 passed before pass 3; flash page headless test 10 checks; 27 notes pulled from the board; clean-room docs and golden vectors relocated (`~/RaBbLE-Cleanroom`, fixtures in `firmware/test/fixtures/`); B-29 Pomodoro logged.
-- **Not done:** sCoRE fix pass 3 (NiBbLE found a fallback-restore + prune data-loss path) and the re-review; CrumBbLE relocation verification; Worker deploy, R2 token, Render env, v0.1.1 bump. Both builder and CrumBbLE hit the API session limit.
-- **Next:** read `log/handoffs/HANDOFF-S339-Pocket-v0.1.1-sCoRE-Persistence.md` ("Left in the middle").
+- **Repos:** sCoRE (`new-horizons` `92f7031`, `release/0.1.0` `06e0294` + `63a2811`), Pocket (`8d50099`, `6f02dfc`, `90e07c5`), Grimoire (`f2157e8` + close-out). All pushed. Crew: CoBbLE x5 builders, NiBbLE x4 reviews, CrumBbLE x4 runs, Archivist x1.
+- **Asked:** finish sCoRE persistence (fix pass 3), document it for agents, durable transcripts in R2 with few requests, deploy sCoRE and the Pocket page, firmware flashable with a guest key and no manual token, layout without blank space.
+- **Done:** snapshot fencing + fallback hold + tiered retention; `updated_at` newer-wins merge (migration 0003); durable batched R2 transcripts (<= 60 PUTs/h); shutdown always snapshots; real-R2 smoke test (create-only + If-Match fences proven); sCoRE live on Render as `0.1.1-dev` (first deploy crashed on Python 3.12 annotations, fixed, memory saved); Pocket firmware `0.1.1-dev` built, staged, uploaded (version.txt is the source); Worker + page deployed with new layout and sCoRE invite/key fields hidden; persistence doc `RaBbLE-sCoRE-Persistence.md`; relocation verified (37/37 host tests). Suite 452 passed, 15 skipped.
+- **Not done:** flash test on the board (Mark), email routing (Worker deployed without `send_email`), first R2 snapshot not yet seen, `R2_ALLOW_FRESH_START` still set on Render (B-31), TTS ruling, About page on the device, persistence doc refresh. Mark pasted the R2 keys into chat: rolled, local transcript scrubbed (cannot unsend).
+- **Next:** `log/handoffs/HANDOFF-S339-Pocket-Settings-About-Page.md` (About item in More, plus Mark's open actions).
 
 ## 2026-11-15 · Session S338 (os-slow-pc-power)
 
