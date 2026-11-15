@@ -82,3 +82,4 @@ Re-triaged S320 from the S318 audit (`log/plans/Collective-Coherency-Audit-S318/
 `git mv log/handoffs/HANDOFF-FOO.md log/handoffs/done/HANDOFF-FOO.md` when work is complete or superseded.
 Put a `> **Status (Snnn, date): COMPLETE / SUPERSEDED by ...**` banner on line 1 first. Never delete a handoff.
 Update `INDEX.md` and note the session it was implemented in.
+| `done/HANDOFF-S339-Pocket-Settings-About-Page.md` | DONE | About page built S341; open items carried into HANDOFF-S341 |

@@ -1,3 +1,5 @@
+> **Status: DONE (S341).** About page built; see HANDOFF-S341-Pocket-Guest-TapWake-About.md.
+
 # HANDOFF-S339b: About page in the Pocket Settings Orbit, plus where S339 was left
 
 Date: 2026-11-15 · Pocket `new-horizons` (`90e07c5`), sCoRE `release/0.1.0` (`63a2811`, live as `0.1.1-dev`), Grimoire.
