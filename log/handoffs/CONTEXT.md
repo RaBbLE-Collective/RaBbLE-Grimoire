@@ -13,6 +13,7 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 
 Re-triaged S320 from the S318 audit (`log/plans/Collective-Coherency-Audit-S318/audit-plans-roadmap.md` 1c). Superseded and finished handoffs moved to `done/` with a status banner on line 1; none deleted.
 
+- `HANDOFF-S341-Pocket-Guest-TapWake-About.md`: **start here** for Pocket (guest limit fix, automatic guest key on flash, tap-wake toggle, About page, translate findings; what to push and deploy next). Supersedes the S339 About-page handoff (now in `done/`).
 - `HANDOFF-S340-RaBbLE-TUI-Parity.md`: **start here** to continue RaBbLE TUI parity with Claude Code and Hermes (done list, next features in order, test noise, first moves).
 - `HANDOFF-S339-Pocket-v0.1.1-sCoRE-Persistence.md`: **start here** for Pocket v0.1.1 (guest tokens, Translate, flash page) and sCoRE R2/SQLite persistence; parked mid-review, snapshot.py has an unfixed data-loss path; nothing deployed.
 - `HANDOFF-S333-Accounts-R2-Flasher.md`: steps 1-4 done S334 (cutover, flasher live, pushed, WAF). Left: Neon store (waits on Mark's Neon project), share tokens + mark.mcconachie.world, Pocket public prep.
