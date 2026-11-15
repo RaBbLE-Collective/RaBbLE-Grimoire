@@ -8,16 +8,24 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-15 · S339 (pocket-v011-score-persistence)
+## LATEST — 2026-11-15 · Session S340 (rabble-tui-parity)
 
 **Phase:** Epoch 0 · Foundation.
-**This session:** S339: Pocket v0.1.1 + sCoRE guests/translate/R2 persistence committed, parked: snapshot data-loss fix pending
+**This session:** S340: TUI parity batch committed (open, thinking, todos, queue, !shell, notify, crew)
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28/B-29/B-30 open.
-**Next:** sCoRE fix pass 3 + NiBbLE re-review (HANDOFF-S339); R2 token; Worker deploy
+**Next:** HANDOFF-S340: CC parity list, Hermes skills/memory, team-mgmt brainstorm
 
 ---
 
 
+
+## 2026-11-15 · Session S340 (rabble-tui-parity)
+
+- **Repos:** sCoRE (`55fe358`, TUI only), Grimoire. `new-horizons`, nothing pushed.
+- **Asked:** `/open`, RaBbLE thinking words and thought display, animated pondering, Claude Code parity audit, Hermes investigation, crew QoL.
+- **Done:** `/open` + `/close`; thinking words/spinner/shimmer; `∴ thinking` blocks; TodoWrite checklist; message queue; `!cmd`; unfocused notifications; `/crew` roster + stop. 206 lib tests (2 pre-existing flaky). Gap list and Hermes summary in `log/plans/RaBbLE-TUI-Harness-Parity-Plan.md`. Crew: GoBbLE x1 (Hermes scout, MIT).
+- **Not done:** `/rewind` (engine work), remote control beyond ssh forwarding, team-management design (needs brainstorm), Hermes feature adoption, the rest of the CC gap list.
+- **Next:** `log/handoffs/HANDOFF-S340-RaBbLE-TUI-Parity.md`.
 
 ## 2026-11-15 · Session S339 (pocket-v011-score-persistence)
 
