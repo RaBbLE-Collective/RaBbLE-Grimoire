@@ -341,3 +341,4 @@ cb184c92-ce1a-4c12-81ce-429eedf9985a	os-layerctl-rework	layerctl rework	rabble	a
 80afae4d-1899-4a4f-9c95-b8f256dc58ec	os/power-notify	auto: mako icon-path for 1.11, AC PL 28/40/40 W	rabble	anthropic	claude-sonnet-5-5
 4e85c943-dfd6-479e-9603-8aa57b8b5e38	rabble-tui-parity		rabble	anthropic	claude-sonnet-5-5
 8c16d478-64c3-4ade-b1c6-bf8e342d9231	pocket-v011-score-persistence	S339 close	rabble	anthropic	claude-sonnet-5-5
+30bd5e68-ab41-4c15-aed1-9aa13ffeb6f6	pocket-guest-tapwake-about	guest limit, tap wake toggle, About page, auto guest key	rabble	anthropic	claude-sonnet-5-5
