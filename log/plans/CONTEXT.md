@@ -49,6 +49,7 @@ this table is a one-line pointer. 🟡 = in flight / awaiting Mark · 🔵 = des
 | `Open-Layer-and-Positioning-Notes-2026-11-02.md` | reference: session notes on Muse SDK changes, provenance, positioning and where the open line sits (decided / leaning / open marked inline) |
 | `Collective-ICM-Conformance-Audit.md` | 🟡 audit complete 2026-08-27; 3 open decisions for Mark |
 | `Collective-Coherency-Audit-S318/` | 🟡 audit 2026-11-06; D1/D4/D6 done, D2 deferred, D3 ruled (replacement owed), D5 open. Evidence: `audit-plans-roadmap.md`, `audit-web-brand.md`, `audit-ansible.md`. Follow-on: `Collective-Context-Diet-S322.md` |
+| `RaBbLE-TUI-Harness-Parity-Plan.md` | 🟡 S340: Claude Code feature gaps vs the Rust TUI, what shipped, Hermes borrowables, open Observer decisions (remote control, team management). |
 | `Collective-Architecture-Audit-2026-07-04.md` | reference — S193 findings; open items tracked in the PROGRESS ledger below |
 | `Collective-Architecture-Audit-PROGRESS.md` | 🟡 S196 ledger — Batch 1 landed; decisions + restructures deferred |
 | `Collective-Context-Diet-S322.md` | 🟡 S322: context-cost audit and fixes (log rotation, lean door, hub indexing), entity-definition drift map, D3 proposal, ambient-loop proposals. Decisions for Mark listed at the top |
