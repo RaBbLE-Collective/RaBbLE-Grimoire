@@ -342,3 +342,5 @@ cb184c92-ce1a-4c12-81ce-429eedf9985a	os-layerctl-rework	layerctl rework	rabble	a
 4e85c943-dfd6-479e-9603-8aa57b8b5e38	rabble-tui-parity		rabble	anthropic	claude-sonnet-5-5
 8c16d478-64c3-4ade-b1c6-bf8e342d9231	pocket-v011-score-persistence	S339 close	rabble	anthropic	claude-sonnet-5-5
 30bd5e68-ab41-4c15-aed1-9aa13ffeb6f6	pocket-guest-tapwake-about	guest limit, tap wake toggle, About page, auto guest key	rabble	anthropic	claude-sonnet-5-5
+292e6dd5-d38a-4d02-8427-a98edaae833e	score	auto: guest cutoff: per-minute Groq token window gets its own looser cutoff (0.9) so one guest cannot trip it	rabble	anthropic	claude-sonnet-5-5
+1a7d759a-f3d3-412e-86e8-74f4e8769bf8	score-neon-ac1-accounts	Neon live, AC1 store committed, handoff + /mcp scope	rabble	anthropic	claude-sonnet-5-5
