@@ -4,7 +4,7 @@
 > Do not hand-edit — use `blockers.sh add` / `resolve`. This is the durable
 > home for blockers so they survive the rewrite of the SESSION-LOG `## LATEST` box.
 >
-> Last synced: 2026-11-15  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
+> Last synced: 2026-11-16  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
 
 ## OPEN
 
@@ -28,6 +28,8 @@
 - **B-32** — Pocket double-tap-to-wake cannot work on battery: apply_power puts the touch chip in deep sleep (0xD1 0x05, ignores I2C until reset) once asleep+dark+resting; raise and button still wake. Fix = lower touch power state + touch-INT light-sleep wake, needs a board (toggle 'Double tap to wake' added S341, default on). Foundling has no tap wake  ·  owner:Mark  ·  since:S341  ·  [pocket]
 - **B-33** — sCoRE beam turns are never written to R2 transcripts: beam.py does not call transcripts.record (only /chat and sessions do), so Pocket voice and translate turns leave no training data. Needs Mark's ruling on capturing guest voice, then record by workflow and skip silence hallucinations ('Thank you.', 'Bye.')  ·  owner:Mark  ·  since:S341  ·  [score]
 - **B-34** — S341 sCoRE guest-limit fix (GUEST_GROQ_MINUTE_CUTOFF 0.9, groqmeter.py) committed but not pushed to release/0.1.0 or deployed to Render; the 50% per-minute token cutoff still blocks single guests on prod until it is  ·  owner:Mark  ·  since:S341  ·  [score]
+- **B-35** — Neon production schema holds test junk (3 fixture users, 17 test guests, 2 invites, inflated guest counters) from early agent test runs; cleanup script denied by the permission classifier, needs Mark to approve or run; clean before cutover. Handoff S343.  ·  owner:Mark  ·  since:S343  ·  [accounts, neon]
+- **B-36** — Neon DATABASE_URL is staged on Render but AC1 (a670e6d) is not deployed; release/0.1.0 has no Postgres code. Deploy with B-31 clear and B-34 guest fix after Neon cleanup and py3.12 test.  ·  owner:Mark  ·  since:S343  ·  [accounts, neon]
 
 ## RESOLVED
 

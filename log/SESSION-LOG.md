@@ -19,6 +19,15 @@ Format: date, what was done, where things were left, what's next.
 
 
 
+## 2026-11-16 · Session S343 (neon-ac1-accounts)
+
+- **Repos:** sCoRE, Grimoire. `new-horizons`, nothing pushed. (S342 was claimed by a concurrent session.)
+- **Asked:** set up Neon for accounts (email + username + password, Google sign-in, recovery), what services beyond Postgres, which email service, native vs Google for Mark's own account, authorize the Neon CLI and MCP, a native `/mcp` in the RaBbLE UI, read the R2 snapshot.
+- **Done:** Neon project live under the RaBbLE-Dev GitHub (AWS Ohio, same region as Render, found via the Render API); only Postgres enabled; CLI authorized, Neon MCP connected; `neon init` + `neon deploy` in sCoRE. **AC1 store built** (CoBbLE), reviewed twice (NiBbLE found 2 high bugs: R2 usage upsert ambiguous on Postgres, reads left transactions open; plus retried writes, first-boot race, URL leak; all fixed) and run on real Neon incl. pooled URL and 3-process first boot (CrumBbLE); committed sCoRE `a670e6d`. `DATABASE_URL` staged on Render, not live. R2 snapshot read: 2 Pocket guests, no real accounts; Mark ruled Neon is a fresh DB and real sign-ups open. The 2 guests + counters imported into Neon. Email options researched (Resend recommended). `/mcp` wrap and device-pairing flow scoped.
+- **Found:** agent test runs wrote junk into the Neon production schema (21 users instead of 2); cleanup denied by the permission classifier, logged as a blocker. The earlier `neon.com` skill fetch confirmed the plugin already bundles skills + MCP. RaBbLE UI cannot run Claude Code's `/mcp` auth.
+- **Not done:** Neon junk cleanup, AC1 release/deploy, Resend account + DNS, AC2 sign-in, Google OAuth client, device-to-account pairing, encrypted R2 sandboxes, the `/mcp` build.
+- **Next:** `log/handoffs/HANDOFF-S343-Neon-AC1-Accounts-Next.md`; `/mcp` scope in `log/plans/RaBbLE-TUI-MCP-Scope.md` (parallel session).
+
 ## 2026-11-15 · Session S341 (pocket-guest-tapwake-about)
 
 - **Repos:** Pocket, sCoRE, Grimoire. `new-horizons`, nothing pushed.
