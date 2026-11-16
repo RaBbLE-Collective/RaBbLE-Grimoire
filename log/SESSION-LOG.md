@@ -19,6 +19,15 @@ Format: date, what was done, where things were left, what's next.
 
 
 
+## 2026-11-16 · Session S345 (score-ac2-fixes-pending)
+
+- **Repos:** sCoRE, Grimoire. `new-horizons`, nothing pushed, AC2 uncommitted in sCoRE. (S344 was claimed by a concurrent session.)
+- **Asked:** start AC2 and the Neon cleanup; what Argon2id is; AC2 without Resend first.
+- **Done:** Neon production schema cleaned with Mark's approval (2 users, 0 invites, guest counters reset, verified, no leftover test schemas). AC2 email + username + password built by CoBbLE (Argon2id, hashed single-use tokens, refresh rotation, cap, console mailer): suite 493 passed / 39 skipped, py3.12 and Neon Postgres pass, SQLite smoke passes. Stale migration-count test fixed.
+- **Found:** NiBbLE review: no auth bypass, deploy held on 6 mediums (refresh race, JWT not revoked on reuse/logout, restore-merge orphans, sync DB call in async path, console mailer as silent default leaking reset links, signup email enumeration). CoBbLE hit a session rate limit before applying fixes.
+- **Not done:** the fixes, re-review, AC2 commit, AC1+AC2 release and cutover, Resend, Google OAuth, Pocket pairing ruling. Mark's Pocket token predates the DB and will be rejected until he has a real account.
+- **Next:** `log/handoffs/HANDOFF-S345-AC2-Built-Fixes-Pending.md`.
+
 ## 2026-11-16 · Session S343 (neon-ac1-accounts)
 
 - **Repos:** sCoRE, Grimoire. `new-horizons`, nothing pushed. (S342 was claimed by a concurrent session.)

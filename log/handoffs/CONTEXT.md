@@ -13,6 +13,7 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 
 Re-triaged S320 from the S318 audit (`log/plans/Collective-Coherency-Audit-S318/audit-plans-roadmap.md` 1c). Superseded and finished handoffs moved to `done/` with a status banner on line 1; none deleted.
 
+- `HANDOFF-S345-AC2-Built-Fixes-Pending.md`: **start here** for accounts (Neon cleaned, AC2 sign-in built but uncommitted, NiBbLE found 6 mediums, apply fixes, re-review, commit, cut over). Supersedes the S343 next-steps list for AC2.
 - `HANDOFF-S343-Neon-AC1-Accounts-Next.md`: **start here** for accounts (Neon live, AC1 store committed in sCoRE, Neon junk cleanup, Resend, AC2 sign-in, Pocket device pairing, encrypted R2 sandboxes). The `/mcp` UI scope is `log/plans/RaBbLE-TUI-MCP-Scope.md`.
 - `HANDOFF-S341-Pocket-Guest-TapWake-About.md`: **start here** for Pocket (guest limit fix, automatic guest key on flash, tap-wake toggle, About page, translate findings; what to push and deploy next). Supersedes the S339 About-page handoff (now in `done/`).
 - `HANDOFF-S340-RaBbLE-TUI-Parity.md`: **start here** to continue RaBbLE TUI parity with Claude Code and Hermes (done list, next features in order, test noise, first moves).
