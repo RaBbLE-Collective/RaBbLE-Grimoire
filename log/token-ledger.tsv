@@ -346,3 +346,4 @@ cb184c92-ce1a-4c12-81ce-429eedf9985a	os-layerctl-rework	layerctl rework	rabble	a
 1a7d759a-f3d3-412e-86e8-74f4e8769bf8	score-neon-ac1-accounts	Neon live, AC1 store committed, handoff + /mcp scope	rabble	anthropic	claude-sonnet-5-5
 368b1f48-fc72-4ecb-899f-e61966ea51eb	score-ac2-fixes-pending		rabble	anthropic	claude-sonnet-5-5
 9dfc2e0d-98dd-4aca-a804-803f62dee5ab	score-accounts-live	S346: close	claude	anthropic	claude-sonnet-5-5
+884bfaa6-cb2d-4b9d-a33c-300a21b310bd	chat-export-personal-grimoire	claude.ai export integrated into both Grimoires	claude	anthropic	claude-sonnet-5-5

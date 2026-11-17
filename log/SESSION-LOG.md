@@ -8,16 +8,26 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-17 · S346 (score-accounts-live)
+## LATEST — 2026-11-17 · S348 (chat-export-personal-grimoire)
 
 **Phase:** Epoch 0 · Foundation.
-**This session:** S346: accounts, Architect, one portal, device pairing live; Resend + Genesis merge next
+**This session:** S348: claude.ai export integrated: RaBbLE history, decisions, Personal Grimoire first build-out
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28/B-29/B-32/B-33/B-38/B-41 open.
-**Next:** Resend setup, flasher tab, Genesis merge prep (genesis.yml, VERSION, PR checks)
+**Next:** Mark reviews folios; uncataloged threads; see HANDOFF-S348
 
 ---
 
 
+
+## 2026-11-17 · Session S348 (chat-export-personal-grimoire)
+
+- **Repos:** Grimoire, Personal-Grimoire (first major build-out), Incenergy, GCS, Jobotron3000 (+ Seeker). `new-horizons` in the Grimoire; the others on their own branches, no remotes pushed.
+- **Asked:** work with the claude.ai account export and integrate it into the RaBbLE Grimoire and the Personal Grimoire; raw archive stays in the Personal Grimoire; OG RaBbLE-OS work kept as history; Incenergy and career material to their own homes; mine the raw transcripts for insights and decisions.
+- **Done:** the manifest was only links, so Mark downloaded six zips; 218 chats, 4,738 messages, 34 Frames artifacts, 7 design chats, Claude's memory of Mark. Raw archive gitignored at `~/Personal-Grimoire/archive/claude-export-2026-11-17/` (with the generator scripts under `tools/`). Grimoire: `log/archive/chat-export-2026-11-17/` (68 RaBbLE chat digests, artifact inventory, 5 design docs, uncataloged-threads list, transcript-mining note); `RaBbLE-OS/historical/` Origins doc plus 17 project docs; six recovered docs placed in NeBuLA, Pocket (2), Mythos, Collective, EnGrAm; 16 recovered decisions in `log/DECISIONS.md`. Personal Grimoire: 5 new folios (pokedex, pokeball-build, bobs-burgers, consultancy, school and summer camp), runes on `job-search` and `incenergy`, intake in `babble/claude-export-2026-11/` (memory profile, chat digest, usage insights). Incenergy to `~/Incenergy/docs/` plus 2 artifacts and recovered STaT spec; career chats to Jobotron `Sessions/` plus 4 interview-prep docs in Seeker; PhysioAI spec to `~/GCS/docs/`.
+- **Found:** 69 of 218 chats have empty bodies in the export (unrecoverable); 31 long chats have no summary; 35 of 95 Claude-authored docs were already in the Grimoire at 90-100% (the chats were the authoring surface); 8 RaBbLE threads had no Grimoire trace. gitleaks: 9 real hits (pasted credentials) in `conversations.json`, kept out of every repo; one false positive (blank `JWT_SECRET=`). Keyword matches mislead: "CoRPuS" matched "corpus", "Unix socket" matched unrelated plumbing.
+- **Rulings (Mark):** framework stance is an intent (mainly agnostic, React not used yet, adoption deliberate), not a ban; PhysioAI is GCS prototype-level work; everything stored must be encrypted, and whether decryption is client or server side needs more work (S333 stands meanwhile); history folder names do not mention the tool.
+- **Not done:** `[REVIEW]` flags in the new folios; `RaBbLE-World-Architecture.md` line 382 still says "No React, no frameworks" (Mark to say if it should be reworded); the multi-display and compositor rows need checking against S328; the 8 uncataloged threads are listed, not promoted; the personal `archive/`, `babble/` and Incenergy folders still say "claude-export"; the 69 empty chats cannot be mined.
+- **Next:** `log/handoffs/HANDOFF-S348-Chat-Export-Integration.md`.
 
 ## 2026-11-17 · Session S346 (score-accounts-live)
 
