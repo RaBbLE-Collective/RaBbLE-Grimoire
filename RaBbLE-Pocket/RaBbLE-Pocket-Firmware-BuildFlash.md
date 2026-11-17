@@ -106,14 +106,14 @@ Policy (Mark, S347): **a Pocket belongs to a real account.** Guest Pockets are m
 
 | Situation | Command | Needs | What it changes |
 |---|---|---|---|
-| Update firmware on a Pocket that is already set up (the common case) | `--mode keep` (alias `--fw-only`) | nothing: no login, no network, no terminal | Firmware only. Token, Wi-Fi, settings and stored notes are kept. No console writes. Never erases |
-| Pair or re-pair an account Pocket, interactive | default `--mode account` | Mark in a real terminal: the account password is typed there, never given to an agent | Mints a device key under the account (Architect = admin tier, unlimited, still metered; members: 3 devices) and writes it |
+| Update firmware on a Pocket that is already set up (the common case) | `--mode keep` (alias `--fw-only`), **the default: running the spell with no `--mode` does this** | nothing: no login, no network, no terminal | Firmware only. Token, Wi-Fi, settings and stored notes are kept. No console writes. Never erases |
+| Pair or re-pair an account Pocket, interactive | `--mode account` (asks which account: Enter = `RaBbLE-Architect`, or type any member username or email, or pass `--user NAME`) | Mark in a real terminal: the account password is typed there, never given to an agent | Mints a device key under that account (Architect = admin tier, unlimited, still metered; members: 3 devices) and writes it |
 | Pair an account Pocket, unattended or agent-run | `--mode account --key-file PATH --yes` | A key Mark already minted, in a file mode 600 | Writes that key, mints nothing. Agents use this only when Mark provides the file |
 | Throwaway test Pocket on a dev or test sCoRE | `--mode guest --yes` | `GUEST_ISSUE_SECRET` in the environment or `--secret-file` (mode 600), and the server flag above | Mints a guest key (disposable) and writes it |
 | Run the Pocket with no sCoRE | `--mode none` | nothing | Clears the token over the console. The beam URL cannot be removed, only reset to the default |
 | Pair without reflashing | add `--no-flash` | as the mode | Console writes only (not for `keep`) |
 
-Agents: never ask for or handle the account password or the guest secret, never pass them as arguments, and do not flash Mark's hardware unless he asked in this session. Default to `keep` for firmware work and say what you will do before you run anything else. `--dry-run` prints every step with secrets masked. Test suite: `bash spells/tests/flash-pocket.test.sh` (mock sCoRE on 8011, mock Pocket on a pty). Details and flags: the "Connect to sCoRE" section of `RaBbLE-Pocket-Getting-Started.md`.
+Agents: never ask for or handle the account password or the guest secret, never pass them as arguments, and do not flash Mark's hardware unless he asked in this session. `--no-flash` and `--wifi-*` need an explicit `--mode` (they change the Pocket); `--key-file` implies account and `--secret-file` implies guest. Default to `keep` for firmware work and say what you will do before you run anything else. `--dry-run` prints every step with secrets masked. Test suite: `bash spells/tests/flash-pocket.test.sh` (mock sCoRE on 8011, mock Pocket on a pty). Details and flags: the "Connect to sCoRE" section of `RaBbLE-Pocket-Getting-Started.md`.
 
 ## Look before you flash: the host sim
 

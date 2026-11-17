@@ -3,8 +3,8 @@
 #
 # Run it yourself in a real terminal:   bash RaBbLE-Grimoire/spells/flash-pocket.sh [options]   (--help lists them)
 #
-# Modes: account (default: Architect login + mint, or --key-file), guest (mint via the guest endpoint, secret from env or
-# --secret-file), none (clear the sCoRE token so it runs standalone), keep (firmware only, writes nothing to the Pocket).
+# Modes: keep (DEFAULT: firmware only, writes nothing to the Pocket), account (Architect login + mint, or --key-file), guest (mint via
+# the guest endpoint, secret from env or --secret-file), none (clear the sCoRE token so it runs standalone).
 # Steps (account): (1) build + flash over USB with RaBbLE-Pocket/ops/build-flash.sh, (2) ask the Pocket's console whether a key is
 # already set and ask before replacing it, (3) sign in to sCoRE as the Architect (hidden password from /dev/tty),
 # (4) mint a device key with POST /api/v1/devices, (5) send it over the serial console (>beam.token=, chunked with +=),
@@ -29,9 +29,9 @@ DEF_BOARD="rabble_waveshare_175b"        # what ops/build-flash.sh builds when -
 
 BOARD="$DEF_BOARD"; PORT=""; NOBUILD=0; NOFLASH=0; LABEL=""; DRY=0; SHOWKEY=0
 API="${SCORE_URL:-https://score.joinrabble.world}"
-USERNAME="RaBbLE-Architect"; WSSID=""; WPASS=""; WPASS_ASK=0
+USERNAME="RaBbLE-Architect"; USER_SET=0; WSSID=""; WPASS=""; WPASS_ASK=0
 SERIAL_DEV="${FLASH_POCKET_SERIAL_DEV:-}"
-MINTED_ID=""; TOK=""; KEY=""; MODE="account"; KEYFILE=""; SECFILE=""; YES=0; HAVE_TTY=0
+MINTED_ID=""; TOK=""; KEY=""; MODE="keep"; MODE_SET=0; KEYFILE=""; SECFILE=""; YES=0; HAVE_TTY=0
 
 c() { printf '\033[%sm%s\033[0m\n' "$1" "$2"; }
 say()  { c "0;36" "· $*"; }
@@ -47,7 +47,7 @@ Usage: bash RaBbLE-Grimoire/spells/flash-pocket.sh [options]
 Flashes your Pocket, then pairs it with a new device key minted under your Architect account
 (admin tier: no device limit, usage still metered).
 
-  --mode MODE        account (default) | guest | none | keep (alias --fw-only)
+  --mode MODE        keep (default: firmware only, touches no key or setting) | account | guest | none  (alias --fw-only = keep)
                        account: sign in as the Architect, mint a device key and pair it (needs a terminal),
                                 or with --key-file send a key you already wrote (no password, no terminal, nothing minted)
                        guest:   mint a guest key (POST /api/v1/users/guest); secret from env GUEST_ISSUE_SECRET or --secret-file
@@ -62,7 +62,7 @@ Flashes your Pocket, then pairs it with a new device key minted under your Archi
   --no-flash         pair only: re-pair over the console, settings kept
   --label "NAME"     label for the key (default "<board> <date>", max 40 characters)
   --api URL          sCoRE base URL (default \$SCORE_URL or https://score.joinrabble.world; http only for localhost)
-  --user NAME        account to sign in as (default $USERNAME)
+  --user NAME        account to sign in as, any member or admin account (default: asked in the terminal, offering $USERNAME)
   --wifi-ssid NAME   also send a Wi-Fi network (sent only when given)
   --wifi-pass VALUE  Wi-Fi password; use "-" to be asked with hidden input (a literal value shows in the process list)
   --show-key         print the key once at the end (it is shown once and cannot be fetched again)
@@ -88,11 +88,11 @@ while [ $# -gt 0 ]; do
     --no-flash) NOFLASH=1; shift ;;
     --label) [ $# -ge 2 ] || bad "--label needs a value"; LABEL="$2"; shift 2 ;;
     --api) [ $# -ge 2 ] || bad "--api needs a URL"; API="$2"; shift 2 ;;
-    --user) [ $# -ge 2 ] || bad "--user needs a name"; USERNAME="$2"; shift 2 ;;
+    --user) [ $# -ge 2 ] || bad "--user needs a name"; USERNAME="$2"; USER_SET=1; shift 2 ;;
     --wifi-ssid) [ $# -ge 2 ] || bad "--wifi-ssid needs a name"; WSSID="$2"; shift 2 ;;
     --wifi-pass) [ $# -ge 2 ] || bad "--wifi-pass needs a value or -"; if [ "$2" = "-" ]; then WPASS_ASK=1; else WPASS="$2"; fi; shift 2 ;;
-    --mode) [ $# -ge 2 ] || bad "--mode needs account|guest|none|keep"; MODE="$2"; shift 2 ;;
-    --fw-only) MODE="keep"; shift ;;
+    --mode) [ $# -ge 2 ] || bad "--mode needs account|guest|none|keep"; MODE="$2"; MODE_SET=1; shift 2 ;;
+    --fw-only) MODE="keep"; MODE_SET=1; shift ;;
     --key-file) [ $# -ge 2 ] || bad "--key-file needs a path"; KEYFILE="$2"; shift 2 ;;
     --secret-file) [ $# -ge 2 ] || bad "--secret-file needs a path"; SECFILE="$2"; shift 2 ;;
     --yes) YES=1; shift ;;
@@ -117,6 +117,15 @@ LABEL_GIVEN="$LABEL"
 command -v curl >/dev/null || die "curl is needed"
 command -v python3 >/dev/null || die "python3 is needed"
 
+# keep is the default: with no --mode the Pocket keeps its key and settings. A flag that only makes sense
+# for another mode either picks it (key and secret files) or must be paired with an explicit --mode.
+if [ "$MODE_SET" = 0 ]; then
+  if [ -n "$KEYFILE" ]; then MODE=account
+  elif [ -n "$SECFILE" ]; then MODE=guest
+  elif [ "$NOFLASH" = 1 ] || [ -n "$WSSID$WPASS" ] || [ "$WPASS_ASK" = 1 ]; then
+    bad "--no-flash and --wifi-* change the Pocket: say which mode with --mode account|guest|none (the default, keep, only flashes firmware)"
+  fi
+fi
 case "$MODE" in account|guest|none|keep) ;; *) bad "--mode must be account, guest, none or keep" ;; esac
 [ -z "$KEYFILE" ] || [ "$MODE" = account ] || bad "--key-file is only for --mode account"
 [ -z "$SECFILE" ] || [ "$MODE" = guest ] || bad "--secret-file is only for --mode guest"
@@ -253,7 +262,7 @@ if [ "$DRY" = 1 ]; then
     account) plan "wait for boot, >status: ask before replacing an existing key (--yes answers it)"
       if [ -n "$KEYFILE" ]; then plan "key read from $KEYFILE (value: $(mask)); no login, nothing minted"
       else
-        plan "ask for the password for '$USERNAME' with hidden input from /dev/tty (value: $(mask))"
+        plan "ask which account (default '$USERNAME', or --user), then the password with hidden input from /dev/tty (value: $(mask))"
         plan "POST $API/api/v1/auth/login  body on stdin  -> access token held in a variable"
         plan "POST $API/api/v1/devices  label=\"$LABEL\"  bearer $(mask) on stdin  -> key rbdv_$(mask)"
         plan "on failure after minting: offer DELETE $API/api/v1/devices/{id}"
@@ -359,6 +368,10 @@ print("header = " + json.dumps("Content-Type: application/json")); print("data =
   ok "minted a guest key (handle ${HANDLE:-unknown})"
 else
 # ── 3. Sign in ──────────────────────────────────────────────────────────────────
+if [ "$USER_SET" = 0 ]; then
+  printf 'Account username or email [%s]: ' "$USERNAME" >&3
+  IFS= read -r UIN <&3; [ -z "$UIN" ] || USERNAME="$UIN"
+fi
 printf 'Password for %s (hidden): ' "$USERNAME" >&3
 IFS= read -rs PW <&3; printf '\n' >&3
 [ -n "$PW" ] || die "empty password"

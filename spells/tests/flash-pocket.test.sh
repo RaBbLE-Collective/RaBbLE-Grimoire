@@ -82,7 +82,7 @@ while True:
     if not d: break
     out += d
     low = out.decode("utf-8", "replace")
-    n = low.count("(hidden):") + low.count("[y/N]") + low.count("[Y/n]")
+    n = low.count("(hidden):") + low.count("Account username") + low.count("[y/N]") + low.count("[Y/n]")
     while fed < n and i < len(answers):
         time.sleep(0.2); os.write(fd, (answers[i] + "\n").encode()); i += 1; fed += 1
 _, st = os.waitpid(pid, 0)
@@ -94,15 +94,17 @@ MOCK_KEY="$KEYV" python3 -I "$SB/mock.py" "$SB/http.log" & sleep 1
 start_pocket() { python3 -I "$SB/pocket.py" "$SB/dev.log" "$1" "${2:-0}" > "$SB/pty.name" & sleep 1; PTY=$(head -1 "$SB/pty.name"); }
 run() { # run ANSWERS args...
   local a="$1"; shift
+  [[ " $* " == *" --user "* || -n "${RAWANS:-}" ]] || a="|$a"   # first prompt is the account name: empty = the default
+  set -- --mode account "$@"
   FLASH_POCKET_SERIAL_DEV="$PTY" SER_SETTLE=0.2 SER_TEST_S=6 python3 -I "$SB/drive.py" "$a" "$SP" --api http://127.0.0.1:8011 "$@"; }
 reset() { : > "$SB/http.log"; : > "$SB/dev.log"; }
 
 echo "T1 --dry-run changes nothing, masks secrets"
-OUT=$(bash "$SP" --dry-run --wifi-ssid n --wifi-pass hunter2 2>&1); RC=$?
+OUT=$(bash "$SP" --mode account --dry-run --wifi-ssid n --wifi-pass hunter2 2>&1); RC=$?
 [[ $RC == 0 && "$OUT" == *"dry-run"* && "$OUT" != *hunter2* && ! -s "$SB/http.log" ]] && ok "dry-run ok, wifi password masked, no requests" || bad "dry-run: rc=$RC"
 
 echo "T2 no tty: refuses"
-OUT=$(setsid -w bash "$SP" --api http://127.0.0.1:8011 </dev/null 2>&1); RC=$?
+OUT=$(setsid -w bash "$SP" --mode account --api http://127.0.0.1:8011 </dev/null 2>&1); RC=$?
 [[ $RC == 3 && "$OUT" == *"no terminal"* ]] && ok "exit 3 with a clear message" || bad "no-tty: rc=$RC $OUT"
 
 echo "T3 bad usage"
@@ -129,7 +131,7 @@ echo "T6 existing key: asks, decline leaves everything alone"
 start_pocket 1; reset
 OUT=$(run "n"); RC=$?
 [[ $RC == 3 && ! -s "$SB/http.log" ]] && ok "declined replace: exit 3, no request made" || bad "decline: rc=$RC log=$(cat "$SB/http.log")"
-reset; OUT=$(run "y|pw"); [[ $? == 0 ]] && grep -q "POST /api/v1/devices" "$SB/http.log" && ok "accepted replace: minted" || bad "replace flow: $OUT"
+reset; OUT=$(run "y|pw" --user RaBbLE-Architect); [[ $? == 0 ]] && grep -q "POST /api/v1/devices" "$SB/http.log" && ok "accepted replace: minted" || bad "replace flow: $OUT"
 kill %4 2>/dev/null
 
 echo "T7 wrong password: no mint"
@@ -195,7 +197,14 @@ kill %10 2>/dev/null
 start_pocket 1; reset
 OUT=$(nt --key-file "$SB/key600"); [[ $? == 3 && ! -s "$SB/dev.log" ]] && ok "existing key, no tty, no --yes: left alone (exit 3)" || bad "no-yes"
 OUT=$(nt --key-file "$SB/key600" --yes); [[ $? == 0 ]] && grep -q "cmd >beam.token" "$SB/dev.log" && ok "--yes replaces it" || bad "yes"
-OUT=$(nt); [[ $? == 3 && "$OUT" == *"no terminal"* ]] && ok "account without --key-file and no tty still refuses (3)" || bad "acct no tty"
+OUT=$(nt --mode account); [[ $? == 3 && "$OUT" == *"no terminal"* ]] && ok "account without --key-file and no tty still refuses (3)" || bad "acct no tty"
 kill %11 2>/dev/null
 
+echo "T13 account: asks which account, any member works; keep is the default"
+start_pocket 0; reset
+OUT=$(RAWANS=1 run "alice|pw"); [[ $? == 0 ]] && grep -q "auth/login auth=no user=alice" "$SB/http.log" && ok "typed username used for the login" || bad "username prompt: $OUT"
+reset; OUT=$(run "pw" --user bob --yes); grep -q "user=bob" "$SB/http.log" && ok "--user skips the prompt" || bad "--user"
+OUT=$(setsid -w bash "$SP" --dry-run 2>&1); [[ "$OUT" == *"mode=keep"* ]] && ok "no --mode means keep" || bad "default mode: $OUT"
+bash "$SP" --dry-run --no-flash >/dev/null 2>&1; [[ $? == 2 ]] && ok "--no-flash without a mode is refused" || bad "no-flash without mode"
+kill %12 2>/dev/null
 echo; echo "passed $pass, failed $fail"; [[ $fail == 0 ]]
