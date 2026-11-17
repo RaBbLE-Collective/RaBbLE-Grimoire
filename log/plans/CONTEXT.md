@@ -38,6 +38,7 @@ this table is a one-line pointer. 🟡 = in flight / awaiting Mark · 🔵 = des
 | `OS-Install-Editions-Plan.md` | 🔵 S283 design — core/user/dev/creative/full editions, manifest `edition:` field, installer `--edition`, plus disk reclaim + backup actions; D1 to D5 decided, D6 deferred, ready for W1 |
 | `OS-Theming-Variants-Plan.md` | 🔵 S204 design — variants + profiles + contrast QA; awaiting Mark's calls |
 | `Accounts-Formalization-Scope.md` | 🔵 S322 scope: a visitor becomes a user. What sCoRE already has (user record, tokens, invites, summon), gaps G1-G8, slices AC1-AC7, decisions A1-A7 for Mark. Nothing built |
+| `Accounts-Architect-and-Entity-Roadmap.md` | 🔵 S346: the Architect (`RaBbLE-Architect`) and non-human (entity) accounts built; roadmap for a second factor, recovery, the secrets map and vault (R1-R5) |
 | `EP2-Accounts-Encryption-Spec.md` | 🔵 EP2 draft — the user scaffold: accounts/sessions first, then encrypted ingestion |
 | `NeBuLA-Pocket-Puppet-Rendering-Pipeline.md` | 🔵 research — shared rig/animation pipeline for NeBuLA + Pocket |
 | `sCoRE-Storage-Gate-Plan.md` | 🔵 S327: sCoRE is the only R2 user, proxies and counts every op, refuses at 80% of the free tier; CDN stays on Pages behind cache + 1 WAF rule; `r2-guard.sh` analytics backstop. Slices G1-G6, Q1-Q3 for Mark. Nothing built |
