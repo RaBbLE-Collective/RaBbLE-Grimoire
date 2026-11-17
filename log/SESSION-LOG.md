@@ -8,12 +8,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-16 · S345 (score-ac2-fixes-pending)
+## LATEST — 2026-11-17 · S346 (score-accounts-live)
 
 **Phase:** Epoch 0 · Foundation.
-**This session:** S345: Neon cleaned, AC2 sign-in built, review fixes pending
-**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28/B-29/B-31/B-32/B-33/B-34/B-35/B-36 open.
-**Next:** apply NiBbLE fixes, re-review, commit AC2, cut over, Resend
+**This session:** S346: sCoRE accounts live; Architect, invites, entity accounts
+**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28/B-29/B-32/B-33/B-37/B-38/B-39 open.
+**Next:** create Architect, Resend, portal, Pocket pairing, Genesis merge prep
 
 ---
 
