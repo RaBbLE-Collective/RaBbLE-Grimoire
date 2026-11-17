@@ -26,11 +26,13 @@ API="${SCORE_URL:-https://score.joinrabble.world}"
 DRY=0; [ "${1:-}" = "--dry-run" ] && DRY=1
 
 c() { printf '\033[%sm%s\033[0m\n' "$1" "$2"; }
-say() { c "0;36" "· $*"; }  ok() { c "0;32" "✓ $*"; }  die() { c "0;31" "✗ $*" >&2; exit 1; }
+say() { c "0;36" "· $*"; }
+ok()  { c "0;32" "✓ $*"; }
+die() { c "0;31" "✗ $*" >&2; exit 1; }
 run() { if [ "$DRY" = 1 ]; then echo "  [dry-run] $*"; else "$@"; fi; }
 
 [ -t 0 ] || die "run this in a terminal (it asks for confirmation)"
-[ -d "$S/server/tools" ] && [ -x "$HERE/render-ctl.sh" -o -f "$HERE/render-ctl.sh" ] || die "expected $S and render-ctl.sh"
+[ -d "$S/server/tools" ] && [ -f "$HERE/render-ctl.sh" ] || die "expected $S/server/tools and render-ctl.sh"
 command -v openssl >/dev/null || die "openssl is needed to make the random values"
 
 say "This will end access for EVERY Pocket (yours, your dad's, all guests) on the live sCoRE."
