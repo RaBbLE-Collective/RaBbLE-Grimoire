@@ -33,6 +33,10 @@ class H(http.server.BaseHTTPRequestHandler):
             self._rec("label=%s" % b.get("label"))
             if self.headers.get("Authorization") != "Bearer tok_test": return self._send(401, {"detail": "no"})
             return self._send(201, {"id": "dev1", "label": b.get("label"), "key": os.environ["MOCK_KEY"]})
+        if self.path == "/api/v1/users/guest":
+            self._rec("secret=%s" % ("ok" if self.headers.get("X-Guest-Secret") == "gsecret" else "bad"))
+            if self.headers.get("X-Guest-Secret") != "gsecret": return self._send(403, {"detail": "Invalid guest secret"})
+            return self._send(201, {"api_key": "rbdv_GUESTKEY", "handle": "guest-abc"})
         self._send(404, {})
     def do_DELETE(self):
         self._rec(); self._send(200, {"ok": True})
@@ -53,7 +57,7 @@ while True:
     while b"\n" in buf:
         ln, buf = buf.split(b"\n", 1); ln = ln.decode().strip()
         if ln == ">status":
-            os.write(m, ("@status " + json.dumps({"beam": {"token": bool(tok), "state": "Linked" if tok else "Not set up"}, "wifi": {"state": "off"}}) + "\r\n").encode())
+            os.write(m, ("@status " + json.dumps({"fw": "0.1.1", "beam": {"token": bool(tok), "state": "Linked" if tok else "Not set up"}, "wifi": {"state": "off"}}) + "\r\n").encode())
         elif ln.startswith(">beam.token"):
             if REFUSE: os.write(m, b"@setup beam.token: error: token over 255 characters\r\n"); continue
             v = ln.split("=", 1)[1]; tok = v if ln.startswith(">beam.token=") else tok + v
@@ -139,5 +143,59 @@ start_pocket 0 1; reset
 OUT=$(run "pw|y"); RC=$?
 [[ $RC == 1 ]] && grep -q "DELETE /api/v1/devices/dev1 auth=yes" "$SB/http.log" && ok "key revoked after a failed send" || bad "revoke: rc=$RC log=$(cat "$SB/http.log")"
 kill %6 2>/dev/null
+
+
+# no-tty runner for the unattended modes (setsid: no controlling terminal; stdin is /dev/null)
+nt() { FLASH_POCKET_SERIAL_DEV="$PTY" SER_SETTLE=0.2 SER_TEST_S=6 FLASH_POCKET_BUILD_FLASH="$SB/fakeflash.sh" setsid -w bash "$SP" --api http://127.0.0.1:8011 "$@" </dev/null 2>&1; }
+cat > "$SB/fakeflash.sh" <<'FF'
+#!/usr/bin/env bash
+echo "$*" >> "$FLASH_LOG"
+FF
+export FLASH_LOG="$SB/bf.log"; : > "$FLASH_LOG"
+printf 'rbdv_FILEKEY_abc\n' > "$SB/key600"; chmod 600 "$SB/key600"
+cp "$SB/key600" "$SB/key644"; chmod 644 "$SB/key644"
+printf 'gsecret\n' > "$SB/sec600"; chmod 600 "$SB/sec600"
+printf 'gsecret\n' > "$SB/sec644"; chmod 644 "$SB/sec644"
+
+echo "T9 keep: flash only, no console writes, token and settings kept, no erase arg"
+start_pocket 1; reset; : > "$FLASH_LOG"
+OUT=$(nt --mode keep); RC=$?
+[[ $RC == 0 && "$OUT" == *"a token is set"* && "$OUT" == *"0.1.1"* ]] && ok "keep: no tty, exit 0, reports token set and firmware" || bad "keep: rc=$RC $OUT"
+[[ ! -s "$SB/dev.log" ]] && ok "no console write commands sent" || bad "writes: $(cat "$SB/dev.log")"
+[[ ! -s "$SB/http.log" ]] && ok "no network" || bad "network used in keep"
+grep -q "firmware -b" "$FLASH_LOG" && ! grep -qi "erase" "$FLASH_LOG" && ok "flasher called, no erase argument" || bad "flash args: $(cat "$FLASH_LOG")"
+OUT=$(nt --fw-only); [[ $? == 0 && "$OUT" == *"a token is set"* ]] && ok "--fw-only alias" || bad "fw-only"
+printf '#!/usr/bin/env bash\nidf.py erase-flash\n' > "$SB/erasing.sh"
+OUT=$(FLASH_POCKET_BUILD_FLASH="$SB/erasing.sh" FLASH_POCKET_SERIAL_DEV="$PTY" setsid -w bash "$SP" --mode keep </dev/null 2>&1); [[ $? == 1 && "$OUT" == *erase* ]] && ok "a flasher that mentions erase is refused" || bad "erase guard"
+kill %7 2>/dev/null
+
+echo "T10 none: clears the token, no network, no tty"
+start_pocket 1; reset
+OUT=$(nt --mode none); RC=$?
+[[ $RC == 0 && "$OUT" == *"token cleared"* ]] && grep -q "cmd >beam.token len=0" "$SB/dev.log" && [[ ! -s "$SB/http.log" ]] && ok "token cleared, nothing on the network" || bad "none: rc=$RC $OUT $(cat "$SB/dev.log")"
+kill %8 2>/dev/null
+
+echo "T11 guest: secret via env and via file, no tty"
+start_pocket 0; reset
+OUT=$(GUEST_ISSUE_SECRET=gsecret nt --mode guest); RC=$?
+[[ $RC == 0 && "$OUT" == *BEAM_ALLOW_GUEST_POCKETS* ]] && grep -q "users/guest auth=no secret=ok" "$SB/http.log" && grep -q "cmd >beam.token len=" "$SB/dev.log" && ok "env secret: minted, sent, reminder shown" || bad "guest env: rc=$RC $OUT"
+[[ "$OUT" != *rbdv_* && "$OUT" != *gsecret* ]] && ok "no key or secret in output" || bad "guest leaked"
+reset; OUT=$(nt --mode guest --secret-file "$SB/sec600" --yes); [[ $? == 0 ]] && grep -q "secret=ok" "$SB/http.log" && ok "file secret works (--yes replaced the key)" || bad "guest file: $OUT"
+OUT=$(nt --mode guest --secret-file "$SB/sec644"); [[ $? == 2 && "$OUT" == *"mode 600"* ]] && ok "secret file with loose mode refused" || bad "sec644"
+OUT=$(GUEST_ISSUE_SECRET=nope nt --mode guest --yes); [[ $? == 1 && "$OUT" == *"refused the guest secret"* ]] && ok "wrong secret refused" || bad "wrong secret"
+OUT=$(env -u GUEST_ISSUE_SECRET bash -c 'FLASH_POCKET_SERIAL_DEV="$0" setsid -w bash "$1" --mode guest --yes --api http://127.0.0.1:8011 </dev/null 2>&1' "$PTY" "$SP"); [[ $? == 1 && "$OUT" == *"no guest secret"* ]] && ok "missing secret says so" || bad "no secret"
+kill %9 2>/dev/null
+
+echo "T12 account --key-file: no password, nothing minted; existing key needs --yes"
+start_pocket 0; reset
+OUT=$(nt --key-file "$SB/key600"); RC=$?
+[[ $RC == 0 ]] && [[ ! -s "$SB/http.log" ]] && grep -q "cmd >beam.token len=" "$SB/dev.log" && [[ "$OUT" != *FILEKEY* ]] && ok "key sent from the file, no requests, not printed" || bad "keyfile: rc=$RC $OUT"
+OUT=$(nt --key-file "$SB/key644"); [[ $? == 2 && "$OUT" == *"mode 600"* ]] && ok "key file with loose mode refused" || bad "key644"
+kill %10 2>/dev/null
+start_pocket 1; reset
+OUT=$(nt --key-file "$SB/key600"); [[ $? == 3 && ! -s "$SB/dev.log" ]] && ok "existing key, no tty, no --yes: left alone (exit 3)" || bad "no-yes"
+OUT=$(nt --key-file "$SB/key600" --yes); [[ $? == 0 ]] && grep -q "cmd >beam.token" "$SB/dev.log" && ok "--yes replaces it" || bad "yes"
+OUT=$(nt); [[ $? == 3 && "$OUT" == *"no terminal"* ]] && ok "account without --key-file and no tty still refuses (3)" || bad "acct no tty"
+kill %11 2>/dev/null
 
 echo; echo "passed $pass, failed $fail"; [[ $fail == 0 ]]
