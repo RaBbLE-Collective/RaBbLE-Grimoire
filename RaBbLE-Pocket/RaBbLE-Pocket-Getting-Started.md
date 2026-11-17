@@ -119,10 +119,10 @@ sCoRE refuses the connection without a token, even in demo mode. Hosted tokens a
 
 A long token can be sent in pieces: `>beam.token=FIRST_PART` then `>beam.token+=NEXT_PART`. Or use **Settings > sCoRE** on the device (Test, Reset URL).
 
-**Flash and pair your own Pocket (the Architect).** From the Collective root, in a real terminal:
+**Flash and pair your own Pocket (the Architect).** The default board is `rabble_waveshare_175b`; add `--board rabble_waveshare_175c` for a 1.75C. Which mode to use when: see `RaBbLE-Pocket-Firmware-BuildFlash.md`. From the Collective root, in a real terminal:
 
 ```sh
-bash RaBbLE-Grimoire/spells/flash-pocket.sh --board rabble_waveshare_175c
+bash RaBbLE-Grimoire/spells/flash-pocket.sh
 ```
 
 It builds and flashes with `ops/build-flash.sh`, asks for the `RaBbLE-Architect` password (hidden, read from the terminal only; it refuses a pipe, env var or argument), signs in to sCoRE, mints a device key under that account (admin tier: no device limit, usage still metered), sends it with `>beam.token=` (chunked with `+=`), checks `>status` and runs `>beam.test`. The key is never printed unless you pass `--show-key`. A Pocket that already has a key is only replaced after you say yes; if pairing fails after the key was minted it offers to revoke it. Other flags: `--no-flash` (re-pair over the console, settings kept), `--port`, `--label`, `--api`, `--wifi-ssid` with `--wifi-pass -` (hidden prompt), `--dry-run`, `--help`. **Modes** (`--mode`): use `keep` (alias `--fw-only`) for firmware updates: it builds and flashes, then stops, with no login, no console writes and no network, so the token, Wi-Fi and notes stay (the flash passes no erase option and the build writes no nvs or storage image; the spell refuses a flasher that mentions an erase). Use `account` (default; `--key-file PATH`, mode 600, sends a key you already wrote with no password and no terminal), `guest` (`GUEST_ISSUE_SECRET` env or `--secret-file`; sCoRE refuses guest keys on the beam unless it runs with `BEAM_ALLOW_GUEST_POCKETS=true`) or `none` (clears the token with `>beam.token=`; the beam URL can only be reset to the default, not removed) when you want to change who the Pocket belongs to. `--yes` answers the replace-existing-key question for unattended runs; everything except account without `--key-file` works with no terminal. Test: `bash spells/tests/flash-pocket.test.sh` (mock sCoRE on port 8011 and a mock Pocket on a pty).

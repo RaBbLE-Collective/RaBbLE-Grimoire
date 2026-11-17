@@ -100,6 +100,21 @@ If it's noticeably nicer than what the board shipped with, that's `firmware/broo
 - Build in a scratch dir (e.g. this session used the Claude Code scratchpad), not inside `third_party/...` directly — keeps `build/`/`managed_components/` out of the vendor reference clone even though that tree is already gitignored.
 - **`esp-idf-select.sh` wasn't zsh-safe (fixed 2026-08-08).** Mark's shell is zsh, and the script is meant to be sourced into it directly — but it used `mapfile` (bash-4+ only, undefined in zsh) and `${versions[0]}` to grab a single-element array (zsh arrays are 1-indexed by default, bash's are 0-indexed, so a hardcoded index is wrong in one or the other). Both only surfaced when the interactive picker path ran (no `.esp-idf-version` pin above `$PWD` and no explicit version arg) — the common case, where the pin resolves without touching that code, masked it. Fixed: a portable `while read` loop instead of `mapfile`, and `${versions[*]}` (correct under both indexing schemes for a single element) instead of `${versions[0]}`.
 
+## Flash and pair: `spells/flash-pocket.sh` (which mode, when)
+
+Policy (Mark, S347): **a Pocket belongs to a real account.** Guest Pockets are made by Mark for testing only and can be revoked or deleted without consequence; never treat one as a user's data. sCoRE refuses guest keys and the shared `BEAM_DEVICE_TOKEN` on the beam unless it runs with `BEAM_ALLOW_GUEST_POCKETS=true` (default off; a dev or test server only). Run from the Collective root. Boards: Mark's Pocket is `rabble_waveshare_175b` (the default); his dad's is `rabble_waveshare_175c` (`--board`).
+
+| Situation | Command | Needs | What it changes |
+|---|---|---|---|
+| Update firmware on a Pocket that is already set up (the common case) | `--mode keep` (alias `--fw-only`) | nothing: no login, no network, no terminal | Firmware only. Token, Wi-Fi, settings and stored notes are kept. No console writes. Never erases |
+| Pair or re-pair an account Pocket, interactive | default `--mode account` | Mark in a real terminal: the account password is typed there, never given to an agent | Mints a device key under the account (Architect = admin tier, unlimited, still metered; members: 3 devices) and writes it |
+| Pair an account Pocket, unattended or agent-run | `--mode account --key-file PATH --yes` | A key Mark already minted, in a file mode 600 | Writes that key, mints nothing. Agents use this only when Mark provides the file |
+| Throwaway test Pocket on a dev or test sCoRE | `--mode guest --yes` | `GUEST_ISSUE_SECRET` in the environment or `--secret-file` (mode 600), and the server flag above | Mints a guest key (disposable) and writes it |
+| Run the Pocket with no sCoRE | `--mode none` | nothing | Clears the token over the console. The beam URL cannot be removed, only reset to the default |
+| Pair without reflashing | add `--no-flash` | as the mode | Console writes only (not for `keep`) |
+
+Agents: never ask for or handle the account password or the guest secret, never pass them as arguments, and do not flash Mark's hardware unless he asked in this session. Default to `keep` for firmware work and say what you will do before you run anything else. `--dry-run` prints every step with secrets masked. Test suite: `bash spells/tests/flash-pocket.test.sh` (mock sCoRE on 8011, mock Pocket on a pty). Details and flags: the "Connect to sCoRE" section of `RaBbLE-Pocket-Getting-Started.md`.
+
 ## Look before you flash: the host sim
 
 Anything visual in the gadget firmware (the face, the Orbit, transitions) can be rendered on the host before it goes to the board. `RaBbLE-Pocket/sim/` builds `nebula_lite` with gcc and writes PPM/PNG frames; there is no live window.
