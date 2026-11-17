@@ -35,8 +35,9 @@ transcribe ~ grimoire >> raw chat transcripts mined for authored docs and decisi
   `NeBuLA-Morphogenesis-Concept` and `Unified-Nebula-Spec` (kept in `design-docs/`; the Morphogenesis concept
   builds on another artist's work with a restrictive licence, per the 2026-10-06 chat, so it was not promoted).
 - **Decisions:** 16 decisions the Grimoire had no trace of were added to `log/DECISIONS.md` under "Decisions
-  recovered from chat history", each with a status. One is already superseded by a later ruling (S333), two need
-  verifying against current rulings.
+  recovered from chat history", each with a status. Corrected after review with Mark: the framework row now states his intent (framework-agnostic,
+  React not used yet, adoption deliberate); the capture row is open (client versus server decryption undecided,
+  everything stored must be encrypted); one row still needs checking against the S328 compositor trial.
 
 ## Limits
 
