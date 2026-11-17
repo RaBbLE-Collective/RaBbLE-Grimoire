@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # spells/score-cutover.sh: put sCoRE accounts live on Render, then create the Architect.
 #
-# Run it yourself in a real terminal:   bash RaBbLE-Grimoire/spells/score-cutover.sh [--dry-run]
+# Run it yourself in a real terminal:   bash RaBbLE-Grimoire/spells/score-cutover.sh [--dry-run | --architect-only]
 #
 # What it does, in order (it asks before each step that changes production):
 #   0. Preflight: release/0.1.0 contains new-horizons, working tree is clean, gitleaks finds nothing.
@@ -26,6 +26,7 @@ S="$ROOT/RaBbLE-sCoRE"
 API="${SCORE_URL:-https://score.joinrabble.world}"
 CORS="https://joinrabble.world,https://dev.joinrabble.world"
 DRY=0; [ "${1:-}" = "--dry-run" ] && DRY=1
+ONLY_ARCHITECT=0; [ "${1:-}" = "--architect-only" ] && ONLY_ARCHITECT=1
 
 c() { printf '\033[%sm%s\033[0m\n' "$1" "$2"; }
 say()  { c "0;36" "· $*"; }
@@ -37,6 +38,12 @@ ask()  { local a; read -r -p "$1 [y/N] " a; [[ "$a" =~ ^[Yy]$ ]]; }
 
 [ -t 0 ] || die "run this in a terminal (it asks questions)"
 [ -d "$S/.git" ] && [ -d "$G/spells" ] || die "expected $S and $G"
+
+if [ "$ONLY_ARCHITECT" = 1 ]; then
+  say "Creating the Architect only (RaBbLE-Architect). It asks for the email and a hidden password."
+  ( set -a; . "$S/.env.local"; set +a; cd "$S/server" && exec "$S/.venv/bin/python" tools/make_architect.py )
+  exit $?
+fi
 
 # ── 0. Preflight ────────────────────────────────────────────────────────────────
 say "Preflight"
@@ -85,6 +92,9 @@ if [ "$DRY" = 0 ]; then
     sleep 15
   done
   curl -s "$API/health"; echo
+  # sCoRE connects to the database on its first real request, which is what runs the migration: make one.
+  curl -s -o /dev/null -X POST "$API/api/v1/auth/forgot-password" -H 'content-type: application/json' -d '{"email":"warmup@example.invalid"}' || true
+  sleep 5
 fi
 
 # ── 4. Neon check (read-only, counts only) ──────────────────────────────────────

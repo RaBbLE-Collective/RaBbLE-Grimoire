@@ -4,7 +4,7 @@
 > Do not hand-edit — use `blockers.sh add` / `resolve`. This is the durable
 > home for blockers so they survive the rewrite of the SESSION-LOG `## LATEST` box.
 >
-> Last synced: 2026-11-16  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
+> Last synced: 2026-11-17  ·  add: `bash spells/blockers.sh add "…" --tag ep1-gate`
 
 ## OPEN
 
@@ -24,12 +24,11 @@
 - **B-27** — Pocket Open SDK/app split: decide D1-D5 (Apache SDK, repo layout, public name, history, sCoRE protocol) + lawyer review of NOTICE/PROVENANCE/trademark before any Pocket repo goes public  ·  owner:Mark  ·  since:2026-11-02  ·  [pocket-release]
 - **B-28** — Pocket 1.75-B BOOT switch dead (hardware): hw_test shows GPIO0 never goes low and boot strap never trips; Mark glued the standoff near it. Needs continuity check, then switch replace. Also knocked off C21 (or R19) next to U5 TCA9554, unused by firmware. Device runs firmware/hw_test from ota_0; original ota_0 backed up in ~/RaBbLE-Cleanroom/hwtest-backup/  ·  [2026-11-12] S325 Mark: the board runs the standard RaBbLE firmware again (not hw_test); @status read 2026-11-11 shows fw pre-split-11-g6cf1404, Wi-Fi connected, beam Linked. BOOT switch still dead: flashing relies on USB auto-reset.  ·  owner:  ·  since:2026-11-02  ·  [pocket]
 - **B-29** — Pocket Pomodoro loses its running timer when the device sleeps (S338, Mark): rabble_pomo.c keeps end_us from esp_timer in RAM, NVS holds only the focus/break/long/round settings, so a power-off or deep sleep drops a started session; also no alarm sound found in rabble_pomo.c (which sound it plays, if any, is unknown). Needs: persist state across sleep (RTC memory or wall-clock end time in NVS), define the alarm cue, add a host test. Noted only, not scheduled.  ·  owner:  ·  since:2026-11-15  ·  [pocket]
-- **B-31** — Render still has R2_ALLOW_FRESH_START=1 (set for the S339 first boot): once the first snapshot object is in the rabble-score bucket, run spells/render-set-r2.sh --clear-fresh-start and redeploy, or a later wipe is read as a fresh start  ·  [2026-11-15] S341: first snapshots confirmed in rabble-score (score/snapshots/latest.json, 23:10Z onward): safe to run render-set-r2.sh --clear-fresh-start and redeploy sCoRE  ·  owner:  ·  since:2026-11-15  ·  [score]
 - **B-32** — Pocket double-tap-to-wake cannot work on battery: apply_power puts the touch chip in deep sleep (0xD1 0x05, ignores I2C until reset) once asleep+dark+resting; raise and button still wake. Fix = lower touch power state + touch-INT light-sleep wake, needs a board (toggle 'Double tap to wake' added S341, default on). Foundling has no tap wake  ·  owner:Mark  ·  since:S341  ·  [pocket]
 - **B-33** — sCoRE beam turns are never written to R2 transcripts: beam.py does not call transcripts.record (only /chat and sessions do), so Pocket voice and translate turns leave no training data. Needs Mark's ruling on capturing guest voice, then record by workflow and skip silence hallucinations ('Thank you.', 'Bye.')  ·  owner:Mark  ·  since:S341  ·  [score]
-- **B-34** — S341 sCoRE guest-limit fix (GUEST_GROQ_MINUTE_CUTOFF 0.9, groqmeter.py) committed but not pushed to release/0.1.0 or deployed to Render; the 50% per-minute token cutoff still blocks single guests on prod until it is  ·  owner:Mark  ·  since:S341  ·  [score]
-- **B-35** — Neon production schema holds test junk (3 fixture users, 17 test guests, 2 invites, inflated guest counters) from early agent test runs; cleanup script denied by the permission classifier, needs Mark to approve or run; clean before cutover. Handoff S343.  ·  owner:Mark  ·  since:S343  ·  [accounts, neon]
-- **B-36** — Neon DATABASE_URL is staged on Render but AC1 (a670e6d) is not deployed; release/0.1.0 has no Postgres code. Deploy with B-31 clear and B-34 guest fix after Neon cleanup and py3.12 test.  ·  owner:Mark  ·  since:S343  ·  [accounts, neon]
+- **B-37** — Architect account not created on prod yet: run score-cutover.sh --architect-only in a terminal (hidden password). Then mint an invite for the personal account.  ·  owner:Mark  ·  since:2026-11-17  ·  [accounts]
+- **B-38** — No real mailer: signup without an invite returns 503 and email reset/verify send nothing until ResendMailer is built and Resend (account, DNS, API key) is set up. Invite signup works without mail.  ·  owner:Mark  ·  since:2026-11-17  ·  [accounts]
+- **B-39** — Pocket device pairing not built: a Pocket still gets an auto guest key at flash. Plan: devices table + member-minted device keys + World portal 'My Pockets' + flasher takes the key; then revoke guests (tools/revoke_guests.py) and close guest minting. Dad's Pocket is orphaned until then.  ·  owner:Mark  ·  since:2026-11-17  ·  [pocket,accounts]
 
 ## RESOLVED
 
@@ -47,4 +46,8 @@
 - **B-17** — resolved: S250: NeBuLA + sCoRE public (D1), manifests on https, TaskViSoR repo TBD; every clonable manifest passes an anonymous git ls-remote. G9 still needs its end-to-end fresh-VM run.
 - **B-19** — resolved: S318: World main deployed to prod for the first time (PR #2, 21b38cc); /setup.sh, /RaBbLE-OS.ks and /roadmap now 302 on joinrabble.world, setup.sh follows to 200
 - **B-30** — resolved
+- **B-31** — resolved: S346: R2_ALLOW_FRESH_START cleared via score-cutover.sh and sCoRE redeployed
+- **B-34** — resolved: S346: guest cutoff 0.9 deployed to Render with the accounts release (release/0.1.0 243825f)
+- **B-35** — resolved: S345: Neon production schema cleaned; verified S346 (2 guests, 0 accounts before the Architect)
+- **B-36** — resolved: S346: AC1+AC2 deployed to Render; migration 0004 applied on Neon; /health ok
 

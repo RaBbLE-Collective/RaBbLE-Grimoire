@@ -51,6 +51,15 @@ The account exists; what it may do is open. To scope:
 - **Attribution:** show non-human authorship honestly in logs, sessions and the UI.
 - **Limits:** the `entity` tier mirrors `pro` for now; tune with use.
 
+### R6. Pocket pairing (next feature; Mark, S346)
+Mark: revoke all device guests, and have the site mint a Pocket's key once its owner has an account; the Pocket then holds that paired key. His dad's Pocket is orphaned and will be re-flashed on his own account.
+- **Device keys:** a `devices` table (id, user_id, label, key_hash, created_at, last_seen, revoked). A signed-in member mints a key (shown once), lists devices, revokes one. A small per-member limit (for example 3).
+- **Auth:** the beam and chat paths accept a device key and resolve it to the owner's account, so usage counts against the owner's quota and tier. Revoking the device or the account ends it.
+- **World portal:** a "My Pockets" panel: add a Pocket (mint), see last seen, revoke.
+- **Flasher:** the web companion (pocket.joinrabble.world) asks the member to sign in and writes the device key at flash time, instead of minting an auto guest (`/api/guest`, `GUEST_ISSUE_SECRET`).
+- **Cutover:** once pairing works, run `server/tools/revoke_guests.py` (built, S346) and close guest minting. Until then a re-flashed Pocket still gets a fresh guest key, so revoking early is safe but flashing is unchanged.
+- Resolves the AC7 ruling (Pocket pairing) that was open in the S345 handoff.
+
 ### R5. Smaller follow-ups
 - Absolute lifetime for refresh sessions (today a regularly used cookie never expires).
 - Set `AUTH_IP_HEADER` correctly behind the Worker and Render (verify what client address Render sees).

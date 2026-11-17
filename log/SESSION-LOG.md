@@ -19,6 +19,15 @@ Format: date, what was done, where things were left, what's next.
 
 
 
+## 2026-11-17 · Session S346 (score-accounts-live)
+
+- **Repos:** sCoRE, World, Grimoire, Collective, OS, Pocket (READMEs). `new-horizons`; sCoRE `release/0.1.0` deployed.
+- **Asked:** where the account build and v0.1.0 stand; commit the Collective; plain READMEs; get Mark's accounts working live; email providers; Architect and entity accounts; a secrets plan off Proton.
+- **Done:** AC2 fixes plus a second /code-review round, all with tests (552 passed, py3.12 356, Neon passes); invite-gated signup, the `RaBbLE-Architect` admin (local tool, hidden password), admin invite routes, reserved names, no email reset for admins, non-human `entity` accounts, `revoke_guests.py`. World `world/admin.html` (Architect page, browser-tested, not pushed). Plain READMEs on all 7 release branches. Mark deployed with `spells/score-cutover.sh`: migration 0004 applied on Neon, /health ok. Roadmap R1-R6 in `log/plans/Accounts-Architect-and-Entity-Roadmap.md`.
+- **Found:** the migration runs on the first real request, not at boot (the script's check ran too early; fixed). `RABBLE_ADMIN_KEY` is set on Render. `RABBLE_ROOT` in Mark's shell points at ~/RaBbLE-OS. The release and new-horizons branches carry the same sCoRE work under different commits (merged with `-X theirs`).
+- **Not done:** the Architect is not created yet (Mark runs `score-cutover.sh --architect-only`); World not pushed; ResendMailer; the user portal; Pocket pairing and guest revocation; Genesis merge prep (`genesis.yml`, VERSION files, PR checks, tags).
+- **Next:** `log/handoffs/HANDOFF-S346-Accounts-Live.md`.
+
 ## 2026-11-16 · Session S345 (score-ac2-fixes-pending)
 
 - **Repos:** sCoRE, Grimoire. `new-horizons`, nothing pushed, AC2 uncommitted in sCoRE. (S344 was claimed by a concurrent session.)
