@@ -51,14 +51,34 @@ The account exists; what it may do is open. To scope:
 - **Attribution:** show non-human authorship honestly in logs, sessions and the UI.
 - **Limits:** the `entity` tier mirrors `pro` for now; tune with use.
 
-### R6. Pocket pairing (next feature; Mark, S346)
-Mark: revoke all device guests, and have the site mint a Pocket's key once its owner has an account; the Pocket then holds that paired key. His dad's Pocket is orphaned and will be re-flashed on his own account.
-- **Device keys:** a `devices` table (id, user_id, label, key_hash, created_at, last_seen, revoked). A signed-in member mints a key (shown once), lists devices, revokes one. A small per-member limit (for example 3).
-- **Auth:** the beam and chat paths accept a device key and resolve it to the owner's account, so usage counts against the owner's quota and tier. Revoking the device or the account ends it.
-- **World portal:** a "My Pockets" panel: add a Pocket (mint), see last seen, revoke.
-- **Flasher:** the web companion (pocket.joinrabble.world) asks the member to sign in and writes the device key at flash time, instead of minting an auto guest (`/api/guest`, `GUEST_ISSUE_SECRET`).
-- **Cutover (Mark ruled S346: orphan all Pockets now, require re-flash or pairing):** `spells/pockets-orphan.sh` rotates `GUEST_ISSUE_SECRET` and `BEAM_DEVICE_TOKEN` and runs `server/tools/revoke_guests.py`. It closes all three ways a Pocket reaches sCoRE (guest key, the shared beam token, minting at flash). Until pairing is built no Pocket can connect, and the web flasher's guest minting fails, so pairing is now the critical path for Pocket.
-- Resolves the AC7 ruling (Pocket pairing) that was open in the S345 handoff.
+### R6. Pocket pairing (building, Mark S346)
+Mark: set up a Pocket with a real account. Keep the shared `BEAM_DEVICE_TOKEN` (the master Pocket key: one token, every holder becomes the shared `pocket` user at `pro`, no per-person identity) and guest minting (`GUEST_ISSUE_SECRET`, used by the flasher) untouched for now, so nothing breaks while pairing is built. Remove only the two existing minted guests with `server/tools/revoke_guests.py` (run by Mark). Pairing replaces guests and the shared token later; retiring those is a separate ruling.
+
+**Model.** A paired Pocket holds a *device key*, minted by a signed-in member and tied to that member. Using it counts against the owner's quota and tier; revoking the device or the account ends it.
+
+**API contract (sCoRE)**
+- Migration `0005_devices`: `devices(id, user_id, label, key_hash, created_at, last_seen, revoked)`; the key is stored only as a hash.
+- `POST /api/v1/devices` {label} (members only; guests refused). Returns `{id, label, key, created_at}`. The key (`rbdv_` + 32 url-safe bytes) is shown once. At most `DEVICE_LIMIT` (default 3) active devices per member.
+- `GET /api/v1/devices` lists the caller's devices (no keys): id, label, created_at, last_seen, revoked.
+- `DELETE /api/v1/devices/{id}` revokes one of the caller's devices.
+- Auth: wherever an API key or the beam bearer token is accepted (`auth_routes.verify_api_key`, `beam._authorize`), a device key resolves to the owner (their id, name, tier) with a `device_id`; `last_seen` is updated at most once a minute. A revoked device, or a device whose owner is gone, is refused.
+
+**Ways to pair**
+1. *Mint and write (build now):* the member signs in (portal or the Pocket web companion), mints a key, and the web flasher writes it to the device over serial (the same place the guest key goes today). Needs no firmware change.
+2. *Device code (later):* an unpaired Pocket shows a short code on its screen; the member types it in the portal; the Pocket polls and receives its key. Pairs over Wi-Fi with no cable; needs firmware work.
+
+**Pieces:** sCoRE devices API (agent A); World portal "My Pockets" panel: add with a label, see last seen, revoke, key shown once with the pairing instructions (agent B, after A); Pocket web companion and flasher: sign in, mint, write the key instead of minting a guest (agent C, plus `log/plans/Pocket-Pairing-Plan.md`).
+
+**Retiring the old doors (later, deliberate):** rotate `GUEST_ISSUE_SECRET` and `BEAM_DEVICE_TOKEN`, revoke all guests. Do it once every Pocket Mark cares about is paired.
+
+### R7. Per-user scoped permissions (Mark, S346)
+Grant each account a set of scoped permissions instead of one tier flag. Why: the Architect is only `tier = admin` today, an entity account has member rights only, and device keys, services and future agents need narrower grants than a member. To scope:
+- A capability model: named scopes (for example `invites.mint`, `members.read`, `members.revoke`, `audit.read`, `devices.manage`, `sessions.own`, `chat.use`, `memory.own`) with per-account grants, stored in the database and checked by one helper on every route.
+- Keys and tokens carry a subset of the owner's scopes (a Pocket device key: chat and voice only, never admin), and can be narrowed, never widened.
+- Roles as named bundles (member, pro, entity, architect) so the tier column stays readable; the Architect becomes "all scopes" by definition.
+- Audit: who used which scope, shown in the Architect page.
+- Entity accounts: grant deliberately (see R4); service accounts (`kind = service`) get machine scopes.
+- Migration path: derive scopes from the current tier, then enforce.
 
 ### R5. Smaller follow-ups
 - Absolute lifetime for refresh sessions (today a regularly used cookie never expires).
