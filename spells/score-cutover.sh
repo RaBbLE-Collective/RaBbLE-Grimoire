@@ -19,7 +19,8 @@
 
 set -euo pipefail
 
-ROOT="${RABBLE_ROOT:-$HOME/RaBbLE-Collective}"
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT="$(cd "$HERE/../.." && pwd)"      # from this file, never from env: RABBLE_ROOT means other things in some shells
 G="$ROOT/RaBbLE-Grimoire"
 S="$ROOT/RaBbLE-sCoRE"
 API="${SCORE_URL:-https://score.joinrabble.world}"
