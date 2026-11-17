@@ -2,6 +2,8 @@
 
 Status: v0.2, 2026-11-17 (S347). Built and tested with mocks: the companion is gated behind member sign-in and pairs on flash (section g). Not deployed, not run against real sCoRE or hardware. Device code (c) is design only. Guest keys and `BEAM_DEVICE_TOKEN` keep working server side (`/api/guest`, `/api/summon` untouched) but the page no longer offers them.
 
+**S347 update (guest Pockets retired).** sCoRE `beam._authorize` now accepts only device keys (`rbdv_`), entity keys and member/admin JWTs; the shared `BEAM_DEVICE_TOKEN` and guest keys are refused unless `BEAM_ALLOW_GUEST_POCKETS=true` (testing only, default off), so any statements below that the beam accepts them describe the older behaviour. The Worker no longer has `/api/guest` or `/api/summon` or the `GUEST_ISSUE_SECRET`. A Pocket still holding a guest key or the shared token stops connecting at the sCoRE deploy until re-flashed with a device key. Admin accounts are exempt from `DEVICE_LIMIT`; metering and limits: `Accounts-Architect-and-Entity-Roadmap.md` R8.
+
 Sources: `RaBbLE-Pocket/companion-app/web/{worker/index.js,public/portal.js,CONTEXT.md}`, `RaBbLE-Pocket/firmware/core/rabble_core/src/rabble_settings.c`, `firmware/entities/RaBbLE/{src/rabble_setup.c,rabble_beam/src/rabble_beam_score.c}`, `RaBbLE-sCoRE/server/beam.py`, `RaBbLE-Pocket-Beam-Protocol.md`.
 
 ## a. How a Pocket gets and stores a token today

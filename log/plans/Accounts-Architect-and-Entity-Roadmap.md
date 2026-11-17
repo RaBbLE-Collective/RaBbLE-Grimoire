@@ -6,6 +6,7 @@ transcribe ~ score/accounts >> Architect + entity accounts built; second factor,
 
 > **Status:** part built, part roadmap. Built items are on sCoRE `new-horizons` (AC2). Roadmap items are ideas that deserve their own scoping and build, not commitments.
 > **Builds on:** `Accounts-Formalization-Scope.md` (AC1 to AC7), `RaBbLE-Collective/RaBbLE-Secrets-and-Identity.md`.
+> **Rulings (Mark, S347):** every user and interaction is logged and tracked, with limiting and metering per ACCOUNT. The Architect/admin account is UNRESTRICTED but still METERED. A Pocket pairs only to a real member account: the shared `BEAM_DEVICE_TOKEN` and guest keys are refused on the beam unless `BEAM_ALLOW_GUEST_POCKETS=true` (testing only, default off). The public web demo guest (shared id `guest`, `DEMO_MODE`) is a different thing and stays.
 > **Rulings (Mark, S346):** the Architect account is named `RaBbLE-Architect`; database break-glass is the Architect's recovery for now; admins are exempt from email reset; non-human accounts are supported from day one so the entity can have its own account.
 
 ## 1. Built
@@ -21,6 +22,8 @@ transcribe ~ score/accounts >> Architect + entity accounts built; second factor,
 | Email reset never applies to admin or non-human accounts | `accounts.reset_allowed` |
 | Non-human accounts: `kind = "entity"`, tier `entity`. API key only (X-API-Key, stored as a hash), no password, no email, no sign-in. Made with `server/tools/make_entity.py`, which prints the key once; `--rotate-key` replaces it | `server/tools/`, `accounts.py` |
 | Admin and entity accounts do not count toward `ACCOUNT_CAP` | `accounts.count_accounts` |
+| Device keys (`rbdv_`, one per paired Pocket, max `DEVICE_LIMIT` = 3 per member; admin accounts are exempt, so the Architect can pair dev boards) | `devices.py`, `devices_routes.py` |
+| Usage metering, per-account limits and the durable account event log (S347, section R8) | `usage.py`, `usage_routes.py`, `account_events.py`, migration `0007_usage.sql` |
 
 Leave `RABBLE_ADMIN_KEY` unset in production so the Architect account is the only way into `/admin`.
 
@@ -51,8 +54,10 @@ The account exists; what it may do is open. To scope:
 - **Attribution:** show non-human authorship honestly in logs, sessions and the UI.
 - **Limits:** the `entity` tier mirrors `pro` for now; tune with use.
 
-### R6. Pocket pairing (building, Mark S346)
-Mark: set up a Pocket with a real account. Keep the shared `BEAM_DEVICE_TOKEN` (the master Pocket key: one token, every holder becomes the shared `pocket` user at `pro`, no per-person identity) and guest minting (`GUEST_ISSUE_SECRET`, used by the flasher) untouched for now, so nothing breaks while pairing is built. Remove only the two existing minted guests with `server/tools/revoke_guests.py` (run by Mark). Pairing replaces guests and the shared token later; retiring those is a separate ruling.
+### R6. Pocket pairing (built, Mark S346; guest Pockets retired S347)
+Mark: set up a Pocket with a real account. **S347 ruling: guest Pockets are removed.** `beam._authorize` accepts only a device key (`rbdv_`), an entity account's key, or a member/admin JWT. The shared `BEAM_DEVICE_TOKEN` (one token, every holder was the shared `pocket` user at `pro`) and guest-tier keys are refused, with a close of code 4401 and reason `key not accepted: pair this Pocket with a member account` (`device key required` when no key was sent; over a real HTTP upgrade the device sees the 403 handshake refusal, as before). Plain member `rbbl_` API keys and the shared admin key are refused on the beam too. The flag `BEAM_ALLOW_GUEST_POCKETS=true` (default false, testing only) re-admits the shared token and guest keys. Guest minting (`POST /api/v1/users/guest`, `GUEST_ISSUE_SECRET`, `guests.create_guest`) stays possible for testing: a guest key is minted only by Mark's own flash script with the secret from his environment. The public Pocket flasher's Worker no longer has `/api/guest` or `/api/summon` and holds no `GUEST_ISSUE_SECRET`. Existing guests: `server/tools/revoke_guests.py` (run by Mark).
+
+**Cut-off warning (deploy):** a Pocket that still holds the shared token or a guest key stops connecting at the sCoRE deploy until it is re-flashed with a device key from a member account.
 
 **Model.** A paired Pocket holds a *device key*, minted by a signed-in member and tied to that member. Using it counts against the owner's quota and tier; revoking the device or the account ends it.
 
@@ -69,7 +74,20 @@ Mark: set up a Pocket with a real account. Keep the shared `BEAM_DEVICE_TOKEN` (
 
 **Pieces:** sCoRE devices API (agent A); World portal "My Pockets" panel: add with a label, see last seen, revoke, key shown once with the pairing instructions (agent B, after A); Pocket web companion and flasher: sign in, mint, write the key instead of minting a guest (agent C, plus `log/plans/Pocket-Pairing-Plan.md`).
 
-**Retiring the old doors (later, deliberate):** rotate `GUEST_ISSUE_SECRET` and `BEAM_DEVICE_TOKEN`, revoke all guests. Do it once every Pocket Mark cares about is paired.
+**Retiring the old doors:** done on the beam at S347 (flag above). Still to do by Mark: run `revoke_guests.py`, and rotate or unset `BEAM_DEVICE_TOKEN` and `GUEST_ISSUE_SECRET` once nothing needs them for testing.
+
+### R8. Metering, limits and the account event log (built, Mark S347)
+**Rulings:** log and track everything; limit and meter per account; the Architect is unrestricted but still metered.
+
+**Metering (`usage.py`, table `usage_events`).** One row per metered call: `kind` is `turn` (a user-facing model exchange: chat, session message, workflow step, beam voice/text/translate turn, capture shaping), `tool` (the tool-calling pre-pass, tokens only), `stt` (audio seconds in) or `tts` (chars and audio seconds out). Each row carries workflow, provider, model, tokens in/out when the provider reports them (Groq `x_groq.usage`, OpenRouter and OpenAI usage blocks; nothing is invented when absent), status, device and milliseconds. Recorded for every tier, admin and entity included. `record()` never raises: a failing database is logged and the call goes on.
+
+**Limits.** Four numbers per account, counted per UTC day and month over rows with status below 400: `daily_turns`, `monthly_turns`, `daily_audio_s`, `monthly_audio_s` (audio = speech in plus speech out). Resolution: the account's own row in `account_limits` (NULL = fall through; -1 = unlimited), else the tier default. Built-in tier defaults (daily turns / monthly turns / daily audio s / monthly audio s): free 100 / 2000 / 600 / 10800; pro and collective 500 / 10000 / 3600 / 72000; entity 1000 / 20000 / 7200 / 144000; admin -1 across the board. The shared web demo guest and legacy guest accounts are recorded but left unlimited here: `guests.py` and `rate_limit.py` cap them as before. Env: `USAGE_DEFAULTS` (JSON `{"free": {"daily_turns": 50}}`) and per-tier variables `USAGE_<TIER>_<FIELD>` (they win over the JSON), read on every call. The tier is read live from the users row, so an admin's paired Pocket (a device key carries tier pro for access) meters as admin.
+
+**Enforcement.** `usage.check()` runs before the model or speech call. HTTP: 429 with a plain reason and `Retry-After`. Beam: `error` text `USAGE LIMIT REACHED` with a `reason` string, before any model or speech cost (a capture checks up front too, so no note is lost after the cost); over the audio limit mid-reply, the rest of the reply stays text. A database failure lets the call through (metering is not a security boundary). Known looseness: check-then-record, so a burst of concurrent calls can overshoot a limit by a few turns.
+
+**Event log (`account_events.py`, table `account_events`, durable; `audit.jsonl` on Render is ephemeral).** `signup`, `login.success`, `login.failure` (account id when known, never the typed name or password), `logout`, `email.verify`, `password.reset_requested`, `password.reset_completed`, `device.create`, `device.revoke`, `admin.invite.create` and `.revoke`, `invite.redeem`, `limit.set`, `usage.limit` (at most once a minute per account), `guest.limit`. IP only as the existing one-way hash. `audit.py` still writes the file and mirrors every non-model action into the table. No pruning yet: add retention when volume asks for it. Both new tables, the Pocket tables and `usage_events` are in the admin export and in the SQLite snapshot merge.
+
+**Routes (member JWT or device key; admin where stated).** `GET /api/v1/usage?days=30` (own totals by kind and by day, limits, used, remaining). Admin only: `GET /api/v1/admin/usage?days=30` (per account totals, top users), `GET /api/v1/admin/users/{id}/usage`, `GET|PUT /api/v1/admin/users/{id}/limits` (PUT sets the fields sent; -1 unlimited, null back to the tier default; writes a `limit.set` event), `GET /api/v1/admin/events?user_id=&limit=`. A device key never reaches `/admin`.
 
 ### R7. Per-user scoped permissions (Mark, S346)
 Grant each account a set of scoped permissions instead of one tier flag. Why: the Architect is only `tier = admin` today, an entity account has member rights only, and device keys, services and future agents need narrower grants than a member. To scope:

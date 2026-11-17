@@ -44,7 +44,7 @@ spark ~ sCoRE >> pocket reaches claude through the paired laptop or the cloud, w
 | No sign it was used: the access log shows only the Pocket (`192.168.1.31`, beam) and localhost; `audit.jsonl` has no `chat` entries since 2026-06. | tmux scrollback, `audit.jsonl` |
 | **P0 done S271:** the `:8000` process was stopped. Still open: remove the firewalld rule (needs sudo, section 11). | |
 | `:8000` is also Lemonade's port in the ProArt inventory (`group_vars/asus_proart_p16.yml`). Another reason not to use it for sCoRE. | RaBbLE-OS Ansible |
-| Beam auth today: one shared `BEAM_DEVICE_TOKEN` (any holder is "pocket", tier pro), or a member API key, or a JWT. No per-device identity, no revocation short of rotating the one token. | `beam.py:_authorize` |
+| Beam auth (S347: device keys only; the shared token and guest keys are refused unless `BEAM_ALLOW_GUEST_POCKETS=true`, see the Beam Protocol). Before S347: one shared `BEAM_DEVICE_TOKEN` (any holder is "pocket", tier pro), or a member API key, or a JWT. No per-device identity, no revocation short of rotating the one token. | `beam.py:_authorize` |
 
 ---
 

@@ -174,6 +174,20 @@ PUT /api/v1/users/me
     Returns: updated UserProfile
 ```
 
+**Usage, limits and events (S347, `server/usage_routes.py`).** Design and defaults: `log/plans/Accounts-Architect-and-Entity-Roadmap.md` R8.
+
+```
+GET  /api/v1/usage?days=30                    member JWT or device key: own totals by kind and day, limits, used, remaining
+GET  /api/v1/admin/usage?days=30&limit=100    admin: per account totals (busiest first), top_users
+GET  /api/v1/admin/users/{user_id}/usage      admin: one account
+GET  /api/v1/admin/users/{user_id}/limits     admin: limits (effective), source (account|tier), own overrides, tier defaults
+PUT  /api/v1/admin/users/{user_id}/limits     admin: body {daily_turns?, monthly_turns?, daily_audio_s?, monthly_audio_s?, note?};
+                                              -1 = unlimited, null = tier default, omitted = unchanged; writes a limit.set event
+GET  /api/v1/admin/events?user_id=&limit=100  admin: the durable account event log, newest first (limit <= 500)
+```
+
+Admin routes authenticate like the other `/admin` routes (shared admin key or an admin-tier user); a device key never reaches them. Over a limit, `/chat`, `/chat/complete`, sessions and workflows answer 429 with a plain reason and `Retry-After`, before the model is called. Tables: `usage_events`, `account_limits`, `account_events` (migration `0007_usage.sql`). Env: `USAGE_DEFAULTS`, `USAGE_<TIER>_<FIELD>`, `BEAM_ALLOW_GUEST_POCKETS` (see `server/env.defaults`).
+
 **Migration:** `POST /api/v1/auth/register` keeps its behavior but writes to file-based store. `_users_by_*` dicts replaced by `users.py` calls.
 
 ---
