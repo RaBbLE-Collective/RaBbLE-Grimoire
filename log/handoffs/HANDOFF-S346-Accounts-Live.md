@@ -14,9 +14,9 @@ Plan of record: `log/plans/Accounts-Architect-and-Entity-Roadmap.md` (built item
 ## Next (in order)
 
 1. **Mark: create the Architect.** `bash RaBbLE-Grimoire/spells/score-cutover.sh --architect-only` (hidden password; nothing passes through Claude). Then publish the Architect page: push RaBbLE-World `new-horizons` (deploys dev.joinrabble.world; `world/admin.html`), sign in, mint an invite for Mark's personal email, sign up with it. Then remove `RABBLE_ADMIN_KEY` from Render (it IS set today) and redeploy.
-2. **ResendMailer** (`MAIL_PROVIDER=resend`, HTTPS API) with tests; Mark creates the Resend account, adds DNS records on Cloudflare, sets the API key on Render. Until then signup without an invite returns 503 by design.
-3. **User portal in World:** sign-up (with invite token), sign-in, signed-in home (profile, chat with RaBbLE, sign out). Token in sessionStorage for 8 h (the refresh cookie cannot cross sites until the API is same-origin).
-4. **Pocket pairing (R6)**, then `tools/revoke_guests.py` and close guest minting. Dad's Pocket: re-flash on his account.
+2. **ResendMailer: BUILT** (sCoRE `28237f4`, not pushed; 8 tests; httpx; raises if `RESEND_API_KEY` or `MAIL_FROM` is missing). Mark still creates the Resend account, adds DNS records on Cloudflare, sets the API key on Render. Until then signup without an invite returns 503 by design.
+3. **User portal: BUILT** (World `c123fee`, `world/account.html`, browser-tested at 375px, not pushed; idle timeout and the 503/409/422 sign-up messages were not exercised). Original brief: sign-up (with invite token), sign-in, signed-in home (profile, chat with RaBbLE, sign out). Token in sessionStorage for 8 h (the refresh cookie cannot cross sites until the API is same-origin).
+4. **Pocket pairing (R6)** is now the critical path: Mark ruled to orphan every Pocket (`spells/pockets-orphan.sh`, built, NOT run). After it runs no Pocket can connect until pairing exists (devices table, member-minted keys, My Pockets panel, flasher writes the key). Dad's Pocket: re-flash on his account.
 5. Genesis merge prep (READMEs are plain and on every release branch; still: `registry/releases/genesis.yml`, VERSION files, PR checks, tags, `merge -s ours` joins). Ask before each squash-merge.
 6. Secrets map and vault (R3); second factor for the Architect (R1).
 
