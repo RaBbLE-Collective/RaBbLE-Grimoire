@@ -34,6 +34,8 @@ Audio of any turn but the current one is dropped on both sides. Frames may be an
 | `turn.end` | `turn` | All speech sent (button released, plus a 120 ms tail) |
 | `turn.cancel` | `turn` | Tap, barge-in during the reply, or the device gave up |
 
+**New conversation (S347).** A 1.2 s hold on the face (or `>newconvo`) calls `rabble_beam_new_convo()`: the device blanks its caption and what it kept of the thread, cancels a turn in flight, plays the fresh-start animation, and sends `new_convo`. With the link down it only sets a RAM flag (`pending_new_convo`, lost on reboot); at the next connect the device sends `new_convo` straight after `hello`, before any turn, then clears the flag. A send that fails keeps the flag. `convo_new` is informational: the device logs and drops it, and works if it never comes.
+
 A voice turn can start before the socket is up: the device buffers up to 8 s of speech and sends it on connect. Out of reach entirely, it keeps the note in PSRAM (up to 4, 15 s each) and sends it as an ordinary turn once sCoRE is reachable, possibly while the screen is asleep. In that case it only waits for `sent` and cancels the rest, so **sCoRE should keep the reply** (for the user's next look) rather than tie it to the socket.
 
 ## Time
