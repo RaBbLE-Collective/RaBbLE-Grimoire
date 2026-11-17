@@ -93,7 +93,7 @@ if [ "$DRY" = 0 ]; then
   done
   curl -s "$API/health"; echo
   # sCoRE connects to the database on its first real request, which is what runs the migration: make one.
-  curl -s -o /dev/null -X POST "$API/api/v1/auth/forgot-password" -H 'content-type: application/json' -d '{"email":"warmup@example.invalid"}' || true
+  curl -s -o /dev/null -X POST "$API/api/v1/auth/forgot-password" -H 'content-type: application/json' -d '{"email":"warmup@example.com"}' || true
   sleep 5
 fi
 
