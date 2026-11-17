@@ -7,7 +7,7 @@ transcribe ~ grimoire >> claude.ai export digested, RaBbLE chats // %ARCHIVE%
 > 68 of 218 exported conversations (Feb to Nov 2026) concern the Collective.
 > Each entry is the Claude-generated summary, trimmed. Summaries are second-hand and can be stale
 > against current Grimoire docs. Full transcripts: local archive only (see `README.md`).
-> The other 150 chats are personal, career, or empty and live in the Personal Grimoire.
+> The other 150 chats are personal (Personal Grimoire), career (Jobotron3000), Incenergy (~/Incenergy) or empty in the export.
 
 ## 2026-04
 

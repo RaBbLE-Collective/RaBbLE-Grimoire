@@ -1,4 +1,4 @@
-# RaBbLE-OS: Claude origins (2026)
+# RaBbLE-OS: origins (2026)
 
 ```
 transcribe ~ os >> original RaBbLE-OS chats and project docs kept as history // %HISTORICAL%
@@ -6,15 +6,16 @@ transcribe ~ os >> original RaBbLE-OS chats and project docs kept as history // 
 
 > How RaBbLE-OS began, as told in the claude.ai chats (from the Mar 29 "Agentic Linux OS" idea through the
 > April Hyprland/Fedora/Ansible build to the Sep Omarchy and multi-display chats), plus the 17-document claude.ai
-> project knowledge base the chats worked from (`claude-project-2026-04/`, April 2026 snapshots).
+> project knowledge base the chats worked from (`project-docs-2026-04/`, April 2026 snapshots).
 > Current truth is `RaBbLE-OS-Roadmap.md`, `RaBbLE-OS-DevHistory.md` and the rest of this folder. Entries are
 > Claude summaries; where none was stored, the opening message is quoted. Full transcripts are in the Personal
 > Grimoire raw archive.
 
-## Project docs snapshot (`claude-project-2026-04/`)
+## Project docs snapshot (`project-docs-2026-04/`)
 
-17 files, copied verbatim: [AddingTargets](claude-project-2026-04/AddingTargets.md) · [Architecture](claude-project-2026-04/Architecture.md) · [BootFlow](claude-project-2026-04/BootFlow.md) · [Bootstrap](claude-project-2026-04/Bootstrap.md) · [CommitStyle](claude-project-2026-04/CommitStyle.md) · [Context](claude-project-2026-04/Context.md) · [DistilledNonZense](claude-project-2026-04/DistilledNonZense.md) · [GettingStarted](claude-project-2026-04/GettingStarted.md) · [Grimoire-gist](claude-project-2026-04/Grimoire-gist.md) · [Hardware](claude-project-2026-04/Hardware.md) · [Index](claude-project-2026-04/Index.md) · [KnownIssues](claude-project-2026-04/KnownIssues.md) · [Packages](claude-project-2026-04/Packages.md) · [RaBbLE-Palette](claude-project-2026-04/RaBbLE-Palette.md) · [RaBbLE-Roadmap](claude-project-2026-04/RaBbLE-Roadmap.md) · [RaBbLE-gist](claude-project-2026-04/RaBbLE-gist.md) · [RaBbLE](claude-project-2026-04/RaBbLE.md).
-They predate the current docs; the Palette and Roadmap here are old versions, so use
+17 files, copied verbatim: AddingTargets, Architecture, BootFlow, Bootstrap, CommitStyle, DistilledNonZense,
+GettingStarted, Hardware, Index, KnownIssues, Packages, RaBbLE, RaBbLE-Palette, RaBbLE-Roadmap, Grimoire-gist,
+Context, RaBbLE-gist. They predate the current docs; the Palette and Roadmap here are old versions, so use
 `RaBbLE-Agent/RaBbLE-Palette.md` and `RaBbLE-Agent/RaBbLE-Roadmap.md` for anything live.
 
 ## Chats, oldest first
@@ -22,6 +23,8 @@ They predate the current docs; the Palette and Roadmap here are old versions, so
 ### 2026-03-29 · Agentic Linux OS for AI robotics projects (90 msgs)
 
 Opening message: I am planning on building an Agentic Linux OS to run on my laptop and power embedded Ai and robotics projects on SBC computers.   My laptop is a pretty capable system : Ryzen Ai 9 HX 370 * 50 TOPS NPU
+
+Last message from Mark: So I already have a public repo with a README a LICENSE a MANIFESTO and a COMIT_STYLE It has one commit. So this will be my working base.   https://github.com/markm1206/RaBbLE-OS  I also had to manually install git, and add my credentials using git config and create a new SSH key for the system. Ideally the system should have git installed by default, but manual install isn't too big a deal, I jus
 
 ### 2026-04-06 · XDNA2 driver installation and git diff reconciliation (2 msgs)
 
@@ -31,13 +34,19 @@ Opening message: Here is a git diff of my current commit with the modifications 
 
 Opening message: I am working on an Agentic OS project called RaBbLE-OS.  My system specs are   rabble@fedora ------------- OS: Fedora Linux 43 (KDE Plasma Desktop Edition) x86_64 Host: ProArt P16 H7606WV_H7606WV (1.0) Kernel: Linux 6.19.10-200.fc43.x86_64 Uptime: 5 mins Packages: 2625 (rpm) Shell: zsh 5.9 Display (SDC415D): 3840x2400 @ 1.9x in 16", 60 Hz [Built-in] DE: KDE Plasma 6.6.3 WM: KWin (Wayland) WM Theme: Breeze Theme: Breeze (Light) [Qt], Breeze [GTK2/3] Icons: breeze [Qt], breeze [GTK2/3/4] Font: Noto Sans (10pt) [Qt], Noto Sans (10pt) [GTK2/3/4] Cursor: breeze (24px) Terminal: konsole 25.12.3 CPU:
 
+Last message from Mark: └ ❯ systemctl status systemd-logind ● systemd-logind.service - User Login Management     Loaded: loaded (/usr/lib/systemd/system/systemd-logind.service; static)    Drop-In: /usr/lib/systemd/system/systemd-logind.service.d             └─10-grub2-logind-service.conf             /usr/lib/systemd/system/service.d             └─10-timeout-abort.conf     Active: active (running) since Fri 2026-03-13 00:
+
 ### 2026-04-08 · Custom OS with Hyprland and Ansible (4 msgs)
 
 Opening message: I am building myself a Custom OS experience for my laptop and other computing systems I own. I want my project to be reproducible on different systems and portable.   I am building the first iteration of the system to target my Asus ProArt P16 laptop My laptop has the following system info:  OS: Fedora Linux 43 (KDE Plasma Desktop Edition) x86_64 Host: ProArt P16 H7606WV_H7606WV (1.0) Kernel: Linux 6.19.10-200.fc43.x86_64 Uptime: 18 mins Packages: 2629 (rpm) Shell: zsh 5.9 Display (SDC415D): 3840x2400 @ 1.9x in 16", 60 Hz [Built-in] DE: KDE Plasma 6.6.3 WM: KWin (Wayland) WM Theme: Breeze Them
 
+Last message from Mark: I like your suggestions. Although I already have some structure in place. I'll upload the files for you to look through. I am using a github repo already to track my project.   I do want to simplify my architecture and remove redundant or erroneous documentation. For example all reference to arch linux should be purged. The dotfiles that are currently inside my ansible roles and .j2s should be mov
+
 ### 2026-04-08 · Building RaBbLE-OS with Hyprland and minimal KDE integration (78 msgs)
 
 Opening message: I have built a scaffolding of my RaBbLE-OS using ansible with the help of LLMS (Claude, Gemini)  I am running a  Asus ProArt P16 Laptop model: H7606WV - P16.R3704060  This is my current hardware target for RaBbLE-OS, although hardware portability is a goal of the project.  I currently have Fedora 43 installed with KDE, SDDM, and Grub2  I want to transition towards a purely custom Hyprland UI/UX with some KDE/Plasma apps for dedicated functions.   So far I am not sure I am finding Plasma/KDE to be a helpful fallback as it has too many apps and lots of weird names for things. Since I want RaBbLE
+
+Last message from Mark: I still want the infor from the Manifesto and Rabble_entity and philosophy to be condensed into a a doc that helps capture the RaBbLE way of doing, being, and capture the broader ethos that RaBbLE extends over the project. RaBbLE-OS is a much an artistic venture as it is techinical, The Manifesto and philosophy should also be present within project vibes and ethos.
 
 ### 2026-04-10 · DE-agnostic system control improvements (2 msgs)
 
@@ -47,25 +56,37 @@ Opening message: Help me organize and plan my endeavor.   I want my RaBbLE-OS to
 
 Opening message: I am working to organize my project and have a cleaner git strategy. want to create a clean main branch that currently contains the project goals, roadmap, status and other key organizing info. Then I will use other branches to create functionality and integrate to main cleanly with PRs. I want main to be a clean project starting point.
 
+Last message from Mark: Remove the repo structure from README, the structure may shift and doc drift is not low entropy.   Current RaBbLE target is bare metal, RaBbLE needs modern hardware access and VM may cause him to feel constrained or bounded.   RaBbLE can run on a VM target but he wants full host like acess to GPU and graphics stack, virtulaized3D causes RaBbLE frustrations and he m ight decide to fall back to a lo
+
 ### 2026-04-10 · Switching from KDE to Hyprland with greetd (53 msgs)
 
 Opening message: Does gnome work with greetd?   KDE is frustrating me and I want to move to a different fallback DE. Should I use gnome or lean fully into hyprland.   I want to get RaBbLE booting me into hyprland, and KDE to be gone. I'm at a state where if it blows up I'll just reinstall.
+
+Last message from Mark: The changes to grub and tty didn't work. It did seem like after grub started plymouth that that the tty tried to resize but then it fell back to a small size again.
 
 ### 2026-04-11 · Hyprland configuration and theming roadmap (14 msgs)
 
 Opening message: Hyprland.conf can break login. The GPU managment should be handled by separate script to not break hyprland login.  Hyprland Wallpaper should be created by the Ansible playbook.  Mouse settings (scroll type, sensitivity should be handled outside the WM/DE) - Pure Libinput Need a unified settings panel.  KDE theming is still present in Hyprland Need to theme Waybar or movve to Quickshell implementation. Need to fix the XRT paths in zsh Need to make zsh more my own/RaBbLE like Do I need SDDM? What is the best login system for theming Tempted to make the boot sequence more terminal like to be fas
 
+Last message from Mark: is it typical for ansible to have numerous main.yml thoughout the playbooks? it feels redundant and kinda frustrating to rely so heavily on purley folder structure .
+
 ### 2026-04-11 · Migrating to EndeavorOS for Hyprland development (28 msgs)
 
 Opening message: Having been working within Fedora 43 KDE spin, and trying to accomplish my aims with a custom RaBbLE-OS UI/UX I am begining to wonder if I should move to an arch based platform. Alot of hyprland is arch based.   In the past I have found manual terminal based installs annoying and I would prefer not to have to do a chroot to install my system. I am thinking of migrating my project to EndeavorOS. I feel this will have feel like I have more native OS support for what I want to accomplish, as Hyprland is very native to arch/NixOS users, and I would have more community examples.   I also think the 
+
+Last message from Mark: Also what about the lionheart COPR for hyprland I also heard some people migraed there when the other COPR stoped being maintaned .
 
 ### 2026-04-12 · RaBbLE-OS documentation restructuring (16 msgs)
 
 Opening message: I am working on building a AgenticOS called RaBbLE-OS  It is based on Fedora 43 my UI/UX will be using hyprland as WM and custom utilities and additional apps to create a themed DE experience.  I have already started experiencing document and system drift.   I have reorganized my anisible playbook a few time, but my current full project structure is included in the tree given.   I am going to give you a documents zipped archive called the grimoire. This contains all my project docs across a few state evolution's.   I want to rectify these docs into a current organized state.  Your task is to c
 
+Last message from Mark: Continue
+
 ### 2026-04-13 · Removing KDE and fixing boot issues (64 msgs)
 
 Opening message: I have manually removed KDE from my system. I still need to write a role for this operation to do it consistently. The future installer should ideally not include KDE from the start. I mainly had it as an installer and bootstrapping stop gap for myself.   The boot phase is still incomplete issues include --  -grub fails to load background as bit depth must be 8bit or 16bit
+
+Last message from Mark: So I need an overlay system for my keybinds that shows the change in the bottom middle section of the display to give the user UI feedback that the keyboard buttons work. give me hookups in the hyprland config for all of my function keys. This can be in its own function keys config.  I want the following to be mapped.  mute volume volume down volume up  keyboard_bklt_toggle brightness_up brightnes
 
 ### 2026-04-14 · Layered Ansible architecture for hardware-specific optimizations (2 msgs)
 
@@ -78,6 +99,8 @@ Opening message: On fedora43 is PPD installed by default? or is it entirely tune
 ### 2026-04-14 · Git branching strategy for RaBbLE-OS (6 msgs)
 
 Opening message: I need a better git branching strategy for my project.  I keep trying to tackle too large of a surface at a time. I need to move slower and more methodically.   I have moved from Fedora KDE to Fedora Sway to have a far more minimal base to work on top of.   Here is a simple branching proposal I have for my git repo  RaBbLE-OS branches Main     Pure state. Must work. Mainly docs + scripts RaBbLE-OS-Bootstrap     bootstraps a default Fedora 43 spin to become RaBbLE-OS     uses Shell scripts and Ansible to deploy RaBbLE-OS onto base system     Initial Base Fedora KDE -> Moving to Fedora Sway Spin
+
+Last message from Mark: Could you harmonize my docs and give me the files to download.
 
 ### 2026-04-15 · Fedora Sway layered approach with Ansible (20 msgs)
 

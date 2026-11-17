@@ -172,8 +172,8 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 **reference/** [Hyprland-0.55-Reference](RaBbLE-OS/Hyprland-0.55-Reference.md) — Hyprland 0.55 config reference for RaBbLE-OS
 **verify/** [Verify-PreviewFloor](RaBbLE-OS/verify/RaBbLE-OS-Verify-PreviewFloor.md) · [Verify-Checklist](RaBbLE-OS/verify/RaBbLE-OS-Verify-Checklist.md) · [Verify-PowerTesting](RaBbLE-OS/verify/RaBbLE-OS-Verify-PowerTesting.md) · [Verify-LayerState](RaBbLE-OS/verify/RaBbLE-OS-Verify-LayerState.md)
 **desktop/** [Desktop-Hyprland](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Hyprland.md) · [Desktop-Shell](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Shell.md) · [Desktop-Theming](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Theming.md) · [Desktop-BootFlow](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-BootFlow.md) · [Desktop-SDDM-Layout](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-SDDM-Layout.md) · [Desktop-sCoRE-UsageTracker](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-sCoRE-UsageTracker.md) · [Desktop-Fastfetch](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Fastfetch.md) · [Desktop-Gnome](RaBbLE-OS/desktop/RaBbLE-OS-Desktop-Gnome.md)
-**historical/** [ManualInstall](RaBbLE-OS/historical/RaBbLE-OS-ManualInstall.md) · [Epoch-I-Diff](RaBbLE-OS/historical/RaBbLE-OS-Epoch-I-Diff.md) · [Implementation-Plan](RaBbLE-OS/historical/RaBbLE-OS-Implementation-Plan.md) · [Claude-Origins-2026](RaBbLE-OS/historical/RaBbLE-OS-Claude-Origins-2026.md) (original chats + 17 project docs in `claude-project-2026-04/`)
-**historical/claude-project-2026-04/** (Apr 2026 claude.ai project docs, verbatim) [Context](RaBbLE-OS/historical/claude-project-2026-04/Context.md) · [GettingStarted](RaBbLE-OS/historical/claude-project-2026-04/GettingStarted.md) · [Grimoire-gist](RaBbLE-OS/historical/claude-project-2026-04/Grimoire-gist.md) · [Packages](RaBbLE-OS/historical/claude-project-2026-04/Packages.md) · [RaBbLE-gist](RaBbLE-OS/historical/claude-project-2026-04/RaBbLE-gist.md) · [RaBbLE](RaBbLE-OS/historical/claude-project-2026-04/RaBbLE.md)
+**historical/** [ManualInstall](RaBbLE-OS/historical/RaBbLE-OS-ManualInstall.md) · [Epoch-I-Diff](RaBbLE-OS/historical/RaBbLE-OS-Epoch-I-Diff.md) · [Implementation-Plan](RaBbLE-OS/historical/RaBbLE-OS-Implementation-Plan.md) · [Origins-2026](RaBbLE-OS/historical/RaBbLE-OS-Origins-2026.md) (original chats + 17 project docs in `project-docs-2026-04/`)
+**historical/project-docs-2026-04/** (Apr 2026 claude.ai project docs, verbatim) [Context](RaBbLE-OS/historical/project-docs-2026-04/Context.md) · [GettingStarted](RaBbLE-OS/historical/project-docs-2026-04/GettingStarted.md) · [Grimoire-gist](RaBbLE-OS/historical/project-docs-2026-04/Grimoire-gist.md) · [Packages](RaBbLE-OS/historical/project-docs-2026-04/Packages.md) · [RaBbLE-gist](RaBbLE-OS/historical/project-docs-2026-04/RaBbLE-gist.md) · [RaBbLE](RaBbLE-OS/historical/project-docs-2026-04/RaBbLE.md)
 
 ---
 
@@ -373,7 +373,7 @@ Status: [log/handoffs/CONTEXT.md](log/handoffs/CONTEXT.md).
 - [EP1-READINESS-AUDIT-S103](log/archive/EP1-READINESS-AUDIT-S103.md) — S103 full Collective audit; cross-cutting EP1 blockers
 - [EP1-Dispatch-State](log/archive/EP1-Dispatch-State.md) — S58 handoff: sCoRE Render pivot decision, manual deploy runbook
 - [S104-BABBLE-CAPTURES-GIT-REORG-PLAN](log/archive/S104-BABBLE-CAPTURES-GIT-REORG-PLAN.md) — S104 BaBbLE reorg plan (superseded by Chrysalis/Xperimental split)
-- [claude-export-2026-11-17](log/archive/claude-export-2026-11-17/README.md) — claude.ai account export: 68 RaBbLE chat digests, 32 artifact inventory, 5 un-homed design docs (raw data + personal material in Personal Grimoire, Incenergy work in ~/Incenergy)
+- [chat-export-2026-11-17](log/archive/chat-export-2026-11-17/README.md) — claude.ai account export: 68 RaBbLE chat digests, 32 artifact inventory, 5 un-homed design docs (raw data + personal material in Personal Grimoire, Incenergy work in ~/Incenergy)
 
 ---
 
