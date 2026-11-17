@@ -1,4 +1,4 @@
-# HANDOFF-S346: accounts are live on Render; Architect, portal, mailer and Pocket pairing next
+# HANDOFF-S346: accounts, Architect, one portal and device pairing are live; Resend setup, flasher tab, Genesis merge prep next
 
 Date: 2026-11-17 · sCoRE `new-horizons` (1cd965c, pushed) and `release/0.1.0` (243825f, deployed), World (admin page committed, NOT pushed), Grimoire.
 Plan of record: `log/plans/Accounts-Architect-and-Entity-Roadmap.md` (built items, roadmap R1-R6), `Accounts-Formalization-Scope.md`. Previous: `HANDOFF-S345-AC2-Built-Fixes-Pending.md` (superseded).
@@ -26,3 +26,12 @@ Plan of record: `log/plans/Accounts-Architect-and-Entity-Roadmap.md` (built item
 - Refresh sessions have no absolute lifetime (R5).
 - `~/Collective-SECRETS.zip` (May) sits in Mark's home: move into the vault, then delete.
 - The Pocket repo has uncommitted `companion-app/web/public/portal.js` and its test (not from this session).
+
+## Update (late S346): live state
+
+- **sCoRE `release/0.1.0` 7f6dbbe is deployed** (Resend mailer, device keys, `revoke_guests.py`); Neon migrations 0001-0005 applied; 579/383 tests, Neon PG clean.
+- **World `new-horizons` 271d93c is on dev.joinrabble.world:** ONE portal at `/world/account` (Home, Pockets, and an Invites tab for admins); `/world/admin` redirects to `?tab=invites`. The Architect exists on prod (Neon: 1 admin) and signs in there.
+- **Pairing today:** a member mints a key on the Pockets tab, then pastes it into the companion or sends `>beam.token=KEY` over serial. Not yet: the flasher sign-in tab (needs `portal.js`, which has uncommitted work), the firmware "key not accepted" state, device-code pairing. See `log/plans/Pocket-Pairing-Plan.md` (7 questions for Mark).
+- **Mark kept:** `BEAM_DEVICE_TOKEN` (the shared master Pocket key) and guest minting, untouched. Run `server/tools/revoke_guests.py` to remove the two minted guests when ready.
+- **Resend:** code is live but inactive (`MAIL_PROVIDER` unset). Setup steps are in the S346 conversation summary: Resend account, DNS on Cloudflare (DNS-only), API key, Render env `MAIL_PROVIDER=resend`, `RESEND_API_KEY`, `MAIL_FROM`.
+- Production pushes were done by the session after Mark said so (git push of `release/0.1.0`); the Render env changes were done by Mark with `spells/score-cutover.sh`.

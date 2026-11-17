@@ -26,9 +26,8 @@
 - **B-29** — Pocket Pomodoro loses its running timer when the device sleeps (S338, Mark): rabble_pomo.c keeps end_us from esp_timer in RAM, NVS holds only the focus/break/long/round settings, so a power-off or deep sleep drops a started session; also no alarm sound found in rabble_pomo.c (which sound it plays, if any, is unknown). Needs: persist state across sleep (RTC memory or wall-clock end time in NVS), define the alarm cue, add a host test. Noted only, not scheduled.  ·  owner:  ·  since:2026-11-15  ·  [pocket]
 - **B-32** — Pocket double-tap-to-wake cannot work on battery: apply_power puts the touch chip in deep sleep (0xD1 0x05, ignores I2C until reset) once asleep+dark+resting; raise and button still wake. Fix = lower touch power state + touch-INT light-sleep wake, needs a board (toggle 'Double tap to wake' added S341, default on). Foundling has no tap wake  ·  owner:Mark  ·  since:S341  ·  [pocket]
 - **B-33** — sCoRE beam turns are never written to R2 transcripts: beam.py does not call transcripts.record (only /chat and sessions do), so Pocket voice and translate turns leave no training data. Needs Mark's ruling on capturing guest voice, then record by workflow and skip silence hallucinations ('Thank you.', 'Bye.')  ·  owner:Mark  ·  since:S341  ·  [score]
-- **B-37** — Architect account not created on prod yet: run score-cutover.sh --architect-only in a terminal (hidden password). Then mint an invite for the personal account.  ·  owner:Mark  ·  since:2026-11-17  ·  [accounts]
 - **B-38** — No real mailer: signup without an invite returns 503 and email reset/verify send nothing until ResendMailer is built and Resend (account, DNS, API key) is set up. Invite signup works without mail.  ·  owner:Mark  ·  since:2026-11-17  ·  [accounts]
-- **B-40** — Pocket pairing in progress (R6): devices API + My Pockets panel + flasher. Until built, nothing replaces the shared BEAM_DEVICE_TOKEN or guest minting; both stay. Mark removes the two minted guests with tools/revoke_guests.py. Dad's Pocket pairs on his own account after.  ·  owner:Mark  ·  since:2026-11-17  ·  [pocket,accounts]
+- **B-41** — Pocket flasher sign-in tab not built: needs the uncommitted companion-app/web/public/portal.js (patch proposed in Pocket-Pairing-Plan.md). Until then pair by pasting the key or sending >beam.token=KEY over serial. Also: firmware shows 'Dial failed' for a revoked key.  ·  owner:Mark  ·  since:2026-11-17  ·  [pocket,accounts]
 
 ## RESOLVED
 
@@ -50,5 +49,7 @@
 - **B-34** — resolved: S346: guest cutoff 0.9 deployed to Render with the accounts release (release/0.1.0 243825f)
 - **B-35** — resolved: S345: Neon production schema cleaned; verified S346 (2 guests, 0 accounts before the Architect)
 - **B-36** — resolved: S346: AC1+AC2 deployed to Render; migration 0004 applied on Neon; /health ok
+- **B-37** — resolved: S346: Architect created on prod (Neon: 1 admin); signs in at the portal
 - **B-39** — resolved: S346: superseded: pairing is being built (R6); keep BEAM_DEVICE_TOKEN and guest minting until paired
+- **B-40** — resolved: S346: pairing slice live: devices API (sCoRE release 7f6dbbe, migration 0005) + My Pockets tab (World dev). Remaining: flasher sign-in tab (needs portal.js), firmware 'key not accepted' state, device code. Tracked in Pocket-Pairing-Plan.md
 
