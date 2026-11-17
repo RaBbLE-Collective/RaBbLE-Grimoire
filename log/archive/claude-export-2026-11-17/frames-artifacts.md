@@ -4,7 +4,7 @@
 transcribe ~ grimoire >> artifact inventory from the claude.ai export // %ARCHIVE%
 ```
 
-> 34 artifacts and pages published through Claude Code / claude.ai. Most were written from Grimoire
+> 32 artifacts and pages published through Claude Code / claude.ai. Most were written from Grimoire
 > sessions, so the plans (Web Flasher, Context Diet, Open Layer notes, Pocket Entity Port Plan,
 > EP1 Entity Face) already live in `log/plans/` and `RaBbLE-Pocket/`. This is an inventory, not a copy.
 > Latest version and all history are in the local archive under `frames/artifacts/<id>/`.
@@ -31,7 +31,6 @@ transcribe ~ grimoire >> artifact inventory from the claude.ai export // %ARCHIV
 | 2026-10-16 | 1 | page | RaBbLE Pocket: ESP32-S3 Entity Port Plan |  |
 | 2026-10-16 | 1 | arti | Pocket S252 Handoff | Pocket after 60 fps: settings composited and turning with the device, then a two-team clean room off Meta's code. |
 | 2026-10-16 | 1 | arti | Pocket Entity 60 fps | Firmware handoff plan for taking the Pocket entity from about 20 fps to 60 fps idle, with measured frame costs and gated workstreams. |
-| 2026-10-14 | 3 | page | Incenergy Portal: post-merge test plan |  |
 | 2026-10-13 | 2 | arti | EP1 Staging Audit | S247 Grimoire audit and Episode 1 staging plan: the real state of each gate, six decisions, and a five-phase ladder to air and beyond. |
 | 2026-10-12 | 8 | arti | RaBbLE Entity Rig | Rigged Three.js build of the RaBbLE entity sketch with portal eyes, hand-creatures, and ripple ground, plus behavior states and a pose panel. |
 | 2026-10-12 | 3 | arti | RaBbLE Fourier Redraw | Fourier epicycle chain redraws Mark's RaBbLE sketch in its original stroke order, in Aether neon on a dark void, with live signal and spectrum panels. |
@@ -45,4 +44,3 @@ transcribe ~ grimoire >> artifact inventory from the claude.ai export // %ARCHIV
 | 2026-09-23 | 2 | arti | RaBbLE Outrun (live) |  |
 | 2026-09-19 | 1 | arti | Portal Orb |  |
 | 2026-08-27 | 1 | arti | ICM Conformance | Audit of the RaBbLE Collective against the Interpretable Context Methodology (ICM/MWP) paper, with a five-phase adoption plan. |
-| 2026-08-04 | 5 | arti | Connect Incenergy EMS to Claude & ChatGPT | Step-by-step guide to connecting Incenergy EMS's MCP server to Claude, ChatGPT, and Gemini. |

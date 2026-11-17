@@ -11,8 +11,9 @@ Collective keeps of it. Personal and career material went to the Personal Grimoi
 | File | What it holds |
 |---|---|
 | `conversations-rabble.md` | Digest of 68 RaBbLE chats, Feb to Nov 2026, grouped by month |
-| `frames-artifacts.md` | Inventory of 34 Claude artifacts and pages, with last-edit dates |
+| `frames-artifacts.md` | Inventory of 32 Claude artifacts and pages, with last-edit dates |
 | `design-chats.md` | The Claude Design chats for RaBbLE-World, Design System, WebChat |
+| `../../../RaBbLE-OS/historical/RaBbLE-OS-Claude-Origins-2026.md` | The original RaBbLE-OS chats (Mar to Sep 2026) and the 17 project docs beside it |
 | `design-docs/` | Original design docs that had no home in the Grimoire (see below) |
 
 ## design-docs/ (verbatim, not reconciled)
@@ -31,9 +32,8 @@ documents. Check them against current canon before relying on them.
 
 - **Full transcripts** (218 chats, ~4.7M characters): contain pasted credentials (gitleaks flagged
   9 hits in `conversations.json`) and personal content. Kept in the local archive only:
-  `~/Personal-Grimoire/archive/claude-export-2026-11-17/` (mode 700, gitignored, inside the Personal Grimoire).
-- **claude.ai project docs for RaBbLE-OS** (17 files, April 2026 snapshots): stale; the live docs are in
-  `RaBbLE-OS/`. Kept in the local archive.
+  `~/Archive/claude-export-2026-11-17/` (mode 700, outside every repo).
+- **Incenergy work** (contractor project, not the Collective): moved to `~/Incenergy/docs/claude-export-2026-11-17/`.
 - **Entity Rig HTML, artifact version history, thumbnails**: local archive (`frames/`).
 - **Claude's memory of Mark**: personal items to the Personal Grimoire. The RaBbLE-relevant parts are
   summarised below.
