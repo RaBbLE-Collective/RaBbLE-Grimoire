@@ -174,7 +174,7 @@ Voice choices: `>voice=daniel`, `>voice=austin` or `>voice=troy` (or **Settings 
 | Shake | The face wobbles, dizzy. |
 | Raise the device | Wakes it (on by default; `>raise_wake=0` turns it off). The gyro also keeps the face upright and follows turns. |
 | Long-press the time on the face | Set the clock (also Settings > Clock). |
-| Hold a finger still on the face for 1.2 s (not on the time or the icons) | New conversation: clears the thread, the eyes withdraw into the portals and come back out (about 0.8 s). `>newconvo` does the same from the console. |
+| Hold a finger still on the face for 1.2 s (not on the time or the icons) | New conversation: clears the thread; the face shows NEW CONVERSATION for 1.2 s, the eyes withdraw into the portals and come back out, and the ring does one lap (about 0.8 s). `>newconvo` does the same from the console. |
 | Swipe down | Converse mode |
 | Swipe up | Capture mode |
 | Tap the mode icon under the clock | Toggle Converse / Capture |
