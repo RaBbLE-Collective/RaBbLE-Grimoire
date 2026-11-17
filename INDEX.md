@@ -372,6 +372,7 @@ Status: [log/handoffs/CONTEXT.md](log/handoffs/CONTEXT.md).
 - [EP1-READINESS-AUDIT-S103](log/archive/EP1-READINESS-AUDIT-S103.md) — S103 full Collective audit; cross-cutting EP1 blockers
 - [EP1-Dispatch-State](log/archive/EP1-Dispatch-State.md) — S58 handoff: sCoRE Render pivot decision, manual deploy runbook
 - [S104-BABBLE-CAPTURES-GIT-REORG-PLAN](log/archive/S104-BABBLE-CAPTURES-GIT-REORG-PLAN.md) — S104 BaBbLE reorg plan (superseded by Chrysalis/Xperimental split)
+- [claude-export-2026-11-17](log/archive/claude-export-2026-11-17/README.md) — claude.ai account export: 68 RaBbLE chat digests, 34 artifact inventory, 5 un-homed design docs (raw data + personal material in Personal Grimoire)
 
 ---
 
