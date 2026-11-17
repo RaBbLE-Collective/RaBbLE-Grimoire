@@ -1,6 +1,6 @@
 # Pocket pairing plan (AC7)
 
-Status: v0.1, 2026-11-17. Scope is the Pocket side of R6 in `Accounts-Architect-and-Entity-Roadmap.md`. Mint-and-write is built server side and not yet wired into the page; device code is design only. Nothing existing is removed or changed: guest keys and `BEAM_DEVICE_TOKEN` keep working. Not run on hardware, not deployed.
+Status: v0.2, 2026-11-17 (S347). Built and tested with mocks: the companion is gated behind member sign-in and pairs on flash (section g). Not deployed, not run against real sCoRE or hardware. Device code (c) is design only. Guest keys and `BEAM_DEVICE_TOKEN` keep working server side (`/api/guest`, `/api/summon` untouched) but the page no longer offers them.
 
 Sources: `RaBbLE-Pocket/companion-app/web/{worker/index.js,public/portal.js,CONTEXT.md}`, `RaBbLE-Pocket/firmware/core/rabble_core/src/rabble_settings.c`, `firmware/entities/RaBbLE/{src/rabble_setup.c,rabble_beam/src/rabble_beam_score.c}`, `RaBbLE-sCoRE/server/beam.py`, `RaBbLE-Pocket-Beam-Protocol.md`.
 
@@ -78,6 +78,16 @@ Hand-written against the committed `portal.js` and `index.html`, not applied, no
 
 `api()` already throws `data.error`, and the Worker's `error` strings are the user-facing messages above, so no extra mapping is needed in the page.
 
+### g. Built S347: sign-in gate (supersedes the Sign in tab patch above)
+
+Mark's rulings: the flasher is gated behind login; a flashed Pocket gets a freshly minted device key for the signed-in account automatically; no pasted keys, no anonymous guest key.
+
+- Worker: `POST /api/login` (sCoRE `/api/v1/auth/login`; guest and entity accounts refused with `not_member`; 10 per hour per IP) sets cookie `pocket_session` (HttpOnly, Secure, SameSite=Strict, 1 hour, AES-GCM encrypted under a key derived from `ACCESS_SIGNING_KEY`, so the sCoRE token is neither readable by page JS nor in plain text). `GET /api/me` returns `{username}` or 401 `session_expired`; `POST /api/logout` clears it; `/api/lock` clears it too. `POST /api/pair {label}` mints from the cookie (no password) and returns `{key,id,label}`; a 401 from sCoRE clears the cookie and answers `session_expired`. Behind the early-access cookie, which is unchanged. Files: `worker/index.js`, `worker/pairing.js` (`login`, `mint`, `pair`), `worker/session.js`.
+- Page: a sign-in card; the flasher is hidden (not destroyed) until signed in, so an ended session mid-flow returns to sign-in and, after signing in again, finishes pairing with no second flash. After a flash and the `@status` check it pairs: Fresh flash or no key reported mints and runs `c.set('beam.token', key)`, shows the key once and "Paired as <label>"; an Automatic update that reports a token says "Already paired" and mints nothing. Send adds Wi-Fi and pairs only if the device still has no key. A failed pair never clears an existing token. Sign out closes the console and re-gates.
+- Errors in plain words: `sign_in_failed`, `not_member`, `device_limit` (points to the Pockets tab at dev.joinrabble.world/world/account), `rate_limited`, `unreachable`, `upstream`, `session_expired`.
+- Tests: `node test/pairing_test.mjs` (17 checks, fake sCoRE, Worker routes) and `test/portal_test.py` (Playwright, mocked Worker and serial).
+- Unverified: the real sCoRE login response shape (the code reads `user.handle`/`username` and refuses `kind`/`account_type`/`role` of guest or entity, and `is_guest`/`is_entity`; if sCoRE names these differently only the mint 403 catches guests), the token lifetime (cookie is 1 hour regardless), the device-limit status code, Secure cookie behaviour on the deployed host, behaviour on hardware.
+
 ## c. Device code flow (later)
 
 An unpaired Pocket shows a short code; the member types it in the portal; the Pocket polls and receives its key. No cable, no companion, works for a Pocket already in someone's hands.
@@ -98,7 +108,7 @@ Companion: `@status` carries `beam.token` as set/unset only, so the companion ca
 
 ## e. Migration
 
-- Nothing changes for existing keys. Guest keys (`GUEST_ISSUE_SECRET`, `/api/guest`) and the shared `BEAM_DEVICE_TOKEN` stay accepted. The companion's auto guest key after a flash stays as the default until the Sign in tab ships and Mark rules otherwise; the Sign in tab is an addition, not a replacement.
+- (S347: the page no longer offers the guest key, invite or pasted key; the points below describe the server side, which is unchanged.) Nothing changes for existing keys. Guest keys (`GUEST_ISSUE_SECRET`, `/api/guest`) and the shared `BEAM_DEVICE_TOKEN` stay accepted. The companion's auto guest key after a flash stays as the default until the Sign in tab ships and Mark rules otherwise; the Sign in tab is an addition, not a replacement.
 - A Pocket already in someone's hands (for example Dad's): it holds a guest key or the shared token in NVS. Pairing writes `beam.token` over serial, so they need the cable once: open the companion, Connect to the device (no reflash needed, settings are kept), Sign in, tick Replace. The old key is not revoked by this; revoking old guests is a Mark step (`server/tools/revoke_guests.py`). Until the device code flow exists, a Pocket that cannot be reached by cable stays on its old key.
 - Order of retirement (R6, later and deliberate): pair every Pocket Mark cares about; then rotate `BEAM_DEVICE_TOKEN` and `GUEST_ISSUE_SECRET` and revoke guests. Before that, make the Worker stop minting guests only by a separate ruling.
 - Deploy order for mint-and-write: sCoRE devices API live, then Worker deploy (`wrangler deploy`, Mark), then the page UI.

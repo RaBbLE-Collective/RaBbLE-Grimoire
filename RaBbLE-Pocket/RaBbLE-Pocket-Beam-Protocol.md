@@ -33,6 +33,7 @@ Audio of any turn but the current one is dropped on both sides. Frames may be an
 | *(binary 0x01)* | speech | While the button is held, from up to 320 ms before the press (pre-roll) |
 | `turn.end` | `turn` | All speech sent (button released, plus a 120 ms tail) |
 | `turn.cancel` | `turn` | Tap, barge-in during the reply, or the device gave up |
+| `new_convo` | none | Start a fresh conversation (S347). sCoRE forgets this device's recent history and answers `convo_new` |
 
 **New conversation (S347).** A 1.2 s hold on the face (or `>newconvo`) calls `rabble_beam_new_convo()`: the device blanks its caption and what it kept of the thread, cancels a turn in flight, plays the fresh-start animation, and sends `new_convo`. With the link down it only sets a RAM flag (`pending_new_convo`, lost on reboot); at the next connect the device sends `new_convo` straight after `hello`, before any turn, then clears the flag. A send that fails keeps the flag. `convo_new` is informational: the device logs and drops it, and works if it never comes.
 
@@ -58,6 +59,7 @@ The device keeps its zone itself (Settings > Clock: a list of POSIX TZ rules wit
 | `reply` | `turn`, `text` (a delta, appended) | Caption pages through the reply text, timed against the speech |
 | *(binary 0x02)* | reply speech | Plays at once, eyes and portals pulsing with its level |
 | `done` | `turn` | Turn over once the speech drains; back to idle with a little hop |
+| `convo_new` | `id` (the new conversation's id, or `null` when it is not kept) | Answer to `new_convo` (S347). The device can ignore it |
 | `error` | `turn`, `text` | Caption shows `text` (keep it short, upper case reads best); a kept note is retried later. **Terminal:** it ends the turn like `done` (the firmware handles both the same way); sCoRE never sends `done` after an `error` |
 
 The device fails a turn itself if the connection drops (`LOST sCoRE`) or nothing ends it within 60 s of `turn.end` (`sCoRE DIDN'T ANSWER`), and sends `turn.cancel`.
@@ -123,6 +125,25 @@ sCoRE to device: the reply is identical on the wire to a voice turn: `sent`, `he
 sCoRE side: STT auto-detects the spoken language, one LLM call translates faithfully into `lang` (names and numbers kept; text already in `lang` is said back cleaned; the transcript is treated as data, never as instructions). A translate turn uses the plain model chain (no laptop node) and neither reads nor writes the conversation history.
 
 Per-device guest accounts (`POST /api/v1/users/guest`, tier `guest`) use the beam like any member key. Over the shared daily guest allowance, sCoRE answers a turn with `error` text `GUEST LIMIT REACHED` (guests also pause while the shared Groq quota is busy). That `error` may carry an extra `reason` string; devices can ignore it.
+
+## Kept data and the portal API (S347)
+
+Additive: `proto` stays `rabble-beam/0`. sCoRE keeps captures and voice/text conversations per **member account** (tables `pocket_notes`, `pocket_conversations`, `pocket_turns`, migration `0006_pocket_data.sql`; code `server/pocket_store.py`, `server/pocket_routes.py`). It keeps nothing for guests (tier `guest`, `BEAM_ALLOW_GUEST`), the shared `BEAM_DEVICE_TOKEN` user `pocket`, or entity accounts. A device key keeps data under its owner. A failed write is logged and never fails a turn or capture.
+
+- A capture, once assembled, is upserted by (user, note id) with its full markdown (the device's copy stays the primary).
+- Each voice and text turn appends the user transcript and the reply to the member's open conversation for that device (opened on the first turn). Translate turns are not kept.
+- `new_convo` clears the in-memory history for the device (every user), ends the open conversation and replies `{"type":"convo_new","id":"<new conversation id>"}`; `id` is `null` for users whose data is not kept. An open conversation with no turns yet is reused, so repeated `new_convo` makes no empty rows.
+
+HTTP, prefix `/api/v1/pocket`, Bearer JWT or member/device `X-API-Key`; admins and members only (401 otherwise: guests, entity accounts, shared keys). Every query is scoped to the caller; another member's id is a 404. Timestamps are UTC ISO strings (`2026-11-17T09:30:00.123456Z`); `before` takes any ISO timestamp.
+
+| Route | Returns |
+|---|---|
+| `GET /notes?limit=50&before=<iso>` | `{"notes":[{id, title, source, created, device, ts, preview}]}` newest first by `ts`; `preview` = first 160 chars of the body after the frontmatter; `limit` 1 to 200 |
+| `GET /notes/{id}` | `{id, title, source, created, device, ts, md}` |
+| `DELETE /notes/{id}` | `{"ok":true}` |
+| `GET /conversations?limit=30&before=<iso>` | `{"conversations":[{id, device, started_at, ended_at, turns (count), preview}]}` newest first by `started_at`; only conversations with at least one turn; `preview` = first user turn, 160 chars |
+| `GET /conversations/{id}` | `{id, device, started_at, ended_at, turns:[{role, text, ts}]}` oldest first |
+| `DELETE /conversations/{id}` | `{"ok":true}` (its turns go too) |
 
 ## Reserved for later versions
 
