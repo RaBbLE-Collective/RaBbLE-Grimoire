@@ -16,7 +16,7 @@ transcribe ~ score/accounts >> Architect + entity accounts built; second factor,
 | Invite-gated signup: `SIGNUP_INVITE_ONLY=true`. A valid invite skips the cap and the email check | `accounts_routes.py` |
 | The Architect: an admin-tier account made locally with `server/tools/make_architect.py` (hidden password input, refuses a pipe). `--promote` and `--reset-password` (the break-glass) | `server/tools/` |
 | Admin routes for invites: mint, list, revoke. Works for a signed-in admin, not only the shared key | `auth_routes.py` |
-| Architect page: `world/admin.html` in World (token in memory only, 20 minute idle sign-out) | RaBbLE-World |
+| One portal, one login (Mark, S346): `world/account.html` in World. Everyone gets Home (profile, chat) and Pockets; admin-tier accounts get extra tabs, starting with Invites (mint, list, revoke). The admin code loads only for admins; the server still enforces every admin route. The separate Architect page is retired and `/world/admin` redirects to `?tab=invites` | RaBbLE-World |
 | Reserved names: any handle containing `rabble`, `architect` or `admin`, plus a short exact list. The local tools bypass it | `accounts.username_problem` |
 | Email reset never applies to admin or non-human accounts | `accounts.reset_allowed` |
 | Non-human accounts: `kind = "entity"`, tier `entity`. API key only (X-API-Key, stored as a hash), no password, no email, no sign-in. Made with `server/tools/make_entity.py`, which prints the key once; `--rotate-key` replaces it | `server/tools/`, `accounts.py` |
