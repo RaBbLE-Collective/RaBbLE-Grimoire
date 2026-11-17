@@ -13,9 +13,8 @@ transcribe ~ os >> original RaBbLE-OS chats and project docs kept as history // 
 
 ## Project docs snapshot (`claude-project-2026-04/`)
 
-17 files, copied verbatim: AddingTargets, Architecture, BootFlow, Bootstrap, CommitStyle, DistilledNonZense,
-GettingStarted, Hardware, Index, KnownIssues, Packages, RaBbLE, RaBbLE-Palette, RaBbLE-Roadmap, Grimoire-gist,
-Context, RaBbLE-gist. They predate the current docs; the Palette and Roadmap here are old versions, so use
+17 files, copied verbatim: [AddingTargets](claude-project-2026-04/AddingTargets.md) · [Architecture](claude-project-2026-04/Architecture.md) · [BootFlow](claude-project-2026-04/BootFlow.md) · [Bootstrap](claude-project-2026-04/Bootstrap.md) · [CommitStyle](claude-project-2026-04/CommitStyle.md) · [Context](claude-project-2026-04/Context.md) · [DistilledNonZense](claude-project-2026-04/DistilledNonZense.md) · [GettingStarted](claude-project-2026-04/GettingStarted.md) · [Grimoire-gist](claude-project-2026-04/Grimoire-gist.md) · [Hardware](claude-project-2026-04/Hardware.md) · [Index](claude-project-2026-04/Index.md) · [KnownIssues](claude-project-2026-04/KnownIssues.md) · [Packages](claude-project-2026-04/Packages.md) · [RaBbLE-Palette](claude-project-2026-04/RaBbLE-Palette.md) · [RaBbLE-Roadmap](claude-project-2026-04/RaBbLE-Roadmap.md) · [RaBbLE-gist](claude-project-2026-04/RaBbLE-gist.md) · [RaBbLE](claude-project-2026-04/RaBbLE.md).
+They predate the current docs; the Palette and Roadmap here are old versions, so use
 `RaBbLE-Agent/RaBbLE-Palette.md` and `RaBbLE-Agent/RaBbLE-Roadmap.md` for anything live.
 
 ## Chats, oldest first
