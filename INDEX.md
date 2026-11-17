@@ -92,6 +92,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - **[RaBbLE-Service-Plan](RaBbLE-Collective/RaBbLE-Service-Plan.md)** — **Service Roadmap & Business Model.** Service/tier progression across episodes (heavily-referenced hub).
 
 ---
+- [RaBbLE-Society-of-Agents-Architecture](RaBbLE-Collective/RaBbLE-Society-of-Agents-Architecture.md) — hierarchical multi-agent research notes: orchestrator capacity, MAST failure taxonomy (recovered 2026-08-15)
 
 ## Registry
 
@@ -125,6 +126,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [Summoned](RaBbLE-Mythos/Summoned/) — short story: the entity's origin told as fiction
 
 ---
+- [RaBbLE-Distilled-Nonzens-Mythos](RaBbLE-Mythos/RaBbLE-Distilled-Nonzens-Mythos.md) — the creation mythos: Distilled Nonzens HQ, Nonzens, Core/Nodes/limbs structure (recovered 2026-07-08)
 
 ## Spells
 
@@ -233,6 +235,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-NeBuLA-RBCNS](RaBbLE-NeBuLA/RaBbLE-NeBuLA-RBCNS.md) — historical naming spec (**archived, do not follow**)
 
 ---
+- [RaBbLE-NeBuLA-VJ-Persona-Notes](RaBbLE-NeBuLA/RaBbLE-NeBuLA-VJ-Persona-Notes.md) — RaBbLE as a VJ persona: decided vs suggested, traction, content volume (recovered from chat, 2026-10-05)
 
 ## RaBbLE-Aether
 
@@ -293,12 +296,15 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-Pocket-V1-Firmware-Plan](RaBbLE-Pocket/RaBbLE-Pocket-V1-Firmware-Plan.md) — first custom firmware: idle face (eyes/time/battery %), GIF-frame boot animation, touch settings, two-tier PMIC-gated sleep/wake; BSP/HAL file layout + 7-slice incremental verification plan
 
 ---
+- [RaBbLE-Pocket-Muse-Bringup](RaBbLE-Pocket/RaBbLE-Pocket-Muse-Bringup.md) — personal-use bring-up of Meta's Muse Gadget SDK on the Pocket board, with hard rules (recovered 2026-09-24)
+- [RaBbLE-Pocket-Boot-Latency-and-Power-Session](RaBbLE-Pocket/RaBbLE-Pocket-Boot-Latency-and-Power-Session.md) — 1.5 s cold boot diagnosis, power modes, ambient-capture test scope, NXP DSP path shelved (recovered 2026-08-09)
 
 ## RaBbLE-EnGrAm
 
 - **[RaBbLE-EnGrAm-Architecture](RaBbLE-EnGrAm/RaBbLE-EnGrAm-Architecture.md)** — **the memory member**: unified item schema, hybrid vector+graph store, self-hosted PWA. Architecture only, no repo yet.
 
 ---
+- [RaBbLE-EnGrAm-Photo-Notes-Storage-Origins](RaBbLE-EnGrAm/RaBbLE-EnGrAm-Photo-Notes-Storage-Origins.md) — predecessor notes: multi-tenant photo and notes store, unified item schema (recovered 2026-08-15)
 
 ## Log
 

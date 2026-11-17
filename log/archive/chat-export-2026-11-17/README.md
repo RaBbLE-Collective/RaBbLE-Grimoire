@@ -11,6 +11,7 @@ Collective keeps of it. Personal and career material went to the Personal Grimoi
 | File | What it holds |
 |---|---|
 | `conversations-rabble.md` | Digest of 68 RaBbLE chats, Feb to Nov 2026, grouped by month |
+| `transcript-mining.md` | Method and results of the second pass over the raw transcripts |
 | `uncataloged-rabble-threads.md` | 8 RaBbLE threads from the chats with no Grimoire home, evidence and suggested homes |
 | `frames-artifacts.md` | Inventory of 32 Claude artifacts and pages, with last-edit dates |
 | `design-chats.md` | The Claude Design chats for RaBbLE-World, Design System, WebChat |
