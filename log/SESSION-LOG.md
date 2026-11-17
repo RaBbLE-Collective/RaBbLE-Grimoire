@@ -11,9 +11,9 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-11-17 · S346 (score-accounts-live)
 
 **Phase:** Epoch 0 · Foundation.
-**This session:** S346: sCoRE accounts live; Architect, invites, entity accounts
-**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28/B-29/B-32/B-33/B-37/B-38/B-39 open.
-**Next:** create Architect, Resend, portal, Pocket pairing, Genesis merge prep
+**This session:** S346: accounts, Architect, one portal, device pairing live; Resend + Genesis merge next
+**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28/B-29/B-32/B-33/B-38/B-41 open.
+**Next:** Resend setup, flasher tab, Genesis merge prep (genesis.yml, VERSION, PR checks)
 
 ---
 
