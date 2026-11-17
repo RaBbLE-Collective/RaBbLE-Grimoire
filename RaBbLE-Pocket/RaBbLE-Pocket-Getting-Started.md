@@ -119,6 +119,14 @@ sCoRE refuses the connection without a token, even in demo mode. Hosted tokens a
 
 A long token can be sent in pieces: `>beam.token=FIRST_PART` then `>beam.token+=NEXT_PART`. Or use **Settings > sCoRE** on the device (Test, Reset URL).
 
+**Flash and pair your own Pocket (the Architect).** From the Collective root, in a real terminal:
+
+```sh
+bash RaBbLE-Grimoire/spells/flash-pocket.sh --board rabble_waveshare_175c
+```
+
+It builds and flashes with `ops/build-flash.sh`, asks for the `RaBbLE-Architect` password (hidden, read from the terminal only; it refuses a pipe, env var or argument), signs in to sCoRE, mints a device key under that account (admin tier: no device limit, usage still metered), sends it with `>beam.token=` (chunked with `+=`), checks `>status` and runs `>beam.test`. The key is never printed unless you pass `--show-key`. A Pocket that already has a key is only replaced after you say yes; if pairing fails after the key was minted it offers to revoke it. Other flags: `--no-flash` (re-pair over the console, settings kept), `--port`, `--label`, `--api`, `--wifi-ssid` with `--wifi-pass -` (hidden prompt), `--dry-run`, `--help`. Test: `bash spells/tests/flash-pocket.test.sh` (mock sCoRE on port 8011 and a mock Pocket on a pty).
+
 **Self-hosting.** Run your own sCoRE with a `BEAM_DEVICE_TOKEN` set (see the sCoRE repo and the [Beam Protocol](RaBbLE-Pocket-Beam-Protocol.md)) and point the Pocket at it:
 
 ```
