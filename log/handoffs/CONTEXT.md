@@ -13,6 +13,7 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 
 Re-triaged S320 from the S318 audit (`log/plans/Collective-Coherency-Audit-S318/audit-plans-roadmap.md` 1c). Superseded and finished handoffs moved to `done/` with a status banner on line 1; none deleted.
 
+| `HANDOFF-S347-Pocket-Accounts-Metering.md` | 🔵 S347 cold start: Pockets pair to accounts, captures and conversations in the portal, metering and limits, flash-pocket modes; deploy order, Genesis merge prep next |
 | `HANDOFF-S346-Accounts-Live.md` | 🔵 S346 cold start: accounts, the Architect, one portal and device pairing live; Resend setup, flasher tab, Genesis merge prep next |
 - `HANDOFF-S345-AC2-Built-Fixes-Pending.md`: **start here** for accounts (Neon cleaned, AC2 sign-in built but uncommitted, NiBbLE found 6 mediums, apply fixes, re-review, commit, cut over). Supersedes the S343 next-steps list for AC2.
 - `HANDOFF-S343-Neon-AC1-Accounts-Next.md`: **start here** for accounts (Neon live, AC1 store committed in sCoRE, Neon junk cleanup, Resend, AC2 sign-in, Pocket device pairing, encrypted R2 sandboxes). The `/mcp` UI scope is `log/plans/RaBbLE-TUI-MCP-Scope.md`.

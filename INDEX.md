@@ -355,6 +355,7 @@ Status lives in each plan; the one-line status table is [log/plans/CONTEXT.md](l
 Status: [log/handoffs/CONTEXT.md](log/handoffs/CONTEXT.md).
 
 - [HANDOFF-S290-Anti-Clobber-Sessions](log/handoffs/HANDOFF-S290-Anti-Clobber-Sessions.md): harness-agnostic session identity (claude, rabble, codex, gemini...), per-session event logs with harness/provider/model, atomic S-numbers, locked ledger, `mine.sh`, working pre-commit warning; installed, sandbox-tested; next a live second-session + codex/gemini test
+- [HANDOFF-S347-Pocket-Accounts-Metering](log/handoffs/HANDOFF-S347-Pocket-Accounts-Metering.md): Pockets pair to accounts, kept captures and conversations, metering and limits, flash-pocket modes, deploy order and Genesis merge next
 - [HANDOFF-S348-Chat-Export-Integration](log/handoffs/HANDOFF-S348-Chat-Export-Integration.md): the claude.ai export integrated into both Grimoires; where everything is, review flags, open rulings (framework stance, encryption), 8 uncataloged threads
 - [HANDOFF-S343-Neon-AC1-Accounts-Next](log/handoffs/HANDOFF-S343-Neon-AC1-Accounts-Next.md): Neon live, AC1 store built, Neon junk cleanup, Resend investigation, AC2 sign-in, Pocket device pairing, encrypted R2 sandboxes
 - [RaBbLE-TUI-MCP-Scope](log/plans/RaBbLE-TUI-MCP-Scope.md): native `/mcp` for the RaBbLE UI (list, reconnect, toggle, authenticate by hand-off); parallel-session scope

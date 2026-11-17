@@ -29,6 +29,16 @@ Format: date, what was done, where things were left, what's next.
 - **Not done:** `[REVIEW]` flags in the new folios; `RaBbLE-World-Architecture.md` line 382 still says "No React, no frameworks" (Mark to say if it should be reworded); the multi-display and compositor rows need checking against S328; the 8 uncataloged threads are listed, not promoted; the personal `archive/`, `babble/` and Incenergy folders still say "claude-export"; the 69 empty chats cannot be mined.
 - **Next:** `log/handoffs/HANDOFF-S348-Chat-Export-Integration.md`.
 
+## 2026-11-17 · Session S347 (pocket-accounts-metering)
+
+- **Repos:** sCoRE, World, Pocket, Grimoire (Collective pushed only). `new-horizons`; no deploys.
+- **Asked:** push everything; v0.1.0 includes accounts; flasher gated behind login and pairs on flash; captures and conversations in the portal; a new-conversation gesture on the Pocket; fix dev and prod pages; account login top right and a guest prompt after 2 turns; per-account logging, metering and limits; guest Pockets removed; a flash spell with modes.
+- **Done:** sCoRE keeps notes and conversations per member (`aa9215b`) and meters usage with per-account limits and a durable event log (`6a731fa`: migrations 0006, 0007; the beam accepts only device keys, entity keys and member/admin JWTs; `BEAM_ALLOW_GUEST_POCKETS` default off). World: Captures and Conversations tabs, account control, guest prompt, CDN pins to Aether/NeBuLA v0.1.0 (rc.1 NeBuLA left the face clipped off dev). Pocket: flasher behind member sign-in with mint-on-flash, Worker guest routes removed, long-press new conversation with a NEW CONVERSATION prompt and one ring lap. Grimoire: `flash-pocket.sh` modes keep (default), account (any member), guest, none. Flashed Mark's 1.75b once (keep mode, hash verified).
+- **Found:** live `pocket.joinrabble.world` still needs only the early-access code (Worker not deployed). Mark's 1.75b reported no key after the keep flash (Wi-Fi kept); re-mint is the expected path. The device sees HTTP 403 for a refused key, so the close reason is not readable by firmware.
+- **Rulings (Mark):** Pockets belong to real accounts; guest Pockets are disposable test fixtures he makes; the Architect key is unlimited but metered; v0.1.0 includes accounts.
+- **Not done:** deploys (sCoRE, Worker, World prod), re-minting the 1.75b, `revoke_guests.py`, Genesis merge prep, real-service verification of everything that was mocked, hardware check of the animation.
+- **Next:** `log/handoffs/HANDOFF-S347-Pocket-Accounts-Metering.md`.
+
 ## 2026-11-17 · Session S346 (score-accounts-live)
 
 - **Repos:** sCoRE, World, Pocket, Grimoire, Collective, OS (READMEs). `new-horizons`; sCoRE `release/0.1.0` deployed.
