@@ -3,6 +3,8 @@
 Date: 2026-11-17 · repos: sCoRE, World, Pocket, Grimoire, Collective (all `new-horizons`). Supersedes `HANDOFF-S346-Accounts-Live.md` for what to do next (its rules and gotchas still stand: read its "Rules and gotchas").
 Mark's ruling this session: **v0.1.0 includes accounts.** Pockets belong to real accounts; guest Pockets are disposable test fixtures Mark makes himself.
 
+> **Update, later in S347 (Mark approved the deploys):** the sCoRE merge `739ec37` is pushed on `release/0.1.0` and live on Render (`/api/v1/pocket/notes` answers 401, `/api/v1/usage` 403, `/health` ok, a warmup request ran so migrations 0006 and 0007 should have applied: NOT verified in Neon, the agent was denied direct database access). The Pocket Worker is deployed (version 766232c3; the page has the sign-in card; `ACCESS_SIGNING_KEY` was already set). Mark's 1.75b was reflashed with `keep` (hash verified, new prompt and ring lap on it) and has NO key. Still to do, by Mark in his terminal: (1) re-mint: `bash RaBbLE-Grimoire/spells/flash-pocket.sh --mode account --no-flash`; (2) `cd RaBbLE-sCoRE/server && set -a && . ../.env.local && set +a && ../.venv/bin/python tools/revoke_guests.py --dry-run` then without `--dry-run` (it needs a real terminal and asks him to type REVOKE); (3) check Neon has the 0006/0007 tables; (4) optionally unset `GUEST_ISSUE_SECRET` and `BEAM_DEVICE_TOKEN` on Render and delete the Worker's `GUEST_ISSUE_SECRET` secret to close guest minting entirely. The "What Mark does" order below is therefore partly done.
+
 ## Built this session (all tested against mocks only; nothing visual or on a real server yet)
 
 | Piece | Where | State |

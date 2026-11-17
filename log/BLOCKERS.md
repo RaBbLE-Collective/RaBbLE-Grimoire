@@ -27,8 +27,8 @@
 - **B-32** — Pocket double-tap-to-wake cannot work on battery: apply_power puts the touch chip in deep sleep (0xD1 0x05, ignores I2C until reset) once asleep+dark+resting; raise and button still wake. Fix = lower touch power state + touch-INT light-sleep wake, needs a board (toggle 'Double tap to wake' added S341, default on). Foundling has no tap wake  ·  owner:Mark  ·  since:S341  ·  [pocket]
 - **B-33** — sCoRE beam turns are never written to R2 transcripts: beam.py does not call transcripts.record (only /chat and sessions do), so Pocket voice and translate turns leave no training data. Needs Mark's ruling on capturing guest voice, then record by workflow and skip silence hallucinations ('Thank you.', 'Bye.')  ·  owner:Mark  ·  since:S341  ·  [score]
 - **B-38** — No real mailer: signup without an invite returns 503 and email reset/verify send nothing until ResendMailer is built and Resend (account, DNS, API key) is set up. Invite signup works without mail.  ·  owner:Mark  ·  since:2026-11-17  ·  [accounts]
-- **B-42** — S347 deploy not done: sCoRE 6a731fa (metering, 0006/0007, guest Pockets refused on the beam) is unpushed and undeployed, and the Pocket Worker and World prod are not deployed. A Pocket holding a guest or shared key is cut off once sCoRE deploys: re-mint Mark's 1.75b first (flash-pocket.sh --mode account --no-flash). Order and steps in HANDOFF-S347  ·  owner:Mark  ·  since:2026-11-17  ·  [accounts,deploy]
 - **B-43** — Pocket firmware shows 'Dial failed' for a refused key; sCoRE close reason (code 4401) is not visible to the device over a real upgrade (HTTP 403). Needs the beam to accept then close, plus a 'key not accepted, pair again' screen  ·  owner:Mark  ·  since:2026-11-17  ·  [pocket,accounts]
+- **B-44** — After the S347 deploys: Mark re-mints his 1.75b (flash-pocket.sh --mode account --no-flash), runs tools/revoke_guests.py in his terminal (dry-run first), and checks Neon has the 0006/0007 tables (pocket_*, usage_events, account_limits, account_events). Optional: unset GUEST_ISSUE_SECRET and BEAM_DEVICE_TOKEN on Render and the Worker secret GUEST_ISSUE_SECRET to close guest minting. The dad's 1.75c is cut off until paired to an account  ·  owner:Mark  ·  since:2026-11-17  ·  [accounts,pocket]
 
 ## RESOLVED
 
@@ -54,4 +54,5 @@
 - **B-39** — resolved: S346: superseded: pairing is being built (R6); keep BEAM_DEVICE_TOKEN and guest minting until paired
 - **B-40** — resolved: S346: pairing slice live: devices API (sCoRE release 7f6dbbe, migration 0005) + My Pockets tab (World dev). Remaining: flasher sign-in tab (needs portal.js), firmware 'key not accepted' state, device code. Tracked in Pocket-Pairing-Plan.md
 - **B-41** — resolved: S347: flasher gated behind member sign-in and mints on flash (Pocket 2715027, eeac38f, cb96d75); not deployed; the Pocket Worker still needs wrangler deploy and ACCESS_SIGNING_KEY
+- **B-42** — resolved: S347: sCoRE 6a731fa deployed via release 739ec37, Pocket Worker deployed (766232c3). Remaining: re-mint the 1.75b, revoke_guests.py, Neon check
 
