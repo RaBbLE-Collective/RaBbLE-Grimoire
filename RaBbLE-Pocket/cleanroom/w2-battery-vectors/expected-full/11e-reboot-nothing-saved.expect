@@ -1,0 +1,11 @@
+STEP	1	time 10000000
+STEP	2	init
+STEP	3	nodump
+STEP	4	saved
+SAVED	@null
+STEP	5	rtc
+RTC	none
+STEP	6	reboot
+STEP	7	init
+STEP	8	saved
+SAVED	@null

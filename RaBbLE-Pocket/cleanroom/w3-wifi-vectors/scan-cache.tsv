@@ -1,0 +1,13 @@
+replace-basic	0	cache	A|1|-50|secure|1;B|2|-60|open|1	2	2	A|-50|secure;B|-60|open
+replace-basic	1	cache	C|3|-40|secure|1	1	1	C|-40|secure
+replace-empty-scan-keeps-old	0	cache	A|1|-50|secure|1	1	1	A|-50|secure
+replace-empty-scan-keeps-old	1	cache		0	1	A|-50|secure
+merge-appends-and-keeps-unseen	0	merge	A|1|-50|secure|1;B|2|-60|open|1	3	3	Z|-99|open;A|-50|secure;B|-60|open
+merge-appends-and-keeps-unseen	1	merge	C|3|-40|secure|1	4	4	Z|-99|open;A|-50|secure;B|-60|open;C|-40|secure
+merge-appends-and-keeps-unseen	2	merge	B|2|-55|open|1	4	4	Z|-99|open;A|-50|secure;B|-55|open;C|-40|secure
+merge-better-rssi-updates-auth	0	merge	A|1|-70|open|1	2	2	Z|-99|open;A|-70|open
+merge-better-rssi-updates-auth	1	merge	A|1|-50|secure|1	2	2	Z|-99|open;A|-50|secure
+merge-weaker-rssi-ignored	0	merge	A|1|-50|secure|1	2	2	Z|-99|open;A|-50|secure
+merge-weaker-rssi-ignored	1	merge	A|1|-70|open|1	2	2	Z|-99|open;A|-50|secure
+merge-empty-scan-returns-0	0	merge	A|1|-50|secure|1	2	2	Z|-99|open;A|-50|secure
+merge-empty-scan-returns-0	1	merge		0	2	Z|-99|open;A|-50|secure

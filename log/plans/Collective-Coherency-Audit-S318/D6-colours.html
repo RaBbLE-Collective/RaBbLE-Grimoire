@@ -1,0 +1,25 @@
+<!doctype html><meta charset=utf-8><title>D6 palette check</title><style>
+body{margin:0;font:18px system-ui;background:#1a1b2e;color:#e8e6f0;padding:32px;max-width:1000px}
+h2{margin:36px 0 10px;font-size:20px}.row{display:flex;gap:0;border-radius:10px;overflow:hidden}
+.s{flex:1;height:170px;padding:14px;box-sizing:border-box}.s b{display:block}.s small{opacity:.85}
+.t{padding:22px 26px;flex:1}.t p{margin:6px 0}</style>
+<h1>D6: the two colours, shown</h1>
+<h2>1. Backgrounds, darkest to lightest. Is the first one different enough from the second to deserve a name?</h2>
+<div class=row>
+<div class=s style="background:#03000b;color:#e8e6f0"><b>NEW: Void</b><small>#03000b</small></div>
+<div class=s style="background:#0a0010;color:#e8e6f0"><b>Deep Void</b><small>#0a0010, palette</small></div>
+<div class=s style="background:#12132a;color:#e8e6f0"><b>Surface</b><small>#12132a, palette</small></div>
+<div class=s style="background:#1a1b2e;color:#e8e6f0"><b>Raised</b><small>#1a1b2e, palette</small></div></div>
+<h2>2. Void and Deep Void touching, no gap. Can you see the seam?</h2>
+<div class=row><div class=s style="background:#03000b"></div><div class=s style="background:#0a0010"></div></div>
+<h2>3. Text colours on the real background. Can you read the Dimmer line?</h2>
+<div class=row><div class=t style="background:#0a0010">
+<p style="color:#e8e6f0">Primary Text: the quick signal crosses the void</p>
+<p style="color:#6b6880">Muted Text: the quick signal crosses the void</p>
+<p style="color:#3d3860">NEW Dimmer: the quick signal crosses the void</p>
+<p style="color:#2a2840">Border colour, for comparison: the quick signal crosses the void</p></div></div>
+<h2>4. Same text on the darker Void, as World uses now</h2>
+<div class=row><div class=t style="background:#03000b">
+<p style="color:#e8e6f0">Primary Text: the quick signal crosses the void</p>
+<p style="color:#6b6880">Muted Text: the quick signal crosses the void</p>
+<p style="color:#3d3860">NEW Dimmer: the quick signal crosses the void</p></div></div>

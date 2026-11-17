@@ -1,0 +1,45 @@
+STEP	1	time 7000000
+STEP	2	init
+STEP	3	nodump
+STEP	4	boot poweron
+STEP	5	json
+JSON	179	{"boot":"power on","uptime":7,"started":false,"running":false,"secs":0,"battery_pct":[-1,-1],"battery_mv":[0,0],"screen_off":0.0,"resting":0.0,"slept":null,"sleeps":0,"busy":null}
+STEP	6	boot sw
+STEP	7	json
+JSON	178	{"boot":"restart","uptime":7,"started":false,"running":false,"secs":0,"battery_pct":[-1,-1],"battery_mv":[0,0],"screen_off":0.0,"resting":0.0,"slept":null,"sleeps":0,"busy":null}
+STEP	8	boot panic
+STEP	9	json
+JSON	176	{"boot":"panic","uptime":7,"started":false,"running":false,"secs":0,"battery_pct":[-1,-1],"battery_mv":[0,0],"screen_off":0.0,"resting":0.0,"slept":null,"sleeps":0,"busy":null}
+STEP	10	boot int_wdt
+STEP	11	json
+JSON	179	{"boot":"watchdog","uptime":7,"started":false,"running":false,"secs":0,"battery_pct":[-1,-1],"battery_mv":[0,0],"screen_off":0.0,"resting":0.0,"slept":null,"sleeps":0,"busy":null}
+STEP	12	boot task_wdt
+STEP	13	json
+JSON	179	{"boot":"watchdog","uptime":7,"started":false,"running":false,"secs":0,"battery_pct":[-1,-1],"battery_mv":[0,0],"screen_off":0.0,"resting":0.0,"slept":null,"sleeps":0,"busy":null}
+STEP	14	boot wdt
+STEP	15	json
+JSON	179	{"boot":"watchdog","uptime":7,"started":false,"running":false,"secs":0,"battery_pct":[-1,-1],"battery_mv":[0,0],"screen_off":0.0,"resting":0.0,"slept":null,"sleeps":0,"busy":null}
+STEP	16	boot deepsleep
+STEP	17	json
+JSON	181	{"boot":"deep sleep","uptime":7,"started":false,"running":false,"secs":0,"battery_pct":[-1,-1],"battery_mv":[0,0],"screen_off":0.0,"resting":0.0,"slept":null,"sleeps":0,"busy":null}
+STEP	18	boot brownout
+STEP	19	json
+JSON	179	{"boot":"brownout","uptime":7,"started":false,"running":false,"secs":0,"battery_pct":[-1,-1],"battery_mv":[0,0],"screen_off":0.0,"resting":0.0,"slept":null,"sleeps":0,"busy":null}
+STEP	20	boot usb
+STEP	21	json
+JSON	174	{"boot":"usb","uptime":7,"started":false,"running":false,"secs":0,"battery_pct":[-1,-1],"battery_mv":[0,0],"screen_off":0.0,"resting":0.0,"slept":null,"sleeps":0,"busy":null}
+STEP	22	boot jtag
+STEP	23	json
+JSON	175	{"boot":"jtag","uptime":7,"started":false,"running":false,"secs":0,"battery_pct":[-1,-1],"battery_mv":[0,0],"screen_off":0.0,"resting":0.0,"slept":null,"sleeps":0,"busy":null}
+STEP	24	boot ext
+STEP	25	json
+JSON	176	{"boot":"other","uptime":7,"started":false,"running":false,"secs":0,"battery_pct":[-1,-1],"battery_mv":[0,0],"screen_off":0.0,"resting":0.0,"slept":null,"sleeps":0,"busy":null}
+STEP	26	boot unknown
+STEP	27	json
+JSON	176	{"boot":"other","uptime":7,"started":false,"running":false,"secs":0,"battery_pct":[-1,-1],"battery_mv":[0,0],"screen_off":0.0,"resting":0.0,"slept":null,"sleeps":0,"busy":null}
+STEP	28	boot sdio
+STEP	29	json
+JSON	176	{"boot":"other","uptime":7,"started":false,"running":false,"secs":0,"battery_pct":[-1,-1],"battery_mv":[0,0],"screen_off":0.0,"resting":0.0,"slept":null,"sleeps":0,"busy":null}
+STEP	30	boot efuse
+STEP	31	json
+JSON	176	{"boot":"other","uptime":7,"started":false,"running":false,"secs":0,"battery_pct":[-1,-1],"battery_mv":[0,0],"screen_off":0.0,"resting":0.0,"slept":null,"sleeps":0,"busy":null}

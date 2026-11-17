@@ -1,0 +1,19 @@
+# registry/releases/genesis.yml  (format: RaBbLE-Versioning.md section 5)
+# Prepared locally S323. Every commit is PENDING until the release branches are merged to main.
+name: genesis
+date: 2026-11-XX
+verified_by: PENDING   # Mark signs after verifying the live site
+members:
+  RaBbLE-Collective: { version: 0.1.0, commit: PENDING }
+  RaBbLE-Grimoire:   { version: 0.1.0, commit: PENDING }
+  RaBbLE-sCoRE:      { version: 0.1.0, commit: PENDING }
+  RaBbLE-World:      { version: 0.1.0, commit: PENDING }
+  RaBbLE-Aether:     { version: 0.1.0, commit: PENDING }
+  RaBbLE-NeBuLA:     { version: 0.1.0, commit: PENDING }
+  RaBbLE-OS:         { version: 0.1.0, commit: PENDING }
+  RaBbLE-Pocket:     { version: 0.1.0, commit: PENDING }
+  RaBbLE-ScRiBbLE:   { version: 0.1.0, commit: PENDING }
+contracts:
+  score_api: v1
+  entity: draft-10b
+  palette: "1.0"

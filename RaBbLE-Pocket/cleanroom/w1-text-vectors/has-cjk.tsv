@@ -1,0 +1,56 @@
+# rabble_text_has_cjk.
+# columns: note, input_hex, result (0/1)
+empty	-	0
+ascii only	68656c6c6f20776f726c64	0
+cjk only	e4b8ade69687	1
+cjk last	68656c6c6f20e4b8ad	1
+only close punct	e38082	1
+only fullwidth latin	efbca1	1
+emoji only	f09f9880	0
+truncated cjk lead at end	616263e4b8	0
+stray bytes then ascii	80bfff616263	0
+truncated 4-byte then cjk	f09fe4b8ad	1
+hangul	eab080	1
+halfwidth katakana	efbdb1	1
+compat ideograph	efa480	1
+cyrillic	d0b0d0b1	0
+random	d0b0e38082d0b0	1
+random	e4b8ade4b8ade38082d0b0efbc8c2e	1
+random	efbca1	1
+random	e4b8adeab080efbc8cefbca1	1
+random	62	0
+random	c3a92062	0
+random	efbca1c380e38182eab080	1
+random	-	0
+random	f09f9880e4b8adeab080e38182	1
+random	eab08020efbc8c61	1
+random	e380826261612ec380	1
+random	efbc8c	1
+random	-	0
+random	e4b8ade280a6e4b8adefbc8cd0b02e	1
+random	2eeab080c3a9e4b8ad	1
+random	-	0
+random	62e4b8adeab080c3a9f09f9880	1
+random	c380d0b062e38182	1
+random	e280a6efbca1	1
+random	e38082	1
+random	6162	0
+random	efbca162f09f988062	1
+random	c3a9f09f98806261d0b0eab080	1
+random	-	0
+random	2e	0
+random	-	0
+random	f09f9880e38182f09f9880	1
+random	62efbc8ceab080	1
+random	efbca1	1
+random	c3a9e280a662c3a9e280a6	0
+random	-	0
+random	efbca1c38062	1
+random	2e	0
+random	626161e4b8adefbca1	1
+random	20eab080e38082	1
+random	e4b8ad	1
+random	2ee38182efbca120	1
+random	eab080f09f988062	1
+random	f09f98802e61	0
+random	d0b0efbca1	1

@@ -1,0 +1,8 @@
+{
+  "name": "rabble-dev",
+  "compatibility_date": "2026-05-06",
+  "main": "index.js",
+  "services": [
+    { "binding": "WORLD_DEV", "service": "rabble-world-dev" }
+  ]
+}

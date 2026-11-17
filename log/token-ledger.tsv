@@ -1,0 +1,325 @@
+# RaBbLE token-ledger — breadcrumbs tying Claude Code sessions to features.
+# Read by: spells/session-tokens.sh --by-feature  (joins weighted spend per feature)
+# Convention: append one row at end of session, alongside the SESSION-LOG update.
+# Format (tab-separated):  session_id <TAB> feature <TAB> note
+#   session_id  the Claude Code session UUID (basename of the .jsonl transcript)
+#   feature     short kebab slug grouping spend (e.g. os-vmctl, token-tracking, world-graph)
+#   note        free text, optional
+# Lines beginning with # are ignored. Unlisted sessions group as "(untagged)".
+4a59ee92-972e-4e79-8eda-018d282e0a22	os-vmctl	S42 vmctl console + firstboot fixes
+116e327f-e874-4461-998a-8d43be0601f0	os-vmctl	S41/42 vmctl safety + ctl install
+006dd089-01f2-468d-9fb4-3b722721c0f1	os-vmctl	S41 vmctl incident response
+cd7ffb73-e9a5-4fa1-9892-f6888b34bb8d	os-vmctl	S40 vmctl QoL overhaul
+35102ed6-c37a-40a3-8d91-7579d985c5b5	os-vmctl	S40 vmctl QoL overhaul
+f56ac447-640f-4109-9afa-363e193b59db	token-tracking	S43: token tracking verified+extended (weighted/onboarding/by-feature), agent-agnostic end-session spell + post-commit hook w/ freshness guard, all 8 AGENT.md wired, roadmap filing (injn.ai, world-graph)
+commit-37f2a28	agent-agnostic-canon	Promoted agent-agnostic tooling principle to canon in RaBbLE-Agent-Protocols.md
+commit-a7188c4	babble-knowledge-graph	Reorganized 50-asset visual archive into themed knowledge graph with tags/related links + GRAPH.md; consolidated 6 overlapping docs into _ROUTING.md
+23b3ecb7-d100-4d5f-b13c-a867c0921287	nebula-entity-portrait-match	Reshaped entity eyes/portals in both Canvas2D and Three.js NeBuLA backends to match RaBbLE4K.png reference proportions, portal symmetry, and color pairing
+d79253a9-5124-49ee-a47a-305f3d15680d	dev-history-gapfill	Closed final gaps in RaBbLE-Development-History.md — folded in web-export notes for 05-05/06 founding sessions, confirmed 05-01-05-04 silent stretch is a known short break
+commit-59c173e	waybar-usage-meter	Calibrated llm-status.sh against web meter, built regression pipeline (llm-usage-log.sh/fit.py) and web-usage tracking bridge (bridge.py + console snippet) to close the invisible-web-usage gap
+019ea5d1-e9f7-70c3-8263-9fadaf78909a	waybar-llm-status	Added Codex quota telemetry and live Claude web-reading override to Waybar LLM tracker
+commit-a510bb7	score-usage-tracker	S51: rebuilt as sCoRE Usage Tracker (direct API, rebrand, live state colors, hook-driven needs-input + lag fix)
+commit-3d68b83	score-usage-tracker	S51 wrap: merged feature/waybar-llm-status -> RaBbLE-OS-New-Horizons, documented architecture in Grimoire (sCoRE-UsageTracker.md)
+c60d3286-56dc-4cd0-888d-361ac53aa65c	rabble-world-community-page	community page plus shared runtime/base-layer modularization
+412342ec-0022-4153-82c8-ad7f32cb7e16	perf-handoff	S54 close: 3 open perf issues documented — ctx.filter main-thread blur, alpha flicker, update/draw ordering
+5087a506-5502-4b83-8072-5f8deb4ef520	nebula-perf	AmbientField: half-rate 30fps + no connections; bg cost ~0.5-1ms
+commit-4305c0a	nebula-studio	S56: Studio WYSIWYG + NeBuLA runtime config API + World modular refactor + visual polish verified
+96059b01-c904-474d-8317-582bfcdeaf6b	rabble-collective-ops	auto: current state S56c: Grimoire Graph cosmic knowledge browser live
+commit-6007cf8	grimoire-graph	S56c: Three.js cosmic knowledge browser with eyes/portals matching NeBuLA threejs-backend exactly
+commit-81f3088	grimoire-graph	S56c close: thick ring outlines + portal Y offset; handoff: reduce ring width, widen portal arcs horizontally
+78b640f4-ae17-4e84-adf4-d8334b379a71	rabble-collective-ops	auto: current state S56e close: grimoire-graph portal/eye finalized
+504c236e-79e7-4bc9-b46c-bf61f32b1e69	rabble-collective-ops	auto: EP1 release dispatch brief
+0e405563-4f09-4fef-a695-1f94a98f758d	ep1-release-dispatch	S58: EP1 dispatch via sub-agents; pivot Railway->Render; blocked on manual Render deploy; OS VM static-verified; high token spend, recon-only outcome
+1ca441cc-6b1d-4f41-a9b2-a11ea747d212	world-ep1-cohesion	global page nav + Docs rebuild + loader unification; root dev rebase
+78b45de5-0e59-48df-92bc-a107eaf54b0d	sCoRE	auto: CONTEXT.md: Render deploy live, Episode 1 exit conditions update
+8713e8ec-2c16-415d-9b9c-591a8e33aa99	rabble-collective-ops	auto: EP1 deployment runbook: World/NeBuLA/Aether CI/CD via GitHub Actions + Cloudflare
+commit-3422888	secrets-identity	S60: Collective identity & secrets model doc + seal-episode.sh draft spell
+commit-1bf9b58	ep1-render-deploy	sCoRE live, Aether RC1 ready, CI/CD runbook + org remotes
+commit-b39346a	score-tracker	S64: multi-instance session engine, instant census, live scrolling popup, codex notify
+commit-6f0ecc2	score-tracker-per-model	per-model tracking tooltip+popup, token spend analysis, empirical quota multiplier findings from score-usage-fit.py
+985fadef-bded-428b-902b-87d270c4e020	score-chat-test	sCoRE Haiku chat test 2026-06-10 22:33
+7f25d61a-2828-419c-bc59-dc725ebb46d9	score-chat-test	sCoRE Haiku chat test 2026-06-10 22:31
+ca8da4bb-d974-4653-af97-b0bd4e970a5b	score-chat-test	sCoRE Haiku chat test 2026-06-10 22:16
+7733cfbb-897c-4d25-8262-d2e281681699	score-chat-test	sCoRE Haiku chat test 2026-06-10 22:13
+b8811c39-0691-40ac-9389-7fbadc0ce00b	score-chat-test	sCoRE Haiku chat test 2026-06-10 22:12
+ed759ec5-2c3c-4dd7-b8b1-9552bfb33de3	score-chat-test	sCoRE Haiku chat test 2026-06-10 22:09
+7e8bc58f-f7fa-4016-b9b2-17c19f676c61	score-chat-test	sCoRE Haiku chat test 2026-06-10 22:07
+e06453a1-d16b-4366-8b7b-62890a04e153	score-chat-test	sCoRE Haiku chat test 2026-06-10 22:06
+eb0444f4-a28a-47f8-8b18-783b92a29314	score-chat-test	sCoRE Haiku chat test 2026-06-10 22:05
+020ed87b-472f-4537-8719-1a456ff9ac05	score-chat-test	sCoRE Haiku chat test 2026-06-09 22:15
+73b244e2-3165-4e8d-b54d-5d6d480eb73b	score-chat-test	sCoRE Haiku chat test 2026-06-09 13:35
+commit-fd07af3	score-chat-test	S67: sCoRE Haiku chat test integration — 11 sessions tagged, session-tokens.json regenerated
+commit-5eaeb4e	captures-organization	Organized 28 captures by visual idea + member/component. Integrated visual-screenshot.sh spell (Playwright + Hyprland). Documented system in Grimoire (agent-agnostic, works for any LLM).
+dc999c37-ecb9-442c-89a2-90c8580363f1	rabble-collective-ops	auto: EP1 docs to Grimoire only; root stubs removed
+commit-2cfa811	cf-deploy-pipeline	S70: cloudflare-ctl deploy-rc, spell exec bits, token export fix, ansible collective role, R2 blocked on CF payment
+commit-51c58a4	captures-triage	S72: 28 screenshots sorted into RaBbLE-Captures via Haiku agents; OS Print keybind redirected from ~/Pictures/Screenshots to Captures tree; screenshot.sh added to RaBbLE-OS config source
+103b3fe4-b8f3-4f76-860e-7e3c00baf5c1	os-fastfetch	S75: half-block wordmark, SGR palette fix, denser info column
+33830571-da8c-48c1-933f-888d1d8cd7dc	os-fastfetch	S76: fx layer compositor, portal symmetry, palette strip, canonical Grimoire doc
+commit-0e3f94e	vscodium-aether-theme	Built RaBbLE Aether VSCodium theme: extension, dotctl bundles, Ansible task. Navy surface problem identified, fix deployed but not visually confirmed due to VSCodium cache. Needs Fable 5 QA pass.
+commit-1b47b5b	vscodium-aether-theme	visual QA pass: navy purge verified live via grim screenshots; zoom +1 default
+ea35ad1d-92f4-470c-bffb-575109cde287	aether-vscode-refinement	Flowing borders and detached UI for VSCodium
+b2082751-cd2e-4c7d-84f1-aa1435cef9dd	rabble-collective-ops	auto: current state S81: VSCodium Aether borders + integrity fix
+commit-ef2a5b3	vscodium-aether-theme	Aether CSS theme: 3 conic ring surfaces (activitybar+sidebar, active editor group, terminal panel), 3-sided active tab ring with bottom drop, inactive tab outlines, rounded corners matching Hyprland rounding=10, Grimoire doc in Desktop-Theming.md
+0e62acf5-d1e2-45dd-9034-8166e2e4c97b	firefox-aether	Firefox RaBbLE-Aether theme — cycling neon tab borders, void bg, nav bar seams, Ansible browsers.yml
+commit-9cef714	vscode-aether-ui-fix	Fixed interactive UI occlusion by removing ::before overlays from popups; kept rings for static panels only
+commit-ed06ee4	theming	Kvantum+GTK3/4 scaffold complete; CSS/gtkrc deployment works but theme not applying to GTK apps; needs GTK3 theme engine debugging
+da255039-f456-40eb-9f7a-20abc076ac23	firefox-aether	S86: Firefox flowing conic outline rings, navy toned, URL-box outline + contrast pass; verified XUL renders @property rings
+6b669edc-e0e6-4485-9b13-597aa9956a0b	rabble-collective-ops	auto: current state S88: rabble-aether boot chain
+ce17e1d4-9c75-41f2-96a9-f7114e11dd5a	boot-aether	S88: Plymouth frame-player + SDDM QML greeter built, committed RaBbLE-OS 9eebbee; reboot QA pending
+commit-50d242e	nebula-mesh	wired orphaned ConnectionSystem + restored prod radius mesh/glow haze; World bundle redeployed
+4b1a1f43-1750-46c9-94d3-a5a20fb12056	plymouth-ep1-refinement	EP1 boot polish: entity left-quarter, Orbitron wordmark, log conveyor, floor grid, GPU flash fix (amdgpu in initrd)
+18a13fd4-2c75-495c-b53b-dcf45cc413f4	boot-plymouth-transparency	S90: entity bg key + radial vignette on 96 frames, Orbitron pre-render PNGs, log left-align, video QA IMG_8949
+b7cd9493-77bf-4ee2-b283-1126e26c9664	boot-plymouth	S91: wm-step PNGs root cause + live Aether capture + DRM kernel params
+5be0ec3b-08cf-4fa1-96e2-444078213593	s92-doctrine	EP1 RC scope, Personal Cosmos, Attachments/Mesh, Income/Shop, Chrysalis split, BaBbLE intake, doctrine corrections
+commit-00d3b89	grimoire-audit	S95: Grimoire re-graph, manifest org sync, token audit, orphan doc fixes
+daf7eeb9-f624-4361-a77c-6d192b0e6ee4	grimoire-audit	S95: Grimoire re-graph, manifest org sync, token audit, orphan doc fixes, Chrysalis/Render sync
+9f03331a-d315-4c25-b996-4434b7a348ce	gtk-aether	May 20 — same-day as tagged gtk-aether session (inferred)
+1f2f7d1b-9fe5-4092-8695-b979fd9cc1ed	gtk-aether	May 20 — same-day as tagged gtk-aether session (inferred)
+2daa9df0-85d0-4fad-8da6-83f2636f5395	gtk-aether	May 20 — same-day as tagged gtk-aether session (inferred)
+cbf87816-1b39-4a74-9859-f113b9cc3ba4	gtk-aether	May 20 — same-day as tagged gtk-aether session (inferred)
+6ac2bdb5-5dd5-4052-b2ee-c33fd7fcc28c	gtk-aether	May 20 — same-day as tagged gtk-aether session (inferred)
+8bd93be5-9413-4a4c-aec4-6e206429b13f	gtk-aether	May 20 — same-day as tagged gtk-aether session (inferred)
+4767dd75-c08a-435c-82b8-45811d92bb94	os-vmctl	May 23 — same-day as tagged os-vmctl sessions (inferred)
+385f39aa-9da1-43a0-8a87-88ce4343d9ad	os-vmctl	May 23 — same-day as tagged os-vmctl sessions (inferred)
+1c456ba0-c7b6-4ff6-8161-908211d05a18	token-tracking	June 3 — tiny session immediately after tagged token-tracking (inferred)
+4999f9a8-363b-4867-bb79-3c7900a23a44	token-tracking	June 3 — tiny session immediately after tagged token-tracking (inferred)
+e053c634-4835-4c73-8864-fe52bf2ca90a	nebula-entity-portrait-match	June 7 — same-hour as tagged nebula-entity-portrait-match (inferred)
+b765e83c-c01a-436f-a4d7-73aecc5e9ed9	nebula-entity-portrait-match	June 7 — same-hour as tagged nebula-entity-portrait-match (inferred)
+4d23030d-ff0b-43ea-a056-0b7f26cae79f	nebula-entity-portrait-match	June 7 — same-hour as tagged nebula-entity-portrait-match (inferred)
+32d6eb8f-fc9c-46b5-9418-a965af6a9f52	dev-history-gapfill	June 8 01:29 — 7 min after tagged dev-history-gapfill session (inferred)
+1532e19d-e893-4785-9fe8-bfc762b4f910	perf-handoff	June 8 19:22 — follows tagged perf-handoff session (inferred)
+f008e4b0-6d0a-41ac-81a1-fe4a9d27a196	rabble-collective-ops	June 9 12:45 — precedes tagged Collective sessions (inferred)
+c3a72bab-d417-4816-b500-9fcf36d7fcdc	rabble-collective-ops	June 9 13:46 — between tagged Collective sessions (inferred)
+51e6fe4c-cd6d-42ec-b29d-fa79801601ef	ep1-release-dispatch	June 9 20:09 — follows tagged ep1-release-dispatch session (inferred)
+fb998471-723f-4dc1-96fd-5f9d9d3f8d17	ep1-release-dispatch	June 9 21:08 — follows tagged ep1-release-dispatch session (inferred)
+424394e8-6189-4381-9aa6-88ebd71d967d	sCoRE	June 10 03:48 — follows tagged sCoRE session (inferred)
+2a569241-9d32-4766-971a-bcee84c4ca86	rabble-collective-ops	June 10 13:59 — precedes tagged collective session at 16:01 (inferred)
+ad2c81f5-34ed-4c79-9de7-875d8dfcbb5b	rabble-collective-ops	June 10 16:03 — 2 min after tagged collective session (inferred)
+98316ba5-0885-40c1-a8cd-27770c5c8cf8	rabble-collective-ops	June 10 16:15 — follows tagged collective session (inferred)
+1c067b24-b0f8-4cb8-b6bd-664c847a389c	score-chat-test	June 10 23:00 — same-night as score-chat-test cluster (inferred)
+9403754e-136d-423a-ab99-48b59985ff7d	rabble-collective-ops	June 10 23:14 — same time as tagged collective session (inferred)
+commit-c81f5e6	grimoire-audit	S96: orphan sweep + ledger backfill; 45 May 12-22 sessions still need Mark's feature tags
+4b1fec37-b0e5-40b0-8bc2-8dd158b1e08b	rabble-collective-ops	auto: new-horizons branch + README agent walkthrough + subdomain CDN plan
+a50a19bd-7836-4017-982e-d9314e7a9159	rabble-collective-ops	auto: S98 current state + README polish
+cdae720c-fc43-400e-a42a-fe8dee26ab82	vscodium-theme-fix	S99: editor group ring border-radius 4px→8px to match all other panel rings
+b1df7f34-5ce3-4e2e-bf7c-6d3daf53afb3	rabble-collective-ops	auto: pre-EP1 stub: orientation, setup, new-horizons gateway
+06c3c86e-e0ca-4b11-89b1-905d3fe9891e	rabble-collective-ops	auto: S101: branch history restructured, new-horizons on clean main
+ec16d051-b81c-4130-bf44-d5172bd610b6	rabble-collective-ops	auto: AGENT.md: correct root path ~/RaBbLE → ~/RaBbLE-Collective
+commit-e246d5e	world-date-restore	S104: World committer-date restoration (rebase only flattened committer dates; committer:=author lossless fix); root backdated; force-with-lease absorbed concurrent session
+commit-4a5b8aa	babble-reorg-plan	S104 planning: BaBbLE/Captures reorg + git linearization handoff doc filed to log/
+653a0f16-c1cc-4340-b3bd-d71946845dcb	ep1-world-unify	World EP1 unification: liminal→front door, doors rewired (summon/platform/grimoire), grimoire browser graph↔codex, Aether-first token alignment; + S103 audit, branch surgery, Aether theme, BaBbLE captures
+commit-9c87423	rc1-spine	S106: RC1 chat→sCoRE→entity verified; render-ctl.sh; flip-point; render.yaml free-tier fix; Render deploy
+cffddc13-06e4-430d-99db-7ed4d8fad13d	entity-visuals	Debugged 2D entity (bokeh/flicker/graph/portal); fixed 3D colors+density+eyes; wired demo to NeBuLA.ThreeJsBackend (single renderer)
+7983939f-8923-4343-ba77-2bca989c5be6	rc1-spine	S106: sCoRE LIVE on Render via render-ctl; flip-point; sCoRE Grimoire docs updated; session end
+696411a7-3f97-4b17-b15a-41af2856aab4	os-ep1-preview	S109: RaBbLE-OS = EP1 Developer Preview — Preview Bar + canon + dev-flow; F2 sulogin-force recovery; F5 rough-edges sheet; Preview FLOOR verify runbook
+4c5bf95e-57c4-410d-831d-544b5690d3cc	chat-local-bridge	Local chat bridge (browser→Render proxy, @demo auth, on-disk transcripts) built + verified; FORCE_TIER band-aid pending sCoRE chain fix
+commit-e382767	entity-hardening-grimoire-tool-model-upgrade	S111: identity guardrails, fetch_grimoire tool, 2026 Groq models (GPT-OSS-20B/Qwen3-32B), gist CF endpoint, chat CSS readability
+commit-7351f06	antigravity-tracker	agy dual-quota split, bfs-compat find, mode-isolated popups, Codex 31d window, glyph polish
+commit-2ce99b7	cf-workers-subdomain-rc1	CF Workers × 5 live: aether/nebula/grimoire/score/world; RC1 versioned CDN; cloudflare-ctl OAuth + grep fixes; .assetsignore; emoji audit
+ef77117f-782c-461f-ab10-6691a0dde976	rabble-collective-ops	auto: gitignore archive formats (*.zip, *.tar*); stale branches pruned
+commit-e066a7c	branch-housekeeping	S118: stale branches pruned, OS antigravity merged, BaBbLE archive, gitignore zip/tar
+1bda1bfa-4dda-4845-aec2-9e28039e1ecc	rabble-collective-ops	auto: S119 state: sCoRE AI layer + OS ai-harnesses + fcc proxy
+fb280ab6-4cfe-4a12-bff5-f04256bd6d81	score-ai-layer	S119: 13 new sCoRE providers (Cerebras/DeepSeek/NIM/Mistral/Together/xAI/Zhipu/LM Studio/llamafile/opencode/aider/gemini-cli/fcc-proxy), OS ai-harnesses role (9 tasks inc. free-claude-code+BuilderIO/skills), runtime llama.cpp CUDA build, fcc-ctl spell, layers doc rewrite, roadmap API key TODO
+8539c8a4-e499-4f3e-947a-9ecca0f652ab	npu-xdna2-stack	NPU research + XRT/FastFlowLM/Lemonade Ansible roles; Grimoire doc; kernel 7.0 XDNA2 state captured
+commit-3fb9c87	npu-xrt-source-build	XRT 2.19.0 missing add(run&&); xdna-driver source build fallback added to xrt.yml
+commit-ea9ab1f	dolphin-text-theme	kdeglobals dotctl bundle + chrome roles f8f4ff; root-caused Breeze grey fallback; residual dim-label subset open (needs relogin)
+commit-62acf3a	web-integration	S127: integrated 3 claude-web planning docs into Grimoire (methodology, sCoRE framework research, identity/acronym canon); sources archived to BaBbLE
+commit-61c8d50	npu-flm-shim-docs	FastFlowLM build debug: lib64 split + CMakeCache + add(run&&) shim documented; xdna-driver XRT pin = same version discovery
+eabb1d24-52bc-4583-9dda-de10509b1f9b	blocker-ledger-ep1-prep	S129 audit thread: blockers.sh + BLOCKERS.md, EP1-AIR-CHECKLIST, Post-EP1-Roadmap, logging non-optional, pre-commit handoff
+commit-2f431de	session-start-ritual	session-start.sh + heartbeat daemon; AGENT.md/SPELLS/INDEX/handoff updated; dogfooded claim/release
+commit-7c9c1fa	llamacpp-rewrite	source+prebuilt dual paths; version:latest default; claude-code EEXIST fixed with pre-check
+ccea913f-36b6-4122-8d0f-b5f6395c12bd	world-surface-polish	member reveal panes, bigger conversation dock, iOS safe area
+commit-7a8082b	os-runtime-fixes	S131-S135: llama.cpp rewrite+deps, layerctl upgrade, aider gfortran fix
+commit-d7115be	aider-scipy-fix	scipy chain: gfortran→openblas→root cause=no cp314 wheel; fix=python3-scipy+system-site-packages
+commit-1668bbb	grimoire-kb-and-subdomain-concepts	S139: flat Grimoire KB export + MCP/dev/shop subdomain concepts
+f7bf0ff3-cfb4-4640-b400-0fdad14d2f29	os-easy-wins	S140: wallpaper, audio popup, fcc NIM rename+key, claude-free isolation, backlog triage, F44 doc
+commit-b1881da	agy-quota-tracker	agy live quota: send-outcome reset detection (score-agy-quota.py), shared bar+popup
+commit-cc10870	fcc-fix	claude-free silent response root cause found and fixed; NIM upgraded; Aether theme wired
+86cde79e-27e8-4d7d-a24e-97801833523b	rabble-collective-ops	auto: audit fix: root CONTEXT.md Xperimental/Chrysalis member-map mismatch
+20bc75f2-450a-40c5-820d-4a085ff9948d	fcc-tuning-research	S144: diagnosed FCC Opus 400 (mistral-large-3 tokenizer); logged tuning research + LiteLLM backoff/failover backlog handoff
+df6a3820-dd0d-421f-b3a9-b9b234bef499	rabble-collective-ops	auto: root CONTEXT.md: add Chrysalis to member entry-point table
+8be92585-6f30-4fc4-88d5-75383a0e3631	grimoire	auto: S147 session log: TaskViSoR named, dep policy + intake integrated
+ef613802-d3da-48fb-90c2-32574f4efeff	grimoire	auto: regenerate Identity gist; drift cleared
+41b35576-4d14-40c2-9052-77923f29699c	rabble-collective-ops	auto: current state S145: EP2 local arch ingested
+commit-68cdf70	plymouth-layout	Plymouth script layout overhauled to match target image; test spell added with DRM detection
+commit-fea183e	boot-chain-stabilization	S153: fixed OpenCode S152 drift — nvidia-load.service, prebaked plymouth lore, SDDM mockup, boot profiler
+0053a20b-8aff-401f-a952-efa9bec2a216	rabble-collective-ops	auto: root AGENT.md current state: S153 EP1 spine live, gated on G7/G9/G10
+commit-b4317a4	boot-chain-stabilization	S153 cont: GFXPAYLOAD black-pane fix + Plymouth resolution-independence (scale=screen_w/1920) + 4K-master regen logged
+4146a0ca-e05d-49dc-ae46-bec70f6a33d2	rabble-collective-ops	auto: update current state: S154 Track A complete
+4889d83d-dd71-4580-8b9f-b6c519a1c910	rabble-collective-ops	auto: current state S155: boot-chain void zone pass complete, reboot-verify pending
+4b3092d1-12a5-478f-9d0d-9b7cd90be94f	rabble-collective-ops	auto: current state S156: void zone + boot speed fixes applied
+c7e1101c-4297-4be9-bd7d-f39710a9d52c	rabble-collective-ops	auto: current state S158: agent protocol hardening, insights integrated
+f12a1a5c-670f-4634-8623-de3ef88b61ac	rabble-collective-ops	auto: current state S163: sCoRE arch lesson + HAOS integration
+39931ba4-f061-4203-9f25-1ded30c76679	rabble-collective-ops	auto: current state S164: Dolphin investigation, handoff plan written
+8484eb27-04d1-49f8-a105-4c34f14a6578	rabble-collective-ops	auto: current state S166: Plymouth debug armed, simpledrm pin disproven
+44d5b5dc-2609-412f-b441-9492a3df0a92	rabble-collective-ops	auto: state S166: Plymouth root cause found (script ternary), fix awaiting verify
+10f849ff-2e37-4a7c-b301-e6c3592c5615	rabble-collective-ops	auto: current state S168: SDDM layout polished, QML cache gotcha documented
+bcc02556-c050-42c9-b32e-3c5a5997e2b5	rabble-collective-ops	auto: current state S170: GRUB 4K mode + Plymouth dracut fixes
+5dee5197-d57b-49c3-9a03-fe958105c786	chrysalis-web	Reorganized Chrysalis-Web with index and subpath routing
+787f2e0b-256b-432b-9337-188922fcd647	rabble-collective-ops	auto: current state S172: simpledrm handoff fix staged, GRUB box pending
+commit-f6a364c	vm-bootdev	boot-iterate loop live: install+bootstrap clean, boot chain captured
+804860b7-3bd1-4b82-b47b-20e416d57163	rabble-collective-ops	auto: current state S174: Chrysalis links fixed, dev.joinrabble.world/chrysalis/ live
+commit-922107e	boot-chain	simpledrm revert: SDDM failure; amdgpu.seamless=1 accepted for EP1; GRUB box deferred
+5652da21-956c-4772-9e8f-889702f70f32	rabble-collective-ops	auto: current state S175: Chrysalis ep1 live, Aether RC1, graph page open
+commit-5ac288e	chrysalis-aether	ep1 rename + regex fix + config.js on all pages + Aether RC1
+0997a38e-610a-480a-a8de-d91755636a8e	captures-reorg	S175b: captures reorganized, OS-IDE formalized, _reliquary pattern introduced, Agent-Protocols wired
+22df5d6f-6887-4ad2-abd4-9ed446f22011	rabble-collective-ops	auto: G10 closed, current state S178
+commit-a8212ec	ep1-world-floor	G10 closed: episode movement, os.html (Aether retheme, scroll fix, Orbitron, flowing panels), join removed from sequence
+commit-c1e5b33	ep1-os-polish	OS page Aether retheme: conic gradient borders, flowing outlines, readable text, cyan labels, VSCodium WS1 reference
+commit-dc5eb67	world-framework-refactor	World landing Aether polish + flowing-border refactored to apply Aether .rabble-border-harmony; authored World Framework Refactor plan (Aether/NeBuLA frameworks, World assembler); B-10 dev-autodeploy blocked on CF API token
+e79f07e4-1c8a-45de-a9bf-e76774d52e7e	rabble-collective-ops	auto: current state S182: World Framework Refactor done, Atlas catalog live
+01c5f8d8-1675-4807-afb4-dce90391b690	token-tracking	S184: Token tracking analysis + Jobotron extension
+f37a9c84-9a01-45f2-9a82-f48289065032	jobotron-exploration	Jobotron work (external project)
+7d65aca1-5ef2-444c-9291-55f084b3df1f	jobotron-exploration	Jobotron work (external project)
+fa8bae87-c282-43f4-98a1-8a89e73774c3	token-tracking	S184: Session-tokens.sh Jobotron extension + feature naming fixes
+4e1602ae-8148-43aa-b391-f9bb44acedc3	rabble-collective-ops	S182 state: World Framework Atlas catalog live + polishing
+71546556-34cb-4a80-8d2b-975df786241b	token-tracking	S184: sCoRE token tracking architecture documentation
+10f9591d-4a55-475f-bbd4-8be49d54b4b6	rabble-collective-ops	S182 final polish: framework consolidation
+142075fb-a85b-4c1d-806d-28bb26008344	jobotron-exploration	Jobotron work (external project)
+d216d95a-82df-4d57-8b8d-9f65be41455e	rabble-collective-ops	S182 end-of-session state updates
+a96fcfd5-ab7e-43d9-a36e-cb42f778f3e2	rabble-collective-ops	S182 end-of-session state updates
+59c3f220-af7b-46ec-be0e-2bb501e2f941	token-tracking	S184: Session-tokens.sh Jobotron extension, feature consolidation, sCoRE architecture doc, CLAUDE.md ritual updates
+5923ce0f-f0ad-4147-956a-60b6877dd62e	collective	auto: current state S184: Aether Theming Convergence plan written
+dc43b204-b0b8-4ab0-8105-9672a7a25c01	os-score-token-pricing	S187: tokens up/down + per-model API pricing, web-only bar, NNLS fit, token-viz.json
+c9acd1e6-3249-4340-b0f6-6b6f0b9f640f	log-cleanup	
+67183dc8-9ce9-445c-a67f-5c75cfde1f65	collective	auto: current state S188: doc closeout audit, no drift found
+4c3ea15a-d8cc-4f84-ae88-7cb302ae9d21	(untagged)	auto: Enable version tracking for RaBbLE-Xperimental (active sandbox)
+883fe0e8-af57-407a-af57-a04efaa5d4e4	collective	auto: current state S190: liminal passage built, 3D entity awake
+883fe0e8-af57-407a-af57-a04efaa5d4e4	ep1-liminal-experience	S190: passage built, 3D entity awake
+883fe0e8-af57-407a-af57-a04efaa5d4e4	collective-architecture-audit-plan	S192: fable-5 orchestration prompt for Collective-wide code audit
+15ef2df9-1783-4e6d-aad0-dcefdf0b78ce	collective	auto: current state S192: architecture audit plan written
+123d6ba4-533c-4339-b494-1ab24fed3cf5	collective	auto: current state S193: architecture audit run, two plan docs live
+123d6ba4-533c-4339-b494-1ab24fed3cf5	collective-architecture-audit	S193: audit run — 8 recon agents, cross-repo synthesis + sCoRE options
+86dc0ec2-75ed-4362-9c5d-d637daf9e69c	collective	auto: current state S195: BaBbLE Strata showcase built
+d81a9abf-58fb-4d4d-9c2d-f07a2d91e212	collective-audit-batch1	S196: audit Batch 1 — registry + NeBuLA API + CONTEXT sweep + CDN subdomains
+S197-proart-power-stack	os-proart-power-stack	S197: ProArt power stack Phases 1-4 authored
+a483abd0-7f74-4aab-a3ee-803e453ce361	collective	auto: current state S197: ProArt power stack Phases 1-4 implemented
+S199-os-runtime-llama-fix	os-runtime-llama-fix	S199: llama.cpp prebuilt 404 fixed
+a0462ac2-bef5-4694-9108-686627b87fef	collective	auto: current state S199: llama.cpp prebuilt 404 fixed
+0ec40847-47b2-48b4-a60f-b41bcf4e86e0	collective	auto: current state S201: KDE grey-text saga closed
+0ec40847-47b2-48b4-a60f-b41bcf4e86e0	os-dolphin-theme	S201: KDE grey text root-caused + fixed
+5a00cfb3-23dc-459a-bd99-5fbc44c46362	ep1-air-decisions	S203: face built + HiDPI fix + B-10 handoff
+S205-upstudio3-usb-wifi	os-upstudio3-usb-wifi	S205: USB driver dead end confirmed, WiFi path diagnosed
+80fa41dd-9e94-4717-a083-b8a8bb845147	collective	auto: gitignore: narrow member-repo wildcard, drop stray RaBbLE-Captures/ rule
+3d8d422b-d36d-4a70-b035-ff61839f91eb	os-containers-layer	S206c: Docker+Podman verified live
+e4c809a2-c96b-4d46-a8e1-94c274d00331	scribble-polish	S209: ScRiBbLE v1 hardened - desktop pan/zoom, draggable text, bug fixes
+d130e7eb-c370-4151-87f2-4d83397c5bd5	os-vscodium-checksum-fix	S210: rpmnew adoption fix for VSCodium corrupt banner
+S212-pocket-esp-idf-eim	pocket-esp-idf-eim	S212: RaBbLE-Pocket scaffolded, ESP-IDF toolchain wired via EIM CLI
+6a7f7b3d-a67d-4757-be86-e4f1c6f1456c	os-creator-apps	S213: fixed + generalized freecad layer into creator-apps registry, plus caught+fixed a staging bug on final review
+e63f781f-0d27-44b9-86f5-7bc7276eb2f0	os-arduino-cli-fix	S215: fixed layer/arduino-cli's 404 download, landed the layer
+811e20ec-e9a2-47dc-b9dd-85657ed584ed	os-boot-chain-race-fix	S216
+S219-pocket-firmware-v1-screens	pocket-firmware-v1-screens	S219: RaBbLE-Pocket v1 firmware Slices 0-4 done (idle/boot/settings screens, real hardware verified)
+S220-pocket-power-task	pocket-power-task	Slice 5-6 power task, hardware-verified end to end
+S221-pocket-case-dxf-refs	pocket-case-dxf-refs	S221: all 6 Case reference views fixed, valid, visible, oriented
+e1cb253f-7c15-469c-9057-795dfadbb57a	os-sddm-hypr-lua-llama-fix	S223 close: eim_config.toml gitignored as eim's own runtime state
+commit-570a466	os-boot-chain-drm-race	
+commit-cf92725	collective-icm-conformance-audit	ICM/MWP audit + 5-phase plan doc + Aether artifact
+commit-df7ea35	os-sddm-drm-retry-actual	
+commit-763ca1d	os-gnome-firstboot	S231: GNOME first-class firstboot, bare-metal KS path
+commit-b2d17ba	os-installer-user-spoke-fix	S232: Anaconda user-spoke lock, rd.break recovery, theatrical installer idea
+commit-b3b04cf	entity-harness-poc-intake	S233: entity rig POC + EnGrAm/EP2/Puppet-Pocket docs routed
+1cd18ae6-093d-46a4-b132-b3753d89245e	collective	auto: current state S234: Cloudflare unblocked, alive entity in NeBuLA, W2 next
+commit-3833f93	ep1-entity-face	S234: CF unblocked + alive entity in NeBuLA
+e80ae986-3aaf-4500-b9f6-667af196329d	collective	auto: current state S235: EP1 face live on dev, Aether rc.2, G10 review next
+commit-df4dd2c	world-ep1-face	S235: W2 five-beat face
+1db2bb91-39e7-4518-a3e9-35eb29ddc985	os-ks-iso-firefox	S236: KS → ISO, in-installer Ansible, VM runs + install fixes, Firefox dropdowns + dotctl bundle
+commit-d668789	os-iso-vm-interactive	S237: interactive ISO VM install passed, Hyprland workspace_rule bug fixed
+commit-00f9c92	os-bare-metal-verify	S238: bare-metal install succeeded, wallpaper root-caused+fixed, ProArt misdetection found
+commit-e01e2a0	os-bare-metal-verify	S238 close: session ends, RaBbLE-OS installed on Desktop, GRUB diagnosis corrected
+commit-254dc1f	os-hypr-maximize-fix	S239 hypr maximize fix
+df602299-4b92-4307-bed8-06a00ce205a3	collective	auto: current state S239: hypr maximize fix, Lua config deployed
+66b40bb1-3593-483f-975b-01886f17b7ff	collective	auto: current state S240: F44 retarget, B-15 fix, fcc revived
+commit-19a9ace	os-f44-hw-detect-branding	S240
+commit-2241492	world-face-ios-scroll	S241: voice stack, iOS zoom/landscape
+ae4118d8-6573-4f86-963d-778db64d5025	collective	auto: current state S241: face scroll + iOS fixes on dev
+35c63c6d-d13d-4870-b6df-d5b86071ba0e	pocket-muse-sdk-bringup	S242
+commit-885ebcb	pocket-gadget-port	S243: gadget port
+a5cc84d6-8896-4305-8f8c-a5c52be6f0d9	collective	auto: current state S243: Pocket gadget + beam to sCoRE
+commit-ec6c340	os-hypr-lua-dispatch-fix	S244: hyprpaper 0.8, symlink-safe ctl scripts, Lua dispatch in movement scripts
+8b827241-7034-4892-bb97-72d68e24e1e8	voice-vocoder-v4	S244: vocoder v3+v4, intelligible + robotic
+commit-e09c128	score-beam-pocket-voice	S243: beam live
+5e37bf4c-a80a-48f0-b369-5c7d4c6cad39	os-display-manager	S246: rdisplay V1
+commit-1badf36	os-proart-power-stack	S245: asusd-only power stack, PL limits, waybar toggle
+commit-2755774	os-waybar-workspace-click	S247
+ef89494d-8dd6-4d09-b2af-a009973376b4	collective	auto: current state S248: grimoire audit, roadmap to reality
+commit-f4cb959	grimoire-ep1-staging-audit	S248: audit + roadmap to reality + low-token pass
+commit-7e47ade	xperimental-web-chrysalis-route	S249: /chrysalis/ removed + xperimental zone
+commit-68a474e	chrysalis-reliquary-mend	S249: reliquary mend + first drops
+commit-536e39f	d1-public-repos	S250: repos public
+01f07a41-4cee-44ba-9d33-2ce8e69e9a4c	pocket-entity-60fps	S251 KISS entity on gadget
+d0fc8066-2bb9-4072-851c-c378f51ab747	collective	auto: current state S253: pocket backplate v4, print pending
+98f03344-25be-462c-b4b8-322a0328a72b	collective	auto: current state S252: pocket 60 fps, settings + clean-room plans
+98f03344-25be-462c-b4b8-322a0328a72b	pocket-entity-60fps	S252: 60 fps idle; settings-orientation + clean-room plans
+4df439b5-44ba-4b9f-b557-9ba5bab4949e	pocket-settings-texture	S254 (+ pocket-time-from-score)
+c0393dc0-31bd-4f24-a4fb-b398ad48355b	pocket-backplate-v4-2	S255: backplate v4.2 first-print fixes (row added by S256 cleanup)
+7007b2eb-db2f-47a4-b581-2210d9c3311f	pocket-cleanroom-w0-w1	S256: clean room W0+W1
+f037c37a-137d-4b81-8323-397b7e88ba7f	collective	auto: current state S258: RaBbLE Ball live on Xperimental
+f037c37a-137d-4b81-8323-397b7e88ba7f	xp-rabble-ball	S258: RaBbLE Ball 3D demo + sketch on Xperimental
+cb4705f8-6e83-400b-9c61-22da737a2e2f	pocket-cleanroom-w2	S258: W2 axp2101+battery+input
+b8152139-278a-4a09-b525-9d7649736aba	collective	auto: current state S258: pocket clean room W2
+17c422dd-95d3-43bf-b087-7bf60ffb60fb	collective	auto: current state S259: pocket clean room W3 network
+03d5bab6-01e8-4cd8-b9cf-f76ffe82fd68	atlas-revival	ATLAS: Pi 4 turret revival, Pi Cam fix, MIT + NOTICE (non-Collective)
+e83cfcd1-dc26-4a05-b067-1f582e5d53d5	atlas-next	ATLAS-next: consolidated, deployed to the Pi, 60 FPS on the Pi Cam (non-Collective)
+1d66f0a2-f8a9-4762-93a6-7075854fb840	atlas-dual-camera-console	S262: ATLAS web console, dual-camera inference, tracks with memory, PID, scan
+6c709250-e87c-4964-bc6e-0763375e0ac3	domains-dnssec	S263: DNSSEC on mcconachie.world + joinrabble.world, setup.sh 404 found (mostly non-Collective)
+33f0e544-0850-4a4e-b082-59c39a92078b	collective	auto: current state S264: pocket clean room W4, face freeze fixed, capture plan
+bbaa642f-5f7d-49fc-be6c-aebc3896c507	collective	auto: current state S265: pocket notes store, Converse/Capture live, sCoRE capture pushed
+b248cb34-8c8c-4799-959e-42ee6e398a33	collective	auto: current state S266: Pocket gyro face, ring everywhere, W5 Orbit, merged onto new-horizons
+a48f1d1d-9015-4986-9d2d-094cfd99273e	pocket-orbit-v2-cleanroom-handoff	S267
+5dc82cff-12e9-4d6e-bd7b-ec9883908498	collective	auto: current state S268: W6 board spec, console finding, implementer started
+5dc82cff-12e9-4d6e-bd7b-ec9883908498	pocket-w6-spec-pomodoro	S268
+9ee39618-b294-47c5-aa27-27d3aee3f6ed	pocket-offline-notes-w6-parked	S270: offline notes on flash, W6 parked
+2435f319-d2ed-4673-8122-2e790103ad54	pocket-claude-node-sdk-orbs	
+S272-pocket-mesh-edge-anchor	pocket-mesh-edge-anchor	S272: mesh anchored to edge
+711dcc63-86d4-4979-aca0-4f6608b1dc15	collective	auto: current state S272: Pocket mesh edge-anchored
+4230b148-c693-4b86-924c-f0c5d423f5c2	score-crew-launcher	S273: the Crew + rabble launcher
+4a0067f7-2edf-49c4-8012-51fd1ad5eb9b	pocket-orbit-pull-transition	S274: Orbit pull/snap, orbs from the mesh
+e3599c62-ad08-47cd-a8a6-1b6311c38cdd	score-rabble-ui	S275: RaBbLE-UI plan + terminal face
+8d363bd3-660d-46d9-9fad-e2f4705c9b87	world-ep1-face-v1	S276
+cf79d728-f855-4e86-b649-8948f7ae6157	pocket-w6-rev2-cleanroom	S277
+f0f3cef5-089e-4c8d-a0db-1c2cc3b3d2c2	collective	auto: current state S278: Pocket W7 done, notes triaged, Accord v2 parked
+f0f3cef5-089e-4c8d-a0db-1c2cc3b3d2c2	score-rabble-ui	S279: RaBbLE-UI U1 engine + U2 face, rabble flipped
+5979b2f4-8d68-4291-abb5-d5a51d7313d0	pocket-sdk-cleanup	S280: SDK S2-S11 + clean-up; closed out after usage limit
+0ff303d7-267c-4fd5-b3a9-b6862e4bd0e2	pocket-shot-parity-sim	S281: >shot, parity sim scaffold, gate fixes
+141be95e-1626-4dec-a631-d1f86edf610d	score-rabble-ui-entropy	S284: settings, entropy trust, entity glitch, git repair
+b95c54c3-6fbb-4bab-8cbb-e0669b5860dd	rabble-ui-live-test	entropy damage+pressure, sonnet frontier, scroll follow
+1a2a0a41-c117-408d-950f-d639d8a62b0a	pocket-release-open-sdk	S286 design: Open SDK, Entity-transplant, E0 spec
+b132f9e9-a999-4fba-8793-1de5bbf10910	pocket-open-sdk	S288
+94d4f7e8-e2ae-4299-89ff-1f9c56277b37	rabble-ui-capability-park-face	S287: hypr tiling, scroll+modal fixes, glitch curve, park at 80%, fine eyes, capability model
+S289-score-entropy-split	score-entropy-split	S289: entropy capability/stability split, benchmark ingest, face lag+eyes (shares transcript id 94d4f7e8 with S287)
+eceae265-f9ce-4163-b825-4beede7ae966	score-rabble-ui-face-layers	S291: layered face, rig fidelity, provider aura, VS Code safe glyphs
+S292-score-rabble-ui-rust-plan	score-rabble-ui-rust-plan	S292: scroll glide, style cache, Rust plan (shares transcript id 94d4f7e8 with S287; end-session.sh keyed it by pwd)
+2a6731f6-75cf-4dc3-9d87-6ca3d5796588	collective	auto: current state S292: scroll glide, Rust TUI plan; R0 spike next
+0e6ee42a-85cd-48f0-88b9-110e1dd7e6a4	anti-clobber-mechanism	S290: collective cleanup, licence, blockers, anti-clobber sessions	rabble	anthropic	claude-sonnet-5-5
+3ba2aead-dbb9-4236-b533-c0a3298bb7ec	anti-clobber-crew-log	S294: crew-log	rabble	anthropic	claude-sonnet-5-5
+722e2004-9011-46f8-9cae-5bc1a6728732	score-rabble-ui-rust-r0	S295: Rust TUI R0+R1 seam, Opus review, phase-2 handoff	claude	anthropic	claude-sonnet-5-5
+f44d4886-454b-48c5-b398-1bdaf6bf5846	score-rabble-ui-rust-phase2	S296: phase-2 lanes P/N/R/S built and reviewed, launcher	claude	anthropic	claude-sonnet-5-5
+fb36ca2b-d3b3-4c7a-9938-7a514dcb8d67	pocket-provenance-sdk-split	S298	rabble	anthropic	claude-sonnet-5-5
+a7b22a40-1bd6-47c6-95f8-2eea21b9f9d8	score-rabble-face-rust	S297 face	rabble	anthropic	claude-sonnet-5-5
+ad8c2976-3dab-4e09-839c-26fc08b22832	rust-shell-parity-header-flow	S299	rabble	anthropic	claude-sonnet-5-5
+77fb5b2f-c835-4286-b5b7-b383da4d05a0	grimoire	auto: S298 Pocket split: plan v0.2 + rulings, build-plan handoff v0.3, QuiBbLE review folded; provenance record held back (public repo)	rabble	anthropic	claude-sonnet-5-5
+d20f041f-c96e-4f68-91e2-1d6c0f1f91f5	rust-shell-select-copy-clear-entropy	S301	rabble	anthropic	claude-sonnet-5-5
+f6522db6-ff6b-4f0c-b18d-6fb2b6320ef0	pocket-boot-button-hwtest	S300: BOOT hw test, QuiBbLE plan review, vtable header	rabble	anthropic	claude-sonnet-5-5
+8b32fcc0-59a6-403c-bd74-30da24c3156e	rui-face-gaze-selection-fixes	S302 parked degraded	rabble	anthropic	claude-sonnet-5-5
+1818f1e0-c453-4a60-8d33-d7e486cb2005	rui-compact-mark-gaze-parity	S303	rabble	anthropic	claude-sonnet-5-5
+9ad4ab99-bf6b-4eb1-be0f-0f282d3782ca	pocket-w10-seam-tap-to-talk		rabble	anthropic	claude-sonnet-5-5
+4657c065-162d-452c-b191-e430cde062a5	rui-micro-mark-portals-3row-header	S306	rabble	anthropic	claude-sonnet-5-5
+31f4f36f-0a2b-4c82-8892-31b4962f4c09	rabble-tui/modal	auto: AskUserQuestion can finally be answered: pick-an-option prompt, answers ride back as updated_input	rabble	anthropic	claude-sonnet-5-5
+06684b17-a616-42c8-bd52-58cea348cdb6	rui-micro-mark-pills-gaze	S309	rabble	anthropic	claude-sonnet-5-5
+09a0f543-47c2-4866-af1b-b8be9a657a10	pocket-open-entity-default	S308	rabble	anthropic	claude-sonnet-5-5
+1450adb7-91ff-4a6c-b911-7d890ff858d3	pocket-foundling-skeleton		rabble	anthropic	claude-sonnet-5-5
+413119a2-c6f7-4e79-850c-e3ae020d2b66	pocket-w9-entity-layers	S311	rabble	anthropic	claude-sonnet-5-5
+43a6552a-b1fc-4b0a-91cc-dc763ff5ef8e	pocket-layers-review	S312 R0 review + W8/W11 firewall	rabble	anthropic	claude-sonnet-5-5
+f6af0bb3-eca0-4e00-a053-efa61901ecac	pocket-cr-scan	S313 CR scan	rabble	anthropic	claude-sonnet-5-5
+06c9deac-b791-4909-b58b-e6d73384d688	pocket-w8-w11-merge	S314	rabble	anthropic	claude-sonnet-5-5
+3d78ce9a-dc63-4b1c-917d-625748a3dd5d	xperimental-web	auto: RaBbLE Matrix Builder	rabble	anthropic	claude-sonnet-5-5
+a3b4d3cb-95a0-48be-a7c2-78baed8d8ad6	pocket-w11-r1	S314: W11 + R1 committed, provenance check	rabble	anthropic	claude-sonnet-5-5
+4edc01ef-b714-46f9-b18e-e733cee4ff11	pocket-provenance-rescue	S315 rescue	rabble	anthropic	claude-sonnet-5-5
+b4c1e992-34cf-40a7-a0bc-25a5271f930c	pocket-open-entity-fold		rabble	anthropic	claude-sonnet-5-5
+3ab80bd3-9b8b-4c56-a563-1f5205017197	pocket-include-src-uniform	S317 include/src uniform, console split	rabble	anthropic	claude-sonnet-5-5
+590bbf3e-5866-4247-aff4-b2958a9df510	fastfetch-face-marks	fastfetch logos from rabble-face	rabble	anthropic	claude-sonnet-5-5
+21483028-1621-4fc9-a091-d7a06ec458c9	collective-coherency-audit		rabble	anthropic	claude-opus-5-5
+e5fb73e0-6612-4ca8-9e0f-f99846eded9e	void-retire-handoff-archive		rabble	anthropic	claude-opus-5-5
+49f5a4da-4640-4b73-a6e6-d2fe6645be1c	unified-entity-puppet-rig	rig baseline accepted; spec draft 10b	rabble	anthropic	claude-sonnet-5-5
+5e98b6e6-8c32-4d94-af39-a6f0059f4438	collective-audit-context-diet	S322: episodes retired, accounts scoped	claude	anthropic	claude-fable-5-2
+8c15d90a-928e-4b29-9d9c-4a515fb9cb26	collective-genesis-release	S323: genesis phase 1 + CDN + PRs	claude	anthropic	claude-fable-5-2

@@ -1,0 +1,9 @@
+# a saved network that never shows up: slower looking, screen on
+0	wifi_on	1
+0	preload	Home	homepass	0
+0	air	Other:-60:secure
+0	start
+1000	status
+4000	status
+4000	saved
+500000	end

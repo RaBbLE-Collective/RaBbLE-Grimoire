@@ -1,0 +1,31 @@
+time 7000000
+init
+nodump
+boot poweron
+json
+boot sw
+json
+boot panic
+json
+boot int_wdt
+json
+boot task_wdt
+json
+boot wdt
+json
+boot deepsleep
+json
+boot brownout
+json
+boot usb
+json
+boot jtag
+json
+boot ext
+json
+boot unknown
+json
+boot sdio
+json
+boot efuse
+json

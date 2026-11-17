@@ -1,0 +1,2 @@
+{"ts":"2026-11-03T13:01:11Z","type":"start","key":"b4f5c10a-08d0-4cc5-b1cb-b56d264cd488","harness":"rabble","provider":"anthropic","model":"claude-sonnet-5-5","confidence":"exact","label":"S305","pid":59321,"cwd":"/home/rabble/RaBbLE-Collective","started":1793710798,"native_id":"b4f5c10a-08d0-4cc5-b1cb-b56d264cd488"}
+{"ts":"2026-11-03T13:01:11Z","type":"label","key":"b4f5c10a-08d0-4cc5-b1cb-b56d264cd488","harness":"rabble","provider":"anthropic","model":"claude-sonnet-5-5","confidence":"exact","label":"S305","topic":"pocket-w10-revise-taptalk-verify"}

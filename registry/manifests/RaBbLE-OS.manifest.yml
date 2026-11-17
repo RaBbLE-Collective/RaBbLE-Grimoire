@@ -1,0 +1,29 @@
+name: RaBbLE-OS
+slug: RaBbLE-OS
+description: "The Ansible-driven Linux OS substrate — the body RaBbLE moves through."
+role: substrate
+
+repo: https://github.com/RaBbLE-Collective/RaBbLE-OS.git
+branch: main
+worktree_root: RaBbLE-OS
+
+version: "0.1.0"
+phase: 0
+epoch: 0
+status: active
+release_track: lockstep      # works on the epoch active_branch; status.sh flags it if not (set independent for sandbox/archive)
+
+palette_version: "1.0"
+entity_embedded: true
+pulse_protocol: true
+
+# Dependencies — other Collective members this member consumes
+depends_on:
+  - slug: RaBbLE-Aether
+    mechanism: palette tokens (derived into Ansible vars for GTK/Qt/Kvantum theming)
+
+notes: >
+  Live daily driver. Fedora 43 base, Ansible-driven. Hyprland compositor.
+  Hardware target: ASUS ProArt P16 H7606WV (x64).
+  Active branch: new-horizons. Episode 1 in progress (Plot A: Substrate, Plot B: Theme).
+  Detail: RaBbLE-OS/grimoire/RaBbLE-OS-Roadmap.md

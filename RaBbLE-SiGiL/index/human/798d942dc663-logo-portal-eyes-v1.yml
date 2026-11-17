@@ -1,0 +1,28 @@
+id: 798d942dc663
+sha256: 798d942dc66303f7c217d21550cf263d9f9fec8f4e27644ca944f4134ea1c6f8
+title: logo-portal-eyes-v1
+provenance: human
+role: other
+status: draft
+store: human/2026/798d942dc663-logo-portal-eyes-v1.png
+kind: image
+format: png
+bytes: 513358
+width: 2420
+height: 1668
+alpha: true
+animated: false
+palette:
+- '#000000'
+- '#68ecf1'
+- '#4f72ba'
+- '#6c0074'
+- '#000040'
+tags: []
+description: ''
+origin_name: logo-portal-eyes-v1.png
+ingested: '2026-10-27'
+rights: collective-original
+source: RaBbLE/Genesis/visual (S92 migration)
+medium: ''
+made: '2026'

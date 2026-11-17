@@ -1,0 +1,60 @@
+# manifests/RaBbLE-sCoRE.manifest.yml
+# Covers RaBbLE-sCoRE (coordination intelligence + absorbed RaBbLE-Server web API).
+# RaBbLE-Server repo is deprecated — this manifest supersedes it.
+
+# Identity
+name: RaBbLE-sCoRE
+slug: RaBbLE-sCoRE
+description: "Coordination intelligence engine + FastAPI web API. Intent → decompose → delegate → result."
+role: server
+
+# Repository
+repo: https://github.com/RaBbLE-Collective/RaBbLE-sCoRE.git
+branch: main
+worktree_root: RaBbLE-sCoRE
+
+# Status
+version: "0.1.0"
+epoch: 0
+evolution: 0
+echo: 0
+status: active
+release_track: lockstep      # works on the epoch active_branch; status.sh flags it if not (set independent for sandbox/archive)
+
+# Collective alignment
+palette_version: "1.0"
+entity_embedded: true
+pulse_protocol: true
+
+# Subcomponents
+subcomponents:
+  - name: server
+    path: server/
+    description: "FastAPI intelligence service (absorbed from RaBbLE-Server)"
+    framework: fastapi
+    deployment: render
+  - name: harness
+    path: harness/
+    description: "Render deployment config (render.yaml)"
+
+# Dependencies — other Collective members this member consumes at runtime
+depends_on: []
+# sCoRE has no member dependencies — it calls external APIs (LLMs) only.
+# Post-Ep1: will read OS ambient state and write to Memory.
+
+# Notes
+notes: >
+  Pre-Episode-1 work (Plots A–C): coordination shell, dispatch, identity, server absorbed.
+  Episode 1 (pending): harness verified, Render deploy (free tier), API tests passing, version aligned.
+  Render: service rabble-score, render.yaml present, manual deploy via dashboard (Mark's task).
+  Cold-start on free tier: ~30–60s after 15 min idle — documented known limitation.
+  Episode 1 airs with the Collective at v0.0.0.1.
+  Server/coordinator split deferred — same repo, two surfaces. See Architecture doc.
+
+  Episode 2 local harness plot (S138, 2026-06-21): sCoRE runs as systemd user service on :8083
+  alongside fcc on :8082. New modules: server/quota.py (usage-aware routing, reads Waybar cache),
+  server/agent_state.py (shared context across harnesses, handoff prompts), server/entropy.py
+  (session entropy tracking, self-healing protocol). New CLI: cli/rabble.py (streaming Python,
+  Aether ANSI, entity ASCII header, quota/entropy display). 14 tickets in 5 parallel tracks.
+  Implementation gated behind EP1 air. Canonical docs in RaBbLE-sCoRE/ (Local-Architecture,
+  Quota-Router, Agent-State, Entropy-Tracker, Local-Tickets).

@@ -1,0 +1,14 @@
+{
+  "_about": "Curated benchmark rows behind sCoRE's capability registry. A person (or a reviewed agent run) enters every result with its source; nothing is scraped. Run `bash spells/ingest-capabilities.sh` (add --check to preview). Categories: general, coding, tools, recall. Mark picks the benchmarks and the scale; until a model has rows its numbers stay the estimates in RaBbLE-sCoRE/orchestra/capabilities.json. Row shape: {\"model\": key, \"benchmark\": id, \"score\": raw, \"date\": \"YYYY-MM-DD\", \"source\": url-or-citation}. Prefer vendor system cards or the benchmark's own leaderboard; third-party reseller tables disagree with each other.",
+  "scale": {"mode": "frontier", "frontier_at": 95, "reference": "unset"},
+  "benchmarks": [],
+  "models": [
+    {"key": "fable",  "match": ["fable"]},
+    {"key": "opus",   "match": ["opus"]},
+    {"key": "gpt",    "match": ["gpt"]},
+    {"key": "sonnet", "match": ["sonnet"]},
+    {"key": "haiku",  "match": ["haiku"]},
+    {"key": "local",  "match": ["qwen", "llama", "gemma", "phi", "mistral", "gguf", "ollama", "local"], "local": true}
+  ],
+  "results": []
+}

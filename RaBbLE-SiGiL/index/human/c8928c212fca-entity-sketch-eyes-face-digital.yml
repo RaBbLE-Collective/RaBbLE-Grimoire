@@ -1,0 +1,28 @@
+id: c8928c212fca
+sha256: c8928c212fca939d58d6fdfde5849366f19c552ca4986650a358ac13e7cfaff6
+title: entity-sketch-eyes-face-digital
+provenance: human
+role: other
+status: draft
+store: human/2026/c8928c212fca-entity-sketch-eyes-face-digital.png
+kind: image
+format: png
+bytes: 160296
+width: 1080
+height: 1080
+alpha: true
+animated: false
+palette:
+- '#ffffff'
+- '#ededed'
+- '#4f4f50'
+- '#bdbdbd'
+- '#fafafa'
+tags: []
+description: ''
+origin_name: entity-sketch-eyes-face-digital.png
+ingested: '2026-10-27'
+rights: collective-original
+source: RaBbLE/Genesis/visual (S92 migration)
+medium: ''
+made: '2026'

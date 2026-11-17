@@ -1,0 +1,11 @@
+# a saved hidden network is tried by name without showing in the scan; a saved visible one that is absent is skipped
+0	preload	Ghost	gp	1
+0	preload	Gone	xp	0
+0	wifi_on	1
+0	air	Other:-60:secure
+0	result	Ghost	ok:4000
+0	start
+2500	status
+7000	status
+7000	saved
+20000	end

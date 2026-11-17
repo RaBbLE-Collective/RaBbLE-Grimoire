@@ -1,0 +1,8 @@
+# on, nothing saved
+0	wifi_on	1
+0	air	Home:-60:secure
+0	start
+1000	status
+1000	saved
+1000	scan_results
+30000	end

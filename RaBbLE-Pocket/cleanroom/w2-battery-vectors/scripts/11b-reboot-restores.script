@@ -1,0 +1,25 @@
+time 10000000
+boot poweron
+init
+nodump
+power 90 4100 0 0 1
+time 100000000
+power 89 4090 0 0 1
+time 200000000
+state 1 1
+time 250000000
+wake 4000000
+power 89 4085 0 1 0
+rtc
+boot panic
+reboot
+time 3000000
+init
+saved
+rtc
+read
+json
+reset
+saved
+rtc
+json

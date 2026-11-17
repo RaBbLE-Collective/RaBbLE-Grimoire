@@ -1,0 +1,32 @@
+# manifests/RaBbLE-SiGiL.manifest.yml
+# Visual asset store, housed in the Grimoire (a grimoire holds sigils).
+# RaBbLE-Grimoire/RaBbLE-SiGiL/index/ is tracked; RaBbLE-Grimoire/RaBbLE-SiGiL/store/ (bytes) is git-ignored.
+
+# Identity
+name: RaBbLE-SiGiL
+slug: RaBbLE-SiGiL
+description: "Content-addressed visual asset store: human, captured/rendered and AI art, indexed in the Grimoire"
+role: tooling
+
+# Repository
+repo: none                         # lives inside RaBbLE-Grimoire; R2 mirror planned
+branch: none
+worktree_root: RaBbLE-Grimoire/RaBbLE-SiGiL
+surface_type: local
+
+# Status
+phase: 0
+epoch: 0
+status: scaffold
+release_track: independent
+
+# Collective alignment
+palette_version: "1.0"
+entity_embedded: false
+pulse_protocol: true
+
+# Notes
+notes: >
+  Named by Mark 2026-10-27 (S282). Provenance is the primary axis: human | captured | ai.
+  Ingest via spells/asset-ingest.sh. Existing tracked Genesis images are copied in,
+  not removed; git removal is a separate decision.

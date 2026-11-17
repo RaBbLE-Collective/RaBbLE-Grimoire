@@ -1,0 +1,20 @@
+# forget the network in use with another saved one in range: leaves it, joins the other at once
+0	wifi_on	1
+0	preload	A	ap	0
+0	preload	B	bp	0
+0	air	A:-50:secure,B:-60:secure
+0	result	A	ok:2000
+0	result	B	ok:2000
+0	start
+4000	status
+5000	forget	A
+5000	status
+5000	saved
+8000	status
+12000	status
+12000	saved
+12000	forget	B
+12000	status
+14000	status
+14000	saved
+60000	end

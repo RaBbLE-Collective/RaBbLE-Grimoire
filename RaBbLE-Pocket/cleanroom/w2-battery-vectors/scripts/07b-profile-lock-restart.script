@@ -1,0 +1,37 @@
+time 1000000
+init
+power 40 3700 0 0 1
+dump
+| Time since boot up: 100000000 us
+| Lock stats:
+| Name            Type            Arg    Active    Total_count    Time(us)        Time(%) 
+| x               APB_FREQ_MAX    0      0         10             50000000        1  %
+|
+| Mode stats:
+| Mode      CPU_freq    Time(us)    Time(%)   
+| SLEEP     40 M        10000000    0 %
+| APB_MIN   40 M        10000000    0 %
+| APB_MAX   80 M        10000000    0 %
+| CPU_MAX   240M        10000000    0 %
+|
+| Sleep stats:
+| light_sleep_counts:1  light_sleep_reject_counts:1
+reset
+dump
+| Time since boot up: 200000000 us
+| Lock stats:
+| Name            Type            Arg    Active    Total_count    Time(us)        Time(%) 
+| x               APB_FREQ_MAX    0      0         2              8000000         1  %
+|
+| Mode stats:
+| Mode      CPU_freq    Time(us)    Time(%)   
+| SLEEP     40 M        110000000   0 %
+| APB_MIN   40 M        10000000    0 %
+| APB_MAX   80 M        10000000    0 %
+| CPU_MAX   240M        70000000    0 %
+|
+| Sleep stats:
+| light_sleep_counts:2  light_sleep_reject_counts:2
+time 101000000
+read
+json

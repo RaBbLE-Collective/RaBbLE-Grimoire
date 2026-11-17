@@ -1,0 +1,28 @@
+# manifests/_template.manifest.yml
+# Copy this file to manifests/RaBbLE-[Name].manifest.yml and fill in values.
+# Run spells/init-project.sh to scaffold automatically.
+
+# Identity
+name: RaBbLE-[Name]
+slug: RaBbLE-[Name]
+description: "[One-line project description]"
+role: substrate                    # substrate | server | frontend | tooling | experimental
+
+# Repository
+repo: https://github.com/RaBbLE-Collective/RaBbLE-[Name].git
+branch: main
+worktree_root: RaBbLE-[Name]
+
+# Status
+phase: 0                           # current active phase
+epoch: 0                           # current epoch alignment
+status: scaffold                   # active | scaffold | dormant | experimental | deprecated
+
+# Collective alignment
+palette_version: "1.0"             # must match current RaBbLE-Palette.md version
+entity_embedded: true              # RaBbLE entity is present in this project
+pulse_protocol: true               # uses CommitStyle.md Pulse Protocol
+
+# Notes
+notes: >
+  [Brief context note — scaffolded date, special considerations]

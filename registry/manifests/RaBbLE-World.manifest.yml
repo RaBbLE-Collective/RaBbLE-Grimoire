@@ -1,0 +1,44 @@
+# manifests/RaBbLE-World.manifest.yml
+# Web presence and entity chat surface. joinrabble.world.
+# Includes RaBbLE-Chat and the Layer 1 entity renderer (rabble-entity.js).
+
+# Identity
+name: RaBbLE-World
+slug: RaBbLE-World
+description: "Web presence + entity chat surface + Layer 1 entity renderer. joinrabble.world."
+role: frontend
+
+# Repository
+repo: https://github.com/RaBbLE-Collective/RaBbLE-World.git
+branch: main
+worktree_root: RaBbLE-World
+
+# Status
+version: "0.1.0"
+epoch: 0
+status: active
+release_track: lockstep      # works on the epoch active_branch; status.sh flags it if not (set independent for sandbox/archive)
+
+# Collective alignment
+palette_version: "1.0"
+entity_embedded: true
+pulse_protocol: true
+
+# Dependencies — other Collective members this member consumes at runtime
+depends_on:
+  - slug: RaBbLE-Aether
+    mechanism: CDN CSS bundle (aether.css)
+  - slug: RaBbLE-NeBuLA
+    mechanism: CDN IIFE bundle (nebula.iife.js, <rabble-entity> web component)
+  - slug: RaBbLE-sCoRE
+    mechanism: HTTP/REST API (intent routing, chat endpoint)
+
+# Notes
+notes: >
+  Active branch: new-horizons. Deployed at joinrabble.world via Cloudflare Workers.
+  World is a thin scaffold: HTML + loaders. No embedded renderers or visual effects.
+  Entity rendering: <rabble-entity> web component from NeBuLA (loaded via loader script).
+  Visual effects: all from Aether CSS bundle (loaded via loader script).
+  Two loaders in <head>: RaBbLE-aether.js (injects Aether CSS), RaBbLE-NeBuLA.js (injects NeBuLA IIFE).
+  Both loaders show failure banners — degraded mode is visible, never silent.
+  Pages link to /aether/v0.0.0.0/aether.css (dev) — watch build output, not aether.min.css.

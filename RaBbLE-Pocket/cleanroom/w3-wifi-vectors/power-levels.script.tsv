@@ -1,0 +1,12 @@
+# before start the call is ignored; levels map to modem sleep settings; repeating a level does nothing
+0	power	rest
+0	wifi_on	1
+0	start
+100	power	full
+100	power	doze
+100	power	doze
+200	power	rest
+200	power	full
+200	power	rest
+300	power	full
+1000	end

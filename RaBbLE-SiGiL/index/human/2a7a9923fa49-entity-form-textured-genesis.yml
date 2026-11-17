@@ -1,0 +1,28 @@
+id: 2a7a9923fa49
+sha256: 2a7a9923fa49f13aa56735797bfd62b7591b994a7c174e526c25cc6b12279625
+title: entity-form-textured-genesis
+provenance: human
+role: other
+status: draft
+store: human/2026/2a7a9923fa49-entity-form-textured-genesis.png
+kind: image
+format: png
+bytes: 398513
+width: 967
+height: 513
+alpha: false
+animated: false
+palette:
+- '#000000'
+- '#584c70'
+- '#709bad'
+- '#2a2335'
+- '#000100'
+tags: []
+description: ''
+origin_name: entity-form-textured-genesis.png
+ingested: '2026-10-27'
+rights: collective-original
+source: RaBbLE/Genesis/visual (S92 migration)
+medium: ''
+made: '2026'

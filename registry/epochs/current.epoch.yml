@@ -1,0 +1,75 @@
+epoch: 0
+name: "Foundation"
+status: active
+started: 2026-04-28
+
+# Episodes were retired as the planning unit (Mark, S318 D3; applied S322).
+# Members plan by milestone (focus: below). The Collective marks stability with
+# Echoes. Spec: RaBbLE-Versioning.md. Arc names are lore, not gates.
+arc: "Genesis"
+arc_crossed: 2026-11-09      # joinrabble.world first deployed from main (World PR #2, S318)
+arc_next: "Exodus"           # observation, memory, the first closed behavioral loop
+
+version_collective: "v0.0.0" # Epoch.Evolution.Echo; members carry their own semver
+
+# Members with `release_track: lockstep` in their manifest work on this branch;
+# spells/status.sh flags any that are not. `independent` members are exempt.
+# Flow (RaBbLE-Versioning.md section 3): work on new-horizons, cut release/X.Y.Z,
+# pull request into main, tag vX.Y.Z there. main is stable; World main deploys production.
+# Genesis release (S323 ruling): all current state released to main under the `genesis` tag. Pending.
+active_branch: "new-horizons"
+
+intent: >
+  Establish the coordination layer, the identity, the visual system and a public
+  door. Expression first: a face, a voice, a substrate.
+
+exit_condition: >
+  Epoch 0 ends at the first closed loop: with the laptop offline, RaBbLE observes
+  something, stores it, recalls it and expresses it. Named in hindsight.
+exit_evidence:
+  - "DONE  joinrabble.world live from main: entity face + live sCoRE chat (S318)"
+  - "DONE  sCoRE deployed and reachable (S106)"
+  - "DONE  Aether + NeBuLA served from their CDN subdomains (S153)"
+  - "OPEN  setup.sh end to end on a fresh VM"
+  - "OPEN  OS fresh install passes after the S318 Ansible findings are fixed"
+  - "OPEN  first closed loop (log/plans/Collective-Context-Diet-S322.md, section 6)"
+
+# One milestone per member. milestone = what it is working toward now;
+# status = where it stands, with evidence. Update when either changes.
+focus:
+  RaBbLE-Collective:
+    milestone: "setup.sh verified end to end on a fresh VM"
+    status: "served at joinrabble.world/setup.sh; anonymous clones verified S250; fresh-VM run not done"
+  RaBbLE-Grimoire:
+    milestone: "Cheap, true orientation: every agent oriented in under 8k tokens"
+    status: "S322: log rotated, hub indexing, entity digest; D3 sweep applied"
+  RaBbLE-sCoRE:
+    milestone: "Accounts: a visitor can become a user (log/plans/Accounts-Formalization-Scope.md)"
+    status: "LIVE score.joinrabble.world: guest chat SSE, Groq chain, /api/v1/beam; rabble Rust TUI; no user accounts yet"
+  RaBbLE-World:
+    milestone: "Sign-in door on joinrabble.world, wired to sCoRE accounts"
+    status: "prod deploys from main (S318); five-beat entity face"
+  RaBbLE-NeBuLA:
+    milestone: "Entity drawn from the unified rig (log/plans/Unified-Entity/)"
+    status: "<rabble-entity backend=\"alive\"> 2D + 3D; CDN v0.0.0.1-rc.1"
+  RaBbLE-Aether:
+    milestone: "Cut v0.0.0.1 (carries the S320 Void retirement)"
+    status: "CDN v0.0.0.1-rc.2 at aether.joinrabble.world"
+  RaBbLE-OS:
+    milestone: "Genesis 0.1.0: bootstrap and Kickstart paths documented and tested; Echo 1: an actual installer (log/plans/OS-Installer-Scope-Genesis-to-Echo1.md)"
+    status: "daily driver; VM install S236, bare metal S238; audit S318: 1 critical, 10 high open"
+  RaBbLE-Pocket:
+    milestone: "Core/apps reorg lands; firmware builds from one tree"
+    status: "ESP32-S3 pendant, voice beamed to sCoRE; clean room W0-W7 done; B-22, B-27, B-28 open"
+  RaBbLE-ScRiBbLE:
+    milestone: "none set"
+    status: "LIVE scribble.joinrabble.world: note PWA v1, local-only"
+  RaBbLE-BaBbLE:
+    milestone: "A remote and a backup (B-23)"
+    status: "intake workspace; 59+ local-only commits"
+  RaBbLE-Xperimental:
+    milestone: "none (sandbox)"
+    status: "rablets and drops"
+  RaBbLE-Chrysalis:
+    milestone: "none (archive)"
+    status: "genesis archive + reliquary; holds the June 2026 World build"

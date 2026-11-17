@@ -1,0 +1,42 @@
+# sleep vectors: check_sleep decisions. One fresh process per scenario; rows are consecutive calls.
+# columns: scenario, now_ms, asleep, on_battery, talk_down, power_off_s, sleep_s, mode(0 boot,1 idle,2 listening,3 thinking,4 speaking,5 error,6 off), idle_secs, expected ('-' none | board_power_off | sleeping(auto-sleep))
+# board_power_off here is a failing power-off (the real one does not return); the module then restarts its own timer.
+auto_sleep_threshold	0	0	0	0	0	30	1	29.9	-
+auto_sleep_threshold	100	0	0	0	0	30	1	30.0	-
+auto_sleep_threshold	200	0	0	0	0	30	1	30.1	sleeping(auto-sleep)|notify_input
+auto_sleep_threshold	300	0	0	0	0	30	1	45	sleeping(auto-sleep)|notify_input
+auto_sleep_modes	0	0	0	0	0	30	0	100.0	-
+auto_sleep_modes	0	0	0	0	0	30	1	100.0	sleeping(auto-sleep)|notify_input
+auto_sleep_modes	0	0	0	0	0	30	2	100.0	-
+auto_sleep_modes	0	0	0	0	0	30	3	100.0	-
+auto_sleep_modes	0	0	0	0	0	30	4	100.0	-
+auto_sleep_modes	0	0	0	0	0	30	5	100.0	-
+auto_sleep_modes	0	0	0	0	0	30	6	100.0	-
+auto_sleep_disabled	0	0	0	0	0	0	1	9999.0	-
+auto_sleep_already_asleep	0	1	0	0	0	30	1	100.0	-
+power_off_timer	0	1	1	0	60	0	1	0	-
+power_off_timer	30000	1	1	0	60	0	1	0	-
+power_off_timer	59900	1	1	0	60	0	1	0	-
+power_off_timer	60000	1	1	0	60	0	1	0	board_power_off
+power_off_timer	60100	1	1	0	60	0	1	0	-
+power_off_timer	119900	1	1	0	60	0	1	0	-
+power_off_timer	120000	1	1	0	60	0	1	0	board_power_off
+power_off_timer_resets_on_wake	0	1	1	0	60	0	1	0	-
+power_off_timer_resets_on_wake	50000	1	1	0	60	0	1	0	-
+power_off_timer_resets_on_wake	50100	0	1	0	60	0	1	0	-
+power_off_timer_resets_on_wake	100000	1	1	0	60	0	1	0	-
+power_off_timer_resets_on_wake	160000	1	1	0	60	0	1	0	board_power_off
+power_off_timer_resets_on_wake	160100	1	1	0	60	0	1	0	-
+power_off_timer_resets_on_usb	0	1	1	0	60	0	1	0	-
+power_off_timer_resets_on_usb	50000	1	0	0	60	0	1	0	-
+power_off_timer_resets_on_usb	100000	1	1	0	60	0	1	0	-
+power_off_timer_resets_on_usb	159900	1	1	0	60	0	1	0	board_power_off
+power_off_timer_resets_on_usb	160000	1	1	0	60	0	1	0	-
+power_off_timer_resets_on_talk	0	1	1	0	60	0	1	0	-
+power_off_timer_resets_on_talk	50000	1	1	1	60	0	1	0	-
+power_off_timer_resets_on_talk	109900	1	1	0	60	0	1	0	-
+power_off_timer_resets_on_talk	110000	1	1	0	60	0	1	0	board_power_off
+power_off_disabled	0	1	1	0	0	0	1	0	-
+power_off_disabled	10000000	1	1	0	0	0	1	0	-
+power_off_not_awake_battery_never	0	0	1	0	60	0	1	0	-
+power_off_not_awake_battery_never	999999	0	1	0	60	0	1	0	-

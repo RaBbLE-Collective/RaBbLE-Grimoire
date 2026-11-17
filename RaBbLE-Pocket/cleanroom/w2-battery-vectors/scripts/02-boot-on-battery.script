@@ -1,0 +1,13 @@
+time 3000000
+boot brownout
+init
+nodump
+power 55 3800 0 0 1
+read
+json
+rtc
+time 603000000
+power 54 3790 0 0 1
+read
+drain
+json

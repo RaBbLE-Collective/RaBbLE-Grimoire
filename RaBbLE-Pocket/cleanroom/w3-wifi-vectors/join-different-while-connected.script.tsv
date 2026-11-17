@@ -1,0 +1,19 @@
+# connected to A; joining B drops A first, joins only B; joining the connected one again just updates the saved password
+0	wifi_on	1
+0	preload	A	ap	0
+0	air	A:-50:secure,B:-60:secure
+0	result	A	ok:2000
+0	result	B	fail:5000,ok:2000
+0	start
+4000	status
+5000	join	B	bp
+5000	status
+6000	status
+10500	status
+10500	saved
+20000	status
+20000	saved
+30000	join	B	bp2
+32000	saved
+32000	status
+60000	end
