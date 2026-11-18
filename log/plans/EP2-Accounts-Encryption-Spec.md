@@ -1,6 +1,6 @@
 # RaBbLE Episode 2 — User Accounts & Encrypted Ingestion Spec
 
-**Status:** Draft, open questions 1 and 3 ruled S333 (§0). Episode framing is retired (S322); this is the Accounts milestone's encryption design.
+**Status:** Draft, open questions 1 and 3 ruled S333 (§0); trust line and Pocket key ruled S352 (§0a, rest proposed). Episode framing is retired (S322); this is the Accounts milestone's encryption design.
 **Scope:** Episode 2 (post-EP1 tag). Public-facing but not scaled — target is single-digit real users (self + beta testers), architecture built to scale beyond that later.
 **Owner:** Mark McConachie
 
@@ -16,6 +16,73 @@ Ruled by Mark; also in `log/DECISIONS.md` (S333).
 - **Transcripts are client-sealed:** the client (web, terminal) encrypts each chat turn with an item key and uploads it. sCoRE and the model provider see plaintext only in flight while replying, never at rest. sCoRE's server-side `transcripts.py` write path retires for signed-in users. **Pocket** seals through a paired device key (AC7 pairing), design still owed.
 - **Sharing publishes a copy:** the owner's device decrypts an item and writes a plaintext copy under a share namespace; sCoRE serves it to holders of a scoped, read-only, revocable share token. Revoke deletes the copy. First consumer: `mark.mcconachie.world`, a Pages site in a separate Cloudflare account that only holds a share token.
 - **Still open:** §8 Q2 (encrypted embeddings vs search), Q4, Q5, Q6; Pocket device-key design; the refusal UX when the R2 budget is spent (`sCoRE-Storage-Gate-Plan.md` Q3).
+
+---
+
+## 0a. S352 (2026-11-18): encrypt everything, decrypt only on the device
+
+Triggered by the ZNP badge research (`RaBbLE-Pocket/RaBbLE-Pocket-ZNP-Badge-Research.md`). Two points ruled by Mark; the rest is a **proposal awaiting his ruling**. Not built.
+
+### Ruled (Mark, S352)
+
+- **Trust line: never stored in plaintext, seen only in flight.** sCoRE and the model provider see audio and text while processing a turn (STT, LLM, note shaping), never at rest. The claim made publicly is exactly that, never "we cannot see it". A local-processing tier (phone or home box) is later work, not a promise.
+- **Pocket key: write-only by default, optional read key.** A Pocket can seal new items but cannot read old ones. An optional per-device read key can be granted from the phone app and revoked there.
+
+### Proposed (needs ruling)
+
+**1. Keys (refines S333 "master key wraps item key").** The per-user master is an X25519 keypair, not a bare symmetric key.
+- Public key: stored in Neon, readable by any paired device. Private key: wrapped by each unlock factor (password KDF, recovery key, passkey), as in S333.
+- Each item gets a random item key. The item key is sealed to the user public key (sealed box or HPKE). So any device holding only the public key can create items; only a device that unlocked the private key can open them.
+- Pocket and badge-driver devices get a **device keypair**, generated on the device (ESP32-S3 hardware RNG), private half in flash-encrypted NVS. The phone app pairs it: registers the device public key in Neon with a label. Revoke = delete that row; a revoked device can no longer write (sCoRE refuses its auth) and its optional read key is rotated out.
+- Optional read key: the phone wraps the user private key (or a narrower per-collection key) to the device public key. Rotation on revoke re-wraps item keys for future items only; old items stay readable by whoever already held the key, so say that plainly.
+
+**2. Capture flow (Pocket, no phone).**
+1. Pocket streams PCM over the beam (TLS) to sCoRE. sCoRE transcribes and shapes the note in memory, returns the note file to the device (as today, `RaBbLE-Pocket-Beam-Protocol.md`), and drops the audio. No audio or transcript is written to disk or R2 by sCoRE.
+2. The device seals the note (item key, AES-256-GCM, or XChaCha20-Poly1305), seals the item key to the user public key, and uploads the blob through sCoRE's S3 module (`PUT`, per-account prefix).
+3. The device keeps its recent notes locally (LittleFS, flash-encrypted). That local cache is what "recent items" means; the Pocket never needs to read R2 to show them.
+- **Raw audio is never stored**, sealed or not. If a future feature needs audio at rest, it is sealed on the device before upload like any other item.
+- Server-side `transcripts.py` is retired for signed-in users (S333). Guests keep the current behavior until guests are retired or sealed too (open).
+
+**3. Badge and phone-as-hub.** The ZNP badge holds no keys and is not a trust boundary: it is a BLE input and display surface. The companion app (phone) is the key holder and sealer. Badge audio goes badge to app (BLE) to sCoRE (TLS), and the note comes back and is sealed by the app. Loops and frames pushed to the badge are rendered by the app from entity data and carry no user content beyond what the owner chose to show.
+
+**4. What is plaintext vs sealed.** Tightening §3 above. Sealed inside the item: transcript, summary, **title, tags, frontmatter**, embeddings. Plaintext to sCoRE and R2: account id, an opaque random item id, ciphertext size, `created` rounded to the day (needed for listing and pruning), device id. Item type and tags are **not** plaintext. Cost: server-side listing by tag is impossible; see 5.
+
+**5. Search (settles direction for §8 Q2, still open until ruled).** v1 is **client-side only**: each client keeps a local index (titles, tags, summary, embeddings computed on the device or phone) built from items it decrypted, and syncs a sealed index blob so a second device does not rebuild from scratch. No server-side search over user data. Embeddings are generated where the plaintext already is (the device or phone), never by sCoRE at rest. A Pocket-only user searches only its local cache. Revisit encrypted search if a real need appears.
+
+**6. What Neon and R2 hold.**
+
+| Store | Holds | Never holds |
+|---|---|---|
+| Neon | users, sessions, invites, share grants, device public keys, wrapped private keys (one per factor), wrapped read keys, R2 ledger | any content, any unwrapped key |
+| R2 (`score/u/<account>/items/<id>`) | one sealed blob per item: header (version, alg, sealed item key) + ciphertext | plaintext, titles, tags |
+| sCoRE memory (in flight) | audio and text during a turn | anything after the turn ends |
+
+**7. Threats this does and does not cover.**
+
+| Threat | Covered? |
+|---|---|
+| R2 or Neon breach or a stolen backup | Yes: ciphertext and wrapped keys only |
+| Curious operator (Mark, an admin) reading stored data | Yes at rest. Not covered: an operator who modifies sCoRE to log plaintext in flight. That is a code-trust problem; the mitigation is open source plus the outside review |
+| Stolen Pocket | Mostly: write-only, flash-encrypted cache of recent items only. Remote kill by revoking the device |
+| Lost passwords and keys | Data lost by design (S333), no escrow |
+| Model provider retention | Not covered. Groq or others see turns in flight. Disclose it; local tier is the later answer |
+| Traffic analysis (sizes, times) | Not covered beyond day-rounded timestamps |
+
+**8. Slices (each lands behind the Storage Gate G-slices).**
+
+| # | Slice | Done when |
+|---|---|---|
+| E1 | `sealed.py` / client lib: item seal and open, header format, test vectors | round-trips in Python (sCoRE tools), JS (web) and C (Pocket) with shared vectors |
+| E2 | User keypair + unlock-factor wrapping (needs Accounts on Neon) | sign-up produces wrapped private key; password change re-wraps only |
+| E3 | Web and terminal clients seal chat turns (S333) | a signed-in chat leaves only sealed objects in R2 |
+| E4 | Device pairing and device keys; revoke | a Pocket registers a public key; revoked device is refused |
+| E5 | Pocket capture sealing (flash-encrypted NVS, local recent cache) | a capture lands in R2 sealed; R2 listing shows no title or tag |
+| E6 | Client-side index + sealed index blob | search works on a second device with no server-side plaintext |
+| E7 | Outside review of the design and the code | written review before any public privacy claim |
+
+**Hardware caution:** ESP32-S3 flash encryption and secure boot burn eFuses permanently. Prototype on a spare board first. The hardware gives AES/SHA acceleration and key storage in eFuses, not a secure enclave.
+
+**Still open after this section:** the gesture PIN (deferred, weak without retry limits), guest transcripts, whether to ever offer the local-processing tier, the §8 Q4 to Q6 items, and the refusal UX when the R2 budget is spent.
 
 ---
 
