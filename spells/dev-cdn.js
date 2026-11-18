@@ -3,6 +3,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
+const https = require('https');
 
 const RABBLE_ROOT = path.dirname(path.dirname(__dirname));
 const AETHER_ROOT = path.join(RABBLE_ROOT, 'RaBbLE-Aether');
@@ -13,9 +14,35 @@ const XPERIMENTAL_ROOT = path.join(RABBLE_ROOT, 'RaBbLE-Xperimental');
 const PORT = parseInt(process.env.DEV_PORT || '8080', 10);
 const HOSTNAME = 'localhost';
 
+// /api/* and /health go to sCoRE through this server, so local World pages stay same-origin and need no CORS
+// change on sCoRE. Default: the hosted sCoRE. DEV_API_UPSTREAM=http://localhost:8000 uses a local one instead.
+const API_UPSTREAM = new URL(process.env.DEV_API_UPSTREAM || 'https://score.joinrabble.world');
+
+function proxyApi(req, res) {
+  const lib = API_UPSTREAM.protocol === 'https:' ? https : http;
+  const headers = { ...req.headers, host: API_UPSTREAM.host };
+  delete headers.origin;       // server to server: the upstream's browser CORS rules do not apply
+  delete headers.referer;
+  const up = lib.request({
+    protocol: API_UPSTREAM.protocol, hostname: API_UPSTREAM.hostname, port: API_UPSTREAM.port || undefined,
+    method: req.method, path: req.url, headers,
+  }, (r) => {
+    res.writeHead(r.statusCode, r.headers);
+    r.pipe(res);               // streams, so chat SSE arrives as it is written
+  });
+  up.on('error', (e) => {
+    if (!res.headersSent) res.writeHead(502, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ detail: 'dev proxy could not reach ' + API_UPSTREAM.origin + ': ' + e.code }));
+  });
+  res.on('close', () => up.destroy());
+  req.pipe(up);
+}
+
 const server = http.createServer((req, res) => {
   const parsedUrl = url.parse(req.url, true);
   let filePath;
+
+  if (parsedUrl.pathname.startsWith('/api/') || parsedUrl.pathname === '/health') return proxyApi(req, res);
 
   // Map CDN paths to local directories
   if (parsedUrl.pathname.startsWith('/aether/')) {
@@ -92,4 +119,5 @@ server.listen(PORT, HOSTNAME, () => {
   console.log(`\x1b[38;2;107;104;128m    Aether:  http://${HOSTNAME}:${PORT}/aether/v0.0.0.0/\x1b[0m`);
   console.log(`\x1b[38;2;107;104;128m    NeBuLA:  http://${HOSTNAME}:${PORT}/nebula/v0.0.0.0/\x1b[0m`);
   console.log(`\x1b[38;2;107;104;128m    World:   http://${HOSTNAME}:${PORT}/\x1b[0m`);
+  console.log(`\x1b[38;2;107;104;128m    sCoRE:   /api/* and /health proxied to ${API_UPSTREAM.origin}\x1b[0m`);
 });
