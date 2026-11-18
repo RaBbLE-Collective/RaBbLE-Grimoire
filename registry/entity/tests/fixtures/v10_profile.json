@@ -1,0 +1,15 @@
+{
+  "check": "V10",
+  "description": "pocket_hw frame floor below 60",
+  "ops": [
+    {
+      "path": [
+        "profiles",
+        "pocket_hw",
+        "frame",
+        "floor_hz"
+      ],
+      "set": 30
+    }
+  ]
+}

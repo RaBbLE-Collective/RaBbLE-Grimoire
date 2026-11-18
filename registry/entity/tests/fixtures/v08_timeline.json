@@ -1,0 +1,27 @@
+{
+  "check": "V8",
+  "description": "unsorted keys",
+  "ops": [
+    {
+      "path": [
+        "base",
+        "timelines",
+        "power_off",
+        "tracks",
+        0,
+        "keys"
+      ],
+      "set": [
+        [
+          1.0,
+          1,
+          "linear"
+        ],
+        [
+          0,
+          0
+        ]
+      ]
+    }
+  ]
+}

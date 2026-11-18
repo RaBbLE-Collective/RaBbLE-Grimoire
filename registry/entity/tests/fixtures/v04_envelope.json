@@ -1,0 +1,16 @@
+{
+  "check": "V4",
+  "description": "pocket_hw eye height outside the envelope",
+  "ops": [
+    {
+      "path": [
+        "profiles",
+        "pocket_hw",
+        "body",
+        "eye",
+        "h"
+      ],
+      "set": 3.5
+    }
+  ]
+}

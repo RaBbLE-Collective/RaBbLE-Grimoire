@@ -1,0 +1,15 @@
+{
+  "check": "V3",
+  "description": "a hex colour in a note",
+  "ops": [
+    {
+      "path": [
+        "vocabulary",
+        "expression",
+        "joy",
+        "note"
+      ],
+      "set": "#ff00ff"
+    }
+  ]
+}

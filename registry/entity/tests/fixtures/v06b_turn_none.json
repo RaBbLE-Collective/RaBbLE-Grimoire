@@ -1,0 +1,17 @@
+{
+  "check": "V6b",
+  "description": "turn is none on pocket_hw",
+  "ops": [
+    {
+      "path": [
+        "base",
+        "moves",
+        "turn",
+        "params",
+        "support",
+        "pocket_hw"
+      ],
+      "set": "none"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "check": "V11",
+  "description": "a measured effect over the device budget",
+  "ops": [
+    {
+      "path": [
+        "base",
+        "effects",
+        "ring",
+        "cost",
+        "device"
+      ],
+      "set": {
+        "prims_per_frame": 10,
+        "ms_worst": 20.0,
+        "measured": "measurements/x.json"
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "check": "V6",
+  "description": "eyes layer disabled",
+  "ops": [
+    {
+      "path": [
+        "base",
+        "layers",
+        {
+          "id": "eyes"
+        },
+        "enabled"
+      ],
+      "set": false
+    }
+  ]
+}

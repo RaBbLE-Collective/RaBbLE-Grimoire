@@ -1,0 +1,9 @@
+{
+  "check": "V12",
+  "description": "valid content, 4-space indent",
+  "ops": [
+    {
+      "serialize": "indent4"
+    }
+  ]
+}

@@ -41,3 +41,8 @@ log/.lock
 log/agents/
 __pycache__/
 *.pyc
+
+# Entity registry validator venv (uv venv .venv)
+registry/entity/.venv/
+registry/entity/**/__pycache__/
+registry/entity/.pytest_cache/

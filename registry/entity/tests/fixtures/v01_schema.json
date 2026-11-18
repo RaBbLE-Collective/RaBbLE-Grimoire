@@ -1,0 +1,15 @@
+{
+  "check": "V1",
+  "description": "eye width must be the const 1.0",
+  "ops": [
+    {
+      "path": [
+        "base",
+        "body",
+        "eye",
+        "w"
+      ],
+      "set": 2
+    }
+  ]
+}

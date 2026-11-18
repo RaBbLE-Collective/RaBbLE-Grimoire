@@ -1,0 +1,16 @@
+{
+  "check": "V5",
+  "description": "portal swap with no depth arc: the portals touch mid-swap",
+  "ops": [
+    {
+      "path": [
+        "base",
+        "moves",
+        "portal_swap",
+        "params",
+        "arc_fu"
+      ],
+      "set": 0
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "check": "V7",
+  "description": "haze drive pushes opacity above 1",
+  "ops": [
+    {
+      "path": [
+        "base",
+        "layers",
+        {
+          "id": "haze_left"
+        },
+        "drives",
+        1,
+        "gain"
+      ],
+      "set": 0.9
+    }
+  ]
+}

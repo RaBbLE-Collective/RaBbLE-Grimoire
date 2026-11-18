@@ -1,0 +1,6510 @@
+{
+  "$schema": "./rabble.entity.schema.json",
+  "aliases": {
+    "alive": {
+      "curious": "temperament.curious",
+      "listening": "state.listening"
+    },
+    "live_js": {
+      "spin": "move.turn"
+    },
+    "pocket_firmware": {
+      "NL_STATE_ERROR": "cue.error",
+      "NL_STATE_LISTEN": "state.listening",
+      "NL_STATE_SPEAK": "state.speaking",
+      "NL_STATE_THINK": "state.thinking",
+      "happy": "expression.joy"
+    },
+    "score_tui": {
+      "denied": "cue.denied",
+      "error": "cue.error",
+      "streaming": "state.speaking",
+      "typing": "state.listening",
+      "working": "state.thinking"
+    },
+    "world": {
+      "RESONANT": "condition.resonant"
+    }
+  },
+  "base": {
+    "body": {
+      "envelope": {
+        "eh": [
+          2.5,
+          3.2
+        ],
+        "fl": [
+          0.22,
+          0.33
+        ],
+        "pw": [
+          1.9,
+          2.8
+        ],
+        "sp": [
+          1.9,
+          2.2
+        ]
+      },
+      "eye": {
+        "h": 3.13,
+        "w": 1.0
+      },
+      "home": "rest",
+      "no_touch": {
+        "eye_rim_rule": "recede_before_cross",
+        "portal_portal_min_fu": 0
+      },
+      "per_side_offset": null,
+      "portal": {
+        "flatten": 0.3,
+        "w": 2.69
+      },
+      "portal_y": {
+        "default": 1.0,
+        "range": [
+          0.2,
+          1.5
+        ]
+      },
+      "spacing": 2.11,
+      "unit_fu": 87
+    },
+    "camera": {
+      "camd_fu": 800,
+      "elevation_deg": {
+        "default": 17,
+        "range": [
+          -90,
+          90
+        ]
+      },
+      "persp_full_rad": 0.4,
+      "rim_points": 72,
+      "tilt": {
+        "eps0": 0.283,
+        "epsk": 0.16
+      },
+      "top_down": {
+        "eye_fit": 0.74,
+        "settle_rad": [
+          0.6,
+          1.2
+        ],
+        "shrink_rad": [
+          0.5,
+          1.05
+        ]
+      }
+    },
+    "colour": {
+      "blend_fu": 96,
+      "eye_fill": "white",
+      "eye_outline": "pole",
+      "hue_path": "short",
+      "poles": [
+        "cyan",
+        "magenta"
+      ],
+      "sample": "eye_centre",
+      "void": "black",
+      "void_alpha": 0.9
+    },
+    "conditions": {
+      "calibrating": {
+        "body": {
+          "dim": 1.0,
+          "eye_scale": 1.0,
+          "recede": 0.0
+        },
+        "drives": [],
+        "note": "SEED identity values: not specified in the census",
+        "seed": true
+      },
+      "dormant": {
+        "body": {
+          "dim": 0.35,
+          "eye_scale": 0.85,
+          "recede": 1.0
+        },
+        "drives": [],
+        "note": "ALIVE:347 eyeRise start erx .85 ry .02; ALIVE:411 dormant .35"
+      },
+      "genius_resonance": {
+        "body": {
+          "dim": 1.0,
+          "eye_scale": 1.0,
+          "recede": 0.0
+        },
+        "drives": [],
+        "timeline": "insight_burst"
+      },
+      "glitch": {
+        "body": {
+          "dim": 1.0,
+          "eye_scale": 1.0,
+          "recede": 0.0
+        },
+        "drives": [],
+        "note": "layer drives live on layers: ring_tint.glitch_mix, aura_bolts.rate follow condition.glitch"
+      },
+      "initializing": {
+        "body": {
+          "dim": 1.0,
+          "eye_scale": 1.0,
+          "recede": 0.0
+        },
+        "drives": [],
+        "timeline": "boot"
+      },
+      "null_void": {
+        "body": {
+          "dim": 0.0,
+          "eye_scale": 1.0,
+          "recede": 1.0
+        },
+        "drives": [],
+        "note": "SEED values: not specified in the census",
+        "seed": true
+      },
+      "resonant": {
+        "body": {
+          "dim": 1.0,
+          "eye_scale": 1.0,
+          "recede": 0.0
+        },
+        "drives": [],
+        "note": "no-op baseline"
+      },
+      "system_drift": {
+        "body": {
+          "dim": 0.7,
+          "eye_scale": 1.0,
+          "recede": 0.0
+        },
+        "drives": [],
+        "note": "SEED dim 0.7: no census number",
+        "seed": true
+      }
+    },
+    "cut": {
+      "hide_above": 0.985,
+      "hide_below": 0.003,
+      "mode": "opening_clip",
+      "span_px": {
+        "k": 0.22,
+        "max": 60,
+        "min": 14
+      }
+    },
+    "effects": {
+      "aura.bolts": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "aura",
+        "inputs": [
+          "time",
+          "activity"
+        ],
+        "label": "Bolts",
+        "params": {
+          "jag_depth": {
+            "default": 6,
+            "max": 10,
+            "min": 1,
+            "type": "integer"
+          },
+          "pool": {
+            "default": 10,
+            "max": 40,
+            "min": 0,
+            "type": "integer"
+          },
+          "rate": {
+            "default": 1,
+            "max": 4,
+            "min": 0,
+            "type": "number"
+          },
+          "reroll_s": {
+            "default": 0.045,
+            "max": 1,
+            "min": 0.01,
+            "type": "number",
+            "unit": "s"
+          }
+        },
+        "priority": 3,
+        "reduced": {
+          "pool": 4
+        },
+        "sources": [
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:548-550 bolts pool 10, jag depth 6 re-rolled every .045 s",
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:823-825 strike cadence rnd(2.5,7)/(1+energy)",
+          "SEED reduced.pool 4: no census number"
+        ],
+        "support": {
+          "ball": "reduced",
+          "pocket_hw": "none",
+          "pocket_web": "reduced",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "aura.embers": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "aura",
+        "inputs": [
+          "time",
+          "activity"
+        ],
+        "label": "Embers",
+        "params": {
+          "colour": {
+            "default": "pink",
+            "type": "colour"
+          },
+          "count": {
+            "default": 46,
+            "max": 400,
+            "min": 0,
+            "type": "integer"
+          },
+          "rise_max": {
+            "default": 75,
+            "max": 300,
+            "min": 0,
+            "type": "number",
+            "unit": "px/s"
+          },
+          "rise_min": {
+            "default": 25,
+            "max": 300,
+            "min": 0,
+            "type": "number",
+            "unit": "px/s"
+          }
+        },
+        "priority": 3,
+        "reduced": {
+          "count": 20
+        },
+        "sources": [
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:530 46 embers (3D 160) pink, rise 25-75 px/s",
+          "SEED reduced.count 20: no census number"
+        ],
+        "support": {
+          "ball": "full",
+          "pocket_hw": "none",
+          "pocket_web": "reduced",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "aura.flashes": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "aura",
+        "inputs": [
+          "time",
+          "activity"
+        ],
+        "label": "Flashes",
+        "params": {
+          "pool": {
+            "default": 10,
+            "max": 400,
+            "min": 0,
+            "type": "integer"
+          }
+        },
+        "priority": 3,
+        "reduced": {
+          "pool": 4
+        },
+        "sources": [
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:548-550 flashes pool 10",
+          "SEED reduced.pool 4: no census number"
+        ],
+        "support": {
+          "ball": "reduced",
+          "pocket_hw": "none",
+          "pocket_web": "reduced",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "aura.lens": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "medium"
+        },
+        "group": "aura",
+        "inputs": [
+          "time",
+          "activity"
+        ],
+        "label": "Lightning lens",
+        "params": {
+          "amp_1": {
+            "default": 330,
+            "max": 600,
+            "min": 0,
+            "type": "number"
+          },
+          "amp_2": {
+            "default": 300,
+            "max": 600,
+            "min": 0,
+            "type": "number"
+          },
+          "amp_3": {
+            "default": 250,
+            "max": 600,
+            "min": 0,
+            "type": "number"
+          },
+          "passes": {
+            "default": 3,
+            "max": 3,
+            "min": 1,
+            "type": "integer"
+          },
+          "points": {
+            "default": 91,
+            "max": 200,
+            "min": 8,
+            "type": "integer"
+          },
+          "reroll_s": {
+            "default": 0.14,
+            "max": 1,
+            "min": 0.01,
+            "type": "number",
+            "unit": "s"
+          },
+          "strands": {
+            "default": 6,
+            "max": 12,
+            "min": 0,
+            "type": "integer"
+          },
+          "w_1": {
+            "default": 4,
+            "max": 10,
+            "min": 0,
+            "type": "number"
+          },
+          "w_2": {
+            "default": 2.2,
+            "max": 10,
+            "min": 0,
+            "type": "number"
+          },
+          "w_3": {
+            "default": 1.4,
+            "max": 10,
+            "min": 0,
+            "type": "number"
+          }
+        },
+        "priority": 3,
+        "reduced": {
+          "passes": 1
+        },
+        "sources": [
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:515 6 strands x91 pts amp 330/300/250 w 4/2.2/1.4, 3-pass stack, re-jitter .14 s",
+          "SEED reduced.passes 1: no census number"
+        ],
+        "support": {
+          "ball": "reduced",
+          "pocket_hw": "none",
+          "pocket_web": "reduced",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "aura.motes": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "aura",
+        "inputs": [
+          "time",
+          "activity"
+        ],
+        "label": "Motes",
+        "params": {
+          "count": {
+            "default": 150,
+            "max": 400,
+            "min": 0,
+            "type": "integer"
+          },
+          "energy": {
+            "default": 0,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "life_max": {
+            "default": 11,
+            "max": 30,
+            "min": 0,
+            "type": "number",
+            "unit": "s"
+          },
+          "life_min": {
+            "default": 5,
+            "max": 30,
+            "min": 0,
+            "type": "number",
+            "unit": "s"
+          },
+          "pull": {
+            "default": 18,
+            "max": 100,
+            "min": 0,
+            "type": "number"
+          },
+          "pull_energy": {
+            "default": 30,
+            "max": 100,
+            "min": 0,
+            "type": "number"
+          },
+          "r_max": {
+            "default": 2.6,
+            "max": 8,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "r_min": {
+            "default": 0.8,
+            "max": 5,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 3,
+        "reduced": {
+          "count": 60
+        },
+        "sources": [
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:530 150 motes (3D 340) r .8-2.6 life 5-11 pull 18+energy*30",
+          "SEED reduced.count 60: no census number"
+        ],
+        "support": {
+          "ball": "full",
+          "pocket_hw": "none",
+          "pocket_web": "reduced",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "aura.rings": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "aura",
+        "inputs": [
+          "time",
+          "activity"
+        ],
+        "label": "Event rings",
+        "params": {
+          "pool": {
+            "default": 8,
+            "max": 400,
+            "min": 0,
+            "type": "integer"
+          }
+        },
+        "priority": 3,
+        "reduced": {
+          "pool": 3
+        },
+        "sources": [
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:548-550 rings pool 8",
+          "SEED reduced.pool 3: no census number"
+        ],
+        "support": {
+          "ball": "reduced",
+          "pocket_hw": "none",
+          "pocket_web": "reduced",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "aura.sparks": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "aura",
+        "inputs": [
+          "time",
+          "activity"
+        ],
+        "label": "Sparks",
+        "params": {
+          "pool": {
+            "default": 160,
+            "max": 400,
+            "min": 0,
+            "type": "integer"
+          }
+        },
+        "priority": 3,
+        "reduced": {
+          "pool": 60
+        },
+        "sources": [
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:548-550 sparks pool 160",
+          "SEED reduced.pool 60: no census number"
+        ],
+        "support": {
+          "ball": "reduced",
+          "pocket_hw": "none",
+          "pocket_web": "reduced",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "aura.sphere": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "medium"
+        },
+        "group": "aura",
+        "inputs": [
+          "time",
+          "activity"
+        ],
+        "label": "Sphere wireframe and orbit rings",
+        "params": {
+          "energy": {
+            "default": 0,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "latitudes": {
+            "default": 5,
+            "max": 16,
+            "min": 0,
+            "type": "integer"
+          },
+          "meridians": {
+            "default": 6,
+            "max": 16,
+            "min": 0,
+            "type": "integer"
+          },
+          "orbit_alpha": {
+            "default": 1,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "orbit_dots_a": {
+            "default": 84,
+            "max": 300,
+            "min": 0,
+            "type": "integer"
+          },
+          "orbit_dots_b": {
+            "default": 56,
+            "max": 300,
+            "min": 0,
+            "type": "integer"
+          },
+          "orbit_r_a": {
+            "default": 360,
+            "max": 800,
+            "min": 50,
+            "type": "number",
+            "unit": "fu"
+          },
+          "orbit_r_b": {
+            "default": 318,
+            "max": 800,
+            "min": 50,
+            "type": "number",
+            "unit": "fu"
+          },
+          "radius_fu": {
+            "default": 265,
+            "max": 600,
+            "min": 50,
+            "type": "number",
+            "unit": "fu"
+          },
+          "segments": {
+            "default": 40,
+            "max": 120,
+            "min": 8,
+            "type": "integer"
+          },
+          "yaw_base": {
+            "default": 0.1,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "yaw_energy": {
+            "default": 0.45,
+            "max": 2,
+            "min": 0,
+            "type": "number"
+          }
+        },
+        "priority": 3,
+        "reduced": {
+          "meridians": 4,
+          "segments": 24
+        },
+        "sources": [
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:290-293 R 265, 6 meridians, 5 latitudes, 40 segments",
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:463-466 orbit rings 84 dots r360, 56 dots r318",
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:444 yaw .1+.09fbm+energy*.45",
+          "SEED reduced.segments 24 meridians 4: no census number"
+        ],
+        "support": {
+          "ball": "reduced",
+          "pocket_hw": "none",
+          "pocket_web": "reduced",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "backdrop.bokeh": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "high"
+        },
+        "group": "backdrop",
+        "inputs": [
+          "time"
+        ],
+        "label": "Bokeh",
+        "params": {
+          "count": {
+            "default": 120,
+            "max": 400,
+            "min": 0,
+            "type": "integer"
+          },
+          "op_max": {
+            "default": 0.45,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "op_min": {
+            "default": 0.16,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "r_max": {
+            "default": 24,
+            "max": 80,
+            "min": 1,
+            "type": "number",
+            "unit": "px"
+          },
+          "r_min": {
+            "default": 6,
+            "max": 60,
+            "min": 1,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 4,
+        "reduced": {
+          "count": 40
+        },
+        "sources": [
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:433 120 glow sprites r 6-24 op .16-.45",
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:334 mock 56 discs r 4-17",
+          "S353: bokeh not required on device (none on pocket_hw)",
+          "SEED reduced.count 40: no census number"
+        ],
+        "support": {
+          "ball": "reduced",
+          "pocket_hw": "none",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "backdrop.databits": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "backdrop",
+        "inputs": [
+          "time"
+        ],
+        "label": "Data bits",
+        "params": {
+          "count": {
+            "default": 30,
+            "max": 200,
+            "min": 0,
+            "type": "integer"
+          },
+          "opacity_max": {
+            "default": 0.65,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "opacity_min": {
+            "default": 0.25,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "seed": {
+            "default": 404,
+            "type": "integer"
+          }
+        },
+        "priority": 3,
+        "sources": [
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:501 BITS rng 404, 30 items, opa .25-.65"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "none",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "none"
+        }
+      },
+      "backdrop.grid": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "medium"
+        },
+        "group": "backdrop",
+        "inputs": [
+          "time",
+          "level"
+        ],
+        "label": "Space-time grid",
+        "params": {
+          "bands": {
+            "default": 5,
+            "max": 8,
+            "min": 1,
+            "type": "integer"
+          },
+          "ceil_alpha": {
+            "default": 0.5,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "ceil_colour": {
+            "default": "cyan",
+            "type": "colour"
+          },
+          "energy": {
+            "default": 0,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "floor_alpha": {
+            "default": 0.75,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "floor_colour": {
+            "default": "pink",
+            "type": "colour"
+          },
+          "gap_fu": {
+            "default": 240,
+            "max": 1000,
+            "min": 20,
+            "type": "number",
+            "unit": "fu"
+          },
+          "well_depth_fu": {
+            "default": 150,
+            "max": 600,
+            "min": 0,
+            "type": "number",
+            "unit": "fu"
+          },
+          "width": {
+            "default": 1.6,
+            "max": 6,
+            "min": 0.2,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 3,
+        "reduced": {
+          "bands": 3
+        },
+        "sources": [
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:378-410 GAP 240, lw 1.6, floor pink @.75, ceiling cyan @.5, WELL.A 150, BANDS 5",
+          "SEED reduced.bands 3: no census number"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "none",
+          "pocket_web": "reduced",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "backdrop.haze": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "medium"
+        },
+        "group": "backdrop",
+        "inputs": [
+          "time",
+          "level",
+          "activity"
+        ],
+        "label": "Pole hazes",
+        "params": {
+          "pole": {
+            "default": "cyan",
+            "type": "enum",
+            "values": [
+              "cyan",
+              "magenta",
+              "violet"
+            ]
+          },
+          "repaint_every": {
+            "default": 4,
+            "max": 16,
+            "min": 1,
+            "type": "integer"
+          },
+          "res_scale": {
+            "default": 0.125,
+            "max": 1,
+            "min": 0.03,
+            "type": "number"
+          },
+          "rx_fu": {
+            "default": 450,
+            "max": 1200,
+            "min": 50,
+            "type": "number",
+            "unit": "fu"
+          },
+          "ry_fu": {
+            "default": 382,
+            "max": 1200,
+            "min": 50,
+            "type": "number",
+            "unit": "fu"
+          },
+          "x_fu": {
+            "default": -170,
+            "max": 600,
+            "min": -600,
+            "type": "number",
+            "unit": "fu"
+          }
+        },
+        "priority": 3,
+        "reduced": {
+          "res_scale": 0.0625
+        },
+        "sources": [
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:421-428 four radial glows L(-170,0,450x382,.34) R(170,0,460x390,.26) violet(0,0,320x272,.3) violet(0,0,380x380,.12)",
+          "RaBbLE-NeBuLA/src/effects/deepfield.js:226-228 resScale .125 repaintEvery 4",
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/nebula_lite/src/raster_soft.c:64-68 device haze code exists but is off (nl_soft NULL); S353: haze not required on device",
+          "SEED reduced.res_scale 0.0625: no census number"
+        ],
+        "support": {
+          "ball": "reduced",
+          "pocket_hw": "none",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "backdrop.meridians": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "trivial"
+        },
+        "group": "backdrop",
+        "inputs": [
+          "time"
+        ],
+        "label": "Meridian ellipses",
+        "params": {
+          "alpha": {
+            "default": 0.06,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "colour": {
+            "default": "text",
+            "type": "colour"
+          },
+          "count": {
+            "default": 6,
+            "max": 24,
+            "min": 0,
+            "type": "integer"
+          },
+          "rot_deg": {
+            "default": -12,
+            "max": 90,
+            "min": -90,
+            "type": "number",
+            "unit": "deg"
+          }
+        },
+        "priority": 3,
+        "sources": [
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:527-529 6 ellipses rot -12 stroke alpha .06",
+          "SEED colour text: the mock colour is off-Palette, mapped to the nearest Palette name"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "none",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "none"
+        }
+      },
+      "backdrop.stars": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "backdrop",
+        "inputs": [
+          "time"
+        ],
+        "label": "Stars",
+        "params": {
+          "count": {
+            "default": 280,
+            "max": 1400,
+            "min": 0,
+            "type": "integer"
+          },
+          "r_max": {
+            "default": 2.2,
+            "max": 8,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "r_min": {
+            "default": 0.5,
+            "max": 5,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "speed_energy": {
+            "default": 140,
+            "max": 600,
+            "min": 0,
+            "type": "number"
+          },
+          "speed_px_s": {
+            "default": 90,
+            "max": 600,
+            "min": 0,
+            "type": "number"
+          },
+          "z_min": {
+            "default": 0.15,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          }
+        },
+        "priority": 3,
+        "sources": [
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:411 280 dots r .5-2.2 z .15-1 speed 90+energy*140 px/s",
+          "RaBbLE-NeBuLA/src/effects/starfield.js:474 standalone starfield count 180",
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:332 mock 46 stars"
+        ],
+        "support": {
+          "ball": "full",
+          "pocket_hw": "none",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "backdrop.void": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "trivial"
+        },
+        "group": "backdrop",
+        "inputs": [
+          "time"
+        ],
+        "label": "Void fill",
+        "params": {
+          "colour": {
+            "default": "bg",
+            "type": "colour"
+          }
+        },
+        "priority": 3,
+        "sources": [
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/nebula_lite/src/compose.c:417-421 flat NL_BG fill on device",
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:365-368 void colour"
+        ],
+        "support": {
+          "ball": "full",
+          "pocket_hw": "full",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "backdrop.wash": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "backdrop",
+        "inputs": [
+          "time"
+        ],
+        "label": "Nebula wash",
+        "params": {
+          "centre_y": {
+            "default": 0.45,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "inner": {
+            "default": "surface",
+            "type": "colour"
+          },
+          "outer": {
+            "default": "bg",
+            "type": "colour"
+          },
+          "radius": {
+            "default": 0.75,
+            "max": 1.5,
+            "min": 0.2,
+            "type": "number",
+            "unit": "of max(W,H)"
+          }
+        },
+        "priority": 3,
+        "reduced": {
+          "radius": 0.6
+        },
+        "sources": [
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:365-368 radial gradient surface to bg at (W/2, H*.45) radius max(W,H)*.75",
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:523 mock wash (stops off-palette, not carried)",
+          "SEED reduced.radius 0.6: no census number; pocket_hw none (flat void today, CMP:417-421)"
+        ],
+        "support": {
+          "ball": "reduced",
+          "pocket_hw": "none",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "reduced"
+        }
+      },
+      "body.bars": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "body",
+        "inputs": [
+          "bands",
+          "level",
+          "time"
+        ],
+        "label": "Spectral bars",
+        "params": {
+          "alpha_scale": {
+            "default": 0,
+            "max": 1.5,
+            "min": 0,
+            "type": "number"
+          },
+          "bands": {
+            "default": 32,
+            "max": 128,
+            "min": 1,
+            "type": "integer"
+          },
+          "count": {
+            "default": 74,
+            "max": 200,
+            "min": 0,
+            "type": "integer"
+          },
+          "step_px": {
+            "default": 6,
+            "max": 30,
+            "min": 1,
+            "type": "number",
+            "unit": "px"
+          },
+          "tick_prob": {
+            "default": 0.45,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "width_px": {
+            "default": 2,
+            "max": 10,
+            "min": 0.5,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 2,
+        "sources": [
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:323 BARS 74 at step 6 width 2, tick 45%",
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:537-538 barA (.6(listen+joy)+.22think+.85speak)*dim",
+          "RaBbLE-Pocket/companion-app/web/public/entity/pocket-entity.js:738 MICN 32 bands"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "none",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "none"
+        }
+      },
+      "body.lens": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "high"
+        },
+        "group": "body",
+        "inputs": [
+          "time"
+        ],
+        "label": "Lens body fill",
+        "params": {
+          "env_exp": {
+            "default": 1.6,
+            "max": 4,
+            "min": 0.5,
+            "type": "number"
+          },
+          "height_fu": {
+            "default": 140,
+            "max": 400,
+            "min": 10,
+            "type": "number",
+            "unit": "fu"
+          },
+          "op_pole": {
+            "default": 0.14,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "op_violet": {
+            "default": 0.12,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "opacity": {
+            "default": 0.8,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          }
+        },
+        "priority": 3,
+        "sources": [
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:273 LENS_H 140, lensEnv sin(pi u)^1.6, gradient stops op .14/.12/.14",
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:535 opacity .8*dim"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "none",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "none"
+        }
+      },
+      "body.outline": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "medium"
+        },
+        "group": "body",
+        "inputs": [
+          "time"
+        ],
+        "label": "Lens outline strands",
+        "params": {
+          "amp_1": {
+            "default": 330,
+            "max": 600,
+            "min": 0,
+            "type": "number"
+          },
+          "amp_2": {
+            "default": 300,
+            "max": 600,
+            "min": 0,
+            "type": "number"
+          },
+          "amp_3": {
+            "default": 250,
+            "max": 600,
+            "min": 0,
+            "type": "number"
+          },
+          "amp_scale": {
+            "default": 0.44,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "passes": {
+            "default": 3,
+            "max": 3,
+            "min": 1,
+            "type": "integer"
+          },
+          "period_s": {
+            "default": 0.16,
+            "max": 1,
+            "min": 0.01,
+            "type": "number",
+            "unit": "s"
+          },
+          "points": {
+            "default": 91,
+            "max": 200,
+            "min": 8,
+            "type": "integer"
+          },
+          "w_1": {
+            "default": 4,
+            "max": 10,
+            "min": 0,
+            "type": "number"
+          },
+          "w_2": {
+            "default": 2.2,
+            "max": 10,
+            "min": 0,
+            "type": "number"
+          },
+          "w_3": {
+            "default": 1.4,
+            "max": 10,
+            "min": 0,
+            "type": "number"
+          },
+          "w_scale": {
+            "default": 0.45,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          }
+        },
+        "priority": 3,
+        "reduced": {
+          "passes": 1
+        },
+        "sources": [
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:292 lensOutline 3 strands amps 330/300/250*.44 widths 4/2.2/1.4*.45 PER .16 s 91 pts",
+          "SEED reduced.passes 1: web lite keeps cores only"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "none",
+          "pocket_web": "reduced",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "none"
+        }
+      },
+      "boot": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "overlay",
+        "inputs": [
+          "time"
+        ],
+        "label": "Boot",
+        "params": {
+          "frame_step_hz": {
+            "default": 0,
+            "max": 60,
+            "min": 0,
+            "type": "number",
+            "unit": "Hz"
+          },
+          "progress": {
+            "default": 0,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          }
+        },
+        "priority": 1,
+        "reduced": {
+          "frame_step_hz": 8
+        },
+        "sources": [
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/src/scene.c:626-637 device boot (portals fade, then eyes and rest)",
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:196-197 alive BOOT table",
+          "timeline: base.timelines.boot",
+          "S353 third batch: boot is an effect on every surface; terminal reduced",
+          "SEED reduced.frame_step_hz 8: glyph-face boot stepped at 8 Hz; no census number"
+        ],
+        "support": {
+          "ball": "full",
+          "pocket_hw": "full",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "reduced",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "deepfield.constellation": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "field",
+        "inputs": [
+          "gaze",
+          "time"
+        ],
+        "label": "Deep field constellation",
+        "params": {
+          "alpha_scale": {
+            "default": 0.28,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "count": {
+            "default": 180,
+            "max": 400,
+            "min": 0,
+            "type": "integer"
+          },
+          "glitch": {
+            "default": false,
+            "type": "boolean"
+          },
+          "max_dist": {
+            "default": 130,
+            "max": 400,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 3,
+        "sources": [
+          "RaBbLE-NeBuLA/src/effects/deepfield.js:125-127 maxDist 130 alphaScale .28 count 180"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "none",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "none"
+        }
+      },
+      "deepfield.streaks": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "field",
+        "inputs": [
+          "time"
+        ],
+        "label": "Deep field streaks",
+        "params": {
+          "decay": {
+            "default": 0.016,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "glitch": {
+            "default": false,
+            "type": "boolean"
+          },
+          "spawn_prob": {
+            "default": 0.0022,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          }
+        },
+        "priority": 3,
+        "sources": [
+          "RaBbLE-NeBuLA/src/effects/deepfield.js:49-52 spawnProb .0022 decay .016 glitch false"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "none",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "none"
+        }
+      },
+      "eyes": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "core",
+        "inputs": [
+          "time",
+          "gaze"
+        ],
+        "label": "Eyes",
+        "params": {
+          "catchlight_alpha_1": {
+            "default": 0.95,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "catchlight_alpha_2": {
+            "default": 0.55,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "fill": {
+            "default": "white",
+            "type": "colour"
+          },
+          "glow_blur": {
+            "default": 30,
+            "max": 80,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "outline": {
+            "default": "pole",
+            "type": "colour"
+          },
+          "outline_w": {
+            "default": 2,
+            "max": 8,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "pulse_amp": {
+            "default": 0.08,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "pulse_base": {
+            "default": 0.92,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "rim_fade": {
+            "default": 1,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "rim_fade_mid": {
+            "default": 0.85,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "rim_fade_mid_mix": {
+            "default": 0.3,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "rim_fade_start": {
+            "default": 0.55,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          }
+        },
+        "priority": 0,
+        "reduced": {
+          "rim_fade": 0
+        },
+        "sources": [
+          "RaBbLE-Grimoire/log/plans/Unified-Entity/live/live.js:171-178 pulse .92+.08 sin(2.6t+1.7s) shadowBlur 30 catchlights .95/.55 outline 2",
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/src/scene.c:588-594 orb gradient: white to r .55, to pole mix .3 at .85, to 1.0 at the rim (rim_fade 1.0 = this)",
+          "S353 ruling 17: fill white, outline pole, rim fade; the old off-Palette fill retires",
+          "SEED rim_fade strength scale 0..1: 1.0 reproduces the device gradient; web rendering of the fade not yet defined",
+          "SEED terminal reduced: glyph eyes (eyes cannot be none on any surface); reduced.rim_fade 0"
+        ],
+        "support": {
+          "ball": "full",
+          "pocket_hw": "full",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "reduced",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "field.ambient": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "medium"
+        },
+        "group": "field",
+        "inputs": [
+          "time"
+        ],
+        "label": "Ambient field",
+        "params": {
+          "blur_px": {
+            "default": 8,
+            "max": 30,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "fan_lines": {
+            "default": 19,
+            "max": 64,
+            "min": 0,
+            "type": "integer"
+          },
+          "glow_every": {
+            "default": 3,
+            "max": 10,
+            "min": 1,
+            "type": "integer"
+          },
+          "glow_fraction": {
+            "default": 0.12,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "grid": {
+            "default": true,
+            "type": "boolean"
+          },
+          "n": {
+            "default": 100,
+            "max": 400,
+            "min": 0,
+            "type": "integer"
+          },
+          "particles": {
+            "default": true,
+            "type": "boolean"
+          },
+          "rows": {
+            "default": 12,
+            "max": 64,
+            "min": 0,
+            "type": "integer"
+          },
+          "vp_y": {
+            "default": 0.74,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          }
+        },
+        "priority": 3,
+        "reduced": {
+          "grid": false,
+          "n": 40
+        },
+        "sources": [
+          "RaBbLE-NeBuLA/src/effects/ambient-field.js:280-282 n 100 GLOW_EVERY 3 GLOW_FRACTION .12",
+          "RaBbLE-NeBuLA/src/effects/ambient-field.js:331-353 grid vanishing (W/2,H*.74) 19 fan lines violet @.10, 12 rows magenta @.12",
+          "particle colours: 22 hex literals (AMB:256-262) not carried; tokenise to Palette in the port",
+          "SEED reduced.n 40 grid false"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "none",
+          "pocket_web": "reduced",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "none"
+        }
+      },
+      "field.attractor": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "medium"
+        },
+        "group": "field",
+        "inputs": [
+          "time"
+        ],
+        "label": "Entropy attractor",
+        "params": {
+          "min_dist": {
+            "default": 0.5,
+            "max": 5,
+            "min": 0,
+            "type": "number"
+          },
+          "radius": {
+            "default": 5,
+            "max": 20,
+            "min": 0,
+            "type": "number"
+          },
+          "strength": {
+            "default": 0.3,
+            "max": 2,
+            "min": 0,
+            "type": "number"
+          },
+          "threshold": {
+            "default": 0.6,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          }
+        },
+        "priority": 4,
+        "sources": [
+          "RaBbLE-NeBuLA/src/effects/attractor.js:112-115 strength .3 threshold .6 radius 5 minDist .5",
+          "drawn by no backend today; CPU O(n^2)"
+        ],
+        "support": {
+          "ball": "full",
+          "pocket_hw": "none",
+          "pocket_web": "none",
+          "studio": "full",
+          "terminal": "none",
+          "web": "none",
+          "web3d": "full"
+        }
+      },
+      "field.entropy_shader": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "high"
+        },
+        "group": "field",
+        "inputs": [
+          "time"
+        ],
+        "label": "Entropy shader",
+        "params": {
+          "animation_speed": {
+            "default": 0.5,
+            "max": 5,
+            "min": 0,
+            "type": "number"
+          },
+          "color_variance": {
+            "default": 0.15,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "displacement_scale": {
+            "default": 0.1,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          }
+        },
+        "priority": 4,
+        "reduced": {
+          "displacement_scale": 0.05
+        },
+        "sources": [
+          "RaBbLE-NeBuLA/src/effects/entropy-shader.js:9-11 displacementScale .1 colorVariance .15 animationSpeed .5 (unused in shader)",
+          "per-pixel GLSL, drawn by no backend today",
+          "SEED reduced.displacement_scale 0.05"
+        ],
+        "support": {
+          "ball": "reduced",
+          "pocket_hw": "none",
+          "pocket_web": "none",
+          "studio": "full",
+          "terminal": "none",
+          "web": "none",
+          "web3d": "full"
+        }
+      },
+      "filter.animation": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "trivial"
+        },
+        "group": "field",
+        "inputs": [
+          "time"
+        ],
+        "label": "Animation filter",
+        "params": {
+          "amplitude": {
+            "default": 1,
+            "max": 4,
+            "min": 0,
+            "type": "number"
+          },
+          "cycle_s": {
+            "default": 4,
+            "max": 30,
+            "min": 0.1,
+            "type": "number",
+            "unit": "s"
+          }
+        },
+        "priority": 3,
+        "sources": [
+          "RaBbLE-NeBuLA/src/effects/animation-filter.js:182-183 cycle 4.0 s amplitude 1.0",
+          "drawn by no backend today"
+        ],
+        "support": {
+          "ball": "full",
+          "pocket_hw": "none",
+          "pocket_web": "none",
+          "studio": "full",
+          "terminal": "none",
+          "web": "none",
+          "web3d": "full"
+        }
+      },
+      "glass.badges": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "glass",
+        "inputs": [
+          "touch"
+        ],
+        "label": "Glass button badges",
+        "params": {
+          "angle_a_deg": {
+            "default": 225,
+            "max": 360,
+            "min": 0,
+            "type": "number",
+            "unit": "deg"
+          },
+          "angle_b_deg": {
+            "default": 315,
+            "max": 360,
+            "min": 0,
+            "type": "number",
+            "unit": "deg"
+          },
+          "hot_w": {
+            "default": 2.2,
+            "max": 8,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "r_px": {
+            "default": 10.5,
+            "max": 40,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "ring_r_px": {
+            "default": 219,
+            "max": 300,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "w": {
+            "default": 1.2,
+            "max": 8,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 2,
+        "sources": [
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:626-631 circles r10.5 @225/315 deg r219",
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/src/scene.c:788-800 device badges"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "full",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "none",
+          "web3d": "none"
+        }
+      },
+      "glass.caption": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "glass",
+        "inputs": [
+          "time"
+        ],
+        "label": "Glass caption",
+        "params": {
+          "arc_radius_px": {
+            "default": 240,
+            "max": 400,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 2,
+        "sources": [
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:608-624 subArc textPath RA 240"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "full",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "none",
+          "web3d": "none"
+        }
+      },
+      "glass.clock": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "glass",
+        "inputs": [
+          "clock"
+        ],
+        "label": "Glass clock",
+        "params": {
+          "h12": {
+            "default": true,
+            "type": "boolean"
+          },
+          "shadow": {
+            "default": true,
+            "type": "boolean"
+          },
+          "size_px": {
+            "default": 46,
+            "max": 120,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 2,
+        "sources": [
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:586-588 Chakra 46 px time with cast shadow",
+          "RaBbLE-Pocket/companion-app/web/public/entity/pocket-entity.js:748 tick() real local time 12 h lowercase"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "full",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "none",
+          "web3d": "none"
+        }
+      },
+      "glass.reflections": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "glass",
+        "inputs": [
+          "time"
+        ],
+        "label": "Glass reflections",
+        "params": {
+          "arcs": {
+            "default": 3,
+            "max": 8,
+            "min": 0,
+            "type": "integer"
+          }
+        },
+        "priority": 4,
+        "sources": [
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:589-591 3 reflection arcs"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "none",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "none",
+          "web3d": "none"
+        }
+      },
+      "glass.sheen": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "glass",
+        "inputs": [
+          "time"
+        ],
+        "label": "Glass sheen",
+        "params": {
+          "rim_alpha": {
+            "default": 0.07,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "rim_r_px": {
+            "default": 232,
+            "max": 300,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 4,
+        "sources": [
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:632-635 2 arcs, gradient, rim circle r232 @ .07"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "none",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "none",
+          "web3d": "none"
+        }
+      },
+      "glass.status": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "glass",
+        "inputs": [
+          "battery",
+          "link",
+          "clock"
+        ],
+        "label": "Glass status icons",
+        "params": {
+          "icon_px": {
+            "default": 16,
+            "max": 60,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 2,
+        "sources": [
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/src/rabble_entity.c:283-294 wifi, sCoRE, battery A8 sprites (Montserrat 16)"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "full",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "none",
+          "web3d": "none"
+        }
+      },
+      "glass.vignette": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "glass",
+        "inputs": [
+          "time"
+        ],
+        "label": "Glass vignette",
+        "params": {
+          "inner": {
+            "default": 0.52,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "outer": {
+            "default": 0.82,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          }
+        },
+        "priority": 4,
+        "sources": [
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:30-32 .rbl-vig radial transparent 52% to 82% bg",
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:585 depth vignette"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "none",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "none"
+        }
+      },
+      "glow.halo": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "medium"
+        },
+        "group": "glow",
+        "inputs": [
+          "time"
+        ],
+        "label": "Portal and eye halos",
+        "params": {
+          "eye_rx": {
+            "default": 28,
+            "max": 100,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "eye_ry": {
+            "default": 64,
+            "max": 200,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "portal_alpha": {
+            "default": 0.38,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "portal_rx": {
+            "default": 58,
+            "max": 200,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "portal_ry": {
+            "default": 20,
+            "max": 100,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 4,
+        "reduced": {
+          "portal_alpha": 0.2
+        },
+        "sources": [
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:169 portal halo rx58 ry20 @ .38",
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:192 eye halo rx28 ry64",
+          "SEED reduced.portal_alpha 0.2: no census number"
+        ],
+        "support": {
+          "ball": "reduced",
+          "pocket_hw": "none",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "glow.soft": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "high"
+        },
+        "group": "glow",
+        "inputs": [
+          "time"
+        ],
+        "label": "Soft glow pass",
+        "params": {
+          "adaptive_floor": {
+            "default": 0.3,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "blur_px": {
+            "default": 5,
+            "max": 30,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "glow_scale": {
+            "default": 1,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "mobile_scale": {
+            "default": 0.35,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          }
+        },
+        "priority": 4,
+        "reduced": {
+          "blur_px": 0,
+          "glow_scale": 0.35
+        },
+        "sources": [
+          "RaBbLE-NeBuLA/src/elements/element.js:89-103 glow canvas CSS blur 5 px, glowScale 1.0 / 0.35 mobile",
+          "RaBbLE-NeBuLA/src/backends/canvas2d/index.js:129-131 adaptiveGlow floor .3",
+          "web only (blur pass); SEED reduced.blur_px 0 glow_scale .35"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "none",
+          "pocket_web": "reduced",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "none"
+        }
+      },
+      "infinity": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "note": "to be built: only live.js draws it today",
+          "tier": "medium"
+        },
+        "group": "core",
+        "inputs": [
+          "time"
+        ],
+        "label": "Infinity flow",
+        "params": {
+          "alpha_1": {
+            "default": 1,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "alpha_2": {
+            "default": 0.8,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "alpha_3": {
+            "default": 0.6,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "dash": {
+            "default": 16,
+            "max": 60,
+            "min": 0,
+            "type": "number"
+          },
+          "dash_gap": {
+            "default": 10,
+            "max": 60,
+            "min": 0,
+            "type": "number"
+          },
+          "dash_speed": {
+            "default": 40,
+            "max": 200,
+            "min": 0,
+            "type": "number"
+          },
+          "fade_in_end": {
+            "default": 0.8,
+            "max": 2,
+            "min": 0,
+            "type": "number",
+            "unit": "rad"
+          },
+          "fade_in_start": {
+            "default": 0.25,
+            "max": 2,
+            "min": 0,
+            "type": "number",
+            "unit": "rad"
+          },
+          "gap_half_angle": {
+            "default": 0.75,
+            "max": 3.14,
+            "min": 0,
+            "type": "number",
+            "unit": "rad"
+          },
+          "reach_1": {
+            "default": 1.1,
+            "max": 4,
+            "min": 0,
+            "type": "number"
+          },
+          "reach_2": {
+            "default": 1.7,
+            "max": 4,
+            "min": 0,
+            "type": "number"
+          },
+          "reach_3": {
+            "default": 2.4,
+            "max": 4,
+            "min": 0,
+            "type": "number"
+          },
+          "rho_1": {
+            "default": 1.06,
+            "max": 3,
+            "min": 0,
+            "type": "number"
+          },
+          "rho_2": {
+            "default": 1.25,
+            "max": 3,
+            "min": 0,
+            "type": "number"
+          },
+          "rho_3": {
+            "default": 1.48,
+            "max": 3,
+            "min": 0,
+            "type": "number"
+          },
+          "under_glow_alpha": {
+            "default": 0.16,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "under_glow_width": {
+            "default": 12,
+            "max": 40,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "width_1": {
+            "default": 3,
+            "max": 10,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "width_2": {
+            "default": 2,
+            "max": 10,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "width_3": {
+            "default": 1.4,
+            "max": 10,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 1,
+        "sources": [
+          "RaBbLE-Grimoire/log/plans/Unified-Entity/live/live.js:191 STREAMS rho 1.06/1.25/1.48 reach 1.1/1.7/2.4 wd 3/2/1.4 a 1/.8/.6 GAPA .75",
+          "RaBbLE-Grimoire/log/plans/Unified-Entity/live/live.js:210-211 under-glow alpha .16 width 12 dash [16,10] speed 40",
+          "RaBbLE-Grimoire/log/plans/Unified-Entity/live/live.js:265 fade sstep(.25,.8,abs(elev))",
+          "NOTE rig-only today (live.js): marked full on web, web3d and ball but TO BE BUILT in alive, Three.js (no NeBuLA file and no Pocket file draws it); none elsewhere per S353 plan correction"
+        ],
+        "support": {
+          "ball": "full",
+          "pocket_hw": "none",
+          "pocket_web": "none",
+          "studio": "none",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "insight.burst": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "body",
+        "inputs": [
+          "time"
+        ],
+        "label": "Insight burst",
+        "params": {
+          "duration_s": {
+            "default": 1.1,
+            "max": 5,
+            "min": 0.1,
+            "type": "number",
+            "unit": "s"
+          },
+          "flash": {
+            "default": true,
+            "type": "boolean"
+          },
+          "progress": {
+            "default": 0,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "ring_r0": {
+            "default": 20,
+            "max": 100,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "ring_r1": {
+            "default": 190,
+            "max": 500,
+            "min": 10,
+            "type": "number",
+            "unit": "px"
+          },
+          "rings": {
+            "default": 2,
+            "max": 4,
+            "min": 1,
+            "type": "integer"
+          }
+        },
+        "priority": 2,
+        "reduced": {
+          "flash": false
+        },
+        "sources": [
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:491 insight 1.1 s twin rings r 20+190x, white flash",
+          "SEED reduced.flash false: web lite drops the flash"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "none",
+          "pocket_web": "reduced",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "none"
+        }
+      },
+      "mesh.edges": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "high"
+        },
+        "group": "mesh",
+        "inputs": [
+          "activity",
+          "time"
+        ],
+        "label": "Mesh edges",
+        "params": {
+          "alpha": {
+            "default": 0.42,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "alpha_energy": {
+            "default": 0.2,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "edges_max": {
+            "default": 256,
+            "max": 1024,
+            "min": 1,
+            "type": "integer"
+          },
+          "energy": {
+            "default": 0,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "glow_alpha": {
+            "default": 0.13,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "glow_width": {
+            "default": 7,
+            "max": 20,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "hot_alpha": {
+            "default": 0.9,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "hot_width": {
+            "default": 1.3,
+            "max": 4,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "width": {
+            "default": 1,
+            "max": 4,
+            "min": 0.2,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 1,
+        "reduced": {
+          "edges_max": 64,
+          "glow_alpha": 0
+        },
+        "sources": [
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/src/scene.c:438-452 edge width 1.0 alpha (.42+energy*.2)*dim hot w1.3 .9",
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:477-478 glow lw 7 @ .13",
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/src/scene.c:141 EDGE_MAX 256 (approx line, EDGE_MAX in scene.c ~140-141)",
+          "SEED reduced.edges_max 64, glow_alpha 0: no census number (edge count is the biggest device cost lever, census cost notes)"
+        ],
+        "support": {
+          "ball": "reduced",
+          "pocket_hw": "full",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "mesh.nodes": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "medium"
+        },
+        "group": "mesh",
+        "inputs": [
+          "activity",
+          "time",
+          "touch"
+        ],
+        "label": "Mesh nodes",
+        "params": {
+          "halo": {
+            "default": true,
+            "type": "boolean"
+          },
+          "hub_fu": {
+            "default": 250,
+            "max": 600,
+            "min": 0,
+            "type": "number",
+            "unit": "fu"
+          },
+          "layer1_alpha": {
+            "default": 0.66,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "layer1_count": {
+            "default": 8,
+            "max": 32,
+            "min": 0,
+            "type": "integer"
+          },
+          "layer1_p5": {
+            "default": 40,
+            "type": "number"
+          },
+          "layer1_r_in": {
+            "default": 140,
+            "max": 800,
+            "min": 0,
+            "type": "number",
+            "unit": "fu"
+          },
+          "layer1_r_out": {
+            "default": 320,
+            "max": 800,
+            "min": 0,
+            "type": "number",
+            "unit": "fu"
+          },
+          "layer2_alpha": {
+            "default": 0.54,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "layer2_count": {
+            "default": 7,
+            "max": 32,
+            "min": 0,
+            "type": "integer"
+          },
+          "layer2_p5": {
+            "default": 34,
+            "type": "number"
+          },
+          "layer2_r_in": {
+            "default": 300,
+            "max": 800,
+            "min": 0,
+            "type": "number",
+            "unit": "fu"
+          },
+          "layer2_r_out": {
+            "default": 450,
+            "max": 800,
+            "min": 0,
+            "type": "number",
+            "unit": "fu"
+          },
+          "layer3_alpha": {
+            "default": 0.44,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "layer3_count": {
+            "default": 6,
+            "max": 32,
+            "min": 0,
+            "type": "integer"
+          },
+          "layer3_p5": {
+            "default": 26,
+            "type": "number"
+          },
+          "layer3_r_in": {
+            "default": 430,
+            "max": 800,
+            "min": 0,
+            "type": "number",
+            "unit": "fu"
+          },
+          "layer3_r_out": {
+            "default": 575,
+            "max": 800,
+            "min": 0,
+            "type": "number",
+            "unit": "fu"
+          },
+          "max_nodes": {
+            "default": 48,
+            "max": 256,
+            "min": 1,
+            "type": "integer"
+          },
+          "ring_nodes": {
+            "default": 5,
+            "max": 16,
+            "min": 0,
+            "type": "integer"
+          },
+          "ring_r_fu": {
+            "default": 158,
+            "max": 600,
+            "min": 0,
+            "type": "number",
+            "unit": "fu"
+          }
+        },
+        "priority": 1,
+        "reduced": {
+          "halo": false
+        },
+        "sources": [
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:266 layers [8,140,320,.66,40],[7,300,450,.54,34],[6,430,575,.44,26] + 7 rim nodes per side (web values; device layers 6/5/5 per SC:217)",
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/src/scene.c:217 device layers {6,140,320,.66,40},{5,300,450,.54,34},{5,430,575,.44,26} HUB 250 ring 5 at r158; MESH_MAX 48",
+          "SEED layerN_p5: fifth tuple field is unnamed in the census (40/34/26); copied unnamed",
+          "SEED reduced.halo false: device draws no node halo (SC:455-465)"
+        ],
+        "support": {
+          "ball": "reduced",
+          "pocket_hw": "full",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "mesh.orbit_handoff": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "mesh",
+        "inputs": [
+          "time"
+        ],
+        "label": "Mesh to Orbit hand-off",
+        "params": {
+          "links_fade_from": {
+            "default": 0.3,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "nodes_fade_from": {
+            "default": 0.7,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "stretch": {
+            "default": 0.5,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          }
+        },
+        "priority": 1,
+        "sources": [
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/src/scene.c:346-352 MESH_STRETCH .5 links fade .3..1 nodes .7..1"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "full",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "none",
+          "web3d": "none"
+        }
+      },
+      "mesh.signals": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "medium"
+        },
+        "group": "mesh",
+        "inputs": [
+          "activity",
+          "time"
+        ],
+        "label": "Mesh signals",
+        "params": {
+          "activity": {
+            "default": 0,
+            "max": 1.6,
+            "min": 0,
+            "type": "number"
+          },
+          "ripple_r0": {
+            "default": 4,
+            "max": 20,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "ripple_r1": {
+            "default": 30,
+            "max": 100,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "slots": {
+            "default": 28,
+            "max": 64,
+            "min": 1,
+            "type": "integer"
+          },
+          "speed_max": {
+            "default": 480,
+            "max": 1000,
+            "min": 0,
+            "type": "number",
+            "unit": "px/s"
+          },
+          "speed_min": {
+            "default": 260,
+            "max": 1000,
+            "min": 0,
+            "type": "number",
+            "unit": "px/s"
+          },
+          "tail_px": {
+            "default": 15,
+            "max": 60,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 1,
+        "reduced": {
+          "slots": 8
+        },
+        "sources": [
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:499-504 pool 28 speed 260-480 trail lw 3.5",
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/src/scene.c:385-437 device SLOTS 16 tail 15 px ripple r 4+tt*30 (device slots 16: profile override)",
+          "SEED reduced.slots 8: no census number"
+        ],
+        "support": {
+          "ball": "reduced",
+          "pocket_hw": "full",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "mesh.touch_dent": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "mesh",
+        "inputs": [
+          "touch",
+          "gaze"
+        ],
+        "label": "Mesh touch dent",
+        "params": {
+          "gaze_px": {
+            "default": 9,
+            "max": 60,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "pointer_force": {
+            "default": 75,
+            "max": 300,
+            "min": 0,
+            "type": "number"
+          },
+          "pointer_radius": {
+            "default": 240,
+            "max": 600,
+            "min": 0,
+            "type": "number"
+          },
+          "push_px": {
+            "default": 34,
+            "max": 200,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "radius_px": {
+            "default": 110,
+            "max": 400,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 1,
+        "sources": [
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/src/scene.c:303-305 TOUCH_R 110 TOUCH_PUSH 34 TOUCH_GAZE 9",
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:477-478 pointer repel 240 force 75"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "full",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "none"
+        }
+      },
+      "mic.bloom": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "medium"
+        },
+        "group": "listening",
+        "inputs": [
+          "mic_dir",
+          "level"
+        ],
+        "label": "Mic bloom",
+        "params": {
+          "alpha_scale": {
+            "default": 0,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "r": {
+            "default": 32,
+            "max": 100,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "r_amp": {
+            "default": 4,
+            "max": 20,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 3,
+        "sources": [
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:555 bloom r 32+4 sin(w16 t)"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "none",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "none"
+        }
+      },
+      "orbit": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "medium"
+        },
+        "group": "overlay",
+        "inputs": [
+          "touch",
+          "time"
+        ],
+        "label": "Orbit drawer",
+        "params": {
+          "lit_w": {
+            "default": 3,
+            "max": 8,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "orb_from_r": {
+            "default": 175,
+            "max": 400,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "prims_reserved": {
+            "default": 300,
+            "max": 1400,
+            "min": 0,
+            "type": "integer"
+          },
+          "ring_pct": {
+            "default": 41,
+            "max": 100,
+            "min": 0,
+            "type": "number",
+            "unit": "%"
+          },
+          "step_px": {
+            "default": 31,
+            "max": 100,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "track_w": {
+            "default": 1.5,
+            "max": 8,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 1,
+        "sources": [
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/nebula_lite/src/orbit.c:102 ORB_FROM_R 175",
+          "RaBbLE-Pocket/companion-app/web/public/orbit.js:15-16 STEP 31 RING 41%",
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/nebula_lite/include/nl_list.h NL_ORBIT_PRIMS 300"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "full",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "none",
+          "web3d": "none"
+        }
+      },
+      "portal.back": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "core",
+        "inputs": [
+          "time",
+          "activity"
+        ],
+        "label": "Portal back",
+        "params": {
+          "flow_alpha": {
+            "default": 0.7,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "flow_dash": {
+            "default": 30,
+            "max": 100,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "flow_gap": {
+            "default": 30,
+            "max": 100,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "flow_speed": {
+            "default": 80,
+            "max": 400,
+            "min": 0,
+            "type": "number"
+          },
+          "flow_speed_energy": {
+            "default": 320,
+            "max": 800,
+            "min": 0,
+            "type": "number"
+          },
+          "rim_far_alpha_persp": {
+            "default": 0.6,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "rim_far_width_ortho": {
+            "default": 3.2,
+            "max": 10,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "rim_far_width_persp": {
+            "default": 1.9,
+            "max": 10,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "rim_stroke_device": {
+            "default": 2.6,
+            "max": 10,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "shadow_blur_far": {
+            "default": 6,
+            "max": 40,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 0,
+        "sources": [
+          "RaBbLE-Grimoire/log/plans/Unified-Entity/live/live.js:132 far rim width lerp(3.2,1.9,persp) alpha lerp(1,.6,persp) shadowBlur 6",
+          "RaBbLE-NeBuLA/src/backends/alive-backend.js:579 dashed inner ring [30,30] speed 80+320*energy alpha .7",
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/src/scene.c:725 device rim stroke 2.6"
+        ],
+        "support": {
+          "ball": "full",
+          "pocket_hw": "full",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "portal.front": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "core",
+        "inputs": [
+          "time"
+        ],
+        "label": "Portal front",
+        "params": {
+          "rim_near_width_ortho": {
+            "default": 3.2,
+            "max": 10,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "rim_near_width_persp": {
+            "default": 4.4,
+            "max": 10,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "rim_stroke_device": {
+            "default": 2.6,
+            "max": 10,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "shadow_blur_near": {
+            "default": 16,
+            "max": 60,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 0,
+        "sources": [
+          "RaBbLE-Grimoire/log/plans/Unified-Entity/live/live.js:142 near rim width lerp(3.2,4.4,persp) shadowBlur 16",
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/src/scene.c:784 front rim arc"
+        ],
+        "support": {
+          "ball": "full",
+          "pocket_hw": "full",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "full"
+        }
+      },
+      "ring": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "ring",
+        "inputs": [
+          "time"
+        ],
+        "label": "Colour ring",
+        "params": {
+          "colour_left": {
+            "default": "cyan",
+            "type": "colour"
+          },
+          "colour_right": {
+            "default": "magenta",
+            "type": "colour"
+          },
+          "core_w": {
+            "default": 3.4,
+            "max": 20,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "inner_px": {
+            "default": 206.5,
+            "max": 300,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "outer_px": {
+            "default": 221.5,
+            "max": 300,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "radius_px": {
+            "default": 214,
+            "max": 300,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "soft_w": {
+            "default": 14,
+            "max": 40,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 1,
+        "reduced": {
+          "soft_w": 0
+        },
+        "sources": [
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/nebula_lite/src/compose.c:9-11 RING_R 214 IN 206.5 OUT 221.5",
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:524-531 core 3.4, soft 14",
+          "SEED reduced.soft_w 0: web lite drops the blur (census web-lite note)"
+        ],
+        "support": {
+          "ball": "full",
+          "pocket_hw": "full",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "reduced"
+        }
+      },
+      "ring.drain_arc": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "ring",
+        "inputs": [
+          "time"
+        ],
+        "label": "Ring drain arc",
+        "params": {
+          "chunk_deg": {
+            "default": 15,
+            "max": 90,
+            "min": 1,
+            "type": "number",
+            "unit": "deg"
+          },
+          "chunks": {
+            "default": 24,
+            "max": 96,
+            "min": 1,
+            "type": "integer"
+          },
+          "progress": {
+            "default": 1,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          }
+        },
+        "priority": 2,
+        "sources": [
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/nebula_lite/src/compose.c:289 nl_ring_arc_frame RARC_CHUNKS 24, 15-degree chunks, drawn last (CMP:454)"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "full",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "none",
+          "web3d": "none"
+        }
+      },
+      "ring.tint": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "trivial"
+        },
+        "group": "ring",
+        "inputs": [
+          "time"
+        ],
+        "label": "Ring tint and dim",
+        "params": {
+          "dim": {
+            "default": 1,
+            "max": 1.2,
+            "min": 0,
+            "type": "number"
+          },
+          "glitch_mix": {
+            "default": 0,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "tint": {
+            "default": "pole",
+            "type": "colour"
+          }
+        },
+        "priority": 2,
+        "sources": [
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/nebula_lite/src/luts.c:34 nl_ring_tint",
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/nebula_lite/include/nebula_lite.h nl_inputs_t ring_tint ring_dim"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "full",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "none"
+        }
+      },
+      "speak.waves": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "body",
+        "inputs": [
+          "level",
+          "time"
+        ],
+        "label": "Speak waves",
+        "params": {
+          "amp_px": {
+            "default": 30,
+            "max": 100,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "amp_scale": {
+            "default": 0,
+            "max": 1.5,
+            "min": 0,
+            "type": "number"
+          },
+          "strands": {
+            "default": 4,
+            "max": 8,
+            "min": 1,
+            "type": "integer"
+          }
+        },
+        "priority": 2,
+        "sources": [
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:474 speakWaves amplitude 30*speak*syl, 4 sine strands"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "none",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "none"
+        }
+      },
+      "strands.absorb": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "listening",
+        "inputs": [
+          "level",
+          "time"
+        ],
+        "label": "Absorption sparks",
+        "params": {
+          "alpha_scale": {
+            "default": 0,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "count": {
+            "default": 12,
+            "max": 48,
+            "min": 0,
+            "type": "integer"
+          },
+          "r_base": {
+            "default": 0.9,
+            "max": 5,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "r_grow": {
+            "default": 1.5,
+            "max": 5,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "spawn_max": {
+            "default": 44,
+            "max": 100,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "spawn_min": {
+            "default": 14,
+            "max": 100,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "y_scale": {
+            "default": 0.35,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          }
+        },
+        "priority": 2,
+        "sources": [
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/src/scene.c:754-765 12 discs r .9+1.5(1-life) spawn plane 14-44 px y*.35"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "full",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "none"
+        }
+      },
+      "strands.mic": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "high"
+        },
+        "group": "listening",
+        "inputs": [
+          "level",
+          "mic_dir",
+          "time"
+        ],
+        "label": "Mic strands",
+        "params": {
+          "alpha_scale": {
+            "default": 0,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "cr_steps": {
+            "default": 3,
+            "max": 16,
+            "min": 1,
+            "type": "integer"
+          },
+          "history": {
+            "default": 256,
+            "max": 1024,
+            "min": 1,
+            "type": "integer"
+          },
+          "level_floor": {
+            "default": 0.15,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "level_gain": {
+            "default": 0.85,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "s1_amp": {
+            "default": 14,
+            "type": "number"
+          },
+          "s1_jit": {
+            "default": 0,
+            "type": "number"
+          },
+          "s1_lam": {
+            "default": 48,
+            "type": "number"
+          },
+          "s1_opa": {
+            "default": 1,
+            "type": "number"
+          },
+          "s1_ph": {
+            "default": 0,
+            "type": "number"
+          },
+          "s1_whiten": {
+            "default": 0,
+            "type": "number"
+          },
+          "s1_width": {
+            "default": 3.4,
+            "type": "number"
+          },
+          "s2_amp": {
+            "default": 10,
+            "type": "number"
+          },
+          "s2_jit": {
+            "default": 7,
+            "type": "number"
+          },
+          "s2_lam": {
+            "default": 40,
+            "type": "number"
+          },
+          "s2_opa": {
+            "default": 0.75,
+            "type": "number"
+          },
+          "s2_ph": {
+            "default": 1.7,
+            "type": "number"
+          },
+          "s2_whiten": {
+            "default": 0,
+            "type": "number"
+          },
+          "s2_width": {
+            "default": 1.8,
+            "type": "number"
+          },
+          "s3_amp": {
+            "default": 8,
+            "type": "number"
+          },
+          "s3_jit": {
+            "default": 6,
+            "type": "number"
+          },
+          "s3_lam": {
+            "default": 58,
+            "type": "number"
+          },
+          "s3_opa": {
+            "default": 0.6,
+            "type": "number"
+          },
+          "s3_ph": {
+            "default": 3.3,
+            "type": "number"
+          },
+          "s3_whiten": {
+            "default": 0.85,
+            "type": "number"
+          },
+          "s3_width": {
+            "default": 1.3,
+            "type": "number"
+          },
+          "way_max": {
+            "default": 22,
+            "max": 64,
+            "min": 1,
+            "type": "integer"
+          }
+        },
+        "priority": 2,
+        "sources": [
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/src/scene.c:733-753 strands 3 per route, specs {amp,lam,ph,width,opa,jit,whiten}; CR_STEPS 3 WAY_MAX 22 lev=.15+.85*level HIST 256 (SC:473)",
+          "Device draws strands between portal back and eyes (SC:735-765); registry layer order places them in front of the core group, renderers keep the device interleave in code",
+          "Web strand level is synthetic today (MOCK:213-231)"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "full",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "none"
+        }
+      },
+      "strands.mouth_bloom": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "medium"
+        },
+        "group": "listening",
+        "inputs": [
+          "level"
+        ],
+        "label": "Portal mouth bloom",
+        "params": {
+          "alpha_scale": {
+            "default": 0,
+            "max": 1,
+            "min": 0,
+            "type": "number"
+          },
+          "rx": {
+            "default": 26,
+            "max": 100,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          },
+          "ry": {
+            "default": 7,
+            "max": 40,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 2,
+        "sources": [
+          "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:568-578 mouth bloom soft ellipse rx26 ry7 (device none, SC)"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "none",
+          "pocket_web": "full",
+          "studio": "full",
+          "terminal": "none",
+          "web": "full",
+          "web3d": "none"
+        }
+      },
+      "ui.slide": {
+        "cost": {
+          "device": {
+            "measured": null,
+            "ms_worst": null,
+            "prims_per_frame": null
+          },
+          "tier": "low"
+        },
+        "group": "overlay",
+        "inputs": [
+          "touch"
+        ],
+        "label": "UI slide",
+        "params": {
+          "slide_px": {
+            "default": 0,
+            "max": 466,
+            "min": 0,
+            "type": "number",
+            "unit": "px"
+          }
+        },
+        "priority": 2,
+        "sources": [
+          "RaBbLE-Pocket/firmware/entities/RaBbLE/nebula_lite/src/compose.c:195 ui_band / nl_ui_frame LVGL screen slide; device only",
+          "SEED slide_px bounds: no census number"
+        ],
+        "support": {
+          "ball": "none",
+          "pocket_hw": "full",
+          "pocket_web": "none",
+          "studio": "none",
+          "terminal": "none",
+          "web": "none",
+          "web3d": "none"
+        }
+      }
+    },
+    "expressions": {
+      "angry": {
+        "gaze_scale": 1.1,
+        "head_tilt_deg": 0,
+        "lower": {
+          "eye": {
+            "dx_in": -0.0,
+            "dy": -4.0,
+            "rot_m": 6.0,
+            "sx": 1.03,
+            "sy": 0.86
+          },
+          "portal": {
+            "dx_in": 8.0,
+            "dy": -40.0,
+            "rot_m": 12.0,
+            "sx": 1.08,
+            "sy": 1.0
+          }
+        },
+        "spring_k": 90,
+        "style": {
+          "bpm": 84,
+          "dim": 1.04,
+          "energy": 0.45,
+          "glow": 0.85,
+          "jit": 1.8,
+          "lens": 1.05,
+          "orbit": 1.6,
+          "pulse": 1.8,
+          "sphere": 0.14,
+          "strike": 2,
+          "surf": 1.8,
+          "tempo": 1.2,
+          "trem": 0.5
+        },
+        "upper": {
+          "eye": {
+            "dx_in": 0.0,
+            "dy": 4.0,
+            "rot_m": 6.0,
+            "sx": 1.03,
+            "sy": 0.86
+          },
+          "portal": {
+            "dx_in": 8.0,
+            "dy": 40.0,
+            "rot_m": 12.0,
+            "sx": 1.08,
+            "sy": 1.0
+          }
+        }
+      },
+      "calm": {
+        "gaze_scale": 1,
+        "head_tilt_deg": 0,
+        "lower": {
+          "eye": {
+            "dx_in": 0,
+            "dy": 0,
+            "rot_m": 0,
+            "sx": 1,
+            "sy": 1
+          },
+          "portal": {
+            "dx_in": 0,
+            "dy": 0,
+            "rot_m": 0,
+            "sx": 1,
+            "sy": 1
+          }
+        },
+        "spring_k": 50,
+        "style": {
+          "bounce": 0,
+          "bpm": 46,
+          "dim": 1,
+          "energy": 0.05,
+          "gazeY": 0,
+          "glow": 0.5,
+          "grav": 0,
+          "hop": 0,
+          "jit": 1,
+          "lens": 1,
+          "orbit": 0.7,
+          "pulse": 0.8,
+          "sigh": 0,
+          "sparkle": 0,
+          "sphere": 0,
+          "strike": 0.6,
+          "surf": 0.7,
+          "tempo": 0.8,
+          "trem": 0
+        },
+        "upper": {
+          "eye": {
+            "dx_in": 0,
+            "dy": 0,
+            "rot_m": 0,
+            "sx": 1,
+            "sy": 1
+          },
+          "portal": {
+            "dx_in": 0,
+            "dy": 0,
+            "rot_m": 0,
+            "sx": 1,
+            "sy": 1
+          }
+        }
+      },
+      "joy": {
+        "gaze_scale": 0.95,
+        "head_tilt_deg": 2,
+        "lower": {
+          "eye": {
+            "dx_in": -0.0,
+            "dy": -6.0,
+            "rot_m": 6.0,
+            "sx": 1.05,
+            "sy": 0.86
+          },
+          "portal": {
+            "dx_in": -0.0,
+            "dy": -56.0,
+            "rot_m": 8.0,
+            "sx": 1.08,
+            "sy": 1.0
+          }
+        },
+        "spring_k": 70,
+        "style": {
+          "bounce": 6,
+          "bpm": 70,
+          "dim": 1.08,
+          "energy": 0.3,
+          "gazeY": -3,
+          "glow": 0.8,
+          "grav": -4,
+          "hop": 0.8,
+          "jit": 1.1,
+          "lens": 1.04,
+          "orbit": 1.5,
+          "pulse": 1.6,
+          "sparkle": 0.6,
+          "sphere": 0.06,
+          "strike": 0.9,
+          "surf": 1.2,
+          "tempo": 1.2
+        },
+        "upper": {
+          "eye": {
+            "dx_in": 0.0,
+            "dy": -6.0,
+            "rot_m": 6.0,
+            "sx": 1.05,
+            "sy": 0.86
+          },
+          "portal": {
+            "dx_in": 0.0,
+            "dy": -20.0,
+            "rot_m": 8.0,
+            "sx": 1.06,
+            "sy": 1.0
+          }
+        }
+      },
+      "sad": {
+        "gaze_scale": 0.7,
+        "head_tilt_deg": -4,
+        "lower": {
+          "eye": {
+            "dx_in": -0.0,
+            "dy": 18.0,
+            "rot_m": -7.0,
+            "sx": 0.96,
+            "sy": 0.9
+          },
+          "portal": {
+            "dx_in": -0.0,
+            "dy": -12.0,
+            "rot_m": -6.0,
+            "sx": 0.97,
+            "sy": 1.0
+          }
+        },
+        "spring_k": 35,
+        "style": {
+          "bpm": 42,
+          "dim": 0.82,
+          "energy": 0.02,
+          "gazeY": 6,
+          "glow": 0.4,
+          "grav": 18,
+          "jit": 0.7,
+          "lens": 0.92,
+          "orbit": 0.45,
+          "pulse": 0.5,
+          "sigh": 1,
+          "sphere": -0.04,
+          "strike": 0.3,
+          "surf": 0.45,
+          "tempo": 0.6
+        },
+        "upper": {
+          "eye": {
+            "dx_in": 0.0,
+            "dy": 14.0,
+            "rot_m": -7.0,
+            "sx": 0.96,
+            "sy": 0.9
+          },
+          "portal": {
+            "dx_in": 0.0,
+            "dy": 12.0,
+            "rot_m": -10.0,
+            "sx": 0.96,
+            "sy": 1.0
+          }
+        }
+      }
+    },
+    "forms": {
+      "mirror": "0101",
+      "reach": {
+        "portal_swap": "flips pl,pr",
+        "turn": "yaw half-turn, eyes trade places"
+      },
+      "rest": "0110",
+      "swap": "1010",
+      "swap_mirror": "1001"
+    },
+    "idle": {
+      "blink": {
+        "dip": 0.16,
+        "double_every": 3,
+        "period": 4.2,
+        "second_dip": [
+          0.24,
+          0.4
+        ],
+        "squash": 0.95
+      },
+      "breathe": {
+        "amp": 0.02,
+        "w": 1.25
+      },
+      "expression_sources": "style numbers: ALIVE:219-224 (omitted keys = 0); head tilt ALIVE EXPR / LIVE:6 HEAD; spring_k ALIVE:220-223; poses: registry-spike/poses.role.json adopted as is",
+      "float": {
+        "amp_fu": 12,
+        "w": 1.05
+      },
+      "gaze": {
+        "pointer_stiffness": 110,
+        "range_fu": [
+          26,
+          12
+        ],
+        "stiffness": 40
+      },
+      "portal_bob": {
+        "amp_fu": 8,
+        "opposed": true,
+        "phase": 1.1,
+        "w": 1.4
+      },
+      "sources": [
+        "RaBbLE-Grimoire/log/plans/Unified-Entity/live/live.js:41 blink",
+        "RaBbLE-Grimoire/log/plans/Unified-Entity/live/live.js:54 float 12 sin(1.05t)",
+        "RaBbLE-NeBuLA/src/backends/alive-backend.js:330 breathe .02 at 1.25",
+        "RaBbLE-NeBuLA/src/backends/alive-backend.js:338 portal bob 8, 1.4, phase 1.1",
+        "RaBbLE-NeBuLA/src/backends/alive-backend.js:334-337 wander",
+        "RaBbLE-NeBuLA/src/backends/alive-backend.js:808-813 gaze",
+        "RaBbLE-NeBuLA/src/backends/alive-backend.js:122-128 curious mood fx (temperament, not a state)",
+        "alive random 2-7 s blink becomes a drive on period by energy (not a second model)"
+      ],
+      "temperament": {
+        "curious": {
+          "dart": 0,
+          "gx": 0,
+          "gy": 0,
+          "pulse": 1.2,
+          "squint": 0,
+          "yaw_speed": 0.05
+        }
+      },
+      "wander": {
+        "eye": {
+          "dx_fu": 2.5,
+          "dy_fu": 3,
+          "rot_deg": 1.2
+        },
+        "portal": {
+          "dx_fu": 3,
+          "dy_fu": 4,
+          "rot_deg": 1.6
+        }
+      }
+    },
+    "layers": [
+      {
+        "blend": "source-over",
+        "effect": "field.entropy_shader",
+        "enabled": false,
+        "id": "field_entropy_shader",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "field.attractor",
+        "enabled": false,
+        "id": "field_attractor",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "filter.animation",
+        "enabled": false,
+        "id": "filter_animation",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "backdrop.void",
+        "enabled": true,
+        "id": "backdrop_void",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "backdrop.wash",
+        "enabled": true,
+        "id": "backdrop_wash",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "field.ambient",
+        "enabled": false,
+        "id": "field_ambient",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "drives": [
+          {
+            "from": "energy",
+            "gain": 1,
+            "param": "energy"
+          }
+        ],
+        "effect": "backdrop.grid",
+        "enabled": true,
+        "id": "backdrop_grid",
+        "opacity": 1
+      },
+      {
+        "blend": "lighter",
+        "drives": [
+          {
+            "from": "condition.dormant",
+            "gain": -0.65,
+            "param": "opacity"
+          }
+        ],
+        "effect": "backdrop.stars",
+        "enabled": true,
+        "id": "backdrop_stars",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "deepfield.constellation",
+        "enabled": false,
+        "id": "deepfield_constellation",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "deepfield.streaks",
+        "enabled": false,
+        "id": "deepfield_streaks",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "backdrop.databits",
+        "enabled": false,
+        "id": "backdrop_databits",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "backdrop.meridians",
+        "enabled": false,
+        "id": "backdrop_meridians",
+        "opacity": 1
+      },
+      {
+        "blend": "lighter",
+        "drives": [
+          {
+            "from": "expression.sad",
+            "gain": -0.15,
+            "param": "opacity"
+          },
+          {
+            "curve": "smoothstep",
+            "from": "input.level",
+            "gain": 0.2,
+            "param": "opacity"
+          }
+        ],
+        "effect": "backdrop.haze",
+        "enabled": true,
+        "id": "haze_left",
+        "opacity": 0.34,
+        "params": {
+          "pole": "cyan",
+          "rx_fu": 450,
+          "ry_fu": 382,
+          "x_fu": -170
+        }
+      },
+      {
+        "blend": "lighter",
+        "drives": [
+          {
+            "curve": "smoothstep",
+            "from": "input.level",
+            "gain": 0.2,
+            "param": "opacity"
+          }
+        ],
+        "effect": "backdrop.haze",
+        "enabled": true,
+        "id": "haze_right",
+        "opacity": 0.26,
+        "params": {
+          "pole": "magenta",
+          "rx_fu": 460,
+          "ry_fu": 390,
+          "x_fu": 170
+        }
+      },
+      {
+        "blend": "lighter",
+        "effect": "backdrop.haze",
+        "enabled": true,
+        "id": "haze_violet",
+        "opacity": 0.3,
+        "params": {
+          "pole": "violet",
+          "rx_fu": 320,
+          "ry_fu": 272,
+          "x_fu": 0
+        }
+      },
+      {
+        "blend": "lighter",
+        "effect": "backdrop.haze",
+        "enabled": true,
+        "id": "haze_core",
+        "opacity": 0.12,
+        "params": {
+          "pole": "violet",
+          "rx_fu": 380,
+          "ry_fu": 380,
+          "x_fu": 0
+        }
+      },
+      {
+        "blend": "source-over",
+        "effect": "ring",
+        "enabled": false,
+        "id": "ring",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "drives": [
+          {
+            "from": "condition.glitch",
+            "gain": 1,
+            "param": "glitch_mix"
+          },
+          {
+            "from": "condition.system_drift",
+            "gain": -0.3,
+            "param": "dim"
+          }
+        ],
+        "effect": "ring.tint",
+        "enabled": false,
+        "id": "ring_tint",
+        "opacity": 1
+      },
+      {
+        "blend": "lighter",
+        "effect": "backdrop.bokeh",
+        "enabled": true,
+        "id": "backdrop_bokeh",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "body.lens",
+        "enabled": false,
+        "id": "body_lens",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "drives": [
+          {
+            "from": "state.listening",
+            "gain": 0.6,
+            "param": "alpha_scale"
+          },
+          {
+            "from": "state.thinking",
+            "gain": 0.22,
+            "param": "alpha_scale"
+          },
+          {
+            "from": "state.speaking",
+            "gain": 0.85,
+            "param": "alpha_scale"
+          },
+          {
+            "from": "expression.joy",
+            "gain": 0.6,
+            "param": "alpha_scale"
+          }
+        ],
+        "effect": "body.bars",
+        "enabled": false,
+        "id": "body_bars",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "body.outline",
+        "enabled": false,
+        "id": "body_outline",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "drives": [
+          {
+            "from": "state.speaking",
+            "gain": 1,
+            "param": "amp_scale"
+          }
+        ],
+        "effect": "speak.waves",
+        "enabled": false,
+        "id": "speak_waves",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "insight.burst",
+        "enabled": false,
+        "id": "insight_burst",
+        "opacity": 1
+      },
+      {
+        "blend": "lighter",
+        "drives": [
+          {
+            "from": "energy",
+            "gain": 1,
+            "param": "energy"
+          }
+        ],
+        "effect": "aura.sphere",
+        "enabled": true,
+        "id": "aura_sphere",
+        "opacity": 1
+      },
+      {
+        "blend": "lighter",
+        "drives": [
+          {
+            "from": "energy",
+            "gain": 1,
+            "param": "energy"
+          }
+        ],
+        "effect": "aura.motes",
+        "enabled": true,
+        "id": "aura_motes",
+        "opacity": 1
+      },
+      {
+        "blend": "lighter",
+        "effect": "aura.embers",
+        "enabled": true,
+        "id": "aura_embers",
+        "opacity": 1
+      },
+      {
+        "blend": "lighter",
+        "effect": "aura.lens",
+        "enabled": true,
+        "id": "aura_lens",
+        "opacity": 1
+      },
+      {
+        "blend": "lighter",
+        "drives": [
+          {
+            "from": "energy",
+            "gain": 1,
+            "param": "energy"
+          }
+        ],
+        "effect": "mesh.edges",
+        "enabled": true,
+        "id": "mesh_edges",
+        "opacity": 1
+      },
+      {
+        "blend": "lighter",
+        "effect": "mesh.nodes",
+        "enabled": true,
+        "id": "mesh_nodes",
+        "opacity": 1
+      },
+      {
+        "blend": "lighter",
+        "drives": [
+          {
+            "from": "input.activity",
+            "gain": 1,
+            "param": "activity"
+          },
+          {
+            "from": "state.listening",
+            "gain": 0.15,
+            "param": "activity"
+          },
+          {
+            "from": "state.thinking",
+            "gain": 0.35,
+            "param": "activity"
+          },
+          {
+            "from": "state.speaking",
+            "gain": 0.25,
+            "param": "activity"
+          },
+          {
+            "from": "expression.joy",
+            "gain": 0.2,
+            "param": "activity"
+          }
+        ],
+        "effect": "mesh.signals",
+        "enabled": true,
+        "id": "mesh_signals",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "mesh.touch_dent",
+        "enabled": true,
+        "id": "mesh_touch_dent",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "mesh.orbit_handoff",
+        "enabled": false,
+        "id": "mesh_orbit_handoff",
+        "opacity": 1
+      },
+      {
+        "blend": "lighter",
+        "effect": "aura.sparks",
+        "enabled": true,
+        "id": "aura_sparks",
+        "opacity": 1
+      },
+      {
+        "blend": "lighter",
+        "effect": "aura.flashes",
+        "enabled": true,
+        "id": "aura_flashes",
+        "opacity": 1
+      },
+      {
+        "blend": "lighter",
+        "effect": "aura.rings",
+        "enabled": true,
+        "id": "aura_rings",
+        "opacity": 1
+      },
+      {
+        "blend": "lighter",
+        "drives": [
+          {
+            "from": "condition.glitch",
+            "gain": 2,
+            "param": "rate"
+          }
+        ],
+        "effect": "aura.bolts",
+        "enabled": true,
+        "id": "aura_bolts",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "glow.soft",
+        "enabled": true,
+        "id": "glow_soft",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "glow.halo",
+        "enabled": true,
+        "id": "glow_halo",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "portal.back",
+        "enabled": true,
+        "id": "portal_back",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "eyes",
+        "enabled": true,
+        "id": "eyes",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "portal.front",
+        "enabled": true,
+        "id": "portal_front",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "infinity",
+        "enabled": true,
+        "id": "infinity",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "drives": [
+          {
+            "from": "state.listening",
+            "gain": 1,
+            "param": "alpha_scale"
+          }
+        ],
+        "effect": "strands.mic",
+        "enabled": false,
+        "id": "strands_mic",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "drives": [
+          {
+            "from": "state.listening",
+            "gain": 1,
+            "param": "alpha_scale"
+          }
+        ],
+        "effect": "strands.absorb",
+        "enabled": false,
+        "id": "strands_absorb",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "drives": [
+          {
+            "from": "state.listening",
+            "gain": 1,
+            "param": "alpha_scale"
+          }
+        ],
+        "effect": "strands.mouth_bloom",
+        "enabled": false,
+        "id": "strands_mouth_bloom",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "drives": [
+          {
+            "from": "state.listening",
+            "gain": 1,
+            "param": "alpha_scale"
+          }
+        ],
+        "effect": "mic.bloom",
+        "enabled": false,
+        "id": "mic_bloom",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "glass.vignette",
+        "enabled": false,
+        "id": "glass_vignette",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "glass.sheen",
+        "enabled": false,
+        "id": "glass_sheen",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "glass.reflections",
+        "enabled": false,
+        "id": "glass_reflections",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "glass.clock",
+        "enabled": false,
+        "id": "glass_clock",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "glass.status",
+        "enabled": false,
+        "id": "glass_status",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "glass.caption",
+        "enabled": false,
+        "id": "glass_caption",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "glass.badges",
+        "enabled": false,
+        "id": "glass_badges",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "orbit",
+        "enabled": false,
+        "id": "orbit",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "ui.slide",
+        "enabled": false,
+        "id": "ui_slide",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "drives": [
+          {
+            "from": "timeline.boot",
+            "gain": 1,
+            "param": "progress"
+          }
+        ],
+        "effect": "boot",
+        "enabled": true,
+        "id": "boot",
+        "opacity": 1
+      },
+      {
+        "blend": "source-over",
+        "effect": "ring.drain_arc",
+        "enabled": false,
+        "id": "ring_drain_arc",
+        "opacity": 1
+      }
+    ],
+    "moves": {
+      "blink": {
+        "clock": "sine",
+        "duration": 0.16,
+        "params": {
+          "pattern": "idle.blink",
+          "sources": [
+            "RaBbLE-Grimoire/log/plans/Unified-Entity/live/live.js:41 4.2 s cycle, 0.16 s bump",
+            "RaBbLE-Pocket/firmware/entities/RaBbLE/src/scene.c:575-582 blink_at"
+          ],
+          "squash_to_portal": true,
+          "support": {
+            "ball": "full",
+            "pocket_hw": "full",
+            "pocket_web": "full",
+            "studio": "full",
+            "terminal": "none",
+            "web": "full",
+            "web3d": "full"
+          }
+        },
+        "tracks": []
+      },
+      "portal_swap": {
+        "clock": "smoothstep",
+        "duration": 1.45,
+        "params": {
+          "arc_fu": 75,
+          "curves": {
+            "eye_squash": "smootherstep",
+            "portal_y": "smoothstep",
+            "z_arc": "smootherstep"
+          },
+          "eye_squash_floor": 0.0,
+          "ghosts": {
+            "alpha": 0.13,
+            "dt": 0.05,
+            "n": 3
+          },
+          "motion_stretch": {
+            "max": 0.22,
+            "v_div": 3500
+          },
+          "plateau": {
+            "ease": "smootherstep",
+            "k": 1.6
+          },
+          "reduced": {
+            "arc_fu": 0,
+            "duration": 0.5,
+            "glyph_step_hz": 8,
+            "note": "SEED terminal reduced: frame-stepped glyph swap, no depth arc; numbers have no census source"
+          },
+          "sources": [
+            "RaBbLE-Grimoire/log/plans/Unified-Entity/live/live.js:50 DUR_P 1.45, m=smoothstep, pq=sin(pi m)*1.6, pk=smootherstep",
+            "RaBbLE-Grimoire/log/plans/Unified-Entity/live/live.js:14 ZARC 75",
+            "RaBbLE-Grimoire/log/plans/Unified-Entity/live/live.js:261-263 ghosts",
+            "RaBbLE-Grimoire/log/plans/Unified-Entity/live/live.js:115 motion stretch",
+            "device today: 0.7 s planar (ENT:59, SC:689-712); the device adopts this move (U3 device side)"
+          ],
+          "support": {
+            "ball": "full",
+            "pocket_hw": "full",
+            "pocket_web": "full",
+            "studio": "full",
+            "terminal": "reduced",
+            "web": "full",
+            "web3d": "full"
+          },
+          "width_bulge": 0.18
+        },
+        "tracks": []
+      },
+      "turn": {
+        "clock": "smoothstep",
+        "duration": 1.4,
+        "params": {
+          "angle_deg": 180,
+          "eye_ease": "smoothstep",
+          "flip_at": 0.5,
+          "kind": "yaw",
+          "reduced": {
+            "duration": 0.5,
+            "glyph_step_hz": 8,
+            "note": "SEED terminal reduced: frame-stepped glyph turn; numbers have no census source"
+          },
+          "sources": [
+            "RaBbLE-Grimoire/log/plans/Unified-Entity/live/live.js:242 angle PI*smoothstep(f), word flips at f .5, DUR_B 1.4",
+            "S353 third batch: turn is full on pocket_hw (the device gains the eye-trading yaw half-turn; device has only hardware roll today)"
+          ],
+          "support": {
+            "ball": "full",
+            "pocket_hw": "full",
+            "pocket_web": "full",
+            "studio": "full",
+            "terminal": "reduced",
+            "web": "full",
+            "web3d": "full"
+          }
+        },
+        "tracks": []
+      },
+      "withdraw": {
+        "clock": "smoothstep",
+        "duration": 1.45,
+        "params": {
+          "flip": false,
+          "sources": [
+            "the swap's squash without the swap; device fresh-start uses FRESH_S 0.8 s (ENT:58) as its own duration"
+          ],
+          "squash_from": "portal_swap",
+          "support": {
+            "ball": "full",
+            "pocket_hw": "full",
+            "pocket_web": "full",
+            "studio": "full",
+            "terminal": "none",
+            "web": "full",
+            "web3d": "full"
+          }
+        },
+        "tracks": []
+      }
+    },
+    "states": {
+      "blend_tau": 0.25,
+      "cues": {
+        "denied": {
+          "expression_pulse": "angry",
+          "hold": 2.0,
+          "note": "face.py DENIED_SECONDS 2.0 (RaBbLE-sCoRE/ui/face.py:853)"
+        },
+        "dizzy": {
+          "hold": 1.5,
+          "note": "device dizzy is an IMU shake modifier (SC:710-711); no registry move yet; SEED hold",
+          "seed": true
+        },
+        "error": {
+          "expression_pulse": "sad",
+          "hold": 2.0,
+          "note": "device maps ERROR to sad (SC:617); SEED hold: no census number",
+          "seed": true
+        },
+        "fresh": {
+          "hold": 0.8,
+          "move": "withdraw",
+          "note": "ENT:58 FRESH_S 0.8"
+        },
+        "poke": {
+          "expression_pulse": "joy",
+          "hold": 3.5,
+          "note": "ALIVE:319 interact() gives joy 3.5 s",
+          "seed": true
+        },
+        "shock": {
+          "condition": "glitch",
+          "hold": 0.5,
+          "note": "SEED hold: no census number",
+          "seed": true
+        },
+        "touch": {
+          "effect": "mesh.touch_dent",
+          "hold": 0.4,
+          "note": "SEED hold: no census number",
+          "seed": true
+        }
+      },
+      "idle": {
+        "drives": [],
+        "expression_weights": {
+          "calm": 1
+        },
+        "mood_timeline": null
+      },
+      "listening": {
+        "drives": [],
+        "expression_weights": {
+          "calm": 1
+        },
+        "mood_timeline": null,
+        "note": "pose = poses.role.json listening_spread_pocket (SC:128); the retired +-252 pose is not carried",
+        "pose": {
+          "lower": {
+            "eye": {
+              "dx_in": -0.0,
+              "dy": 0.0,
+              "rot_m": 0.0,
+              "sx": 1.0,
+              "sy": 1.04
+            },
+            "portal": {
+              "dx_in": -0.0,
+              "dy": 40.0,
+              "rot_m": 0.0,
+              "sx": 1.1,
+              "sy": 1.0
+            }
+          },
+          "upper": {
+            "eye": {
+              "dx_in": 0.0,
+              "dy": 0.0,
+              "rot_m": -0.0,
+              "sx": 1.0,
+              "sy": 1.04
+            },
+            "portal": {
+              "dx_in": 0.0,
+              "dy": -40.0,
+              "rot_m": -0.0,
+              "sx": 1.1,
+              "sy": 1.0
+            }
+          }
+        }
+      },
+      "speaking": {
+        "drives": [],
+        "expression_weights": {
+          "calm": 1
+        },
+        "mood_timeline": null,
+        "note": "pose = poses.role.json speaking (SC:129)",
+        "pose": {
+          "lower": {
+            "eye": {
+              "dx_in": 0,
+              "dy": 0,
+              "rot_m": 0,
+              "sx": 1,
+              "sy": 1
+            },
+            "portal": {
+              "dx_in": -0.0,
+              "dy": 44.0,
+              "rot_m": 0.0,
+              "sx": 1.05,
+              "sy": 1.0
+            }
+          },
+          "upper": {
+            "eye": {
+              "dx_in": 0,
+              "dy": 0,
+              "rot_m": 0,
+              "sx": 1,
+              "sy": 1
+            },
+            "portal": {
+              "dx_in": 0.0,
+              "dy": -44.0,
+              "rot_m": -0.0,
+              "sx": 1.05,
+              "sy": 1.0
+            }
+          }
+        }
+      },
+      "thinking": {
+        "drives": [],
+        "expression_weights": {
+          "calm": 1
+        },
+        "mood_timeline": "thinking"
+      }
+    },
+    "timelines": {
+      "boot": {
+        "duration": 10.2,
+        "params": {
+          "blink_burst": {
+            "at": 4.25,
+            "dur": 0.1,
+            "gap_ratio": 1.55,
+            "gap_start": 0.06,
+            "n": 5,
+            "right_lag": 0.025
+          },
+          "markers": {
+            "idle": 10.2,
+            "log_end": 7.0,
+            "log_start": 0.7,
+            "ready": 7.4,
+            "shock": 9.6,
+            "slide": [
+              7.6,
+              9.8
+            ]
+          },
+          "portal_stagger_s": 0.12,
+          "reconciliation": "base = alive BOOT (web, 10.2 s); order is portals (portalArc .4-3.4) before eyes (eyeRise 1.8-4.2), the same order as scene.c (cyan portal 0-.35 s, magenta +.12 s, eyes and rest .67-.92 s). pocket_web and pocket_hw override with the scene.c timings (same order, compressed).",
+          "sides": {
+            "cyan": {
+              "len": 3.0,
+              "start": 0.4
+            },
+            "magenta": {
+              "len": 3.0,
+              "start": 0.52
+            },
+            "note": "SEED magenta start = cyan + the scene.c stagger 0.12; alive has one portalArc [.4,3.4]"
+          },
+          "sources": [
+            "RaBbLE-NeBuLA/src/backends/alive-backend.js:196-197 BOOT table",
+            "RaBbLE-NeBuLA/src/backends/alive-backend.js:347 eye rise erx lerp(.85,1) ry lerp(.02,1,op^2(1.6-.6op)) (smoothstep used as the easing: SEED approximation)",
+            "RaBbLE-NeBuLA/src/backends/alive-backend.js:254-258 blink burst",
+            "RaBbLE-Pocket/firmware/entities/RaBbLE/src/scene.c:626-637 device boot",
+            "RaBbLE-NeBuLA/src/backends/canvas2d/portal-system.js:165 right portal delayed .08 (C2D)"
+          ]
+        },
+        "tracks": [
+          {
+            "keys": [
+              [
+                0,
+                0,
+                "smoothstep"
+              ],
+              [
+                1.6,
+                1
+              ]
+            ],
+            "target": "layer:backdrop_grid.opacity"
+          },
+          {
+            "keys": [
+              [
+                0,
+                0,
+                "smoothstep"
+              ],
+              [
+                2.8,
+                1
+              ]
+            ],
+            "target": "layer:aura_motes.opacity"
+          },
+          {
+            "keys": [
+              [
+                0.9,
+                0,
+                "smoothstep"
+              ],
+              [
+                2.3,
+                1
+              ]
+            ],
+            "target": "layer:aura_sphere.opacity"
+          },
+          {
+            "keys": [
+              [
+                3.0,
+                0,
+                "smoothstep"
+              ],
+              [
+                4.1,
+                1
+              ]
+            ],
+            "target": "layer:aura_sphere.orbit_alpha"
+          },
+          {
+            "keys": [
+              [
+                1.4,
+                0,
+                "smoothstep"
+              ],
+              [
+                3.2,
+                1
+              ]
+            ],
+            "target": "layer:backdrop_bokeh.opacity"
+          },
+          {
+            "keys": [
+              [
+                0.4,
+                0,
+                "smoothstep"
+              ],
+              [
+                3.4,
+                1
+              ]
+            ],
+            "target": "layer:portal_back.opacity"
+          },
+          {
+            "keys": [
+              [
+                0.4,
+                0,
+                "smoothstep"
+              ],
+              [
+                3.4,
+                1
+              ]
+            ],
+            "target": "layer:portal_front.opacity"
+          },
+          {
+            "keys": [
+              [
+                1.8,
+                0,
+                "smoothstep"
+              ],
+              [
+                4.2,
+                1
+              ]
+            ],
+            "target": "layer:eyes.opacity"
+          },
+          {
+            "keys": [
+              [
+                1.8,
+                0.02,
+                "smoothstep"
+              ],
+              [
+                4.2,
+                1
+              ]
+            ],
+            "target": "body.eye.sy"
+          },
+          {
+            "keys": [
+              [
+                2.2,
+                0,
+                "smoothstep"
+              ],
+              [
+                4.2,
+                1
+              ]
+            ],
+            "target": "layer:mesh_edges.opacity"
+          },
+          {
+            "keys": [
+              [
+                2.2,
+                0,
+                "smoothstep"
+              ],
+              [
+                4.2,
+                1
+              ]
+            ],
+            "target": "layer:mesh_nodes.opacity"
+          },
+          {
+            "keys": [
+              [
+                2.2,
+                0,
+                "smoothstep"
+              ],
+              [
+                4.2,
+                1
+              ]
+            ],
+            "target": "layer:mesh_signals.opacity"
+          },
+          {
+            "keys": [
+              [
+                2.9,
+                0,
+                "smoothstep"
+              ],
+              [
+                3.9,
+                1
+              ]
+            ],
+            "target": "layer:aura_lens.opacity"
+          }
+        ]
+      },
+      "insight_burst": {
+        "duration": 1.1,
+        "params": {
+          "sources": [
+            "RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html:491 insight 1.1 s",
+            "SEED track shape: linear progress, no census curve"
+          ]
+        },
+        "tracks": [
+          {
+            "keys": [
+              [
+                0,
+                0,
+                "linear"
+              ],
+              [
+                1.1,
+                1
+              ]
+            ],
+            "target": "layer:insight_burst.progress"
+          },
+          {
+            "keys": [
+              [
+                0,
+                1
+              ],
+              [
+                1.1,
+                1
+              ]
+            ],
+            "target": "mood.insight"
+          }
+        ]
+      },
+      "orbit_close": {
+        "duration": 0.6,
+        "params": {
+          "sources": [
+            "device orbs ~0.6 s back (census effects-pocket F2)",
+            "SEED keys: shape and easing"
+          ]
+        },
+        "tracks": [
+          {
+            "keys": [
+              [
+                0,
+                1,
+                "smootherstep"
+              ],
+              [
+                0.6,
+                0
+              ]
+            ],
+            "target": "layer:orbit.opacity"
+          },
+          {
+            "keys": [
+              [
+                0,
+                1,
+                "smootherstep"
+              ],
+              [
+                0.6,
+                0
+              ]
+            ],
+            "target": "layer:mesh_orbit_handoff.opacity"
+          }
+        ]
+      },
+      "orbit_open": {
+        "duration": 0.9,
+        "params": {
+          "links_fade_from": 0.3,
+          "mesh_stretch": 0.5,
+          "nodes_fade_from": 0.7,
+          "orb_from_r": 175,
+          "sources": [
+            "device orbs ~0.9 s in (ORB:106 orb_t; census effects-pocket F2)",
+            "RaBbLE-Pocket/firmware/entities/RaBbLE/nebula_lite/src/orbit.c:102 ORB_FROM_R 175",
+            "RaBbLE-Pocket/firmware/entities/RaBbLE/src/scene.c:346-352 hand-off",
+            "SEED keys: easing smootherstep and the linear fade shape are seeds; web orbit.js uses 820 ms cubic-out (ORBJS:17-18), applied as a pocket_web override"
+          ]
+        },
+        "tracks": [
+          {
+            "keys": [
+              [
+                0,
+                0,
+                "smootherstep"
+              ],
+              [
+                0.9,
+                1
+              ]
+            ],
+            "target": "layer:orbit.opacity"
+          },
+          {
+            "keys": [
+              [
+                0,
+                0,
+                "smootherstep"
+              ],
+              [
+                0.9,
+                1
+              ]
+            ],
+            "target": "layer:mesh_orbit_handoff.opacity"
+          }
+        ]
+      },
+      "power_off": {
+        "duration": 1.0,
+        "params": {
+          "sources": [
+            "RaBbLE-Pocket/firmware/entities/RaBbLE/src/scene.c:630 OFF fade 1.0 s linear on both portals and rest"
+          ]
+        },
+        "tracks": [
+          {
+            "keys": [
+              [
+                0,
+                1,
+                "linear"
+              ],
+              [
+                1.0,
+                0
+              ]
+            ],
+            "target": "layer:portal_back.opacity"
+          },
+          {
+            "keys": [
+              [
+                0,
+                1,
+                "linear"
+              ],
+              [
+                1.0,
+                0
+              ]
+            ],
+            "target": "layer:portal_front.opacity"
+          },
+          {
+            "keys": [
+              [
+                0,
+                1,
+                "linear"
+              ],
+              [
+                1.0,
+                0
+              ]
+            ],
+            "target": "layer:eyes.opacity"
+          },
+          {
+            "keys": [
+              [
+                0,
+                1,
+                "linear"
+              ],
+              [
+                1.0,
+                0
+              ]
+            ],
+            "target": "layer:ring.opacity"
+          }
+        ]
+      },
+      "thinking": {
+        "duration": 1.5,
+        "params": {
+          "blend_tau": 0.25,
+          "moods": {
+            "idle": {
+              "dart": 0,
+              "gx": 0,
+              "gy": 0,
+              "pulse": 1,
+              "squint": 0,
+              "tilt": 0,
+              "yaw_speed": 0
+            },
+            "insight": {
+              "dart": 0,
+              "gx": 0,
+              "gy": -4,
+              "pulse": 3,
+              "squint": 0,
+              "tilt": 0,
+              "yaw_speed": 0.3
+            },
+            "ponder": {
+              "dart": 0,
+              "gx": 14,
+              "gy": -9,
+              "pulse": 0.6,
+              "squint": 0.22,
+              "tilt": 5,
+              "yaw_speed": -0.06
+            },
+            "process": {
+              "dart": 1,
+              "gx": 0,
+              "gy": 2,
+              "pulse": 2.6,
+              "squint": 0.08,
+              "tilt": 0,
+              "yaw_speed": 0.2
+            }
+          },
+          "sources": [
+            "RaBbLE-Pocket/firmware/entities/RaBbLE/src/scene.c:615 ponder 1.5 s then process (state-age < 1.5 s)",
+            "RaBbLE-NeBuLA/src/backends/alive-backend.js:122-128 MOOD_FX squint gx gy dart pulse spin tilt",
+            "RaBbLE-Pocket/firmware/entities/RaBbLE/src/scene.c:130-131 device F_PONDER F_PROCESS",
+            "alive random mood durations (ponder 5-9 s, ALIVE:129) are replaced by the fixed 1.5 s (S353 ruling 19)"
+          ],
+          "then": "process",
+          "then_hold": "until the state exits"
+        },
+        "tracks": [
+          {
+            "keys": [
+              [
+                0,
+                1
+              ],
+              [
+                1.5,
+                1
+              ]
+            ],
+            "target": "mood.ponder"
+          },
+          {
+            "keys": [
+              [
+                0,
+                0
+              ],
+              [
+                1.5,
+                0
+              ]
+            ],
+            "target": "mood.process"
+          }
+        ]
+      }
+    }
+  },
+  "format": "rabble-entity-registry/1",
+  "profiles": {
+    "ball": {
+      "camera": {
+        "fixed_elevation_deg": 90
+      },
+      "frame": {
+        "budget_ms": 14.0,
+        "floor_hz": 20,
+        "governor": [
+          60,
+          45,
+          30,
+          20
+        ],
+        "target_hz": 60
+      },
+      "scale": {
+        "mode": "fit",
+        "ref_h": 620,
+        "ref_w": 700
+      }
+    },
+    "pocket_hw": {
+      "body": {
+        "eye": {
+          "h": 2.64
+        },
+        "portal": {
+          "flatten": 0.25,
+          "w": 2.0
+        },
+        "spacing": 1.95
+      },
+      "camera": {
+        "fixed_elevation_deg": 17
+      },
+      "cut": {
+        "mode": "opening_clip"
+      },
+      "frame": {
+        "budget_ms": 14.0,
+        "floor_hz": 60,
+        "target_hz": 60
+      },
+      "layers": {
+        "aura_sphere": {
+          "enabled": false
+        },
+        "backdrop.bokeh": {
+          "enabled": false
+        },
+        "backdrop.haze": {
+          "enabled": false
+        },
+        "backdrop_grid": {
+          "enabled": false
+        },
+        "glass_badges": {
+          "enabled": true
+        },
+        "glass_caption": {
+          "enabled": true
+        },
+        "glass_clock": {
+          "enabled": true
+        },
+        "glass_status": {
+          "enabled": true
+        },
+        "mesh_edges": {
+          "blend": "source-over"
+        },
+        "mesh_nodes": {
+          "blend": "source-over",
+          "params": {
+            "halo": false
+          }
+        },
+        "mesh_orbit_handoff": {
+          "enabled": true
+        },
+        "mesh_signals": {
+          "blend": "source-over",
+          "params": {
+            "slots": 16
+          }
+        },
+        "orbit": {
+          "enabled": true
+        },
+        "ring": {
+          "enabled": true
+        },
+        "ring_drain_arc": {
+          "enabled": true
+        },
+        "ring_tint": {
+          "enabled": true
+        },
+        "strands_absorb": {
+          "enabled": true
+        },
+        "strands_mic": {
+          "enabled": true
+        },
+        "ui_slide": {
+          "enabled": true
+        }
+      },
+      "scale": {
+        "fu_to_px": 0.506
+      },
+      "screen": {
+        "centre": [
+          233,
+          233
+        ],
+        "h": 466,
+        "round": true,
+        "w": 466
+      },
+      "support_overrides": {},
+      "timelines": {
+        "boot": {
+          "duration": 0.92,
+          "params": {
+            "blink_burst": null,
+            "markers": null,
+            "portal_stagger_s": 0.12,
+            "sides": {
+              "cyan": {
+                "len": 0.35,
+                "start": 0.0
+              },
+              "magenta": {
+                "len": 0.35,
+                "start": 0.12
+              }
+            },
+            "sources": [
+              "RaBbLE-Pocket/firmware/entities/RaBbLE/src/scene.c:628-629 por_a[0]=b/.35, por_a[1]=(b-.12)/.35, rest=(b-.67)/.25",
+              "RaBbLE-Pocket/firmware/entities/RaBbLE/src/rabble_ui.c:65-68 BOOT_* defines"
+            ]
+          },
+          "tracks": [
+            {
+              "keys": [
+                [
+                  0,
+                  0,
+                  "linear"
+                ],
+                [
+                  0.35,
+                  1
+                ]
+              ],
+              "target": "layer:portal_back.opacity"
+            },
+            {
+              "keys": [
+                [
+                  0,
+                  0,
+                  "linear"
+                ],
+                [
+                  0.35,
+                  1
+                ]
+              ],
+              "target": "layer:portal_front.opacity"
+            },
+            {
+              "keys": [
+                [
+                  0,
+                  0,
+                  "linear"
+                ],
+                [
+                  0.35,
+                  1
+                ]
+              ],
+              "target": "layer:ring.opacity"
+            },
+            {
+              "keys": [
+                [
+                  0.67,
+                  0,
+                  "linear"
+                ],
+                [
+                  0.92,
+                  1
+                ]
+              ],
+              "target": "layer:eyes.opacity"
+            },
+            {
+              "keys": [
+                [
+                  0.67,
+                  0,
+                  "linear"
+                ],
+                [
+                  0.92,
+                  1
+                ]
+              ],
+              "target": "layer:mesh_edges.opacity"
+            },
+            {
+              "keys": [
+                [
+                  0.67,
+                  0,
+                  "linear"
+                ],
+                [
+                  0.92,
+                  1
+                ]
+              ],
+              "target": "layer:mesh_nodes.opacity"
+            },
+            {
+              "keys": [
+                [
+                  0.67,
+                  0,
+                  "linear"
+                ],
+                [
+                  0.92,
+                  1
+                ]
+              ],
+              "target": "layer:mesh_signals.opacity"
+            }
+          ]
+        }
+      }
+    },
+    "pocket_web": {
+      "body": {
+        "eye": {
+          "h": 2.64
+        },
+        "portal": {
+          "flatten": 0.25,
+          "w": 2.0
+        },
+        "spacing": 1.95
+      },
+      "cut": {
+        "mode": "opening_clip"
+      },
+      "frame": {
+        "budget_ms": 14.0,
+        "floor_hz": 20,
+        "governor": [
+          60,
+          45,
+          30,
+          20
+        ],
+        "target_hz": 60
+      },
+      "layers": {
+        "aura_bolts": {
+          "enabled": false
+        },
+        "aura_embers": {
+          "enabled": false
+        },
+        "aura_flashes": {
+          "enabled": false
+        },
+        "aura_lens": {
+          "enabled": false
+        },
+        "aura_motes": {
+          "enabled": false
+        },
+        "aura_rings": {
+          "enabled": false
+        },
+        "aura_sparks": {
+          "enabled": false
+        },
+        "aura_sphere": {
+          "enabled": false
+        },
+        "backdrop_databits": {
+          "enabled": true
+        },
+        "backdrop_grid": {
+          "enabled": false
+        },
+        "backdrop_meridians": {
+          "enabled": true
+        },
+        "body_bars": {
+          "enabled": true
+        },
+        "body_lens": {
+          "enabled": true
+        },
+        "body_outline": {
+          "enabled": true
+        },
+        "glass_badges": {
+          "enabled": true
+        },
+        "glass_caption": {
+          "enabled": true
+        },
+        "glass_clock": {
+          "enabled": true
+        },
+        "glass_reflections": {
+          "enabled": true
+        },
+        "glass_sheen": {
+          "enabled": true
+        },
+        "glass_status": {
+          "enabled": true
+        },
+        "glass_vignette": {
+          "enabled": true
+        },
+        "insight_burst": {
+          "enabled": true
+        },
+        "mesh_edges": {
+          "blend": "source-over"
+        },
+        "mesh_nodes": {
+          "blend": "source-over",
+          "params": {
+            "halo": false
+          }
+        },
+        "mesh_orbit_handoff": {
+          "enabled": true
+        },
+        "mesh_signals": {
+          "blend": "source-over",
+          "params": {
+            "slots": 16
+          }
+        },
+        "mic_bloom": {
+          "enabled": true
+        },
+        "orbit": {
+          "enabled": true
+        },
+        "ring": {
+          "enabled": true
+        },
+        "ring_drain_arc": {
+          "enabled": true
+        },
+        "ring_tint": {
+          "enabled": true
+        },
+        "speak_waves": {
+          "enabled": true
+        },
+        "strands_absorb": {
+          "enabled": true
+        },
+        "strands_mic": {
+          "enabled": true
+        },
+        "strands_mouth_bloom": {
+          "enabled": true
+        }
+      },
+      "note": "orbit durations: orbit.js DUR 820 ms (ORBJS:17-18), easing cubic-out has no registry id, kept as base easing (SEED)",
+      "scale": {
+        "fu_to_px": 0.506
+      },
+      "screen": {
+        "centre": [
+          233,
+          233
+        ],
+        "h": 466,
+        "round": true,
+        "w": 466
+      },
+      "timelines": {
+        "boot": {
+          "duration": 0.92,
+          "params": {
+            "blink_burst": null,
+            "markers": null,
+            "portal_stagger_s": 0.12,
+            "sides": {
+              "cyan": {
+                "len": 0.35,
+                "start": 0.0
+              },
+              "magenta": {
+                "len": 0.35,
+                "start": 0.12
+              }
+            },
+            "sources": [
+              "RaBbLE-Pocket/firmware/entities/RaBbLE/src/scene.c:628-629 por_a[0]=b/.35, por_a[1]=(b-.12)/.35, rest=(b-.67)/.25",
+              "RaBbLE-Pocket/firmware/entities/RaBbLE/src/rabble_ui.c:65-68 BOOT_* defines"
+            ]
+          },
+          "tracks": [
+            {
+              "keys": [
+                [
+                  0,
+                  0,
+                  "linear"
+                ],
+                [
+                  0.35,
+                  1
+                ]
+              ],
+              "target": "layer:portal_back.opacity"
+            },
+            {
+              "keys": [
+                [
+                  0,
+                  0,
+                  "linear"
+                ],
+                [
+                  0.35,
+                  1
+                ]
+              ],
+              "target": "layer:portal_front.opacity"
+            },
+            {
+              "keys": [
+                [
+                  0,
+                  0,
+                  "linear"
+                ],
+                [
+                  0.35,
+                  1
+                ]
+              ],
+              "target": "layer:ring.opacity"
+            },
+            {
+              "keys": [
+                [
+                  0.67,
+                  0,
+                  "linear"
+                ],
+                [
+                  0.92,
+                  1
+                ]
+              ],
+              "target": "layer:eyes.opacity"
+            },
+            {
+              "keys": [
+                [
+                  0.67,
+                  0,
+                  "linear"
+                ],
+                [
+                  0.92,
+                  1
+                ]
+              ],
+              "target": "layer:mesh_edges.opacity"
+            },
+            {
+              "keys": [
+                [
+                  0.67,
+                  0,
+                  "linear"
+                ],
+                [
+                  0.92,
+                  1
+                ]
+              ],
+              "target": "layer:mesh_nodes.opacity"
+            },
+            {
+              "keys": [
+                [
+                  0.67,
+                  0,
+                  "linear"
+                ],
+                [
+                  0.92,
+                  1
+                ]
+              ],
+              "target": "layer:mesh_signals.opacity"
+            }
+          ]
+        },
+        "orbit_close": {
+          "duration": 0.82,
+          "tracks": [
+            {
+              "keys": [
+                [
+                  0,
+                  1,
+                  "smootherstep"
+                ],
+                [
+                  0.82,
+                  0
+                ]
+              ],
+              "target": "layer:orbit.opacity"
+            },
+            {
+              "keys": [
+                [
+                  0,
+                  1,
+                  "smootherstep"
+                ],
+                [
+                  0.82,
+                  0
+                ]
+              ],
+              "target": "layer:mesh_orbit_handoff.opacity"
+            }
+          ]
+        },
+        "orbit_open": {
+          "duration": 0.82,
+          "tracks": [
+            {
+              "keys": [
+                [
+                  0,
+                  0,
+                  "smootherstep"
+                ],
+                [
+                  0.82,
+                  1
+                ]
+              ],
+              "target": "layer:orbit.opacity"
+            },
+            {
+              "keys": [
+                [
+                  0,
+                  0,
+                  "smootherstep"
+                ],
+                [
+                  0.82,
+                  1
+                ]
+              ],
+              "target": "layer:mesh_orbit_handoff.opacity"
+            }
+          ]
+        }
+      }
+    },
+    "studio": {
+      "frame": {
+        "budget_ms": 14.0,
+        "floor_hz": 20,
+        "governor": [
+          60,
+          45,
+          30,
+          20
+        ],
+        "target_hz": 60
+      },
+      "scale": {
+        "mode": "fit",
+        "ref_h": 620,
+        "ref_w": 700
+      }
+    },
+    "terminal": {
+      "note": "glyph face: body and state names only; every effect none except boot (reduced) per S353 third batch"
+    },
+    "web": {
+      "frame": {
+        "budget_ms": 14.0,
+        "floor_hz": 20,
+        "governor": [
+          60,
+          45,
+          30,
+          20
+        ],
+        "target_hz": 60
+      },
+      "note": "alive backend: proportions equal base (pw 2.69 matches ALIVE POR_RX 117)",
+      "scale": {
+        "mode": "fit",
+        "ref_h": 620,
+        "ref_w": 700
+      }
+    },
+    "web3d": {
+      "frame": {
+        "budget_ms": 14.0,
+        "floor_hz": 20,
+        "governor": [
+          60,
+          45,
+          30,
+          20
+        ],
+        "target_hz": 60
+      },
+      "note": "Three.js backend has its own orbit camera; no camera numbers seeded",
+      "scale": {
+        "mode": "fit",
+        "ref_h": 620,
+        "ref_w": 700
+      }
+    }
+  },
+  "version": "0.1.0",
+  "vocabulary": {
+    "condition": {
+      "calibrating": {
+        "label": "Calibrating"
+      },
+      "dormant": {
+        "label": "Dormant"
+      },
+      "genius_resonance": {
+        "label": "Genius resonance"
+      },
+      "glitch": {
+        "label": "Glitch"
+      },
+      "initializing": {
+        "label": "Initializing"
+      },
+      "null_void": {
+        "label": "Null void"
+      },
+      "resonant": {
+        "label": "Resonant"
+      },
+      "system_drift": {
+        "label": "System drift"
+      }
+    },
+    "cue": {
+      "denied": {
+        "label": "Denied"
+      },
+      "dizzy": {
+        "label": "Dizzy"
+      },
+      "error": {
+        "label": "Error"
+      },
+      "fresh": {
+        "label": "Fresh"
+      },
+      "poke": {
+        "label": "Poke"
+      },
+      "shock": {
+        "label": "Shock"
+      },
+      "touch": {
+        "label": "Touch"
+      }
+    },
+    "effect": [
+      "aura.bolts",
+      "aura.embers",
+      "aura.flashes",
+      "aura.lens",
+      "aura.motes",
+      "aura.rings",
+      "aura.sparks",
+      "aura.sphere",
+      "backdrop.bokeh",
+      "backdrop.databits",
+      "backdrop.grid",
+      "backdrop.haze",
+      "backdrop.meridians",
+      "backdrop.stars",
+      "backdrop.void",
+      "backdrop.wash",
+      "body.bars",
+      "body.lens",
+      "body.outline",
+      "boot",
+      "deepfield.constellation",
+      "deepfield.streaks",
+      "eyes",
+      "field.ambient",
+      "field.attractor",
+      "field.entropy_shader",
+      "filter.animation",
+      "glass.badges",
+      "glass.caption",
+      "glass.clock",
+      "glass.reflections",
+      "glass.sheen",
+      "glass.status",
+      "glass.vignette",
+      "glow.halo",
+      "glow.soft",
+      "infinity",
+      "insight.burst",
+      "mesh.edges",
+      "mesh.nodes",
+      "mesh.orbit_handoff",
+      "mesh.signals",
+      "mesh.touch_dent",
+      "mic.bloom",
+      "orbit",
+      "portal.back",
+      "portal.front",
+      "ring",
+      "ring.drain_arc",
+      "ring.tint",
+      "speak.waves",
+      "strands.absorb",
+      "strands.mic",
+      "strands.mouth_bloom",
+      "ui.slide"
+    ],
+    "expression": {
+      "angry": {
+        "label": "Angry",
+        "status": "parked"
+      },
+      "calm": {
+        "label": "Calm",
+        "status": "canon"
+      },
+      "joy": {
+        "label": "Joy",
+        "status": "parked"
+      },
+      "sad": {
+        "label": "Sad",
+        "status": "parked"
+      }
+    },
+    "form": {
+      "mirror": {
+        "label": "Mirror (0101)"
+      },
+      "rest": {
+        "label": "Rest (0110)"
+      },
+      "swap": {
+        "label": "Swap (1010)"
+      },
+      "swap_mirror": {
+        "label": "Swap mirror (1001)"
+      }
+    },
+    "input": {
+      "activity": {
+        "label": "Activity"
+      },
+      "bands": {
+        "label": "Bands"
+      },
+      "battery": {
+        "label": "Battery"
+      },
+      "clock": {
+        "label": "Clock"
+      },
+      "gaze": {
+        "label": "Gaze"
+      },
+      "level": {
+        "label": "Level"
+      },
+      "link": {
+        "label": "Link"
+      },
+      "mic_dir": {
+        "label": "Mic dir"
+      },
+      "roll": {
+        "label": "Roll"
+      },
+      "sway": {
+        "label": "Sway"
+      },
+      "time": {
+        "label": "Time"
+      },
+      "touch": {
+        "label": "Touch"
+      }
+    },
+    "mood": {
+      "insight": {
+        "label": "Insight"
+      },
+      "ponder": {
+        "label": "Ponder"
+      },
+      "process": {
+        "label": "Process"
+      }
+    },
+    "move": {
+      "blink": {
+        "label": "Blink"
+      },
+      "portal_swap": {
+        "label": "Portal swap"
+      },
+      "turn": {
+        "label": "Turn"
+      },
+      "withdraw": {
+        "label": "Withdraw"
+      }
+    },
+    "state": {
+      "idle": {
+        "label": "Idle"
+      },
+      "listening": {
+        "label": "Listening"
+      },
+      "speaking": {
+        "label": "Speaking"
+      },
+      "thinking": {
+        "label": "Thinking"
+      }
+    },
+    "surface": {
+      "ball": {
+        "label": "Ball (top-down)"
+      },
+      "pocket_hw": {
+        "label": "Pocket hardware"
+      },
+      "pocket_web": {
+        "label": "Pocket web"
+      },
+      "studio": {
+        "label": "NeBuLA Studio preview"
+      },
+      "terminal": {
+        "label": "Terminal glyph face"
+      },
+      "web": {
+        "label": "Web (alive 2D)"
+      },
+      "web3d": {
+        "label": "Web 3D"
+      }
+    },
+    "temperament": {
+      "curious": {
+        "label": "Curious",
+        "note": "Canon 6: a default parameter set, never a selectable state"
+      }
+    },
+    "timeline": {
+      "boot": {
+        "label": "Boot"
+      },
+      "insight_burst": {
+        "label": "Insight burst"
+      },
+      "orbit_close": {
+        "label": "Orbit close"
+      },
+      "orbit_open": {
+        "label": "Orbit open"
+      },
+      "power_off": {
+        "label": "Power off"
+      },
+      "thinking": {
+        "label": "Thinking"
+      }
+    }
+  }
+}

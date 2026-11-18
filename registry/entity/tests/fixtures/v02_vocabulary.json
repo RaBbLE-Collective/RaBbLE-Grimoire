@@ -1,0 +1,17 @@
+{
+  "check": "V2",
+  "description": "state weights name an undeclared expression",
+  "ops": [
+    {
+      "path": [
+        "base",
+        "states",
+        "thinking",
+        "expression_weights"
+      ],
+      "set": {
+        "ecstatic": 1
+      }
+    }
+  ]
+}

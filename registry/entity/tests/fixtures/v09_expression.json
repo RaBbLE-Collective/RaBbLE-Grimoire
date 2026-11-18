@@ -1,0 +1,17 @@
+{
+  "check": "V9",
+  "description": "joy eye sy outside LIM",
+  "ops": [
+    {
+      "path": [
+        "base",
+        "expressions",
+        "joy",
+        "upper",
+        "eye",
+        "sy"
+      ],
+      "set": 5
+    }
+  ]
+}
