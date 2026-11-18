@@ -224,6 +224,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-NeBuLA-Architecture](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Architecture.md) — Layer model, system interface, frame budget, effects layer
 - [RaBbLE-NeBuLA-Studio](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Studio.md) — WYSIWYG drag-drop page builder architecture reference (MVP built S198, `RaBbLE-NeBuLA/studio/`)
 - [RaBbLE-NeBuLA-API](RaBbLE-NeBuLA/RaBbLE-NeBuLA-API.md) — public API reference
+- [RaBbLE-NeBuLA-Effects-Support](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Effects-Support.md) — generated from the entity registry: per-effect, per-surface support (full, reduced, none), moves; do not hand-edit
 - [RaBbLE-NeBuLA-Plan](RaBbLE-NeBuLA/RaBbLE-NeBuLA-Plan.md) — agent implementation plan (step-by-step)
 - [RaBbLE-NeBuLA-FlatChaos](RaBbLE-NeBuLA/RaBbLE-NeBuLA-FlatChaos.md) — Flat-Chaos pattern spec
 - [RaBbLE-NeBuLA-EyeStates](RaBbLE-NeBuLA/RaBbLE-NeBuLA-EyeStates.md) — idle eye-state schema (3-bit cell word), group algebra, tensor form, level orders
