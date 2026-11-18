@@ -36,6 +36,12 @@ When a Pocket connects, play a boot like the original RaBbLE boot, fancier than 
 
 Keep the console as its own device wired to the housing (current), or build it into the housing as a second screen? My recommendation: keep it separate (it can dock to any edge or float, it needs room, and the cable metaphor is the point), and put a one-line ticker of the last console line on the housing if wanted. Mark said he is not sure which looks cooler; offer both behind a toggle if cheap.
 
+## Deferred by Mark (S350, "this is getting bloated"): do these as follow-ups, not in the mapper session
+
+1. **The mesh transition into Settings is still not right** (Mark's words). Current: `public/orbit.js` `mesh()` draws the entity's real mesh nodes (`PocketEntity.meshSide`, current positions) on a canvas and gathers them into the orbs in even runs while the nebula backdrop fades in. It does not yet match the hardware: compare against `RaBbLE-Pocket/sim/transition.sh` renders (`sim/out/tr_*`) and `RaBbLE-Pocket-Orbit-Transition.md` (the grab, the pinned and stretched mesh, one-colour mesh per side, edge glow, the return mirrors the entry). Render both side by side before changing code.
+2. **Boot animation** (section 3 above).
+3. **Developer console device rework** (section 4 above): decide separate device vs a second screen on the housing, then redo its look as a physical device with keys, and its cable.
+
 ## Known gaps
 
 - `test/portal_test.py` is stale (old labels); the Worker tests (`node test/pairing_test.mjs`, 24 checks) are current. The layout check used this session is a Playwright script that walks every Orbit view at 1280x720, 1440x900 and 1920x1080 and flags overlaps, anything outside the circle, text under 11 px and clipping (one 1280x720 Apps-panel line still flags). Recreate it as a committed test.

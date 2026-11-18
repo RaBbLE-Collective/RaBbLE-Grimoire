@@ -19,6 +19,16 @@ Format: date, what was done, where things were left, what's next.
 
 
 
+## 2026-11-18 · Session S350 (pocket-workbench)
+
+- **Repos:** Pocket, sCoRE, World, Grimoire (Collective: state block only). `new-horizons`; deployed: sCoRE (Render, from `release/0.1.0`), the Pocket Worker (`pocket.joinrabble.world`), firmware 0.1.2 to the live R2 bucket.
+- **Asked:** rescue the S347 deploy; the Pocket page as a workbench; the settings drawn like the hardware Orbit; the link checked with no Wi-Fi; naming, re-pairing that replaces the old record, revoke prompting a re-pair; lighter rendering; handoffs for the mapper and the portal chat.
+- **Done:** the companion became a workbench (squircle housing with Connect and Menu keys and a status screen, round Pocket display with the Pocket's own entity, console as a wired device); Orbit on the display with tangent name pills that orbit the ring; one Connect key that connects, flashes, registers and pairs; key fingerprint `key_fp` in `status` (firmware 0.1.3) matched against sCoRE's per-device `fp`, plus a presence report from the computer; Wi-Fi: Orbit join now turns Wi-Fi on, `wifi.scan`, failure reason in `status`; sCoRE: revoke deletes the row, firmware per device, rename, report (migrations 0008, 0009 confirmed in Neon); lite 60 fps renderer with a governor (about 5 times less browser work), eyes follow the pointer, mic-driven bars (opt-in). Root `wrangler.jsonc` and the stray `a-b----ollective` worker removed.
+- **Found:** a browser cannot read the laptop's Wi-Fi name or password (the page scans via the Pocket instead); hotspot failure was not 5 GHz (Maximum Compatibility was on): likely a wrong or stale password; sCoRE returns 403, not 401, for unauthenticated calls; the TUI tests fail to collect on Python 3.12 on both branches.
+- **Rulings (Mark):** the page must not ask which board (a RAM-run mapper decides); Foundling install removed for now; revoke deletes records; the Orbit shows more text than the hardware because the display is bigger.
+- **Not done:** firmware 0.1.3 is built and staged locally only (not on hardware, not published); the board mapper; the portal chat and Pockets tab (own session); the mesh transition into Settings, the boot animation and the console device rework (follow-ups Mark deferred); `test/portal_test.py` is stale; Pocket, World and Grimoire `new-horizons` pushed at the end of the session.
+- **Next:** `log/handoffs/HANDOFF-S350-Mapper-and-Unified-Render.md` and `HANDOFF-S350-Portal-Chat-and-Pockets-Tab.md`.
+
 ## 2026-11-17 · Session S348 (chat-export-personal-grimoire)
 
 - **Repos:** Grimoire, Personal-Grimoire (first major build-out), Incenergy, GCS, Jobotron3000 (+ Seeker). `new-horizons` in the Grimoire; the others on their own branches, no remotes pushed.
