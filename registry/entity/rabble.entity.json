@@ -2427,7 +2427,7 @@
             "ms_worst": null,
             "prims_per_frame": null
           },
-          "note": "to be built: only live.js draws it today S353: part of the canonical body on every surface (Canon 1-2); to be built in the unified web backend, nebula_lite and nebula_glyph; pocket_hw full pending U11 measurement. SEED reduced (terminal): one stream, no under-glow, static.",
+          "note": "to be built: only live.js draws it today S353: part of the canonical body on every surface (Canon 1-2); to be built in the unified web backend, nebula_lite and nebula_glyph;  SEED reduced (terminal): one stream, no under-glow, static. S353 ruling 27 (Mark): none on Pocket (device and web) while Pocket renders head-on (elevation 0); the rig fades infinity in from 0.25 rad, so it is not needed head-on. Turns on with the tilt (elevation) port to NeBuLA lite.",
           "tier": "medium"
         },
         "group": "core",
@@ -2579,8 +2579,8 @@
         ],
         "support": {
           "ball": "full",
-          "pocket_hw": "full",
-          "pocket_web": "full",
+          "pocket_hw": "none",
+          "pocket_web": "none",
           "studio": "full",
           "terminal": "reduced",
           "web": "full",
@@ -5631,7 +5631,7 @@
         "spacing": 1.95
       },
       "camera": {
-        "fixed_elevation_deg": 17
+        "fixed_elevation_deg": 0
       },
       "cut": {
         "mode": "opening_clip"
@@ -5854,6 +5854,9 @@
           "w": 2.0
         },
         "spacing": 1.95
+      },
+      "camera": {
+        "fixed_elevation_deg": 0
       },
       "cut": {
         "mode": "opening_clip"

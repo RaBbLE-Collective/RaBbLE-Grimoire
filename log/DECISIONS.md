@@ -414,3 +414,4 @@ Ruled by Mark in S353 (answers to the S352 plan's four open questions). The U8 i
 | **Mid-swap occlusion is wrong on the device**; proposed rule: the near rim is the camera-near arc through the swap, the eye past the plane goes behind it, the portals pass in depth | plan ruling 24 |
 | **Mid-swap rule confirmed; the z-order never swaps mid-transition** (fixed at the move's start, held to its end; swap, turn, blink, every surface) | plan ruling 25 |
 | **Backend names: NeBuLA lite (device, C) and NeBuLA glyph (terminal, Rust; crate `rabble-face` renamed `nebula_glyph`)** | plan ruling 26 |
+| **Pocket renders head-on (elevation 0, Canon's 2D reference); no infinity on Pocket until tilt is ported to NeBuLA lite** (W2-14); device turn and swap are head-on 2D forms until then | plan ruling 27 |
