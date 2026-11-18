@@ -1,0 +1,6850 @@
+{
+ "schema": "rabble-entity-measurement/1",
+ "profile": "pocket_hw",
+ "kind": "host_proxy",
+ "date": "2026-11-18",
+ "session": "S353",
+ "host": {
+  "cpu_model": "AMD Ryzen AI 9 HX 370 w/ Radeon 890M",
+  "os": "Linux 7.2.15-200.fc44.x86_64",
+  "compiler": "gcc (GCC) 16.2.1 20261029 (Red Hat 16.2.1-3)",
+  "flags": "-O2, portable C fallbacks (no PIE SIMD), pinned to one core with taskset"
+ },
+ "source": {
+  "pocket_commit": "5c987a4",
+  "sim": "sim/host_render.c lineage via u1/host_render_u1.c; scratch copy host_w28.c (not committed)",
+  "scene_copy": "firmware/entities/RaBbLE/src/scene.c with env NL_OFFMASK switches added in the scratch copy only"
+ },
+ "method": {
+  "runs_per_cell": 5,
+  "statistic": "median over 5 process runs of per-run means",
+  "frame_loop": "steps nl_simulate at 1/60 s for 6 s (boot_early: 0.3 s); per-run mean over the last 120 frames (1 frame for boot fixtures)",
+  "fields": {
+   "prims": "nl_prim_count() on the final frame",
+   "prims_max": "max over the run",
+   "sim_ms": "nl_simulate host ms",
+   "render_full_ms": "all 30 bands rendered",
+   "render_damaged_ms": "only bands where nl_band_same()==0, as the device does",
+   "dmg_bands_mean": "bands changed versus the previous frame (of 30), mean over the measured frames",
+   "repeat_same": "the S353 repeat-frame line: bands unchanged when the same inputs are simulated again (of 30)"
+  },
+  "off_on": "off = the effect removed (always-present effects) or not switched on (input-gated effects: ring.tint, ring.drain_arc, ui.slide, orbit); mesh.touch_dent compares a held touch with and without the dent; mesh.orbit_handoff compares the Orbit slide with and without handoff.",
+  "caveats": [
+   "host ms is not device ms: x86 -O2 against LX7 240 MHz with PIE SIMD; prims and damaged bands are the portable proxies",
+   "sim ms is a single-digit-microsecond quantity; deltas under about 20 us are noise",
+   "activity input fixed at 0.3/0.6 (busy fixtures 1.0); the device derives it from CPU load",
+   "glass sprites are stand-in blocks (clock, status, hint, caption), not LVGL text",
+   "infinity is not built on any surface yet, so it is not measured; backdrop.void is a flat fill with no prims and no switch",
+   "speaking is not explained by any host proxy (see summary)"
+  ]
+ },
+ "fixtures": {
+  "idle": "state 0, boot done",
+  "listen05": "state 1, level 0.5",
+  "listen10": "state 1, level 1.0",
+  "think": "state 2 (process phase)",
+  "speak": "state 3, level 0.5",
+  "joy": "happy 1",
+  "flip05": "flip 0.5 (mid-swap)",
+  "boot_early": "boot 0.3 (portals fading in; compared with boot done at the same time)",
+  "orbit_slide": "Orbit home page at slide 233 px, entity gathering into orbs (orbit_scenes.c home(), fan/snap/items 0.6; approximate, not a captured frame)",
+  "turn_idle": "idle with a steady roll of 0.8 rad/s",
+  "turn_listen10": "listen10 turning",
+  "turn_think": "think turning",
+  "speak_busy": "speak at activity 1.0",
+  "listen10_busy": "listen10 at activity 1.0",
+  "idle_busy": "idle at activity 1.0"
+ },
+ "baseline": {
+  "idle": {
+   "prims": 219,
+   "prims_max": 224,
+   "sim_ms": 0.0233,
+   "render_full_ms": 0.2411,
+   "render_damaged_ms": 0.2298,
+   "dmg_bands_mean": 17.38,
+   "dmg_bands_last": 18,
+   "repeat_same": 30
+  },
+  "listen05": {
+   "prims": 599,
+   "prims_max": 599,
+   "sim_ms": 0.0653,
+   "render_full_ms": 0.3696,
+   "render_damaged_ms": 0.3679,
+   "dmg_bands_mean": 24.0,
+   "dmg_bands_last": 24,
+   "repeat_same": 14
+  },
+  "listen10": {
+   "prims": 599,
+   "prims_max": 599,
+   "sim_ms": 0.0654,
+   "render_full_ms": 0.3795,
+   "render_damaged_ms": 0.3784,
+   "dmg_bands_mean": 24.19,
+   "dmg_bands_last": 24,
+   "repeat_same": 14
+  },
+  "think": {
+   "prims": 272,
+   "prims_max": 281,
+   "sim_ms": 0.0305,
+   "render_full_ms": 0.3164,
+   "render_damaged_ms": 0.298,
+   "dmg_bands_mean": 16.78,
+   "dmg_bands_last": 16,
+   "repeat_same": 24
+  },
+  "speak": {
+   "prims": 265,
+   "prims_max": 269,
+   "sim_ms": 0.0284,
+   "render_full_ms": 0.2884,
+   "render_damaged_ms": 0.2722,
+   "dmg_bands_mean": 17.41,
+   "dmg_bands_last": 18,
+   "repeat_same": 30
+  },
+  "joy": {
+   "prims": 258,
+   "prims_max": 260,
+   "sim_ms": 0.0283,
+   "render_full_ms": 0.2918,
+   "render_damaged_ms": 0.2769,
+   "dmg_bands_mean": 17.49,
+   "dmg_bands_last": 18,
+   "repeat_same": 30
+  },
+  "flip05": {
+   "prims": 219,
+   "prims_max": 224,
+   "sim_ms": 0.0206,
+   "render_full_ms": 0.1907,
+   "render_damaged_ms": 0.1815,
+   "dmg_bands_mean": 17.38,
+   "dmg_bands_last": 18,
+   "repeat_same": 30
+  },
+  "boot_early": {
+   "prims": 11,
+   "prims_max": 11,
+   "sim_ms": 0.0012,
+   "render_full_ms": 0.1226,
+   "render_damaged_ms": 0.0774,
+   "dmg_bands_mean": 10.0,
+   "dmg_bands_last": 10,
+   "repeat_same": 30
+  },
+  "orbit_slide": {
+   "prims": 59,
+   "prims_max": 157,
+   "sim_ms": 0.0171,
+   "render_full_ms": 0.1257,
+   "render_damaged_ms": 0.12,
+   "dmg_bands_mean": 25.0,
+   "dmg_bands_last": 25,
+   "repeat_same": 30
+  },
+  "turn_idle": {
+   "prims": 219,
+   "prims_max": 224,
+   "sim_ms": 0.0171,
+   "render_full_ms": 0.1865,
+   "render_damaged_ms": 0.2047,
+   "dmg_bands_mean": 28.93,
+   "dmg_bands_last": 30,
+   "repeat_same": 30
+  },
+  "turn_listen10": {
+   "prims": 760,
+   "prims_max": 760,
+   "sim_ms": 0.0609,
+   "render_full_ms": 0.3675,
+   "render_damaged_ms": 0.3762,
+   "dmg_bands_mean": 29.25,
+   "dmg_bands_last": 30,
+   "repeat_same": 3
+  },
+  "turn_think": {
+   "prims": 272,
+   "prims_max": 281,
+   "sim_ms": 0.0244,
+   "render_full_ms": 0.277,
+   "render_damaged_ms": 0.292,
+   "dmg_bands_mean": 28.91,
+   "dmg_bands_last": 30,
+   "repeat_same": 30
+  },
+  "speak_busy": {
+   "prims": 300,
+   "prims_max": 311,
+   "sim_ms": 0.0281,
+   "render_full_ms": 0.2706,
+   "render_damaged_ms": 0.2623,
+   "dmg_bands_mean": 17.47,
+   "dmg_bands_last": 18,
+   "repeat_same": 30
+  },
+  "listen10_busy": {
+   "prims": 655,
+   "prims_max": 661,
+   "sim_ms": 0.0618,
+   "render_full_ms": 0.3692,
+   "render_damaged_ms": 0.37,
+   "dmg_bands_mean": 24.19,
+   "dmg_bands_last": 24,
+   "repeat_same": 14
+  },
+  "idle_busy": {
+   "prims": 306,
+   "prims_max": 312,
+   "sim_ms": 0.0266,
+   "render_full_ms": 0.2572,
+   "render_damaged_ms": 0.2487,
+   "dmg_bands_mean": 17.83,
+   "dmg_bands_last": 18,
+   "repeat_same": 30
+  }
+ },
+ "effects": {
+  "mesh.edges": {
+   "kind": "off",
+   "fixtures": {
+    "idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0228,
+      "render_full_ms": 0.2458,
+      "render_damaged_ms": 0.2272,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 118,
+      "prims_max": 120,
+      "sim_ms": 0.0109,
+      "render_full_ms": 0.1559,
+      "render_damaged_ms": 0.1346,
+      "dmg_bands_mean": 16.24,
+      "dmg_bands_last": 17,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 101,
+      "sim_ms": 0.0119,
+      "render_full_ms": 0.0899,
+      "render_damaged_ms": 0.0926,
+      "dmg_bands_mean": 1.14,
+      "repeat_same": 0
+     }
+    },
+    "listen05": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0522,
+      "render_full_ms": 0.283,
+      "render_damaged_ms": 0.2839,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 471,
+      "prims_max": 473,
+      "sim_ms": 0.0393,
+      "render_full_ms": 0.1885,
+      "render_damaged_ms": 0.1938,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 128,
+      "sim_ms": 0.0129,
+      "render_full_ms": 0.0945,
+      "render_damaged_ms": 0.0901,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0519,
+      "render_full_ms": 0.2855,
+      "render_damaged_ms": 0.2869,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 471,
+      "prims_max": 473,
+      "sim_ms": 0.0393,
+      "render_full_ms": 0.1918,
+      "render_damaged_ms": 0.1965,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 128,
+      "sim_ms": 0.0126,
+      "render_full_ms": 0.0937,
+      "render_damaged_ms": 0.0904,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0224,
+      "render_full_ms": 0.2154,
+      "render_damaged_ms": 0.2084,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "off": {
+      "prims": 124,
+      "prims_max": 129,
+      "sim_ms": 0.008,
+      "render_full_ms": 0.1006,
+      "render_damaged_ms": 0.0984,
+      "dmg_bands_mean": 16.64,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "delta": {
+      "prims": 148,
+      "sim_ms": 0.0144,
+      "render_full_ms": 0.1148,
+      "render_damaged_ms": 0.11,
+      "dmg_bands_mean": 0.14,
+      "repeat_same": 0
+     }
+    },
+    "speak": {
+     "on": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0211,
+      "render_full_ms": 0.2,
+      "render_damaged_ms": 0.1958,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 125,
+      "prims_max": 128,
+      "sim_ms": 0.0077,
+      "render_full_ms": 0.098,
+      "render_damaged_ms": 0.0953,
+      "dmg_bands_mean": 17.18,
+      "dmg_bands_last": 17,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 140,
+      "sim_ms": 0.0134,
+      "render_full_ms": 0.102,
+      "render_damaged_ms": 0.1005,
+      "dmg_bands_mean": 0.23,
+      "repeat_same": 0
+     }
+    },
+    "joy": {
+     "on": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.0204,
+      "render_full_ms": 0.1938,
+      "render_damaged_ms": 0.1898,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 123,
+      "prims_max": 126,
+      "sim_ms": 0.0077,
+      "render_full_ms": 0.0966,
+      "render_damaged_ms": 0.0937,
+      "dmg_bands_mean": 16.79,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 135,
+      "sim_ms": 0.0127,
+      "render_full_ms": 0.0972,
+      "render_damaged_ms": 0.0961,
+      "dmg_bands_mean": 0.7,
+      "repeat_same": 0
+     }
+    },
+    "flip05": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0157,
+      "render_full_ms": 0.1384,
+      "render_damaged_ms": 0.137,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 118,
+      "prims_max": 120,
+      "sim_ms": 0.0072,
+      "render_full_ms": 0.0781,
+      "render_damaged_ms": 0.0725,
+      "dmg_bands_mean": 16.24,
+      "dmg_bands_last": 17,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 101,
+      "sim_ms": 0.0085,
+      "render_full_ms": 0.0603,
+      "render_damaged_ms": 0.0645,
+      "dmg_bands_mean": 1.14,
+      "repeat_same": 0
+     }
+    },
+    "boot_early": {
+     "on": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0007,
+      "render_full_ms": 0.0702,
+      "render_damaged_ms": 0.0415,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0007,
+      "render_full_ms": 0.0706,
+      "render_damaged_ms": 0.0417,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0,
+      "render_full_ms": -0.0004,
+      "render_damaged_ms": -0.0002,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "orbit_slide": {
+     "on": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0116,
+      "render_full_ms": 0.0791,
+      "render_damaged_ms": 0.0769,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 20,
+      "prims_max": 61,
+      "sim_ms": 0.0061,
+      "render_full_ms": 0.069,
+      "render_damaged_ms": 0.048,
+      "dmg_bands_mean": 15.97,
+      "dmg_bands_last": 16,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 39,
+      "sim_ms": 0.0055,
+      "render_full_ms": 0.0101,
+      "render_damaged_ms": 0.0289,
+      "dmg_bands_mean": 9.03,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "mesh.nodes": {
+   "kind": "off",
+   "fixtures": {
+    "idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0162,
+      "render_full_ms": 0.159,
+      "render_damaged_ms": 0.1565,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 135,
+      "prims_max": 140,
+      "sim_ms": 0.0133,
+      "render_full_ms": 0.1328,
+      "render_damaged_ms": 0.1281,
+      "dmg_bands_mean": 17.0,
+      "dmg_bands_last": 17,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 84,
+      "sim_ms": 0.0029,
+      "render_full_ms": 0.0262,
+      "render_damaged_ms": 0.0284,
+      "dmg_bands_mean": 0.38,
+      "repeat_same": 0
+     }
+    },
+    "listen05": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0518,
+      "render_full_ms": 0.2808,
+      "render_damaged_ms": 0.2812,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 515,
+      "prims_max": 515,
+      "sim_ms": 0.0493,
+      "render_full_ms": 0.2504,
+      "render_damaged_ms": 0.253,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 84,
+      "sim_ms": 0.0025,
+      "render_full_ms": 0.0304,
+      "render_damaged_ms": 0.0282,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0522,
+      "render_full_ms": 0.2864,
+      "render_damaged_ms": 0.2881,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 515,
+      "prims_max": 515,
+      "sim_ms": 0.0498,
+      "render_full_ms": 0.2553,
+      "render_damaged_ms": 0.257,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 84,
+      "sim_ms": 0.0024,
+      "render_full_ms": 0.0311,
+      "render_damaged_ms": 0.0311,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0228,
+      "render_full_ms": 0.2179,
+      "render_damaged_ms": 0.211,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "off": {
+      "prims": 188,
+      "prims_max": 197,
+      "sim_ms": 0.0198,
+      "render_full_ms": 0.1881,
+      "render_damaged_ms": 0.1816,
+      "dmg_bands_mean": 16.38,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "delta": {
+      "prims": 84,
+      "sim_ms": 0.003,
+      "render_full_ms": 0.0298,
+      "render_damaged_ms": 0.0294,
+      "dmg_bands_mean": 0.4,
+      "repeat_same": 0
+     }
+    },
+    "speak": {
+     "on": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0211,
+      "render_full_ms": 0.2046,
+      "render_damaged_ms": 0.1991,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 181,
+      "prims_max": 185,
+      "sim_ms": 0.0181,
+      "render_full_ms": 0.1757,
+      "render_damaged_ms": 0.1708,
+      "dmg_bands_mean": 17.02,
+      "dmg_bands_last": 17,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 84,
+      "sim_ms": 0.003,
+      "render_full_ms": 0.0289,
+      "render_damaged_ms": 0.0283,
+      "dmg_bands_mean": 0.39,
+      "repeat_same": 0
+     }
+    },
+    "joy": {
+     "on": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.0202,
+      "render_full_ms": 0.1947,
+      "render_damaged_ms": 0.1903,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 174,
+      "prims_max": 176,
+      "sim_ms": 0.0172,
+      "render_full_ms": 0.1663,
+      "render_damaged_ms": 0.1623,
+      "dmg_bands_mean": 17.23,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 84,
+      "sim_ms": 0.003,
+      "render_full_ms": 0.0284,
+      "render_damaged_ms": 0.028,
+      "dmg_bands_mean": 0.26,
+      "repeat_same": 0
+     }
+    },
+    "flip05": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0159,
+      "render_full_ms": 0.1417,
+      "render_damaged_ms": 0.1396,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 135,
+      "prims_max": 140,
+      "sim_ms": 0.0133,
+      "render_full_ms": 0.1174,
+      "render_damaged_ms": 0.1128,
+      "dmg_bands_mean": 17.0,
+      "dmg_bands_last": 17,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 84,
+      "sim_ms": 0.0026,
+      "render_full_ms": 0.0243,
+      "render_damaged_ms": 0.0268,
+      "dmg_bands_mean": 0.38,
+      "repeat_same": 0
+     }
+    },
+    "boot_early": {
+     "on": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0007,
+      "render_full_ms": 0.0702,
+      "render_damaged_ms": 0.0414,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0007,
+      "render_full_ms": 0.073,
+      "render_damaged_ms": 0.0437,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0,
+      "render_full_ms": -0.0028,
+      "render_damaged_ms": -0.0023,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "orbit_slide": {
+     "on": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0116,
+      "render_full_ms": 0.0795,
+      "render_damaged_ms": 0.0774,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 55,
+      "prims_max": 113,
+      "sim_ms": 0.0113,
+      "render_full_ms": 0.0789,
+      "render_damaged_ms": 0.0765,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 4,
+      "sim_ms": 0.0003,
+      "render_full_ms": 0.0006,
+      "render_damaged_ms": 0.0009,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "mesh.signals": {
+   "kind": "off",
+   "fixtures": {
+    "idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.02,
+      "render_full_ms": 0.2002,
+      "render_damaged_ms": 0.1915,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 196,
+      "prims_max": 200,
+      "sim_ms": 0.0172,
+      "render_full_ms": 0.176,
+      "render_damaged_ms": 0.1703,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 23,
+      "sim_ms": 0.0028,
+      "render_full_ms": 0.0242,
+      "render_damaged_ms": 0.0212,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen05": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0634,
+      "render_full_ms": 0.354,
+      "render_damaged_ms": 0.3544,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 572,
+      "prims_max": 572,
+      "sim_ms": 0.0623,
+      "render_full_ms": 0.3431,
+      "render_damaged_ms": 0.3427,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 27,
+      "sim_ms": 0.0011,
+      "render_full_ms": 0.0109,
+      "render_damaged_ms": 0.0117,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0648,
+      "render_full_ms": 0.3621,
+      "render_damaged_ms": 0.3668,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 572,
+      "prims_max": 572,
+      "sim_ms": 0.0638,
+      "render_full_ms": 0.3553,
+      "render_damaged_ms": 0.3545,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 27,
+      "sim_ms": 0.001,
+      "render_full_ms": 0.0068,
+      "render_damaged_ms": 0.0123,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0287,
+      "render_full_ms": 0.2881,
+      "render_damaged_ms": 0.2744,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "off": {
+      "prims": 244,
+      "prims_max": 249,
+      "sim_ms": 0.0266,
+      "render_full_ms": 0.2714,
+      "render_damaged_ms": 0.2581,
+      "dmg_bands_mean": 16.72,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "delta": {
+      "prims": 28,
+      "sim_ms": 0.0021,
+      "render_full_ms": 0.0167,
+      "render_damaged_ms": 0.0163,
+      "dmg_bands_mean": 0.06,
+      "repeat_same": 0
+     }
+    },
+    "speak": {
+     "on": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0259,
+      "render_full_ms": 0.2487,
+      "render_damaged_ms": 0.239,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 236,
+      "prims_max": 237,
+      "sim_ms": 0.0248,
+      "render_full_ms": 0.2443,
+      "render_damaged_ms": 0.232,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 29,
+      "sim_ms": 0.0011,
+      "render_full_ms": 0.0044,
+      "render_damaged_ms": 0.007,
+      "dmg_bands_mean": 0.03,
+      "repeat_same": 0
+     }
+    },
+    "joy": {
+     "on": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.027,
+      "render_full_ms": 0.268,
+      "render_damaged_ms": 0.2575,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 230,
+      "prims_max": 231,
+      "sim_ms": 0.0253,
+      "render_full_ms": 0.2511,
+      "render_damaged_ms": 0.2412,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 28,
+      "sim_ms": 0.0017,
+      "render_full_ms": 0.0169,
+      "render_damaged_ms": 0.0163,
+      "dmg_bands_mean": 0.11,
+      "repeat_same": 0
+     }
+    },
+    "flip05": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0205,
+      "render_full_ms": 0.1892,
+      "render_damaged_ms": 0.1821,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 196,
+      "prims_max": 200,
+      "sim_ms": 0.0191,
+      "render_full_ms": 0.1782,
+      "render_damaged_ms": 0.1724,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 23,
+      "sim_ms": 0.0014,
+      "render_full_ms": 0.011,
+      "render_damaged_ms": 0.0097,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "boot_early": {
+     "on": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0008,
+      "render_full_ms": 0.1074,
+      "render_damaged_ms": 0.0616,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0012,
+      "render_full_ms": 0.1129,
+      "render_damaged_ms": 0.0696,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0004,
+      "render_full_ms": -0.0055,
+      "render_damaged_ms": -0.008,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "orbit_slide": {
+     "on": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0152,
+      "render_full_ms": 0.1107,
+      "render_damaged_ms": 0.1058,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 58,
+      "prims_max": 155,
+      "sim_ms": 0.015,
+      "render_full_ms": 0.1088,
+      "render_damaged_ms": 0.1036,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": 0.0002,
+      "render_full_ms": 0.0019,
+      "render_damaged_ms": 0.0022,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "eyes": {
+   "kind": "off",
+   "fixtures": {
+    "idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0197,
+      "render_full_ms": 0.2003,
+      "render_damaged_ms": 0.1931,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 217,
+      "prims_max": 222,
+      "sim_ms": 0.0194,
+      "render_full_ms": 0.1708,
+      "render_damaged_ms": 0.1672,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0003,
+      "render_full_ms": 0.0295,
+      "render_damaged_ms": 0.0259,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen05": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0648,
+      "render_full_ms": 0.3619,
+      "render_damaged_ms": 0.3599,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 597,
+      "prims_max": 597,
+      "sim_ms": 0.062,
+      "render_full_ms": 0.3161,
+      "render_damaged_ms": 0.318,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0028,
+      "render_full_ms": 0.0458,
+      "render_damaged_ms": 0.0419,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0619,
+      "render_full_ms": 0.3474,
+      "render_damaged_ms": 0.3499,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 597,
+      "prims_max": 597,
+      "sim_ms": 0.0612,
+      "render_full_ms": 0.3143,
+      "render_damaged_ms": 0.3157,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0007,
+      "render_full_ms": 0.0331,
+      "render_damaged_ms": 0.0342,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0278,
+      "render_full_ms": 0.278,
+      "render_damaged_ms": 0.266,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "off": {
+      "prims": 270,
+      "prims_max": 279,
+      "sim_ms": 0.0261,
+      "render_full_ms": 0.2358,
+      "render_damaged_ms": 0.2281,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0017,
+      "render_full_ms": 0.0422,
+      "render_damaged_ms": 0.0379,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "speak": {
+     "on": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0268,
+      "render_full_ms": 0.2665,
+      "render_damaged_ms": 0.2558,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 263,
+      "prims_max": 267,
+      "sim_ms": 0.0263,
+      "render_full_ms": 0.2337,
+      "render_damaged_ms": 0.2245,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0005,
+      "render_full_ms": 0.0328,
+      "render_damaged_ms": 0.0313,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "joy": {
+     "on": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.0262,
+      "render_full_ms": 0.2621,
+      "render_damaged_ms": 0.2518,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 256,
+      "prims_max": 258,
+      "sim_ms": 0.0256,
+      "render_full_ms": 0.229,
+      "render_damaged_ms": 0.2207,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0006,
+      "render_full_ms": 0.0331,
+      "render_damaged_ms": 0.0311,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "flip05": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0207,
+      "render_full_ms": 0.1867,
+      "render_damaged_ms": 0.1807,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 217,
+      "prims_max": 222,
+      "sim_ms": 0.02,
+      "render_full_ms": 0.1772,
+      "render_damaged_ms": 0.172,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0007,
+      "render_full_ms": 0.0095,
+      "render_damaged_ms": 0.0087,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "boot_early": {
+     "on": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0008,
+      "render_full_ms": 0.0861,
+      "render_damaged_ms": 0.0555,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 9,
+      "prims_max": 9,
+      "sim_ms": 0.0007,
+      "render_full_ms": 0.0749,
+      "render_damaged_ms": 0.0368,
+      "dmg_bands_mean": 6.0,
+      "dmg_bands_last": 6,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0001,
+      "render_full_ms": 0.0112,
+      "render_damaged_ms": 0.0187,
+      "dmg_bands_mean": 4.0,
+      "repeat_same": 0
+     }
+    },
+    "orbit_slide": {
+     "on": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0152,
+      "render_full_ms": 0.1076,
+      "render_damaged_ms": 0.1038,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 57,
+      "prims_max": 155,
+      "sim_ms": 0.0151,
+      "render_full_ms": 0.0975,
+      "render_damaged_ms": 0.0925,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0001,
+      "render_full_ms": 0.0101,
+      "render_damaged_ms": 0.0113,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "portal.back": {
+   "kind": "off",
+   "fixtures": {
+    "idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0212,
+      "render_full_ms": 0.2136,
+      "render_damaged_ms": 0.2056,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 217,
+      "prims_max": 222,
+      "sim_ms": 0.02,
+      "render_full_ms": 0.1862,
+      "render_damaged_ms": 0.1795,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0012,
+      "render_full_ms": 0.0274,
+      "render_damaged_ms": 0.0261,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen05": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0671,
+      "render_full_ms": 0.3749,
+      "render_damaged_ms": 0.3746,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 597,
+      "prims_max": 597,
+      "sim_ms": 0.0658,
+      "render_full_ms": 0.3472,
+      "render_damaged_ms": 0.3493,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0013,
+      "render_full_ms": 0.0277,
+      "render_damaged_ms": 0.0253,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0654,
+      "render_full_ms": 0.3667,
+      "render_damaged_ms": 0.367,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 597,
+      "prims_max": 597,
+      "sim_ms": 0.0651,
+      "render_full_ms": 0.3484,
+      "render_damaged_ms": 0.3471,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0003,
+      "render_full_ms": 0.0183,
+      "render_damaged_ms": 0.0199,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0281,
+      "render_full_ms": 0.2856,
+      "render_damaged_ms": 0.2729,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "off": {
+      "prims": 270,
+      "prims_max": 279,
+      "sim_ms": 0.027,
+      "render_full_ms": 0.2574,
+      "render_damaged_ms": 0.2453,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0011,
+      "render_full_ms": 0.0282,
+      "render_damaged_ms": 0.0276,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "speak": {
+     "on": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0269,
+      "render_full_ms": 0.2674,
+      "render_damaged_ms": 0.2565,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 263,
+      "prims_max": 267,
+      "sim_ms": 0.0264,
+      "render_full_ms": 0.2482,
+      "render_damaged_ms": 0.2389,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0005,
+      "render_full_ms": 0.0192,
+      "render_damaged_ms": 0.0176,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "joy": {
+     "on": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.0256,
+      "render_full_ms": 0.2465,
+      "render_damaged_ms": 0.238,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 256,
+      "prims_max": 258,
+      "sim_ms": 0.0251,
+      "render_full_ms": 0.2286,
+      "render_damaged_ms": 0.2186,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0005,
+      "render_full_ms": 0.0179,
+      "render_damaged_ms": 0.0194,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "flip05": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0203,
+      "render_full_ms": 0.184,
+      "render_damaged_ms": 0.1775,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 217,
+      "prims_max": 222,
+      "sim_ms": 0.0195,
+      "render_full_ms": 0.1637,
+      "render_damaged_ms": 0.1569,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0008,
+      "render_full_ms": 0.0203,
+      "render_damaged_ms": 0.0206,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "boot_early": {
+     "on": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0008,
+      "render_full_ms": 0.0817,
+      "render_damaged_ms": 0.052,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 9,
+      "prims_max": 9,
+      "sim_ms": 0.0007,
+      "render_full_ms": 0.0696,
+      "render_damaged_ms": 0.0377,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0001,
+      "render_full_ms": 0.0121,
+      "render_damaged_ms": 0.0143,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "orbit_slide": {
+     "on": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0151,
+      "render_full_ms": 0.108,
+      "render_damaged_ms": 0.1034,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 58,
+      "prims_max": 156,
+      "sim_ms": 0.0146,
+      "render_full_ms": 0.0989,
+      "render_damaged_ms": 0.0939,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": 0.0005,
+      "render_full_ms": 0.0091,
+      "render_damaged_ms": 0.0095,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "portal.front": {
+   "kind": "off",
+   "fixtures": {
+    "idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0213,
+      "render_full_ms": 0.2134,
+      "render_damaged_ms": 0.2047,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 217,
+      "prims_max": 222,
+      "sim_ms": 0.0208,
+      "render_full_ms": 0.1994,
+      "render_damaged_ms": 0.1916,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0005,
+      "render_full_ms": 0.014,
+      "render_damaged_ms": 0.0131,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen05": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0655,
+      "render_full_ms": 0.3619,
+      "render_damaged_ms": 0.3639,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 597,
+      "prims_max": 597,
+      "sim_ms": 0.0667,
+      "render_full_ms": 0.3608,
+      "render_damaged_ms": 0.3585,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": -0.0012,
+      "render_full_ms": 0.0011,
+      "render_damaged_ms": 0.0054,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0654,
+      "render_full_ms": 0.3668,
+      "render_damaged_ms": 0.3672,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 597,
+      "prims_max": 597,
+      "sim_ms": 0.0635,
+      "render_full_ms": 0.3437,
+      "render_damaged_ms": 0.3413,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0019,
+      "render_full_ms": 0.0231,
+      "render_damaged_ms": 0.0259,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0273,
+      "render_full_ms": 0.2763,
+      "render_damaged_ms": 0.264,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "off": {
+      "prims": 270,
+      "prims_max": 279,
+      "sim_ms": 0.0272,
+      "render_full_ms": 0.263,
+      "render_damaged_ms": 0.2527,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0001,
+      "render_full_ms": 0.0133,
+      "render_damaged_ms": 0.0113,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "speak": {
+     "on": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0262,
+      "render_full_ms": 0.2568,
+      "render_damaged_ms": 0.2483,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 263,
+      "prims_max": 267,
+      "sim_ms": 0.0261,
+      "render_full_ms": 0.2473,
+      "render_damaged_ms": 0.2388,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0001,
+      "render_full_ms": 0.0095,
+      "render_damaged_ms": 0.0095,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "joy": {
+     "on": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.0248,
+      "render_full_ms": 0.243,
+      "render_damaged_ms": 0.2332,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 256,
+      "prims_max": 258,
+      "sim_ms": 0.0247,
+      "render_full_ms": 0.2312,
+      "render_damaged_ms": 0.2228,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0001,
+      "render_full_ms": 0.0118,
+      "render_damaged_ms": 0.0104,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "flip05": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0163,
+      "render_full_ms": 0.1421,
+      "render_damaged_ms": 0.1406,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 217,
+      "prims_max": 222,
+      "sim_ms": 0.0184,
+      "render_full_ms": 0.1586,
+      "render_damaged_ms": 0.1514,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": -0.0021,
+      "render_full_ms": -0.0165,
+      "render_damaged_ms": -0.0108,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "boot_early": {
+     "on": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0008,
+      "render_full_ms": 0.0759,
+      "render_damaged_ms": 0.0508,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 9,
+      "prims_max": 9,
+      "sim_ms": 0.0007,
+      "render_full_ms": 0.0694,
+      "render_damaged_ms": 0.0376,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0001,
+      "render_full_ms": 0.0065,
+      "render_damaged_ms": 0.0132,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "orbit_slide": {
+     "on": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0123,
+      "render_full_ms": 0.0857,
+      "render_damaged_ms": 0.0836,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 58,
+      "prims_max": 156,
+      "sim_ms": 0.0131,
+      "render_full_ms": 0.0901,
+      "render_damaged_ms": 0.0863,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": -0.0008,
+      "render_full_ms": -0.0044,
+      "render_damaged_ms": -0.0027,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "strands.mic": {
+   "kind": "off",
+   "fixtures": {
+    "idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0189,
+      "render_full_ms": 0.1901,
+      "render_damaged_ms": 0.1819,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0178,
+      "render_full_ms": 0.175,
+      "render_damaged_ms": 0.1714,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0011,
+      "render_full_ms": 0.0151,
+      "render_damaged_ms": 0.0105,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen05": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0586,
+      "render_full_ms": 0.3323,
+      "render_damaged_ms": 0.3341,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 275,
+      "prims_max": 275,
+      "sim_ms": 0.0243,
+      "render_full_ms": 0.2258,
+      "render_damaged_ms": 0.2198,
+      "dmg_bands_mean": 17.44,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 324,
+      "sim_ms": 0.0343,
+      "render_full_ms": 0.1065,
+      "render_damaged_ms": 0.1143,
+      "dmg_bands_mean": 6.56,
+      "repeat_same": -16
+     }
+    },
+    "listen10": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0673,
+      "render_full_ms": 0.3999,
+      "render_damaged_ms": 0.3953,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 275,
+      "prims_max": 275,
+      "sim_ms": 0.027,
+      "render_full_ms": 0.2557,
+      "render_damaged_ms": 0.2454,
+      "dmg_bands_mean": 17.44,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 324,
+      "sim_ms": 0.0403,
+      "render_full_ms": 0.1442,
+      "render_damaged_ms": 0.1499,
+      "dmg_bands_mean": 6.75,
+      "repeat_same": -16
+     }
+    },
+    "think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.03,
+      "render_full_ms": 0.3138,
+      "render_damaged_ms": 0.2955,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "off": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0293,
+      "render_full_ms": 0.2956,
+      "render_damaged_ms": 0.2802,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0007,
+      "render_full_ms": 0.0182,
+      "render_damaged_ms": 0.0153,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "speak": {
+     "on": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0291,
+      "render_full_ms": 0.2997,
+      "render_damaged_ms": 0.2853,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0295,
+      "render_full_ms": 0.3044,
+      "render_damaged_ms": 0.2887,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0004,
+      "render_full_ms": -0.0047,
+      "render_damaged_ms": -0.0034,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "joy": {
+     "on": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.0285,
+      "render_full_ms": 0.2918,
+      "render_damaged_ms": 0.277,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.0286,
+      "render_full_ms": 0.2935,
+      "render_damaged_ms": 0.2792,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0001,
+      "render_full_ms": -0.0017,
+      "render_damaged_ms": -0.0022,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "flip05": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.022,
+      "render_full_ms": 0.2037,
+      "render_damaged_ms": 0.1924,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.023,
+      "render_full_ms": 0.2132,
+      "render_damaged_ms": 0.202,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.001,
+      "render_full_ms": -0.0095,
+      "render_damaged_ms": -0.0096,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "boot_early": {
+     "on": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0012,
+      "render_full_ms": 0.1221,
+      "render_damaged_ms": 0.077,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0012,
+      "render_full_ms": 0.1225,
+      "render_damaged_ms": 0.0783,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0,
+      "render_full_ms": -0.0004,
+      "render_damaged_ms": -0.0013,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "orbit_slide": {
+     "on": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0162,
+      "render_full_ms": 0.1163,
+      "render_damaged_ms": 0.1115,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0168,
+      "render_full_ms": 0.1244,
+      "render_damaged_ms": 0.1187,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0006,
+      "render_full_ms": -0.0081,
+      "render_damaged_ms": -0.0072,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "strands.absorb": {
+   "kind": "off",
+   "fixtures": {
+    "idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0233,
+      "render_full_ms": 0.2386,
+      "render_damaged_ms": 0.2262,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.023,
+      "render_full_ms": 0.2394,
+      "render_damaged_ms": 0.2261,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0003,
+      "render_full_ms": -0.0008,
+      "render_damaged_ms": 0.0001,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen05": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0687,
+      "render_full_ms": 0.4024,
+      "render_damaged_ms": 0.4004,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 575,
+      "prims_max": 575,
+      "sim_ms": 0.0649,
+      "render_full_ms": 0.38,
+      "render_damaged_ms": 0.379,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 24,
+      "sim_ms": 0.0038,
+      "render_full_ms": 0.0224,
+      "render_damaged_ms": 0.0214,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0696,
+      "render_full_ms": 0.4138,
+      "render_damaged_ms": 0.4114,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 575,
+      "prims_max": 575,
+      "sim_ms": 0.0659,
+      "render_full_ms": 0.3839,
+      "render_damaged_ms": 0.3825,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 24,
+      "sim_ms": 0.0037,
+      "render_full_ms": 0.0299,
+      "render_damaged_ms": 0.0289,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0307,
+      "render_full_ms": 0.3217,
+      "render_damaged_ms": 0.3035,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "off": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0306,
+      "render_full_ms": 0.3184,
+      "render_damaged_ms": 0.301,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0001,
+      "render_full_ms": 0.0033,
+      "render_damaged_ms": 0.0025,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "speak": {
+     "on": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0221,
+      "render_full_ms": 0.208,
+      "render_damaged_ms": 0.2033,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0219,
+      "render_full_ms": 0.2076,
+      "render_damaged_ms": 0.2023,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0002,
+      "render_full_ms": 0.0004,
+      "render_damaged_ms": 0.001,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "joy": {
+     "on": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.0212,
+      "render_full_ms": 0.2023,
+      "render_damaged_ms": 0.1966,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.0208,
+      "render_full_ms": 0.2016,
+      "render_damaged_ms": 0.1958,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0004,
+      "render_full_ms": 0.0007,
+      "render_damaged_ms": 0.0008,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "flip05": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0163,
+      "render_full_ms": 0.1447,
+      "render_damaged_ms": 0.1417,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0164,
+      "render_full_ms": 0.1456,
+      "render_damaged_ms": 0.1427,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0001,
+      "render_full_ms": -0.0009,
+      "render_damaged_ms": -0.001,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "boot_early": {
+     "on": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0007,
+      "render_full_ms": 0.0726,
+      "render_damaged_ms": 0.0426,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0007,
+      "render_full_ms": 0.0704,
+      "render_damaged_ms": 0.0418,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0,
+      "render_full_ms": 0.0022,
+      "render_damaged_ms": 0.0008,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "orbit_slide": {
+     "on": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0118,
+      "render_full_ms": 0.0813,
+      "render_damaged_ms": 0.0781,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0119,
+      "render_full_ms": 0.081,
+      "render_damaged_ms": 0.079,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0001,
+      "render_full_ms": 0.0003,
+      "render_damaged_ms": -0.0009,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "glass.clock": {
+   "kind": "off",
+   "fixtures": {
+    "idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0168,
+      "render_full_ms": 0.1663,
+      "render_damaged_ms": 0.1633,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 218,
+      "prims_max": 223,
+      "sim_ms": 0.0166,
+      "render_full_ms": 0.1619,
+      "render_damaged_ms": 0.1599,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": 0.0002,
+      "render_full_ms": 0.0044,
+      "render_damaged_ms": 0.0034,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen05": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0524,
+      "render_full_ms": 0.2853,
+      "render_damaged_ms": 0.2848,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 598,
+      "prims_max": 598,
+      "sim_ms": 0.0521,
+      "render_full_ms": 0.2819,
+      "render_damaged_ms": 0.2833,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": 0.0003,
+      "render_full_ms": 0.0034,
+      "render_damaged_ms": 0.0015,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0526,
+      "render_full_ms": 0.2903,
+      "render_damaged_ms": 0.2917,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 598,
+      "prims_max": 598,
+      "sim_ms": 0.0529,
+      "render_full_ms": 0.2876,
+      "render_damaged_ms": 0.2894,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": -0.0003,
+      "render_full_ms": 0.0027,
+      "render_damaged_ms": 0.0023,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0231,
+      "render_full_ms": 0.2217,
+      "render_damaged_ms": 0.2158,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "off": {
+      "prims": 271,
+      "prims_max": 280,
+      "sim_ms": 0.0227,
+      "render_full_ms": 0.2186,
+      "render_damaged_ms": 0.2133,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": 0.0004,
+      "render_full_ms": 0.0031,
+      "render_damaged_ms": 0.0025,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "speak": {
+     "on": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.022,
+      "render_full_ms": 0.2094,
+      "render_damaged_ms": 0.2048,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 264,
+      "prims_max": 268,
+      "sim_ms": 0.0219,
+      "render_full_ms": 0.2078,
+      "render_damaged_ms": 0.2042,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": 0.0001,
+      "render_full_ms": 0.0016,
+      "render_damaged_ms": 0.0006,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "joy": {
+     "on": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.0213,
+      "render_full_ms": 0.2057,
+      "render_damaged_ms": 0.1997,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 257,
+      "prims_max": 259,
+      "sim_ms": 0.0214,
+      "render_full_ms": 0.202,
+      "render_damaged_ms": 0.1987,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": -0.0001,
+      "render_full_ms": 0.0037,
+      "render_damaged_ms": 0.001,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "flip05": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.016,
+      "render_full_ms": 0.142,
+      "render_damaged_ms": 0.1403,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 218,
+      "prims_max": 223,
+      "sim_ms": 0.016,
+      "render_full_ms": 0.14,
+      "render_damaged_ms": 0.1402,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": 0.0,
+      "render_full_ms": 0.002,
+      "render_damaged_ms": 0.0001,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "boot_early": {
+     "on": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0007,
+      "render_full_ms": 0.0708,
+      "render_damaged_ms": 0.0417,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 10,
+      "prims_max": 10,
+      "sim_ms": 0.0007,
+      "render_full_ms": 0.0714,
+      "render_damaged_ms": 0.0428,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": 0.0,
+      "render_full_ms": -0.0006,
+      "render_damaged_ms": -0.0011,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "orbit_slide": {
+     "on": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0119,
+      "render_full_ms": 0.0814,
+      "render_damaged_ms": 0.0791,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 58,
+      "prims_max": 156,
+      "sim_ms": 0.0123,
+      "render_full_ms": 0.0848,
+      "render_damaged_ms": 0.0815,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": -0.0004,
+      "render_full_ms": -0.0034,
+      "render_damaged_ms": -0.0024,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "glass.status": {
+   "kind": "off",
+   "fixtures": {
+    "idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0192,
+      "render_full_ms": 0.1897,
+      "render_damaged_ms": 0.1854,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 218,
+      "prims_max": 223,
+      "sim_ms": 0.0193,
+      "render_full_ms": 0.1883,
+      "render_damaged_ms": 0.1849,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": -0.0001,
+      "render_full_ms": 0.0014,
+      "render_damaged_ms": 0.0005,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen05": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0637,
+      "render_full_ms": 0.3492,
+      "render_damaged_ms": 0.3485,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 598,
+      "prims_max": 598,
+      "sim_ms": 0.0627,
+      "render_full_ms": 0.3481,
+      "render_damaged_ms": 0.3464,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": 0.001,
+      "render_full_ms": 0.0011,
+      "render_damaged_ms": 0.0021,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0627,
+      "render_full_ms": 0.3539,
+      "render_damaged_ms": 0.3534,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 598,
+      "prims_max": 598,
+      "sim_ms": 0.0627,
+      "render_full_ms": 0.3489,
+      "render_damaged_ms": 0.3502,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": 0.0,
+      "render_full_ms": 0.005,
+      "render_damaged_ms": 0.0032,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.027,
+      "render_full_ms": 0.2711,
+      "render_damaged_ms": 0.2596,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "off": {
+      "prims": 271,
+      "prims_max": 280,
+      "sim_ms": 0.0271,
+      "render_full_ms": 0.2702,
+      "render_damaged_ms": 0.2612,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": -0.0001,
+      "render_full_ms": 0.0009,
+      "render_damaged_ms": -0.0016,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "speak": {
+     "on": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0257,
+      "render_full_ms": 0.2549,
+      "render_damaged_ms": 0.2447,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 264,
+      "prims_max": 268,
+      "sim_ms": 0.0267,
+      "render_full_ms": 0.2661,
+      "render_damaged_ms": 0.2582,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": -0.001,
+      "render_full_ms": -0.0112,
+      "render_damaged_ms": -0.0135,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "joy": {
+     "on": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.0295,
+      "render_full_ms": 0.3005,
+      "render_damaged_ms": 0.2871,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 257,
+      "prims_max": 259,
+      "sim_ms": 0.0296,
+      "render_full_ms": 0.298,
+      "render_damaged_ms": 0.2865,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": -0.0001,
+      "render_full_ms": 0.0025,
+      "render_damaged_ms": 0.0006,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "flip05": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0214,
+      "render_full_ms": 0.192,
+      "render_damaged_ms": 0.1849,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 218,
+      "prims_max": 223,
+      "sim_ms": 0.0221,
+      "render_full_ms": 0.1981,
+      "render_damaged_ms": 0.1917,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": -0.0007,
+      "render_full_ms": -0.0061,
+      "render_damaged_ms": -0.0068,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "boot_early": {
+     "on": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0012,
+      "render_full_ms": 0.1253,
+      "render_damaged_ms": 0.0784,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 10,
+      "prims_max": 10,
+      "sim_ms": 0.0012,
+      "render_full_ms": 0.1249,
+      "render_damaged_ms": 0.0799,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": 0.0,
+      "render_full_ms": 0.0004,
+      "render_damaged_ms": -0.0015,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "orbit_slide": {
+     "on": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0178,
+      "render_full_ms": 0.1337,
+      "render_damaged_ms": 0.1354,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 58,
+      "prims_max": 156,
+      "sim_ms": 0.0174,
+      "render_full_ms": 0.1416,
+      "render_damaged_ms": 0.1352,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": 0.0004,
+      "render_full_ms": -0.0079,
+      "render_damaged_ms": 0.0002,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "glass.caption": {
+   "kind": "off",
+   "fixtures": {
+    "idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0243,
+      "render_full_ms": 0.2635,
+      "render_damaged_ms": 0.2489,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0241,
+      "render_full_ms": 0.2533,
+      "render_damaged_ms": 0.2392,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0002,
+      "render_full_ms": 0.0102,
+      "render_damaged_ms": 0.0097,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen05": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0646,
+      "render_full_ms": 0.359,
+      "render_damaged_ms": 0.3603,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 598,
+      "prims_max": 598,
+      "sim_ms": 0.0655,
+      "render_full_ms": 0.3572,
+      "render_damaged_ms": 0.3574,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": -0.0009,
+      "render_full_ms": 0.0018,
+      "render_damaged_ms": 0.0029,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.072,
+      "render_full_ms": 0.4197,
+      "render_damaged_ms": 0.4161,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 598,
+      "prims_max": 598,
+      "sim_ms": 0.0658,
+      "render_full_ms": 0.3654,
+      "render_damaged_ms": 0.3656,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": 0.0062,
+      "render_full_ms": 0.0543,
+      "render_damaged_ms": 0.0505,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0303,
+      "render_full_ms": 0.3088,
+      "render_damaged_ms": 0.2928,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "off": {
+      "prims": 271,
+      "prims_max": 280,
+      "sim_ms": 0.0309,
+      "render_full_ms": 0.3126,
+      "render_damaged_ms": 0.2968,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": -0.0006,
+      "render_full_ms": -0.0038,
+      "render_damaged_ms": -0.004,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "speak": {
+     "on": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0296,
+      "render_full_ms": 0.3012,
+      "render_damaged_ms": 0.2872,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 264,
+      "prims_max": 268,
+      "sim_ms": 0.028,
+      "render_full_ms": 0.2811,
+      "render_damaged_ms": 0.2661,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 1,
+      "sim_ms": 0.0016,
+      "render_full_ms": 0.0201,
+      "render_damaged_ms": 0.0211,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "joy": {
+     "on": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.0286,
+      "render_full_ms": 0.2938,
+      "render_damaged_ms": 0.2778,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.0269,
+      "render_full_ms": 0.2641,
+      "render_damaged_ms": 0.2535,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0017,
+      "render_full_ms": 0.0297,
+      "render_damaged_ms": 0.0243,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "flip05": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0227,
+      "render_full_ms": 0.204,
+      "render_damaged_ms": 0.1965,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0236,
+      "render_full_ms": 0.2178,
+      "render_damaged_ms": 0.2065,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0009,
+      "render_full_ms": -0.0138,
+      "render_damaged_ms": -0.01,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "boot_early": {
+     "on": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0013,
+      "render_full_ms": 0.1307,
+      "render_damaged_ms": 0.0837,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0013,
+      "render_full_ms": 0.1285,
+      "render_damaged_ms": 0.0806,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0,
+      "render_full_ms": 0.0022,
+      "render_damaged_ms": 0.0031,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "orbit_slide": {
+     "on": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0179,
+      "render_full_ms": 0.135,
+      "render_damaged_ms": 0.1291,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.018,
+      "render_full_ms": 0.1339,
+      "render_damaged_ms": 0.1278,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0001,
+      "render_full_ms": 0.0011,
+      "render_damaged_ms": 0.0013,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "glass.badges": {
+   "kind": "off",
+   "fixtures": {
+    "idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0245,
+      "render_full_ms": 0.2539,
+      "render_damaged_ms": 0.2417,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 216,
+      "prims_max": 221,
+      "sim_ms": 0.0228,
+      "render_full_ms": 0.2242,
+      "render_damaged_ms": 0.2168,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 3,
+      "sim_ms": 0.0017,
+      "render_full_ms": 0.0297,
+      "render_damaged_ms": 0.0249,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen05": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0687,
+      "render_full_ms": 0.3839,
+      "render_damaged_ms": 0.3851,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 596,
+      "prims_max": 596,
+      "sim_ms": 0.0663,
+      "render_full_ms": 0.3609,
+      "render_damaged_ms": 0.3612,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 3,
+      "sim_ms": 0.0024,
+      "render_full_ms": 0.023,
+      "render_damaged_ms": 0.0239,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0651,
+      "render_full_ms": 0.3786,
+      "render_damaged_ms": 0.3762,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 596,
+      "prims_max": 596,
+      "sim_ms": 0.0715,
+      "render_full_ms": 0.4012,
+      "render_damaged_ms": 0.3982,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 3,
+      "sim_ms": -0.0064,
+      "render_full_ms": -0.0226,
+      "render_damaged_ms": -0.022,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.032,
+      "render_full_ms": 0.3259,
+      "render_damaged_ms": 0.3078,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "off": {
+      "prims": 269,
+      "prims_max": 278,
+      "sim_ms": 0.0319,
+      "render_full_ms": 0.3189,
+      "render_damaged_ms": 0.3029,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "delta": {
+      "prims": 3,
+      "sim_ms": 0.0001,
+      "render_full_ms": 0.007,
+      "render_damaged_ms": 0.0049,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "speak": {
+     "on": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0294,
+      "render_full_ms": 0.2947,
+      "render_damaged_ms": 0.282,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 262,
+      "prims_max": 266,
+      "sim_ms": 0.0289,
+      "render_full_ms": 0.285,
+      "render_damaged_ms": 0.2724,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 3,
+      "sim_ms": 0.0005,
+      "render_full_ms": 0.0097,
+      "render_damaged_ms": 0.0096,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "joy": {
+     "on": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.0298,
+      "render_full_ms": 0.3038,
+      "render_damaged_ms": 0.2887,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 255,
+      "prims_max": 257,
+      "sim_ms": 0.0287,
+      "render_full_ms": 0.2793,
+      "render_damaged_ms": 0.268,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 3,
+      "sim_ms": 0.0011,
+      "render_full_ms": 0.0245,
+      "render_damaged_ms": 0.0207,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "flip05": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.024,
+      "render_full_ms": 0.2232,
+      "render_damaged_ms": 0.2116,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 216,
+      "prims_max": 221,
+      "sim_ms": 0.0238,
+      "render_full_ms": 0.2139,
+      "render_damaged_ms": 0.2036,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 3,
+      "sim_ms": 0.0002,
+      "render_full_ms": 0.0093,
+      "render_damaged_ms": 0.008,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "boot_early": {
+     "on": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0013,
+      "render_full_ms": 0.1302,
+      "render_damaged_ms": 0.0816,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 8,
+      "prims_max": 8,
+      "sim_ms": 0.0011,
+      "render_full_ms": 0.1229,
+      "render_damaged_ms": 0.086,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 3,
+      "sim_ms": 0.0002,
+      "render_full_ms": 0.0073,
+      "render_damaged_ms": -0.0044,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "orbit_slide": {
+     "on": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0183,
+      "render_full_ms": 0.1363,
+      "render_damaged_ms": 0.1308,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 56,
+      "prims_max": 154,
+      "sim_ms": 0.018,
+      "render_full_ms": 0.1273,
+      "render_damaged_ms": 0.122,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 3,
+      "sim_ms": 0.0003,
+      "render_full_ms": 0.009,
+      "render_damaged_ms": 0.0088,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "ring": {
+   "kind": "off",
+   "fixtures": {
+    "idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0246,
+      "render_full_ms": 0.2476,
+      "render_damaged_ms": 0.2353,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0233,
+      "render_full_ms": 0.2005,
+      "render_damaged_ms": 0.2068,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0013,
+      "render_full_ms": 0.0471,
+      "render_damaged_ms": 0.0285,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen05": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0745,
+      "render_full_ms": 0.4232,
+      "render_damaged_ms": 0.4205,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0697,
+      "render_full_ms": 0.3543,
+      "render_damaged_ms": 0.3599,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0048,
+      "render_full_ms": 0.0689,
+      "render_damaged_ms": 0.0606,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0724,
+      "render_full_ms": 0.4158,
+      "render_damaged_ms": 0.413,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0647,
+      "render_full_ms": 0.3333,
+      "render_damaged_ms": 0.3394,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0077,
+      "render_full_ms": 0.0825,
+      "render_damaged_ms": 0.0736,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0318,
+      "render_full_ms": 0.328,
+      "render_damaged_ms": 0.3098,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "off": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0323,
+      "render_full_ms": 0.2967,
+      "render_damaged_ms": 0.2992,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0005,
+      "render_full_ms": 0.0313,
+      "render_damaged_ms": 0.0106,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "speak": {
+     "on": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0287,
+      "render_full_ms": 0.2844,
+      "render_damaged_ms": 0.2733,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0273,
+      "render_full_ms": 0.241,
+      "render_damaged_ms": 0.2472,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0014,
+      "render_full_ms": 0.0434,
+      "render_damaged_ms": 0.0261,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "joy": {
+     "on": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.0296,
+      "render_full_ms": 0.3015,
+      "render_damaged_ms": 0.2865,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.0298,
+      "render_full_ms": 0.2716,
+      "render_damaged_ms": 0.2744,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0002,
+      "render_full_ms": 0.0299,
+      "render_damaged_ms": 0.0121,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "flip05": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0213,
+      "render_full_ms": 0.1921,
+      "render_damaged_ms": 0.185,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0205,
+      "render_full_ms": 0.1581,
+      "render_damaged_ms": 0.1672,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0008,
+      "render_full_ms": 0.034,
+      "render_damaged_ms": 0.0178,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "boot_early": {
+     "on": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0012,
+      "render_full_ms": 0.1321,
+      "render_damaged_ms": 0.0812,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0012,
+      "render_full_ms": 0.0947,
+      "render_damaged_ms": 0.0717,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0,
+      "render_full_ms": 0.0374,
+      "render_damaged_ms": 0.0095,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "orbit_slide": {
+     "on": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0183,
+      "render_full_ms": 0.1329,
+      "render_damaged_ms": 0.1275,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0182,
+      "render_full_ms": 0.1062,
+      "render_damaged_ms": 0.1059,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0001,
+      "render_full_ms": 0.0267,
+      "render_damaged_ms": 0.0216,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "ring.tint": {
+   "kind": "on",
+   "fixtures": {
+    "idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0246,
+      "render_full_ms": 0.2491,
+      "render_damaged_ms": 0.2378,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0245,
+      "render_full_ms": 0.2515,
+      "render_damaged_ms": 0.2397,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0001,
+      "render_full_ms": -0.0024,
+      "render_damaged_ms": -0.0019,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen05": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.073,
+      "render_full_ms": 0.416,
+      "render_damaged_ms": 0.4151,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0738,
+      "render_full_ms": 0.4184,
+      "render_damaged_ms": 0.416,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0008,
+      "render_full_ms": -0.0024,
+      "render_damaged_ms": -0.0009,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0746,
+      "render_full_ms": 0.429,
+      "render_damaged_ms": 0.4278,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0746,
+      "render_full_ms": 0.4286,
+      "render_damaged_ms": 0.4269,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0,
+      "render_full_ms": 0.0004,
+      "render_damaged_ms": 0.0009,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0323,
+      "render_full_ms": 0.3299,
+      "render_damaged_ms": 0.3119,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "off": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0324,
+      "render_full_ms": 0.3314,
+      "render_damaged_ms": 0.3152,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0001,
+      "render_full_ms": -0.0015,
+      "render_damaged_ms": -0.0033,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "speak": {
+     "on": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0307,
+      "render_full_ms": 0.3111,
+      "render_damaged_ms": 0.2963,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0315,
+      "render_full_ms": 0.3152,
+      "render_damaged_ms": 0.3001,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0008,
+      "render_full_ms": -0.0041,
+      "render_damaged_ms": -0.0038,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "joy": {
+     "on": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.03,
+      "render_full_ms": 0.3014,
+      "render_damaged_ms": 0.2873,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.0304,
+      "render_full_ms": 0.3082,
+      "render_damaged_ms": 0.2923,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0004,
+      "render_full_ms": -0.0068,
+      "render_damaged_ms": -0.005,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "flip05": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0253,
+      "render_full_ms": 0.2351,
+      "render_damaged_ms": 0.2216,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0252,
+      "render_full_ms": 0.233,
+      "render_damaged_ms": 0.2225,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0001,
+      "render_full_ms": 0.0021,
+      "render_damaged_ms": -0.0009,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "boot_early": {
+     "on": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0014,
+      "render_full_ms": 0.1403,
+      "render_damaged_ms": 0.0865,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0013,
+      "render_full_ms": 0.1351,
+      "render_damaged_ms": 0.0823,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0001,
+      "render_full_ms": 0.0052,
+      "render_damaged_ms": 0.0042,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "orbit_slide": {
+     "on": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0192,
+      "render_full_ms": 0.1424,
+      "render_damaged_ms": 0.1352,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.019,
+      "render_full_ms": 0.1439,
+      "render_damaged_ms": 0.1365,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0002,
+      "render_full_ms": -0.0015,
+      "render_damaged_ms": -0.0013,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "ring.drain_arc": {
+   "kind": "on",
+   "fixtures": {
+    "idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.026,
+      "render_full_ms": 0.3911,
+      "render_damaged_ms": 0.2828,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0242,
+      "render_full_ms": 0.2395,
+      "render_damaged_ms": 0.2311,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0018,
+      "render_full_ms": 0.1516,
+      "render_damaged_ms": 0.0517,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen05": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0782,
+      "render_full_ms": 0.6215,
+      "render_damaged_ms": 0.5856,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0788,
+      "render_full_ms": 0.4483,
+      "render_damaged_ms": 0.4507,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0006,
+      "render_full_ms": 0.1732,
+      "render_damaged_ms": 0.1349,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0816,
+      "render_full_ms": 0.6372,
+      "render_damaged_ms": 0.5993,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0816,
+      "render_full_ms": 0.4619,
+      "render_damaged_ms": 0.4597,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0,
+      "render_full_ms": 0.1753,
+      "render_damaged_ms": 0.1396,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0357,
+      "render_full_ms": 0.5223,
+      "render_damaged_ms": 0.388,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "off": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0319,
+      "render_full_ms": 0.3211,
+      "render_damaged_ms": 0.3041,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0038,
+      "render_full_ms": 0.2012,
+      "render_damaged_ms": 0.0839,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "speak": {
+     "on": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0333,
+      "render_full_ms": 0.4895,
+      "render_damaged_ms": 0.3648,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0313,
+      "render_full_ms": 0.3108,
+      "render_damaged_ms": 0.2939,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.002,
+      "render_full_ms": 0.1787,
+      "render_damaged_ms": 0.0709,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "joy": {
+     "on": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.0352,
+      "render_full_ms": 0.5153,
+      "render_damaged_ms": 0.3788,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.0336,
+      "render_full_ms": 0.3355,
+      "render_damaged_ms": 0.3253,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0016,
+      "render_full_ms": 0.1798,
+      "render_damaged_ms": 0.0535,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "flip05": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0288,
+      "render_full_ms": 0.4215,
+      "render_damaged_ms": 0.3006,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.027,
+      "render_full_ms": 0.2482,
+      "render_damaged_ms": 0.2354,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0018,
+      "render_full_ms": 0.1733,
+      "render_damaged_ms": 0.0652,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "boot_early": {
+     "on": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.002,
+      "render_full_ms": 0.3362,
+      "render_damaged_ms": 0.129,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0009,
+      "render_full_ms": 0.148,
+      "render_damaged_ms": 0.0932,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0011,
+      "render_full_ms": 0.1882,
+      "render_damaged_ms": 0.0358,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "orbit_slide": {
+     "on": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0213,
+      "render_full_ms": 0.3012,
+      "render_damaged_ms": 0.2596,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0202,
+      "render_full_ms": 0.1415,
+      "render_damaged_ms": 0.1362,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0011,
+      "render_full_ms": 0.1597,
+      "render_damaged_ms": 0.1234,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "mesh.touch_dent": {
+   "kind": "pair",
+   "fixtures": {
+    "idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0262,
+      "render_full_ms": 0.2637,
+      "render_damaged_ms": 0.2467,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0243,
+      "render_full_ms": 0.2442,
+      "render_damaged_ms": 0.2335,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0019,
+      "render_full_ms": 0.0195,
+      "render_damaged_ms": 0.0132,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen05": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0753,
+      "render_full_ms": 0.4096,
+      "render_damaged_ms": 0.4108,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0756,
+      "render_full_ms": 0.4293,
+      "render_damaged_ms": 0.4262,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0003,
+      "render_full_ms": -0.0197,
+      "render_damaged_ms": -0.0154,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10": {
+     "on": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0815,
+      "render_full_ms": 0.4515,
+      "render_damaged_ms": 0.4478,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0837,
+      "render_full_ms": 0.4736,
+      "render_damaged_ms": 0.4746,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0022,
+      "render_full_ms": -0.0221,
+      "render_damaged_ms": -0.0268,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0326,
+      "render_full_ms": 0.3296,
+      "render_damaged_ms": 0.3101,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "off": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0326,
+      "render_full_ms": 0.3277,
+      "render_damaged_ms": 0.3109,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0,
+      "render_full_ms": 0.0019,
+      "render_damaged_ms": -0.0008,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "speak": {
+     "on": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0296,
+      "render_full_ms": 0.295,
+      "render_damaged_ms": 0.2817,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0272,
+      "render_full_ms": 0.2664,
+      "render_damaged_ms": 0.255,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0024,
+      "render_full_ms": 0.0286,
+      "render_damaged_ms": 0.0267,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "joy": {
+     "on": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.0275,
+      "render_full_ms": 0.2673,
+      "render_damaged_ms": 0.2548,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.0256,
+      "render_full_ms": 0.2505,
+      "render_damaged_ms": 0.2409,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0019,
+      "render_full_ms": 0.0168,
+      "render_damaged_ms": 0.0139,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "flip05": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0248,
+      "render_full_ms": 0.2276,
+      "render_damaged_ms": 0.2153,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0241,
+      "render_full_ms": 0.219,
+      "render_damaged_ms": 0.2078,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0007,
+      "render_full_ms": 0.0086,
+      "render_damaged_ms": 0.0075,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "boot_early": {
+     "on": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0014,
+      "render_full_ms": 0.1415,
+      "render_damaged_ms": 0.0884,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0014,
+      "render_full_ms": 0.1391,
+      "render_damaged_ms": 0.0839,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0,
+      "render_full_ms": 0.0024,
+      "render_damaged_ms": 0.0045,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "orbit_slide": {
+     "on": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0195,
+      "render_full_ms": 0.1432,
+      "render_damaged_ms": 0.1373,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0192,
+      "render_full_ms": 0.1385,
+      "render_damaged_ms": 0.1328,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0003,
+      "render_full_ms": 0.0047,
+      "render_damaged_ms": 0.0045,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "ui.slide": {
+   "kind": "on",
+   "fixtures": {
+    "idle": {
+     "on": {
+      "prims": 128,
+      "prims_max": 129,
+      "sim_ms": 0.0185,
+      "render_full_ms": 0.1546,
+      "render_damaged_ms": 0.1451,
+      "dmg_bands_mean": 17.18,
+      "dmg_bands_last": 17,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0219,
+      "render_full_ms": 0.223,
+      "render_damaged_ms": 0.2088,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": -91,
+      "sim_ms": -0.0034,
+      "render_full_ms": -0.0684,
+      "render_damaged_ms": -0.0637,
+      "dmg_bands_mean": -0.2,
+      "repeat_same": 0
+     }
+    },
+    "listen05": {
+     "on": {
+      "prims": 234,
+      "prims_max": 235,
+      "sim_ms": 0.0517,
+      "render_full_ms": 0.1953,
+      "render_damaged_ms": 0.1967,
+      "dmg_bands_mean": 21.24,
+      "dmg_bands_last": 21,
+      "repeat_same": 21
+     },
+     "off": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0728,
+      "render_full_ms": 0.4101,
+      "render_damaged_ms": 0.4043,
+      "dmg_bands_mean": 24.0,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": -365,
+      "sim_ms": -0.0211,
+      "render_full_ms": -0.2148,
+      "render_damaged_ms": -0.2076,
+      "dmg_bands_mean": -2.76,
+      "repeat_same": 7
+     }
+    },
+    "listen10": {
+     "on": {
+      "prims": 234,
+      "prims_max": 235,
+      "sim_ms": 0.0406,
+      "render_full_ms": 0.1463,
+      "render_damaged_ms": 0.1547,
+      "dmg_bands_mean": 21.37,
+      "dmg_bands_last": 21,
+      "repeat_same": 21
+     },
+     "off": {
+      "prims": 599,
+      "prims_max": 599,
+      "sim_ms": 0.0592,
+      "render_full_ms": 0.3291,
+      "render_damaged_ms": 0.3308,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": -365,
+      "sim_ms": -0.0186,
+      "render_full_ms": -0.1828,
+      "render_damaged_ms": -0.1761,
+      "dmg_bands_mean": -2.82,
+      "repeat_same": 7
+     }
+    },
+    "think": {
+     "on": {
+      "prims": 152,
+      "prims_max": 157,
+      "sim_ms": 0.0199,
+      "render_full_ms": 0.1681,
+      "render_damaged_ms": 0.1592,
+      "dmg_bands_mean": 16.09,
+      "dmg_bands_last": 16,
+      "repeat_same": 27
+     },
+     "off": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0265,
+      "render_full_ms": 0.2606,
+      "render_damaged_ms": 0.2472,
+      "dmg_bands_mean": 16.78,
+      "dmg_bands_last": 16,
+      "repeat_same": 24
+     },
+     "delta": {
+      "prims": -120,
+      "sim_ms": -0.0066,
+      "render_full_ms": -0.0925,
+      "render_damaged_ms": -0.088,
+      "dmg_bands_mean": -0.69,
+      "repeat_same": 3
+     }
+    },
+    "speak": {
+     "on": {
+      "prims": 152,
+      "prims_max": 153,
+      "sim_ms": 0.0165,
+      "render_full_ms": 0.1324,
+      "render_damaged_ms": 0.1309,
+      "dmg_bands_mean": 17.18,
+      "dmg_bands_last": 17,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 265,
+      "prims_max": 269,
+      "sim_ms": 0.0239,
+      "render_full_ms": 0.2292,
+      "render_damaged_ms": 0.2208,
+      "dmg_bands_mean": 17.41,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": -113,
+      "sim_ms": -0.0074,
+      "render_full_ms": -0.0968,
+      "render_damaged_ms": -0.0899,
+      "dmg_bands_mean": -0.23,
+      "repeat_same": 0
+     }
+    },
+    "joy": {
+     "on": {
+      "prims": 145,
+      "prims_max": 146,
+      "sim_ms": 0.0179,
+      "render_full_ms": 0.1455,
+      "render_damaged_ms": 0.1394,
+      "dmg_bands_mean": 17.27,
+      "dmg_bands_last": 17,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 258,
+      "prims_max": 260,
+      "sim_ms": 0.026,
+      "render_full_ms": 0.2576,
+      "render_damaged_ms": 0.2449,
+      "dmg_bands_mean": 17.49,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": -113,
+      "sim_ms": -0.0081,
+      "render_full_ms": -0.1121,
+      "render_damaged_ms": -0.1055,
+      "dmg_bands_mean": -0.22,
+      "repeat_same": 0
+     }
+    },
+    "flip05": {
+     "on": {
+      "prims": 127,
+      "prims_max": 128,
+      "sim_ms": 0.0152,
+      "render_full_ms": 0.1167,
+      "render_damaged_ms": 0.1117,
+      "dmg_bands_mean": 17.18,
+      "dmg_bands_last": 17,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0208,
+      "render_full_ms": 0.1879,
+      "render_damaged_ms": 0.18,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": -92,
+      "sim_ms": -0.0056,
+      "render_full_ms": -0.0712,
+      "render_damaged_ms": -0.0683,
+      "dmg_bands_mean": -0.2,
+      "repeat_same": 0
+     }
+    },
+    "boot_early": {
+     "on": {
+      "prims": 9,
+      "prims_max": 9,
+      "sim_ms": 0.0026,
+      "render_full_ms": 0.1043,
+      "render_damaged_ms": 0.0533,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0012,
+      "render_full_ms": 0.1167,
+      "render_damaged_ms": 0.0759,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": -2,
+      "sim_ms": 0.0014,
+      "render_full_ms": -0.0124,
+      "render_damaged_ms": -0.0226,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "orbit_slide": {
+     "on": {
+      "prims": 128,
+      "prims_max": 129,
+      "sim_ms": 0.0179,
+      "render_full_ms": 0.1525,
+      "render_damaged_ms": 0.1434,
+      "dmg_bands_mean": 17.18,
+      "dmg_bands_last": 17,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0167,
+      "render_full_ms": 0.1288,
+      "render_damaged_ms": 0.1226,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 69,
+      "sim_ms": 0.0012,
+      "render_full_ms": 0.0237,
+      "render_damaged_ms": 0.0208,
+      "dmg_bands_mean": -7.82,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "orbit": {
+   "kind": "orbit",
+   "fixtures": {
+    "orbit_slide": {
+     "on": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0172,
+      "render_full_ms": 0.1308,
+      "render_damaged_ms": 0.1246,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.022,
+      "render_full_ms": 0.2273,
+      "render_damaged_ms": 0.2173,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": -160,
+      "sim_ms": -0.0048,
+      "render_full_ms": -0.0965,
+      "render_damaged_ms": -0.0927,
+      "dmg_bands_mean": 7.62,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "mesh.orbit_handoff": {
+   "kind": "handoff",
+   "fixtures": {
+    "orbit_slide": {
+     "on": {
+      "prims": 59,
+      "prims_max": 157,
+      "sim_ms": 0.0168,
+      "render_full_ms": 0.1251,
+      "render_damaged_ms": 0.1191,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 177,
+      "prims_max": 178,
+      "sim_ms": 0.027,
+      "render_full_ms": 0.1992,
+      "render_damaged_ms": 0.2067,
+      "dmg_bands_mean": 25.0,
+      "dmg_bands_last": 25,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": -118,
+      "sim_ms": -0.0102,
+      "render_full_ms": -0.0741,
+      "render_damaged_ms": -0.0876,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "boot": {
+   "kind": "boot",
+   "fixtures": {
+    "boot_early": {
+     "on": {
+      "prims": 11,
+      "prims_max": 11,
+      "sim_ms": 0.0012,
+      "render_full_ms": 0.1267,
+      "render_damaged_ms": 0.0747,
+      "dmg_bands_mean": 10.0,
+      "dmg_bands_last": 10,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 201,
+      "prims_max": 201,
+      "sim_ms": 0.0193,
+      "render_full_ms": 0.2529,
+      "render_damaged_ms": 0.2569,
+      "dmg_bands_mean": 18.0,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": -190,
+      "sim_ms": -0.0181,
+      "render_full_ms": -0.1262,
+      "render_damaged_ms": -0.1822,
+      "dmg_bands_mean": -8.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  }
+ },
+ "effects_sub60_sensitivity": {
+  "mesh.edges": {
+   "kind": "off",
+   "fixtures": {
+    "turn_idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0166,
+      "render_full_ms": 0.1804,
+      "render_damaged_ms": 0.1974,
+      "dmg_bands_mean": 28.93,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 118,
+      "prims_max": 121,
+      "sim_ms": 0.0079,
+      "render_full_ms": 0.1179,
+      "render_damaged_ms": 0.1359,
+      "dmg_bands_mean": 28.87,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 101,
+      "sim_ms": 0.0087,
+      "render_full_ms": 0.0625,
+      "render_damaged_ms": 0.0615,
+      "dmg_bands_mean": 0.06,
+      "repeat_same": 0
+     }
+    },
+    "turn_listen10": {
+     "on": {
+      "prims": 760,
+      "prims_max": 760,
+      "sim_ms": 0.0591,
+      "render_full_ms": 0.3564,
+      "render_damaged_ms": 0.3658,
+      "dmg_bands_mean": 29.25,
+      "dmg_bands_last": 30,
+      "repeat_same": 3
+     },
+     "off": {
+      "prims": 632,
+      "prims_max": 633,
+      "sim_ms": 0.0479,
+      "render_full_ms": 0.2732,
+      "render_damaged_ms": 0.2827,
+      "dmg_bands_mean": 29.23,
+      "dmg_bands_last": 30,
+      "repeat_same": 3
+     },
+     "delta": {
+      "prims": 128,
+      "sim_ms": 0.0112,
+      "render_full_ms": 0.0832,
+      "render_damaged_ms": 0.0831,
+      "dmg_bands_mean": 0.02,
+      "repeat_same": 0
+     }
+    },
+    "turn_think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0222,
+      "render_full_ms": 0.2477,
+      "render_damaged_ms": 0.2617,
+      "dmg_bands_mean": 28.91,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 124,
+      "prims_max": 129,
+      "sim_ms": 0.0086,
+      "render_full_ms": 0.1363,
+      "render_damaged_ms": 0.1537,
+      "dmg_bands_mean": 28.81,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 148,
+      "sim_ms": 0.0136,
+      "render_full_ms": 0.1114,
+      "render_damaged_ms": 0.108,
+      "dmg_bands_mean": 0.1,
+      "repeat_same": 0
+     }
+    },
+    "speak_busy": {
+     "on": {
+      "prims": 300,
+      "prims_max": 311,
+      "sim_ms": 0.026,
+      "render_full_ms": 0.2464,
+      "render_damaged_ms": 0.238,
+      "dmg_bands_mean": 17.47,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 119,
+      "prims_max": 130,
+      "sim_ms": 0.0084,
+      "render_full_ms": 0.1026,
+      "render_damaged_ms": 0.0993,
+      "dmg_bands_mean": 17.23,
+      "dmg_bands_last": 17,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 181,
+      "sim_ms": 0.0176,
+      "render_full_ms": 0.1438,
+      "render_damaged_ms": 0.1387,
+      "dmg_bands_mean": 0.24,
+      "repeat_same": 0
+     }
+    },
+    "listen10_busy": {
+     "on": {
+      "prims": 655,
+      "prims_max": 661,
+      "sim_ms": 0.0577,
+      "render_full_ms": 0.3413,
+      "render_damaged_ms": 0.3418,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 473,
+      "prims_max": 479,
+      "sim_ms": 0.0399,
+      "render_full_ms": 0.199,
+      "render_damaged_ms": 0.2026,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 182,
+      "sim_ms": 0.0178,
+      "render_full_ms": 0.1423,
+      "render_damaged_ms": 0.1392,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "idle_busy": {
+     "on": {
+      "prims": 306,
+      "prims_max": 312,
+      "sim_ms": 0.0257,
+      "render_full_ms": 0.2435,
+      "render_damaged_ms": 0.237,
+      "dmg_bands_mean": 17.83,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 124,
+      "prims_max": 130,
+      "sim_ms": 0.0081,
+      "render_full_ms": 0.1007,
+      "render_damaged_ms": 0.0979,
+      "dmg_bands_mean": 17.4,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 182,
+      "sim_ms": 0.0176,
+      "render_full_ms": 0.1428,
+      "render_damaged_ms": 0.1391,
+      "dmg_bands_mean": 0.43,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "mesh.nodes": {
+   "kind": "off",
+   "fixtures": {
+    "turn_idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0165,
+      "render_full_ms": 0.1824,
+      "render_damaged_ms": 0.1991,
+      "dmg_bands_mean": 28.93,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 135,
+      "prims_max": 140,
+      "sim_ms": 0.0137,
+      "render_full_ms": 0.1548,
+      "render_damaged_ms": 0.1704,
+      "dmg_bands_mean": 28.91,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 84,
+      "sim_ms": 0.0028,
+      "render_full_ms": 0.0276,
+      "render_damaged_ms": 0.0287,
+      "dmg_bands_mean": 0.02,
+      "repeat_same": 0
+     }
+    },
+    "turn_listen10": {
+     "on": {
+      "prims": 760,
+      "prims_max": 760,
+      "sim_ms": 0.0598,
+      "render_full_ms": 0.3631,
+      "render_damaged_ms": 0.3712,
+      "dmg_bands_mean": 29.25,
+      "dmg_bands_last": 30,
+      "repeat_same": 3
+     },
+     "off": {
+      "prims": 676,
+      "prims_max": 676,
+      "sim_ms": 0.0571,
+      "render_full_ms": 0.332,
+      "render_damaged_ms": 0.34,
+      "dmg_bands_mean": 29.25,
+      "dmg_bands_last": 30,
+      "repeat_same": 3
+     },
+     "delta": {
+      "prims": 84,
+      "sim_ms": 0.0027,
+      "render_full_ms": 0.0311,
+      "render_damaged_ms": 0.0312,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "turn_think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0219,
+      "render_full_ms": 0.245,
+      "render_damaged_ms": 0.2584,
+      "dmg_bands_mean": 28.91,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 188,
+      "prims_max": 197,
+      "sim_ms": 0.0192,
+      "render_full_ms": 0.2146,
+      "render_damaged_ms": 0.2298,
+      "dmg_bands_mean": 28.9,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 84,
+      "sim_ms": 0.0027,
+      "render_full_ms": 0.0304,
+      "render_damaged_ms": 0.0286,
+      "dmg_bands_mean": 0.01,
+      "repeat_same": 0
+     }
+    },
+    "speak_busy": {
+     "on": {
+      "prims": 300,
+      "prims_max": 311,
+      "sim_ms": 0.0254,
+      "render_full_ms": 0.2427,
+      "render_damaged_ms": 0.2348,
+      "dmg_bands_mean": 17.47,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 216,
+      "prims_max": 227,
+      "sim_ms": 0.0226,
+      "render_full_ms": 0.2141,
+      "render_damaged_ms": 0.2074,
+      "dmg_bands_mean": 17.08,
+      "dmg_bands_last": 17,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 84,
+      "sim_ms": 0.0028,
+      "render_full_ms": 0.0286,
+      "render_damaged_ms": 0.0274,
+      "dmg_bands_mean": 0.39,
+      "repeat_same": 0
+     }
+    },
+    "listen10_busy": {
+     "on": {
+      "prims": 655,
+      "prims_max": 661,
+      "sim_ms": 0.0577,
+      "render_full_ms": 0.3415,
+      "render_damaged_ms": 0.3421,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 571,
+      "prims_max": 577,
+      "sim_ms": 0.0551,
+      "render_full_ms": 0.3118,
+      "render_damaged_ms": 0.3135,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 84,
+      "sim_ms": 0.0026,
+      "render_full_ms": 0.0297,
+      "render_damaged_ms": 0.0286,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "idle_busy": {
+     "on": {
+      "prims": 306,
+      "prims_max": 312,
+      "sim_ms": 0.026,
+      "render_full_ms": 0.2472,
+      "render_damaged_ms": 0.2383,
+      "dmg_bands_mean": 17.83,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 222,
+      "prims_max": 228,
+      "sim_ms": 0.0229,
+      "render_full_ms": 0.216,
+      "render_damaged_ms": 0.2084,
+      "dmg_bands_mean": 17.63,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 84,
+      "sim_ms": 0.0031,
+      "render_full_ms": 0.0312,
+      "render_damaged_ms": 0.0299,
+      "dmg_bands_mean": 0.2,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "mesh.signals": {
+   "kind": "off",
+   "fixtures": {
+    "turn_idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0164,
+      "render_full_ms": 0.1812,
+      "render_damaged_ms": 0.1987,
+      "dmg_bands_mean": 28.93,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 196,
+      "prims_max": 200,
+      "sim_ms": 0.0156,
+      "render_full_ms": 0.1756,
+      "render_damaged_ms": 0.193,
+      "dmg_bands_mean": 28.93,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 23,
+      "sim_ms": 0.0008,
+      "render_full_ms": 0.0056,
+      "render_damaged_ms": 0.0057,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "turn_listen10": {
+     "on": {
+      "prims": 760,
+      "prims_max": 760,
+      "sim_ms": 0.0591,
+      "render_full_ms": 0.3565,
+      "render_damaged_ms": 0.3658,
+      "dmg_bands_mean": 29.25,
+      "dmg_bands_last": 30,
+      "repeat_same": 3
+     },
+     "off": {
+      "prims": 734,
+      "prims_max": 736,
+      "sim_ms": 0.0581,
+      "render_full_ms": 0.3494,
+      "render_damaged_ms": 0.3587,
+      "dmg_bands_mean": 29.25,
+      "dmg_bands_last": 30,
+      "repeat_same": 3
+     },
+     "delta": {
+      "prims": 26,
+      "sim_ms": 0.001,
+      "render_full_ms": 0.0071,
+      "render_damaged_ms": 0.0071,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "turn_think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0225,
+      "render_full_ms": 0.2511,
+      "render_damaged_ms": 0.2652,
+      "dmg_bands_mean": 28.91,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 244,
+      "prims_max": 249,
+      "sim_ms": 0.0212,
+      "render_full_ms": 0.2387,
+      "render_damaged_ms": 0.2547,
+      "dmg_bands_mean": 28.9,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 28,
+      "sim_ms": 0.0013,
+      "render_full_ms": 0.0124,
+      "render_damaged_ms": 0.0105,
+      "dmg_bands_mean": 0.01,
+      "repeat_same": 0
+     }
+    },
+    "speak_busy": {
+     "on": {
+      "prims": 300,
+      "prims_max": 311,
+      "sim_ms": 0.0263,
+      "render_full_ms": 0.2515,
+      "render_damaged_ms": 0.2423,
+      "dmg_bands_mean": 17.47,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 277,
+      "prims_max": 278,
+      "sim_ms": 0.025,
+      "render_full_ms": 0.2437,
+      "render_damaged_ms": 0.2344,
+      "dmg_bands_mean": 17.38,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 23,
+      "sim_ms": 0.0013,
+      "render_full_ms": 0.0078,
+      "render_damaged_ms": 0.0079,
+      "dmg_bands_mean": 0.09,
+      "repeat_same": 0
+     }
+    },
+    "listen10_busy": {
+     "on": {
+      "prims": 655,
+      "prims_max": 661,
+      "sim_ms": 0.0599,
+      "render_full_ms": 0.3603,
+      "render_damaged_ms": 0.3544,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 626,
+      "prims_max": 626,
+      "sim_ms": 0.0619,
+      "render_full_ms": 0.3605,
+      "render_damaged_ms": 0.3635,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 29,
+      "sim_ms": -0.002,
+      "render_full_ms": -0.0002,
+      "render_damaged_ms": -0.0091,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "idle_busy": {
+     "on": {
+      "prims": 306,
+      "prims_max": 312,
+      "sim_ms": 0.0269,
+      "render_full_ms": 0.2594,
+      "render_damaged_ms": 0.249,
+      "dmg_bands_mean": 17.83,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 277,
+      "prims_max": 277,
+      "sim_ms": 0.0252,
+      "render_full_ms": 0.2406,
+      "render_damaged_ms": 0.2313,
+      "dmg_bands_mean": 17.43,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 29,
+      "sim_ms": 0.0017,
+      "render_full_ms": 0.0188,
+      "render_damaged_ms": 0.0177,
+      "dmg_bands_mean": 0.4,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "strands.mic": {
+   "kind": "off",
+   "fixtures": {
+    "turn_idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0165,
+      "render_full_ms": 0.1809,
+      "render_damaged_ms": 0.1993,
+      "dmg_bands_mean": 28.93,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0165,
+      "render_full_ms": 0.1809,
+      "render_damaged_ms": 0.1982,
+      "dmg_bands_mean": 28.93,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0,
+      "render_full_ms": 0.0,
+      "render_damaged_ms": 0.0011,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "turn_listen10": {
+     "on": {
+      "prims": 760,
+      "prims_max": 760,
+      "sim_ms": 0.0599,
+      "render_full_ms": 0.3617,
+      "render_damaged_ms": 0.3694,
+      "dmg_bands_mean": 29.25,
+      "dmg_bands_last": 30,
+      "repeat_same": 3
+     },
+     "off": {
+      "prims": 274,
+      "prims_max": 274,
+      "sim_ms": 0.0215,
+      "render_full_ms": 0.2252,
+      "render_damaged_ms": 0.2418,
+      "dmg_bands_mean": 28.93,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 486,
+      "sim_ms": 0.0384,
+      "render_full_ms": 0.1365,
+      "render_damaged_ms": 0.1276,
+      "dmg_bands_mean": 0.32,
+      "repeat_same": -27
+     }
+    },
+    "turn_think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0223,
+      "render_full_ms": 0.2469,
+      "render_damaged_ms": 0.2618,
+      "dmg_bands_mean": 28.91,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0222,
+      "render_full_ms": 0.2522,
+      "render_damaged_ms": 0.2636,
+      "dmg_bands_mean": 28.91,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0001,
+      "render_full_ms": -0.0053,
+      "render_damaged_ms": -0.0018,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "speak_busy": {
+     "on": {
+      "prims": 300,
+      "prims_max": 311,
+      "sim_ms": 0.0257,
+      "render_full_ms": 0.243,
+      "render_damaged_ms": 0.236,
+      "dmg_bands_mean": 17.47,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 300,
+      "prims_max": 311,
+      "sim_ms": 0.0258,
+      "render_full_ms": 0.2433,
+      "render_damaged_ms": 0.2369,
+      "dmg_bands_mean": 17.47,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0001,
+      "render_full_ms": -0.0003,
+      "render_damaged_ms": -0.0009,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10_busy": {
+     "on": {
+      "prims": 655,
+      "prims_max": 661,
+      "sim_ms": 0.0581,
+      "render_full_ms": 0.341,
+      "render_damaged_ms": 0.3424,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 331,
+      "prims_max": 337,
+      "sim_ms": 0.0273,
+      "render_full_ms": 0.2558,
+      "render_damaged_ms": 0.248,
+      "dmg_bands_mean": 17.83,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 324,
+      "sim_ms": 0.0308,
+      "render_full_ms": 0.0852,
+      "render_damaged_ms": 0.0944,
+      "dmg_bands_mean": 6.36,
+      "repeat_same": -16
+     }
+    },
+    "idle_busy": {
+     "on": {
+      "prims": 306,
+      "prims_max": 312,
+      "sim_ms": 0.0263,
+      "render_full_ms": 0.2492,
+      "render_damaged_ms": 0.2424,
+      "dmg_bands_mean": 17.83,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 306,
+      "prims_max": 312,
+      "sim_ms": 0.0263,
+      "render_full_ms": 0.2511,
+      "render_damaged_ms": 0.2441,
+      "dmg_bands_mean": 17.83,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0,
+      "render_full_ms": -0.0019,
+      "render_damaged_ms": -0.0017,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "strands.absorb": {
+   "kind": "off",
+   "fixtures": {
+    "turn_idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0162,
+      "render_full_ms": 0.1821,
+      "render_damaged_ms": 0.1987,
+      "dmg_bands_mean": 28.93,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0163,
+      "render_full_ms": 0.1806,
+      "render_damaged_ms": 0.1983,
+      "dmg_bands_mean": 28.93,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0001,
+      "render_full_ms": 0.0015,
+      "render_damaged_ms": 0.0004,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "turn_listen10": {
+     "on": {
+      "prims": 760,
+      "prims_max": 760,
+      "sim_ms": 0.0594,
+      "render_full_ms": 0.3579,
+      "render_damaged_ms": 0.3672,
+      "dmg_bands_mean": 29.25,
+      "dmg_bands_last": 30,
+      "repeat_same": 3
+     },
+     "off": {
+      "prims": 736,
+      "prims_max": 736,
+      "sim_ms": 0.0578,
+      "render_full_ms": 0.3523,
+      "render_damaged_ms": 0.3606,
+      "dmg_bands_mean": 29.25,
+      "dmg_bands_last": 30,
+      "repeat_same": 3
+     },
+     "delta": {
+      "prims": 24,
+      "sim_ms": 0.0016,
+      "render_full_ms": 0.0056,
+      "render_damaged_ms": 0.0066,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "turn_think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.023,
+      "render_full_ms": 0.2577,
+      "render_damaged_ms": 0.2713,
+      "dmg_bands_mean": 28.91,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0248,
+      "render_full_ms": 0.2788,
+      "render_damaged_ms": 0.2935,
+      "dmg_bands_mean": 28.91,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0018,
+      "render_full_ms": -0.0211,
+      "render_damaged_ms": -0.0222,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "speak_busy": {
+     "on": {
+      "prims": 300,
+      "prims_max": 311,
+      "sim_ms": 0.0268,
+      "render_full_ms": 0.2512,
+      "render_damaged_ms": 0.2421,
+      "dmg_bands_mean": 17.47,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 300,
+      "prims_max": 311,
+      "sim_ms": 0.0266,
+      "render_full_ms": 0.2513,
+      "render_damaged_ms": 0.2437,
+      "dmg_bands_mean": 17.47,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0002,
+      "render_full_ms": -0.0001,
+      "render_damaged_ms": -0.0016,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10_busy": {
+     "on": {
+      "prims": 655,
+      "prims_max": 661,
+      "sim_ms": 0.0587,
+      "render_full_ms": 0.3438,
+      "render_damaged_ms": 0.346,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 631,
+      "prims_max": 637,
+      "sim_ms": 0.0576,
+      "render_full_ms": 0.338,
+      "render_damaged_ms": 0.3391,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 24,
+      "sim_ms": 0.0011,
+      "render_full_ms": 0.0058,
+      "render_damaged_ms": 0.0069,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "idle_busy": {
+     "on": {
+      "prims": 306,
+      "prims_max": 312,
+      "sim_ms": 0.0267,
+      "render_full_ms": 0.25,
+      "render_damaged_ms": 0.2423,
+      "dmg_bands_mean": 17.83,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 306,
+      "prims_max": 312,
+      "sim_ms": 0.0267,
+      "render_full_ms": 0.2532,
+      "render_damaged_ms": 0.2463,
+      "dmg_bands_mean": 17.83,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0,
+      "render_full_ms": -0.0032,
+      "render_damaged_ms": -0.004,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "ring": {
+   "kind": "off",
+   "fixtures": {
+    "turn_idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0166,
+      "render_full_ms": 0.1812,
+      "render_damaged_ms": 0.1993,
+      "dmg_bands_mean": 28.93,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0163,
+      "render_full_ms": 0.1598,
+      "render_damaged_ms": 0.1805,
+      "dmg_bands_mean": 27.68,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0003,
+      "render_full_ms": 0.0214,
+      "render_damaged_ms": 0.0188,
+      "dmg_bands_mean": 1.25,
+      "repeat_same": 0
+     }
+    },
+    "turn_listen10": {
+     "on": {
+      "prims": 760,
+      "prims_max": 760,
+      "sim_ms": 0.0612,
+      "render_full_ms": 0.3718,
+      "render_damaged_ms": 0.379,
+      "dmg_bands_mean": 29.25,
+      "dmg_bands_last": 30,
+      "repeat_same": 3
+     },
+     "off": {
+      "prims": 760,
+      "prims_max": 760,
+      "sim_ms": 0.0617,
+      "render_full_ms": 0.3514,
+      "render_damaged_ms": 0.3601,
+      "dmg_bands_mean": 28.35,
+      "dmg_bands_last": 30,
+      "repeat_same": 3
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0005,
+      "render_full_ms": 0.0204,
+      "render_damaged_ms": 0.0189,
+      "dmg_bands_mean": 0.9,
+      "repeat_same": 0
+     }
+    },
+    "turn_think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0226,
+      "render_full_ms": 0.2544,
+      "render_damaged_ms": 0.2686,
+      "dmg_bands_mean": 28.91,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0224,
+      "render_full_ms": 0.2314,
+      "render_damaged_ms": 0.2464,
+      "dmg_bands_mean": 27.62,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0002,
+      "render_full_ms": 0.023,
+      "render_damaged_ms": 0.0222,
+      "dmg_bands_mean": 1.29,
+      "repeat_same": 0
+     }
+    },
+    "speak_busy": {
+     "on": {
+      "prims": 300,
+      "prims_max": 311,
+      "sim_ms": 0.0263,
+      "render_full_ms": 0.2522,
+      "render_damaged_ms": 0.2432,
+      "dmg_bands_mean": 17.47,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 300,
+      "prims_max": 311,
+      "sim_ms": 0.0266,
+      "render_full_ms": 0.2286,
+      "render_damaged_ms": 0.2319,
+      "dmg_bands_mean": 17.47,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0003,
+      "render_full_ms": 0.0236,
+      "render_damaged_ms": 0.0113,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10_busy": {
+     "on": {
+      "prims": 655,
+      "prims_max": 661,
+      "sim_ms": 0.0583,
+      "render_full_ms": 0.3416,
+      "render_damaged_ms": 0.3436,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 655,
+      "prims_max": 661,
+      "sim_ms": 0.0587,
+      "render_full_ms": 0.3238,
+      "render_damaged_ms": 0.3308,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": -0.0004,
+      "render_full_ms": 0.0178,
+      "render_damaged_ms": 0.0128,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "idle_busy": {
+     "on": {
+      "prims": 306,
+      "prims_max": 312,
+      "sim_ms": 0.0258,
+      "render_full_ms": 0.2448,
+      "render_damaged_ms": 0.2371,
+      "dmg_bands_mean": 17.83,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 306,
+      "prims_max": 312,
+      "sim_ms": 0.0257,
+      "render_full_ms": 0.2194,
+      "render_damaged_ms": 0.2248,
+      "dmg_bands_mean": 17.83,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0001,
+      "render_full_ms": 0.0254,
+      "render_damaged_ms": 0.0123,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "ring.drain_arc": {
+   "kind": "on",
+   "fixtures": {
+    "turn_idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.018,
+      "render_full_ms": 0.2846,
+      "render_damaged_ms": 0.2934,
+      "dmg_bands_mean": 28.93,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0161,
+      "render_full_ms": 0.1773,
+      "render_damaged_ms": 0.195,
+      "dmg_bands_mean": 28.93,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0019,
+      "render_full_ms": 0.1073,
+      "render_damaged_ms": 0.0984,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "turn_listen10": {
+     "on": {
+      "prims": 760,
+      "prims_max": 760,
+      "sim_ms": 0.0604,
+      "render_full_ms": 0.462,
+      "render_damaged_ms": 0.4697,
+      "dmg_bands_mean": 29.25,
+      "dmg_bands_last": 30,
+      "repeat_same": 3
+     },
+     "off": {
+      "prims": 760,
+      "prims_max": 760,
+      "sim_ms": 0.0588,
+      "render_full_ms": 0.3544,
+      "render_damaged_ms": 0.3632,
+      "dmg_bands_mean": 29.25,
+      "dmg_bands_last": 30,
+      "repeat_same": 3
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0016,
+      "render_full_ms": 0.1076,
+      "render_damaged_ms": 0.1065,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "turn_think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0239,
+      "render_full_ms": 0.3599,
+      "render_damaged_ms": 0.3645,
+      "dmg_bands_mean": 28.91,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.022,
+      "render_full_ms": 0.2479,
+      "render_damaged_ms": 0.2621,
+      "dmg_bands_mean": 28.91,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0019,
+      "render_full_ms": 0.112,
+      "render_damaged_ms": 0.1024,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "speak_busy": {
+     "on": {
+      "prims": 300,
+      "prims_max": 311,
+      "sim_ms": 0.0271,
+      "render_full_ms": 0.3528,
+      "render_damaged_ms": 0.275,
+      "dmg_bands_mean": 17.47,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 300,
+      "prims_max": 311,
+      "sim_ms": 0.026,
+      "render_full_ms": 0.245,
+      "render_damaged_ms": 0.2364,
+      "dmg_bands_mean": 17.47,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.0011,
+      "render_full_ms": 0.1078,
+      "render_damaged_ms": 0.0386,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10_busy": {
+     "on": {
+      "prims": 655,
+      "prims_max": 661,
+      "sim_ms": 0.0592,
+      "render_full_ms": 0.4526,
+      "render_damaged_ms": 0.4355,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 655,
+      "prims_max": 661,
+      "sim_ms": 0.0582,
+      "render_full_ms": 0.3423,
+      "render_damaged_ms": 0.3441,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.001,
+      "render_full_ms": 0.1103,
+      "render_damaged_ms": 0.0914,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "idle_busy": {
+     "on": {
+      "prims": 306,
+      "prims_max": 312,
+      "sim_ms": 0.0269,
+      "render_full_ms": 0.3547,
+      "render_damaged_ms": 0.2779,
+      "dmg_bands_mean": 17.83,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 306,
+      "prims_max": 312,
+      "sim_ms": 0.0259,
+      "render_full_ms": 0.2479,
+      "render_damaged_ms": 0.2394,
+      "dmg_bands_mean": 17.83,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 0,
+      "sim_ms": 0.001,
+      "render_full_ms": 0.1068,
+      "render_damaged_ms": 0.0385,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "eyes": {
+   "kind": "off",
+   "fixtures": {
+    "turn_idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0167,
+      "render_full_ms": 0.1834,
+      "render_damaged_ms": 0.2013,
+      "dmg_bands_mean": 28.93,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 217,
+      "prims_max": 222,
+      "sim_ms": 0.0162,
+      "render_full_ms": 0.1608,
+      "render_damaged_ms": 0.1811,
+      "dmg_bands_mean": 28.89,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0005,
+      "render_full_ms": 0.0226,
+      "render_damaged_ms": 0.0202,
+      "dmg_bands_mean": 0.04,
+      "repeat_same": 0
+     }
+    },
+    "turn_listen10": {
+     "on": {
+      "prims": 760,
+      "prims_max": 760,
+      "sim_ms": 0.059,
+      "render_full_ms": 0.3533,
+      "render_damaged_ms": 0.3609,
+      "dmg_bands_mean": 29.25,
+      "dmg_bands_last": 30,
+      "repeat_same": 3
+     },
+     "off": {
+      "prims": 758,
+      "prims_max": 758,
+      "sim_ms": 0.0584,
+      "render_full_ms": 0.331,
+      "render_damaged_ms": 0.3401,
+      "dmg_bands_mean": 29.25,
+      "dmg_bands_last": 30,
+      "repeat_same": 3
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0006,
+      "render_full_ms": 0.0223,
+      "render_damaged_ms": 0.0208,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "turn_think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0221,
+      "render_full_ms": 0.2481,
+      "render_damaged_ms": 0.2611,
+      "dmg_bands_mean": 28.91,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 270,
+      "prims_max": 279,
+      "sim_ms": 0.0218,
+      "render_full_ms": 0.2269,
+      "render_damaged_ms": 0.2408,
+      "dmg_bands_mean": 28.91,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0003,
+      "render_full_ms": 0.0212,
+      "render_damaged_ms": 0.0203,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "speak_busy": {
+     "on": {
+      "prims": 300,
+      "prims_max": 311,
+      "sim_ms": 0.0259,
+      "render_full_ms": 0.2478,
+      "render_damaged_ms": 0.2391,
+      "dmg_bands_mean": 17.47,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 298,
+      "prims_max": 309,
+      "sim_ms": 0.0255,
+      "render_full_ms": 0.2232,
+      "render_damaged_ms": 0.2164,
+      "dmg_bands_mean": 17.47,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0004,
+      "render_full_ms": 0.0246,
+      "render_damaged_ms": 0.0227,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10_busy": {
+     "on": {
+      "prims": 655,
+      "prims_max": 661,
+      "sim_ms": 0.0583,
+      "render_full_ms": 0.3446,
+      "render_damaged_ms": 0.3464,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 653,
+      "prims_max": 659,
+      "sim_ms": 0.0581,
+      "render_full_ms": 0.3217,
+      "render_damaged_ms": 0.3227,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0002,
+      "render_full_ms": 0.0229,
+      "render_damaged_ms": 0.0237,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "idle_busy": {
+     "on": {
+      "prims": 306,
+      "prims_max": 312,
+      "sim_ms": 0.0261,
+      "render_full_ms": 0.248,
+      "render_damaged_ms": 0.2395,
+      "dmg_bands_mean": 17.83,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 304,
+      "prims_max": 310,
+      "sim_ms": 0.0258,
+      "render_full_ms": 0.2242,
+      "render_damaged_ms": 0.2177,
+      "dmg_bands_mean": 17.83,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0003,
+      "render_full_ms": 0.0238,
+      "render_damaged_ms": 0.0218,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "portal.back": {
+   "kind": "off",
+   "fixtures": {
+    "turn_idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0164,
+      "render_full_ms": 0.1827,
+      "render_damaged_ms": 0.1994,
+      "dmg_bands_mean": 28.93,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 217,
+      "prims_max": 222,
+      "sim_ms": 0.016,
+      "render_full_ms": 0.1643,
+      "render_damaged_ms": 0.1814,
+      "dmg_bands_mean": 28.93,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0004,
+      "render_full_ms": 0.0184,
+      "render_damaged_ms": 0.018,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "turn_listen10": {
+     "on": {
+      "prims": 760,
+      "prims_max": 760,
+      "sim_ms": 0.0588,
+      "render_full_ms": 0.3549,
+      "render_damaged_ms": 0.3634,
+      "dmg_bands_mean": 29.25,
+      "dmg_bands_last": 30,
+      "repeat_same": 3
+     },
+     "off": {
+      "prims": 758,
+      "prims_max": 758,
+      "sim_ms": 0.0585,
+      "render_full_ms": 0.3353,
+      "render_damaged_ms": 0.3431,
+      "dmg_bands_mean": 29.25,
+      "dmg_bands_last": 30,
+      "repeat_same": 3
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0003,
+      "render_full_ms": 0.0196,
+      "render_damaged_ms": 0.0203,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "turn_think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.022,
+      "render_full_ms": 0.2455,
+      "render_damaged_ms": 0.2602,
+      "dmg_bands_mean": 28.91,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 270,
+      "prims_max": 279,
+      "sim_ms": 0.0217,
+      "render_full_ms": 0.2268,
+      "render_damaged_ms": 0.2424,
+      "dmg_bands_mean": 28.91,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0003,
+      "render_full_ms": 0.0187,
+      "render_damaged_ms": 0.0178,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "speak_busy": {
+     "on": {
+      "prims": 300,
+      "prims_max": 311,
+      "sim_ms": 0.0256,
+      "render_full_ms": 0.244,
+      "render_damaged_ms": 0.2368,
+      "dmg_bands_mean": 17.47,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 298,
+      "prims_max": 309,
+      "sim_ms": 0.0256,
+      "render_full_ms": 0.2303,
+      "render_damaged_ms": 0.2237,
+      "dmg_bands_mean": 17.47,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0,
+      "render_full_ms": 0.0137,
+      "render_damaged_ms": 0.0131,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10_busy": {
+     "on": {
+      "prims": 655,
+      "prims_max": 661,
+      "sim_ms": 0.058,
+      "render_full_ms": 0.3404,
+      "render_damaged_ms": 0.3422,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 653,
+      "prims_max": 659,
+      "sim_ms": 0.058,
+      "render_full_ms": 0.3259,
+      "render_damaged_ms": 0.3269,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0,
+      "render_full_ms": 0.0145,
+      "render_damaged_ms": 0.0153,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "idle_busy": {
+     "on": {
+      "prims": 306,
+      "prims_max": 312,
+      "sim_ms": 0.0264,
+      "render_full_ms": 0.2516,
+      "render_damaged_ms": 0.2438,
+      "dmg_bands_mean": 17.83,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 304,
+      "prims_max": 310,
+      "sim_ms": 0.0261,
+      "render_full_ms": 0.2378,
+      "render_damaged_ms": 0.2298,
+      "dmg_bands_mean": 17.83,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0003,
+      "render_full_ms": 0.0138,
+      "render_damaged_ms": 0.014,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  },
+  "portal.front": {
+   "kind": "off",
+   "fixtures": {
+    "turn_idle": {
+     "on": {
+      "prims": 219,
+      "prims_max": 224,
+      "sim_ms": 0.0166,
+      "render_full_ms": 0.1821,
+      "render_damaged_ms": 0.1997,
+      "dmg_bands_mean": 28.93,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 217,
+      "prims_max": 222,
+      "sim_ms": 0.0161,
+      "render_full_ms": 0.1673,
+      "render_damaged_ms": 0.1857,
+      "dmg_bands_mean": 28.93,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0005,
+      "render_full_ms": 0.0148,
+      "render_damaged_ms": 0.014,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "turn_listen10": {
+     "on": {
+      "prims": 760,
+      "prims_max": 760,
+      "sim_ms": 0.0588,
+      "render_full_ms": 0.3547,
+      "render_damaged_ms": 0.3642,
+      "dmg_bands_mean": 29.25,
+      "dmg_bands_last": 30,
+      "repeat_same": 3
+     },
+     "off": {
+      "prims": 758,
+      "prims_max": 758,
+      "sim_ms": 0.0586,
+      "render_full_ms": 0.3419,
+      "render_damaged_ms": 0.3498,
+      "dmg_bands_mean": 29.25,
+      "dmg_bands_last": 30,
+      "repeat_same": 3
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0002,
+      "render_full_ms": 0.0128,
+      "render_damaged_ms": 0.0144,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "turn_think": {
+     "on": {
+      "prims": 272,
+      "prims_max": 281,
+      "sim_ms": 0.0219,
+      "render_full_ms": 0.247,
+      "render_damaged_ms": 0.2597,
+      "dmg_bands_mean": 28.91,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 270,
+      "prims_max": 279,
+      "sim_ms": 0.0216,
+      "render_full_ms": 0.2325,
+      "render_damaged_ms": 0.2479,
+      "dmg_bands_mean": 28.91,
+      "dmg_bands_last": 30,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0003,
+      "render_full_ms": 0.0145,
+      "render_damaged_ms": 0.0118,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "speak_busy": {
+     "on": {
+      "prims": 300,
+      "prims_max": 311,
+      "sim_ms": 0.026,
+      "render_full_ms": 0.2489,
+      "render_damaged_ms": 0.2399,
+      "dmg_bands_mean": 17.47,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 298,
+      "prims_max": 309,
+      "sim_ms": 0.0256,
+      "render_full_ms": 0.235,
+      "render_damaged_ms": 0.2283,
+      "dmg_bands_mean": 17.47,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0004,
+      "render_full_ms": 0.0139,
+      "render_damaged_ms": 0.0116,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "listen10_busy": {
+     "on": {
+      "prims": 655,
+      "prims_max": 661,
+      "sim_ms": 0.0593,
+      "render_full_ms": 0.3503,
+      "render_damaged_ms": 0.3512,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "off": {
+      "prims": 653,
+      "prims_max": 659,
+      "sim_ms": 0.0587,
+      "render_full_ms": 0.3339,
+      "render_damaged_ms": 0.3353,
+      "dmg_bands_mean": 24.19,
+      "dmg_bands_last": 24,
+      "repeat_same": 14
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0006,
+      "render_full_ms": 0.0164,
+      "render_damaged_ms": 0.0159,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    },
+    "idle_busy": {
+     "on": {
+      "prims": 306,
+      "prims_max": 312,
+      "sim_ms": 0.0265,
+      "render_full_ms": 0.2504,
+      "render_damaged_ms": 0.2424,
+      "dmg_bands_mean": 17.83,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "off": {
+      "prims": 304,
+      "prims_max": 310,
+      "sim_ms": 0.0263,
+      "render_full_ms": 0.2423,
+      "render_damaged_ms": 0.2332,
+      "dmg_bands_mean": 17.83,
+      "dmg_bands_last": 18,
+      "repeat_same": 30
+     },
+     "delta": {
+      "prims": 2,
+      "sim_ms": 0.0002,
+      "render_full_ms": 0.0081,
+      "render_damaged_ms": 0.0092,
+      "dmg_bands_mean": 0.0,
+      "repeat_same": 0
+     }
+    }
+   }
+  }
+ },
+ "not_measured": {
+  "infinity": "not built on any surface",
+  "backdrop.void": "flat NL_BG fill, no prims, no switch",
+  "glass.reflections": "support none on pocket_hw",
+  "all others": "support none on pocket_hw: out of scope"
+ }
+}
