@@ -55,7 +55,7 @@ Per-effect, per-surface support taken from the entity registry. Contract: `RaBbL
 | Effect id | Label | Priority | Cost tier | web | web3d | ball | pocket_web | pocket_hw | terminal | studio |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `eyes` | Eyes | 0 | low | full | full | full | full | full | reduced | full |
-| `infinity` | Infinity flow | 1 | medium | full | full | full | full | full | reduced | full |
+| `infinity` | Infinity flow | 1 | medium | full | full | full | none | none | reduced | full |
 | `portal.back` | Portal back | 0 | low | full | full | full | full | full | none | full |
 | `portal.front` | Portal front | 0 | low | full | full | full | full | full | none | full |
 
