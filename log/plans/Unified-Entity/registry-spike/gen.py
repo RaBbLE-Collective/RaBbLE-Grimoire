@@ -71,7 +71,7 @@ def parse_kv(s):
 
 
 def src_rust(root, sym):
-    t = (root / "RaBbLE-sCoRE/tui/rabble-face/src/face.rs").read_text()
+    t = (root / "RaBbLE-sCoRE/tui/nebula_glyph/src/face.rs").read_text()
     m = re.search(rf"Expr::{sym} => Pose \{{(.*?)\}},", t, re.S)
     calls = re.findall(r"(e_l|e_r|p_l|p_r):\s*(?:x\(([^)]*)\)|ID)", m.group(1))
     out = {}

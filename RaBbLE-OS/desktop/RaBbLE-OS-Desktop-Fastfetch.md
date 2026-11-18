@@ -159,10 +159,10 @@ transcribe ~ grimoire >> the gaze composited in layers, dust optional // %EP1_ID
 
 ---
 
-## Logos come from rabble-face (rabble-fetch, 2026-11-06)
+## Logos come from nebula_glyph (rabble-fetch, 2026-11-06)
 
 The default logo is no longer hand-drawn. `RaBbLE-OS/spells/fastfetch-face.sh` runs the
-`export` example of `RaBbLE-sCoRE/tui/rabble-face` (the mark's master) and writes checked-in
+`export` example of `RaBbLE-sCoRE/tui/nebula_glyph` (the mark's master) and writes checked-in
 snapshots, so OS installs need no Rust build:
 
 | Tier | Logo file | Source | Config |
