@@ -423,6 +423,8 @@ Seen from the top, the two portal circles overlap on screen at Pocket's spacing,
 
 ### 10.1 Format
 
+> **Superseded S353:** this sample is stale (Canon 9.3). The registry's shape is `registry/entity/RaBbLE-Entity-Registry-Schema.md` and `rabble.entity.schema.json`. It is kept below for history only.
+
 Strict JSON, the rules of Entity Format §4.2: UTF-8, no comments, no duplicate keys, finite numbers, unknown keys rejected, names `[a-z][a-z0-9_]{0,23}`. Palette by token name only.
 
 ```json

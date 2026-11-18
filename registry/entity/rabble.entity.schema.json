@@ -1,0 +1,312 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://joinrabble.world/registry/entity/rabble.entity.schema.json",
+  "title": "RaBbLE entity registry",
+  "description": "DRAFT S353. Shape of registry/entity/rabble.entity.json. Human spec: RaBbLE-Entity-Registry-Schema.md. Cross-reference checks (vocabulary closure, palette, envelope, no-touch, budget) live in validate.py, not here.",
+  "type": "object",
+  "required": ["format", "version", "vocabulary", "aliases", "base", "profiles"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "format": { "const": "rabble-entity-registry/1" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+(-[0-9A-Za-z.+-]+)?$" },
+    "vocabulary": { "$ref": "#/$defs/vocabulary" },
+    "aliases": {
+      "type": "object",
+      "description": "surface -> { private name -> canonical id }",
+      "additionalProperties": { "type": "object", "additionalProperties": { "$ref": "#/$defs/ref" } }
+    },
+    "base": { "$ref": "#/$defs/base" },
+    "profiles": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/id" },
+      "additionalProperties": { "$ref": "#/$defs/profile" }
+    }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "effect_id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$" },
+    "ref": {
+      "type": "string",
+      "description": "kind.id, e.g. state.listening, expression.joy, cue.error, input.level",
+      "pattern": "^(expression|state|mood|temperament|condition|cue|move|form|timeline|input|surface|effect|layer)\\.[a-z][a-z0-9_.]*$"
+    },
+    "colour": {
+      "type": "string",
+      "description": "Palette key (RaBbLE-Palette.md), black, white, or pole (from the colour volume). Never hex.",
+      "pattern": "^(cyan|magenta|violet|pink|bg|surface|raised|border|text|muted|dimmer|red|green|yellow|black|white|pole)$"
+    },
+    "range": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
+    "word": { "type": "string", "pattern": "^[01]{4}$" },
+    "support": { "enum": ["full", "reduced", "none"] },
+    "easing": {
+      "type": "string",
+      "pattern": "^(linear|smoothstep|smootherstep|sine|exp\\([0-9.]+\\)|spring\\([0-9.]+, ?[0-9.]+\\))$"
+    },
+    "labelled_ids": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/id" },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["label"],
+        "properties": { "label": { "type": "string" }, "note": { "type": "string" }, "status": { "enum": ["canon", "seed", "parked", "retired"] } },
+        "additionalProperties": false
+      }
+    },
+    "vocabulary": {
+      "type": "object",
+      "required": ["expression", "state", "mood", "temperament", "condition", "cue", "move", "form", "timeline", "input", "surface", "effect"],
+      "additionalProperties": false,
+      "properties": {
+        "expression": { "$ref": "#/$defs/labelled_ids" },
+        "state": { "$ref": "#/$defs/labelled_ids" },
+        "mood": { "$ref": "#/$defs/labelled_ids" },
+        "temperament": { "$ref": "#/$defs/labelled_ids" },
+        "condition": { "$ref": "#/$defs/labelled_ids" },
+        "cue": { "$ref": "#/$defs/labelled_ids" },
+        "move": { "$ref": "#/$defs/labelled_ids" },
+        "form": { "$ref": "#/$defs/labelled_ids" },
+        "timeline": { "$ref": "#/$defs/labelled_ids" },
+        "input": { "$ref": "#/$defs/labelled_ids" },
+        "surface": { "$ref": "#/$defs/labelled_ids" },
+        "effect": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/effect_id" },
+          "uniqueItems": true,
+          "description": "Effect ids; definitions live in base.effects"
+        }
+      }
+    },
+    "pose_part": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "dx_in": { "type": "number" }, "dy": { "type": "number" }, "rot_m": { "type": "number" },
+        "sx": { "type": "number" }, "sy": { "type": "number" }
+      }
+    },
+    "role_pose": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": { "eye": { "$ref": "#/$defs/pose_part" }, "portal": { "$ref": "#/$defs/pose_part" } }
+    },
+    "expression": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "upper": { "$ref": "#/$defs/role_pose" },
+        "lower": { "$ref": "#/$defs/role_pose" },
+        "head_tilt_deg": { "type": "number" },
+        "gaze_scale": { "type": "number" },
+        "spring_k": { "type": "number", "exclusiveMinimum": 0 },
+        "style": { "type": "object", "additionalProperties": { "type": "number" } },
+        "curve": {
+          "type": "object",
+          "required": ["rate_hz", "channels"],
+          "additionalProperties": false,
+          "properties": {
+            "rate_hz": { "type": "number", "exclusiveMinimum": 0 },
+            "channels": { "type": "object", "additionalProperties": { "type": "array", "items": { "type": "number" } } }
+          }
+        }
+      },
+      "anyOf": [ { "required": ["upper", "lower"] }, { "required": ["curve"] } ]
+    },
+    "drive": {
+      "type": "object",
+      "required": ["param", "from", "gain"],
+      "additionalProperties": false,
+      "properties": {
+        "param": { "type": "string" },
+        "from": { "type": "string", "pattern": "^(input|state|expression|mood|condition|timeline)\\.[a-z][a-z0-9_]*$|^energy$" },
+        "gain": { "type": "number" },
+        "curve": { "$ref": "#/$defs/easing" }
+      }
+    },
+    "param_def": {
+      "type": "object",
+      "required": ["type", "default"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "enum": ["number", "integer", "boolean", "colour", "enum"] },
+        "default": {},
+        "min": { "type": "number" }, "max": { "type": "number" },
+        "values": { "type": "array" },
+        "unit": { "type": "string" }
+      }
+    },
+    "effect": {
+      "type": "object",
+      "required": ["label", "group", "priority", "params", "cost", "support"],
+      "additionalProperties": false,
+      "properties": {
+        "label": { "type": "string" },
+        "group": { "enum": ["backdrop", "ring", "aura", "body", "mesh", "core", "listening", "glow", "glass", "overlay", "field"] },
+        "priority": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "params": { "type": "object", "additionalProperties": { "$ref": "#/$defs/param_def" } },
+        "inputs": { "type": "array", "items": { "$ref": "#/$defs/id" } },
+        "cost": {
+          "type": "object",
+          "required": ["tier"],
+          "additionalProperties": false,
+          "properties": {
+            "tier": { "enum": ["trivial", "low", "medium", "high"] },
+            "device": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "prims_per_frame": { "type": ["integer", "null"] },
+                "ms_worst": { "type": ["number", "null"] },
+                "measured": { "type": ["string", "null"], "description": "measurements/<file>.json that backs the numbers" }
+              }
+            },
+            "note": { "type": "string" }
+          }
+        },
+        "support": {
+          "type": "object",
+          "propertyNames": { "$ref": "#/$defs/id" },
+          "additionalProperties": { "$ref": "#/$defs/support" }
+        },
+        "reduced": { "type": "object", "description": "param overrides that 'reduced' support applies" },
+        "sources": { "type": "array", "items": { "type": "string" }, "description": "file:line provenance per surface" }
+      }
+    },
+    "layer": {
+      "type": "object",
+      "required": ["id", "effect", "enabled"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "effect": { "$ref": "#/$defs/effect_id" },
+        "enabled": { "type": "boolean" },
+        "opacity": { "type": "number", "minimum": 0, "maximum": 1, "default": 1 },
+        "blend": { "enum": ["source-over", "screen", "lighter", "multiply"], "default": "source-over" },
+        "params": { "type": "object" },
+        "drives": { "type": "array", "items": { "$ref": "#/$defs/drive" } }
+      }
+    },
+    "timeline": {
+      "type": "object",
+      "required": ["duration", "tracks"],
+      "additionalProperties": false,
+      "properties": {
+        "duration": { "type": "number", "exclusiveMinimum": 0 },
+        "clock": { "$ref": "#/$defs/easing" },
+        "loop": { "type": "boolean" },
+        "params": { "type": "object" },
+        "tracks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["target", "keys"],
+            "additionalProperties": false,
+            "properties": {
+              "target": { "type": "string" },
+              "keys": {
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": "array", "prefixItems": [ { "type": "number" }, {}, { "$ref": "#/$defs/easing" } ], "minItems": 2, "maxItems": 3 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "base": {
+      "type": "object",
+      "required": ["body", "camera", "cut", "colour", "idle", "forms", "moves", "expressions", "states", "conditions", "timelines", "effects", "layers"],
+      "additionalProperties": false,
+      "properties": {
+        "body": {
+          "type": "object",
+          "required": ["eye", "portal", "spacing", "portal_y", "envelope", "home"],
+          "additionalProperties": false,
+          "properties": {
+            "eye": { "type": "object", "required": ["w", "h"], "properties": { "w": { "const": 1.0 }, "h": { "type": "number" } }, "additionalProperties": false },
+            "portal": { "type": "object", "required": ["w", "flatten"], "properties": { "w": { "type": "number" }, "flatten": { "type": "number" } }, "additionalProperties": false },
+            "spacing": { "type": "number" },
+            "portal_y": { "type": "object", "required": ["default", "range"], "properties": { "default": { "type": "number" }, "range": { "$ref": "#/$defs/range" } }, "additionalProperties": false },
+            "per_side_offset": { "type": ["array", "null"], "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
+            "envelope": {
+              "type": "object", "required": ["eh", "sp", "pw", "fl"], "additionalProperties": false,
+              "properties": { "eh": { "$ref": "#/$defs/range" }, "sp": { "$ref": "#/$defs/range" }, "pw": { "$ref": "#/$defs/range" }, "fl": { "$ref": "#/$defs/range" } }
+            },
+            "home": { "$ref": "#/$defs/id" },
+            "unit_fu": { "const": 87 },
+            "no_touch": { "type": "object" }
+          }
+        },
+        "camera": {
+          "type": "object",
+          "required": ["elevation_deg", "persp_full_rad", "camd_fu", "tilt", "top_down"],
+          "additionalProperties": false,
+          "properties": {
+            "elevation_deg": { "type": "object", "required": ["default", "range"], "properties": { "default": { "type": "number" }, "range": { "$ref": "#/$defs/range" } }, "additionalProperties": false },
+            "fixed_elevation_deg": { "type": "number" },
+            "persp_full_rad": { "type": "number" },
+            "camd_fu": { "type": "number" },
+            "tilt": { "type": "object", "required": ["eps0", "epsk"], "properties": { "eps0": { "type": "number" }, "epsk": { "type": "number" } }, "additionalProperties": false },
+            "top_down": { "type": "object", "required": ["shrink_rad", "settle_rad", "eye_fit"], "properties": { "shrink_rad": { "$ref": "#/$defs/range" }, "settle_rad": { "$ref": "#/$defs/range" }, "eye_fit": { "type": "number" } }, "additionalProperties": false },
+            "rim_points": { "type": "integer" }
+          }
+        },
+        "cut": {
+          "type": "object", "required": ["mode"],
+          "properties": { "mode": { "enum": ["dome_dissolve", "opening_clip"] } }
+        },
+        "colour": {
+          "type": "object",
+          "required": ["poles", "blend_fu", "hue_path", "eye_fill", "void"],
+          "properties": {
+            "poles": { "type": "array", "items": { "$ref": "#/$defs/colour" }, "minItems": 2, "maxItems": 2 },
+            "blend_fu": { "type": "number" },
+            "hue_path": { "enum": ["short"] },
+            "sample": { "enum": ["eye_centre", "part"] },
+            "eye_fill": { "$ref": "#/$defs/colour" },
+            "void": { "$ref": "#/$defs/colour" },
+            "void_alpha": { "type": "number" }
+          }
+        },
+        "idle": { "type": "object" },
+        "forms": {
+          "type": "object",
+          "required": ["rest", "swap", "mirror", "swap_mirror"],
+          "properties": {
+            "rest": { "$ref": "#/$defs/word" }, "swap": { "$ref": "#/$defs/word" },
+            "mirror": { "$ref": "#/$defs/word" }, "swap_mirror": { "$ref": "#/$defs/word" },
+            "reach": { "type": "object" }
+          }
+        },
+        "moves": { "type": "object", "propertyNames": { "$ref": "#/$defs/id" }, "additionalProperties": { "$ref": "#/$defs/timeline" } },
+        "expressions": { "type": "object", "propertyNames": { "$ref": "#/$defs/id" }, "additionalProperties": { "$ref": "#/$defs/expression" } },
+        "states": { "type": "object" },
+        "conditions": { "type": "object" },
+        "timelines": { "type": "object", "propertyNames": { "$ref": "#/$defs/id" }, "additionalProperties": { "$ref": "#/$defs/timeline" } },
+        "effects": { "type": "object", "propertyNames": { "$ref": "#/$defs/effect_id" }, "additionalProperties": { "$ref": "#/$defs/effect" } },
+        "layers": { "type": "array", "items": { "$ref": "#/$defs/layer" }, "minItems": 1 }
+      }
+    },
+    "profile": {
+      "type": "object",
+      "description": "Overrides of base keys only (validator V10), plus surface-only keys below.",
+      "properties": {
+        "scale": { "type": "object", "properties": { "fu_to_px": { "type": "number" } } },
+        "screen": { "type": "object" },
+        "frame": {
+          "type": "object",
+          "properties": {
+            "target_hz": { "type": "number" }, "floor_hz": { "type": "number" }, "budget_ms": { "type": "number" },
+            "governor": { "type": "array", "items": { "type": "number" } }
+          }
+        },
+        "layers": {
+          "type": "object",
+          "description": "layer id or effect id -> partial layer override",
+          "additionalProperties": { "type": "object" }
+        },
+        "support_overrides": { "type": "object", "additionalProperties": { "$ref": "#/$defs/support" } }
+      }
+    }
+  }
+}

@@ -379,3 +379,16 @@ Ruled by Mark in S352. Proposals still awaiting a ruling are marked as such in t
 
 **Why:** one entity must read the same on every surface without hand-porting numbers, and "private by architecture" needs an honest, checkable claim.
 
+
+## S353 rulings: unified entity numbers, frame rate, device effects (2026-11-18)
+
+Ruled by Mark in S353 (answers to the S352 plan's four open questions). The U8 inventory, the registry schema, the cut mode and the eye fill still await sign-off (plan, "Open questions").
+
+| Ruling | Carried in |
+|---|---|
+| **Registry base = the Puppet Spec rig numbers; Pocket proportions are a surface profile.** Pocket's occlusion remains the reference for draw order | plan ruling 11; `registry/entity/RaBbLE-Entity-Registry-Schema.md` sections 1, 6 |
+| **Device never below 60 fps; effects yield.** The web Pocket page targets 60 too; its 60/45/30/20 governor is a fallback only | plan ruling 12; schema section 7 |
+| **Device carries every effect that fits the 60 fps budget; haze and bokeh are not required.** Every layer is dynamically drivable, so Mark or RaBbLE can use layers to express meaning or state. The eyes define the entity; the mesh and orb/Orbit are the other key expression | plan ruling 13; schema section 5 (drives, priorities) |
+| Alive merge-or-keep is decided from the inventory (recommendation: keep alive as the canonical 2D backend; it is what the Portal mounts) | plan ruling 14, U8 table |
+
+**Why:** the rig is the only source with the full mechanics (tilt, cut, swap, turn, colour volume), so it is the base, and the device's shipped proportions stay as a profile that can move toward it. Layers as drivable expression make effects part of how RaBbLE communicates, not decoration.

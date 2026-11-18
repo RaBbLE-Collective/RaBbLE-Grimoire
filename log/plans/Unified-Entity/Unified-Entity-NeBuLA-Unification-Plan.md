@@ -1,7 +1,7 @@
 # Unified Entity and NeBuLA unification plan
 
 ```
-status: design only, nothing built · S352 · 2026-11-18 · owner: Mark (direction), NeBuLA + Pocket + World members
+status: design; U1 closed, U8 inventory merged, registry schema drafted (S353), awaiting Mark's sign-off · S352/S353 · 2026-11-18 · owner: Mark (direction), NeBuLA + Pocket + World members
 ```
 
 Mark's goal (S352): the Pocket web surface, the Pocket hardware renderer (nebula_lite) and the entity render on the Portal are manifestations of **one spec with one set of render data**, each drawn by its **native rendering path**. Everything the Pocket web page added on top of the mock moves into NeBuLA. NeBuLA effects are portable to most surfaces, and where a surface cannot do an effect (nebula_lite will not reach full parity) the docs say so.
@@ -24,29 +24,48 @@ Builds on, does not replace: `Unified-Entity-Canon.md` (rules in force, section 
 9. **One NeBuLA language for every rendered expression of the entity.** Pose, expression, move, effect and timeline names are the registry's vocabulary on every surface (web, 3D, device, terminal). No surface keeps private names.
 10. **Classify every current expression and retire the drifters.** Each existing entity render gets a status: canonical, derived (generated from the registry), reference (kept as a spec or test fixture), or drifter. Drifters move to Chrysalis (or its reliquary). One canonical RaBbLE entity (the registry plus its spec) is declared.
 
-## Inventory of current entity renders (first pass, S352)
+## Ruled (Mark, S353)
 
-From a file survey (names, sizes, paths), **not yet read in detail**. The status column is a proposal for Mark to sign off, not a ruling. Counts are files containing "portal" or "infinity", minus vendored code.
+11. **Registry base = the Puppet Spec rig numbers; Pocket proportions are a surface profile** (answers open question 1). Pocket's occlusion stays the reference for draw order (ruling 37).
+12. **Ruling 7 confirmed as written:** the device never drops below 60 fps and effects yield. The web Pocket page also targets 60; the 60/45/30/20 governor is only a fallback.
+13. **Device effects:** everything that can be ported within the 60 fps budget. Bokeh and haze are not required on the device. Every effect and layer must be dynamically renderable, so Mark or RaBbLE can use layers to express meaning or state. **The eyes define the entity; the mesh and the orb/Orbit are the other key expression.** All other layers are driven by input, state or expression, and depend on what the surface can do. (Mark's words: "Everything that can be ported in the FPS budget. The Bokeh/Haze is not required.")
+14. **Alive backend:** merge or keep is decided from the inventory (below) and signed off with the U8 table.
 
-| Render | Where | Kind | Proposed status |
+## Inventory of current entity renders (U8, merged S353 from the wave-1 census)
+
+The census read seven members file by file (per-member tables, md5 twins, last commits, importers, URLs). The full reports were scratch output; their findings are folded in here, and the S352 first-pass table is superseded. **Every status is a proposal until Mark signs it off.**
+
+| Render | Where | Finding (S353) | Proposed status |
 |---|---|---|---|
-| NeBuLA Canvas2D backend (eyes, portals, particles, connections) | `RaBbLE-NeBuLA/src/backends/canvas2d/`, `canvas2d-backend.js` | web engine | **canonical web path** (becomes registry-driven) |
-| NeBuLA Three.js backend | `backends/threejs-backend.js` | web 3D engine | **canonical 3D path** |
-| NeBuLA alive backend / GL | `backends/alive-backend.js`, `alive-gl.js` | web engine (emotion layer) | decide: merge into the above or keep as a named backend |
-| NeBuLA rig spec | `RaBbLE-NeBuLA/specs/rig/entity-rig.svg`, `entity-rig-demo.html` | spec fixture | **reference** (golden-frame source) |
-| Puppet Spec live rig (3D, infinity portals) | Grimoire `log/plans/Unified-Entity/live/live.js` | spec page | **canonical rig behaviour**; feeds the registry |
-| Pocket nebula_lite + scene builder | `RaBbLE-Pocket/firmware/entities/RaBbLE/` (`scene.c`, `nebula_lite/`) | device (C) | **canonical device path**; held to the registry by golden frames |
-| Pocket mock | `RaBbLE-Pocket/planning/mock/rabble-pocket-entity.html` | design mock | **reference** until the registry replaces it; then archive |
-| Pocket web SVG entity | `companion-app/web/public/entity/pocket-entity.js` (generated) | derived from the mock | **retire** (ruling 3) |
-| `rabble-ui` Rust / terminal face | `RaBbLE-sCoRE/tui/rabble-face/src/face.rs`; `ui/face.py` | terminal | **canonical terminal path** (`face.rs`); `face.py` check, likely retire |
-| World floor | `RaBbLE-World/world/js/RaBbLE-floor.js`, `RaBbLE-NeBuLA/src/elements/floor.js` | scene element | check: scaffold, not the entity |
-| Ball | `RaBbLE-Xperimental/experiments/rabble-ball/RaBbLE-Ball.html` (+ drops) | experiment (top-down 3D) | **canonical as a Three.js surface profile**; move out of the experiment into NeBuLA |
-| Copies of the same page in several places | `rabble-pocket-entity.html` (Pocket mock, BaBbLE intake, Xperimental drop), `rabble-entity-rig.html` (BaBbLE intake, Xperimental drop), Ball (BaBbLE `intake/`, `tmp/`, Xperimental x2) | duplicates | **drifters**: keep one canonical copy, rest to Chrysalis |
-| BaBbLE prototypes (`RaBbLE.html`, `boot/RaBbLE-Boot-v1/v2.html`, `terminal-face/face.py`, `tmp/alive/body*.js`, NeBuLA Studio prototype) | `RaBbLE-BaBbLE/prototypes/`, `tmp/` | prototypes | **drifters** unless an item is the origin of a canonical path (boot is the source for the boot timeline: keep as reference) |
-| Entity harness (`reliquary/2026-09-26-entity-harness`) | `RaBbLE-BaBbLE/reliquary/` | already a reliquary | move to Chrysalis reliquary |
-| Xperimental drops (rave, fourier-redraw, matrix-builder, entity-rig, pocket-entity, ball) | `RaBbLE-Xperimental/Xperimental-Web/drops/` | published experiments | **keep live as sandbox** unless they duplicate a canonical render; moving a drop breaks its URL, so decide per drop |
+| NeBuLA **alive** backend | `RaBbLE-NeBuLA/src/backends/alive-backend.js` (+ `alive-gl.js`, a GL shim for Canvas2D calls) | **This is what the Portal mounts** (`RaBbLE-World/index.html:35`, `account.html:72`: `backend="alive"`, CDN v0.1.0). It is a full independent renderer (1223 lines) with its own boot, expressions and roughly 15 aura layers. Its proportions match the rig baseline (pw 2.69). It has none of the rig mechanics (tilt, cut, turn, swap, colour volume, infinity). Origin: BaBbLE `reliquary/2026-09-26-entity-harness` | **canonical 2D web path, kept as a named backend**; first registry consumer; rig mechanics port into it |
+| NeBuLA Canvas2D entity | `src/backends/canvas2d/` (eye-system, portal-system, particles), `eye-behavior.js`; `canvas2d-backend.js` is a 2-line re-export shim | Mounted only by World's Catalog page. `eye-behavior.js` carries a third proportion set (eye 38x110, portal 90x28) | **derived** from the registry, or retire into alive once alive is registry-driven |
+| NeBuLA Three.js backend | `src/backends/threejs-backend.js` | Instanced body and aura; fixed `_time += 0.016` step; literal colours | **canonical 3D path** (registry-driven; gets the infinity portals) |
+| NeBuLA standalone effects | `src/effects/` (starfield, deepfield, ambient-field, entropy-shader, attractor, animation-filter) | **Drawn by no backend** today | registry effects with support entries, or retire (Mark) |
+| NeBuLA UI widgets | `src/ui/grimoire-eye.js`, `grimoire-ring.js`, `entity-mini.js` | Own geometry | **drifters** → derived from the registry |
+| NeBuLA rig spec | `specs/rig/entity-rig.svg/.json`, `entity-rig-demo.html` | Differs from the BaBbLE reliquary originals only by the Deep Void palette swap; the demo is a newer engine than the intake/drop copies. `specs/visual-spec.md` is byte-identical to Aether's `RaBbLE-Entity-Visual-Spec.md` | **reference**; dedupe visual-spec (keep one) |
+| Puppet Spec live rig | Grimoire `log/plans/Unified-Entity/live/live.js` (= the HTML's inline script) | **The only numeric source** for body, moves, camera, tilt, cut and colour | **canonical rig behaviour**; feeds the registry base |
+| Pocket device renderer | `RaBbLE-Pocket/firmware/entities/RaBbLE/` (`src/scene.c`, `nebula_lite/`, `rabble_orbit*.c`, `rabble_entity.c`) | Draws far less than the mock: flat void, ring, mesh, strands, portals, eyes, glass. Haze code exists but is off. **No infinity flow.** Swap 0.7 s planar (Canon: 1.45 s with depth arc); portals touch mid-swap | **canonical device path**; held to the registry by golden frames |
+| Pocket dead LVGL face | `entity_face.c/.h` | No caller. Carries a third set of proportions (portal 106x33, eye 44x128) | **drifter**; keep only the constants `rabble_ui.c` uses |
+| Pocket sim | `sim/host_render.c`, `orbit_scenes.c`, `transition.c` | Tooling and golden-frame producers. `transition.c` duplicates the stepper maths in `rabble_orbit_logic.c` | **reference** (tooling) |
+| Pocket mock | `planning/mock/rabble-pocket-entity.html` | Reference for the web page; colours off-Palette | **reference** until the registry replaces it |
+| Pocket web SVG entity | `companion-app/web/build-entity.py` → `public/entity/pocket-entity.js` | `portal.js` and `orbit.js` use `mount`, `snapshot`, `look`, `audio`, `setQuality`, `backdrop`, `meshSide` | **retire** after NeBuLA gains those APIs (order: APIs, switch `portal.js`, delete) |
+| Mock copies | BaBbLE `intake/rabble-pocket-entity.html` = Xperimental `drops/20261013-pocket-entity` (md5 identical; one line behind the mock) | Duplicates | **drifters**: source copy → Chrysalis; drop URL stays as a frozen snapshot |
+| Rig page copies | BaBbLE `intake/rabble-entity-rig.html` = Xperimental `drops/20261013-entity-rig` | Older than NeBuLA's `entity-rig-demo.html` | **drifters**: same treatment |
+| Terminal face | `RaBbLE-sCoRE/tui/rabble-face/src/face.rs` (+ `micro.rs`, `driver.rs`) | Full, Mini and micro mark; hardcoded names; TUI moods are private names | **canonical terminal path** |
+| Python face | `RaBbLE-sCoRE/ui/face.py` | Live Textual face **and the oracle for the Rust golden tests** (`tests/golden_face.py`, `PARITY.md:74`) | **reference**, frozen; retires with the Python UI |
+| BaBbLE terminal face | `prototypes/terminal-face/face.py` | Differs from sCoRE's (md5); its docstring says it no longer matches the rig. (The BaBbLE census called it reference; the sCoRE census, which diffed it, called it older) | **drifter** |
+| World floor | `RaBbLE-World/world/js/RaBbLE-floor.js` | **Not scaffold**: a hand-rolled Three.js entity (pill eyes, portal arcs, blink), a fork of NeBuLA `elements/floor.js`, **no importer** (likewise `RaBbLE-stage.js` and the movements files) | **drifter** → Chrysalis |
+| Ball | Xperimental `experiments/rabble-ball/RaBbLE-Ball.html` = `drops/20261020-rabble-ball` | Hand-rolled Three (no NeBuLA) | **canonical as the `ball` profile**: promote into NeBuLA; drop URL stays as a sandbox |
+| Ball copies | BaBbLE `intake/RaBbLE Ball.html`, `RaBbLE_Ball.html`, `tmp/rabble-ball/` | Older near copies | **drifters** |
+| Boot prototypes | BaBbLE `prototypes/boot/RaBbLE-Boot-v1.html`, `-v2.html` | Byte-identical to each other | keep one as **reference** (origin of the boot timeline); the other is a drifter |
+| Other BaBbLE prototypes | `RaBbLE.html`, NeBuLA Studio prototype, Strata, Login, animation-studio; `tmp/alive/*.js` (untracked) | Superseded | **drifters** |
+| Entity harness | BaBbLE `reliquary/2026-09-26-entity-harness` | Origin of alive-backend.js (cited at `alive-backend.js:5` and `alive-port/README.md`) | → Chrysalis reliquary; update both citations |
+| Xperimental sandboxes | drops `rave`, `fourier-redraw`, `matrix-builder` | No duplication of a canonical render (BaBbLE holds identical or older copies) | **sandbox**, keep live |
+| Foundling | `RaBbLE-Pocket/firmware/entities/Foundling`, `portal.js:308` fallback | A separate open entity | **out of scope** |
 
-Chrysalis today holds the genesis archive and OS reliquary branches (`RaBbLE-Chrysalis/AGENT.md`); "entity renders" would be a new kind there. Moving files is not done until Mark signs off the table above, and a move leaves a pointer in the old place (condense, not delete).
+**Chrysalis landing (from its census):** `Chrysalis-Web/entity-renders/<group>/` with a provenance README table (origin path, sha, md5, session, replacement). The old place gets a `.MOVED.md` pointer, or a meta-refresh stub for a page with a published URL. Commit Chrysalis first, then the origin repo. New origins go into the `_headers` CSP. **Open for Mark:** a dated folder (`entity-renders-2026-11/`, matching `world-2026-06/`) or not, and whether the BaBbLE harness goes in as files or as a sealed `reliquary/babble/...` branch.
+
+**Link safety:** hard references that a move must update are `nebula_lite/` (about 15 CMake, sim and test include paths), `scene.c` (sim scripts, the panel_bench CMake), the mock (`build-entity.py:9`), `pocket-entity.js` (web `index.html:11`), Pocket `orbit.js` (`portal.js:11`), NeBuLA `floor.js` (`src/index.js:3`), and the backends (`element.js` imports). Doc hits for the generic names (rave, ball, face.py) are noisy; judge them one by one before any move.
 
 ## Added slices
 
@@ -63,7 +82,21 @@ Chrysalis today holds the genesis archive and OS reliquary branches (`RaBbLE-Chr
 - Pocket host frame: `RaBbLE-Pocket/sim/build.sh <name> 0 6 0.5 0 0 0` writes `sim/out/<name>.png`.
 - Rig frames: headless Playwright against `Unified-Entity-Puppet-Spec.html`. The page keeps `prop` (proportions) internal, so a copy with `prop='pocket'` substituted is needed until the registry feeds the rig.
 - **Findings so far (not conclusions):** at the rig's 0 degree orthographic view the portals are edge-on lines, while Pocket draws shallow ellipses (about the rig's 15 to 17 degree perspective view), so compare at a **matched camera elevation**, never at 0. Pocket portal rings are about 2.0 eye widths, the rig baseline 2.69 (the page's own tables).
-- **Still to do:** render both at about 17 degrees with Pocket proportions and offsets, the same poses (idle, blink, portal swap, turn), side by side; record which draw-order differences are real; correct the rig where they differ.
+- ~~Still to do~~ **Done S353.** Evidence in `u1/`: `u1-sheet.png` (Pocket device frames beside the rig with `prop='pocket'` at 17 degrees: idle, half and full blink, swap at 0.25, 0.5 and 0.75, turn), `zoom-pocket.png` and `zoom-rig.png` (eye and rim crossings). Reproduce: `rig_capture.py` (headless Chromium on a stepped clock: `performance.now` and `requestAnimationFrame` are stubbed, so frames are deterministic) and `host_render_u1.c` (a copy of `sim/host_render.c` that takes `FLIP=` for mid-swap frames; build it like `sim/build.sh`). Blink frames match exactly: `blink_at` (scene.c:575) and `blinkAmt` (live.js:41) are the same function.
+
+### U1 result (S353)
+
+**Draw order agrees.** In idle, blink and swap, both put the upper-role eye in front of its portal's near rim, and draw the lower-role portal's near rim over its eye's base. That is the Canon 6 rule. Nothing in the rig's draw order needs correcting, and Canon 9.7 closes on draw order.
+
+**Real differences (none are draw order):**
+
+| # | Difference | Pocket | Rig | Action |
+|---|---|---|---|---|
+| a | Lower-role eye inside the opening | clipped to the half-plane plus the opening ellipse: the eye fills the well down to the near rim, which draws over it | dome dissolve at the portal plane: the eye ends at the well's centre, and the near rim never crosses it | **Mark rules** (ruling 37 points to Pocket; rulings 30b/36b describe the rig). The registry carries both as `cut.mode` |
+| b | Swap path | 0.7 s, smoothstep, planar: the portals meet at the same height and touch at the midpoint (breaks Canon 2) | 1.45 s with a 75-unit depth arc; the portals pass in depth | the device adopts the Canon swap with the registry (U3 device side, gated on the reorg) |
+| c | Swap squash curve | `withdraw = sin(pi*fl)`: at 25% progress the eye is still about half height | a smootherstep plateau with factor 1.6: at 25% the eye is nearly gone | registry timeline `portal_swap`; the device follows it |
+| d | Turn | none (hardware roll only) | 1.4 s yaw half-turn | the device gains `turn`, or the registry marks it `none` on `pocket_hw` (Mark) |
+| e | Glow and wells | flat black well, no glow | soft rim glow, gradient well | effect layers (`glow.*`, `portal.back` params), not occlusion |
 
 ## What the Pocket page added (to move into NeBuLA)
 
@@ -104,6 +137,15 @@ Proposed support (**to verify per effect before it is published; entries marked 
 | Gaze | full (pointer) | full | none ? (no pointer; tilt/IMU instead) | badge has no IMU either |
 | Boot animation | full | full | full (own implementation) | one registry timeline |
 
+**Corrections from the S353 effects census** (the table above is the S352 guess; the schema's effect list, `registry/entity/RaBbLE-Entity-Registry-Schema.md` section 5.3, replaces it once the registry exists):
+- **Infinity flow is drawn only by the rig** (`live.js`). No NeBuLA file and no Pocket file draws it. It must be built in alive, Three.js and nebula_lite; until then, every surface but the rig is `none`.
+- **Pocket HW has no wash, haze or stars today.** It draws a flat void and the ring; the haze code (`raster_soft.c`) exists but is off. Mark (S353): haze and bokeh are not required on the device.
+- **Bars versus strands.** The device has no spectral bars; it has mic **strands** into the portals (plus absorption sparks). Split the effects: `body.bars` (web), `strands.mic` (device full; on web it is synthetic, not fed by the mic).
+- **Gaze on HW is `reduced`, not `none`.** It has a touch glance (`TOUCH_GAZE`) and IMU sway and roll.
+- **Web boot does not exist.** Boot runs on the device (`scene.c:626-637`) and in alive (BOOT table); Pocket web has none.
+- **NeBuLA's `src/effects/` modules are drawn by no backend.** The effects on screen live inside the three backends.
+- **The device already misses ruling 7.** S252 measured: idle 60 fps TE-locked, listening and speaking 31 to 41, turning about 30. U11 starts there.
+
 Surface notes: Terminal supports the entity body and state only (glyph face, no effects); Ball renders top-down and is part of the entity, effects limited to what makes sense from above (? confirm). The ZNP badge (`RaBbLE-Pocket-ZNP-Badge-Research.md`) is **not a render surface**: it receives pre-rendered loops and images made by a driver, so it consumes exports, not effects.
 
 ## Slices
@@ -122,7 +164,13 @@ Rules in force: build NeBuLA `dist/` before testing (S324); dev via `dev-serve.s
 
 ## Open questions for Mark
 
-- Is the Portal's entity the NeBuLA Canvas2D/alive rig, and do the registry's reference numbers come from the Puppet Spec rig, with Pocket proportions as a surface profile?
-- Sign-off on the inventory table (U8): especially the alive backend (merge or keep), the Ball, and which Xperimental drops are sandbox versus drifters.
-- Ruling 7: does "60 fps" mean the device never drops below 60 (effects yield), as written? And should the web Pocket page also target 60 with the governor as a fallback only?
-- Which effects do you want on the device at all (some may stay `none`)?
+S352's four questions were answered in S353 (rulings 11 to 14). Still open, and they block wave 2:
+
+- **Sign off the U8 inventory** above, including: alive kept as the canonical 2D backend (Pocket web goes onto it; the old Canvas2D entity is derived or retires); `RaBbLE-floor.js` as a drifter; the Chrysalis layout (dated folder or not; the harness as files or a sealed branch).
+- **Sign off the registry schema** (`registry/entity/RaBbLE-Entity-Registry-Schema.md` + `rabble.entity.schema.json`), including the vocabulary (`thinking` as a state, `ponder`/`process` as its moods, `withdraw` as a move, the eight Identity conditions).
+- **U1-a:** the swallow-cut mode for the lower-role eye (`opening_clip`, Pocket, or `dome_dissolve`, rig).
+- **C5:** the eye fill colour (`#f8faff` is off-Palette: `text`, `white`, or a new Palette entry).
+- **Turn on the device:** build it, or `none` on `pocket_hw`.
+- **NeBuLA standalone effects** (`src/effects/`, drawn by nothing): give them registry entries, or retire them.
+
+Wave 2 briefs: `log/handoffs/HANDOFF-S353-Unified-Entity-Wave2.md`.

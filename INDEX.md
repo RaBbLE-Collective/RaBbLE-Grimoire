@@ -100,6 +100,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [registry/epochs/current.epoch.yml](registry/epochs/current.epoch.yml) — active epoch definition, per-member Episode 1 status
 - [registry/subdomains.yml](registry/subdomains.yml) — authoritative map of all joinrabble.world subdomains (owner, tech, status, blocker)
 - [registry/CONTEXT.md](registry/CONTEXT.md) — registry workspace metadata
+- [RaBbLE-Entity-Registry-Schema](registry/entity/RaBbLE-Entity-Registry-Schema.md) — S353 DRAFT: unified entity registry contract (vocabulary, layers with drives, profiles, 60 fps method, validator V1-V12); machine form `rabble.entity.schema.json`
 - **manifests/**: RaBbLE-Collective · RaBbLE-OS · RaBbLE-sCoRE · RaBbLE-Aether · RaBbLE-NeBuLA · RaBbLE-World · RaBbLE-BaBbLE · RaBbLE-Chrysalis · RaBbLE-TaskViSoR · RaBbLE-Xperimental · RaBbLE-Pocket
 
 ---
@@ -333,6 +334,9 @@ Status lives in each plan; the one-line status table is [log/plans/CONTEXT.md](l
 - [Unified-Entity-NeBuLA-Unification-Plan](log/plans/Unified-Entity/Unified-Entity-NeBuLA-Unification-Plan.md) — S352: one registry JSON + native renderers across Portal, Pocket web and nebula_lite; Pocket-page additions move into NeBuLA; per-surface effect support table
 - [HANDOFF-S352-Unified-Entity-and-Encryption](log/handoffs/HANDOFF-S352-Unified-Entity-and-Encryption.md) — S352 state: docs written, U1 repro, owed rulings (the Opus handoff below is the cold start)
 - [HANDOFF-S352-Opus-Unified-Entity-Orchestration](log/handoffs/HANDOFF-S352-Opus-Unified-Entity-Orchestration.md) — Opus cold-start: what Opus decides itself, Sonnet/Haiku fan-out waves with briefs, rules, preflight
+- [HANDOFF-S353-Unified-Entity-Wave2](log/handoffs/HANDOFF-S353-Unified-Entity-Wave2.md) — S353: wave 1 done (census, U1, U8, schema); wave 2 build briefs W2-1..11 behind Mark's sign-off gate
+- [census-S353](log/plans/Unified-Entity/census-S353/) — S353 wave-1 census: entity constants (web, device) with file:line, effects per surface, name catalogue, per-member render inventories, code refs
+- [u1](log/plans/Unified-Entity/u1/) — S353 U1 evidence: Pocket vs rig side-by-side at 17 degrees, zooms, deterministic capture scripts
 - [EP2-Accounts-Encryption-Spec](log/plans/EP2-Accounts-Encryption-Spec.md) — the user scaffold: accounts/sessions, then encrypted ingestion
 - [sCoRE-RaBbLE-UI-Rust-Plan](log/plans/sCoRE-RaBbLE-UI-Rust-Plan.md): RaBbLE-UI rebuilt in Rust (R4): measured Python limits, targets T1-T6, Rust UI + Python engine sidecar, phases R0-R5, golden-dump parity, lanes, open questions
 - [Collective-ICM-Conformance-Audit](log/plans/Collective-ICM-Conformance-Audit.md) — Collective vs the ICM/MWP paper: stage contracts, handoff split
