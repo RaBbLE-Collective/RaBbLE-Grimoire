@@ -331,6 +331,7 @@ Status lives in each plan; the one-line status table is [log/plans/CONTEXT.md](l
 - [EP1-Entity-Face-Plan](log/plans/EP1-Entity-Face-Plan.md) — the five-beat "alive" World face + NeBuLA entity (W0–W4)
 - [EP1-Air-Push-Plan](log/plans/EP1-Air-Push-Plan.md) — S202 air push: deploy wrapper, CI, key inventory, reliquary garden
 - [Unified-Entity-NeBuLA-Unification-Plan](log/plans/Unified-Entity/Unified-Entity-NeBuLA-Unification-Plan.md) — S352: one registry JSON + native renderers across Portal, Pocket web and nebula_lite; Pocket-page additions move into NeBuLA; per-surface effect support table
+- [HANDOFF-S352-Unified-Entity-and-Encryption](log/handoffs/HANDOFF-S352-Unified-Entity-and-Encryption.md) — S352 state: docs written, U1 repro, owed rulings (the Opus handoff below is the cold start)
 - [HANDOFF-S352-Opus-Unified-Entity-Orchestration](log/handoffs/HANDOFF-S352-Opus-Unified-Entity-Orchestration.md) — Opus cold-start: what Opus decides itself, Sonnet/Haiku fan-out waves with briefs, rules, preflight
 - [EP2-Accounts-Encryption-Spec](log/plans/EP2-Accounts-Encryption-Spec.md) — the user scaffold: accounts/sessions, then encrypted ingestion
 - [sCoRE-RaBbLE-UI-Rust-Plan](log/plans/sCoRE-RaBbLE-UI-Rust-Plan.md): RaBbLE-UI rebuilt in Rust (R4): measured Python limits, targets T1-T6, Rust UI + Python engine sidecar, phases R0-R5, golden-dump parity, lanes, open questions
