@@ -4879,10 +4879,10 @@
             "k": 1.6
           },
           "reduced": {
-            "arc_fu": 0,
+            "arc_fu": 75,
             "duration": 0.5,
             "glyph_step_hz": 8,
-            "note": "SEED terminal reduced: frame-stepped glyph swap, no depth arc; numbers have no census source"
+            "note": "SEED terminal reduced: frame-stepped glyph swap; arc_fu 75 kept so portals never touch (Canon 2), as nebula_glyph bows them sideways (S353 W2-13)"
           },
           "sources": [
             "RaBbLE-Grimoire/log/plans/Unified-Entity/live/live.js:50 DUR_P 1.45, m=smoothstep, pq=sin(pi m)*1.6, pk=smootherstep",
