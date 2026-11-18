@@ -8,16 +8,26 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-18 · S350 (pocket-workbench)
+## LATEST — 2026-11-18 · S351 (portal-chat)
 
 **Phase:** Epoch 0 · Foundation.
-**This session:** S350: Pocket workbench live, link check with no Wi-Fi, sCoRE deployed; mapper and portal chat next
+**This session:** S351: portal chat saved across surfaces, Pockets tab opens workbench, invite links; sCoRE and World dev live
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28/B-29/B-32/B-33/B-38/B-43/B-44 open.
-**Next:** HANDOFF-S350 (mapper; portal chat and Pockets tab)
+**Next:** HANDOFF-S350 A (mapper, unified render); dev click-through
 
 ---
 
 
+
+## 2026-11-18 · Session S351 (portal-chat)
+
+- **Repos:** sCoRE, World, Grimoire. `new-horizons`; deployed: sCoRE (Render, from `release/0.1.0`, migration 0010 confirmed in Neon read-only), World dev (CI, run green).
+- **Asked:** HANDOFF-S350 B (portal chat and Pockets tab); admin invites as links.
+- **Done:** sCoRE conversations carry a surface (`origin` on conversations, `surface` per turn, `blended` derived); one open conversation per member, so a Pocket picks up a web chat and the reverse; routes start/append/resume; `/api/v1/chat` takes `conversation_id` and keeps both sides. World portal Home: entity banner, saved chat, pickup of the open conversation, New chat, Continue here from Conversations (origin shown); Pockets tab keeps list and revoke and gains "Set up or manage my Pockets" (token handoff to the workbench, `RABBLE_POCKET_URL`); the add-a-Pocket and USB-key flow and `RaBbLE-pocket-serial.js` removed; admin invites minted and listed as `?invite=` links. Grimoire `dev-cdn.js` proxies `/api/*` and `/health` to sCoRE (`DEV_API_UPSTREAM` to change). New `tests/test_account_chat.py` (20 checks); face test fixed to route any origin.
+- **Found:** `test_existing_auth_paths_unchanged` fails when suites run together on 3.12 with or without these changes (order-dependent, pre-existing); the face and portal tests hard-coded `localhost:8000`.
+- **Rulings:** none new. Public face keeps guest chat; "all pages sign in" was read as the portal.
+- **Not done:** no live click-through on dev (handoff to workbench, entity banner, Pocket pickup); access-token lifetime vs the workbench's 1 hour cookie unchecked; World `main` (prod) unchanged until Genesis; mapper and unified render (HANDOFF-S350 A) untouched; one shared sign-in cookie still undecided.
+- **Next:** `log/handoffs/HANDOFF-S350-Mapper-and-Unified-Render.md`; click-through of the dev portal.
 
 ## 2026-11-18 · Session S350 (pocket-workbench)
 

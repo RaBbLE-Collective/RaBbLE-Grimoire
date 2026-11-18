@@ -347,3 +347,6 @@ cb184c92-ce1a-4c12-81ce-429eedf9985a	os-layerctl-rework	layerctl rework	rabble	a
 368b1f48-fc72-4ecb-899f-e61966ea51eb	score-ac2-fixes-pending		rabble	anthropic	claude-sonnet-5-5
 9dfc2e0d-98dd-4aca-a804-803f62dee5ab	score-accounts-live	S346: close	claude	anthropic	claude-sonnet-5-5
 884bfaa6-cb2d-4b9d-a33c-300a21b310bd	chat-export-personal-grimoire	claude.ai export integrated into both Grimoires	claude	anthropic	claude-sonnet-5-5
+05903dde-95c7-4913-b150-75a3006b437f	pocket-accounts-metering	S347	claude	anthropic	claude-sonnet-5-5
+9abd5f22-3fdc-4689-a6bf-340d7c6e18d8	pocket-workbench	S350: Pocket workbench, link check, sCoRE deploy	claude	anthropic	claude-sonnet-5-5
+189c90f4-a8b5-4fe9-b2f6-1126d7199c59	portal-chat	S351	claude	anthropic	claude-sonnet-5-5
