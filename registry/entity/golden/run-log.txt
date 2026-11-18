@@ -1,0 +1,18 @@
+idle             XFAIL  ssim=0.544 mean=0.160 bad=0.195
+blink_half       XFAIL  ssim=0.636 mean=0.112 bad=0.120
+blink            XFAIL  ssim=0.650 mean=0.086 bad=0.089
+swap_0.25        XFAIL  ssim=0.631 mean=0.135 bad=0.144
+swap_0.40        XFAIL  ssim=0.731 mean=0.073 bad=0.076
+swap_0.45        XFAIL  ssim=0.746 mean=0.058 bad=0.061
+swap_0.50        XFAIL  ssim=0.743 mean=0.055 bad=0.057
+swap_0.55        XFAIL  ssim=0.729 mean=0.060 bad=0.063
+swap_0.60        XFAIL  ssim=0.713 mean=0.075 bad=0.077
+swap_0.75        XFAIL  ssim=0.625 mean=0.148 bad=0.156
+turn_0.25        XFAIL  ssim=0.501 mean=0.218 bad=0.255
+turn_0.50        XFAIL  ssim=0.438 mean=0.401 bad=0.429
+turn_0.75        XFAIL  ssim=0.510 mean=0.216 bad=0.259
+listening_0.5    n/a    (single surface)
+boot_0.5         n/a    (single surface)
+boot_1.5         n/a    (single surface)
+boot_3.0         n/a    (single surface)
+GREEN: 0 fixture(s) off expectation

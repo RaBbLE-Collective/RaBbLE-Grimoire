@@ -1,0 +1,151 @@
+{
+  "_doc": "expect: must_pass | expected_fail. expected_fail records today's known cross-surface differences (reasons cite the U1 table in the Unification Plan, rulings 16/24/25) with the baseline metrics at the first run; the suite is green while each still fails within drift_band, red on XPASS (flip to must_pass: that is the gate) or DRIFT (the difference changed, so something else changed). Device-only fixtures (listening, boot) are guarded by baselines/ only.",
+  "drift_band": 0.05,
+  "fixtures": {
+    "idle": {
+      "expect": "expected_fail",
+      "reasons": [
+        "U1-a: lower-role eye fills the well to the near rim, rig dissolves it at the portal plane (ruling 16 moves the rest portal Y to 1.00; W2-5 rig side, Pocket side drops per_side_offset)",
+        "U1-e: Pocket draws a flat black well and no glow; the rig has soft rim glow and a gradient well (effect layers glow.*, portal.back; W2-5/W2-7)"
+      ],
+      "baseline": {
+        "ssim": 0.5445,
+        "mean": 0.1603
+      }
+    },
+    "blink_half": {
+      "expect": "expected_fail",
+      "reasons": [
+        "U1-a: lower-role eye fills the well to the near rim, rig dissolves it at the portal plane (ruling 16 moves the rest portal Y to 1.00; W2-5 rig side, Pocket side drops per_side_offset)",
+        "U1-e: Pocket draws a flat black well and no glow; the rig has soft rim glow and a gradient well (effect layers glow.*, portal.back; W2-5/W2-7)"
+      ],
+      "baseline": {
+        "ssim": 0.6362,
+        "mean": 0.112
+      }
+    },
+    "blink": {
+      "expect": "expected_fail",
+      "reasons": [
+        "U1-a: lower-role eye fills the well to the near rim, rig dissolves it at the portal plane (ruling 16 moves the rest portal Y to 1.00; W2-5 rig side, Pocket side drops per_side_offset)",
+        "U1-e: Pocket draws a flat black well and no glow; the rig has soft rim glow and a gradient well (effect layers glow.*, portal.back; W2-5/W2-7)"
+      ],
+      "baseline": {
+        "ssim": 0.6501,
+        "mean": 0.086
+      }
+    },
+    "swap_0.25": {
+      "expect": "expected_fail",
+      "reasons": [
+        "U1-b: Pocket swap is planar 0.7 s smoothstep, the portals meet and touch; rig is 1.45 s with a 75-unit depth arc (W2-12)",
+        "U1-c: Pocket withdraw = sin(pi*fl), eye still about half height at 25%; rig smootherstep plateau, nearly gone (W2-12)"
+      ],
+      "baseline": {
+        "ssim": 0.6308,
+        "mean": 0.1346
+      }
+    },
+    "swap_0.40": {
+      "expect": "expected_fail",
+      "reasons": [
+        "U1-b: Pocket swap is planar 0.7 s smoothstep, the portals meet and touch; rig is 1.45 s with a 75-unit depth arc (W2-12)",
+        "U1-c: Pocket withdraw = sin(pi*fl), eye still about half height at 25%; rig smootherstep plateau, nearly gone (W2-12)",
+        "Mid-swap faults (ruling 25): (1) squashed eye lies on top of the well, (2) rim halves swap in one frame at 0.50 (flipped = fl >= 0.5), (3) portals touch with no depth order, magenta over cyan by push order (W2-12)"
+      ],
+      "baseline": {
+        "ssim": 0.7311,
+        "mean": 0.0728
+      }
+    },
+    "swap_0.45": {
+      "expect": "expected_fail",
+      "reasons": [
+        "U1-b: Pocket swap is planar 0.7 s smoothstep, the portals meet and touch; rig is 1.45 s with a 75-unit depth arc (W2-12)",
+        "U1-c: Pocket withdraw = sin(pi*fl), eye still about half height at 25%; rig smootherstep plateau, nearly gone (W2-12)",
+        "Mid-swap faults (ruling 25): (1) squashed eye lies on top of the well, (2) rim halves swap in one frame at 0.50 (flipped = fl >= 0.5), (3) portals touch with no depth order, magenta over cyan by push order (W2-12)"
+      ],
+      "baseline": {
+        "ssim": 0.7464,
+        "mean": 0.0577
+      }
+    },
+    "swap_0.50": {
+      "expect": "expected_fail",
+      "reasons": [
+        "U1-b: Pocket swap is planar 0.7 s smoothstep, the portals meet and touch; rig is 1.45 s with a 75-unit depth arc (W2-12)",
+        "U1-c: Pocket withdraw = sin(pi*fl), eye still about half height at 25%; rig smootherstep plateau, nearly gone (W2-12)",
+        "Mid-swap faults (ruling 25): (1) squashed eye lies on top of the well, (2) rim halves swap in one frame at 0.50 (flipped = fl >= 0.5), (3) portals touch with no depth order, magenta over cyan by push order (W2-12)"
+      ],
+      "baseline": {
+        "ssim": 0.7434,
+        "mean": 0.0547
+      }
+    },
+    "swap_0.55": {
+      "expect": "expected_fail",
+      "reasons": [
+        "U1-b: Pocket swap is planar 0.7 s smoothstep, the portals meet and touch; rig is 1.45 s with a 75-unit depth arc (W2-12)",
+        "U1-c: Pocket withdraw = sin(pi*fl), eye still about half height at 25%; rig smootherstep plateau, nearly gone (W2-12)",
+        "Mid-swap faults (ruling 25): (1) squashed eye lies on top of the well, (2) rim halves swap in one frame at 0.50 (flipped = fl >= 0.5), (3) portals touch with no depth order, magenta over cyan by push order (W2-12)"
+      ],
+      "baseline": {
+        "ssim": 0.7291,
+        "mean": 0.0605
+      }
+    },
+    "swap_0.60": {
+      "expect": "expected_fail",
+      "reasons": [
+        "U1-b: Pocket swap is planar 0.7 s smoothstep, the portals meet and touch; rig is 1.45 s with a 75-unit depth arc (W2-12)",
+        "U1-c: Pocket withdraw = sin(pi*fl), eye still about half height at 25%; rig smootherstep plateau, nearly gone (W2-12)",
+        "Mid-swap faults (ruling 25): (1) squashed eye lies on top of the well, (2) rim halves swap in one frame at 0.50 (flipped = fl >= 0.5), (3) portals touch with no depth order, magenta over cyan by push order (W2-12)"
+      ],
+      "baseline": {
+        "ssim": 0.7131,
+        "mean": 0.0749
+      }
+    },
+    "swap_0.75": {
+      "expect": "expected_fail",
+      "reasons": [
+        "U1-b: Pocket swap is planar 0.7 s smoothstep, the portals meet and touch; rig is 1.45 s with a 75-unit depth arc (W2-12)",
+        "U1-c: Pocket withdraw = sin(pi*fl), eye still about half height at 25%; rig smootherstep plateau, nearly gone (W2-12)"
+      ],
+      "baseline": {
+        "ssim": 0.6253,
+        "mean": 0.1484
+      }
+    },
+    "turn_0.25": {
+      "expect": "expected_fail",
+      "reasons": [
+        "U1-d: device has no turn (hardware roll only), renders the idle frame; rig does a 1.4 s yaw half-turn (device gains turn or registry marks none, W2-12)"
+      ],
+      "baseline": {
+        "ssim": 0.501,
+        "mean": 0.2185
+      }
+    },
+    "turn_0.50": {
+      "expect": "expected_fail",
+      "reasons": [
+        "U1-d: device has no turn (hardware roll only), renders the idle frame; rig does a 1.4 s yaw half-turn (device gains turn or registry marks none, W2-12)"
+      ],
+      "baseline": {
+        "ssim": 0.4379,
+        "mean": 0.4009
+      }
+    },
+    "turn_0.75": {
+      "expect": "expected_fail",
+      "reasons": [
+        "U1-d: device has no turn (hardware roll only), renders the idle frame; rig does a 1.4 s yaw half-turn (device gains turn or registry marks none, W2-12)"
+      ],
+      "baseline": {
+        "ssim": 0.5104,
+        "mean": 0.2162
+      }
+    }
+  }
+}

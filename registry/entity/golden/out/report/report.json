@@ -1,0 +1,328 @@
+{
+  "idle": {
+    "status": "XFAIL",
+    "baseline_device": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "baseline_web": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "cross": {
+      "mean": 0.1603,
+      "bad_frac": 0.1951,
+      "ssim": 0.5445,
+      "pass": false
+    },
+    "notes": []
+  },
+  "blink_half": {
+    "status": "XFAIL",
+    "baseline_device": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "baseline_web": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "cross": {
+      "mean": 0.112,
+      "bad_frac": 0.1203,
+      "ssim": 0.6362,
+      "pass": false
+    },
+    "notes": []
+  },
+  "blink": {
+    "status": "XFAIL",
+    "baseline_device": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "baseline_web": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "cross": {
+      "mean": 0.086,
+      "bad_frac": 0.0887,
+      "ssim": 0.6501,
+      "pass": false
+    },
+    "notes": []
+  },
+  "swap_0.25": {
+    "status": "XFAIL",
+    "baseline_device": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "baseline_web": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "cross": {
+      "mean": 0.1346,
+      "bad_frac": 0.144,
+      "ssim": 0.6308,
+      "pass": false
+    },
+    "notes": []
+  },
+  "swap_0.40": {
+    "status": "XFAIL",
+    "baseline_device": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "baseline_web": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "cross": {
+      "mean": 0.0728,
+      "bad_frac": 0.076,
+      "ssim": 0.7311,
+      "pass": false
+    },
+    "notes": []
+  },
+  "swap_0.45": {
+    "status": "XFAIL",
+    "baseline_device": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "baseline_web": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "cross": {
+      "mean": 0.0577,
+      "bad_frac": 0.0611,
+      "ssim": 0.7464,
+      "pass": false
+    },
+    "notes": []
+  },
+  "swap_0.50": {
+    "status": "XFAIL",
+    "baseline_device": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "baseline_web": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "cross": {
+      "mean": 0.0547,
+      "bad_frac": 0.0572,
+      "ssim": 0.7434,
+      "pass": false
+    },
+    "notes": []
+  },
+  "swap_0.55": {
+    "status": "XFAIL",
+    "baseline_device": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "baseline_web": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "cross": {
+      "mean": 0.0605,
+      "bad_frac": 0.0626,
+      "ssim": 0.7291,
+      "pass": false
+    },
+    "notes": []
+  },
+  "swap_0.60": {
+    "status": "XFAIL",
+    "baseline_device": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "baseline_web": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "cross": {
+      "mean": 0.0749,
+      "bad_frac": 0.0772,
+      "ssim": 0.7131,
+      "pass": false
+    },
+    "notes": []
+  },
+  "swap_0.75": {
+    "status": "XFAIL",
+    "baseline_device": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "baseline_web": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "cross": {
+      "mean": 0.1484,
+      "bad_frac": 0.1558,
+      "ssim": 0.6253,
+      "pass": false
+    },
+    "notes": []
+  },
+  "turn_0.25": {
+    "status": "XFAIL",
+    "baseline_device": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "baseline_web": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "cross": {
+      "mean": 0.2185,
+      "bad_frac": 0.2548,
+      "ssim": 0.501,
+      "pass": false
+    },
+    "notes": []
+  },
+  "turn_0.50": {
+    "status": "XFAIL",
+    "baseline_device": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "baseline_web": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "cross": {
+      "mean": 0.4009,
+      "bad_frac": 0.4289,
+      "ssim": 0.4379,
+      "pass": false
+    },
+    "notes": []
+  },
+  "turn_0.75": {
+    "status": "XFAIL",
+    "baseline_device": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "baseline_web": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "cross": {
+      "mean": 0.2162,
+      "bad_frac": 0.2588,
+      "ssim": 0.5104,
+      "pass": false
+    },
+    "notes": []
+  },
+  "listening_0.5": {
+    "status": "n/a",
+    "baseline_device": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "notes": []
+  },
+  "boot_0.5": {
+    "status": "n/a",
+    "baseline_device": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "notes": []
+  },
+  "boot_1.5": {
+    "status": "n/a",
+    "baseline_device": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "notes": []
+  },
+  "boot_3.0": {
+    "status": "n/a",
+    "baseline_device": {
+      "mean": 0.0,
+      "bad_frac": 0.0,
+      "ssim": 1.0,
+      "pass": true
+    },
+    "notes": []
+  }
+}

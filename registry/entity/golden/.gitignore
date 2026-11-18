@@ -1,0 +1,6 @@
+.venv/
+out/build/
+out/web/rig-pocket.html
+__pycache__/
+out/device/
+out/web/
