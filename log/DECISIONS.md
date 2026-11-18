@@ -362,3 +362,20 @@ From the claude.ai export of 2026-11-17: decisions Mark made in chat that a text
 | Pocket capture: the Oct 22 chat settled on server-side decryption in sCoRE "for now", with the Grimoire MCP never touching S3 directly. Offline queue states are recorded, queued, beaming, confirmed, purged. A physical private-mode gesture has a distinct indicator; private notes can be transcribed locally with Whisper on Mark's own GPUs. Standing requirement (Mark, later): everything stored is encrypted. | RaBbLE Pocket voice GitHub context (2026-10-22) | **Open.** Whether decryption happens on the server or the client needs more work. S333 (transcripts client-sealed) is the current ruling in this log; the chat's server-side idea was a stopgap and is not a ruling. The queue states and private mode are not recorded. |
 | Social: Instagram business account, handle `joinrabble`, display name RaBbLE-Collective, tied to joinrabble.world. | Claude Instagram automation for RaBbLE (2026-10-22) | Not recorded outside Claude's memory. |
 | RaBbLE is not a Muse port; it is an independent product that can speak to Muse as one pluggable backend. The open versus proprietary split follows a "could a stranger fork this and still have something useful" test. The cloud-communication module ("beam") was flagged as the component most likely to be Meta-derived. | Clean room licensing for Meta SDK (2026-11-02) | Check against `RaBbLE-Pocket-Provenance.md` and the Open-Layer notes. |
+
+## S352 rulings: encrypt-everything trust line, Pocket keys, unified entity (2026-11-18)
+
+Ruled by Mark in S352. Proposals still awaiting a ruling are marked as such in the carrying docs.
+
+| Ruling | Carried in |
+|---|---|
+| **Trust line: never stored in plaintext, seen only in flight.** sCoRE and the model provider see audio and text while processing a turn, never at rest. The public claim is exactly that, not "we cannot see it" | `EP2-Accounts-Encryption-Spec.md` 0a |
+| **Pocket keys: write-only by default, optional per-device read key**, granted and revoked from the phone app | spec 0a |
+| **Unified entity data = a registry JSON plus native renderers.** `registry/entity/rabble.entity.json` is the only place a number lives; the brand entity is not `.rbl` for now | `Unified-Entity-NeBuLA-Unification-Plan.md` rulings 1 to 10 |
+| **Pocket web renders through NeBuLA's Canvas2D or Three.js backend**; nebula_lite renders the same data spec (registry + golden frames); the 3D infinity-portal rig is in scope | plan rulings 3 to 5 |
+| **Every Pocket effect is ported into NeBuLA as a named, tweakable layer; Pocket stays 60 fps (effects yield, not the frame rate); one NeBuLA vocabulary on every surface** | plan rulings 6 to 9 |
+| **Classify every current entity render; drifters go to Chrysalis; one canonical RaBbLE entity is declared** (first-pass inventory awaits sign-off) | plan ruling 10, inventory |
+| First slice: Pocket-versus-rig occlusion comparison at a matched camera | plan slice U1 |
+
+**Why:** one entity must read the same on every surface without hand-porting numbers, and "private by architecture" needs an honest, checkable claim.
+

@@ -293,6 +293,7 @@ High-density distilled summaries. Full picture in **~3,000 tokens** (`bash spell
 - [RaBbLE-Pocket-SDK-Plan](RaBbLE-Pocket/RaBbLE-Pocket-SDK-Plan.md): S271 plan to split the gadget firmware into app / SDK / boards (S0-S11 steps with gates); runs in parallel with W6, W7 after it
 - [RaBbLE-Pocket-Capture-Plan](RaBbLE-Pocket/RaBbLE-Pocket-Capture-Plan.md): Converse/Capture modes (swipe up/down), notes beamed back from sCoRE into an on-device Pocket Grimoire (LittleFS or SD), USB offload into Personal-Grimoire; plus the S264 face-freeze root cause and fixes and the tilt rework
 - [RaBbLE-Pocket-Entity-Port-Plan](RaBbLE-Pocket/RaBbLE-Pocket-Entity-Port-Plan.md): 60 fps procedural entity renderer ("NeBuLA-lite") for the CO5300 panel: band rendering + chord flush + TE pacing, half-res soft glow layer, gravity lock, 7 phases each with a gate; mock in Pocket `planning/mock/`
+- [RaBbLE-Pocket-ZNP-Badge-Research](RaBbLE-Pocket/RaBbLE-Pocket-ZNP-Badge-Research.md): S352 research note on the ZNP Z01 BLE badge as a thinner Pocket-tier surface (znp-re protocol, unknowns, app-first path) plus the privacy and key notes feeding the EP2 encryption spec
 - [RaBbLE-Pocket-V1-Firmware-Plan](RaBbLE-Pocket/RaBbLE-Pocket-V1-Firmware-Plan.md) — first custom firmware: idle face (eyes/time/battery %), GIF-frame boot animation, touch settings, two-tier PMIC-gated sleep/wake; BSP/HAL file layout + 7-slice incremental verification plan
 
 ---
@@ -329,6 +330,8 @@ Status lives in each plan; the one-line status table is [log/plans/CONTEXT.md](l
 - [EP1-Staging-and-Grimoire-Audit](log/plans/EP1-Staging-and-Grimoire-Audit.md) — path to air: gate truth, roadmap rewrite, de-bloat, public face, post-air user scaffold
 - [EP1-Entity-Face-Plan](log/plans/EP1-Entity-Face-Plan.md) — the five-beat "alive" World face + NeBuLA entity (W0–W4)
 - [EP1-Air-Push-Plan](log/plans/EP1-Air-Push-Plan.md) — S202 air push: deploy wrapper, CI, key inventory, reliquary garden
+- [Unified-Entity-NeBuLA-Unification-Plan](log/plans/Unified-Entity/Unified-Entity-NeBuLA-Unification-Plan.md) — S352: one registry JSON + native renderers across Portal, Pocket web and nebula_lite; Pocket-page additions move into NeBuLA; per-surface effect support table
+- [HANDOFF-S352-Opus-Unified-Entity-Orchestration](log/handoffs/HANDOFF-S352-Opus-Unified-Entity-Orchestration.md) — Opus cold-start: what Opus decides itself, Sonnet/Haiku fan-out waves with briefs, rules, preflight
 - [EP2-Accounts-Encryption-Spec](log/plans/EP2-Accounts-Encryption-Spec.md) — the user scaffold: accounts/sessions, then encrypted ingestion
 - [sCoRE-RaBbLE-UI-Rust-Plan](log/plans/sCoRE-RaBbLE-UI-Rust-Plan.md): RaBbLE-UI rebuilt in Rust (R4): measured Python limits, targets T1-T6, Rust UI + Python engine sidecar, phases R0-R5, golden-dump parity, lanes, open questions
 - [Collective-ICM-Conformance-Audit](log/plans/Collective-ICM-Conformance-Audit.md) — Collective vs the ICM/MWP paper: stage contracts, handoff split
