@@ -351,3 +351,4 @@ cb184c92-ce1a-4c12-81ce-429eedf9985a	os-layerctl-rework	layerctl rework	rabble	a
 9abd5f22-3fdc-4689-a6bf-340d7c6e18d8	pocket-workbench	S350: Pocket workbench, link check, sCoRE deploy	claude	anthropic	claude-sonnet-5-5
 189c90f4-a8b5-4fe9-b2f6-1126d7199c59	portal-chat	S351	claude	anthropic	claude-sonnet-5-5
 1d46d05f-462c-4e62-a8c6-2ac5aed33676	unified-entity-encryption-plan	S352 plan and handoff	claude	anthropic	claude-sonnet-5-5
+c7c5213a-2b53-42aa-aa05-0350666c6337	unified-entity-orchestration	S353: wave 1, U1, schema	claude	anthropic	claude-opus-5-5
