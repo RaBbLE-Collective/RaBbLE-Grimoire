@@ -90,10 +90,10 @@ Names are `snake_case` ids; display labels live beside them. Every surface uses 
 `elevation_deg: { default: 17, range: [-90, 90] }`, `persp_full_rad: 0.4` (persp = smoothstep(|e|/0.4)), `camd_fu: 800`, `tilt: { eps0: 0.283, epsk: 0.16 }` (rad; Canon 5 formula is fixed in code, constants here), `top_down: { shrink_rad: [0.5, 1.05], settle_rad: [0.6, 1.2], eye_fit: 0.74 }` (two ranges, not Canon's single "29 to 69"), `rim_points: 72`.
 
 ### 4.3 `cut` (swallow cut)
-`{ "mode": "dome_dissolve", "span_px": { "min": 14, "max": 60, "k": 0.22 }, "hide_below": 0.003, "hide_above": 0.985 }`. `mode` is an enum: `dome_dissolve` (rig, Canon 30b/36b) or `opening_clip` (Pocket: half-plane plus opening ellipse). **Open ruling U1-a** (section 9): which mode is canonical for the lower-role eye.
+`{ "mode": "opening_clip", "span_px": { "min": 14, "max": 60, "k": 0.22 }, "hide_below": 0.003, "hide_above": 0.985 }`. `mode` is an enum: `opening_clip` (Pocket: half-plane plus opening ellipse; **base, ruled S353 #16**) or `dome_dissolve` (the rig's earlier rule, kept for comparison). Rest portal Y is 1.00 on every profile, so at idle the lower portal's near rim does not cover its eye; V5 checks that (no rim over an eye at any rest form).
 
 ### 4.4 `colour`
-`{ "poles": ["cyan", "magenta"], "blend_fu": 96, "hue_path": "short", "sample": "eye_centre", "eye_fill": "<palette name>", "void": "black", "void_alpha": 0.9 }`. **Open ruling C5**: the rig's eye fill `#f8faff` is not in the Palette; choose `text` (`#e8e6f0`, alive uses it), `white`, or add a Palette entry.
+`{ "poles": ["cyan", "magenta"], "blend_fu": 96, "hue_path": "short", "sample": "eye_centre", "eye_fill": "white", "eye_outline": "pole", "void": "black", "void_alpha": 0.9 }`. Ruled S353 #17: pure white eyes, palette outline (the pole colour at the eye's position), and a slight fade toward the rim (`eyes.params.rim_fade`, a white core blending to the outline colour, like the device's orb gradient). The rig's `#f8faff` retires.
 
 ### 4.5 `idle`
 `blink: { "period": 4.2, "dip": 0.16, "double_every": 3, "second_dip": [0.24, 0.40], "squash": 0.95 }` (identical in live.js and scene.c; alive's random 2 to 7 s blink becomes a `drive` on `period` by energy, not a second model). `float: { "amp_fu": 12, "w": 1.05 }`, `breathe: { "amp": 0.02, "w": 1.25 }`, `portal_bob: { "amp_fu": 8, "w": 1.4, "phase": 1.1, "opposed": true }`, `wander: {...}`, `gaze: { "range_fu": [26, 12], "stiffness": 40, "pointer_stiffness": 110 }`. **Three idle models exist today (C7)**: base takes the rig's; the alive values move here as named params; surfaces stop carrying their own.
@@ -178,7 +178,7 @@ Priority seed: `eyes`, `portal.back`, `portal.front` = 0; `mesh.*`, `orbit`, `ri
 "pocket_hw": {
   "scale": { "fu_to_px": 0.506 },               // 44 px eye width / 87 fu
   "screen": { "w": 466, "h": 466, "round": true, "centre": [233, 233] },
-  "body": { "eye": { "h": 2.64 }, "portal": { "w": 2.0, "flatten": 0.25 }, "spacing": 1.95, "per_side_offset": [0.86, 0.79] },
+  "body": { "eye": { "h": 2.64 }, "portal": { "w": 2.0, "flatten": 0.25 }, "spacing": 1.95 },   // portal Y 1.00 from base (S353 #16; the old 0.86/0.79 offsets covered the eye at idle)
   "camera": { "fixed_elevation_deg": 17 },      // the device draws one view; U1 matched it at 17 degrees
   "cut": { "mode": "opening_clip" },
   "frame": { "target_hz": 60, "floor_hz": 60, "budget_ms": 14.0 },
@@ -226,7 +226,9 @@ Seeded profiles: `web` (alive backend: Portal, account page), `web3d`, `ball` (t
 
 Tests: one passing fixture (the real registry) plus one failing fixture per check under `registry/entity/tests/`.
 
-## 9. Open for Mark (blocks wave 2)
+## 9. Rulings and what is still open
+
+**Ruled S353 (second batch, plan rulings 15 to 19):** one unified NeBuLA web backend (alive + rig + Pocket web; profiles `web` and `pocket_web`); `cut.mode` = `opening_clip`, rest portal Y 1.00 everywhere; eyes white with a pole outline and a rim fade; every effect is a NeBuLA effect (the standalone `src/effects/` modules included); `thinking` is a state with `ponder` and `process` as its moods. **Still open:** the U8 inventory sign-off, and the device turn (`moves.turn` support on `pocket_hw`). The original open list follows for the record.
 
 - **U1-a, swallow cut for the lower-role eye.** At a matched 17 degree camera, Pocket and the rig agree on draw order in idle, blink and swap (section in the plan). They differ in how much of the lower eye shows inside the opening: Pocket clips to the half-plane plus the opening ellipse, so the eye fills the well down to the near rim, which then draws over it; the rig dissolves along a dome at the portal plane, so the eye ends at the well's centre and the near rim never crosses it. Ruling 37 (Pocket's occlusion is the reference) says take Pocket's; rulings 30b/36b (dome dissolve, no clip rectangles) describe the rig's. The schema carries both as `cut.mode`; choose the base.
 - **C5, eye fill colour.** `#f8faff` is off-Palette: `text`, `white`, or a new Palette entry.

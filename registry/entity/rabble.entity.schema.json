@@ -253,7 +253,7 @@
         },
         "cut": {
           "type": "object", "required": ["mode"],
-          "properties": { "mode": { "enum": ["dome_dissolve", "opening_clip"] } }
+          "properties": { "mode": { "enum": ["opening_clip", "dome_dissolve"], "default": "opening_clip" } }
         },
         "colour": {
           "type": "object",
@@ -264,6 +264,7 @@
             "hue_path": { "enum": ["short"] },
             "sample": { "enum": ["eye_centre", "part"] },
             "eye_fill": { "$ref": "#/$defs/colour" },
+            "eye_outline": { "$ref": "#/$defs/colour" },
             "void": { "$ref": "#/$defs/colour" },
             "void_alpha": { "type": "number" }
           }

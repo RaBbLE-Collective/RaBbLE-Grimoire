@@ -31,6 +31,16 @@ Builds on, does not replace: `Unified-Entity-Canon.md` (rules in force, section 
 13. **Device effects:** everything that can be ported within the 60 fps budget. Bokeh and haze are not required on the device. Every effect and layer must be dynamically renderable, so Mark or RaBbLE can use layers to express meaning or state. **The eyes define the entity; the mesh and the orb/Orbit are the other key expression.** All other layers are driven by input, state or expression, and depend on what the surface can do. (Mark's words: "Everything that can be ported in the FPS budget. The Bokeh/Haze is not required.")
 14. **Alive backend:** merge or keep is decided from the inventory (below) and signed off with the U8 table.
 
+## Ruled (Mark, S353, second batch)
+
+15. **One NeBuLA web surface.** The Pocket web page, the alive backend and the Puppet Spec rig unify into one 2D web backend. It takes alive's aura, boot and expressions, the rig's mechanics (tilt, cut, swap, turn, colour volume, infinity) and the Pocket page's APIs and effects (mesh, strands, glass, gaze, audio, snapshot). Portal and Pocket web are profiles of it. The Three.js backend stays the 3D path (Ball, Web3D). The Portal keeps its `backend="alive"` attribute working during the move.
+16. **Occlusion (closes U1-a): Pocket's dynamics, the rig's rest position.** Pocket's occlusion follows the proper rules. Its fault is the rest position: the portals sit too far onto the eyes (offsets 0.86 and 0.79 eye half-heights), so at idle the lower portal's near rim covers the eye. At rest the lower portal must not cover the eye. `cut.mode` = `opening_clip` (Pocket). Portal Y at rest = 1.00 (Canon default) on every profile, including Pocket; Pocket's `per_side_offset` is dropped.
+17. **Eyes (closes C5):** pure white fill with a palette-coloured outline (the pole colour from the colour volume) and a slight fade toward the rim (as the device's orb gradient does, white core to pole edge). `colour.eye_fill` = `white`; a new `colour.eye_outline` = `pole`; the fade is a parameter of the `eyes` effect.
+18. **All effects become NeBuLA effects** (closes D7). Every effect on any surface, including NeBuLA's standalone `src/effects/` modules, becomes a registry-defined NeBuLA effect with per-surface support, for range and to make the engine more robust.
+19. **Vocabulary approved:** `thinking` is a state; `ponder` and `process` are its moods.
+
+Still open: the U8 sign-off (Mark is reviewing the table) and the device turn (D6).
+
 ## Inventory of current entity renders (U8, merged S353 from the wave-1 census)
 
 The census read seven members file by file (per-member tables, md5 twins, last commits, importers, URLs). The full reports were scratch output; their findings are folded in here, and the S352 first-pass table is superseded. **Every status is a proposal until Mark signs it off.**

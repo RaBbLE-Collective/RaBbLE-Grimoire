@@ -392,3 +392,13 @@ Ruled by Mark in S353 (answers to the S352 plan's four open questions). The U8 i
 | Alive merge-or-keep is decided from the inventory (recommendation: keep alive as the canonical 2D backend; it is what the Portal mounts) | plan ruling 14, U8 table |
 
 **Why:** the rig is the only source with the full mechanics (tilt, cut, swap, turn, colour volume), so it is the base, and the device's shipped proportions stay as a profile that can move toward it. Layers as drivable expression make effects part of how RaBbLE communicates, not decoration.
+
+### S353 second batch (Mark)
+
+| Ruling | Carried in |
+|---|---|
+| **One NeBuLA web surface:** Pocket web, alive and the rig unify into one 2D web backend; Portal and Pocket web are its profiles; Three.js stays the 3D path | plan ruling 15 |
+| **Occlusion: Pocket's dynamics, the rig's rest.** `opening_clip`; rest portal Y 1.00 everywhere; at idle the lower portal does not cover the eye (Pocket's 0.86/0.79 offsets sat too far onto the eyes) | plan ruling 16; schema 4.3 |
+| **Eyes are pure white with a palette (pole) outline and a slight rim fade** | plan ruling 17; schema 4.4 |
+| **Every effect is a NeBuLA effect**, including the standalone `src/effects/` modules | plan ruling 18 |
+| **`thinking` is a state; `ponder` and `process` are its moods** | plan ruling 19; schema 3 |
