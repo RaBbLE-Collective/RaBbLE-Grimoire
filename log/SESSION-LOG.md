@@ -8,16 +8,26 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-18 · S351 (portal-chat)
+## LATEST — 2026-11-18 · Session S352 (unified-entity-encryption-plan)
 
 **Phase:** Epoch 0 · Foundation.
-**This session:** S351: portal chat saved across surfaces, Pockets tab opens workbench, invite links; sCoRE and World dev live
+**This session:** S352: encryption proposal, unified-entity plan, Opus handoff
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28/B-29/B-32/B-33/B-38/B-43/B-44 open.
-**Next:** HANDOFF-S350 A (mapper, unified render); dev click-through
+**Next:** Opus handoff: registry schema, U1, Sonnet/Haiku fan-out
 
 ---
 
 
+
+## 2026-11-18 · Session S352 (unified-entity-and-encryption)
+
+- **Repos:** Grimoire (docs only); read and ran the Pocket host harness; read NeBuLA. `new-horizons`.
+- **Asked:** file the ZNP badge note; plan encrypt-everything on sCoRE, Neon and R2 with device-side decryption only; unify the entity across Portal, Pocket web and nebula_lite on NeBuLA with effect portability, 60 fps on Pocket, tweakable layers, and classify drifters into Chrysalis.
+- **Done:** `RaBbLE-Pocket/RaBbLE-Pocket-ZNP-Badge-Research.md`; EP2 spec section 0a (keys as X25519, sealed metadata, capture flow, client-side search, threat table, slices E1 to E7); `Unified-Entity-NeBuLA-Unification-Plan.md` (rulings 1 to 10, first-pass inventory, effect-support table, slices U1 to U12); Opus fan-out handoff; DECISIONS S352 entry. Slice U1 half done: Pocket frame and rig frames rendered, camera mismatch found (compare at about 17 degrees, never 0).
+- **Rulings:** trust line (never stored in plaintext, seen in flight); Pocket write-only with optional read key; registry JSON plus native renderers; Pocket web on NeBuLA Canvas2D/Three; nebula_lite on the same spec; all Pocket effects ported, tweakable as layers; Pocket 60 fps; one NeBuLA vocabulary; classify and retire drifters.
+- **Found:** the rig page keeps `prop` internal (no UI for proportions); `gitleaks detect` over the whole Grimoire tree reports 709 pre-existing hits, so scan only the changed files.
+- **Not done:** no code, no files moved; U1 comparison unfinished; encryption proposals (X25519, sealed metadata, client search) unruled; inventory statuses unsigned; no Artifact plan page (Mark's usual preference).
+- **Next:** `log/handoffs/HANDOFF-S352-Opus-Unified-Entity-Orchestration.md` (Opus designs the registry, fans out Sonnet and Haiku).
 
 ## 2026-11-18 · Session S351 (portal-chat)
 
