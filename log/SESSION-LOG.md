@@ -19,6 +19,16 @@ Format: date, what was done, where things were left, what's next.
 
 
 
+## 2026-11-18 · Session S353 (unified-entity-orchestration)
+
+- **Repos:** Grimoire (docs, schema, evidence). Read every entity-render member; ran the Pocket host harness from a scratch copy (no Pocket files changed). `new-horizons`.
+- **Asked:** run HANDOFF-S352-Opus: unify NeBuLA across the Collective, with one entity defined once and drawn on every surface.
+- **Done:** wave 1 (14 read-only agents, sonnet/haiku pinned): census in `log/plans/Unified-Entity/census-S353/`. **U1 closed on draw order** (`u1/`: Pocket vs rig at 17 degrees, deterministic Playwright capture plus `FLIP=` harness copy). **U8 inventory merged** into the plan (26 rows, proposed statuses, Chrysalis landing, link safety). **Registry schema drafted:** `registry/entity/RaBbLE-Entity-Registry-Schema.md` + `rabble.entity.schema.json` (vocabulary, base + profiles, layers with drives and priorities, the U11 60 fps method, validator V1-V12); Canon 9.3 and spec 10.1 retired to it. Wave-2 briefs: `log/handoffs/HANDOFF-S353-Unified-Entity-Wave2.md`. DECISIONS S353. Sign-off page as an Artifact (https://claude.ai/artifact/D93HKLcGFKi745dAhPth4k).
+- **Rulings (Mark):** 11 registry base = rig numbers, Pocket = profile; 12 device floor 60 fps, effects yield, web targets 60 with the governor as fallback; 13 device carries everything within budget, bokeh and haze not required, every layer drivable for expression (eyes define the entity, the mesh and Orbit are the second key expression); 14 alive decided from the inventory.
+- **Found:** the Portal mounts the **alive** backend, not Canvas2D; no NeBuLA or Pocket file draws the infinity flow; World `RaBbLE-floor.js` is an unimported hand-rolled entity; NeBuLA `src/effects/` modules are drawn by no backend; the rig's eye fill `#f8faff` is off-Palette; the device swap is 0.7 s and planar, so its portals touch mid-swap; the device already runs at 31 to 41 fps while listening and speaking (S252), so it misses ruling 7; three idle models and three proportion sets coexist.
+- **Not done:** no registry JSON, no code, no files moved (wave 2 is gated); encryption track untouched.
+- **Next:** Mark signs off the seven decisions (U8, alive as the 2D backend, schema and vocabulary, cut mode U1-a, eye fill C5, device turn, orphan effects), then launch wave 2 from the S353 handoff.
+
 ## 2026-11-18 · Session S352 (unified-entity-and-encryption)
 
 - **Repos:** Grimoire (docs only); read and ran the Pocket host harness; read NeBuLA. `new-horizons`.
