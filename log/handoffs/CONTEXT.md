@@ -11,6 +11,9 @@ fresh agent. One file per work thread. When the work is done, move to `done/`.
 
 ## Active (pending implementation)
 
+- `HANDOFF-S350-Mapper-and-Unified-Render.md`: RAM-run board mapper, unified render surface (web + Pocket), boot animation.
+- `HANDOFF-S350-Portal-Chat-and-Pockets-Tab.md`: portal home chat, cross-surface conversations, Pockets tab to workbench, dev proxy.
+
 Re-triaged S320 from the S318 audit (`log/plans/Collective-Coherency-Audit-S318/audit-plans-roadmap.md` 1c). Superseded and finished handoffs moved to `done/` with a status banner on line 1; none deleted.
 
 | `HANDOFF-S347-Pocket-Accounts-Metering.md` | 🔵 S347 cold start: Pockets pair to accounts, captures and conversations in the portal, metering and limits, flash-pocket modes; deploy order, Genesis merge prep next |
