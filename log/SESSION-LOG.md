@@ -8,12 +8,12 @@ Format: date, what was done, where things were left, what's next.
 
 ---
 
-## LATEST — 2026-11-17 · S348 (chat-export-personal-grimoire)
+## LATEST — 2026-11-18 · S350 (pocket-workbench)
 
 **Phase:** Epoch 0 · Foundation.
-**This session:** S348: claude.ai export integrated: RaBbLE history, decisions, Personal Grimoire first build-out
-**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28/B-29/B-32/B-33/B-38/B-41 open.
-**Next:** Mark reviews folios; uncataloged threads; see HANDOFF-S348
+**This session:** S350: Pocket workbench live, link check with no Wi-Fi, sCoRE deployed; mapper and portal chat next
+**Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28/B-29/B-32/B-33/B-38/B-43/B-44 open.
+**Next:** HANDOFF-S350 (mapper; portal chat and Pockets tab)
 
 ---
 
