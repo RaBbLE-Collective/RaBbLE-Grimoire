@@ -55,7 +55,11 @@ The rig hides the problem: at the plateau its eyes are fully gone, and its porta
 2. **The rim halves swap in one frame at 0.50.** Which arc is the back rim and which is the front is chosen by `flipped = fl >= 0.5` (`scene.c`), so the near rim jumps from one half of the ellipse to the other in a single frame.
 3. **The portals meet at one height and touch** (planar path, no depth arc). They have no depth order, so at the overlap the magenta rim draws over the cyan one by push order.
 
-**Proposed rule (for Mark to confirm):** during a swap, the near rim is always the camera-near arc of each portal, and it does not switch on the flip. The part of an eye past its portal plane draws behind that near rim and fades with depth (Pocket's clip at rest, plus a depth fade through the opening). The portals follow the Canon depth arc, so the nearer portal draws in front. At rest, the role rule stays exactly as it is (ruling 16). Golden-frame fixtures at flip 0.40, 0.45, 0.50, 0.55 and 0.60 guard it.
+**Ruled (Mark, S353, ruling 25): the rule below, with no z-order swap mid-transition.** The draw order is fixed when a move starts and held until it ends: the portal that starts nearer stays in front through the whole swap (its depth arc keeps it nearer), and no near rim or eye changes layer partway through. This holds for portal swap, turn and blink on every surface.
+
+26. **Backend names:** the device renderer is **NeBuLA lite** (`nebula_lite`, C). The terminal renderer is **NeBuLA glyph** (`nebula_glyph`, Rust; today's crate `rabble-face` in `RaBbLE-sCoRE/tui/` is renamed in W2-13). Web: the unified 2D backend and Three.js.
+
+**Rule (proposed S353, ruled as 25):** during a swap, the near rim is always the camera-near arc of each portal, and it does not switch on the flip. The part of an eye past its portal plane draws behind that near rim and fades with depth (Pocket's clip at rest, plus a depth fade through the opening). The portals follow the Canon depth arc, so the nearer portal draws in front. At rest, the role rule stays exactly as it is (ruling 16). Golden-frame fixtures at flip 0.40, 0.45, 0.50, 0.55 and 0.60 guard it.
 
 ## Inventory of current entity renders (U8, merged S353 from the wave-1 census)
 

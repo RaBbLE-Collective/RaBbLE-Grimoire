@@ -412,3 +412,5 @@ Ruled by Mark in S353 (answers to the S352 plan's four open questions). The U8 i
 | **Boot is a NeBuLA effect on the canonical entity**, on every surface | plan ruling 22 |
 | **Wave 2 retires dead and duplicated code** so every surface renders canonically through NeBuLA (web on the unified backend; the device and terminal as NeBuLA's native backends, held by golden frames) | plan ruling 23; HANDOFF-S353 W2-10 |
 | **Mid-swap occlusion is wrong on the device**; proposed rule: the near rim is the camera-near arc through the swap, the eye past the plane goes behind it, the portals pass in depth | plan ruling 24 |
+| **Mid-swap rule confirmed; the z-order never swaps mid-transition** (fixed at the move's start, held to its end; swap, turn, blink, every surface) | plan ruling 25 |
+| **Backend names: NeBuLA lite (device, C) and NeBuLA glyph (terminal, Rust; crate `rabble-face` renamed `nebula_glyph`)** | plan ruling 26 |
