@@ -11,9 +11,9 @@ Format: date, what was done, where things were left, what's next.
 ## LATEST — 2026-11-18 · S353 (unified-entity-orchestration)
 
 **Phase:** Epoch 0 · Foundation.
-**This session:** S353: entity census, U1 closed, registry schema draft
+**This session:** S353: entity registry v0.1.0, golden frames, NeBuLA glyph, Pocket baseline
 **Blockers:** → `log/BLOCKERS.md`. B-09/B-11/B-13/B-15/B-16/B-18/B-20/B-21/B-22/B-23/B-24/B-25/B-26/B-27/B-28/B-29/B-32/B-33/B-38/B-43/B-44 open.
-**Next:** Mark signs off 7 entity decisions, then wave 2 (HANDOFF-S353)
+**Next:** Check W2-2, then unified web backend W2-5/6 (HANDOFF-S353)
 
 ---
 
