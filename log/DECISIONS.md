@@ -402,3 +402,13 @@ Ruled by Mark in S353 (answers to the S352 plan's four open questions). The U8 i
 | **Eyes are pure white with a palette (pole) outline and a slight rim fade** | plan ruling 17; schema 4.4 |
 | **Every effect is a NeBuLA effect**, including the standalone `src/effects/` modules | plan ruling 18 |
 | **`thinking` is a state; `ponder` and `process` are its moods** | plan ruling 19; schema 3 |
+
+### S353 third batch (Mark)
+
+| Ruling | Carried in |
+|---|---|
+| **Every surface supports a form of turn and portal swap**; the device does the eye-trading turn; the terminal a reduced glyph form | plan ruling 20 |
+| **U8 signed:** the canonical renders stand; everything else is reference (kept read-only) or history (Chrysalis) | plan ruling 21 |
+| **Boot is a NeBuLA effect on the canonical entity**, on every surface | plan ruling 22 |
+| **Wave 2 retires dead and duplicated code** so every surface renders canonically through NeBuLA (web on the unified backend; the device and terminal as NeBuLA's native backends, held by golden frames) | plan ruling 23; HANDOFF-S353 W2-10 |
+| **Mid-swap occlusion is wrong on the device**; proposed rule: the near rim is the camera-near arc through the swap, the eye past the plane goes behind it, the portals pass in depth | plan ruling 24 |

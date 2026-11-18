@@ -39,7 +39,23 @@ Builds on, does not replace: `Unified-Entity-Canon.md` (rules in force, section 
 18. **All effects become NeBuLA effects** (closes D7). Every effect on any surface, including NeBuLA's standalone `src/effects/` modules, becomes a registry-defined NeBuLA effect with per-surface support, for range and to make the engine more robust.
 19. **Vocabulary approved:** `thinking` is a state; `ponder` and `process` are its moods.
 
-Still open: the U8 sign-off (Mark is reviewing the table) and the device turn (D6).
+## Ruled (Mark, S353, third batch)
+
+20. **Every surface supports a form of turn and portal swap** (closes D6). The device does the eye-trading turn. The terminal does a reduced (glyph) form. No surface is `none` for either move.
+21. **U8 signed off:** the canonical rows stand as proposed. Every other row is **reference** (kept, read-only: specs, fixtures, test oracles) or **history** (moved to Chrysalis with a pointer). Nothing stays live as a parallel render.
+22. **Boot is a NeBuLA effect on the canonical entity**, played natively on every surface from the registry's `boot` timeline (the terminal plays a reduced form).
+23. **Wave 2 retires dead and duplicated code** so that every surface renders canonically through NeBuLA. Web surfaces use the unified backend (or Three.js for 3D). The device and terminal keep their native renderers under the NeBuLA name and vocabulary (ruling 4: nebula_lite as NeBuLA's C backend, `face.rs` as its terminal backend), held to the registry by golden frames.
+24. **Mid-swap occlusion is wrong** (Mark, looking at the mid-flip frames). The diagnosis is below; the fix lands with the device swap rework.
+
+### Mid-swap occlusion (S353, `u1/mf-pocket.png`, `u1/mf-rig.png`)
+
+The rig hides the problem: at the plateau its eyes are fully gone, and its portals pass each other in depth, the nearer one drawn in front. On the device, from flip 0.40 to 0.60:
+
+1. **The squashed eye lies on top of the well.** Pocket clips each eye to its half-plane plus the whole opening ellipse, so while the eye is passing through the portal plane, all of it inside the opening stays visible. It reads as a flat disc lying on the void, not as an eye sinking into it. The part past the portal plane should go behind the near rim and fade with depth.
+2. **The rim halves swap in one frame at 0.50.** Which arc is the back rim and which is the front is chosen by `flipped = fl >= 0.5` (`scene.c`), so the near rim jumps from one half of the ellipse to the other in a single frame.
+3. **The portals meet at one height and touch** (planar path, no depth arc). They have no depth order, so at the overlap the magenta rim draws over the cyan one by push order.
+
+**Proposed rule (for Mark to confirm):** during a swap, the near rim is always the camera-near arc of each portal, and it does not switch on the flip. The part of an eye past its portal plane draws behind that near rim and fades with depth (Pocket's clip at rest, plus a depth fade through the opening). The portals follow the Canon depth arc, so the nearer portal draws in front. At rest, the role rule stays exactly as it is (ruling 16). Golden-frame fixtures at flip 0.40, 0.45, 0.50, 0.55 and 0.60 guard it.
 
 ## Inventory of current entity renders (U8, merged S353 from the wave-1 census)
 
